@@ -142,19 +142,6 @@ export const ScenariosFile = z.array(Scenario);
 export const RanksFile = z.array(Rank);
 export const VocabFile = z.array(VocabEntry);
 
-export const MASTER_FILE_NAMES = [
-  'characters',
-  'outfits',
-  'skills',
-  'sparks',
-  'cards',
-  'affinity',
-  'scenarios',
-  'ranks',
-  'vocab',
-  'rules',
-] as const;
-
 /** `/master/latest.json` -> `{version, files:{…}, sha256:{…}}` (01 §11). */
 export const MasterLatest = z.strictObject({
   version: NonEmpty,

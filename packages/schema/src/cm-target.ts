@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { AptKey, Grade, StatKey } from './enums.ts';
-import { NonEmpty, SkillId } from './primitives.ts';
+import { NonEmpty, SkillId, Ulid } from './primitives.ts';
 
 const partial = <K extends string>(keys: z.ZodEnum<{ [k in K]: k }>, value: z.ZodType) =>
   z.partialRecord(keys, value);
 
 /** 01 §10. */
 export const CmTarget = z.strictObject({
-  id: NonEmpty,
+  id: Ulid,
   name: NonEmpty,
   course: z.strictObject({
     surface: z.enum(['turf', 'dirt']),

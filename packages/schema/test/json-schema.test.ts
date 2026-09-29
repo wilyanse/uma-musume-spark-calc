@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { Ajv2020 } from 'ajv/dist/2020.js';
 import { describe, expect, it } from 'vitest';
 import { APT_KEYS, CONTRACTS, contractJsonSchema, type ContractName } from '../src/index.ts';
 import vectorFile from './fingerprint.vectors.json' with { type: 'json' };
@@ -82,10 +83,30 @@ describe('JSON Schema export', () => {
     expect(apts.required).toEqual([...APT_KEYS]);
   });
 
-  it('vector inputs still validate against the exported schema shape (required keys present)', () => {
-    const s = contractJsonSchema('VeteranCapture') as { required: string[] };
-    const cap = baseCapture();
-    for (const k of s.required) expect(cap).toHaveProperty(k);
-    expect(vectorFile.vectors.length).toBeGreaterThanOrEqual(5);
+  describe('captures validate against the exported JSON Schema (ajv, draft 2020-12)', () => {
+    // Formats (date-time, date) are checked by zod; ajv-formats is not a dependency.
+    const ajv = new Ajv2020({ strict: true, validateFormats: false });
+    const validate = ajv.compile(contractJsonSchema('VeteranCapture'));
+    const vectors = vectorFile.vectors;
+
+    it('has at least 5 vectors', () => expect(vectors.length).toBeGreaterThanOrEqual(5));
+    it.each(vectors.map((v) => [v.name, v] as const))('%s: accepted', (_n, v) => {
+      const cap = { ...baseCapture(), veteran: v.input, fingerprint: v.sha256 };
+      expect(validate(cap), JSON.stringify(validate.errors)).toBe(true);
+    });
+    it('rejects structural violations (missing aptitude, stat 0, 5 deck slots, extra key)', () => {
+      const bad = (mutate: (c: ReturnType<typeof baseCapture>) => void) => {
+        const c = baseCapture();
+        mutate(c);
+        return validate(c);
+      };
+      expect(
+        bad((c) => delete (c.veteran.aptitudes as Partial<typeof c.veteran.aptitudes>).end),
+      ).toBe(false);
+      expect(bad((c) => (c.veteran.stats.spd = 0))).toBe(false);
+      expect(bad((c) => c.veteran.deck.pop())).toBe(false);
+      expect(bad((c) => ((c as Record<string, unknown>).extra = 1))).toBe(false);
+      expect(bad(() => {})).toBe(true);
+    });
   });
 });

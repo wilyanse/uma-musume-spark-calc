@@ -1,14 +1,5 @@
 import { z } from 'zod';
-import {
-  APT_KEYS,
-  AptKey,
-  FieldStatus,
-  Grade,
-  SparkOwner,
-  SparkType,
-  STAT_KEYS,
-  TrainMode,
-} from './enums.ts';
+import { APT_KEYS, AptKey, FieldStatus, Grade, SparkOwner, SparkType, TrainMode } from './enums.ts';
 import {
   CardId,
   CharacterId,
@@ -98,7 +89,13 @@ type VeteranLike = {
   characterId: string;
   sparks: { owner: string; sparkId: string; type: string }[];
   deck: { slot: number }[];
-  parents: { slot: number; characterId: string }[];
+  parents: {
+    slot: number;
+    characterId: string;
+    outfitId: string | null;
+    isGuest: boolean;
+    guestTrainer: string | null;
+  }[];
 };
 
 /** Validation messages are part of the contract: tests and the API assert on them. */
@@ -111,8 +108,73 @@ export const RULE = {
   sparkShape: 'spark shape violated: exactly one blue, one pink and at most one green per owner',
   selfSparks: 'self sparks are required: exactly one blue and one pink',
   parentSparksUnreadable:
-    'a parent owner with no sparks needs a low_confidence field whose path starts with "/sparks"',
+    'a parent owner with no sparks needs a low_confidence field whose path is exactly "/sparks/<owner>"',
+  guestShape: 'a non-guest parent must not have a guestTrainer',
 } as const;
+
+/**
+ * Descriptor of every cross-field rule that JSON Schema cannot express (01 §3 Validation).
+ * The C# agent (T09) must implement each entry and validate before upload; `message` is the
+ * text the TS validators emit (as a prefix: `sparkShape` and `parentSparksUnreadable` are
+ * followed by ` (owner X)`). `scope` says where the rule runs; `needsMaster` rules need the
+ * master data named by `masterVersion` (see `checkMasterIds`).
+ */
+export const CAPTURE_RULES = [
+  { id: 'deckSlots', scope: 'veteran', path: '/deck', message: RULE.deckSlots },
+  { id: 'parentSlots', scope: 'veteran', path: '/parents', message: RULE.parentSlots },
+  { id: 'parentsDiffer', scope: 'veteran', path: '/parents', message: RULE.parentsDiffer },
+  {
+    id: 'parentNotSelf',
+    scope: 'veteran',
+    path: '/parents/<i>/characterId',
+    message: RULE.parentNotSelf,
+  },
+  { id: 'guestShape', scope: 'veteran', path: '/parents/<i>', message: RULE.guestShape },
+  {
+    id: 'sparkDuplicate',
+    scope: 'veteran',
+    path: '/sparks/<i>',
+    message: RULE.sparkDuplicate,
+  },
+  {
+    id: 'sparkShape',
+    scope: 'veteran',
+    path: '/sparks',
+    message: RULE.sparkShape,
+  },
+  { id: 'selfSparks', scope: 'veteran', path: '/sparks', message: RULE.selfSparks },
+  {
+    id: 'parentSparksUnreadable',
+    scope: 'capture',
+    path: '/fields',
+    message: RULE.parentSparksUnreadable,
+  },
+  {
+    id: 'masterIds',
+    scope: 'capture',
+    needsMaster: true,
+    path: '/veteran',
+    message: 'every master-data ID must exist in the master version named by masterVersion',
+  },
+] as const;
+
+/**
+ * Cross-field rules of `OwnedCardsSync` (01 §4) that JSON Schema cannot express; T11 mirrors
+ * these. `heldCount` is checked by the API, not by the zod schema, because `?partial=1` waives it.
+ */
+export const OWNED_CARDS_SYNC_RULES = [
+  {
+    id: 'cardIdUnique',
+    path: '/cards/<i>/cardId',
+    message: 'duplicate cardId (owned_cards.card_id is the primary key)',
+  },
+  {
+    id: 'heldCount',
+    path: '/heldCount',
+    message: 'cards.length must equal heldCount unless the request has ?partial=1',
+    unlessQuery: 'partial=1',
+  },
+] as const;
 
 const SPARK_OWNERS = SparkOwner.options;
 
@@ -131,6 +193,7 @@ export function checkVeteran(v: VeteranLike, ctx: z.RefinementCtx): void {
   if (p1 && p2 && p1.characterId === p2.characterId) issue(RULE.parentsDiffer, ['parents']);
   v.parents.forEach((p, i) => {
     if (p.characterId === v.characterId) issue(RULE.parentNotSelf, ['parents', i, 'characterId']);
+    if (!p.isGuest && p.guestTrainer !== null) issue(RULE.guestShape, ['parents', i]);
   });
 
   const seen = new Set<string>();
@@ -157,7 +220,12 @@ export const Veteran = z.strictObject(veteranShape).superRefine(checkVeteran);
 export type Veteran = z.infer<typeof Veteran>;
 
 export const CaptureField = z.strictObject({
-  /** JSON pointer into `veteran`, e.g. "/stats/spd", "/sparks/3/stars". */
+  /**
+   * JSON pointer into `veteran`, e.g. "/stats/spd", "/sparks/3/stars". One pseudo-pointer:
+   * "/sparks/<owner>" (owner = parent1 | parent2) is not a real pointer (`sparks` is an array);
+   * it flags that owner's whole spark set as unreadable. Consumers that resolve paths (T04
+   * review items) must special-case it.
+   */
   path: z.string().regex(/^(\/[^/]+)+$/, 'expected a non-empty JSON pointer such as "/stats/spd"'),
   rawText: z.string().nullable(),
   value: z.unknown(),
@@ -184,12 +252,12 @@ export const VeteranCapture = z
     fields: z.array(CaptureField),
   })
   .superRefine((capture, ctx) => {
-    const flagged = capture.fields.some(
-      (f) => f.status === 'low_confidence' && f.path.startsWith('/sparks'),
-    );
     for (const owner of SPARK_OWNERS) {
       if (owner === 'self') continue;
       const has = capture.veteran.sparks.some((s) => s.owner === owner);
+      const flagged = capture.fields.some(
+        (f) => f.status === 'low_confidence' && f.path === `/sparks/${owner}`,
+      );
       if (!has && !flagged) {
         ctx.addIssue({
           code: 'custom',
@@ -201,4 +269,51 @@ export const VeteranCapture = z
   });
 export type VeteranCapture = z.infer<typeof VeteranCapture>;
 
-export { STAT_KEYS };
+/** Master-data IDs by kind, as known to one master-data version. */
+export interface MasterIndex {
+  characters: ReadonlySet<string> | readonly string[];
+  outfits: ReadonlySet<string> | readonly string[];
+  skills: ReadonlySet<string> | readonly string[];
+  sparks: ReadonlySet<string> | readonly string[];
+  cards: ReadonlySet<string> | readonly string[];
+  ranks: ReadonlySet<string> | readonly string[];
+  scenarios: ReadonlySet<string> | readonly string[];
+}
+
+export type UnknownMasterId = { kind: keyof MasterIndex; path: string; id: string };
+
+/**
+ * 01 §3: "every ID exists in the master data version named by masterVersion"; 01 §1: `rank`
+ * is validated against master `ranks`. Needs master data, so it is not a zod refinement.
+ * Returns each unknown ID with its kind and JSON pointer into `veteran` (deduplicated by
+ * kind+id, first occurrence kept, in first-seen order); [] means consistent with the master data.
+ */
+export function checkMasterIds(veteran: Veteran, master: MasterIndex): UnknownMasterId[] {
+  const known = {
+    characters: new Set(master.characters),
+    outfits: new Set(master.outfits),
+    skills: new Set(master.skills),
+    sparks: new Set(master.sparks),
+    cards: new Set(master.cards),
+    ranks: new Set(master.ranks),
+    scenarios: new Set(master.scenarios),
+  };
+  const unknown = new Map<string, UnknownMasterId>();
+  const check = (kind: keyof typeof known, path: string, id: string | null) => {
+    if (id === null || known[kind].has(id)) return;
+    const key = `${kind}|${id}`;
+    if (!unknown.has(key)) unknown.set(key, { kind, path, id });
+  };
+  check('characters', '/characterId', veteran.characterId);
+  check('outfits', '/outfitId', veteran.outfitId);
+  check('ranks', '/rank', veteran.rank);
+  veteran.skills.forEach((s, i) => check('skills', `/skills/${i}/skillId`, s.skillId));
+  veteran.sparks.forEach((s, i) => check('sparks', `/sparks/${i}/sparkId`, s.sparkId));
+  veteran.deck.forEach((d, i) => check('cards', `/deck/${i}/cardId`, d.cardId));
+  veteran.parents.forEach((p, i) => {
+    check('characters', `/parents/${i}/characterId`, p.characterId);
+    check('outfits', `/parents/${i}/outfitId`, p.outfitId);
+  });
+  check('scenarios', '/scenarioId', veteran.scenarioId);
+  return [...unknown.values()];
+}

@@ -1,6 +1,12 @@
 import { z } from 'zod';
-import { CaptureField, ParentShape, veteranShape, checkVeteran } from './capture.ts';
-import { Confidence, IsoUtc, NonEmpty, Ulid, Sha256Hex } from './primitives.ts';
+import {
+  CaptureField,
+  OWNED_CARDS_SYNC_RULES,
+  ParentShape,
+  veteranShape,
+  checkVeteran,
+} from './capture.ts';
+import { CardId, Confidence, IsoUtc, NonEmpty, Ulid, Sha256Hex } from './primitives.ts';
 import { ModeSource, TrainMode } from './enums.ts';
 
 /** 01 §4 `PUT /api/v1/owned-cards` body. */
@@ -10,14 +16,28 @@ export const OwnedCardsSync = z.strictObject({
   masterVersion: NonEmpty,
   /** From "Held N/255". */
   heldCount: z.number().int().min(0),
-  cards: z.array(
-    z.strictObject({
-      cardId: z.string().regex(/^card:[a-z0-9]+(?:-[a-z0-9]+)*$/),
-      lb: z.number().int().min(0).max(4),
-      level: z.number().int().min(1),
-      confidence: Confidence,
+  cards: z
+    .array(
+      z.strictObject({
+        cardId: CardId,
+        lb: z.number().int().min(0).max(4),
+        level: z.number().int().min(1),
+        confidence: Confidence,
+      }),
+    )
+    .superRefine((cards, ctx) => {
+      const seen = new Set<string>();
+      cards.forEach((c, i) => {
+        if (seen.has(c.cardId)) {
+          ctx.addIssue({
+            code: 'custom',
+            message: OWNED_CARDS_SYNC_RULES[0].message,
+            path: [i, 'cardId'],
+          });
+        }
+        seen.add(c.cardId);
+      });
     }),
-  ),
 });
 export type OwnedCardsSync = z.infer<typeof OwnedCardsSync>;
 

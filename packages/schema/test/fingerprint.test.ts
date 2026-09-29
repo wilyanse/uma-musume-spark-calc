@@ -50,8 +50,8 @@ describe('fingerprint vectors (shared with the C# suite)', () => {
   it('a guest parent still hashes by character id', () => {
     expect(byName('guest-parent').canonical).toContain('character:guest-example');
   });
-  it('skills (including the ◯ suffix) are not part of the fingerprint', () => {
-    expect(byName('skill-circle-suffix').sha256).toBe(byName('baseline').sha256);
+  it('skills (including a collision suffix) are not part of the fingerprint', () => {
+    expect(byName('skill-collision-suffix').sha256).toBe(byName('baseline').sha256);
   });
   it('parent slot order, not array order, decides p', () => {
     const v = structuredClone(byName('baseline').input);
