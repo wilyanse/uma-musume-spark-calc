@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^spark:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "gameId": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "blue",
+          "pink",
+          "green",
+          "white"
+        ]
+      },
+      "target": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "stat"
+              },
+              "stat": {
+                "type": "string",
+                "enum": [
+                  "spd",
+                  "sta",
+                  "pow",
+                  "gut",
+                  "wit"
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "stat"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "aptitude"
+              },
+              "apt": {
+                "type": "string",
+                "enum": [
+                  "turf",
+                  "dirt",
+                  "sprint",
+                  "mile",
+                  "medium",
+                  "long",
+                  "front",
+                  "pace",
+                  "late",
+                  "end"
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "apt"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "skill"
+              },
+              "skillId": {
+                "type": "string",
+                "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+              }
+            },
+            "required": [
+              "kind",
+              "skillId"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "race"
+              },
+              "raceId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "kind",
+              "raceId"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "scenario"
+              },
+              "scenarioId": {
+                "type": "string",
+                "pattern": "^scenario:[a-z0-9]+(?:-[a-z0-9]+)*$"
+              }
+            },
+            "required": [
+              "kind",
+              "scenarioId"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "type",
+      "target"
+    ],
+    "additionalProperties": false
+  }
+}

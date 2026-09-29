@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "course": {
+      "type": "object",
+      "properties": {
+        "surface": {
+          "type": "string",
+          "enum": [
+            "turf",
+            "dirt"
+          ]
+        },
+        "distance": {
+          "type": "string",
+          "enum": [
+            "sprint",
+            "mile",
+            "medium",
+            "long"
+          ]
+        },
+        "meters": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "surface",
+        "distance"
+      ],
+      "additionalProperties": false
+    },
+    "style": {
+      "type": "string",
+      "enum": [
+        "front",
+        "pace",
+        "late",
+        "end"
+      ]
+    },
+    "minStats": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "spd",
+          "sta",
+          "pow",
+          "gut",
+          "wit"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 2000
+      }
+    },
+    "minAptitudes": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "turf",
+          "dirt",
+          "sprint",
+          "mile",
+          "medium",
+          "long",
+          "front",
+          "pace",
+          "late",
+          "end"
+        ]
+      },
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "G",
+          "F",
+          "E",
+          "D",
+          "C",
+          "B",
+          "A",
+          "S"
+        ]
+      }
+    },
+    "requiredSkills": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      }
+    },
+    "optionalSkills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skillId": {
+            "type": "string",
+            "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "weight": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "skillId",
+          "weight"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "statWeights": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "spd",
+          "sta",
+          "pow",
+          "gut",
+          "wit"
+        ]
+      },
+      "additionalProperties": {
+        "type": "number"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "course",
+    "style",
+    "minStats",
+    "minAptitudes",
+    "requiredSkills",
+    "optionalSkills"
+  ],
+  "additionalProperties": false
+}

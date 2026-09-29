@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^outfit:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "gameId": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "characterId": {
+        "type": "string",
+        "pattern": "^character:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "aptitudes": {
+        "type": "object",
+        "properties": {
+          "turf": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "dirt": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "sprint": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "mile": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "medium": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "long": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "front": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "pace": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "late": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          },
+          "end": {
+            "type": "string",
+            "enum": [
+              "G",
+              "F",
+              "E",
+              "D",
+              "C",
+              "B",
+              "A",
+              "S"
+            ]
+          }
+        },
+        "required": [
+          "turf",
+          "dirt",
+          "sprint",
+          "mile",
+          "medium",
+          "long",
+          "front",
+          "pace",
+          "late",
+          "end"
+        ],
+        "additionalProperties": false
+      },
+      "growth": {
+        "type": "object",
+        "properties": {
+          "spd": {
+            "type": "number"
+          },
+          "sta": {
+            "type": "number"
+          },
+          "pow": {
+            "type": "number"
+          },
+          "gut": {
+            "type": "number"
+          },
+          "wit": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "spd",
+          "sta",
+          "pow",
+          "gut",
+          "wit"
+        ],
+        "additionalProperties": false
+      },
+      "uniqueSkillId": {
+        "type": "string",
+        "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "innateSkillIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+        }
+      }
+    },
+    "required": [
+      "id",
+      "characterId",
+      "title",
+      "aptitudes",
+      "growth",
+      "uniqueSkillId",
+      "innateSkillIds"
+    ],
+    "additionalProperties": false
+  }
+}

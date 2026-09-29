@@ -39,3 +39,6 @@ spike/ocr/ocr
 
 # Orchestrator logs
 .orch/
+
+# T01
+.pnpm-store/

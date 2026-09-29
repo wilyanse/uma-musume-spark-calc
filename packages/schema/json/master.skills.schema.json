@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "gameId": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "aliases": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "rarity": {
+        "type": "string",
+        "enum": [
+          "normal",
+          "gold",
+          "unique",
+          "evolved"
+        ]
+      },
+      "cost": {
+        "type": "number"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "aliases",
+      "rarity",
+      "tags"
+    ],
+    "additionalProperties": false
+  }
+}

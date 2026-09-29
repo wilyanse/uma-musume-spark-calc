@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^card:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "gameId": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "title": {
+        "type": "string"
+      },
+      "characterId": {
+        "type": "string",
+        "pattern": "^character:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "speed",
+          "stamina",
+          "power",
+          "guts",
+          "wit",
+          "friend",
+          "group"
+        ]
+      },
+      "rarity": {
+        "type": "string",
+        "enum": [
+          "R",
+          "SR",
+          "SSR"
+        ]
+      },
+      "hintSkillIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+        }
+      },
+      "eventSkillIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^skill:[a-z0-9]+(?:-[a-z0-9]+)*$"
+        }
+      },
+      "artHashes": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[0-9a-f]+$"
+        }
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "title",
+      "type",
+      "rarity",
+      "hintSkillIds",
+      "eventSkillIds",
+      "artHashes"
+    ],
+    "additionalProperties": false
+  }
+}

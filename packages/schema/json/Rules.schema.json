@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "activation": {
+      "type": "object",
+      "properties": {
+        "blue": {
+          "type": "object",
+          "properties": {
+            "1": {
+              "type": "number"
+            },
+            "2": {
+              "type": "number"
+            },
+            "3": {
+              "type": "number"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "source": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "1",
+            "2",
+            "3",
+            "verified",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        "pink": {
+          "type": "object",
+          "properties": {
+            "1": {
+              "type": "number"
+            },
+            "2": {
+              "type": "number"
+            },
+            "3": {
+              "type": "number"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "source": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "1",
+            "2",
+            "3",
+            "verified",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        "green": {
+          "type": "object",
+          "properties": {
+            "1": {
+              "type": "number"
+            },
+            "2": {
+              "type": "number"
+            },
+            "3": {
+              "type": "number"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "source": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "1",
+            "2",
+            "3",
+            "verified",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        "white": {
+          "type": "object",
+          "properties": {
+            "1": {
+              "type": "number"
+            },
+            "2": {
+              "type": "number"
+            },
+            "3": {
+              "type": "number"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "source": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "1",
+            "2",
+            "3",
+            "verified",
+            "source"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "blue",
+        "pink",
+        "green",
+        "white"
+      ],
+      "additionalProperties": false
+    },
+    "affinityMultiplier": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "formula",
+        "verified",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "grandparentWeight": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "verified",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "blueStatGain": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "number"
+        },
+        "2": {
+          "type": "number"
+        },
+        "3": {
+          "type": "number"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "1",
+        "2",
+        "3",
+        "verified",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "blueInitialBonus": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "number"
+        },
+        "2": {
+          "type": "number"
+        },
+        "3": {
+          "type": "number"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "1",
+        "2",
+        "3",
+        "verified",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "pinkGradeGain": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "number"
+        },
+        "2": {
+          "type": "number"
+        },
+        "3": {
+          "type": "number"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "1",
+        "2",
+        "3",
+        "verified",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "whiteHintLevels": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "number"
+        },
+        "2": {
+          "type": "number"
+        },
+        "3": {
+          "type": "number"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "1",
+        "2",
+        "3",
+        "verified",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "raceSparkStatGain": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verified",
+        "source"
+      ],
+      "additionalProperties": {}
+    },
+    "scenarioSparkEffects": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verified",
+        "source"
+      ],
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "version",
+    "activation",
+    "affinityMultiplier",
+    "grandparentWeight",
+    "blueStatGain",
+    "blueInitialBonus",
+    "pinkGradeGain",
+    "whiteHintLevels",
+    "raceSparkStatGain",
+    "scenarioSparkEffects"
+  ],
+  "additionalProperties": false
+}

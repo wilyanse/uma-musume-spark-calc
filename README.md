@@ -29,3 +29,15 @@ Import your Uma Musume (Global, Steam) veteran umas and support cards with a Win
 
 ## Credits
 Game data is derived from [GameTora](https://gametora.com/umamusume). Uma Musume materials are © Cygames, Inc. This project isn't affiliated with Cygames or GameTora.
+
+## Development quickstart
+Requirements: Node ≥ 22, pnpm 11 (`corepack enable`), and for the agent the .NET SDK (9 or 10 works; projects target net8.0).
+
+```
+pnpm install
+pnpm lint && pnpm typecheck && pnpm test   # recursive over all workspace packages
+pnpm build                                  # writes packages/schema/json/*.schema.json
+dotnet build agent/Uma.Agent.sln
+```
+
+Shared contracts live in `packages/schema` (`@uma/schema`). After editing a schema, run `pnpm build` and commit the regenerated `packages/schema/json/`; a test fails if they drift.
