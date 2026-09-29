@@ -36,3 +36,6 @@ spike/ocr/ocr
 
 # Worktrees
 .claude/worktrees/
+
+# Orchestrator logs
+.orch/
