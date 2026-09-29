@@ -146,10 +146,10 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | Task | Status | Branch | Changelog | Review |
 |---|---|---|---|---|
 | T01 | Merged | task/T01-monorepo-contracts | T01-monorepo-contracts.md | PASS r1 (8 should-fix → T01b) |
-| T01b | In review r2 | task/T01b-contract-hardening | T01b-contract-hardening.md | CHANGES_REQUESTED r1 |
+| T01b | Merged | task/T01b-contract-hardening | T01b-contract-hardening.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T02 | Merged | task/T02-app-skeletons | T02-app-skeletons.md | PASS r1 |
 | T03 | In progress | | | |
-| T04 | Not started | | | |
+| T04 | In progress | task/T04-api-core | | |
 | T05 | Not started | | | |
 | T06 | Not started | | | |
 | T07 | In progress | | | |
