@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roster — Uma Spark Calc (design prototype)</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../app.css">
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Main">
+    <div class="brand"><i aria-hidden="true">★</i>Uma Spark Calc</div>
+    <a class="nav" href="S01-roster.html" aria-current="page"><span>Roster</span></a><a class="nav" href="S03-review.html"><span>Review</span><span class="badge-count" aria-label="7 open review items">7</span></a><a class="nav" href="S04-cards.html"><span>Cards</span></a><a class="nav" href="S05-targets.html"><span>Targets</span></a><a class="nav" href="S06-planner.html"><span>Planner</span></a><a class="nav" href="S07-health.html"><span>Health</span></a>
+    <div class="foot">Master data v2026.09.1<br>Model: training-v1</div>
+  </nav>
+  <div class="main">
+    <header class="topbar"><h1>Roster</h1><span class="sp"></span><span class="hint">Last import 2026-09-28 22:41</span><button class="btn">Columns</button></header>
+    <main class="content">
+<form class="filters" aria-label="Roster filters">
+  <label class="field"><span>Character</span><select class="input"><option>All characters</option><option>Mejiro McQueen</option><option>Tokai Teio</option></select></label>
+  <div class="field"><span id="lm">Mode</span><div class="seg" role="radiogroup" aria-labelledby="lm"><label><input type="radio" name="m" checked>All</label><label><input type="radio" name="m">Independent</label><label><input type="radio" name="m">Manual</label></div></div>
+  <label class="field"><span>Scenario</span><select class="input"><option>All scenarios</option><option>URA Finale</option><option>Unity Cup</option></select></label>
+  <label class="field"><span>Has spark</span><select class="input"><option>Any</option><option>Stamina</option><option>Guts</option><option>Uma Stan</option></select></label>
+  <label class="field"><span>Stars ≥</span><select class="input w-sm"><option>1</option><option>2</option><option>3</option></select></label>
+  <div class="field"><span>Rating range</span><div class="row" style="gap:4px"><input class="input w-sm" value="10,000" aria-label="Minimum rating"> – <input class="input w-sm" value="16,000" aria-label="Maximum rating"></div></div>
+  <button type="button" class="btn">Reset</button>
+</form>
+<div class="pager" style="padding:0 0 6px"><span>Showing 8 of 214 veterans · sorted by date, newest first</span></div>
+<div class="tbl-wrap"><table>
+<caption class="sr">Veterans</caption>
+<thead><tr><th scope="col"><span class="sr">Portrait</span></th><th scope="col">Veteran</th><th scope="col">Rank</th><th scope="col" class="num" aria-sort="descending">Rating</th>
+<th scope="col" class="num hm">Spd</th><th scope="col" class="num hm">Sta</th><th scope="col" class="num hm">Pow</th><th scope="col" class="num hm">Gut</th><th scope="col" class="num hm">Wit</th>
+<th scope="col">Mode</th><th scope="col" class="hm">Sparks (own: blue / pink / green)</th><th scope="col" class="hm">Scenario</th><th scope="col" class="hm">Acquired</th></tr></thead>
+<tbody><tr>
+    <td><span class="avatar " aria-hidden="true">MM</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Mejiro McQueen</b></a><small>Frontline Elegance</small></th>
+    <td><span class="rank">A+</span></td>
+    <td class="num">13,471</td>
+    <td class="num hm">894</td><td class="num hm">938</td><td class="num hm">740</td><td class="num hm">559</td><td class="num hm">635</td>
+    <td><span class="mode independent">Independent</span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Guts</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Medium</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">The Duty of Dignity Calls</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span></div></td>
+    <td class="hm">URA Finale</td>
+    <td class="hm mono">2026-09-12</td>
+  </tr><tr>
+    <td><span class="avatar " aria-hidden="true">TT</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Tokai Teio</b></a><small>Beyond the Horizon</small></th>
+    <td><span class="rank">A</span></td>
+    <td class="num">12,904</td>
+    <td class="num hm">1012</td><td class="num hm">611</td><td class="num hm">702</td><td class="num hm">498</td><td class="num hm">588</td>
+    <td><span class="mode manual">Manual <span class="ov" role="img" aria-label="Manually overridden" title="Overridden by you (not from epithet)">✎</span></span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Speed</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Mile</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">Beyond the Horizon</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span></div></td>
+    <td class="hm">Unity Cup</td>
+    <td class="hm mono">2026-09-09</td>
+  </tr><tr>
+    <td><span class="avatar " aria-hidden="true">SW</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Special Week</b></a><small>Special Dreamer</small></th>
+    <td><span class="rank">SS</span></td>
+    <td class="num">15,210</td>
+    <td class="num hm">986</td><td class="num hm">803</td><td class="num hm">811</td><td class="num hm">402</td><td class="num hm">640</td>
+    <td><span class="mode manual">Manual</span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Power</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Medium</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">Shooting Star</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span></div></td>
+    <td class="hm">URA Finale</td>
+    <td class="hm mono">2026-09-03</td>
+  </tr><tr>
+    <td><span class="avatar " aria-hidden="true">OC</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Oguri Cap</b></a><small>Starlight Beat</small></th>
+    <td><span class="rank">A+</span></td>
+    <td class="num">13,188</td>
+    <td class="num hm">805</td><td class="num hm">720</td><td class="num hm">933</td><td class="num hm">541</td><td class="num hm">512</td>
+    <td><span class="mode independent">Independent</span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Stamina</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Mile</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">Triumphant Pulse</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span></div></td>
+    <td class="hm">Unity Cup</td>
+    <td class="hm mono">2026-08-30</td>
+  </tr><tr>
+    <td><span class="avatar " aria-hidden="true">GC</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Gold City</b></a><small>Authentic / 1928</small></th>
+    <td><span class="rank">A</span></td>
+    <td class="num">12,560</td>
+    <td class="num hm">780</td><td class="num hm">655</td><td class="num hm">690</td><td class="num hm">702</td><td class="num hm">574</td>
+    <td><span class="mode independent">Independent</span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Guts</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Mile</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">KEEP IT REAL.</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span></div></td>
+    <td class="hm">URA Finale</td>
+    <td class="hm mono">2026-08-27</td>
+  </tr><tr>
+    <td><span class="avatar " aria-hidden="true">KB</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Kitasan Black</b></a><small>Gilded Shrine to Glory</small></th>
+    <td><span class="rank">S</span></td>
+    <td class="num">14,033</td>
+    <td class="num hm">921</td><td class="num hm">877</td><td class="num hm">604</td><td class="num hm">455</td><td class="num hm">601</td>
+    <td><span class="mode manual">Manual</span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Stamina</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Long</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">Victory Cheer!</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span></div></td>
+    <td class="hm">URA Finale</td>
+    <td class="hm mono">2026-08-21</td>
+  </tr><tr>
+    <td><span class="avatar " aria-hidden="true">MM</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Mejiro McQueen</b></a><small>Frontline Elegance</small></th>
+    <td><span class="rank">A</span></td>
+    <td class="num">12,388</td>
+    <td class="num hm">860</td><td class="num hm">900</td><td class="num hm">702</td><td class="num hm">530</td><td class="num hm">610</td>
+    <td><span class="mode manual">Manual</span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Stamina</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Long</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">The Duty of Dignity Calls</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span></div></td>
+    <td class="hm">Unity Cup</td>
+    <td class="hm mono">2026-08-14</td>
+  </tr><tr>
+    <td><span class="avatar " aria-hidden="true">TT</span></td>
+    <th scope="row" class="name"><a href="S02-veteran.html"><b>Tokai Teio</b></a><small>Beyond the Horizon</small></th>
+    <td><span class="rank">A+</span></td>
+    <td class="num">13,502</td>
+    <td class="num hm">1044</td><td class="num hm">590</td><td class="num hm">720</td><td class="num hm">512</td><td class="num hm">601</td>
+    <td><span class="mode independent">Independent</span></td>
+    <td class="hm"><div class="sums"><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Speed</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Medium</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="spark green" title="Green (unique)"><span class="g" aria-hidden="true">▲</span><span class="sr">green spark: </span><span class="nm">Beyond the Horizon</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span></div></td>
+    <td class="hm">URA Finale</td>
+    <td class="hm mono">2026-08-02</td>
+  </tr></tbody></table>
+<div class="pager"><span>Page 1 of 27</span><span class="row" style="gap:4px"><button class="btn sm" disabled>Previous</button><button class="btn sm">Next</button></span></div></div>
+    </main>
+    <div class="demo">Illustrative data — not from a real account. Prototype S01-roster.html.</div>
+    <nav class="tabs-bottom" aria-label="Main (mobile)"><a href="S01-roster.html" aria-current="page"><span aria-hidden="true">☰</span>Roster</a><a href="S06-planner.html"><span aria-hidden="true">⇅</span>Planner</a><a href="S05-targets.html"><span aria-hidden="true">◎</span>Targets</a><a href="S03-review.html"><span aria-hidden="true">⋯</span>More<span class="badge-count" aria-label="7 open review items">7</span></a></nav>
+  </div>
+</div>
+</body>
+</html>

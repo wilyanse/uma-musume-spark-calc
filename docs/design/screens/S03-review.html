@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Review queue — Uma Spark Calc (design prototype)</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../app.css">
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Main">
+    <div class="brand"><i aria-hidden="true">★</i>Uma Spark Calc</div>
+    <a class="nav" href="S01-roster.html"><span>Roster</span></a><a class="nav" href="S03-review.html" aria-current="page"><span>Review</span><span class="badge-count" aria-label="7 open review items">7</span></a><a class="nav" href="S04-cards.html"><span>Cards</span></a><a class="nav" href="S05-targets.html"><span>Targets</span></a><a class="nav" href="S06-planner.html"><span>Planner</span></a><a class="nav" href="S07-health.html"><span>Health</span></a>
+    <div class="foot">Master data v2026.09.1<br>Model: training-v1</div>
+  </nav>
+  <div class="main">
+    <header class="topbar"><h1>Review queue</h1><span class="sp"></span><span class="hint">7 open · 12 resolved this week</span></header>
+    <main class="content">
+<div class="split">
+<div class="panel"><header>Open items <span class="tag err">7</span></header>
+<div class="queue" role="listbox" aria-label="Open review items"><a href="#" role="option" aria-current="true" aria-selected="true"><b>Mejiro McQueen</b><small>Sparks · Self · white #5 · OCR “Kawasakl Kinen”</small></a><a href="#" role="option"><b>Mejiro McQueen</b><small>Stats · Guts · OCR “5S9”</small></a><a href="#" role="option"><b>Tokai Teio</b><small>Skills · #8 · OCR “Straightaway Acce1eration”</small></a><a href="#" role="option"><b>Oguri Cap</b><small>Sparks · Parent 1 · stars · OCR “—”</small></a><a href="#" role="option"><b>Gold City</b><small>Deck · slot 3 · card · OCR “Gold City [Illustrat”</small></a><a href="#" role="option"><b>Kitasan Black</b><small>Parents · slot 2 · outfit · OCR “Gilded Shrine to G1ory”</small></a><a href="#" role="option"><b>Special Week</b><small>Sparks · Parent 2 · white #2 · OCR “Hanshin J.F”</small></a></div></div>
+<div class="grid">
+ <div class="panel"><header>Mejiro McQueen — Sparks · Self · white #5 <span class="tag warn">confidence 0.62</span></header><div class="body grid">
+  <div><div class="hint" style="margin-bottom:4px">Crop from capture (412 × 34 px)</div><div class="crop"><span>Kawasaki Kinen ★☆☆</span></div></div>
+  <div class="row" style="gap:24px"><div><div class="hint">Raw OCR text</div><div class="mono" style="font-size:16px">Kawasakl Kinen</div></div><div><div class="hint">Field path</div><div class="mono">/sparks/4/sparkId</div></div></div>
+  <div><div class="hint" style="margin-bottom:4px">Candidates</div><div class="grid" style="gap:6px">
+    <button class="cand top"><span><b>Kawasaki Kinen</b> <span class="muted">· white · race</span></span><span class="row" style="gap:8px"><span class="muted mono">0.87</span><span class="kbd">1</span></span></button>
+    <button class="cand"><span><b>Kawasaki Kinen (Jpn)</b> <span class="muted">· white · race</span></span><span class="row" style="gap:8px"><span class="muted mono">0.61</span><span class="kbd">2</span></span></button>
+    <button class="cand"><span><b>Kanto Cup</b> <span class="muted">· white · race</span></span><span class="row" style="gap:8px"><span class="muted mono">0.34</span><span class="kbd">3</span></span></button></div></div>
+  <label class="field"><span>None of these? Search the game vocabulary</span><input class="input" placeholder="Type a spark, skill or outfit name…" aria-label="Search vocabulary"></label>
+  <div class="row"><button class="btn primary">Apply “Kawasaki Kinen” <span class="kbd" style="color:var(--text)">1</span></button><button class="btn">Dismiss <span class="kbd">D</span></button><span class="sp" style="flex:1"></span><span class="hint"><span class="kbd">J</span> next · <span class="kbd">K</span> previous</span></div>
+ </div></div>
+ <div class="hint">Applying updates the veteran and recomputes its fingerprint. If that collides with another veteran you'll see a conflict message.</div>
+</div></div>
+    </main>
+    <div class="demo">Illustrative data — not from a real account. Prototype S03-review.html.</div>
+    <nav class="tabs-bottom" aria-label="Main (mobile)"><a href="S01-roster.html"><span aria-hidden="true">☰</span>Roster</a><a href="S06-planner.html"><span aria-hidden="true">⇅</span>Planner</a><a href="S05-targets.html"><span aria-hidden="true">◎</span>Targets</a><a href="S03-review.html" aria-current="page"><span aria-hidden="true">⋯</span>More<span class="badge-count" aria-label="7 open review items">7</span></a></nav>
+  </div>
+</div>
+</body>
+</html>

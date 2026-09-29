@@ -1,0 +1,14 @@
+{
+  "name": "uma-design-tools",
+  "private": true,
+  "type": "module",
+  "description": "Design build/export/verify scripts for docs/design. Standalone (not a pnpm workspace member).",
+  "scripts": {
+    "build": "node build.mjs",
+    "export": "node export.mjs",
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.62.1"
+  }
+}

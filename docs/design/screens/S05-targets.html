@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CM targets — Uma Spark Calc (design prototype)</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../app.css">
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Main">
+    <div class="brand"><i aria-hidden="true">★</i>Uma Spark Calc</div>
+    <a class="nav" href="S01-roster.html"><span>Roster</span></a><a class="nav" href="S03-review.html"><span>Review</span><span class="badge-count" aria-label="7 open review items">7</span></a><a class="nav" href="S04-cards.html"><span>Cards</span></a><a class="nav" href="S05-targets.html" aria-current="page"><span>Targets</span></a><a class="nav" href="S06-planner.html"><span>Planner</span></a><a class="nav" href="S07-health.html"><span>Health</span></a>
+    <div class="foot">Master data v2026.09.1<br>Model: training-v1</div>
+  </nav>
+  <div class="main">
+    <header class="topbar"><h1>CM targets</h1><span class="sp"></span><button class="btn primary">+ New target</button></header>
+    <main class="content">
+<div class="split">
+<div class="panel"><header>Saved targets</header><div class="queue">
+ <a href="#" aria-current="true"><b>Turf Medium · Pace</b><small>Turf · medium · 2400 m · updated 2026-09-26</small></a>
+ <a href="#"><b>Turf Mile · Front</b><small>Turf · mile · 1600 m · updated 2026-09-20</small></a>
+ <a href="#"><b>Dirt Sprint · Late</b><small>Dirt · sprint · 1200 m · updated 2026-09-11</small></a>
+</div></div>
+<div class="panel"><header>Edit target</header><div class="body grid" style="gap:16px">
+ <label class="field"><span>Name</span><input class="input" value="Turf Medium · Pace" style="max-width:360px"></label>
+ <fieldset style="border:0;padding:0;margin:0"><legend class="hint" style="padding:0 0 4px">Course</legend><div class="row">
+  <label class="field"><span>Surface</span><select class="input"><option selected>Turf</option><option>Dirt</option></select></label>
+  <label class="field"><span>Distance</span><select class="input"><option>Sprint</option><option>Mile</option><option selected>Medium</option><option>Long</option></select></label>
+  <label class="field"><span>Meters (optional)</span><input class="input w-sm" value="2400"></label>
+  <label class="field" style="flex:1"><span>Notes</span><input class="input" value="Right-handed, Nakayama-like"></label></div></fieldset>
+ <div class="field"><span id="st">Running style</span><div class="seg" role="radiogroup" aria-labelledby="st"><label><input type="radio" name="st">Front</label><label><input type="radio" name="st" checked>Pace</label><label><input type="radio" name="st">Late</label><label><input type="radio" name="st">End</label></div></div>
+ <div><div class="hint" style="margin-bottom:4px">Minimum stats (blank = no requirement)</div><div class="form3"><label class="field"><span>Speed</span><input class="input" value="1000" inputmode="numeric"></label><label class="field"><span>Stamina</span><input class="input" value="700" inputmode="numeric"></label><label class="field"><span>Power</span><input class="input" value="700" inputmode="numeric"></label><label class="field"><span>Guts</span><input class="input" value="400" inputmode="numeric"></label><label class="field"><span>Wit</span><input class="input" value="500" inputmode="numeric"></label></div></div>
+ <div><div class="hint" style="margin-bottom:4px">Minimum aptitudes</div><div class="aptgrid"><label class="field"><span>Turf</span><select class="input" aria-label="Minimum Turf aptitude"><option>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option selected>A</option><option>S</option></select></label><label class="field"><span>Dirt</span><select class="input" aria-label="Minimum Dirt aptitude"><option selected>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label><label class="field"><span>Sprint</span><select class="input" aria-label="Minimum Sprint aptitude"><option selected>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label><label class="field"><span>Mile</span><select class="input" aria-label="Minimum Mile aptitude"><option selected>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label><label class="field"><span>Medium</span><select class="input" aria-label="Minimum Medium aptitude"><option>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option selected>A</option><option>S</option></select></label><label class="field"><span>Long</span><select class="input" aria-label="Minimum Long aptitude"><option selected>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label><label class="field"><span>Front</span><select class="input" aria-label="Minimum Front aptitude"><option selected>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label><label class="field"><span>Pace</span><select class="input" aria-label="Minimum Pace aptitude"><option>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option selected>A</option><option>S</option></select></label><label class="field"><span>Late</span><select class="input" aria-label="Minimum Late aptitude"><option selected>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label><label class="field"><span>End</span><select class="input" aria-label="Minimum End aptitude"><option selected>—</option><option>G</option><option>F</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label></div></div>
+ <div><div class="hint" style="margin-bottom:4px">Required skills (all must be acquired)</div>
+  <div class="row" style="gap:6px"><span class="chip sel">Medium Corners ◯ <button aria-label="Remove Medium Corners">✕</button></span><span class="chip sel">Keeping the Lead <button aria-label="Remove Keeping the Lead">✕</button></span><input class="input" placeholder="Add skill…" aria-label="Add required skill" list="sk"><datalist id="sk"><option>Corner Recovery ◯</option></datalist></div></div>
+ <div><div class="hint" style="margin-bottom:4px">Optional skills (weight for secondary sort)</div>
+  <div class="row" style="gap:12px"><span class="chip">Corner Recovery ◯ <input class="input w-sm" value="2" aria-label="Weight for Corner Recovery" style="height:22px;width:48px"> <button aria-label="Remove">✕</button></span><span class="chip">Nimble Navigator <input class="input" value="1" aria-label="Weight for Nimble Navigator" style="height:22px;width:48px"> <button aria-label="Remove">✕</button></span><input class="input" placeholder="Add skill…" aria-label="Add optional skill"></div></div>
+ <div><div class="hint" style="margin-bottom:4px">Stat weights for surplus (default 1)</div><div class="form3"><label class="field"><span>Speed</span><input class="input" value="1" inputmode="numeric"></label><label class="field"><span>Stamina</span><input class="input" value="1" inputmode="numeric"></label><label class="field"><span>Power</span><input class="input" value="0.5" inputmode="numeric"></label><label class="field"><span>Guts</span><input class="input" value="0.5" inputmode="numeric"></label><label class="field"><span>Wit</span><input class="input" value="1" inputmode="numeric"></label></div></div>
+ <div class="row"><button class="btn primary">Save target</button><button class="btn">Save as new</button><button class="btn danger">Delete</button></div>
+</div></div></div>
+    </main>
+    <div class="demo">Illustrative data — not from a real account. Prototype S05-targets.html.</div>
+    <nav class="tabs-bottom" aria-label="Main (mobile)"><a href="S01-roster.html"><span aria-hidden="true">☰</span>Roster</a><a href="S06-planner.html"><span aria-hidden="true">⇅</span>Planner</a><a href="S05-targets.html" aria-current="page"><span aria-hidden="true">◎</span>Targets</a><a href="S03-review.html"><span aria-hidden="true">⋯</span>More<span class="badge-count" aria-label="7 open review items">7</span></a></nav>
+  </div>
+</div>
+</body>
+</html>
