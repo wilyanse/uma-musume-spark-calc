@@ -35,6 +35,10 @@ describe('OwnedCardsSync (01 §4)', () => {
     cards: [{ cardId: 'card:kitasan-black-ssr', lb: 4, level: 50, confidence: 0.98 }],
   };
   it('parses', () => ok(OwnedCardsSync, sync));
+  it('rejects duplicate cardIds', () =>
+    bad(OwnedCardsSync, { ...sync, heldCount: 2, cards: [sync.cards[0], sync.cards[0]] }));
+  it('rejects a malformed cardId', () =>
+    bad(OwnedCardsSync, { ...sync, cards: [{ ...sync.cards[0], cardId: 'Kitasan' }] }));
   it('rejects LB 5', () => bad(OwnedCardsSync, { ...sync, cards: [{ ...sync.cards[0], lb: 5 }] }));
   it('rejects confidence 2', () =>
     bad(OwnedCardsSync, { ...sync, cards: [{ ...sync.cards[0], confidence: 2 }] }));
@@ -91,7 +95,7 @@ describe('ReviewItem', () => {
 
 describe('CmTarget (01 §10)', () => {
   const t = {
-    id: 't1',
+    id: ULID,
     name: 'Libra CM',
     course: { surface: 'turf', distance: 'medium', meters: 2200 },
     style: 'pace',
@@ -101,6 +105,7 @@ describe('CmTarget (01 §10)', () => {
     optionalSkills: [{ skillId: 'skill:b', weight: 2 }],
   };
   it('parses with partial records and no statWeights', () => ok(CmTarget, t));
+  it('rejects a non-ULID id', () => bad(CmTarget, { ...t, id: 't1' }));
   it('rejects an unknown stat key', () => bad(CmTarget, { ...t, minStats: { luck: 1 } }));
   it('rejects a bad grade', () => bad(CmTarget, { ...t, minAptitudes: { turf: 'Z' } }));
   it('rejects a bad surface', () =>
@@ -236,6 +241,7 @@ describe('ModelSnapshot (01 §13)', () => {
     },
   });
   it('parses', () => ok(ModelSnapshot, snap()));
+  it('rejects a non-ULID id', () => bad(ModelSnapshot, { ...snap(), id: 'snap1' }));
   it('rejects a 4x5 residualCov', () => {
     const s = snap();
     s.params.residualCov.pop();

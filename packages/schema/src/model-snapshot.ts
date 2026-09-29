@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { STAT_KEYS, StatKey, TrainMode } from './enums.ts';
-import { IsoUtc, NonEmpty } from './primitives.ts';
+import { IsoUtc, NonEmpty, Ulid } from './primitives.ts';
 
 const perStat = <T extends z.ZodType>(value: T) =>
   z.strictObject(Object.fromEntries(STAT_KEYS.map((k) => [k, value])) as Record<StatKey, T>);
@@ -9,7 +9,7 @@ const residualRow = z.array(z.number()).length(5);
 
 /** 01 §13. */
 export const ModelSnapshot = z.strictObject({
-  id: NonEmpty,
+  id: Ulid,
   kind: z.literal('training-v1'),
   masterVersion: NonEmpty,
   trainedAt: IsoUtc,

@@ -18,7 +18,7 @@ export const AnyMasterId = z
   .regex(new RegExp(`^[a-z]+:${kebab}$`), 'expected a "<kind>:<slug>" master-data ID');
 
 /** User-data IDs are ULIDs (01 §1). */
-export const Ulid = z.string().regex(/^[0-9A-HJKMNP-TV-Z]{26}$/, 'expected a ULID');
+export const Ulid = z.string().regex(/^[0-7][0-9A-HJKMNP-TV-Z]{25}$/, 'expected a ULID');
 
 /** ISO-8601 UTC timestamp (01 §1). */
 export const IsoUtc = z.iso.datetime();

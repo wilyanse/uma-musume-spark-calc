@@ -7,7 +7,7 @@ export default tseslint.config(
       '**/node_modules/**',
       '**/dist/**',
       '**/coverage/**',
-      '**/json/**',
+      'packages/schema/json/**',
       'spike/**',
       'agent/**',
     ],
