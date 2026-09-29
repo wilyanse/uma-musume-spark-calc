@@ -1,0 +1,689 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        164,
+        16,
+        128,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Support Card List"
+    },
+    {
+      "box" : [
+        1311,
+        27,
+        83,
+        31
+      ],
+      "confidence" : 1,
+      "text" : "Menu"
+    },
+    {
+      "box" : [
+        1065,
+        91,
+        67,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Trainer"
+    },
+    {
+      "box" : [
+        1788,
+        105,
+        95,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Jukebox"
+    },
+    {
+      "box" : [
+        1495,
+        133,
+        75,
+        29
+      ],
+      "confidence" : 1,
+      "text" : "Profile"
+    },
+    {
+      "box" : [
+        1191,
+        150,
+        106,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Inventory"
+    },
+    {
+      "box" : [
+        1462,
+        164,
+        139,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "Trainer Card"
+    },
+    {
+      "box" : [
+        733,
+        206,
+        97,
+        19
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "*000 Lvl 50"
+    },
+    {
+      "box" : [
+        326,
+        208,
+        44,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 40"
+    },
+    {
+      "box" : [
+        549,
+        208,
+        53,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Lv| 50"
+    },
+    {
+      "box" : [
+        689,
+        209,
+        27,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "50"
+    },
+    {
+      "box" : [
+        1211,
+        231,
+        64,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Titles"
+    },
+    {
+      "box" : [
+        1456,
+        231,
+        150,
+        30
+      ],
+      "confidence" : 1,
+      "text" : "Trophy Room"
+    },
+    {
+      "box" : [
+        1797,
+        253,
+        78,
+        30
+      ],
+      "confidence" : 1,
+      "text" : "Sparks"
+    },
+    {
+      "box" : [
+        1202,
+        314,
+        83,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Friends"
+    },
+    {
+      "box" : [
+        1487,
+        315,
+        92,
+        27
+      ],
+      "confidence" : 1,
+      "text" : "Options"
+    },
+    {
+      "box" : [
+        742,
+        360,
+        89,
+        19
+      ],
+      "confidence" : 0.5,
+      "text" : "X00LvI 50"
+    },
+    {
+      "box" : [
+        320,
+        362,
+        50,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 30"
+    },
+    {
+      "box" : [
+        535,
+        362,
+        66,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 35"
+    },
+    {
+      "box" : [
+        666,
+        362,
+        50,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 30"
+    },
+    {
+      "box" : [
+        435,
+        368,
+        47,
+        5
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "EVSU"
+    },
+    {
+      "box" : [
+        1205,
+        396,
+        80,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Photos"
+    },
+    {
+      "box" : [
+        390,
+        407,
+        30,
+        11
+      ],
+      "confidence" : 0.5,
+      "text" : "SER"
+    },
+    {
+      "box" : [
+        1813,
+        410,
+        44,
+        30
+      ],
+      "confidence" : 1,
+      "text" : "Log"
+    },
+    {
+      "box" : [
+        1066,
+        466,
+        111,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Umamusume"
+    },
+    {
+      "box" : [
+        312,
+        515,
+        58,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 30"
+    },
+    {
+      "box" : [
+        387,
+        515,
+        100,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "0000 Lvl 50"
+    },
+    {
+      "box" : [
+        770,
+        515,
+        61,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "*Lvl 50"
+    },
+    {
+      "box" : [
+        552,
+        516,
+        47,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 30"
+    },
+    {
+      "box" : [
+        630,
+        516,
+        86,
+        17
+      ],
+      "confidence" : 0.5,
+      "text" : "AO Lvl 50"
+    },
+    {
+      "box" : [
+        1199,
+        521,
+        86,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Archive"
+    },
+    {
+      "box" : [
+        1493,
+        521,
+        80,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Comics"
+    },
+    {
+      "box" : [
+        1802,
+        549,
+        75,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Career"
+    },
+    {
+      "box" : [
+        1799,
+        566,
+        75,
+        27
+      ],
+      "confidence" : 1,
+      "text" : "Profile"
+    },
+    {
+      "box" : [
+        1202,
+        605,
+        81,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Secrets"
+    },
+    {
+      "box" : [
+        1453,
+        605,
+        161,
+        28
+      ],
+      "confidence" : 1,
+      "text" : "Change Outfit"
+    },
+    {
+      "box" : [
+        298,
+        669,
+        72,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "•*Lvl 30"
+    },
+    {
+      "box" : [
+        544,
+        669,
+        55,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "*Lvl 50"
+    },
+    {
+      "box" : [
+        644,
+        669,
+        72,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "6G Lvl 50"
+    },
+    {
+      "box" : [
+        764,
+        669,
+        66,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "XLvl 30"
+    },
+    {
+      "box" : [
+        426,
+        672,
+        58,
+        11
+      ],
+      "confidence" : 1,
+      "text" : "Lv 30"
+    },
+    {
+      "box" : [
+        1068,
+        672,
+        53,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Other"
+    },
+    {
+      "box" : [
+        1194,
+        711,
+        103,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "Purchase"
+    },
+    {
+      "box" : [
+        1791,
+        716,
+        89,
+        30
+      ],
+      "confidence" : 1,
+      "text" : "Agenda"
+    },
+    {
+      "box" : [
+        1479,
+        725,
+        108,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Data Link"
+    },
+    {
+      "box" : [
+        1208,
+        739,
+        72,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Carats"
+    },
+    {
+      "box" : [
+        1493,
+        795,
+        80,
+        28
+      ],
+      "confidence" : 1,
+      "text" : "Help &"
+    },
+    {
+      "box" : [
+        1172,
+        806,
+        145,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Account Link"
+    },
+    {
+      "box" : [
+        373,
+        817,
+        203,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "208\/2556Filters: OFF"
+    },
+    {
+      "box" : [
+        281,
+        820,
+        44,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Held"
+    },
+    {
+      "box" : [
+        602,
+        820,
+        47,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Rarity"
+    },
+    {
+      "box" : [
+        761,
+        820,
+        55,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Desc="
+    },
+    {
+      "box" : [
+        1483,
+        824,
+        96,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Glossary"
+    },
+    {
+      "box" : [
+        1808,
+        856,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Item"
+    },
+    {
+      "box" : [
+        1791,
+        875,
+        95,
+        31
+      ],
+      "confidence" : 1,
+      "text" : "Request"
+    },
+    {
+      "box" : [
+        1196,
+        888,
+        101,
+        33
+      ],
+      "confidence" : 1,
+      "text" : "Support"
+    },
+    {
+      "box" : [
+        1470,
+        889,
+        125,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Enter Code"
+    },
+    {
+      "box" : [
+        192,
+        901,
+        47,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Back"
+    },
+    {
+      "box" : [
+        1763,
+        937,
+        61,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "NEW."
+    },
+    {
+      "box" : [
+        1158,
+        973,
+        170,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "To Title Screen"
+    },
+    {
+      "box" : [
+        647,
+        979,
+        36,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Event"
+    },
+    {
+      "box" : [
+        376,
+        984,
+        75,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Limited Time"
+    },
+    {
+      "box" : [
+        1802,
+        1029,
+        67,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Menu"
+    },
+    {
+      "box" : [
+        385,
+        1040,
+        50,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Story"
+    },
+    {
+      "box" : [
+        521,
+        1040,
+        58,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Home"
+    },
+    {
+      "box" : [
+        273,
+        1043,
+        75,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Enhance"
+    },
+    {
+      "box" : [
+        764,
+        1046,
+        55,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Scout"
+    },
+    {
+      "box" : [
+        672,
+        1049,
+        41,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Race"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

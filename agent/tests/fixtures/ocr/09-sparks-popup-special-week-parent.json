@@ -1,0 +1,169 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        513,
+        44,
+        75,
+        27
+      ],
+      "confidence" : 1,
+      "text" : "Sparks"
+    },
+    {
+      "box" : [
+        572,
+        144,
+        147,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "[Special Dreamer]"
+    },
+    {
+      "box" : [
+        577,
+        174,
+        134,
+        29
+      ],
+      "confidence" : 1,
+      "text" : "Special Week"
+    },
+    {
+      "box" : [
+        278,
+        261,
+        92,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Sparks Held"
+    },
+    {
+      "box" : [
+        287,
+        309,
+        69,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Power"
+    },
+    {
+      "box" : [
+        566,
+        309,
+        86,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Medium"
+    },
+    {
+      "box" : [
+        287,
+        357,
+        128,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Shooting Star"
+    },
+    {
+      "box" : [
+        566,
+        357,
+        117,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• NHK Mile C."
+    },
+    {
+      "box" : [
+        566,
+        406,
+        192,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Hanshin Racecourse O"
+    },
+    {
+      "box" : [
+        287,
+        407,
+        117,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "- Arima Kinen"
+    },
+    {
+      "box" : [
+        560,
+        452,
+        171,
+        47
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "• Head- On warar"
+    },
+    {
+      "box" : [
+        284,
+        457,
+        100,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Uma Stan"
+    },
+    {
+      "box" : [
+        284,
+        505,
+        159,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "O My True Strength"
+    },
+    {
+      "box" : [
+        563,
+        505,
+        175,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "O Our Grand Concert"
+    },
+    {
+      "box" : [
+        1465,
+        599,
+        125,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Cunge Du"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

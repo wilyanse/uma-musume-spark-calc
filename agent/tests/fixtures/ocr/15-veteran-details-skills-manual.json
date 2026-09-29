@@ -1,0 +1,549 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        443,
+        41,
+        217,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Umamusume Details"
+    },
+    {
+      "box" : [
+        480,
+        92,
+        30,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "ПЗ"
+    },
+    {
+      "box" : [
+        558,
+        97,
+        181,
+        28
+      ],
+      "confidence" : 1,
+      "text" : "[Beyond the Horizon]"
+    },
+    {
+      "box" : [
+        597,
+        125,
+        106,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Tokai Teio"
+    },
+    {
+      "box" : [
+        452,
+        136,
+        61,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "-RANK :"
+    },
+    {
+      "box" : [
+        454,
+        153,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Epithet"
+    },
+    {
+      "box" : [
+        756,
+        173,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Change"
+    },
+    {
+      "box" : [
+        591,
+        175,
+        66,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Monarch"
+    },
+    {
+      "box" : [
+        337,
+        225,
+        64,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "21,156"
+    },
+    {
+      "box" : [
+        290,
+        259,
+        75,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Speed"
+    },
+    {
+      "box" : [
+        519,
+        259,
+        72,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "6 Power"
+    },
+    {
+      "box" : [
+        413,
+        261,
+        69,
+        14
+      ],
+      "confidence" : 1,
+      "text" : ", Stamina"
+    },
+    {
+      "box" : [
+        650,
+        262,
+        44,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Guts"
+    },
+    {
+      "box" : [
+        750,
+        262,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Wit"
+    },
+    {
+      "box" : [
+        309,
+        293,
+        58,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "1557"
+    },
+    {
+      "box" : [
+        435,
+        293,
+        44,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "821"
+    },
+    {
+      "box" : [
+        544,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "929"
+    },
+    {
+      "box" : [
+        658,
+        293,
+        47,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "634"
+    },
+    {
+      "box" : [
+        773,
+        293,
+        47,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "830"
+    },
+    {
+      "box" : [
+        306,
+        343,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Track"
+    },
+    {
+      "box" : [
+        415,
+        343,
+        36,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Turf"
+    },
+    {
+      "box" : [
+        524,
+        343,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Dirt"
+    },
+    {
+      "box" : [
+        298,
+        376,
+        78,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Distance"
+    },
+    {
+      "box" : [
+        407,
+        376,
+        53,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Sprint"
+    },
+    {
+      "box" : [
+        519,
+        376,
+        41,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Mile"
+    },
+    {
+      "box" : [
+        611,
+        376,
+        89,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Medium S"
+    },
+    {
+      "box" : [
+        731,
+        379,
+        47,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Long"
+    },
+    {
+      "box" : [
+        309,
+        410,
+        50,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Style"
+    },
+    {
+      "box" : [
+        736,
+        410,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "End"
+    },
+    {
+      "box" : [
+        410,
+        413,
+        50,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Front"
+    },
+    {
+      "box" : [
+        519,
+        413,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Pace"
+    },
+    {
+      "box" : [
+        622,
+        413,
+        50,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Late"
+    },
+    {
+      "box" : [
+        343,
+        457,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Skills"
+    },
+    {
+      "box" : [
+        510,
+        457,
+        83,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Inspiration"
+    },
+    {
+      "box" : [
+        697,
+        457,
+        89,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Career Info"
+    },
+    {
+      "box" : [
+        320,
+        524,
+        108,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Certain Victory"
+    },
+    {
+      "box" : [
+        499,
+        526,
+        45,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 5"
+    },
+    {
+      "box" : [
+        602,
+        527,
+        150,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Standard Distance O"
+    },
+    {
+      "box" : [
+        320,
+        588,
+        161,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Professor of Curvature"
+    },
+    {
+      "box" : [
+        602,
+        588,
+        145,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Straightaway Adept"
+    },
+    {
+      "box" : [
+        1467,
+        600,
+        92,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Junge4"
+    },
+    {
+      "box" : [
+        320,
+        649,
+        125,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Nimble Navigator"
+    },
+    {
+      "box" : [
+        602,
+        652,
+        94,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Race Planner"
+    },
+    {
+      "box" : [
+        605,
+        705,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Medium"
+    },
+    {
+      "box" : [
+        320,
+        714,
+        80,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Up-Tempo"
+    },
+    {
+      "box" : [
+        602,
+        722,
+        117,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Straightaways O"
+    },
+    {
+      "box" : [
+        602,
+        766,
+        89,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Pace Chaser"
+    },
+    {
+      "box" : [
+        320,
+        775,
+        133,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Medium Corners O"
+    },
+    {
+      "box" : [
+        602,
+        786,
+        119,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Straightaways O"
+    },
+    {
+      "box" : [
+        320,
+        839,
+        164,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Pace Chaser Corners O"
+    },
+    {
+      "box" : [
+        602,
+        840,
+        147,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Determined Descent"
+    },
+    {
+      "box" : [
+        320,
+        900,
+        72,
+        18
+      ],
+      "confidence" : 1,
+      "text" : "Uma Stan"
+    },
+    {
+      "box" : [
+        602,
+        900,
+        108,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Tail Held High"
+    },
+    {
+      "box" : [
+        521,
+        985,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

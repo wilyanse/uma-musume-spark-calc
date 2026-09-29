@@ -1,0 +1,619 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        443,
+        41,
+        217,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Umamusume Details"
+    },
+    {
+      "box" : [
+        563,
+        100,
+        173,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "[Frontline Elegance]"
+    },
+    {
+      "box" : [
+        569,
+        125,
+        161,
+        31
+      ],
+      "confidence" : 1,
+      "text" : "Mejiro McQueen"
+    },
+    {
+      "box" : [
+        452,
+        133,
+        61,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "RANK"
+    },
+    {
+      "box" : [
+        452,
+        153,
+        58,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Epithet"
+    },
+    {
+      "box" : [
+        756,
+        173,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Change"
+    },
+    {
+      "box" : [
+        549,
+        175,
+        150,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Independent Learner"
+    },
+    {
+      "box" : [
+        337,
+        226,
+        64,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "13,471"
+    },
+    {
+      "box" : [
+        290,
+        259,
+        75,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Speed"
+    },
+    {
+      "box" : [
+        418,
+        262,
+        64,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Stamina"
+    },
+    {
+      "box" : [
+        521,
+        262,
+        69,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "- Power"
+    },
+    {
+      "box" : [
+        658,
+        262,
+        36,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Guts"
+    },
+    {
+      "box" : [
+        750,
+        262,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Wit"
+    },
+    {
+      "box" : [
+        507,
+        286,
+        86,
+        31
+      ],
+      "confidence" : 1,
+      "text" : "B' 740"
+    },
+    {
+      "box" : [
+        320,
+        293,
+        47,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "894"
+    },
+    {
+      "box" : [
+        435,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "938"
+    },
+    {
+      "box" : [
+        658,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "559"
+    },
+    {
+      "box" : [
+        773,
+        293,
+        44,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "635"
+    },
+    {
+      "box" : [
+        306,
+        343,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Track"
+    },
+    {
+      "box" : [
+        415,
+        343,
+        36,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Turf"
+    },
+    {
+      "box" : [
+        524,
+        343,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Dirt"
+    },
+    {
+      "box" : [
+        610,
+        375,
+        89,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Medium A"
+    },
+    {
+      "box" : [
+        298,
+        376,
+        78,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Distance"
+    },
+    {
+      "box" : [
+        404,
+        376,
+        56,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Sprint"
+    },
+    {
+      "box" : [
+        519,
+        376,
+        41,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Mile"
+    },
+    {
+      "box" : [
+        731,
+        379,
+        44,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Long"
+    },
+    {
+      "box" : [
+        309,
+        410,
+        50,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Style"
+    },
+    {
+      "box" : [
+        410,
+        410,
+        50,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Front"
+    },
+    {
+      "box" : [
+        736,
+        410,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "End"
+    },
+    {
+      "box" : [
+        519,
+        413,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Pace"
+    },
+    {
+      "box" : [
+        622,
+        413,
+        50,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Late"
+    },
+    {
+      "box" : [
+        343,
+        457,
+        41,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Skills"
+    },
+    {
+      "box" : [
+        510,
+        457,
+        83,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Inspiration"
+    },
+    {
+      "box" : [
+        697,
+        457,
+        89,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Career Info"
+    },
+    {
+      "box" : [
+        424,
+        507,
+        175,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Races: 22 Wins: 22"
+    },
+    {
+      "box" : [
+        298,
+        510,
+        100,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Career Record"
+    },
+    {
+      "box" : [
+        1504,
+        513,
+        61,
+        30
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Camia"
+    },
+    {
+      "box" : [
+        304,
+        544,
+        89,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Fans Earned"
+    },
+    {
+      "box" : [
+        426,
+        544,
+        75,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "649,560"
+    },
+    {
+      "box" : [
+        426,
+        577,
+        170,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Classic Triple Crown"
+    },
+    {
+      "box" : [
+        306,
+        580,
+        83,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Major Wins"
+    },
+    {
+      "box" : [
+        1465,
+        600,
+        128,
+        36
+      ],
+      "confidence" : 0.5,
+      "text" : "Change Oua"
+    },
+    {
+      "box" : [
+        293,
+        613,
+        111,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Career Scenario"
+    },
+    {
+      "box" : [
+        426,
+        613,
+        223,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "The Beginning: URA Finale"
+    },
+    {
+      "box" : [
+        323,
+        647,
+        50,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Rating"
+    },
+    {
+      "box" : [
+        426,
+        647,
+        64,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "13,471"
+    },
+    {
+      "box" : [
+        295,
+        680,
+        106,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Date Acquired"
+    },
+    {
+      "box" : [
+        421,
+        680,
+        122,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Sep 29, 2026"
+    },
+    {
+      "box" : [
+        273,
+        718,
+        106,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Race History"
+    },
+    {
+      "box" : [
+        340,
+        752,
+        153,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "URA Finale Finals"
+    },
+    {
+      "box" : [
+        304,
+        756,
+        39,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "EX"
+    },
+    {
+      "box" : [
+        608,
+        786,
+        78,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "*Heavy"
+    },
+    {
+      "box" : [
+        290,
+        789,
+        304,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Kyoto Turf 2400m (Medium) Right \/ Outer"
+    },
+    {
+      "box" : [
+        293,
+        814,
+        108,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Strategy Pace"
+    },
+    {
+      "box" : [
+        449,
+        814,
+        223,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Race Time Late Jan Finale"
+    },
+    {
+      "box" : [
+        301,
+        870,
+        25,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "EX"
+    },
+    {
+      "box" : [
+        340,
+        870,
+        181,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "URA Finale Semifinal"
+    },
+    {
+      "box" : [
+        603,
+        899,
+        84,
+        34
+      ],
+      "confidence" : 1,
+      "text" : "#Heavy"
+    },
+    {
+      "box" : [
+        759,
+        901,
+        47,
+        33
+      ],
+      "confidence" : 1,
+      "text" : "St"
+    },
+    {
+      "box" : [
+        287,
+        903,
+        284,
+        31
+      ],
+      "confidence" : 1,
+      "text" : "Tokyo Turf 2400m (Medium) Left"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

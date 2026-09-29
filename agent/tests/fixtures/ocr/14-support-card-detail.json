@@ -1,0 +1,259 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        468,
+        44,
+        167,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Featured Cards"
+    },
+    {
+      "box" : [
+        477,
+        100,
+        262,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "[The Brightest Star in Japan!]"
+    },
+    {
+      "box" : [
+        477,
+        130,
+        134,
+        29
+      ],
+      "confidence" : 1,
+      "text" : "Special Week"
+    },
+    {
+      "box" : [
+        485,
+        164,
+        103,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 40 \/ 40"
+    },
+    {
+      "box" : [
+        683,
+        166,
+        128,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "O SP to next level"
+    },
+    {
+      "box" : [
+        474,
+        214,
+        120,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Unique Perk"
+    },
+    {
+      "box" : [
+        747,
+        247,
+        58,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 30"
+    },
+    {
+      "box" : [
+        485,
+        251,
+        231,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "The Brightest Star in Japan!"
+    },
+    {
+      "box" : [
+        485,
+        279,
+        228,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Guts Bonus and Initial Guts"
+    },
+    {
+      "box" : [
+        276,
+        375,
+        123,
+        24
+      ],
+      "confidence" : 1,
+      "text" : "Support Effects"
+    },
+    {
+      "box" : [
+        457,
+        379,
+        44,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Skills"
+    },
+    {
+      "box" : [
+        572,
+        379,
+        108,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Career Events"
+    },
+    {
+      "box" : [
+        722,
+        379,
+        92,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Flavor Text"
+    },
+    {
+      "box" : [
+        337,
+        448,
+        198,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Friendship Bonus 18%"
+    },
+    {
+      "box" : [
+        309,
+        499,
+        413,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Increases the effectiveness of Friendship Training"
+    },
+    {
+      "box" : [
+        304,
+        563,
+        189,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "** Mood Effect 50%"
+    },
+    {
+      "box" : [
+        1467,
+        600,
+        92,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Junge4"
+    },
+    {
+      "box" : [
+        309,
+        616,
+        435,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Amplifies the effect of mood when training together"
+    },
+    {
+      "box" : [
+        334,
+        686,
+        131,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Power Bonus 1"
+    },
+    {
+      "box" : [
+        309,
+        739,
+        368,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Increases Power gain when training together"
+    },
+    {
+      "box" : [
+        337,
+        806,
+        240,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Initial Friendship Gauge 23"
+    },
+    {
+      "box" : [
+        309,
+        845,
+        493,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Increases initial Friendship Gauge when beginning a Career"
+    },
+    {
+      "box" : [
+        306,
+        870,
+        106,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "playthrough"
+    },
+    {
+      "box" : [
+        632,
+        981,
+        103,
+        35
+      ],
+      "confidence" : 1,
+      "text" : "Level Up"
+    },
+    {
+      "box" : [
+        387,
+        985,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

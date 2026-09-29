@@ -1,0 +1,299 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        513,
+        44,
+        75,
+        27
+      ],
+      "confidence" : 1,
+      "text" : "Sparks"
+    },
+    {
+      "box" : [
+        527,
+        145,
+        237,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "[New Year, Same Radiance!]"
+    },
+    {
+      "box" : [
+        577,
+        175,
+        134,
+        29
+      ],
+      "confidence" : 1,
+      "text" : "T.M. Opera O"
+    },
+    {
+      "box" : [
+        351,
+        226,
+        36,
+        11
+      ],
+      "confidence" : 1,
+      "text" : "Guest"
+    },
+    {
+      "box" : [
+        284,
+        265,
+        108,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Guest's Trainer"
+    },
+    {
+      "box" : [
+        376,
+        309,
+        58,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Yuuki"
+    },
+    {
+      "box" : [
+        432,
+        356,
+        109,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Agnes Tachyon"
+    },
+    {
+      "box" : [
+        616,
+        362,
+        80,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Last Login"
+    },
+    {
+      "box" : [
+        719,
+        365,
+        53,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "6h ago"
+    },
+    {
+      "box" : [
+        463,
+        371,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Expert"
+    },
+    {
+      "box" : [
+        279,
+        418,
+        92,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Sparks Held"
+    },
+    {
+      "box" : [
+        287,
+        463,
+        83,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Stamina"
+    },
+    {
+      "box" : [
+        563,
+        465,
+        64,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Long"
+    },
+    {
+      "box" : [
+        588,
+        512,
+        83,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Osaka Hai"
+    },
+    {
+      "box" : [
+        287,
+        513,
+        189,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Barcarole of Blessings"
+    },
+    {
+      "box" : [
+        566,
+        560,
+        147,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• M.C. Nambu Hai"
+    },
+    {
+      "box" : [
+        287,
+        563,
+        114,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Hanshin J.F."
+    },
+    {
+      "box" : [
+        1465,
+        600,
+        125,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Cunge Du"
+    },
+    {
+      "box" : [
+        566,
+        611,
+        161,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Firm Conditions O"
+    },
+    {
+      "box" : [
+        290,
+        613,
+        178,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "- Standard Distance O"
+    },
+    {
+      "box" : [
+        658,
+        630,
+        64,
+        22
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "*2→"
+    },
+    {
+      "box" : [
+        287,
+        660,
+        167,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Corner Recovery O"
+    },
+    {
+      "box" : [
+        566,
+        661,
+        159,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "O Nimble Navigator"
+    },
+    {
+      "box" : [
+        306,
+        711,
+        78,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Uma Stan"
+    },
+    {
+      "box" : [
+        566,
+        711,
+        153,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• My True Strength"
+    },
+    {
+      "box" : [
+        284,
+        758,
+        161,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "• Ignited Spirit WIT"
+    },
+    {
+      "box" : [
+        566,
+        758,
+        206,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "• Ignited Spirit: Stamina +"
+    },
+    {
+      "box" : [
+        284,
+        808,
+        103,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "• Unity Cup"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

@@ -1,0 +1,38 @@
+# OS / editors
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Raw user uploads (curated copies live in docs/reference/screenshots/)
+/Uma Spark Calc/
+*.zip
+
+# Node
+node_modules/
+dist/
+.turbo/
+coverage/
+*.tsbuildinfo
+.wrangler/
+packages/master-data/.cache/
+
+# .NET
+bin/
+obj/
+*.user
+TestResults/
+
+# Secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+*.pem
+
+# Spike artefacts
+spike/.venv/
+spike/ocr/ocr
+
+# Worktrees
+.claude/worktrees/

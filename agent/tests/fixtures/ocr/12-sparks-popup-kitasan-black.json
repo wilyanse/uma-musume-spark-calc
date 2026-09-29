@@ -1,0 +1,249 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        513,
+        44,
+        75,
+        27
+      ],
+      "confidence" : 1,
+      "text" : "Sparks"
+    },
+    {
+      "box" : [
+        538,
+        145,
+        209,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "[Gilded Shrine to Glory]"
+    },
+    {
+      "box" : [
+        577,
+        175,
+        131,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "Kitasan Black"
+    },
+    {
+      "box" : [
+        278,
+        261,
+        92,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Sparks Held"
+    },
+    {
+      "box" : [
+        287,
+        309,
+        83,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Stamina"
+    },
+    {
+      "box" : [
+        566,
+        309,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Long"
+    },
+    {
+      "box" : [
+        563,
+        355,
+        146,
+        45
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "• February S."
+    },
+    {
+      "box" : [
+        287,
+        357,
+        133,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Victory Cheer!"
+    },
+    {
+      "box" : [
+        566,
+        406,
+        109,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "• Kikuka Sho"
+    },
+    {
+      "box" : [
+        287,
+        407,
+        147,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "O Japanese Derby"
+    },
+    {
+      "box" : [
+        563,
+        455,
+        117,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Hanshin J.F."
+    },
+    {
+      "box" : [
+        290,
+        457,
+        178,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Tenno Sho (Autumn)"
+    },
+    {
+      "box" : [
+        290,
+        504,
+        145,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• M.C. Nambu Hai"
+    },
+    {
+      "box" : [
+        563,
+        504,
+        150,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "• Right-Handed O"
+    },
+    {
+      "box" : [
+        304,
+        554,
+        186,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Nakayama Racecourse O"
+    },
+    {
+      "box" : [
+        566,
+        555,
+        167,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Medium Corners O"
+    },
+    {
+      "box" : [
+        1465,
+        600,
+        125,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Cunge Du"
+    },
+    {
+      "box" : [
+        566,
+        602,
+        184,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "• Pace Chaser Savvy O"
+    },
+    {
+      "box" : [
+        287,
+        605,
+        189,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Long Straightaways O"
+    },
+    {
+      "box" : [
+        560,
+        652,
+        103,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "O Head-On"
+    },
+    {
+      "box" : [
+        287,
+        653,
+        117,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "O Groundwork"
+    },
+    {
+      "box" : [
+        566,
+        702,
+        206,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "• On the Way to Our Dream"
+    },
+    {
+      "box" : [
+        287,
+        703,
+        156,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "O My True Strength"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

@@ -1,0 +1,569 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        443,
+        41,
+        217,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Umamusume Details"
+    },
+    {
+      "box" : [
+        563,
+        100,
+        173,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "[Frontline Elegance]"
+    },
+    {
+      "box" : [
+        569,
+        125,
+        161,
+        31
+      ],
+      "confidence" : 1,
+      "text" : "Mejiro McQueen"
+    },
+    {
+      "box" : [
+        451,
+        133,
+        61,
+        17
+      ],
+      "confidence" : 0.5,
+      "text" : "RANK*"
+    },
+    {
+      "box" : [
+        452,
+        153,
+        61,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Epithet"
+    },
+    {
+      "box" : [
+        756,
+        173,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Change"
+    },
+    {
+      "box" : [
+        549,
+        175,
+        150,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Independent Learner"
+    },
+    {
+      "box" : [
+        337,
+        226,
+        64,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "13,471"
+    },
+    {
+      "box" : [
+        290,
+        259,
+        75,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Speed"
+    },
+    {
+      "box" : [
+        418,
+        262,
+        64,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Stamina"
+    },
+    {
+      "box" : [
+        533,
+        262,
+        58,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Power"
+    },
+    {
+      "box" : [
+        658,
+        262,
+        36,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Guts"
+    },
+    {
+      "box" : [
+        750,
+        262,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Wit"
+    },
+    {
+      "box" : [
+        320,
+        293,
+        47,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "894"
+    },
+    {
+      "box" : [
+        435,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "938"
+    },
+    {
+      "box" : [
+        541,
+        293,
+        53,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "740"
+    },
+    {
+      "box" : [
+        658,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "559"
+    },
+    {
+      "box" : [
+        773,
+        293,
+        44,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "635"
+    },
+    {
+      "box" : [
+        306,
+        343,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Track"
+    },
+    {
+      "box" : [
+        415,
+        343,
+        36,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Turf"
+    },
+    {
+      "box" : [
+        524,
+        343,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Dirt"
+    },
+    {
+      "box" : [
+        610,
+        375,
+        89,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Medium A"
+    },
+    {
+      "box" : [
+        298,
+        376,
+        78,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Distance"
+    },
+    {
+      "box" : [
+        404,
+        376,
+        56,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Sprint"
+    },
+    {
+      "box" : [
+        519,
+        379,
+        41,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Mile"
+    },
+    {
+      "box" : [
+        731,
+        379,
+        47,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Long"
+    },
+    {
+      "box" : [
+        309,
+        410,
+        50,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Style"
+    },
+    {
+      "box" : [
+        736,
+        410,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "End"
+    },
+    {
+      "box" : [
+        410,
+        413,
+        50,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Front"
+    },
+    {
+      "box" : [
+        519,
+        413,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Pace"
+    },
+    {
+      "box" : [
+        622,
+        413,
+        50,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Late"
+    },
+    {
+      "box" : [
+        343,
+        457,
+        41,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Skills"
+    },
+    {
+      "box" : [
+        510,
+        457,
+        86,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Inspiration"
+    },
+    {
+      "box" : [
+        697,
+        457,
+        89,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Career Info"
+    },
+    {
+      "box" : [
+        608,
+        543,
+        64,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Long"
+    },
+    {
+      "box" : [
+        373,
+        544,
+        80,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Stamina"
+    },
+    {
+      "box" : [
+        373,
+        593,
+        181,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Barcarole of Blessings"
+    },
+    {
+      "box" : [
+        611,
+        593,
+        94,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Osaka Hai"
+    },
+    {
+      "box" : [
+        1467,
+        600,
+        92,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Junge4"
+    },
+    {
+      "box" : [
+        452,
+        611,
+        55,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "***"
+    },
+    {
+      "box" : [
+        390,
+        644,
+        94,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Hanshin J.F."
+    },
+    {
+      "box" : [
+        611,
+        644,
+        136,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• M.C. Nambu Hai"
+    },
+    {
+      "box" : [
+        449,
+        661,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "***"
+    },
+    {
+      "box" : [
+        680,
+        661,
+        61,
+        19
+      ],
+      "confidence" : 0.5,
+      "text" : "***"
+    },
+    {
+      "box" : [
+        611,
+        691,
+        147,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "O Firm Conditions O"
+    },
+    {
+      "box" : [
+        393,
+        694,
+        153,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Standard Distance O"
+    },
+    {
+      "box" : [
+        376,
+        741,
+        153,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Corner Recovery O"
+    },
+    {
+      "box" : [
+        608,
+        741,
+        145,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Nimble Navigator"
+    },
+    {
+      "box" : [
+        683,
+        761,
+        53,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "**\""
+    },
+    {
+      "box" : [
+        373,
+        792,
+        94,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Uma Stan"
+    },
+    {
+      "box" : [
+        608,
+        792,
+        145,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• My True Strength"
+    },
+    {
+      "box" : [
+        452,
+        812,
+        55,
+        16
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "**→"
+    },
+    {
+      "box" : [
+        605,
+        841,
+        195,
+        35
+      ],
+      "confidence" : 1,
+      "text" : "• Ignited Spirit: Stamina +"
+    },
+    {
+      "box" : [
+        382,
+        845,
+        133,
+        14
+      ],
+      "confidence" : 1,
+      "text" : ") Ignited Spirit WI"
+    },
+    {
+      "box" : [
+        373,
+        892,
+        94,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Unity Cup"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

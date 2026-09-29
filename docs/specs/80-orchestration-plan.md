@@ -1,0 +1,146 @@
+# 80 — Orchestration plan
+
+## 1. How orchestration works
+- **Orchestrator:** Hermes (Claude Opus) in the main checkout `~/Projects/personal/uma-musume-spark-calc`, on `main`. It creates worktrees, dispatches workers, reviews diffs, runs the verification commands itself, merges into local `main` and adds one line to `CHANGELOG.md`. **Pushing** to `origin main` happens at the end of each wave, after the user has reviewed the wave summary (the user reviews before anything is published).
+- **Workers:** Claude **Sonnet 5.5**, reasoning **medium**. Each task runs in its own git worktree at `../uma-musume-spark-calc.worktrees/Txx-<slug>` on branch `task/Txx-<slug>`, created from the current `main`. Launch:
+  ```
+  hermes chat --oneshot -Q --provider anthropic -m claude-sonnet-5-5 --reasoning medium \
+    --query-file docs/tasks/Txx.prompt.md        # run with workdir = the task worktree
+  ```
+  The prompt file contains the task card from §4 plus: "Read AGENTS.md first. Write docs/changelog/Txx-<slug>.md. Commit on your branch. Don't push."
+- **Parallelism:** at most **4** workers at a time. Tasks in the same wave with no `Needs` between them run in parallel.
+- **Review gate per task:** orchestrator gate A (changelog, scope, re-run verification), then an **independent reviewer** (Opus 5.5, high, read-only) per `85-implementation-review.md`. A task merges (`--no-ff`) only on reviewer `PASS` + a green re-run. `CHANGES_REQUESTED` goes back to the worker, for at most 2 rounds; after that the orchestrator fixes it or escalates.
+- **Status:** tracked in §5 of this file and updated by the orchestrator only.
+
+## 2. Waves
+| Wave | Tasks (parallel) | Starts when |
+|---|---|---|
+| W1 | T01 | specs committed |
+| W2 | T02, T03, T07 | T01 merged |
+| W3 | T04, T05, T09 | T02 merged (T05 and T09 also need T03's first cut of the schemas; T03 publishes the types early, see T03) |
+| W4 | T08, T10, T11, T12 | T05 merged (T08); T09 merged (T10, T11); T04 merged (T12) |
+| W5 | T06 | T08 merged |
+| W5b | T13 | T06 merged + H5 design approval |
+| W6 | T15, T14 | M3 exit; H4 real-roster import (T15); Q-2 answered (T14) |
+
+## 3. Human checkpoints
+| ID | When | What the user does | Unblocks |
+|---|---|---|---|
+| H1 | now | Review the spec pack, then tell the orchestrator to make the initial commit + push | everything |
+| H2 | during W3–W4 | Create a free Cloudflare account; follow `docs/runbooks/cloudflare-setup.md` (from T12); add the GitHub secrets | real deploy |
+| H3 | anytime before W6 | Screenshots: Veteran List screen (scroll top + middle); a Career Info tab where a grandparent portrait is tapped (if tapping opens anything) | T14, Q-1 |
+| H4 | after T10 | On Windows: build/run the agent, record OCR for the 15 fixture screens (`--record-ocr`), check the T09 labels, then import ≥ 20 real veterans and spot-check 3 in the web app | M2 exit, T15 |
+| H5 | after T07 | Approve the design gallery `docs/design/index.html` (or request changes) | T13 |
+
+## 4. Task cards
+Each card lists: **Spec** sections · **Owns** (paths the task may create/modify) · **Needs** · **Done when** (in addition to AGENTS.md DoD).
+
+### T01 — Monorepo and shared contracts
+- Spec: 00 §3, 01 (all), AGENTS stack rules.
+- Owns: root `package.json`, `pnpm-workspace.yaml`, `tsconfig.base.json`, `.editorconfig`, `.gitignore`, `eslint.config.js`, `.prettierrc`, `packages/schema/**`, `agent/Uma.Agent.sln` (empty solution + `Directory.Build.props`), `README.md` (dev quickstart section only).
+- Needs: nothing.
+- Done when:
+  - `packages/schema` exports zod schemas and TS types for every contract in 01. `pnpm --filter schema build` writes `json/*.schema.json`.
+  - `src/fingerprint.ts` exists, with ≥ 5 hand-built vectors in `test/fingerprint.vectors.json`, including a guest parent, a ◯ skill and a sparks-order permutation that yields the same hash.
+  - `pnpm -r lint typecheck test` passes.
+
+### T02 — App skeletons
+- Spec: 40 §1–2, 60 §1, 65 §2.
+- Owns: `apps/api/**` (skeleton only: Hono app, `/api/v1/health`, `wrangler.jsonc` with bindings, empty migrations folder, vitest-pool-workers config), `apps/web/**` (skeleton: Vite React TS, router with placeholder routes from 60 §2, worker + Comlink wiring calling a stub, fixture-mode switch).
+- Needs: T01.
+- Done when: `pnpm --filter api test` hits health in miniflare; `pnpm --filter web build` passes; `wrangler dev` serves the SPA and `/api/v1/health` together (record curl output).
+
+### T03 — Master data
+- Spec: 20 (all), 01 §11–12.
+- Owns: `packages/master-data/**`, `apps/web/public/master/**`, `docs/OPEN_QUESTIONS.md` (append only).
+- Needs: T01. **First step:** commit the master-data TS types that re-export `@uma/schema` shapes, so T05 and T09 can start against them.
+- Done when: 20 §5. The output JSON is committed; the cache is gitignored; `SOURCES.md` is complete.
+
+### T04 — API core
+- Spec: 01 §3–10, 40 (all), 65 §6.
+- Owns: `apps/api/src/**`, `apps/api/migrations/**`, `apps/api/test/**`.
+- Needs: T01, T02.
+- Done when: 40 §5.
+
+### T05 — Engine: inheritance and scenarios
+- Spec: 50 §1–3, §9 (T05), 01 §11–12.
+- Owns: `packages/engine/**` (except `src/model/**`, `src/predict/**` and `src/rank/**`, which are reserved for T06), `packages/engine/test/inheritance/**`.
+- Needs: T01, T03 (types; it can use a local toy master fixture for tests).
+- Done when: 50 §9 T05.
+
+### T06 — Engine: training model, prediction, scoring, ranking
+- Spec: 50 §4–7, §9 (T06), 01 §10, §13.
+- Owns: `packages/engine/src/{model,predict,rank,linalg.ts}/**`, `packages/engine/test/{model,predict,rank}/**`, `packages/engine/bench/**`.
+- Needs: T05, T08.
+- Done when: 50 §9 T06 on the golden dataset; the bench result is in the changelog.
+
+### T07 — Design
+- Spec: 10 (all).
+- Owns: `docs/design/**`.
+- Needs: T01 (for contract field names).
+- Done when: 10 §5; the H5 request is written in the changelog.
+
+### T08 — Golden dataset
+- Spec: 70 §2, 50 §9.
+- Owns: `packages/engine/test/golden/**`, `packages/engine/scripts/golden.ts`, `apps/web/fixtures/**`.
+- Needs: T03, T05.
+- Done when: the generation is deterministic (running it twice gives a byte-identical sha256, recorded); the roster validates against the schema; the truth file documents every planted parameter.
+
+### T09 — Agent core
+- Spec: 30 §1–6, §10 (T09), App. A; 01 §3, §5, §6.
+- Owns: `agent/src/Uma.Agent.Core/**`, `agent/tests/**`, `agent/layouts/**`.
+- Needs: T01 (fingerprint vectors, JSON Schemas), T03 (`vocab.json`, `iconHashes`, `artHashes`). If T03 isn't done, use a vocab stub built from the fixture OCR files and mark the card/portrait identification tests `Skip` with a reason.
+- Done when: 30 §10 T09; label files for all 15 fixtures are written from the screenshots, and the changelog asks the user to verify them (H4).
+
+### T10 — Agent Windows shell
+- Spec: 30 §2, §6, §7, §10 (T10).
+- Owns: `agent/src/Uma.Agent.Windows/**`, `docs/runbooks/agent-install.md`.
+- Needs: T09.
+- Done when: it compiles with `EnableWindowsTargeting` on macOS; the runbook is complete. Status is `Partial` until H4.
+
+### T11 — Agent support card sync
+- Spec: 30 §8, §10 (T11); 01 §4.
+- Owns: `agent/src/Uma.Agent.Core/Cards/**`, `agent/tests/**/Cards*`.
+- Needs: T09.
+- Done when: 30 §10 T11.
+
+### T12 — DevOps
+- Spec: 65 (all).
+- Owns: `.github/**`, `apps/api/wrangler.jsonc` (production env section), `docs/runbooks/cloudflare-setup.md`, `docs/runbooks/backup.md`.
+- Needs: T02, T04.
+- Done when: 65 §7.
+
+### T13 — Web screens
+- Spec: 60 (all), 10 (the approved design), `docs/design/bindings.md`.
+- Owns: `apps/web/src/**`, `apps/web/e2e/**`, `docs/changelog/assets/T13/**`.
+- Needs: T02, T04 (API types), T06, H5.
+- Done when: 60 §4.
+
+### T14 — Auto-navigation and deck suggestion (M5)
+- Spec: 30 §9, F13, F14.
+- Needs: H3/Q-2, T10, T06. Write a detailed spec addendum at `docs/specs/31-auto-navigation.md` first, and wait for orchestrator approval.
+
+### T15 — Rules calibration (M4)
+- Spec: 50 §8, §9 (T15).
+- Owns: `packages/engine/src/calibrate/**`, `packages/engine/test/calibrate/**`.
+- Needs: T06, T08; the real-roster run needs H4.
+- Done when: the golden check passes; a real-roster report is attached once H4 is done.
+
+## 5. Status
+| Task | Status | Branch | Changelog | Review |
+|---|---|---|---|---|
+| T01 | Not started | | | |
+| T02 | Not started | | | |
+| T03 | Not started | | | |
+| T04 | Not started | | | |
+| T05 | Not started | | | |
+| T06 | Not started | | | |
+| T07 | Not started | | | |
+| T08 | Not started | | | |
+| T09 | Not started | | | |
+| T10 | Not started | | | |
+| T11 | Not started | | | |
+| T12 | Not started | | | |
+| T13 | Not started | | | |
+| T14 | Not started | | | |
+| T15 | Not started | | | |

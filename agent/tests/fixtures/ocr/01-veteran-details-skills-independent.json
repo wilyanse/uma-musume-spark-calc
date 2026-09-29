@@ -1,0 +1,539 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        443,
+        41,
+        217,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Umamusume Details"
+    },
+    {
+      "box" : [
+        563,
+        97,
+        173,
+        28
+      ],
+      "confidence" : 1,
+      "text" : "[Frontline Elegancel"
+    },
+    {
+      "box" : [
+        569,
+        125,
+        161,
+        31
+      ],
+      "confidence" : 1,
+      "text" : "Mejiro McQueen"
+    },
+    {
+      "box" : [
+        452,
+        133,
+        61,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "RANK"
+    },
+    {
+      "box" : [
+        452,
+        153,
+        58,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Epithet"
+    },
+    {
+      "box" : [
+        756,
+        173,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Change"
+    },
+    {
+      "box" : [
+        549,
+        175,
+        150,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Independent Learner"
+    },
+    {
+      "box" : [
+        337,
+        226,
+        64,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "13,471"
+    },
+    {
+      "box" : [
+        290,
+        259,
+        75,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Speed"
+    },
+    {
+      "box" : [
+        418,
+        262,
+        64,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Stamina"
+    },
+    {
+      "box" : [
+        533,
+        262,
+        58,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Power"
+    },
+    {
+      "box" : [
+        658,
+        262,
+        36,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Guts"
+    },
+    {
+      "box" : [
+        750,
+        262,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Wit"
+    },
+    {
+      "box" : [
+        320,
+        293,
+        47,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "894"
+    },
+    {
+      "box" : [
+        435,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "938"
+    },
+    {
+      "box" : [
+        541,
+        293,
+        53,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "740"
+    },
+    {
+      "box" : [
+        658,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "559"
+    },
+    {
+      "box" : [
+        773,
+        293,
+        44,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "635"
+    },
+    {
+      "box" : [
+        306,
+        343,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Track"
+    },
+    {
+      "box" : [
+        415,
+        343,
+        36,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Turf"
+    },
+    {
+      "box" : [
+        524,
+        343,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Dirt"
+    },
+    {
+      "box" : [
+        298,
+        376,
+        78,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Distance"
+    },
+    {
+      "box" : [
+        404,
+        376,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Sprint"
+    },
+    {
+      "box" : [
+        608,
+        376,
+        92,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Medium A"
+    },
+    {
+      "box" : [
+        519,
+        379,
+        41,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Mile"
+    },
+    {
+      "box" : [
+        731,
+        379,
+        44,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Long"
+    },
+    {
+      "box" : [
+        309,
+        410,
+        50,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Style"
+    },
+    {
+      "box" : [
+        736,
+        410,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "End"
+    },
+    {
+      "box" : [
+        410,
+        413,
+        50,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Front"
+    },
+    {
+      "box" : [
+        519,
+        413,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Pace"
+    },
+    {
+      "box" : [
+        622,
+        413,
+        50,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Late"
+    },
+    {
+      "box" : [
+        343,
+        457,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Skills"
+    },
+    {
+      "box" : [
+        510,
+        457,
+        83,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Inspiration"
+    },
+    {
+      "box" : [
+        697,
+        457,
+        89,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Career Info"
+    },
+    {
+      "box" : [
+        320,
+        518,
+        142,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "The Duty of Dignity"
+    },
+    {
+      "box" : [
+        499,
+        526,
+        44,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 5"
+    },
+    {
+      "box" : [
+        605,
+        526,
+        133,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Corner Recovery O"
+    },
+    {
+      "box" : [
+        320,
+        535,
+        39,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Calls"
+    },
+    {
+      "box" : [
+        320,
+        588,
+        145,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Straightaway Adept"
+    },
+    {
+      "box" : [
+        602,
+        588,
+        70,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Ramp Up"
+    },
+    {
+      "box" : [
+        1467,
+        600,
+        92,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Junge4"
+    },
+    {
+      "box" : [
+        320,
+        653,
+        125,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Nimble Navigator"
+    },
+    {
+      "box" : [
+        602,
+        653,
+        122,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Prepared to Pass"
+    },
+    {
+      "box" : [
+        320,
+        713,
+        133,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Medium Corners O"
+    },
+    {
+      "box" : [
+        600,
+        713,
+        117,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Long Corners O"
+    },
+    {
+      "box" : [
+        602,
+        767,
+        89,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Pace Chaser"
+    },
+    {
+      "box" : [
+        320,
+        775,
+        114,
+        21
+      ],
+      "confidence" : 1,
+      "text" : "Vanguard Spirit"
+    },
+    {
+      "box" : [
+        602,
+        783,
+        119,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Straightaways O"
+    },
+    {
+      "box" : [
+        320,
+        839,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Hydrate"
+    },
+    {
+      "box" : [
+        602,
+        839,
+        156,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Front Runner Savvy ®"
+    },
+    {
+      "box" : [
+        320,
+        900,
+        72,
+        18
+      ],
+      "confidence" : 1,
+      "text" : "Uma Stan"
+    },
+    {
+      "box" : [
+        605,
+        901,
+        89,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Groundwork"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

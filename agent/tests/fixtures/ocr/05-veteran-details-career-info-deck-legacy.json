@@ -1,0 +1,509 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        443,
+        41,
+        217,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Umamusume Details"
+    },
+    {
+      "box" : [
+        563,
+        100,
+        173,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "[Frontline Elegancel"
+    },
+    {
+      "box" : [
+        569,
+        124,
+        162,
+        29
+      ],
+      "confidence" : 1,
+      "text" : "Mejiro McQueen"
+    },
+    {
+      "box" : [
+        452,
+        133,
+        61,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "RANK"
+    },
+    {
+      "box" : [
+        452,
+        153,
+        58,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Epithet"
+    },
+    {
+      "box" : [
+        759,
+        173,
+        58,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Change"
+    },
+    {
+      "box" : [
+        549,
+        175,
+        150,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Independent Learner"
+    },
+    {
+      "box" : [
+        337,
+        226,
+        64,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "13,471"
+    },
+    {
+      "box" : [
+        290,
+        259,
+        75,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Speed"
+    },
+    {
+      "box" : [
+        418,
+        262,
+        64,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Stamina"
+    },
+    {
+      "box" : [
+        533,
+        262,
+        58,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Power"
+    },
+    {
+      "box" : [
+        658,
+        262,
+        36,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Guts"
+    },
+    {
+      "box" : [
+        750,
+        262,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Wit"
+    },
+    {
+      "box" : [
+        320,
+        293,
+        47,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "894"
+    },
+    {
+      "box" : [
+        435,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "938"
+    },
+    {
+      "box" : [
+        544,
+        293,
+        50,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "740"
+    },
+    {
+      "box" : [
+        658,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "559"
+    },
+    {
+      "box" : [
+        773,
+        293,
+        44,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "635"
+    },
+    {
+      "box" : [
+        306,
+        343,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Track"
+    },
+    {
+      "box" : [
+        415,
+        343,
+        36,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Turf"
+    },
+    {
+      "box" : [
+        524,
+        343,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Dirt"
+    },
+    {
+      "box" : [
+        608,
+        375,
+        92,
+        24
+      ],
+      "confidence" : 1,
+      "text" : "Medium A"
+    },
+    {
+      "box" : [
+        298,
+        376,
+        78,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Distance"
+    },
+    {
+      "box" : [
+        404,
+        376,
+        56,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Sprint"
+    },
+    {
+      "box" : [
+        519,
+        376,
+        41,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Mile"
+    },
+    {
+      "box" : [
+        731,
+        379,
+        44,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Long"
+    },
+    {
+      "box" : [
+        309,
+        410,
+        50,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Style"
+    },
+    {
+      "box" : [
+        736,
+        410,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "End"
+    },
+    {
+      "box" : [
+        410,
+        413,
+        50,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Front"
+    },
+    {
+      "box" : [
+        519,
+        413,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Pace"
+    },
+    {
+      "box" : [
+        622,
+        413,
+        50,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Late"
+    },
+    {
+      "box" : [
+        343,
+        457,
+        41,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Skills"
+    },
+    {
+      "box" : [
+        510,
+        457,
+        83,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Inspiration"
+    },
+    {
+      "box" : [
+        697,
+        457,
+        89,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Career Info"
+    },
+    {
+      "box" : [
+        273,
+        502,
+        120,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Support Cards"
+    },
+    {
+      "box" : [
+        1467,
+        600,
+        89,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Junge"
+    },
+    {
+      "box" : [
+        778,
+        605,
+        44,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Lvl 50"
+    },
+    {
+      "box" : [
+        387,
+        616,
+        66,
+        16
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "566 Lvl 50"
+    },
+    {
+      "box" : [
+        652,
+        616,
+        81,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "9000 Lvl 50"
+    },
+    {
+      "box" : [
+        287,
+        619,
+        72,
+        13
+      ],
+      "confidence" : 0.5,
+      "text" : "X0 Lvl 50"
+    },
+    {
+      "box" : [
+        466,
+        619,
+        80,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "09-09 Lvl 50"
+    },
+    {
+      "box" : [
+        761,
+        625,
+        39,
+        5
+      ],
+      "confidence" : 0.5,
+      "text" : "rrienc:"
+    },
+    {
+      "box" : [
+        270,
+        649,
+        173,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Legacy Umamusume"
+    },
+    {
+      "box" : [
+        284,
+        677,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Legacy 1"
+    },
+    {
+      "box" : [
+        560,
+        680,
+        66,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Legacy2"
+    },
+    {
+      "box" : [
+        608,
+        826,
+        47,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Guest"
+    },
+    {
+      "box" : [
+        276,
+        893,
+        55,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Career"
+    },
+    {
+      "box" : [
+        298,
+        920,
+        100,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Career Record"
+    },
+    {
+      "box" : [
+        426,
+        920,
+        173,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Races: 22 Wins: 22"
+    },
+    {
+      "box" : [
+        521,
+        985,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

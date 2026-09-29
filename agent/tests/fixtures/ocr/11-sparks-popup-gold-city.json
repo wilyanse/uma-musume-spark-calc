@@ -1,0 +1,289 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        513,
+        44,
+        75,
+        27
+      ],
+      "confidence" : 1,
+      "text" : "Sparks"
+    },
+    {
+      "box" : [
+        563,
+        145,
+        161,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "[Authentic \/ 1928]"
+    },
+    {
+      "box" : [
+        596,
+        174,
+        95,
+        30
+      ],
+      "confidence" : 1,
+      "text" : "Gold City"
+    },
+    {
+      "box" : [
+        278,
+        261,
+        92,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Sparks Held"
+    },
+    {
+      "box" : [
+        287,
+        309,
+        61,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Guts"
+    },
+    {
+      "box" : [
+        566,
+        309,
+        55,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Mile"
+    },
+    {
+      "box" : [
+        301,
+        357,
+        119,
+        17
+      ],
+      "confidence" : 1,
+      "text" : ") KEEP IT REAL."
+    },
+    {
+      "box" : [
+        569,
+        359,
+        114,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• NHK Mile C."
+    },
+    {
+      "box" : [
+        287,
+        406,
+        100,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "O Hopeful S."
+    },
+    {
+      "box" : [
+        560,
+        406,
+        153,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "• M.C. Nambu Hai"
+    },
+    {
+      "box" : [
+        287,
+        457,
+        145,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Kawasaki Kinen"
+    },
+    {
+      "box" : [
+        566,
+        457,
+        206,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Outer Post Proficiency O"
+    },
+    {
+      "box" : [
+        382,
+        473,
+        61,
+        23
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "*2&"
+    },
+    {
+      "box" : [
+        290,
+        505,
+        164,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "0 Corner Recovery O"
+    },
+    {
+      "box" : [
+        566,
+        507,
+        175,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Straightaway Adept"
+    },
+    {
+      "box" : [
+        563,
+        555,
+        153,
+        41
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "RampUP1"
+    },
+    {
+      "box" : [
+        304,
+        557,
+        189,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "Straightaway Acceleration"
+    },
+    {
+      "box" : [
+        1465,
+        600,
+        125,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Cunge Du"
+    },
+    {
+      "box" : [
+        563,
+        602,
+        159,
+        42
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "• Up-Temposa5"
+    },
+    {
+      "box" : [
+        306,
+        605,
+        139,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Nimble Navigator"
+    },
+    {
+      "box" : [
+        563,
+        652,
+        136,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "O Tail Held High"
+    },
+    {
+      "box" : [
+        287,
+        653,
+        97,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Uma Stan"
+    },
+    {
+      "box" : [
+        563,
+        701,
+        162,
+        44
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "•Mad Dash"
+    },
+    {
+      "box" : [
+        287,
+        702,
+        103,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Slipstream"
+    },
+    {
+      "box" : [
+        563,
+        750,
+        201,
+        42
+      ],
+      "confidence" : 1,
+      "text" : "O Ignited Spirit: Speed +"
+    },
+    {
+      "box" : [
+        287,
+        753,
+        164,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Ignited Spirit PWR"
+    },
+    {
+      "box" : [
+        284,
+        803,
+        103,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Unity Cup"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        513,
+        44,
+        75,
+        27
+      ],
+      "confidence" : 1,
+      "text" : "Sparks"
+    },
+    {
+      "box" : [
+        577,
+        144,
+        131,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "[Starlight Beat]"
+    },
+    {
+      "box" : [
+        594,
+        175,
+        100,
+        28
+      ],
+      "confidence" : 1,
+      "text" : "Oguri Cap"
+    },
+    {
+      "box" : [
+        278,
+        261,
+        92,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Sparks Held"
+    },
+    {
+      "box" : [
+        287,
+        309,
+        83,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Stamina"
+    },
+    {
+      "box" : [
+        566,
+        309,
+        55,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Mile"
+    },
+    {
+      "box" : [
+        287,
+        357,
+        156,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Triumphant Pulse"
+    },
+    {
+      "box" : [
+        569,
+        360,
+        111,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "5 NHK Mile C."
+    },
+    {
+      "box" : [
+        287,
+        407,
+        120,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Victoria Mile"
+    },
+    {
+      "box" : [
+        566,
+        407,
+        145,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "• Japanese Derby"
+    },
+    {
+      "box" : [
+        560,
+        454,
+        170,
+        42
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Mile Ch.W"
+    },
+    {
+      "box" : [
+        287,
+        457,
+        200,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Queen Elizabeth II Cup"
+    },
+    {
+      "box" : [
+        287,
+        504,
+        106,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "© Updrafters"
+    },
+    {
+      "box" : [
+        563,
+        504,
+        209,
+        42
+      ],
+      "confidence" : 1,
+      "text" : "© Medium Straightaways 0"
+    },
+    {
+      "box" : [
+        287,
+        555,
+        97,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• Uma Stan"
+    },
+    {
+      "box" : [
+        566,
+        555,
+        114,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• All l've Got"
+    },
+    {
+      "box" : [
+        1465,
+        600,
+        125,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Cunge Du"
+    },
+    {
+      "box" : [
+        287,
+        605,
+        94,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "O Head-On"
+    },
+    {
+      "box" : [
+        563,
+        605,
+        212,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "• On the Way to Our Dream"
+    },
+    {
+      "box" : [
+        284,
+        652,
+        173,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Our Grand Concert"
+    },
+    {
+      "box" : [
+        382,
+        672,
+        61,
+        22
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "*5W"
+    },
+    {
+      "box" : [
+        521,
+        984,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}

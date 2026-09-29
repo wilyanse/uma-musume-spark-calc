@@ -1,0 +1,559 @@
+{
+  "engine" : "apple-vision-accurate",
+  "lines" : [
+    {
+      "box" : [
+        443,
+        41,
+        217,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Umamusume Details"
+    },
+    {
+      "box" : [
+        563,
+        100,
+        173,
+        26
+      ],
+      "confidence" : 1,
+      "text" : "[Frontline Elegancel"
+    },
+    {
+      "box" : [
+        569,
+        125,
+        161,
+        28
+      ],
+      "confidence" : 1,
+      "text" : "Mejiro McQueen"
+    },
+    {
+      "box" : [
+        452,
+        133,
+        61,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "RANK"
+    },
+    {
+      "box" : [
+        452,
+        153,
+        61,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Epithet"
+    },
+    {
+      "box" : [
+        756,
+        173,
+        61,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Change"
+    },
+    {
+      "box" : [
+        549,
+        175,
+        150,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Independent Learner"
+    },
+    {
+      "box" : [
+        337,
+        226,
+        64,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "13,471"
+    },
+    {
+      "box" : [
+        290,
+        259,
+        75,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "• Speed"
+    },
+    {
+      "box" : [
+        418,
+        262,
+        64,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Stamina"
+    },
+    {
+      "box" : [
+        533,
+        262,
+        58,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Power"
+    },
+    {
+      "box" : [
+        658,
+        262,
+        36,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Guts"
+    },
+    {
+      "box" : [
+        750,
+        262,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Wit"
+    },
+    {
+      "box" : [
+        320,
+        293,
+        47,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "894"
+    },
+    {
+      "box" : [
+        435,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "938"
+    },
+    {
+      "box" : [
+        541,
+        293,
+        53,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "740"
+    },
+    {
+      "box" : [
+        658,
+        293,
+        47,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "559"
+    },
+    {
+      "box" : [
+        773,
+        293,
+        44,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "635"
+    },
+    {
+      "box" : [
+        306,
+        343,
+        55,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Track"
+    },
+    {
+      "box" : [
+        415,
+        343,
+        36,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Turf"
+    },
+    {
+      "box" : [
+        524,
+        343,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Dirt"
+    },
+    {
+      "box" : [
+        608,
+        375,
+        92,
+        24
+      ],
+      "confidence" : 1,
+      "text" : "Medium A"
+    },
+    {
+      "box" : [
+        298,
+        376,
+        78,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "Distance"
+    },
+    {
+      "box" : [
+        404,
+        376,
+        56,
+        23
+      ],
+      "confidence" : 1,
+      "text" : "Sprint"
+    },
+    {
+      "box" : [
+        519,
+        379,
+        41,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Mile"
+    },
+    {
+      "box" : [
+        731,
+        379,
+        47,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Long"
+    },
+    {
+      "box" : [
+        309,
+        410,
+        50,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Style"
+    },
+    {
+      "box" : [
+        736,
+        410,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "End"
+    },
+    {
+      "box" : [
+        410,
+        413,
+        50,
+        13
+      ],
+      "confidence" : 1,
+      "text" : "Front"
+    },
+    {
+      "box" : [
+        519,
+        413,
+        44,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Pace"
+    },
+    {
+      "box" : [
+        622,
+        413,
+        50,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Late"
+    },
+    {
+      "box" : [
+        343,
+        457,
+        41,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Skills"
+    },
+    {
+      "box" : [
+        510,
+        457,
+        86,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "Inspiration"
+    },
+    {
+      "box" : [
+        697,
+        457,
+        89,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Career Info"
+    },
+    {
+      "box" : [
+        276,
+        519,
+        53,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "Sparks"
+    },
+    {
+      "box" : [
+        373,
+        563,
+        58,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Guts"
+    },
+    {
+      "box" : [
+        608,
+        563,
+        80,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "• Medium"
+    },
+    {
+      "box" : [
+        1467,
+        600,
+        92,
+        36
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "Junge4"
+    },
+    {
+      "box" : [
+        608,
+        609,
+        106,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "• JBC Classic"
+    },
+    {
+      "box" : [
+        376,
+        613,
+        203,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "The Duty of Dignity Calls"
+    },
+    {
+      "box" : [
+        452,
+        630,
+        55,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "***"
+    },
+    {
+      "box" : [
+        680,
+        630,
+        64,
+        19
+      ],
+      "confidence" : 0.30000001192092896,
+      "text" : "***"
+    },
+    {
+      "box" : [
+        613,
+        661,
+        131,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Nimble Navigatc"
+    },
+    {
+      "box" : [
+        376,
+        663,
+        133,
+        14
+      ],
+      "confidence" : 1,
+      "text" : "• Kawasaki Kinen"
+    },
+    {
+      "box" : [
+        385,
+        711,
+        145,
+        16
+      ],
+      "confidence" : 1,
+      "text" : ") Medium Corners O"
+    },
+    {
+      "box" : [
+        619,
+        711,
+        133,
+        33
+      ],
+      "confidence" : 1,
+      "text" : ") Keeping the Leac"
+    },
+    {
+      "box" : [
+        390,
+        761,
+        75,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "Uma Stan"
+    },
+    {
+      "box" : [
+        613,
+        761,
+        139,
+        19
+      ],
+      "confidence" : 1,
+      "text" : "My True Strength"
+    },
+    {
+      "box" : [
+        301,
+        800,
+        100,
+        22
+      ],
+      "confidence" : 1,
+      "text" : "Legacy Origin"
+    },
+    {
+      "box" : [
+        608,
+        845,
+        81,
+        20
+      ],
+      "confidence" : 1,
+      "text" : "• Medium"
+    },
+    {
+      "box" : [
+        376,
+        847,
+        64,
+        14
+      ],
+      "confidence" : 1,
+      "text" : ") Power"
+    },
+    {
+      "box" : [
+        686,
+        865,
+        33,
+        16
+      ],
+      "confidence" : 1,
+      "text" : "**"
+    },
+    {
+      "box" : [
+        611,
+        895,
+        106,
+        17
+      ],
+      "confidence" : 1,
+      "text" : "• NHK Mile C."
+    },
+    {
+      "box" : [
+        382,
+        898,
+        111,
+        16
+      ],
+      "confidence" : 1,
+      "text" : ") Shooting Star"
+    },
+    {
+      "box" : [
+        521,
+        985,
+        61,
+        25
+      ],
+      "confidence" : 1,
+      "text" : "Close"
+    }
+  ],
+  "reference" : [
+    1920,
+    1080
+  ]
+}
