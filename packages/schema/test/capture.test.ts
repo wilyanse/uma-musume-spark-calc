@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { VeteranCapture, RULE, CAPTURE_RULES, checkMasterIds, Ulid } from '../src/index.ts';
+import {
+  VeteranCapture,
+  RULE,
+  CAPTURE_RULES,
+  checkMasterIds,
+  Ulid,
+  OWNED_CARDS_SYNC_RULES,
+} from '../src/index.ts';
 import { baseCapture } from './fixtures.ts';
 
 type Mutate = (c: ReturnType<typeof baseCapture>) => void;
@@ -168,12 +175,14 @@ describe('01 §3 validation: parents', () => {
         guestTrainer: 'Some Trainer',
       });
     }));
-  it('rejects a non-guest parent with a null outfit', () =>
-    fails((c) => (c.veteran.parents[0]!.outfitId = null), RULE.guestShape));
-  it('rejects a guest parent without a guestTrainer', () =>
-    fails((c) => {
+  it('accepts a non-guest parent with a null outfit (01 §3: string | null)', () =>
+    passes((c) => (c.veteran.parents[0]!.outfitId = null)));
+  it('accepts a guest parent with a null guestTrainer (popup not opened)', () =>
+    passes((c) => {
       c.veteran.parents[1]!.isGuest = true;
-    }, RULE.guestShape));
+    }));
+  it('rejects a non-guest parent with a guestTrainer', () =>
+    fails((c) => (c.veteran.parents[0]!.guestTrainer = 'X'), RULE.guestShape));
   it('rejects identical parents', () =>
     fails(
       (c) => (c.veteran.parents[1]!.characterId = c.veteran.parents[0]!.characterId),
@@ -237,6 +246,7 @@ describe('checkMasterIds (01 §3, needs master data)', () => {
     return {
       characters: [v.characterId, ...v.parents.map((p) => p.characterId)],
       outfits: [v.outfitId, ...v.parents.flatMap((p) => (p.outfitId ? [p.outfitId] : []))],
+      ranks: [v.rank],
       skills: v.skills.map((s) => s.skillId),
       sparks: v.sparks.map((s) => s.sparkId),
       cards: v.deck.map((d) => d.cardId),
@@ -251,13 +261,18 @@ describe('checkMasterIds (01 §3, needs master data)', () => {
     idx.cards = [];
     idx.scenarios = [];
     idx.characters = idx.characters.filter((c) => c !== 'character:silence-suzuka');
-    expect(checkMasterIds(baseCapture().veteran, idx)).toEqual([
+    idx.ranks = [];
+    const got = checkMasterIds(baseCapture().veteran, idx);
+    expect(got.map((u) => u.id)).toEqual([
+      baseCapture().veteran.rank,
       'spark:speed',
       'spark:pace',
       'card:example-card',
       'character:silence-suzuka',
       'scenario:ura-finale',
     ]);
+    expect(got.find((u) => u.kind === 'ranks')?.path).toBe('/rank');
+    expect(got.find((u) => u.id === 'card:example-card')?.path).toMatch(/^\/deck\/\d\/cardId$/);
   });
   it('ignores a null guest outfit', () => {
     const v = baseCapture().veteran;
@@ -284,5 +299,12 @@ describe('CAPTURE_RULES (for T09 to mirror)', () => {
     ]);
     for (const r of CAPTURE_RULES) expect(r.message.length).toBeGreaterThan(10);
     for (const key of Object.keys(RULE)) expect(ids).toContain(key);
+  });
+});
+
+describe('OWNED_CARDS_SYNC_RULES (for T11 to mirror)', () => {
+  it('lists cardIdUnique and heldCount', () => {
+    expect(OWNED_CARDS_SYNC_RULES.map((r) => r.id)).toEqual(['cardIdUnique', 'heldCount']);
+    expect(OWNED_CARDS_SYNC_RULES[1].unlessQuery).toBe('partial=1');
   });
 });

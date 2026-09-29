@@ -1,5 +1,11 @@
 import { z } from 'zod';
-import { CaptureField, ParentShape, veteranShape, checkVeteran } from './capture.ts';
+import {
+  CaptureField,
+  OWNED_CARDS_SYNC_RULES,
+  ParentShape,
+  veteranShape,
+  checkVeteran,
+} from './capture.ts';
 import { CardId, Confidence, IsoUtc, NonEmpty, Ulid, Sha256Hex } from './primitives.ts';
 import { ModeSource, TrainMode } from './enums.ts';
 
@@ -25,7 +31,7 @@ export const OwnedCardsSync = z.strictObject({
         if (seen.has(c.cardId)) {
           ctx.addIssue({
             code: 'custom',
-            message: 'duplicate cardId (owned_cards.card_id is the primary key)',
+            message: OWNED_CARDS_SYNC_RULES[0].message,
             path: [i, 'cardId'],
           });
         }
