@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "const": "training-v1"
+    },
+    "masterVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trainedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "nSamples": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "params": {
+      "type": "object",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "perStat": {
+          "type": "object",
+          "properties": {
+            "spd": {
+              "type": "object",
+              "properties": {
+                "coef": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "intercept": {
+                  "type": "number"
+                },
+                "sigma": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "coef",
+                "intercept",
+                "sigma"
+              ],
+              "additionalProperties": false
+            },
+            "sta": {
+              "type": "object",
+              "properties": {
+                "coef": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "intercept": {
+                  "type": "number"
+                },
+                "sigma": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "coef",
+                "intercept",
+                "sigma"
+              ],
+              "additionalProperties": false
+            },
+            "pow": {
+              "type": "object",
+              "properties": {
+                "coef": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "intercept": {
+                  "type": "number"
+                },
+                "sigma": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "coef",
+                "intercept",
+                "sigma"
+              ],
+              "additionalProperties": false
+            },
+            "gut": {
+              "type": "object",
+              "properties": {
+                "coef": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "intercept": {
+                  "type": "number"
+                },
+                "sigma": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "coef",
+                "intercept",
+                "sigma"
+              ],
+              "additionalProperties": false
+            },
+            "wit": {
+              "type": "object",
+              "properties": {
+                "coef": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "intercept": {
+                  "type": "number"
+                },
+                "sigma": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "coef",
+                "intercept",
+                "sigma"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "spd",
+            "sta",
+            "pow",
+            "gut",
+            "wit"
+          ],
+          "additionalProperties": false
+        },
+        "residualCov": {
+          "minItems": 5,
+          "maxItems": 5,
+          "type": "array",
+          "items": {
+            "minItems": 5,
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "skillAcquire": {
+          "type": "object",
+          "properties": {
+            "independent": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "number"
+                  },
+                  "b": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "a",
+                  "b"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "manual": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "number"
+                  },
+                  "b": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "a",
+                  "b"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "independent",
+            "manual"
+          ],
+          "additionalProperties": false
+        },
+        "holdout": {
+          "type": "object",
+          "properties": {
+            "mae": {
+              "type": "object",
+              "properties": {
+                "spd": {
+                  "type": "number"
+                },
+                "sta": {
+                  "type": "number"
+                },
+                "pow": {
+                  "type": "number"
+                },
+                "gut": {
+                  "type": "number"
+                },
+                "wit": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "spd",
+                "sta",
+                "pow",
+                "gut",
+                "wit"
+              ],
+              "additionalProperties": false
+            },
+            "coverage80": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "mae",
+            "coverage80"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "features",
+        "perStat",
+        "residualCov",
+        "skillAcquire",
+        "holdout"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "masterVersion",
+    "trainedAt",
+    "nSamples",
+    "params"
+  ],
+  "additionalProperties": false
+}

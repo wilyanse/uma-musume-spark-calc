@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^character:[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "gameId": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "aliases": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "affinityGroups": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "iconHashes": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[0-9a-f]+$"
+        }
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "aliases",
+      "affinityGroups",
+      "iconHashes"
+    ],
+    "additionalProperties": false
+  }
+}

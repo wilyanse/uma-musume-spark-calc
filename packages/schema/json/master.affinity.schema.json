@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^character:[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          },
+          "points": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "members",
+          "points"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "pairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "a": {
+            "type": "string",
+            "pattern": "^character:[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "b": {
+            "type": "string",
+            "pattern": "^character:[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "points": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "a",
+          "b",
+          "points"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "groups"
+  ],
+  "additionalProperties": false
+}
