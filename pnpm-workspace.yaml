@@ -1,6 +1,9 @@
 packages:
   - "packages/*"
   - "apps/*"
+allowBuilds:
+  esbuild: true
+  workerd: true
 minimumReleaseAgeExclude:
   - '@typescript-eslint/eslint-plugin@8.71.0'
   - '@typescript-eslint/parser@8.71.0'
@@ -13,3 +16,5 @@ minimumReleaseAgeExclude:
   - '@typescript-eslint/utils@8.71.0'
   - '@typescript-eslint/visitor-keys@8.71.0'
   - typescript-eslint@8.71.0
+  - '@cloudflare/workers-types@5.20260929.1'
+  - hono@4.13.11
