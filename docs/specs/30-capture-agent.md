@@ -93,7 +93,7 @@ Blocked on Q-2 (veteran list screenshot). Plan: open each veteran from the list,
 
 ## 10. Acceptance
 - **T09:** `Uma.Agent.Core.Tests` includes one test per fixture that asserts the full parsed output against `agent/tests/fixtures/labels/<fixture>.json`. Field accuracy is ≥ 99% overall; stats, spark stars and LB are 100%. Assembling fixtures 01–07 produces a valid `VeteranCapture` for Mejiro McQueen with 3 spark blocks, 6 deck cards, 2 parents (parent 2 a guest T.M. Opera O) and scenario URA Finale. The fingerprint equals the shared vectors.
-- The labels are written by T09 from the screenshots, then **checked by the user at checkpoint H4** before M2 closes.
+- A missing parent spark block is flagged by a `low_confidence` field with path `/sparks/<owner>` (T01b). The labels are written by T09 from the screenshots, then **checked by the user at checkpoint H4** before M2 closes.
 - **T10:** `dotnet build -p:EnableWindowsTargeting=true` of `Uma.Agent.Windows` succeeds on macOS. The runbook covers the human run: capture 3 veterans on Windows and check them against the web roster.
 - **T11:** parses fixture 13 into 20 cards with correct LB `[2,4,4,4,4 | 0,0,1,0,4 | 0,4,0,4,4 | 0,0,4,4,0]` (row-major).
 

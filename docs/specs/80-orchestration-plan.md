@@ -42,7 +42,23 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Done when:
   - `packages/schema` exports zod schemas and TS types for every contract in 01. `pnpm --filter schema build` writes `json/*.schema.json`.
   - `src/fingerprint.ts` exists, with ≥ 5 hand-built vectors in `test/fingerprint.vectors.json`, including a guest parent, a ◯ skill and a sparks-order permutation that yields the same hash.
-  - `pnpm -r lint typecheck test` passes.
+  - `pnpm -r lint && pnpm -r typecheck && pnpm -r test` passes.
+
+### T01b — Contract hardening (from T01 review)
+- Spec: 01 §1, §3, §4; `docs/reviews/T01-review-1.md` (S2–S8, N4, N5, N6, N8, N9, N10).
+- Owns: `packages/schema/**`, `package.json` (engines only), `.editorconfig`, `eslint.config.js`, `README.md` (the Node version note).
+- Needs: T01.
+- Done when:
+  - **S3:** a missing parent-spark block must be excused by a field with path exactly `/sparks/<owner>` (e.g. `/sparks/parent2`) and status `low_confidence`. Update 01-conformant tests.
+  - **S4:** `CmTarget.id` and `ModelSnapshot.id` are ULIDs.
+  - **S5:** `OwnedCardsSync.cards` has unique `cardId`s and uses `CardId`.
+  - **S6:** `engines.node` is `>=22.18`, with a README note.
+  - **S7:** validate the captures against the exported JSON Schema with pinned ajv (2020 draft).
+  - **N5:** strict ULID regex `^[0-7][0-9A-HJKMNP-TV-Z]{25}$`.
+  - **S2:** export `checkMasterIds(veteran, masterIndex)` → list of unknown IDs, and test it.
+  - **S8:** add the exported `CAPTURE_RULES` descriptor listing the cross-field rules for T09 to mirror.
+  - N6, N8, N9, N10 fixed.
+  - The vectors file keeps the same hashes (canonical form unchanged). S1 stays as is: ◯ can't appear in IDs, so rename that vector `skill-collision-suffix` and correct its note.
 
 ### T02 — App skeletons
 - Spec: 40 §1–2, 60 §1, 65 §2.
@@ -129,13 +145,14 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 ## 5. Status
 | Task | Status | Branch | Changelog | Review |
 |---|---|---|---|---|
-| T01 | Not started | | | |
-| T02 | Not started | | | |
-| T03 | Not started | | | |
+| T01 | Merged | task/T01-monorepo-contracts | T01-monorepo-contracts.md | PASS r1 (8 should-fix → T01b) |
+| T01b | In progress | task/T01b-contract-hardening | | |
+| T02 | In progress | | | |
+| T03 | In progress | | | |
 | T04 | Not started | | | |
 | T05 | Not started | | | |
 | T06 | Not started | | | |
-| T07 | Not started | | | |
+| T07 | In progress | | | |
 | T08 | Not started | | | |
 | T09 | Not started | | | |
 | T10 | Not started | | | |
