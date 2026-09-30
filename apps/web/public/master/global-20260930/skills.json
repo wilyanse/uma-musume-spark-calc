@@ -1,0 +1,7323 @@
+[
+  {
+    "id": "skill:1-500-000-cc",
+    "gameId": 201412,
+    "name": "1,500,000 CC",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "btw",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:114th-time-s-the-charm",
+    "gameId": 110521,
+    "name": "114th Time's the Charm",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:15-000-000-cc",
+    "gameId": 201411,
+    "name": "15,000,000 CC",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "btw",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:1st-place-kiss",
+    "gameId": 10241,
+    "name": "1st Place Kiss☆",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:3d-nail-art",
+    "gameId": 201801,
+    "name": "♡ 3D Nail Art",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:564-escapades",
+    "gameId": 110071,
+    "name": "564 Escapades",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:99-problems",
+    "gameId": 202181,
+    "name": "99 Problems",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 0,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:a-kiss-for-courage",
+    "gameId": 110041,
+    "name": "A Kiss for Courage",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:a-lifelong-dream-a-moment-s-flight",
+    "gameId": 100711,
+    "name": "A Lifelong Dream, A Moment's Flight",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:a-princess-must-seize-victory",
+    "gameId": 100391,
+    "name": "A Princess Must Seize Victory!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:a-small-breather",
+    "gameId": 201422,
+    "name": "A Small Breather",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:acceleration",
+    "gameId": 201062,
+    "name": "Acceleration",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:adored-by-all",
+    "gameId": 201011,
+    "name": "Adored by All",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "dbf",
+      "l_0",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:adrenaline-rush",
+    "gameId": 200761,
+    "name": "Adrenaline Rush",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:after-school-stroll",
+    "gameId": 201482,
+    "name": "After-School Stroll",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "cha",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:all-charged-it-s-go-time",
+    "gameId": 100311,
+    "name": "All Charged! It's Go Time!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:all-i-ve-got",
+    "gameId": 201702,
+    "name": "All I've Got",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "l_3",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:all-seeing-eyes",
+    "gameId": 201441,
+    "name": "All-Seeing Eyes",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "dbf",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:all-set",
+    "gameId": 202192,
+    "name": "All Set",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "ldr",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:ambition-to-surpass-the-sakura",
+    "gameId": 100691,
+    "name": "Ambition to Surpass the Sakura",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ambitious-breeze",
+    "gameId": 202411,
+    "name": "Ambitious Breeze",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:anchors-aweigh",
+    "gameId": 100071,
+    "name": "Anchors Aweigh!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:angling-and-scheming",
+    "gameId": 100201,
+    "name": "Angling and Scheming",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:arrows-whistle-shadows-disperse",
+    "gameId": 110171,
+    "name": "Arrows Whistle, Shadows Disperse",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:as-a-friend-and-rival",
+    "gameId": 300091,
+    "name": "As a Friend and Rival",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:aspire",
+    "gameId": 202412,
+    "name": "Aspire",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:barcarole-of-blessings",
+    "gameId": 110151,
+    "name": "Barcarole of Blessings",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:battle-formation",
+    "gameId": 201091,
+    "name": "Battle Formation",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_0",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:be-still",
+    "gameId": 201692,
+    "name": "Be Still",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_0"
+    ]
+  },
+  {
+    "id": "skill:be-the-center",
+    "gameId": 202311,
+    "name": "Be the Center!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:beast-mode",
+    "gameId": 202481,
+    "name": "Beast Mode",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "ldr",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:beeline-burst",
+    "gameId": 200361,
+    "name": "Beeline Burst",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:behold-thine-emperor-s-divine-might",
+    "gameId": 100171,
+    "name": "Behold Thine Emperor's Divine Might",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:best-day-ever",
+    "gameId": 110221,
+    "name": "Best Day Ever",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:best-in-japan",
+    "gameId": 202061,
+    "name": "Best in Japan",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 360,
+    "tags": [
+      "f_c",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:big-sisterly",
+    "gameId": 201071,
+    "name": "Big-Sisterly",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:blast-forward",
+    "gameId": 201173,
+    "name": "Blast Forward",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "lng",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:blatant-fear",
+    "gameId": 300051,
+    "name": "Blatant Fear",
+    "aliases": [],
+    "rarity": "gold",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:blazing-pride",
+    "gameId": 100181,
+    "name": "Blazing Pride",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:blinding-flash",
+    "gameId": 200671,
+    "name": "Blinding Flash",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:blue-rose-closer",
+    "gameId": 100301,
+    "name": "Blue Rose Closer",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:bountiful-harvest",
+    "gameId": 110561,
+    "name": "Bountiful Harvest",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:break-it-down",
+    "gameId": 110201,
+    "name": "Break It Down!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_2",
+      "l_3",
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:breakin-ahead",
+    "gameId": 202381,
+    "name": "Breakin' Ahead",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:breakin-out",
+    "gameId": 202382,
+    "name": "Breakin' Out",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:breath-of-fresh-air",
+    "gameId": 200381,
+    "name": "Breath of Fresh Air",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:budding-blossom",
+    "gameId": 100511,
+    "name": "Budding Blossom",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "l_2",
+      "l_3",
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:burning-soul",
+    "gameId": 202091,
+    "name": "Burning Soul",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:burning-spirit-guts",
+    "gameId": 210041,
+    "name": "Burning Spirit GUTS",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:burning-spirit-pwr",
+    "gameId": 210031,
+    "name": "Burning Spirit PWR",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:burning-spirit-spd",
+    "gameId": 210011,
+    "name": "Burning Spirit SPD",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:burning-spirit-sta",
+    "gameId": 210021,
+    "name": "Burning Spirit STA",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:burning-spirit-wit",
+    "gameId": 210051,
+    "name": "Burning Spirit WIT",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:call-me-king",
+    "gameId": 10611,
+    "name": "Call Me King",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:calm-and-collected",
+    "gameId": 200561,
+    "name": "Calm and Collected",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_0",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:calm-in-a-crowd",
+    "gameId": 200482,
+    "name": "Calm in a Crowd",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:can-t-even-catch-my-shadow",
+    "gameId": 202461,
+    "name": "Can't Even Catch My Shadow",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "run"
+    ]
+  },
+  {
+    "id": "skill:can-t-keep-me-down",
+    "gameId": 202271,
+    "name": "Can't Keep Me Down",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:carnival-bonus",
+    "gameId": 1000011,
+    "name": "Carnival Bonus",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:carnival-bonus-2",
+    "gameId": 1000012,
+    "name": "Carnival Bonus",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:catch-em-off-guard",
+    "gameId": 202361,
+    "name": "Catch 'Em Off Guard",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "dbf",
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:center-stage",
+    "gameId": 200451,
+    "name": "Center Stage",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:certain-victory",
+    "gameId": 110031,
+    "name": "Certain Victory",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:chance-of-victory",
+    "gameId": 202261,
+    "name": "Chance of Victory",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:changing-gears",
+    "gameId": 201051,
+    "name": "Changing Gears",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:chasing-after-you",
+    "gameId": 100251,
+    "name": "Chasing After You",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "dbf",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:cheers-of-a-fellow-dreamer",
+    "gameId": 300101,
+    "name": "Cheers of a Fellow Dreamer",
+    "aliases": [],
+    "rarity": "gold",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:chin-up-derby-umamusume",
+    "gameId": 300111,
+    "name": "Chin Up, Derby Umamusume!",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:chukyo-racecourse",
+    "gameId": 200071,
+    "name": "Chukyo Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:chukyo-racecourse-2",
+    "gameId": 200072,
+    "name": "Chukyo Racecourse ◯",
+    "aliases": [
+      "Chukyo Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:chukyo-racecourse-3",
+    "gameId": 200073,
+    "name": "Chukyo Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:clairvoyance",
+    "gameId": 201121,
+    "name": "Clairvoyance",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 110,
+    "tags": [
+      "l_0",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:class-rep-speed-bakushin",
+    "gameId": 10411,
+    "name": "Class Rep + Speed = Bakushin",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:claw-forward",
+    "gameId": 202421,
+    "name": "Claw Forward",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:clear-heart",
+    "gameId": 10451,
+    "name": "Clear Heart",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:cloudy-days",
+    "gameId": 200221,
+    "name": "Cloudy Days ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:cloudy-days-2",
+    "gameId": 200222,
+    "name": "Cloudy Days ◯",
+    "aliases": [
+      "Cloudy Days ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:collaborative-graded-races",
+    "gameId": 202251,
+    "name": "Collaborative Graded Races ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:collaborative-graded-races-2",
+    "gameId": 202252,
+    "name": "Collaborative Graded Races ◯",
+    "aliases": [
+      "Collaborative Graded Races ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:collaborative-graded-races-3",
+    "gameId": 202253,
+    "name": "Collaborative Graded Races ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:come-what-may",
+    "gameId": 201701,
+    "name": "Come What May",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "l_3",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:comeback",
+    "gameId": 202272,
+    "name": "Comeback",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:competitive-spirit",
+    "gameId": 200281,
+    "name": "Competitive Spirit ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:competitive-spirit-2",
+    "gameId": 200282,
+    "name": "Competitive Spirit ◯",
+    "aliases": [
+      "Competitive Spirit ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:concentration",
+    "gameId": 200431,
+    "name": "Concentration",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 140,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:condor-s-fury",
+    "gameId": 110141,
+    "name": "Condor's Fury",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:cooldown",
+    "gameId": 200741,
+    "name": "Cooldown",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:coraz-n-ardiente",
+    "gameId": 10141,
+    "name": "Corazón ☆ Ardiente",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:corner-acceleration",
+    "gameId": 200342,
+    "name": "Corner Acceleration ◯",
+    "aliases": [
+      "Corner Acceleration ○"
+    ],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:corner-acceleration-2",
+    "gameId": 200343,
+    "name": "Corner Acceleration ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:corner-adept",
+    "gameId": 200332,
+    "name": "Corner Adept ◯",
+    "aliases": [
+      "Corner Adept ○"
+    ],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:corner-adept-2",
+    "gameId": 200333,
+    "name": "Corner Adept ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:corner-connoisseur",
+    "gameId": 200341,
+    "name": "Corner Connoisseur",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:corner-recovery",
+    "gameId": 200352,
+    "name": "Corner Recovery ◯",
+    "aliases": [
+      "Corner Recovery ○"
+    ],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "cor",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:corner-recovery-2",
+    "gameId": 200353,
+    "name": "Corner Recovery ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "cor",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:countermeasure",
+    "gameId": 200992,
+    "name": "Countermeasure",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:creeping-anxiety",
+    "gameId": 300041,
+    "name": "Creeping Anxiety",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:crusader",
+    "gameId": 201501,
+    "name": "Crusader",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 110,
+    "tags": [
+      "cha",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:crystal-clear",
+    "gameId": 202291,
+    "name": "Crystal Clear",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:cut-and-drive",
+    "gameId": 100081,
+    "name": "Cut and Drive!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:dancer-in-the-dirt",
+    "gameId": 202301,
+    "name": "Dancer in the Dirt",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:dancing-in-the-leaves",
+    "gameId": 110401,
+    "name": "Dancing in the Leaves",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:daring-strike",
+    "gameId": 202021,
+    "name": "Daring Strike",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:dauntless",
+    "gameId": 202121,
+    "name": "Dauntless",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:dazzl-n-diver",
+    "gameId": 110011,
+    "name": "Dazzl'n ♪ Diver",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:dazzling-disorientation",
+    "gameId": 201371,
+    "name": "Dazzling Disorientation",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 110,
+    "tags": [
+      "dbf",
+      "l_2",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:deep-breaths",
+    "gameId": 200742,
+    "name": "Deep Breaths",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:defeatist",
+    "gameId": 200411,
+    "name": "Defeatist",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:determined-descent",
+    "gameId": 201341,
+    "name": "Determined Descent",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "ldr",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:dirt-race-enthusiast",
+    "gameId": 1200051,
+    "name": "Dirt Race Enthusiast",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "dir",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:disorient",
+    "gameId": 201372,
+    "name": "Disorient",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "dbf",
+      "l_2",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:dodging-danger",
+    "gameId": 201262,
+    "name": "Dodging Danger",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "l_0",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:dominator",
+    "gameId": 201151,
+    "name": "Dominator",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_2",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:down-in-the-dirt",
+    "gameId": 202302,
+    "name": "Down in the Dirt ◯",
+    "aliases": [
+      "Down in the Dirt ○"
+    ],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:down-in-the-dirt-2",
+    "gameId": 202303,
+    "name": "Down in the Dirt ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:downhill-speedster",
+    "gameId": 202172,
+    "name": "Downhill Speedster",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "nac",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:dream-run",
+    "gameId": 300061,
+    "name": "Dream Run",
+    "aliases": [],
+    "rarity": "gold",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:dreams-donned-with-pride",
+    "gameId": 120011,
+    "name": "Dreams Donned with Pride!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:dust-cloud",
+    "gameId": 202352,
+    "name": "Dust Cloud",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "dbf",
+      "dir",
+      "l_0"
+    ]
+  },
+  {
+    "id": "skill:dust-cloud-idol",
+    "gameId": 202351,
+    "name": "Dust Cloud Idol",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "dbf",
+      "dir",
+      "l_0"
+    ]
+  },
+  {
+    "id": "skill:eager",
+    "gameId": 202102,
+    "name": "Eager",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:early-lead",
+    "gameId": 200532,
+    "name": "Early Lead",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "run"
+    ]
+  },
+  {
+    "id": "skill:early-start",
+    "gameId": 202022,
+    "name": "Early Start",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:elated",
+    "gameId": 202101,
+    "name": "Elated",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:empress-s-pride",
+    "gameId": 10181,
+    "name": "Empress's Pride",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:encroaching-shadow",
+    "gameId": 200641,
+    "name": "Encroaching Shadow",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:end-closer-corners",
+    "gameId": 201461,
+    "name": "End Closer Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "cha",
+      "cor"
+    ]
+  },
+  {
+    "id": "skill:end-closer-corners-2",
+    "gameId": 201462,
+    "name": "End Closer Corners ◯",
+    "aliases": [
+      "End Closer Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "cha",
+      "cor"
+    ]
+  },
+  {
+    "id": "skill:end-closer-savvy",
+    "gameId": 201551,
+    "name": "End Closer Savvy ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "cha"
+    ]
+  },
+  {
+    "id": "skill:end-closer-savvy-2",
+    "gameId": 201552,
+    "name": "End Closer Savvy ◯",
+    "aliases": [
+      "End Closer Savvy ○"
+    ],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "cha"
+    ]
+  },
+  {
+    "id": "skill:end-closer-straightaways",
+    "gameId": 201451,
+    "name": "End Closer Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "cha",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:end-closer-straightaways-2",
+    "gameId": 201452,
+    "name": "End Closer Straightaways ◯",
+    "aliases": [
+      "End Closer Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "cha",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:escape-artist",
+    "gameId": 200541,
+    "name": "Escape Artist",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:eternal-encompassing-shine",
+    "gameId": 100671,
+    "name": "Eternal Encompassing Shine",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:eternal-moments",
+    "gameId": 110181,
+    "name": "Eternal Moments",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:every-rose-has-its-fangs",
+    "gameId": 110301,
+    "name": "Every Rose Has Its Fangs",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:extra-tank",
+    "gameId": 200762,
+    "name": "Extra Tank",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:eyes-on-the-goal",
+    "gameId": 210082,
+    "name": "Eyes on the Goal",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fairy-tale",
+    "gameId": 100221,
+    "name": "Fairy Tale",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fall-frenzy",
+    "gameId": 200194,
+    "name": "Fall Frenzy",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 130,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fall-runner",
+    "gameId": 200191,
+    "name": "Fall Runner ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fall-runner-2",
+    "gameId": 200192,
+    "name": "Fall Runner ◯",
+    "aliases": [
+      "Fall Runner ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fall-runner-3",
+    "gameId": 200193,
+    "name": "Fall Runner ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:familiar-ground",
+    "gameId": 202002,
+    "name": "Familiar Ground",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:fast-furious",
+    "gameId": 200591,
+    "name": "Fast & Furious",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:fast-paced",
+    "gameId": 200542,
+    "name": "Fast-Paced",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:fearless",
+    "gameId": 202122,
+    "name": "Fearless",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:feature-act",
+    "gameId": 202012,
+    "name": "Feature Act",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:feel-the-burn",
+    "gameId": 10271,
+    "name": "Feel the Burn!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:feelin-a-bit-silly",
+    "gameId": 1100011,
+    "name": "Feelin' a Bit Silly",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:festive-miracle",
+    "gameId": 110061,
+    "name": "Festive Miracle",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fighter",
+    "gameId": 201402,
+    "name": "Fighter",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:fighting-spirit",
+    "gameId": 202092,
+    "name": "Fighting Spirit",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:final-push",
+    "gameId": 200552,
+    "name": "Final Push",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "f_c",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:firelight",
+    "gameId": 110341,
+    "name": "Firelight",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:firm-conditions",
+    "gameId": 200151,
+    "name": "Firm Conditions ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:firm-conditions-2",
+    "gameId": 200152,
+    "name": "Firm Conditions ◯",
+    "aliases": [
+      "Firm Conditions ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:firm-conditions-3",
+    "gameId": 200153,
+    "name": "Firm Conditions ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:firm-course-menace",
+    "gameId": 200154,
+    "name": "Firm Course Menace",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 130,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:firm-resolve",
+    "gameId": 202462,
+    "name": "Firm Resolve",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "run"
+    ]
+  },
+  {
+    "id": "skill:flash-forward",
+    "gameId": 201103,
+    "name": "Flash Forward",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "med",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:flashy-landing",
+    "gameId": 100241,
+    "name": "Flashy☆Landing",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:flowery-maneuver",
+    "gameId": 110241,
+    "name": "Flowery☆Maneuver",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:flustered-end-closers",
+    "gameId": 200931,
+    "name": "Flustered End Closers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:flustered-front-runners",
+    "gameId": 200841,
+    "name": "Flustered Front Runners",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:flustered-late-surgers",
+    "gameId": 200901,
+    "name": "Flustered Late Surgers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:flustered-pace-chasers",
+    "gameId": 200871,
+    "name": "Flustered Pace Chasers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:focus",
+    "gameId": 200432,
+    "name": "Focus",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:focused-mind",
+    "gameId": 10111,
+    "name": "Focused Mind",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:for-the-team",
+    "gameId": 300121,
+    "name": "For the Team",
+    "aliases": [],
+    "rarity": "gold",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:forward-march",
+    "gameId": 201682,
+    "name": "Forward, March!",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "dir",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:free-spirited",
+    "gameId": 202072,
+    "name": "Free-Spirited",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:frenzied-end-closers",
+    "gameId": 200821,
+    "name": "Frenzied End Closers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:frenzied-front-runners",
+    "gameId": 200791,
+    "name": "Frenzied Front Runners",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:frenzied-late-surgers",
+    "gameId": 200811,
+    "name": "Frenzied Late Surgers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:frenzied-pace-chasers",
+    "gameId": 200801,
+    "name": "Frenzied Pace Chasers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:from-the-brink",
+    "gameId": 202081,
+    "name": "From the Brink",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:front-runner-corners",
+    "gameId": 201251,
+    "name": "Front Runner Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "cor",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:front-runner-corners-2",
+    "gameId": 201252,
+    "name": "Front Runner Corners ◯",
+    "aliases": [
+      "Front Runner Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "cor",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:front-runner-savvy",
+    "gameId": 201521,
+    "name": "Front Runner Savvy ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "run"
+    ]
+  },
+  {
+    "id": "skill:front-runner-savvy-2",
+    "gameId": 201522,
+    "name": "Front Runner Savvy ◯",
+    "aliases": [
+      "Front Runner Savvy ○"
+    ],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "run"
+    ]
+  },
+  {
+    "id": "skill:front-runner-straightaways",
+    "gameId": 201241,
+    "name": "Front Runner Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "run",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:front-runner-straightaways-2",
+    "gameId": 201242,
+    "name": "Front Runner Straightaways ◯",
+    "aliases": [
+      "Front Runner Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "run",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:fukushima-racecourse",
+    "gameId": 200101,
+    "name": "Fukushima Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fukushima-racecourse-2",
+    "gameId": 200102,
+    "name": "Fukushima Racecourse ◯",
+    "aliases": [
+      "Fukushima Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:fukushima-racecourse-3",
+    "gameId": 200103,
+    "name": "Fukushima Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:full-of-vigor",
+    "gameId": 202111,
+    "name": "Full of Vigor",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "f_c",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:full-speed",
+    "gameId": 202281,
+    "name": "Full Speed!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_3"
+    ]
+  },
+  {
+    "id": "skill:full-throttle",
+    "gameId": 202152,
+    "name": "Full Throttle",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:full-tilt",
+    "gameId": 202282,
+    "name": "Full Tilt",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_3"
+    ]
+  },
+  {
+    "id": "skill:funabashi-racecourse",
+    "gameId": 202211,
+    "name": "Funabashi Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:funabashi-racecourse-2",
+    "gameId": 202212,
+    "name": "Funabashi Racecourse ◯",
+    "aliases": [
+      "Funabashi Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:funabashi-racecourse-3",
+    "gameId": 202213,
+    "name": "Funabashi Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:furious-feat",
+    "gameId": 200701,
+    "name": "Furious Feat",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:g00-1st-f",
+    "gameId": 100261,
+    "name": "G00 1st. F∞;",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:g1-averseness",
+    "gameId": 200311,
+    "name": "G1 Averseness",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:gap-closer",
+    "gameId": 200672,
+    "name": "Gap Closer",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:gatekept",
+    "gameId": 200433,
+    "name": "Gatekept",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:genius-x-bakushin-victory",
+    "gameId": 100411,
+    "name": "Genius x Bakushin = Victory",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:give-mummy-a-hug",
+    "gameId": 110451,
+    "name": "Give Mummy a Hug ♡",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:givin-it-1000",
+    "gameId": 202391,
+    "name": "Givin' It 1000%",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:glittering-star",
+    "gameId": 210062,
+    "name": "Glittering Star",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:go-go-goal",
+    "gameId": 110601,
+    "name": "Go☆Go☆Goal!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:go-go-mun",
+    "gameId": 100621,
+    "name": "Go, Go, Mun!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:go-home-specialist",
+    "gameId": 201481,
+    "name": "Go-Home Specialist",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "cha",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:go-with-the-flow",
+    "gameId": 200502,
+    "name": "Go with the Flow",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:got-the-spirit",
+    "gameId": 202312,
+    "name": "Got the Spirit!",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:gourmand",
+    "gameId": 201351,
+    "name": "Gourmand",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:greed-for-speed",
+    "gameId": 201081,
+    "name": "Greed for Speed",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:groundwork",
+    "gameId": 201601,
+    "name": "Groundwork",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:guten-appetit",
+    "gameId": 110371,
+    "name": "Guten Appetit ♪",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hakodate-racecourse",
+    "gameId": 200091,
+    "name": "Hakodate Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hakodate-racecourse-2",
+    "gameId": 200092,
+    "name": "Hakodate Racecourse ◯",
+    "aliases": [
+      "Hakodate Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hakodate-racecourse-3",
+    "gameId": 200093,
+    "name": "Hakodate Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hanshin-racecourse",
+    "gameId": 200051,
+    "name": "Hanshin Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hanshin-racecourse-2",
+    "gameId": 200052,
+    "name": "Hanshin Racecourse ◯",
+    "aliases": [
+      "Hanshin Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hanshin-racecourse-3",
+    "gameId": 200053,
+    "name": "Hanshin Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hard-worker",
+    "gameId": 201401,
+    "name": "Hard Worker",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:hawkeye",
+    "gameId": 201122,
+    "name": "Hawkeye",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "l_0",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:head-on",
+    "gameId": 201902,
+    "name": "Head-On",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:headliner",
+    "gameId": 202011,
+    "name": "Headliner",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:heart-all-set",
+    "gameId": 202191,
+    "name": "Heart All Set",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "ldr",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:hephaestus",
+    "gameId": 110501,
+    "name": "Hephaestus",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hesitant-end-closers",
+    "gameId": 200941,
+    "name": "Hesitant End Closers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hesitant-front-runners",
+    "gameId": 200851,
+    "name": "Hesitant Front Runners",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hesitant-late-surgers",
+    "gameId": 200911,
+    "name": "Hesitant Late Surgers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hesitant-pace-chasers",
+    "gameId": 200881,
+    "name": "Hesitant Pace Chasers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:highlander",
+    "gameId": 201581,
+    "name": "Highlander",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "nac",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:hoiya-have-a-good-run",
+    "gameId": 300081,
+    "name": "Hoiya! Have a Good Run!",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:homestretch-haste",
+    "gameId": 200512,
+    "name": "Homestretch Haste",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:hot-pursuit",
+    "gameId": 202471,
+    "name": "Hot Pursuit",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:huge-lead",
+    "gameId": 200982,
+    "name": "Huge Lead",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:hydrate",
+    "gameId": 201352,
+    "name": "Hydrate",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:i-can-see-right-through-you",
+    "gameId": 201472,
+    "name": "I Can See Right Through You",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "cha"
+    ]
+  },
+  {
+    "id": "skill:i-can-win-sometimes-right",
+    "gameId": 10601,
+    "name": "I Can Win Sometimes, Right?",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:i-m-possible",
+    "gameId": 100421,
+    "name": "I'm Possible!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:i-never-goof-up",
+    "gameId": 100581,
+    "name": "I Never Goof Up!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:i-see-victory-in-my-future",
+    "gameId": 100561,
+    "name": "I See Victory in My Future!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:i-wanna-win-with-you",
+    "gameId": 210071,
+    "name": "I Wanna Win with You",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ignited-spirit-guts",
+    "gameId": 210042,
+    "name": "Ignited Spirit GUTS",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ignited-spirit-pwr",
+    "gameId": 210032,
+    "name": "Ignited Spirit PWR",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ignited-spirit-spd",
+    "gameId": 210012,
+    "name": "Ignited Spirit SPD",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ignited-spirit-sta",
+    "gameId": 210022,
+    "name": "Ignited Spirit STA",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ignited-spirit-wit",
+    "gameId": 210052,
+    "name": "Ignited Spirit WIT",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:illusionist",
+    "gameId": 201231,
+    "name": "Illusionist",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 110,
+    "tags": [
+      "dbf",
+      "l_2",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:in-body-and-mind",
+    "gameId": 200511,
+    "name": "In Body and Mind",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:in-high-spirits",
+    "gameId": 202041,
+    "name": "In High Spirits",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:indomitable",
+    "gameId": 200471,
+    "name": "Indomitable",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:indomitable-2",
+    "gameId": 300141,
+    "name": "Indomitable",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:innate-experience",
+    "gameId": 200751,
+    "name": "Innate Experience",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "cor",
+      "f_c",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:inner-post-averseness",
+    "gameId": 200253,
+    "name": "Inner Post Averseness",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:inner-post-proficiency",
+    "gameId": 200251,
+    "name": "Inner Post Proficiency ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:inner-post-proficiency-2",
+    "gameId": 200252,
+    "name": "Inner Post Proficiency ◯",
+    "aliases": [
+      "Inner Post Proficiency ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:inside-scoop",
+    "gameId": 200752,
+    "name": "Inside Scoop",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "cor",
+      "f_c",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:intense-gaze",
+    "gameId": 201512,
+    "name": "Intense Gaze",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "dbf",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:intimidate",
+    "gameId": 201012,
+    "name": "Intimidate",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "dbf",
+      "l_0",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:into-high-gear",
+    "gameId": 110081,
+    "name": "Into High Gear!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:introduction-to-physiology",
+    "gameId": 10321,
+    "name": "Introduction to Physiology",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:iron-will",
+    "gameId": 200441,
+    "name": "Iron Will",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_0",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:it-s-on",
+    "gameId": 200461,
+    "name": "It's On!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:joyful-voyage",
+    "gameId": 110101,
+    "name": "Joyful Voyage!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:just-a-little-farther",
+    "gameId": 100601,
+    "name": "Just a Little Farther!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kawasaki-racecourse",
+    "gameId": 202201,
+    "name": "Kawasaki Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kawasaki-racecourse-2",
+    "gameId": 202202,
+    "name": "Kawasaki Racecourse ◯",
+    "aliases": [
+      "Kawasaki Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kawasaki-racecourse-3",
+    "gameId": 202203,
+    "name": "Kawasaki Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:keen-eye",
+    "gameId": 200691,
+    "name": "Keen Eye",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_0",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:keep-going",
+    "gameId": 202151,
+    "name": "Keep Going!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:keep-it-real",
+    "gameId": 100401,
+    "name": "KEEP IT REAL.",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:keep-pushing-ahead",
+    "gameId": 100641,
+    "name": "Keep Pushing Ahead",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:keeping-the-lead",
+    "gameId": 201192,
+    "name": "Keeping the Lead",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:killer-tunes",
+    "gameId": 200721,
+    "name": "Killer Tunes",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:kokura-racecourse",
+    "gameId": 200121,
+    "name": "Kokura Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kokura-racecourse-2",
+    "gameId": 200122,
+    "name": "Kokura Racecourse ◯",
+    "aliases": [
+      "Kokura Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kokura-racecourse-3",
+    "gameId": 200123,
+    "name": "Kokura Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kyoto-racecourse",
+    "gameId": 200061,
+    "name": "Kyoto Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kyoto-racecourse-2",
+    "gameId": 200062,
+    "name": "Kyoto Racecourse ◯",
+    "aliases": [
+      "Kyoto Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:kyoto-racecourse-3",
+    "gameId": 200063,
+    "name": "Kyoto Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:lane-legerdemain",
+    "gameId": 200501,
+    "name": "Lane Legerdemain",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "l_2",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:latch-on",
+    "gameId": 202472,
+    "name": "Latch On",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:late-surger-corners",
+    "gameId": 201391,
+    "name": "Late Surger Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "btw",
+      "cor"
+    ]
+  },
+  {
+    "id": "skill:late-surger-corners-2",
+    "gameId": 201392,
+    "name": "Late Surger Corners ◯",
+    "aliases": [
+      "Late Surger Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "btw",
+      "cor"
+    ]
+  },
+  {
+    "id": "skill:late-surger-savvy",
+    "gameId": 201541,
+    "name": "Late Surger Savvy ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:late-surger-savvy-2",
+    "gameId": 201542,
+    "name": "Late Surger Savvy ◯",
+    "aliases": [
+      "Late Surger Savvy ○"
+    ],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:late-surger-straightaways",
+    "gameId": 201381,
+    "name": "Late Surger Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "btw",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:late-surger-straightaways-2",
+    "gameId": 201382,
+    "name": "Late Surger Straightaways ◯",
+    "aliases": [
+      "Late Surger Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "btw",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:laugh-at-the-odds",
+    "gameId": 100491,
+    "name": "Laugh at the Odds",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:lay-low",
+    "gameId": 200442,
+    "name": "Lay Low",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_0",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:lead-the-charge",
+    "gameId": 201681,
+    "name": "Lead the Charge!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 140,
+    "tags": [
+      "dir",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:leader-s-pride",
+    "gameId": 201272,
+    "name": "Leader's Pride",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_0",
+      "l_1",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:leap-forward",
+    "gameId": 202402,
+    "name": "Leap Forward",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "l_3",
+      "mil",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:left-handed",
+    "gameId": 200021,
+    "name": "Left-Handed ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:left-handed-2",
+    "gameId": 200022,
+    "name": "Left-Handed ◯",
+    "aliases": [
+      "Left-Handed ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:left-handed-3",
+    "gameId": 200023,
+    "name": "Left-Handed ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:legacy-of-the-strong",
+    "gameId": 110131,
+    "name": "Legacy of the Strong",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:let-s-pump-some-iron",
+    "gameId": 100271,
+    "name": "Let's Pump Some Iron!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:levelheaded",
+    "gameId": 201492,
+    "name": "Levelheaded",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cha"
+    ]
+  },
+  {
+    "id": "skill:lie-in-wait",
+    "gameId": 201691,
+    "name": "Lie in Wait",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_0"
+    ]
+  },
+  {
+    "id": "skill:light-as-a-feather",
+    "gameId": 202042,
+    "name": "Light as a Feather",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:lightning-flare",
+    "gameId": 110211,
+    "name": "Lightning Flare",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:lightning-step",
+    "gameId": 201131,
+    "name": "Lightning Step",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 140,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:lightning-surge",
+    "gameId": 202401,
+    "name": "Lightning Surge",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "l_3",
+      "mil",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:lights-of-vaudeville",
+    "gameId": 100051,
+    "name": "Lights of Vaudeville",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:lone-wolf",
+    "gameId": 201641,
+    "name": "Lone Wolf",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:long-corners",
+    "gameId": 201181,
+    "name": "Long Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "cor",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:long-corners-2",
+    "gameId": 201182,
+    "name": "Long Corners ◯",
+    "aliases": [
+      "Long Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "cor",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:long-race-enthusiast",
+    "gameId": 1200021,
+    "name": "Long Race Enthusiast",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "lng",
+      "tur"
+    ]
+  },
+  {
+    "id": "skill:long-shot",
+    "gameId": 200301,
+    "name": "Long Shot ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:long-shot-2",
+    "gameId": 200302,
+    "name": "Long Shot ◯",
+    "aliases": [
+      "Long Shot ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:long-straightaways",
+    "gameId": 201171,
+    "name": "Long Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "lng",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:long-straightaways-2",
+    "gameId": 201172,
+    "name": "Long Straightaways ◯",
+    "aliases": [
+      "Long Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "lng",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:lookatcurren",
+    "gameId": 100381,
+    "name": "#LookatCurren",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:louder-tracen-cheer",
+    "gameId": 110611,
+    "name": "Louder! Tracen Cheer!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:lovely-spring-breeze",
+    "gameId": 100741,
+    "name": "Lovely Spring Breeze",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:luck-be-with-me",
+    "gameId": 10561,
+    "name": "Luck Be with Me!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:luck-runs-my-way",
+    "gameId": 100981,
+    "name": "Luck Runs My Way",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:lucky-seven",
+    "gameId": 201562,
+    "name": "Lucky Seven",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:mad-dash",
+    "gameId": 202392,
+    "name": "Mad Dash",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:maestro-of-the-mud",
+    "gameId": 202341,
+    "name": "Maestro of the Mud",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 130,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:master-of-the-sands",
+    "gameId": 202001,
+    "name": "Master of the Sands",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:masterful-gambit",
+    "gameId": 200632,
+    "name": "Masterful Gambit",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_3"
+    ]
+  },
+  {
+    "id": "skill:maverick",
+    "gameId": 200271,
+    "name": "Maverick ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:maverick-2",
+    "gameId": 200272,
+    "name": "Maverick ◯",
+    "aliases": [
+      "Maverick ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:medium-corners",
+    "gameId": 201111,
+    "name": "Medium Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "cor",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:medium-corners-2",
+    "gameId": 201112,
+    "name": "Medium Corners ◯",
+    "aliases": [
+      "Medium Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "cor",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:medium-race-enthusiast",
+    "gameId": 1200011,
+    "name": "Medium Race Enthusiast",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "med",
+      "tur"
+    ]
+  },
+  {
+    "id": "skill:medium-straightaways",
+    "gameId": 201101,
+    "name": "Medium Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "med",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:medium-straightaways-2",
+    "gameId": 201102,
+    "name": "Medium Straightaways ◯",
+    "aliases": [
+      "Medium Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "med",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:meticulous-measures",
+    "gameId": 201002,
+    "name": "Meticulous Measures",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:mile-corners",
+    "gameId": 201041,
+    "name": "Mile Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "cor",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:mile-corners-2",
+    "gameId": 201042,
+    "name": "Mile Corners ◯",
+    "aliases": [
+      "Mile Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "cor",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:mile-maven",
+    "gameId": 200681,
+    "name": "Mile Maven",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_0",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:mile-race-enthusiast",
+    "gameId": 1200031,
+    "name": "Mile Race Enthusiast",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "mil",
+      "tur"
+    ]
+  },
+  {
+    "id": "skill:mile-straightaways",
+    "gameId": 201031,
+    "name": "Mile Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "mil",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:mile-straightaways-2",
+    "gameId": 201032,
+    "name": "Mile Straightaways ◯",
+    "aliases": [
+      "Mile Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "mil",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:miraculous-step",
+    "gameId": 201141,
+    "name": "Miraculous Step",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "med"
+    ]
+  },
+  {
+    "id": "skill:moonlit-flash",
+    "gameId": 201453,
+    "name": "Moonlit Flash",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "cha",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:morioka-racecourse",
+    "gameId": 202221,
+    "name": "Morioka Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:morioka-racecourse-2",
+    "gameId": 202222,
+    "name": "Morioka Racecourse ◯",
+    "aliases": [
+      "Morioka Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:morioka-racecourse-3",
+    "gameId": 202223,
+    "name": "Morioka Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:moving-past-and-beyond",
+    "gameId": 100591,
+    "name": "Moving Past, and Beyond",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "l_1",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:moxie",
+    "gameId": 201282,
+    "name": "Moxie",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "run",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:muddy",
+    "gameId": 202342,
+    "name": "Muddy ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:muddy-2",
+    "gameId": 202343,
+    "name": "Muddy ◯",
+    "aliases": [
+      "Muddy ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:muddy-3",
+    "gameId": 202344,
+    "name": "Muddy ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:murmur",
+    "gameId": 201162,
+    "name": "Murmur",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:my-true-strength",
+    "gameId": 202482,
+    "name": "My True Strength",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "ldr",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:mystifying-murmur",
+    "gameId": 201161,
+    "name": "Mystifying Murmur",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:nakayama-racecourse",
+    "gameId": 200041,
+    "name": "Nakayama Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:nakayama-racecourse-2",
+    "gameId": 200042,
+    "name": "Nakayama Racecourse ◯",
+    "aliases": [
+      "Nakayama Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:nakayama-racecourse-3",
+    "gameId": 200043,
+    "name": "Nakayama Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:neck-and-neck",
+    "gameId": 201901,
+    "name": "Neck and Neck",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:nemesis",
+    "gameId": 100501,
+    "name": "Nemesis",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:never-say-never",
+    "gameId": 101001,
+    "name": "Never Say Never",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "dir",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:night-races",
+    "gameId": 202231,
+    "name": "Night Races ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:night-races-2",
+    "gameId": 202232,
+    "name": "Night Races ◯",
+    "aliases": [
+      "Night Races ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:night-races-3",
+    "gameId": 202233,
+    "name": "Night Races ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:niigata-racecourse",
+    "gameId": 200111,
+    "name": "Niigata Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:niigata-racecourse-2",
+    "gameId": 200112,
+    "name": "Niigata Racecourse ◯",
+    "aliases": [
+      "Niigata Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:niigata-racecourse-3",
+    "gameId": 200113,
+    "name": "Niigata Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:nimble-navigator",
+    "gameId": 200492,
+    "name": "Nimble Navigator",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:no-looking-back",
+    "gameId": 202502,
+    "name": "No Looking Back",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:no-stopping-me",
+    "gameId": 200491,
+    "name": "No Stopping Me!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:non-standard-distance",
+    "gameId": 200141,
+    "name": "Non-Standard Distance ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:non-standard-distance-2",
+    "gameId": 200142,
+    "name": "Non-Standard Distance ◯",
+    "aliases": [
+      "Non-Standard Distance ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:non-standard-distance-3",
+    "gameId": 200143,
+    "name": "Non-Standard Distance ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:nothing-ventured",
+    "gameId": 202031,
+    "name": "Nothing Ventured",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:now-we-re-cruisin",
+    "gameId": 100341,
+    "name": "Now We're Cruisin'!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:of-calm-mind",
+    "gameId": 202071,
+    "name": "Of Calm Mind",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:oi-racecourse",
+    "gameId": 200951,
+    "name": "Oi Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:oi-racecourse-2",
+    "gameId": 200952,
+    "name": "Oi Racecourse ◯",
+    "aliases": [
+      "Oi Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:oi-racecourse-3",
+    "gameId": 200953,
+    "name": "Oi Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:omg-the-final-sprint",
+    "gameId": 100191,
+    "name": "OMG! (ﾟ∀ﾟ)  The Final Sprint! ☆",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:on-the-attack",
+    "gameId": 202372,
+    "name": "On the Attack",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:on-the-way-to-our-dream",
+    "gameId": 210072,
+    "name": "On the Way to Our Dream",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 200,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:on-your-left",
+    "gameId": 200601,
+    "name": "On Your Left!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:one-true-color",
+    "gameId": 110381,
+    "name": "One True Color",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:opening-gambit",
+    "gameId": 201092,
+    "name": "Opening Gambit",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_0",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:operation-cacao",
+    "gameId": 110261,
+    "name": "Operation Cacao",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:oppression",
+    "gameId": 202362,
+    "name": "Oppression",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dbf",
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:our-ticket-to-win",
+    "gameId": 100351,
+    "name": "Our Ticket to Win!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:outer-post-averseness",
+    "gameId": 200263,
+    "name": "Outer Post Averseness",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:outer-post-proficiency",
+    "gameId": 200261,
+    "name": "Outer Post Proficiency ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:outer-post-proficiency-2",
+    "gameId": 200262,
+    "name": "Outer Post Proficiency ◯",
+    "aliases": [
+      "Outer Post Proficiency ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:outer-swell",
+    "gameId": 200612,
+    "name": "Outer Swell",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "cor",
+      "f_c"
+    ]
+  },
+  {
+    "id": "skill:overwhelming-pressure",
+    "gameId": 201211,
+    "name": "Overwhelming Pressure",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:pace-chaser-corners",
+    "gameId": 201321,
+    "name": "Pace Chaser Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "cor",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:pace-chaser-corners-2",
+    "gameId": 201322,
+    "name": "Pace Chaser Corners ◯",
+    "aliases": [
+      "Pace Chaser Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "cor",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:pace-chaser-savvy",
+    "gameId": 201531,
+    "name": "Pace Chaser Savvy ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:pace-chaser-savvy-2",
+    "gameId": 201532,
+    "name": "Pace Chaser Savvy ◯",
+    "aliases": [
+      "Pace Chaser Savvy ○"
+    ],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:pace-chaser-straightaways",
+    "gameId": 201311,
+    "name": "Pace Chaser Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "ldr",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:pace-chaser-straightaways-2",
+    "gameId": 201312,
+    "name": "Pace Chaser Straightaways ◯",
+    "aliases": [
+      "Pace Chaser Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "ldr",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:pace-strategy",
+    "gameId": 200472,
+    "name": "Pace Strategy",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:packphobia",
+    "gameId": 200401,
+    "name": "Packphobia",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:paddock-fright",
+    "gameId": 200321,
+    "name": "Paddock Fright",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:passing-pro",
+    "gameId": 201202,
+    "name": "Passing Pro",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:past-my-limits",
+    "gameId": 210081,
+    "name": "Past My Limits",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:pedal-to-the-metal",
+    "gameId": 202452,
+    "name": "Pedal to the Metal",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:peerless-dance-of-flowering-flames",
+    "gameId": 100721,
+    "name": "Peerless Dance of Flowering Flames",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:perfect-prep",
+    "gameId": 201001,
+    "name": "Perfect Prep!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 140,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:perfect-spot",
+    "gameId": 201652,
+    "name": "Perfect Spot!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:petrifying-gaze",
+    "gameId": 201511,
+    "name": "Petrifying Gaze",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "dbf",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:plan-x",
+    "gameId": 200991,
+    "name": "Plan X",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:playtime-s-over",
+    "gameId": 201661,
+    "name": "Playtime's Over!",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:pop-polish",
+    "gameId": 100481,
+    "name": "Pop & Polish",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:position-pilfer",
+    "gameId": 200592,
+    "name": "Position Pilfer",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:preferred-position",
+    "gameId": 200572,
+    "name": "Preferred Position",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:prepared-to-pass",
+    "gameId": 200582,
+    "name": "Prepared to Pass",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "f_c",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:presents-from-x",
+    "gameId": 110231,
+    "name": "Presents from X",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:pressure",
+    "gameId": 201212,
+    "name": "Pressure",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:prideful-king",
+    "gameId": 100611,
+    "name": "Prideful King",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:productive-plan",
+    "gameId": 200682,
+    "name": "Productive Plan",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_0",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:professor-of-curvature",
+    "gameId": 200331,
+    "name": "Professor of Curvature",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:prudent-positioning",
+    "gameId": 200452,
+    "name": "Prudent Positioning",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:pumped",
+    "gameId": 202112,
+    "name": "Pumped",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "f_c",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:pure-heart",
+    "gameId": 100451,
+    "name": "Pure Heart",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:queen-s-lumination",
+    "gameId": 110091,
+    "name": "Queen's Lumination",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:race-planner",
+    "gameId": 200571,
+    "name": "Race Planner",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:racing-spirit-guts",
+    "gameId": 210121,
+    "name": "Racing Spirit: Guts",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:racing-spirit-mood",
+    "gameId": 210141,
+    "name": "Racing Spirit: Mood",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:racing-spirit-power",
+    "gameId": 210111,
+    "name": "Racing Spirit: Power",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:racing-spirit-speed",
+    "gameId": 210091,
+    "name": "Racing Spirit: Speed",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:racing-spirit-stamina",
+    "gameId": 210101,
+    "name": "Racing Spirit: Stamina",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:racing-spirit-wit",
+    "gameId": 210131,
+    "name": "Racing Spirit: Wit",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:radiant-star",
+    "gameId": 210061,
+    "name": "Radiant Star",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:rainy-days",
+    "gameId": 200231,
+    "name": "Rainy Days ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:rainy-days-2",
+    "gameId": 200232,
+    "name": "Rainy Days ◯",
+    "aliases": [
+      "Rainy Days ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:rainy-days-3",
+    "gameId": 200233,
+    "name": "Rainy Days ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ramp-revulsion",
+    "gameId": 200391,
+    "name": "Ramp Revulsion",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "nac",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:ramp-up",
+    "gameId": 200462,
+    "name": "Ramp Up",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:rapid-gain",
+    "gameId": 202322,
+    "name": "Rapid Gain",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:rational",
+    "gameId": 202292,
+    "name": "Rational",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 150,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:ravissant",
+    "gameId": 110051,
+    "name": "Ravissant",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:ready-go",
+    "gameId": 10621,
+    "name": "Ready, Go!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:reckless",
+    "gameId": 200421,
+    "name": "Reckless",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:reckless-charge",
+    "gameId": 202501,
+    "name": "Reckless Charge",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:red-ace",
+    "gameId": 10091,
+    "name": "Red Ace",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:red-hot-discipline",
+    "gameId": 100531,
+    "name": "Red-Hot Discipline!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:red-shift-lp1211-m",
+    "gameId": 100041,
+    "name": "Red Shift/LP1211-M",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:refraction-arc",
+    "gameId": 201113,
+    "name": "Refraction Arc",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "cor",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:reignition",
+    "gameId": 201291,
+    "name": "Reignition",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:relax",
+    "gameId": 201421,
+    "name": "Relax",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:resplendent-red-ace",
+    "gameId": 100091,
+    "name": "Resplendent Red Ace",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:restart",
+    "gameId": 201302,
+    "name": "Restart",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_0",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:restless",
+    "gameId": 201281,
+    "name": "Restless",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "run",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:restraint",
+    "gameId": 202161,
+    "name": "Restraint",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:right-handed",
+    "gameId": 200011,
+    "name": "Right-Handed ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:right-handed-2",
+    "gameId": 200012,
+    "name": "Right-Handed ◯",
+    "aliases": [
+      "Right-Handed ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:right-handed-3",
+    "gameId": 200013,
+    "name": "Right-Handed ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:right-handed-demon",
+    "gameId": 200014,
+    "name": "Right-Handed Demon",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 130,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:rising-dragon",
+    "gameId": 200611,
+    "name": "Rising Dragon",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "cor",
+      "f_c"
+    ]
+  },
+  {
+    "id": "skill:risk-maker",
+    "gameId": 202441,
+    "name": "Risk-Maker",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:risk-taker",
+    "gameId": 202442,
+    "name": "Risk-Taker",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:risky-business",
+    "gameId": 202032,
+    "name": "Risky Business",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:rosy-outlook",
+    "gameId": 200712,
+    "name": "Rosy Outlook",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:ruler-of-japan",
+    "gameId": 300131,
+    "name": "Ruler of Japan",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:run-like-crazy",
+    "gameId": 202321,
+    "name": "Run Like Crazy!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:runaway",
+    "gameId": 202051,
+    "name": "Runaway",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 200,
+    "tags": [
+      "run"
+    ]
+  },
+  {
+    "id": "skill:running-idle",
+    "gameId": 200521,
+    "name": "Running Idle",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:rushing-gale",
+    "gameId": 200371,
+    "name": "Rushing Gale!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:sapporo-racecourse",
+    "gameId": 200081,
+    "name": "Sapporo Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sapporo-racecourse-2",
+    "gameId": 200082,
+    "name": "Sapporo Racecourse ◯",
+    "aliases": [
+      "Sapporo Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sapporo-racecourse-3",
+    "gameId": 200083,
+    "name": "Sapporo Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:schwarzes-schwert",
+    "gameId": 100371,
+    "name": "Schwarzes Schwert",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:scramble",
+    "gameId": 202422,
+    "name": "Scramble",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:second-wind",
+    "gameId": 201292,
+    "name": "Second Wind",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_2",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:see-ya-later",
+    "gameId": 201662,
+    "name": "See Ya Later!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:serenity",
+    "gameId": 201491,
+    "name": "Serenity",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cha"
+    ]
+  },
+  {
+    "id": "skill:shadow-break",
+    "gameId": 100161,
+    "name": "Shadow Break",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:shake-it-out",
+    "gameId": 201621,
+    "name": "Shake It Out",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sharp-gaze",
+    "gameId": 201442,
+    "name": "Sharp Gaze",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "dbf",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:sharp-streak",
+    "gameId": 201383,
+    "name": "Sharp Streak",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "btw",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:sharp-turns",
+    "gameId": 202241,
+    "name": "Sharp Turns ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sharp-turns-2",
+    "gameId": 202242,
+    "name": "Sharp Turns ◯",
+    "aliases": [
+      "Sharp Turns ○"
+    ],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sharp-turns-3",
+    "gameId": 202243,
+    "name": "Sharp Turns ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 40,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:shatterproof",
+    "gameId": 201361,
+    "name": "Shatterproof",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:shifting-gears",
+    "gameId": 201052,
+    "name": "Shifting Gears",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:shine-on-tomakomai",
+    "gameId": 100991,
+    "name": "Shine On, Tomakomai! ☆",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:shocking-flash",
+    "gameId": 200963,
+    "name": "Shocking Flash",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 150,
+    "tags": [
+      "sho",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:shooting-for-victory",
+    "gameId": 100101,
+    "name": "Shooting for Victory!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:shooting-star",
+    "gameId": 100011,
+    "name": "Shooting Star",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:shooting-star-of-dioskouroi",
+    "gameId": 100331,
+    "name": "Shooting Star of Dioskouroi",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:show-me-what-lies-beyond",
+    "gameId": 300071,
+    "name": "Show Me What Lies Beyond!",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:shrewd-step",
+    "gameId": 201332,
+    "name": "Shrewd Step",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:silent-letter",
+    "gameId": 100871,
+    "name": "Silent Letter",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sixth-sense",
+    "gameId": 201261,
+    "name": "Sixth Sense",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 110,
+    "tags": [
+      "l_0",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:sky-high-teio-step",
+    "gameId": 100031,
+    "name": "Sky-High Teio Step",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "ldr",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sleeping-lion",
+    "gameId": 200621,
+    "name": "Sleeping Lion",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:slick-surge",
+    "gameId": 200602,
+    "name": "Slick Surge",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "btw",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:slipstream",
+    "gameId": 201651,
+    "name": "Slipstream",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:smoke-screen",
+    "gameId": 201232,
+    "name": "Smoke Screen",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "dbf",
+      "l_2",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:snow-bright-snow-flight",
+    "gameId": 100291,
+    "name": "Snow Bright, Snow Flight",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:snowy-days",
+    "gameId": 200241,
+    "name": "Snowy Days ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:snowy-days-2",
+    "gameId": 200242,
+    "name": "Snowy Days ◯",
+    "aliases": [
+      "Snowy Days ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:soft-step",
+    "gameId": 201142,
+    "name": "Soft Step",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "med"
+    ]
+  },
+  {
+    "id": "skill:solid-steps",
+    "gameId": 202332,
+    "name": "Solid Steps",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:solid-strike",
+    "gameId": 202431,
+    "name": "Solid Strike",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "ldr",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:sparkly-stardom",
+    "gameId": 100461,
+    "name": "SPARKLY☆STARDOM",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:speed-eater",
+    "gameId": 201082,
+    "name": "Speed Eater",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:speed-star",
+    "gameId": 200581,
+    "name": "Speed Star",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "f_c",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:spooky-scary-happy",
+    "gameId": 110581,
+    "name": "Spooky, Scary, Happy",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "dbf",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:spring-runner",
+    "gameId": 200171,
+    "name": "Spring Runner ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:spring-runner-2",
+    "gameId": 200172,
+    "name": "Spring Runner ◯",
+    "aliases": [
+      "Spring Runner ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:spring-runner-3",
+    "gameId": 200173,
+    "name": "Spring Runner ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:spring-spectacle",
+    "gameId": 200174,
+    "name": "Spring Spectacle",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 130,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sprint-corners",
+    "gameId": 200971,
+    "name": "Sprint Corners ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "cor",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:sprint-corners-2",
+    "gameId": 200972,
+    "name": "Sprint Corners ◯",
+    "aliases": [
+      "Sprint Corners ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "cor",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:sprint-race-enthusiast",
+    "gameId": 1200041,
+    "name": "Sprint Race Enthusiast",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "sho",
+      "tur"
+    ]
+  },
+  {
+    "id": "skill:sprint-straightaways",
+    "gameId": 200961,
+    "name": "Sprint Straightaways ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "sho",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:sprint-straightaways-2",
+    "gameId": 200962,
+    "name": "Sprint Straightaways ◯",
+    "aliases": [
+      "Sprint Straightaways ○"
+    ],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "sho",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:sprinting-gear",
+    "gameId": 200652,
+    "name": "Sprinting Gear",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:staggering-lead",
+    "gameId": 200981,
+    "name": "Staggering Lead",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:stamina-eater",
+    "gameId": 201222,
+    "name": "Stamina Eater",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:stamina-siphon",
+    "gameId": 201221,
+    "name": "Stamina Siphon",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:stamina-to-spare",
+    "gameId": 200562,
+    "name": "Stamina to Spare",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "l_0",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:standard-distance",
+    "gameId": 200131,
+    "name": "Standard Distance ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:standard-distance-2",
+    "gameId": 200132,
+    "name": "Standard Distance ◯",
+    "aliases": [
+      "Standard Distance ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:standard-distance-3",
+    "gameId": 200133,
+    "name": "Standard Distance ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:standing-by",
+    "gameId": 200622,
+    "name": "Standing By",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:star",
+    "gameId": 110461,
+    "name": "α-star*",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "dir",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:steadfast",
+    "gameId": 200732,
+    "name": "Steadfast",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "f_c",
+      "f_s",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:steady-gait",
+    "gameId": 202432,
+    "name": "Steady Gait",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "ldr",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:step-on-the-gas",
+    "gameId": 201061,
+    "name": "Step on the Gas!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:stop-right-there",
+    "gameId": 201022,
+    "name": "Stop Right There!",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "dbf",
+      "l_0",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:straight-descent",
+    "gameId": 201342,
+    "name": "Straight Descent",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "ldr",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:straightaway-acceleration",
+    "gameId": 200372,
+    "name": "Straightaway Acceleration",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:straightaway-adept",
+    "gameId": 200362,
+    "name": "Straightaway Adept",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:straightaway-recovery",
+    "gameId": 200382,
+    "name": "Straightaway Recovery",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:straightaway-spurt",
+    "gameId": 200642,
+    "name": "Straightaway Spurt",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:strategist",
+    "gameId": 201502,
+    "name": "Strategist",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "cha",
+      "l_2"
+    ]
+  },
+  {
+    "id": "skill:strong-steps",
+    "gameId": 202331,
+    "name": "Strong Steps",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "dir"
+    ]
+  },
+  {
+    "id": "skill:studious",
+    "gameId": 201432,
+    "name": "Studious",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:sturm-und-drang",
+    "gameId": 200631,
+    "name": "Sturm und Drang",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "cha",
+      "l_3"
+    ]
+  },
+  {
+    "id": "skill:subdued-end-closers",
+    "gameId": 200921,
+    "name": "Subdued End Closers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:subdued-front-runners",
+    "gameId": 200831,
+    "name": "Subdued Front Runners",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:subdued-late-surgers",
+    "gameId": 200891,
+    "name": "Subdued Late Surgers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:subdued-pace-chasers",
+    "gameId": 200861,
+    "name": "Subdued Pace Chasers",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 130,
+    "tags": [
+      "dbf",
+      "l_0",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:summer-runner",
+    "gameId": 200181,
+    "name": "Summer Runner ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:summer-runner-2",
+    "gameId": 200182,
+    "name": "Summer Runner ◯",
+    "aliases": [
+      "Summer Runner ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:summer-runner-3",
+    "gameId": 200183,
+    "name": "Summer Runner ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sunny-breeze",
+    "gameId": 100781,
+    "name": "Sunny Breeze",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sunny-days",
+    "gameId": 200211,
+    "name": "Sunny Days ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sunny-days-2",
+    "gameId": 200212,
+    "name": "Sunny Days ◯",
+    "aliases": [
+      "Sunny Days ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sunny-sign",
+    "gameId": 202262,
+    "name": "Sunny Sign",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:super-duper-climax",
+    "gameId": 100521,
+    "name": "Super-Duper Climax",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:super-duper-stoked",
+    "gameId": 10521,
+    "name": "Super-Duper Stoked",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:super-lucky-seven",
+    "gameId": 201561,
+    "name": "Super Lucky Seven",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:superior-heal",
+    "gameId": 110111,
+    "name": "Superior Heal",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:superstan",
+    "gameId": 201592,
+    "name": "Superstan",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:swinging-maestro",
+    "gameId": 200351,
+    "name": "Swinging Maestro",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "cor",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:sympathy",
+    "gameId": 201631,
+    "name": "Sympathy",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 70,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:tactical-tweak",
+    "gameId": 201362,
+    "name": "Tactical Tweak",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:tail-held-high",
+    "gameId": 201611,
+    "name": "Tail Held High",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 100,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:tail-nine",
+    "gameId": 201612,
+    "name": "Tail Nine",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:take-the-chance",
+    "gameId": 202082,
+    "name": "Take the Chance",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:taking-the-lead",
+    "gameId": 200531,
+    "name": "Taking the Lead",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "run"
+    ]
+  },
+  {
+    "id": "skill:tantalizing-trick",
+    "gameId": 200772,
+    "name": "Tantalizing Trick",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 140,
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:target-in-sight",
+    "gameId": 200291,
+    "name": "Target in Sight ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:target-in-sight-2",
+    "gameId": 200292,
+    "name": "Target in Sight ◯",
+    "aliases": [
+      "Target in Sight ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:technician",
+    "gameId": 201331,
+    "name": "Technician",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:tether",
+    "gameId": 201152,
+    "name": "Tether",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_2",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:the-bigger-picture",
+    "gameId": 201431,
+    "name": "The Bigger Picture",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 120,
+    "tags": [
+      "btw",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:the-coast-is-clear",
+    "gameId": 201471,
+    "name": "The Coast Is Clear!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 110,
+    "tags": [
+      "cha"
+    ]
+  },
+  {
+    "id": "skill:the-duty-of-dignity-calls",
+    "gameId": 100131,
+    "name": "The Duty of Dignity Calls",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "f_c",
+      "lng",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:the-moe-aaaa-thanks-for-my-life",
+    "gameId": 110191,
+    "name": "THE MOE AAAA Thanks for My Life",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:the-view-from-the-lead-is-mine",
+    "gameId": 100021,
+    "name": "The View from the Lead Is Mine!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:this-dance-is-for-vittoria",
+    "gameId": 100151,
+    "name": "This Dance Is for Vittoria!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:thunderbolt-step",
+    "gameId": 201132,
+    "name": "Thunderbolt Step",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:ticket-to-your-dreams",
+    "gameId": 110351,
+    "name": "Ticket to Your Dreams!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:tokyo-racecourse",
+    "gameId": 200031,
+    "name": "Tokyo Racecourse ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:tokyo-racecourse-2",
+    "gameId": 200032,
+    "name": "Tokyo Racecourse ◯",
+    "aliases": [
+      "Tokyo Racecourse ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:tokyo-racecourse-3",
+    "gameId": 200033,
+    "name": "Tokyo Racecourse ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:top-gear",
+    "gameId": 202451,
+    "name": "Top Gear",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "btw"
+    ]
+  },
+  {
+    "id": "skill:top-pick",
+    "gameId": 201672,
+    "name": "Top Pick",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:top-runner",
+    "gameId": 201271,
+    "name": "Top Runner",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_0",
+      "l_1",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:towards-the-scenery-i-seek",
+    "gameId": 300031,
+    "name": "Towards the Scenery I Seek",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:trackblazer",
+    "gameId": 200711,
+    "name": "Trackblazer",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:trending-in-the-charts",
+    "gameId": 201671,
+    "name": "Trending in the Charts!",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "dir",
+      "l_1"
+    ]
+  },
+  {
+    "id": "skill:trick-front",
+    "gameId": 200771,
+    "name": "Trick (Front)",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:trick-rear",
+    "gameId": 200781,
+    "name": "Trick (Rear)",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 140,
+    "tags": [
+      "dbf",
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:trigger-beat",
+    "gameId": 100361,
+    "name": "trigger:BEAT",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:triple-7s",
+    "gameId": 201571,
+    "name": "Triple 7s",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:triumphant-pulse",
+    "gameId": 100061,
+    "name": "Triumphant Pulse",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:turbo-sprint",
+    "gameId": 200651,
+    "name": "Turbo Sprint",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:u-ma2",
+    "gameId": 100321,
+    "name": "U=ma2",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:uma-stan",
+    "gameId": 201591,
+    "name": "Uma Stan",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:unchanging",
+    "gameId": 300021,
+    "name": "Unchanging",
+    "aliases": [],
+    "rarity": "gold",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:unquenched-thirst",
+    "gameId": 300011,
+    "name": "Unquenched Thirst",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:unrestrained",
+    "gameId": 200551,
+    "name": "Unrestrained",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "f_c",
+      "run"
+    ]
+  },
+  {
+    "id": "skill:unruffled",
+    "gameId": 200481,
+    "name": "Unruffled",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "l_1",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:unstoppable",
+    "gameId": 202371,
+    "name": "Unstoppable",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 180,
+    "tags": [
+      "l_1",
+      "ldr"
+    ]
+  },
+  {
+    "id": "skill:unyielding",
+    "gameId": 200731,
+    "name": "Unyielding",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "f_c",
+      "f_s",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:unyielding-spirit",
+    "gameId": 201072,
+    "name": "Unyielding Spirit",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 120,
+    "tags": [
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:up-tempo",
+    "gameId": 200722,
+    "name": "Up-Tempo",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:updrafters",
+    "gameId": 200702,
+    "name": "Updrafters",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_2",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:v-is-for-victory",
+    "gameId": 10351,
+    "name": "V Is for Victory!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:vanguard-spirit",
+    "gameId": 201191,
+    "name": "Vanguard Spirit",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:victoria-por-plancha",
+    "gameId": 100141,
+    "name": "Victoria por plancha ☆",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:victory-belongs-to-me-strelitzia",
+    "gameId": 100441,
+    "name": "Victory belongs to me—Strelitzia! ☆",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:victory-cheer",
+    "gameId": 100681,
+    "name": "Victory Cheer!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "cor",
+      "l_2",
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:vip-pass",
+    "gameId": 201201,
+    "name": "VIP Pass",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "lng"
+    ]
+  },
+  {
+    "id": "skill:wait-and-see",
+    "gameId": 200662,
+    "name": "Wait-and-See",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "l_1",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:wallflower",
+    "gameId": 200283,
+    "name": "Wallflower",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:warning-shot",
+    "gameId": 10071,
+    "name": "Warning Shot!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:watchful-eye",
+    "gameId": 200692,
+    "name": "Watchful Eye",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_0",
+      "mil"
+    ]
+  },
+  {
+    "id": "skill:wet-conditions",
+    "gameId": 200161,
+    "name": "Wet Conditions ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:wet-conditions-2",
+    "gameId": 200162,
+    "name": "Wet Conditions ◯",
+    "aliases": [
+      "Wet Conditions ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:wet-conditions-3",
+    "gameId": 200163,
+    "name": "Wet Conditions ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:where-there-s-a-will-there-s-a-way",
+    "gameId": 100111,
+    "name": "Where There's a Will, There's a Way",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:wherever-this-wonder-leads",
+    "gameId": 110591,
+    "name": "Wherever This Wonder Leads",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "l_1",
+      "nac",
+      "slo"
+    ]
+  },
+  {
+    "id": "skill:white-lightning-comin-through",
+    "gameId": 100211,
+    "name": "White Lightning Comin' Through!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac",
+      "str"
+    ]
+  },
+  {
+    "id": "skill:wild-wind",
+    "gameId": 202131,
+    "name": "Wild Wind",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:win-q-e-d",
+    "gameId": 100231,
+    "name": "∴win Q.E.D.",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "f_c",
+      "f_s",
+      "l_2",
+      "l_3",
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:winter-runner",
+    "gameId": 200201,
+    "name": "Winter Runner ◎",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 110,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:winter-runner-2",
+    "gameId": 200202,
+    "name": "Winter Runner ◯",
+    "aliases": [
+      "Winter Runner ○"
+    ],
+    "rarity": "normal",
+    "cost": 90,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:winter-runner-3",
+    "gameId": 200203,
+    "name": "Winter Runner ×",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 50,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:with-all-my-soul",
+    "gameId": 202132,
+    "name": "With All My Soul",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 160,
+    "tags": [
+      "dbf",
+      "l_1",
+      "med"
+    ]
+  },
+  {
+    "id": "skill:xceleration",
+    "gameId": 10081,
+    "name": "Xceleration",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:yodo-invicta",
+    "gameId": 200064,
+    "name": "Yodo Invicta",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 130,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:you-and-me-one-on-one",
+    "gameId": 100121,
+    "name": "You and Me! One-on-One!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:you-re-not-the-boss-of-me",
+    "gameId": 202141,
+    "name": "You're Not the Boss of Me!",
+    "aliases": [],
+    "rarity": "normal",
+    "cost": 0,
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:you-ve-got-no-shot",
+    "gameId": 201021,
+    "name": "You've Got No Shot",
+    "aliases": [],
+    "rarity": "gold",
+    "cost": 170,
+    "tags": [
+      "dbf",
+      "l_0",
+      "sho"
+    ]
+  },
+  {
+    "id": "skill:your-smile-sparkles-as-the-waves",
+    "gameId": 120131,
+    "name": "Your Smile Sparkles as the Waves",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac"
+    ]
+  },
+  {
+    "id": "skill:yummy-speed",
+    "gameId": 100281,
+    "name": "YUMMY☆SPEED!",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": [
+      "nac",
+      "sho"
+    ]
+  }
+]

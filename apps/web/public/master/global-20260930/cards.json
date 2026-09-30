@@ -1,0 +1,6213 @@
+[
+  {
+    "id": "card:43-8-1-nakayama-festa",
+    "gameId": 30043,
+    "name": "Nakayama Festa",
+    "title": "43, 8, 1",
+    "characterId": "character:nakayama-festa",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:long-shot-2",
+      "skill:slick-surge",
+      "skill:outer-swell",
+      "skill:steadfast",
+      "skill:late-surger-straightaways-2",
+      "skill:sharp-gaze",
+      "skill:lucky-seven",
+      "skill:all-i-ve-got"
+    ],
+    "eventSkillIds": [
+      "skill:uma-stan",
+      "skill:come-what-may",
+      "skill:all-i-ve-got",
+      "skill:nakayama-racecourse-2",
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "6d757776365ede8e"
+    ]
+  },
+  {
+    "id": "card:5-00-a-m-right-on-schedule-eishin-flash",
+    "gameId": 20013,
+    "name": "Eishin Flash",
+    "title": "5:00 a.m.—Right on Schedule",
+    "characterId": "character:eishin-flash",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:straightaway-acceleration",
+      "skill:late-surger-straightaways-2",
+      "skill:late-surger-corners-2",
+      "skill:fighter"
+    ],
+    "eventSkillIds": [
+      "skill:homestretch-haste",
+      "skill:target-in-sight-2"
+    ],
+    "artHashes": [
+      "e6cec6c6ceccccec"
+    ]
+  },
+  {
+    "id": "card:7-more-centimeters-air-shakur",
+    "gameId": 30013,
+    "name": "Air Shakur",
+    "title": "7 More Centimeters",
+    "characterId": "character:air-shakur",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:pressure",
+      "skill:levelheaded",
+      "skill:strategist"
+    ],
+    "eventSkillIds": [
+      "skill:intense-gaze",
+      "skill:straightaway-spurt",
+      "skill:unyielding",
+      "skill:pace-strategy"
+    ],
+    "artHashes": [
+      "ccce4ec7c7e6e692"
+    ]
+  },
+  {
+    "id": "card:a-fan-s-joy-agnes-digital",
+    "gameId": 30085,
+    "name": "Agnes Digital",
+    "title": "A Fan's Joy",
+    "characterId": "character:agnes-digital",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:left-handed-2",
+      "skill:mile-straightaways-2",
+      "skill:late-surger-straightaways-2",
+      "skill:uma-stan",
+      "skill:forward-march",
+      "skill:all-i-ve-got"
+    ],
+    "eventSkillIds": [
+      "skill:hydrate",
+      "skill:focus",
+      "skill:lead-the-charge",
+      "skill:uma-stan",
+      "skill:rainy-days-2",
+      "skill:wet-conditions-2"
+    ],
+    "artHashes": [
+      "944606338787a3a3"
+    ]
+  },
+  {
+    "id": "card:a-good-heart-blossoms-to-its-fullest-sakura-chiyono-o",
+    "gameId": 30109,
+    "name": "Sakura Chiyono O",
+    "title": "A Good Heart Blossoms to Its Fullest",
+    "characterId": "character:sakura-chiyono-o",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:summer-runner-2",
+      "skill:mile-straightaways-2",
+      "skill:shifting-gears",
+      "skill:pace-chaser-straightaways-2",
+      "skill:pace-chaser-corners-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:head-on"
+    ],
+    "eventSkillIds": [
+      "skill:step-on-the-gas",
+      "skill:acceleration",
+      "skill:spring-runner-2"
+    ],
+    "artHashes": [
+      "43571b2207878ba4"
+    ]
+  },
+  {
+    "id": "card:a-marvelous-plan-marvelous-sunday",
+    "gameId": 20015,
+    "name": "Marvelous Sunday",
+    "title": "A Marvelous ☆ Plan",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:straightaway-adept",
+      "skill:ramp-up",
+      "skill:hesitant-front-runners",
+      "skill:hesitant-pace-chasers",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "8f4f4d4c54ccaa92"
+    ]
+  },
+  {
+    "id": "card:a-more-marvelous-world-marvelous-sunday",
+    "gameId": 30089,
+    "name": "Marvelous Sunday",
+    "title": "A MORE MARVELOUS WORLD! ☆",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:straightaway-adept",
+      "skill:ramp-up",
+      "skill:hesitant-front-runners",
+      "skill:hesitant-pace-chasers",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:adrenaline-rush",
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "8e8e0f0e1292970c"
+    ]
+  },
+  {
+    "id": "card:a-win-foreshadowed-symboli-kris-s",
+    "gameId": 30118,
+    "name": "Symboli Kris S",
+    "title": "A Win Foreshadowed",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:corner-recovery",
+      "skill:slick-surge",
+      "skill:long-straightaways-2",
+      "skill:passing-pro",
+      "skill:late-surger-corners-2",
+      "skill:1-500-000-cc",
+      "skill:fearless",
+      "skill:scramble"
+    ],
+    "eventSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:claw-forward",
+      "skill:cloudy-days-2"
+    ],
+    "artHashes": [
+      "d89c9e0e0626060c"
+    ]
+  },
+  {
+    "id": "card:acupuncturist-sasami-anshinzawa",
+    "gameId": 10074,
+    "name": "Sasami Anshinzawa",
+    "title": "Acupuncturist",
+    "type": "friend",
+    "rarity": "R",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:wallflower",
+      "skill:corner-recovery-2",
+      "skill:risky-business",
+      "skill:running-idle",
+      "skill:uma-stan"
+    ],
+    "artHashes": [
+      "1a28288695252519"
+    ]
+  },
+  {
+    "id": "card:ah-such-majesty-daiichi-ruby",
+    "gameId": 30114,
+    "name": "Daiichi Ruby",
+    "title": "Ah, Such Majesty",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:slick-surge",
+      "skill:gap-closer",
+      "skill:subdued-front-runners",
+      "skill:flustered-front-runners",
+      "skill:hesitant-front-runners",
+      "skill:stop-right-there",
+      "skill:opening-gambit",
+      "skill:tether",
+      "skill:late-surger-straightaways-2",
+      "skill:lone-wolf",
+      "skill:fearless"
+    ],
+    "eventSkillIds": [
+      "skill:late-surger-corners-2",
+      "skill:sprinting-gear",
+      "skill:lightning-surge",
+      "skill:gap-closer"
+    ],
+    "artHashes": [
+      "ac6d8b8f8f8f8786"
+    ]
+  },
+  {
+    "id": "card:aim-for-the-brightest-admire-vega",
+    "gameId": 20041,
+    "name": "Admire Vega",
+    "title": "Aim for the Brightest",
+    "characterId": "character:admire-vega",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:masterful-gambit",
+      "skill:tether",
+      "skill:end-closer-straightaways-2",
+      "skill:levelheaded",
+      "skill:strategist"
+    ],
+    "eventSkillIds": [
+      "skill:end-closer-savvy-2",
+      "skill:subdued-pace-chasers"
+    ],
+    "artHashes": [
+      "daded68e86a6a424"
+    ]
+  },
+  {
+    "id": "card:almost-an-umadol-smart-falcon",
+    "gameId": 20045,
+    "name": "Smart Falcon",
+    "title": "Almost... an Umadol?! ♡",
+    "characterId": "character:smart-falcon",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:oi-racecourse-2",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-savvy-2",
+      "skill:top-pick",
+      "skill:forward-march"
+    ],
+    "eventSkillIds": [
+      "skill:leader-s-pride",
+      "skill:top-pick",
+      "skill:final-push"
+    ],
+    "artHashes": [
+      "cbcb4d476f6a2624"
+    ]
+  },
+  {
+    "id": "card:an-annoying-supervisor-vodka",
+    "gameId": 20039,
+    "name": "Vodka",
+    "title": "An Annoying Supervisor",
+    "characterId": "character:vodka",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:tokyo-racecourse-2",
+      "skill:straightaway-adept",
+      "skill:straightaway-acceleration",
+      "skill:straightaway-recovery",
+      "skill:homestretch-haste",
+      "skill:slick-surge",
+      "skill:updrafters",
+      "skill:mile-straightaways-2",
+      "skill:medium-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:mile-corners-2",
+      "skill:nimble-navigator"
+    ],
+    "artHashes": [
+      "bd9ea78c8ccec6e6"
+    ]
+  },
+  {
+    "id": "card:are-you-merry-air-groove",
+    "gameId": 30124,
+    "name": "Air Groove",
+    "title": "Are You Merry?",
+    "characterId": "character:air-groove",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:winter-runner-2",
+      "skill:position-pilfer",
+      "skill:updrafters",
+      "skill:late-surger-straightaways-2",
+      "skill:late-surger-savvy-2",
+      "skill:be-still",
+      "skill:fearless"
+    ],
+    "eventSkillIds": [
+      "skill:studious",
+      "skill:pace-strategy",
+      "skill:fast-furious",
+      "skill:go-with-the-flow"
+    ],
+    "artHashes": [
+      "d3830307878f9e8c"
+    ]
+  },
+  {
+    "id": "card:at-the-end-of-the-day-special-week",
+    "gameId": 20043,
+    "name": "Special Week",
+    "title": "At the End of the Day",
+    "characterId": "character:special-week",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:homestretch-haste",
+      "skill:stamina-to-spare",
+      "skill:steadfast",
+      "skill:pace-chaser-straightaways-2",
+      "skill:hydrate",
+      "skill:tactical-tweak"
+    ],
+    "eventSkillIds": [
+      "skill:head-on",
+      "skill:extra-tank"
+    ],
+    "artHashes": [
+      "0e8ec6a682828686"
+    ]
+  },
+  {
+    "id": "card:beloved-orchid-bouquet-ikuno-dictus",
+    "gameId": 30099,
+    "name": "Ikuno Dictus",
+    "title": "Beloved Orchid Bouquet",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:calm-in-a-crowd",
+      "skill:position-pilfer",
+      "skill:late-surger-corners-2",
+      "skill:studious",
+      "skill:sharp-gaze",
+      "skill:late-surger-savvy-2",
+      "skill:be-still"
+    ],
+    "eventSkillIds": [
+      "skill:keep-going",
+      "skill:full-throttle",
+      "skill:trick-rear"
+    ],
+    "artHashes": [
+      "410125158f8f9e8e"
+    ]
+  },
+  {
+    "id": "card:beware-halloween-night-tamamo-cross",
+    "gameId": 30064,
+    "name": "Tamamo Cross",
+    "title": "Beware! Halloween Night!",
+    "characterId": "character:tamamo-cross",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:rosy-outlook",
+      "skill:frenzied-late-surgers",
+      "skill:flustered-late-surgers",
+      "skill:medium-corners-2",
+      "skill:thunderbolt-step",
+      "skill:soft-step",
+      "skill:1-500-000-cc"
+    ],
+    "eventSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:15-000-000-cc",
+      "skill:calm-in-a-crowd"
+    ],
+    "artHashes": [
+      "cf172f0f2b2f0f8f"
+    ]
+  },
+  {
+    "id": "card:beyond-this-shining-moment-silence-suzuka",
+    "gameId": 30002,
+    "name": "Silence Suzuka",
+    "title": "Beyond This Shining Moment",
+    "characterId": "character:silence-suzuka",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:focus",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:final-push",
+      "skill:rosy-outlook",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2",
+      "skill:front-runner-savvy-2",
+      "skill:leader-s-pride"
+    ],
+    "eventSkillIds": [
+      "skill:restart",
+      "skill:focus",
+      "skill:unrestrained",
+      "skill:left-handed-2"
+    ],
+    "artHashes": [
+      "dcececcec6ceccec"
+    ]
+  },
+  {
+    "id": "card:bnwinner-winning-ticket",
+    "gameId": 30012,
+    "name": "Winning Ticket",
+    "title": "BNWinner!",
+    "characterId": "character:winning-ticket",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:position-pilfer",
+      "skill:slick-surge",
+      "skill:outer-swell"
+    ],
+    "eventSkillIds": [
+      "skill:fighter",
+      "skill:on-your-left",
+      "skill:late-surger-corners-2"
+    ],
+    "artHashes": [
+      "c6c6cece0e844cd5"
+    ]
+  },
+  {
+    "id": "card:bobbing-with-the-waves-seiun-sky",
+    "gameId": 20050,
+    "name": "Seiun Sky",
+    "title": "Bobbing with the Waves",
+    "characterId": "character:seiun-sky",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:hesitant-pace-chasers",
+      "skill:frenzied-late-surgers",
+      "skill:front-runner-savvy-2",
+      "skill:groundwork"
+    ],
+    "eventSkillIds": [
+      "skill:hesitant-late-surgers",
+      "skill:second-wind",
+      "skill:keeping-the-lead"
+    ],
+    "artHashes": [
+      "2a24368607072303"
+    ]
+  },
+  {
+    "id": "card:breakaway-battleship-gold-ship",
+    "gameId": 30004,
+    "name": "Gold Ship",
+    "title": "Breakaway Battleship",
+    "characterId": "character:gold-ship",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standing-by",
+      "skill:straightaway-spurt",
+      "skill:inside-scoop",
+      "skill:pressure",
+      "skill:smoke-screen",
+      "skill:i-can-see-right-through-you",
+      "skill:after-school-stroll",
+      "skill:strategist",
+      "skill:intense-gaze",
+      "skill:end-closer-savvy-2",
+      "skill:highlander",
+      "skill:uma-stan",
+      "skill:groundwork",
+      "skill:sympathy"
+    ],
+    "eventSkillIds": [
+      "skill:early-start",
+      "skill:end-closer-savvy-2",
+      "skill:corner-connoisseur",
+      "skill:risky-business",
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "544e5ece4e46767e"
+    ]
+  },
+  {
+    "id": "card:champion-s-passion-el-condor-pasa",
+    "gameId": 30007,
+    "name": "El Condor Pasa",
+    "title": "Champion's Passion",
+    "characterId": "character:el-condor-pasa",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:sunny-days-2",
+      "skill:prepared-to-pass",
+      "skill:up-tempo",
+      "skill:medium-straightaways-2",
+      "skill:hawkeye",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:stamina-to-spare",
+      "skill:killer-tunes",
+      "skill:sunny-days-2"
+    ],
+    "artHashes": [
+      "3446cac3c6e6e6d3"
+    ]
+  },
+  {
+    "id": "card:cheer-that-changed-the-world-seeking-the-pearl",
+    "gameId": 30095,
+    "name": "Seeking the Pearl",
+    "title": "Cheer that Changed the World",
+    "characterId": "character:seeking-the-pearl",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:prepared-to-pass",
+      "skill:slick-surge",
+      "skill:sprinting-gear",
+      "skill:watchful-eye",
+      "skill:sharp-gaze",
+      "skill:pace-chaser-savvy-2",
+      "skill:late-surger-savvy-2",
+      "skill:head-on"
+    ],
+    "eventSkillIds": [
+      "skill:updrafters",
+      "skill:light-as-a-feather",
+      "skill:dauntless",
+      "skill:uma-stan"
+    ],
+    "artHashes": [
+      "9fafafcf8f8b8fe3"
+    ]
+  },
+  {
+    "id": "card:city-girl-101-yukino-bijin",
+    "gameId": 20011,
+    "name": "Yukino Bijin",
+    "title": "City Girl 101",
+    "characterId": "character:yukino-bijin",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:winter-runner-2",
+      "skill:steadfast",
+      "skill:medium-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:corner-acceleration"
+    ],
+    "artHashes": [
+      "c78585846cec6d69"
+    ]
+  },
+  {
+    "id": "card:cozy-cute-memory-curren-chan",
+    "gameId": 20044,
+    "name": "Curren Chan",
+    "title": "Cozy Cute Memory ♪",
+    "characterId": "character:curren-chan",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:sprinting-gear",
+      "skill:hesitant-late-surgers",
+      "skill:sprint-straightaways-2",
+      "skill:meticulous-measures",
+      "skill:disorient"
+    ],
+    "eventSkillIds": [
+      "skill:shrewd-step",
+      "skill:sprint-corners-2",
+      "skill:intimidate"
+    ],
+    "artHashes": [
+      "a6a6a5c48fa786cc"
+    ]
+  },
+  {
+    "id": "card:cute-cute-mayano-top-gun",
+    "gameId": 20007,
+    "name": "Mayano Top Gun",
+    "title": "Cute + Cute = ?",
+    "characterId": "character:mayano-top-gun",
+    "type": "stamina",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:corner-adept",
+      "skill:straightaway-adept",
+      "skill:straightaway-recovery",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow"
+    ],
+    "eventSkillIds": [
+      "skill:focus",
+      "skill:straightaway-adept"
+    ],
+    "artHashes": [
+      "b6668aaecec66646"
+    ]
+  },
+  {
+    "id": "card:cutie-pie-with-shining-eyes-curren-chan",
+    "gameId": 30068,
+    "name": "Curren Chan",
+    "title": "Cutie Pie with Shining Eyes",
+    "characterId": "character:curren-chan",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:sprinting-gear",
+      "skill:hesitant-late-surgers",
+      "skill:sprint-straightaways-2",
+      "skill:meticulous-measures",
+      "skill:disorient"
+    ],
+    "eventSkillIds": [
+      "skill:stop-right-there",
+      "skill:playtime-s-over",
+      "skill:perfect-prep",
+      "skill:meticulous-measures",
+      "skill:intimidate"
+    ],
+    "artHashes": [
+      "0a2a36680e0e0eee"
+    ]
+  },
+  {
+    "id": "card:dancing-light-into-the-night-yukino-bijin",
+    "gameId": 30070,
+    "name": "Yukino Bijin",
+    "title": "Dancing Light into the Night",
+    "characterId": "character:yukino-bijin",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:winter-runner-2",
+      "skill:steadfast",
+      "skill:medium-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:snowy-days-2",
+      "skill:playtime-s-over",
+      "skill:corner-connoisseur",
+      "skill:corner-acceleration"
+    ],
+    "artHashes": [
+      "9dadaea48e868e4e"
+    ]
+  },
+  {
+    "id": "card:danke-sch-n-eishin-flash",
+    "gameId": 30122,
+    "name": "Eishin Flash",
+    "title": "Danke Schön",
+    "characterId": "character:eishin-flash",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:soft-step",
+      "skill:late-surger-straightaways-2",
+      "skill:late-surger-corners-2",
+      "skill:fighter",
+      "skill:late-surger-savvy-2",
+      "skill:take-the-chance"
+    ],
+    "eventSkillIds": [
+      "skill:position-pilfer",
+      "skill:sharp-streak",
+      "skill:target-in-sight-2"
+    ],
+    "artHashes": [
+      "a28aabb79f1f8e5e"
+    ]
+  },
+  {
+    "id": "card:daring-to-dream-nice-nature",
+    "gameId": 30054,
+    "name": "Nice Nature",
+    "title": "Daring to Dream",
+    "characterId": "character:nice-nature",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:kokura-racecourse-2",
+      "skill:corner-acceleration",
+      "skill:lay-low",
+      "skill:go-with-the-flow",
+      "skill:hesitant-late-surgers",
+      "skill:murmur",
+      "skill:a-small-breather",
+      "skill:sharp-gaze"
+    ],
+    "eventSkillIds": [
+      "skill:on-your-left",
+      "skill:ramp-up"
+    ],
+    "artHashes": [
+      "a5a6868e0e82c3c7"
+    ]
+  },
+  {
+    "id": "card:day-i-dreamed-of-rice-shower",
+    "gameId": 30100,
+    "name": "Rice Shower",
+    "title": "Day I Dreamed Of",
+    "characterId": "character:rice-shower",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:deep-breaths",
+      "skill:pace-chaser-corners-2",
+      "skill:straight-descent",
+      "skill:disorient",
+      "skill:pace-chaser-savvy-2",
+      "skill:feature-act"
+    ],
+    "eventSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:shatterproof",
+      "skill:firm-conditions-2"
+    ],
+    "artHashes": [
+      "66e6e2c7a6c6cec7"
+    ]
+  },
+  {
+    "id": "card:dazzling-day-in-the-snow-marvelous-sunday",
+    "gameId": 30074,
+    "name": "Marvelous Sunday",
+    "title": "Dazzling Day in the Snow",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:straightaway-adept",
+      "skill:ramp-up",
+      "skill:hesitant-front-runners",
+      "skill:hesitant-pace-chasers",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:cloudy-days-2",
+      "skill:fast-furious",
+      "skill:position-pilfer",
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "03031353c7d6cac6"
+    ]
+  },
+  {
+    "id": "card:dear-mr-c-b-mr-c-b",
+    "gameId": 30097,
+    "name": "Mr. C.B.",
+    "title": "Dear Mr. C.B.",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:rainy-days-2",
+      "skill:corner-acceleration",
+      "skill:homestretch-haste",
+      "skill:straightaway-spurt",
+      "skill:medium-corners-2",
+      "skill:strategist",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:corner-recovery",
+      "skill:intense-gaze",
+      "skill:daring-strike",
+      "skill:early-start"
+    ],
+    "artHashes": [
+      "9a96a21b1b1db9b8"
+    ]
+  },
+  {
+    "id": "card:digital-s-recharge-station-agnes-digital",
+    "gameId": 20005,
+    "name": "Agnes Digital",
+    "title": "Digital's Recharge Station",
+    "characterId": "character:agnes-digital",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:mile-straightaways-2",
+      "skill:opening-gambit",
+      "skill:medium-straightaways-2",
+      "skill:late-surger-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:frenzied-end-closers",
+      "skill:rainy-days-2",
+      "skill:wet-conditions-2"
+    ],
+    "artHashes": [
+      "a5edcd4d574f0b3a"
+    ]
+  },
+  {
+    "id": "card:don-t-stop-anymore-sakura-laurel",
+    "gameId": 30125,
+    "name": "Sakura Laurel",
+    "title": "Don't Stop Anymore!",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:spring-runner-2",
+      "skill:winter-runner-2",
+      "skill:sunny-days-2",
+      "skill:deep-breaths",
+      "skill:long-corners-2",
+      "skill:stamina-eater",
+      "skill:a-small-breather",
+      "skill:free-spirited",
+      "skill:scramble"
+    ],
+    "eventSkillIds": [
+      "skill:be-still",
+      "skill:dauntless",
+      "skill:subdued-pace-chasers"
+    ],
+    "artHashes": [
+      "9c9c9c9c9c9c3c58"
+    ]
+  },
+  {
+    "id": "card:double-carrot-punch-biko-pegasus",
+    "gameId": 30020,
+    "name": "Biko Pegasus",
+    "title": "Double Carrot Punch!",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:outer-post-proficiency-2",
+      "skill:wait-and-see",
+      "skill:gap-closer",
+      "skill:productive-plan",
+      "skill:updrafters",
+      "skill:meticulous-measures",
+      "skill:stop-right-there"
+    ],
+    "eventSkillIds": [
+      "skill:plan-x",
+      "skill:sprint-straightaways-2"
+    ],
+    "artHashes": [
+      "dccccccc4cede5b7"
+    ]
+  },
+  {
+    "id": "card:dream-big-tokai-teio",
+    "gameId": 30003,
+    "name": "Tokai Teio",
+    "title": "Dream Big!",
+    "characterId": "character:tokai-teio",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:prudent-positioning",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow",
+      "skill:thunderbolt-step",
+      "skill:soft-step",
+      "skill:shrewd-step"
+    ],
+    "eventSkillIds": [
+      "skill:rushing-gale",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "artHashes": [
+      "ccce8e86cdcdc575"
+    ]
+  },
+  {
+    "id": "card:dreams-do-come-true-winning-ticket",
+    "gameId": 30033,
+    "name": "Winning Ticket",
+    "title": "Dreams Do Come True!",
+    "characterId": "character:winning-ticket",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:position-pilfer",
+      "skill:slick-surge",
+      "skill:outer-swell"
+    ],
+    "eventSkillIds": [
+      "skill:in-body-and-mind",
+      "skill:late-surger-corners-2"
+    ],
+    "artHashes": [
+      "c0c2c686ccc4c4ec"
+    ]
+  },
+  {
+    "id": "card:eat-fast-yum-fast-sakura-bakushin-o",
+    "gameId": 30015,
+    "name": "Sakura Bakushin O",
+    "title": "Eat Fast! Yum Fast!",
+    "characterId": "character:sakura-bakushin-o",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:sprinting-gear",
+      "skill:frenzied-front-runners",
+      "skill:flustered-front-runners",
+      "skill:sprint-straightaways-2",
+      "skill:sprint-corners-2",
+      "skill:huge-lead",
+      "skill:countermeasure",
+      "skill:intimidate"
+    ],
+    "eventSkillIds": [
+      "skill:turbo-sprint",
+      "skill:gap-closer"
+    ],
+    "artHashes": [
+      "66e6ccced6c6ca8a"
+    ]
+  },
+  {
+    "id": "card:encha-nement-symboli-rudolf",
+    "gameId": 30090,
+    "name": "Symboli Rudolf",
+    "title": "Enchaînement",
+    "characterId": "character:symboli-rudolf",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:subdued-front-runners",
+      "skill:subdued-pace-chasers",
+      "skill:subdued-late-surgers",
+      "skill:subdued-end-closers",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:tether",
+      "skill:all-i-ve-got"
+    ],
+    "eventSkillIds": [
+      "skill:soft-step",
+      "skill:burning-soul",
+      "skill:rainy-days-2"
+    ],
+    "artHashes": [
+      "e4d2d0cece86c6c6"
+    ]
+  },
+  {
+    "id": "card:escorte-toile-sirius-symboli",
+    "gameId": 30091,
+    "name": "Sirius Symboli",
+    "title": "Escorte Étoile",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:medium-corners-2",
+      "skill:late-surger-straightaways-2",
+      "skill:lone-wolf",
+      "skill:be-still"
+    ],
+    "eventSkillIds": [
+      "skill:playtime-s-over",
+      "skill:late-surger-savvy-2",
+      "skill:take-the-chance",
+      "skill:from-the-brink",
+      "skill:disorient"
+    ],
+    "artHashes": [
+      "eada9292968e86ce"
+    ]
+  },
+  {
+    "id": "card:esteemed-and-adored-the-throne-s-assemblage",
+    "gameId": 30067,
+    "name": "The Throne's Assemblage",
+    "title": "Esteemed and Adored",
+    "characterId": "character:symboli-rudolf",
+    "type": "group",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:pace-chaser-straightaways-2",
+      "skill:rainy-days-2",
+      "skill:fighter",
+      "skill:fighting-spirit",
+      "skill:prudent-positioning",
+      "skill:full-throttle",
+      "skill:nakayama-racecourse-2",
+      "skill:refraction-arc",
+      "skill:medium-corners-2"
+    ],
+    "artHashes": [
+      "96938e8e8e8ec6ca"
+    ]
+  },
+  {
+    "id": "card:even-the-littlest-bud-nishino-flower",
+    "gameId": 30018,
+    "name": "Nishino Flower",
+    "title": "Even the Littlest Bud",
+    "characterId": "character:nishino-flower",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:updrafters",
+      "skill:pace-chaser-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:countermeasure",
+      "skill:beeline-burst",
+      "skill:straightaway-adept"
+    ],
+    "artHashes": [
+      "c6ce86c6c6e464bc"
+    ]
+  },
+  {
+    "id": "card:event-producer-light-hello",
+    "gameId": 10083,
+    "name": "Light Hello",
+    "title": "Event Producer",
+    "type": "friend",
+    "rarity": "R",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:maverick-2",
+      "skill:playtime-s-over",
+      "skill:front-runner-savvy-2",
+      "skill:pace-chaser-savvy-2"
+    ],
+    "artHashes": [
+      "9a0b2e0e0e8e4ecc"
+    ]
+  },
+  {
+    "id": "card:experimental-studies-on-subject-a-agnes-tachyon",
+    "gameId": 20012,
+    "name": "Agnes Tachyon",
+    "title": "Experimental Studies on Subject A",
+    "characterId": "character:agnes-tachyon",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:up-tempo",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:tether"
+    ],
+    "eventSkillIds": [
+      "skill:subdued-front-runners",
+      "skill:late-surger-savvy-2"
+    ],
+    "artHashes": [
+      "8e0e06060ec6e2b8"
+    ]
+  },
+  {
+    "id": "card:fairest-fleur-grass-wonder",
+    "gameId": 30006,
+    "name": "Grass Wonder",
+    "title": "Fairest Fleur",
+    "characterId": "character:grass-wonder",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:competitive-spirit-2",
+      "skill:homestretch-haste",
+      "skill:position-pilfer",
+      "skill:slick-surge",
+      "skill:updrafters",
+      "skill:flustered-pace-chasers",
+      "skill:tether"
+    ],
+    "eventSkillIds": [
+      "skill:tether",
+      "skill:late-surger-savvy-2",
+      "skill:furious-feat",
+      "skill:frenzied-pace-chasers",
+      "skill:target-in-sight-2"
+    ],
+    "artHashes": [
+      "cf8f8e8e8ece8e8e"
+    ]
+  },
+  {
+    "id": "card:fate-s-forecast-matikanefukukitaru",
+    "gameId": 20016,
+    "name": "Matikanefukukitaru",
+    "title": "Fate's Forecast",
+    "characterId": "character:matikanefukukitaru",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:hakodate-racecourse-2",
+      "skill:calm-in-a-crowd",
+      "skill:trick-rear",
+      "skill:late-surger-corners-2",
+      "skill:a-small-breather",
+      "skill:lucky-seven",
+      "skill:triple-7s"
+    ],
+    "eventSkillIds": [
+      "skill:right-handed-2"
+    ],
+    "artHashes": [
+      "ccc640ceceae6d6d"
+    ]
+  },
+  {
+    "id": "card:fiery-discipline-yaeno-muteki",
+    "gameId": 30032,
+    "name": "Yaeno Muteki",
+    "title": "Fiery Discipline",
+    "characterId": "character:yaeno-muteki",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:ramp-up",
+      "skill:homestretch-haste",
+      "skill:prepared-to-pass",
+      "skill:up-tempo",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:subdued-late-surgers",
+      "skill:hesitant-late-surgers",
+      "skill:playtime-s-over",
+      "skill:it-s-on",
+      "skill:medium-corners-2"
+    ],
+    "artHashes": [
+      "6382c2cecec6c4cd"
+    ]
+  },
+  {
+    "id": "card:fighting-for-fortune-meisho-doto",
+    "gameId": 20017,
+    "name": "Meisho Doto",
+    "title": "Fighting for Fortune",
+    "characterId": "character:meisho-doto",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:inner-post-proficiency-2",
+      "skill:long-shot-2",
+      "skill:hawkeye",
+      "skill:late-surger-straightaways-2",
+      "skill:shake-it-out"
+    ],
+    "eventSkillIds": [
+      "skill:prepared-to-pass",
+      "skill:pace-chaser-corners-2"
+    ],
+    "artHashes": [
+      "e4eccecc8c665262"
+    ]
+  },
+  {
+    "id": "card:fire-at-my-heels-kitasan-black",
+    "gameId": 30028,
+    "name": "Kitasan Black",
+    "title": "Fire at My Heels",
+    "characterId": "character:kitasan-black",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:corner-adept",
+      "skill:corner-recovery",
+      "skill:straightaway-recovery",
+      "skill:focus",
+      "skill:extra-tank",
+      "skill:long-corners-2",
+      "skill:front-runner-straightaways-2",
+      "skill:dodging-danger"
+    ],
+    "eventSkillIds": [
+      "skill:straightaway-adept",
+      "skill:professor-of-curvature"
+    ],
+    "artHashes": [
+      "0dad2d0e0e96944c"
+    ]
+  },
+  {
+    "id": "card:first-rate-plan-king-halo",
+    "gameId": 20020,
+    "name": "King Halo",
+    "title": "First-Rate Plan",
+    "characterId": "character:king-halo",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:outer-post-proficiency-2",
+      "skill:corner-recovery",
+      "skill:wait-and-see",
+      "skill:gap-closer"
+    ],
+    "eventSkillIds": [
+      "skill:homestretch-haste"
+    ],
+    "artHashes": [
+      "cfcdc5cccdcd8d25"
+    ]
+  },
+  {
+    "id": "card:foolproof-plan-seiun-sky",
+    "gameId": 30008,
+    "name": "Seiun Sky",
+    "title": "Foolproof Plan",
+    "characterId": "character:seiun-sky",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:inner-post-proficiency-2",
+      "skill:long-shot-2",
+      "skill:trick-front",
+      "skill:frenzied-late-surgers",
+      "skill:hesitant-pace-chasers",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:dodging-danger",
+      "skill:second-wind",
+      "skill:fast-paced",
+      "skill:escape-artist",
+      "skill:keeping-the-lead"
+    ],
+    "artHashes": [
+      "3d2b0baeced6ccd7"
+    ]
+  },
+  {
+    "id": "card:from-the-ground-up-light-hello",
+    "gameId": 30052,
+    "name": "Light Hello",
+    "title": "From the Ground Up",
+    "type": "friend",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:maverick-2",
+      "skill:see-ya-later",
+      "skill:front-runner-savvy-2",
+      "skill:pace-chaser-savvy-2"
+    ],
+    "artHashes": [
+      "dbd99f9fbe3f1fde"
+    ]
+  },
+  {
+    "id": "card:full-blown-tantrum-winning-ticket",
+    "gameId": 30046,
+    "name": "Winning Ticket",
+    "title": "Full-Blown Tantrum",
+    "characterId": "character:winning-ticket",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:position-pilfer",
+      "skill:slick-surge",
+      "skill:outer-swell"
+    ],
+    "eventSkillIds": [
+      "skill:triple-7s",
+      "skill:1-500-000-cc",
+      "skill:medium-straightaways-2",
+      "skill:maverick-2",
+      "skill:hard-worker",
+      "skill:late-surger-corners-2"
+    ],
+    "artHashes": [
+      "d58f9f9b8ecedaec"
+    ]
+  },
+  {
+    "id": "card:get-lots-of-hugs-for-me-oguri-cap",
+    "gameId": 30024,
+    "name": "Oguri Cap",
+    "title": "Get Lots of Hugs for Me",
+    "characterId": "character:oguri-cap",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:cloudy-days-2",
+      "skill:corner-adept",
+      "skill:corner-acceleration",
+      "skill:focus",
+      "skill:nimble-navigator",
+      "skill:homestretch-haste",
+      "skill:up-tempo",
+      "skill:acceleration",
+      "skill:hydrate",
+      "skill:groundwork"
+    ],
+    "eventSkillIds": [
+      "skill:stamina-to-spare",
+      "skill:outer-swell",
+      "skill:furious-feat",
+      "skill:nakayama-racecourse-2"
+    ],
+    "artHashes": [
+      "b3a3d3bbdb6fce6e"
+    ]
+  },
+  {
+    "id": "card:glad-tidings-narita-brian",
+    "gameId": 30123,
+    "name": "Narita Brian",
+    "title": "Glad Tidings",
+    "characterId": "character:narita-brian",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:firm-conditions-2",
+      "skill:winter-runner-2",
+      "skill:preferred-position",
+      "skill:outer-swell",
+      "skill:long-straightaways-2",
+      "skill:all-set",
+      "skill:steady-gait",
+      "skill:latch-on",
+      "skill:my-true-strength"
+    ],
+    "eventSkillIds": [
+      "skill:my-true-strength",
+      "skill:hot-pursuit",
+      "skill:lone-wolf"
+    ],
+    "artHashes": [
+      "26eeb68e9e8e8e9e"
+    ]
+  },
+  {
+    "id": "card:go-ahead-and-laugh-mejiro-palmer",
+    "gameId": 30027,
+    "name": "Mejiro Palmer",
+    "title": "Go Ahead and Laugh",
+    "characterId": "character:mejiro-palmer",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:hanshin-racecourse-2",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:flustered-pace-chasers",
+      "skill:moxie",
+      "skill:sympathy"
+    ],
+    "eventSkillIds": [
+      "skill:front-runner-straightaways-2",
+      "skill:pace-strategy",
+      "skill:front-runner-savvy-2",
+      "skill:keeping-the-lead",
+      "skill:vanguard-spirit",
+      "skill:lone-wolf",
+      "skill:wet-conditions-2"
+    ],
+    "artHashes": [
+      "1c8c8e2e8686862e"
+    ]
+  },
+  {
+    "id": "card:go-go-princess-kawakami-princess",
+    "gameId": 30096,
+    "name": "Kawakami Princess",
+    "title": "Go Go☆Princess!",
+    "characterId": "character:kawakami-princess",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:preferred-position",
+      "skill:soft-step",
+      "skill:tactical-tweak"
+    ],
+    "eventSkillIds": [
+      "skill:unyielding",
+      "skill:steadfast"
+    ],
+    "artHashes": [
+      "87c7ab8d9fafb7cf"
+    ]
+  },
+  {
+    "id": "card:go-go-tsuyoshi-tsurumaru-tsuyoshi",
+    "gameId": 20052,
+    "name": "Tsurumaru Tsuyoshi",
+    "title": "Go, Go! Tsuyoshi!",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:long-shot-2",
+      "skill:up-tempo",
+      "skill:risky-business",
+      "skill:fighting-spirit",
+      "skill:full-throttle"
+    ],
+    "eventSkillIds": [
+      "skill:late-surger-straightaways-2",
+      "skill:fighter"
+    ],
+    "artHashes": [
+      "8382030b8686c6ce"
+    ]
+  },
+  {
+    "id": "card:going-for-gold-gold-city",
+    "gameId": 20049,
+    "name": "Gold City",
+    "title": "Going for Gold",
+    "characterId": "character:gold-city",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:rainy-days-2",
+      "skill:long-shot-2",
+      "skill:watchful-eye",
+      "skill:tail-held-high",
+      "skill:lone-wolf"
+    ],
+    "eventSkillIds": [
+      "skill:straightaway-recovery",
+      "skill:snowy-days-2",
+      "skill:a-small-breather"
+    ],
+    "artHashes": [
+      "bb9def4e0f0f0cac"
+    ]
+  },
+  {
+    "id": "card:grma-ramen-fine-motion",
+    "gameId": 20037,
+    "name": "Fine Motion",
+    "title": "Grma, Ramen ♪",
+    "characterId": "character:fine-motion",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:fall-runner-2",
+      "skill:outer-post-proficiency-2",
+      "skill:straightaway-acceleration",
+      "skill:nimble-navigator"
+    ],
+    "eventSkillIds": [
+      "skill:steadfast",
+      "skill:corner-adept"
+    ],
+    "artHashes": [
+      "de9a8e8e9e0ecc49"
+    ]
+  },
+  {
+    "id": "card:hands-up-crook-taiki-shuttle",
+    "gameId": 30053,
+    "name": "Taiki Shuttle",
+    "title": "Hands Up, Crook!",
+    "characterId": "character:taiki-shuttle",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:productive-plan",
+      "skill:mile-straightaways-2",
+      "skill:shifting-gears",
+      "skill:acceleration",
+      "skill:speed-eater"
+    ],
+    "eventSkillIds": [
+      "skill:mile-corners-2",
+      "skill:mile-maven",
+      "skill:prepared-to-pass"
+    ],
+    "artHashes": [
+      "0d9ba98b8f8f8d4c"
+    ]
+  },
+  {
+    "id": "card:happiness-just-around-the-bend-rice-shower",
+    "gameId": 30034,
+    "name": "Rice Shower",
+    "title": "Happiness Just around the Bend",
+    "characterId": "character:rice-shower",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:maverick-2",
+      "skill:deep-breaths",
+      "skill:frenzied-pace-chasers",
+      "skill:subdued-pace-chasers",
+      "skill:flustered-pace-chasers",
+      "skill:straight-descent",
+      "skill:disorient",
+      "skill:highlander"
+    ],
+    "eventSkillIds": [
+      "skill:passing-pro",
+      "skill:swinging-maestro",
+      "skill:firm-conditions-2"
+    ],
+    "artHashes": [
+      "4c4a0687c7c3c7e4"
+    ]
+  },
+  {
+    "id": "card:head-on-fight-bamboo-memory",
+    "gameId": 30042,
+    "name": "Bamboo Memory",
+    "title": "Head-on Fight!",
+    "characterId": "character:bamboo-memory",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:target-in-sight-2",
+      "skill:straightaway-adept",
+      "skill:gap-closer",
+      "skill:mile-straightaways-2",
+      "skill:acceleration",
+      "skill:late-surger-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:homestretch-haste",
+      "skill:running-idle",
+      "skill:hesitant-late-surgers",
+      "skill:rising-dragon",
+      "skill:outer-swell",
+      "skill:standard-distance-2"
+    ],
+    "artHashes": [
+      "c7c3c9a387d3c7c7"
+    ]
+  },
+  {
+    "id": "card:hometown-cheers-yukino-bijin",
+    "gameId": 30031,
+    "name": "Yukino Bijin",
+    "title": "Hometown Cheers",
+    "characterId": "character:yukino-bijin",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:winter-runner-2",
+      "skill:steadfast",
+      "skill:medium-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:inner-post-proficiency-2",
+      "skill:hydrate",
+      "skill:no-stopping-me",
+      "skill:corner-acceleration"
+    ],
+    "artHashes": [
+      "242626a68282c6c6"
+    ]
+  },
+  {
+    "id": "card:hopeful-petals-dancing-in-the-night-mejiro-ardan",
+    "gameId": 30119,
+    "name": "Mejiro Ardan",
+    "title": "Hopeful Petals Dancing in the Night",
+    "characterId": "character:mejiro-ardan",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:left-handed-2",
+      "skill:preferred-position",
+      "skill:soft-step",
+      "skill:pace-chaser-corners-2",
+      "skill:pace-chaser-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:race-planner",
+      "skill:hesitant-pace-chasers"
+    ],
+    "artHashes": [
+      "1b1c242606039687"
+    ]
+  },
+  {
+    "id": "card:hot-hearts-and-cool-drinks-mejiro-ryan",
+    "gameId": 20040,
+    "name": "Mejiro Ryan",
+    "title": "Hot Hearts and Cool Drinks",
+    "characterId": "character:mejiro-ryan",
+    "type": "stamina",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:slick-surge",
+      "skill:up-tempo",
+      "skill:medium-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:late-surger-straightaways-2",
+      "skill:pace-strategy"
+    ],
+    "artHashes": [
+      "470e140606868ea5"
+    ]
+  },
+  {
+    "id": "card:i-love-you-dear-food-oguri-cap",
+    "gameId": 20048,
+    "name": "Oguri Cap",
+    "title": "I Love You... Dear Food",
+    "characterId": "character:oguri-cap",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:corner-acceleration",
+      "skill:nimble-navigator",
+      "skill:homestretch-haste",
+      "skill:acceleration",
+      "skill:unyielding-spirit",
+      "skill:groundwork",
+      "skill:pumped",
+      "skill:fearless"
+    ],
+    "eventSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:nakayama-racecourse-2"
+    ],
+    "artHashes": [
+      "26b06a0d5d1f574f"
+    ]
+  },
+  {
+    "id": "card:ignore-the-stares-mejiro-dober",
+    "gameId": 20018,
+    "name": "Mejiro Dober",
+    "title": "Ignore the Stares",
+    "characterId": "character:mejiro-dober",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:sunny-days-2",
+      "skill:up-tempo",
+      "skill:steadfast",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:slick-surge",
+      "skill:unyielding-spirit"
+    ],
+    "artHashes": [
+      "ec4ecccccccccc9d"
+    ]
+  },
+  {
+    "id": "card:it-s-all-mine-sweep-tosho",
+    "gameId": 30045,
+    "name": "Sweep Tosho",
+    "title": "It's All Mine!",
+    "characterId": "character:sweep-tosho",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:prudent-positioning",
+      "skill:trick-front",
+      "skill:trick-rear",
+      "skill:murmur",
+      "skill:i-can-see-right-through-you",
+      "skill:after-school-stroll",
+      "skill:slipstream"
+    ],
+    "eventSkillIds": [
+      "skill:straightaway-spurt",
+      "skill:crusader"
+    ],
+    "artHashes": [
+      "d2d2d686c6868e67"
+    ]
+  },
+  {
+    "id": "card:it-s-just-water-nice-nature",
+    "gameId": 20019,
+    "name": "Nice Nature",
+    "title": "It's Just Water",
+    "characterId": "character:nice-nature",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:kokura-racecourse-2",
+      "skill:corner-acceleration",
+      "skill:lay-low",
+      "skill:go-with-the-flow",
+      "skill:hesitant-late-surgers",
+      "skill:murmur",
+      "skill:a-small-breather",
+      "skill:sharp-gaze"
+    ],
+    "eventSkillIds": [
+      "skill:extra-tank",
+      "skill:ramp-up"
+    ],
+    "artHashes": [
+      "cce2424607a6cc6e"
+    ]
+  },
+  {
+    "id": "card:it-s-on-the-house-manhattan-cafe",
+    "gameId": 30110,
+    "name": "Manhattan Cafe",
+    "title": "It's on the House",
+    "characterId": "character:manhattan-cafe",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:deep-breaths",
+      "skill:long-straightaways-2",
+      "skill:long-corners-2",
+      "skill:passing-pro",
+      "skill:pressure",
+      "skill:stamina-eater",
+      "skill:highlander"
+    ],
+    "eventSkillIds": [
+      "skill:of-calm-mind",
+      "skill:non-standard-distance-2"
+    ],
+    "artHashes": [
+      "489c9aba3e3a3c39"
+    ]
+  },
+  {
+    "id": "card:just-keep-going-matikanetannhauser",
+    "gameId": 30030,
+    "name": "Matikanetannhauser",
+    "title": "Just Keep Going",
+    "characterId": "character:matikanetannhauser",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:pace-strategy",
+      "skill:steadfast",
+      "skill:deep-breaths",
+      "skill:fighter"
+    ],
+    "eventSkillIds": [
+      "skill:unruffled",
+      "skill:calm-in-a-crowd",
+      "skill:subdued-front-runners"
+    ],
+    "artHashes": [
+      "54674c8c1cc8cbd3"
+    ]
+  },
+  {
+    "id": "card:lamplit-training-of-a-witch-to-be-sweep-tosho",
+    "gameId": 20023,
+    "name": "Sweep Tosho",
+    "title": "Lamplit Training of a Witch-to-Be",
+    "characterId": "character:sweep-tosho",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:prudent-positioning",
+      "skill:trick-front",
+      "skill:trick-rear",
+      "skill:murmur",
+      "skill:i-can-see-right-through-you",
+      "skill:after-school-stroll",
+      "skill:slipstream"
+    ],
+    "eventSkillIds": [
+      "skill:lucky-seven",
+      "skill:maverick-2",
+      "skill:levelheaded",
+      "skill:lone-wolf"
+    ],
+    "artHashes": [
+      "276743676723a362"
+    ]
+  },
+  {
+    "id": "card:laughing-through-the-mud-inari-one",
+    "gameId": 20032,
+    "name": "Inari One",
+    "title": "Laughing through the Mud",
+    "characterId": "character:inari-one",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:spring-runner-2",
+      "skill:winter-runner-2",
+      "skill:target-in-sight-2",
+      "skill:ramp-up",
+      "skill:sharp-gaze",
+      "skill:tail-held-high",
+      "skill:forward-march",
+      "skill:familiar-ground"
+    ],
+    "eventSkillIds": [
+      "skill:oi-racecourse-2",
+      "skill:kyoto-racecourse-2"
+    ],
+    "artHashes": [
+      "8e8eaa8f8e8eca0e"
+    ]
+  },
+  {
+    "id": "card:leaping-into-the-unknown-meisho-doto",
+    "gameId": 30079,
+    "name": "Meisho Doto",
+    "title": "Leaping into the Unknown",
+    "characterId": "character:meisho-doto",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:inner-post-proficiency-2",
+      "skill:long-shot-2",
+      "skill:hawkeye",
+      "skill:late-surger-straightaways-2",
+      "skill:shake-it-out"
+    ],
+    "eventSkillIds": [
+      "skill:medium-corners-2",
+      "skill:killer-tunes",
+      "skill:pace-chaser-corners-2"
+    ],
+    "artHashes": [
+      "9f9a8f8f8f1687c6"
+    ]
+  },
+  {
+    "id": "card:let-s-get-this-party-lit-daitaku-helios",
+    "gameId": 20024,
+    "name": "Daitaku Helios",
+    "title": "Let's Get This Party Lit!",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:ramp-up",
+      "skill:stamina-to-spare",
+      "skill:mile-corners-2",
+      "skill:shifting-gears",
+      "skill:speed-eater",
+      "skill:sympathy",
+      "skill:slipstream"
+    ],
+    "eventSkillIds": [
+      "skill:straight-descent",
+      "skill:watchful-eye",
+      "skill:long-shot-2"
+    ],
+    "artHashes": [
+      "98edcbcf4f46c68c"
+    ]
+  },
+  {
+    "id": "card:lifting-your-spirits-nishino-flower",
+    "gameId": 20027,
+    "name": "Nishino Flower",
+    "title": "Lifting Your Spirits",
+    "characterId": "character:nishino-flower",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:updrafters",
+      "skill:pace-chaser-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:straightaway-adept",
+      "skill:straightaway-acceleration"
+    ],
+    "artHashes": [
+      "e89e6e8b8fae9e8e"
+    ]
+  },
+  {
+    "id": "card:little-by-little-mejiro-bright",
+    "gameId": 30087,
+    "name": "Mejiro Bright",
+    "title": "Little by Little",
+    "characterId": "character:mejiro-bright",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:extra-tank",
+      "skill:passing-pro",
+      "skill:pressure",
+      "skill:stamina-eater"
+    ],
+    "eventSkillIds": [
+      "skill:early-start",
+      "skill:overwhelming-pressure",
+      "skill:deep-breaths"
+    ],
+    "artHashes": [
+      "9d57a7aa9696478f"
+    ]
+  },
+  {
+    "id": "card:little-cupcakes-big-emotions-nishino-flower",
+    "gameId": 30082,
+    "name": "Nishino Flower",
+    "title": "Little Cupcakes, Big Emotions",
+    "characterId": "character:nishino-flower",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:updrafters",
+      "skill:pace-chaser-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:shifting-gears",
+      "skill:determined-descent"
+    ],
+    "artHashes": [
+      "a2c28e8f86868ecc"
+    ]
+  },
+  {
+    "id": "card:lucky-star-in-the-sky-admire-vega",
+    "gameId": 30077,
+    "name": "Admire Vega",
+    "title": "Lucky Star in the Sky",
+    "characterId": "character:admire-vega",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:masterful-gambit",
+      "skill:tether",
+      "skill:end-closer-straightaways-2",
+      "skill:levelheaded",
+      "skill:strategist"
+    ],
+    "eventSkillIds": [
+      "skill:flustered-pace-chasers",
+      "skill:daring-strike",
+      "skill:subdued-pace-chasers"
+    ],
+    "artHashes": [
+      "e9fc5c3c7c7c6674"
+    ]
+  },
+  {
+    "id": "card:machitan-adventure-matikanetannhauser",
+    "gameId": 30103,
+    "name": "Matikanetannhauser",
+    "title": "Machitan☆Adventure",
+    "characterId": "character:matikanetannhauser",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:corner-recovery",
+      "skill:lay-low",
+      "skill:pace-strategy",
+      "skill:nimble-navigator",
+      "skill:homestretch-haste",
+      "skill:shake-it-out"
+    ],
+    "eventSkillIds": [
+      "skill:ramp-up",
+      "skill:flustered-late-surgers",
+      "skill:it-s-on",
+      "skill:subdued-front-runners"
+    ],
+    "artHashes": [
+      "9ac78e0c9f85474a"
+    ]
+  },
+  {
+    "id": "card:mag-c-number-air-shakur",
+    "gameId": 30092,
+    "name": "Air Shakur",
+    "title": "Mag!c Number",
+    "characterId": "character:air-shakur",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standing-by",
+      "skill:straightaway-spurt",
+      "skill:up-tempo",
+      "skill:end-closer-corners-2",
+      "skill:levelheaded"
+    ],
+    "eventSkillIds": [
+      "skill:eager",
+      "skill:end-closer-straightaways-2",
+      "skill:serenity",
+      "skill:pace-strategy"
+    ],
+    "artHashes": [
+      "ecb8bcbcaecfcfcd"
+    ]
+  },
+  {
+    "id": "card:magical-heroine-zenno-rob-roy",
+    "gameId": 30065,
+    "name": "Zenno Rob Roy",
+    "title": "Magical Heroine",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:straightaway-adept",
+      "skill:prudent-positioning",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow",
+      "skill:shrewd-step",
+      "skill:studious",
+      "skill:pace-chaser-savvy-2",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:right-handed-2",
+      "skill:left-handed-2",
+      "skill:lie-in-wait",
+      "skill:medium-straightaways-2"
+    ],
+    "artHashes": [
+      "d50b2b1f86471a4b"
+    ]
+  },
+  {
+    "id": "card:make-some-noise-daitaku-helios",
+    "gameId": 30071,
+    "name": "Daitaku Helios",
+    "title": "Make! Some! NOISE!",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:ramp-up",
+      "skill:stamina-to-spare",
+      "skill:mile-corners-2",
+      "skill:shifting-gears",
+      "skill:speed-eater",
+      "skill:sympathy",
+      "skill:slipstream"
+    ],
+    "eventSkillIds": [
+      "skill:early-lead",
+      "skill:pace-chaser-corners-2",
+      "skill:escape-artist",
+      "skill:fast-paced",
+      "skill:long-shot-2"
+    ],
+    "artHashes": [
+      "ead59ec6ceca6662"
+    ]
+  },
+  {
+    "id": "card:make-these-feelings-reach-you-bamboo-memory",
+    "gameId": 30094,
+    "name": "Bamboo Memory",
+    "title": "Make These Feelings Reach You!",
+    "characterId": "character:bamboo-memory",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:target-in-sight-2",
+      "skill:homestretch-haste",
+      "skill:outer-swell",
+      "skill:gap-closer",
+      "skill:updrafters",
+      "skill:mile-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:position-pilfer",
+      "skill:full-of-vigor",
+      "skill:pumped",
+      "skill:standard-distance-2"
+    ],
+    "artHashes": [
+      "90a2c2c4c3828a46"
+    ]
+  },
+  {
+    "id": "card:messing-around-nice-nature",
+    "gameId": 20026,
+    "name": "Nice Nature",
+    "title": "Messing Around",
+    "characterId": "character:nice-nature",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:kokura-racecourse-2",
+      "skill:corner-acceleration",
+      "skill:lay-low",
+      "skill:go-with-the-flow",
+      "skill:hesitant-late-surgers",
+      "skill:murmur",
+      "skill:a-small-breather",
+      "skill:sharp-gaze"
+    ],
+    "eventSkillIds": [
+      "skill:long-shot-2",
+      "skill:ramp-up"
+    ],
+    "artHashes": [
+      "ca8a860e06c6cb87"
+    ]
+  },
+  {
+    "id": "card:mini-vacation-daiwa-scarlet",
+    "gameId": 30047,
+    "name": "Daiwa Scarlet",
+    "title": "Mini☆Vacation",
+    "characterId": "character:daiwa-scarlet",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:rosy-outlook",
+      "skill:up-tempo",
+      "skill:shifting-gears"
+    ],
+    "eventSkillIds": [
+      "skill:race-planner",
+      "skill:preferred-position",
+      "skill:stamina-to-spare"
+    ],
+    "artHashes": [
+      "2a2c8a9e8e8695cc"
+    ]
+  },
+  {
+    "id": "card:moonlit-devil-mejiro-palmer",
+    "gameId": 30115,
+    "name": "Mejiro Palmer",
+    "title": "Moonlit Devil ♪",
+    "characterId": "character:mejiro-palmer",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:early-lead",
+      "skill:final-push",
+      "skill:keeping-the-lead",
+      "skill:moxie",
+      "skill:front-runner-savvy-2",
+      "skill:groundwork",
+      "skill:sympathy",
+      "skill:playtime-s-over"
+    ],
+    "eventSkillIds": [
+      "skill:passing-pro",
+      "skill:front-runner-corners-2",
+      "skill:taking-the-lead",
+      "skill:wet-conditions-2"
+    ],
+    "artHashes": [
+      "cc2a3612a785c547"
+    ]
+  },
+  {
+    "id": "card:mud-caked-compa-ero-el-condor-pasa",
+    "gameId": 20033,
+    "name": "El Condor Pasa",
+    "title": "Mud-Caked Compañero",
+    "characterId": "character:el-condor-pasa",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:prepared-to-pass",
+      "skill:up-tempo",
+      "skill:pace-chaser-straightaways-2",
+      "skill:head-on"
+    ],
+    "eventSkillIds": [
+      "skill:pace-chaser-corners-2",
+      "skill:sunny-days-2"
+    ],
+    "artHashes": [
+      "ab8b1b1f0b07068e"
+    ]
+  },
+  {
+    "id": "card:my-heart-will-go-on-mejiro-ardan",
+    "gameId": 20034,
+    "name": "Mejiro Ardan",
+    "title": "My Heart Will Go On",
+    "characterId": "character:mejiro-ardan",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:left-handed-2",
+      "skill:preferred-position",
+      "skill:soft-step",
+      "skill:pace-chaser-corners-2",
+      "skill:pace-chaser-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:hesitant-pace-chasers"
+    ],
+    "artHashes": [
+      "4656e2cace4e0e34"
+    ]
+  },
+  {
+    "id": "card:my-solo-drawn-to-raindrop-drums-manhattan-cafe",
+    "gameId": 20008,
+    "name": "Manhattan Cafe",
+    "title": "My Solo Drawn to Raindrop Drums",
+    "characterId": "character:manhattan-cafe",
+    "type": "stamina",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:long-straightaways-2",
+      "skill:passing-pro",
+      "skill:stamina-eater",
+      "skill:highlander"
+    ],
+    "eventSkillIds": [
+      "skill:studious",
+      "skill:non-standard-distance-2"
+    ],
+    "artHashes": [
+      "351555b7236b67a5"
+    ]
+  },
+  {
+    "id": "card:my-solo-spun-in-spiraling-runs-manhattan-cafe",
+    "gameId": 30075,
+    "name": "Manhattan Cafe",
+    "title": "My Solo Spun in Spiraling Runs",
+    "characterId": "character:manhattan-cafe",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:long-straightaways-2",
+      "skill:passing-pro",
+      "skill:stamina-eater",
+      "skill:highlander"
+    ],
+    "eventSkillIds": [
+      "skill:long-corners-2",
+      "skill:stamina-siphon",
+      "skill:non-standard-distance-2"
+    ],
+    "artHashes": [
+      "878f979e9e1e1e5e"
+    ]
+  },
+  {
+    "id": "card:my-thoughts-my-desires-mejiro-dober",
+    "gameId": 30041,
+    "name": "Mejiro Dober",
+    "title": "My Thoughts, My Desires",
+    "characterId": "character:mejiro-dober",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:sunny-days-2",
+      "skill:up-tempo",
+      "skill:steadfast",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:the-bigger-picture",
+      "skill:unyielding-spirit"
+    ],
+    "artHashes": [
+      "b0f8ececcecece8e"
+    ]
+  },
+  {
+    "id": "card:my-umadol-way-smart-falcon",
+    "gameId": 30017,
+    "name": "Smart Falcon",
+    "title": "My Umadol Way! ☆",
+    "characterId": "character:smart-falcon",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:outer-post-proficiency-2",
+      "skill:corner-recovery",
+      "skill:oi-racecourse-2",
+      "skill:second-wind",
+      "skill:restart",
+      "skill:front-runner-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:groundwork",
+      "skill:focus",
+      "skill:top-pick",
+      "skill:prudent-positioning",
+      "skill:center-stage",
+      "skill:final-push"
+    ],
+    "artHashes": [
+      "4367cb4f47564fdb"
+    ]
+  },
+  {
+    "id": "card:my-way-tosen-jordan",
+    "gameId": 30084,
+    "name": "Tosen Jordan",
+    "title": "My Way",
+    "characterId": "character:tosen-jordan",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:long-shot-2",
+      "skill:stamina-to-spare",
+      "skill:position-pilfer",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:breath-of-fresh-air",
+      "skill:straightaway-recovery",
+      "skill:lucky-seven"
+    ],
+    "artHashes": [
+      "295dec8c9cccc464"
+    ]
+  },
+  {
+    "id": "card:never-skip-warm-ups-ikuno-dictus",
+    "gameId": 20025,
+    "name": "Ikuno Dictus",
+    "title": "Never Skip Warm-Ups",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:hawkeye",
+      "skill:studious",
+      "skill:sharp-gaze"
+    ],
+    "eventSkillIds": [
+      "skill:frenzied-front-runners",
+      "skill:frenzied-end-closers",
+      "skill:trick-rear"
+    ],
+    "artHashes": [
+      "cc486c4dcd65454b"
+    ]
+  },
+  {
+    "id": "card:nothing-escapes-the-vice-prez-air-groove",
+    "gameId": 20004,
+    "name": "Air Groove",
+    "title": "Nothing Escapes the Vice Prez",
+    "characterId": "character:air-groove",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:pace-strategy",
+      "skill:up-tempo",
+      "skill:flustered-end-closers",
+      "skill:hesitant-end-closers",
+      "skill:medium-straightaways-2",
+      "skill:groundwork"
+    ],
+    "eventSkillIds": [
+      "skill:straightaway-acceleration",
+      "skill:go-with-the-flow"
+    ],
+    "artHashes": [
+      "6666c6c6c6e66c6c"
+    ]
+  },
+  {
+    "id": "card:nothing-hard-work-can-t-solve-daiwa-scarlet",
+    "gameId": 20002,
+    "name": "Daiwa Scarlet",
+    "title": "Nothing Hard Work Can't Solve!",
+    "characterId": "character:daiwa-scarlet",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:rosy-outlook",
+      "skill:up-tempo",
+      "skill:shifting-gears"
+    ],
+    "eventSkillIds": [
+      "skill:tactical-tweak",
+      "skill:stamina-to-spare"
+    ],
+    "artHashes": [
+      "4f9797868f8fc5cd"
+    ]
+  },
+  {
+    "id": "card:now-dat-s-what-i-call-grilled-squid-tamamo-cross",
+    "gameId": 20022,
+    "name": "Tamamo Cross",
+    "title": "Now Dat's What I Call Grilled Squid!",
+    "characterId": "character:tamamo-cross",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:rosy-outlook",
+      "skill:frenzied-late-surgers",
+      "skill:flustered-late-surgers",
+      "skill:medium-corners-2",
+      "skill:thunderbolt-step",
+      "skill:soft-step",
+      "skill:1-500-000-cc"
+    ],
+    "eventSkillIds": [
+      "skill:pace-chaser-corners-2",
+      "skill:late-surger-corners-2",
+      "skill:calm-in-a-crowd"
+    ],
+    "artHashes": [
+      "0905292a260fddc5"
+    ]
+  },
+  {
+    "id": "card:number-1-outfit-daiwa-scarlet",
+    "gameId": 30093,
+    "name": "Daiwa Scarlet",
+    "title": "Number 1 Outfit",
+    "characterId": "character:daiwa-scarlet",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:pace-chaser-corners-2",
+      "skill:straight-descent"
+    ],
+    "eventSkillIds": [
+      "skill:feature-act",
+      "skill:up-tempo",
+      "skill:neck-and-neck",
+      "skill:stamina-to-spare"
+    ],
+    "artHashes": [
+      "c9c1c5a58f9f1e9e"
+    ]
+  },
+  {
+    "id": "card:on-and-off-the-court-mejiro-ryan",
+    "gameId": 20010,
+    "name": "Mejiro Ryan",
+    "title": "On and Off the Court",
+    "characterId": "character:mejiro-ryan",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:up-tempo",
+      "skill:medium-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:nimble-navigator",
+      "skill:pace-strategy"
+    ],
+    "artHashes": [
+      "4646ee6e66061f8b"
+    ]
+  },
+  {
+    "id": "card:onwards-demon-queen-lackeys-shinko-windy",
+    "gameId": 30117,
+    "name": "Shinko Windy",
+    "title": "Onwards, Demon Queen Lackeys!",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:prepared-to-pass",
+      "skill:hesitant-front-runners",
+      "skill:competitive-spirit-2",
+      "skill:wet-conditions-2",
+      "skill:full-tilt",
+      "skill:down-in-the-dirt",
+      "skill:got-the-spirit",
+      "skill:muddy-2",
+      "skill:oppression"
+    ],
+    "eventSkillIds": [
+      "skill:full-tilt",
+      "skill:maestro-of-the-mud",
+      "skill:unyielding-spirit"
+    ],
+    "artHashes": [
+      "8a2e8e8e0e91c4c4"
+    ]
+  },
+  {
+    "id": "card:paint-the-sky-red-seiun-sky",
+    "gameId": 30055,
+    "name": "Seiun Sky",
+    "title": "Paint the Sky Red",
+    "characterId": "character:seiun-sky",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:inner-post-proficiency-2",
+      "skill:long-shot-2",
+      "skill:trick-front",
+      "skill:frenzied-late-surgers",
+      "skill:hesitant-pace-chasers",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:frenzied-pace-chasers",
+      "skill:vanguard-spirit",
+      "skill:keeping-the-lead"
+    ],
+    "artHashes": [
+      "9f2b2b6f0f1b1f0e"
+    ]
+  },
+  {
+    "id": "card:pal-assisted-training-mihono-bourbon",
+    "gameId": 20009,
+    "name": "Mihono Bourbon",
+    "title": "Pal-Assisted Training",
+    "characterId": "character:mihono-bourbon",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:snowy-days-2",
+      "skill:early-lead",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:corner-recovery",
+      "skill:front-runner-straightaways-2",
+      "skill:focus"
+    ],
+    "artHashes": [
+      "71111919991d0c05"
+    ]
+  },
+  {
+    "id": "card:party-formation-mayano-top-gun",
+    "gameId": 30072,
+    "name": "Mayano Top Gun",
+    "title": "Party Formation",
+    "characterId": "character:mayano-top-gun",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:corner-adept",
+      "skill:straightaway-adept",
+      "skill:straightaway-recovery",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow"
+    ],
+    "eventSkillIds": [
+      "skill:head-on",
+      "skill:competitive-spirit-2",
+      "skill:restless",
+      "skill:straightaway-adept"
+    ],
+    "artHashes": [
+      "4e2e0a46464b8bc7"
+    ]
+  },
+  {
+    "id": "card:passing-the-dream-on-team-sirius",
+    "gameId": 30081,
+    "name": "Team Sirius",
+    "title": "Passing the Dream On",
+    "characterId": "character:special-week",
+    "type": "group",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:extra-tank",
+      "skill:left-handed-2",
+      "skill:early-lead",
+      "skill:firm-conditions-2",
+      "skill:late-surger-corners-2",
+      "skill:lone-wolf",
+      "skill:risky-business",
+      "skill:target-in-sight-2",
+      "skill:best-in-japan",
+      "skill:corner-recovery"
+    ],
+    "artHashes": [
+      "9e8fad8fcfd3566c"
+    ]
+  },
+  {
+    "id": "card:peachy-silhouette-narita-top-road",
+    "gameId": 30086,
+    "name": "Narita Top Road",
+    "title": "Peachy Silhouette",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:inner-post-proficiency-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:long-straightaways-2",
+      "skill:all-i-ve-got"
+    ],
+    "eventSkillIds": [
+      "skill:pace-chaser-savvy-2",
+      "skill:pressure",
+      "skill:firm-course-menace",
+      "skill:up-tempo"
+    ],
+    "artHashes": [
+      "27642e8c9caca589"
+    ]
+  },
+  {
+    "id": "card:peak-sakura-season-sakura-chiyono-o",
+    "gameId": 30038,
+    "name": "Sakura Chiyono O",
+    "title": "Peak Sakura Season",
+    "characterId": "character:sakura-chiyono-o",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:steadfast",
+      "skill:shifting-gears",
+      "skill:medium-corners-2",
+      "skill:pace-chaser-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:stamina-to-spare",
+      "skill:medium-straightaways-2",
+      "skill:speed-star",
+      "skill:spring-runner-2"
+    ],
+    "artHashes": [
+      "cc5aae56068ee6e4"
+    ]
+  },
+  {
+    "id": "card:piece-of-mind-super-creek",
+    "gameId": 30016,
+    "name": "Super Creek",
+    "title": "Piece of Mind",
+    "characterId": "character:super-creek",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:corner-recovery",
+      "skill:ramp-up",
+      "skill:homestretch-haste",
+      "skill:hesitant-pace-chasers"
+    ],
+    "eventSkillIds": [
+      "skill:swinging-maestro",
+      "skill:deep-breaths"
+    ],
+    "artHashes": [
+      "cccc828c864664e4"
+    ]
+  },
+  {
+    "id": "card:pious-flame-heavens-scorcher-yaeno-muteki",
+    "gameId": 30120,
+    "name": "Yaeno Muteki",
+    "title": "Pious Flame, Heavens Scorcher",
+    "characterId": "character:yaeno-muteki",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:ramp-up",
+      "skill:homestretch-haste",
+      "skill:prepared-to-pass",
+      "skill:up-tempo",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:hydrate",
+      "skill:left-handed-2",
+      "skill:killer-tunes",
+      "skill:medium-corners-2"
+    ],
+    "artHashes": [
+      "8fcbcfcfd75646ec"
+    ]
+  },
+  {
+    "id": "card:planned-perfection-riko-kashimoto",
+    "gameId": 30036,
+    "name": "Riko Kashimoto",
+    "title": "Planned Perfection",
+    "type": "friend",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:ramp-up",
+      "skill:maverick-2",
+      "skill:lone-wolf",
+      "skill:rushing-gale",
+      "skill:sympathy"
+    ],
+    "artHashes": [
+      "385c1ebe3d199b16"
+    ]
+  },
+  {
+    "id": "card:poolside-high-tides-narita-taishin",
+    "gameId": 20014,
+    "name": "Narita Taishin",
+    "title": "Poolside High Tides",
+    "characterId": "character:narita-taishin",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:standing-by",
+      "skill:masterful-gambit",
+      "skill:end-closer-corners-2",
+      "skill:intense-gaze",
+      "skill:lone-wolf"
+    ],
+    "eventSkillIds": [
+      "skill:i-can-see-right-through-you",
+      "skill:pressure"
+    ],
+    "artHashes": [
+      "de9e1e4c5c4cc8d8"
+    ]
+  },
+  {
+    "id": "card:princess-bride-kawakami-princess",
+    "gameId": 30039,
+    "name": "Kawakami Princess",
+    "title": "Princess Bride",
+    "characterId": "character:kawakami-princess",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:preferred-position",
+      "skill:soft-step",
+      "skill:tactical-tweak"
+    ],
+    "eventSkillIds": [
+      "skill:tether",
+      "skill:center-stage",
+      "skill:steadfast"
+    ],
+    "artHashes": [
+      "170b2d0d0f979797"
+    ]
+  },
+  {
+    "id": "card:q-0-agnes-tachyon",
+    "gameId": 30101,
+    "name": "Agnes Tachyon",
+    "title": "Q≠0",
+    "characterId": "character:agnes-tachyon",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:up-tempo",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:tether",
+      "skill:pace-chaser-corners-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:head-on",
+      "skill:on-the-attack"
+    ],
+    "eventSkillIds": [
+      "skill:pace-chaser-straightaways-2",
+      "skill:murmur",
+      "skill:unstoppable",
+      "skill:late-surger-savvy-2"
+    ],
+    "artHashes": [
+      "ef8f9f9e9fae9ede"
+    ]
+  },
+  {
+    "id": "card:reach-the-top-hishi-amazon",
+    "gameId": 20003,
+    "name": "Hishi Amazon",
+    "title": "Reach the Top!",
+    "characterId": "character:hishi-amazon",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:stamina-to-spare",
+      "skill:straightaway-spurt",
+      "skill:end-closer-straightaways-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:end-closer-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:masterful-gambit",
+      "skill:hesitant-end-closers"
+    ],
+    "artHashes": [
+      "b665dfdbdfc76e6e"
+    ]
+  },
+  {
+    "id": "card:reckless-witch-training-sweep-tosho",
+    "gameId": 20046,
+    "name": "Sweep Tosho",
+    "title": "Reckless Witch Training",
+    "characterId": "character:sweep-tosho",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:prudent-positioning",
+      "skill:murmur",
+      "skill:end-closer-corners-2",
+      "skill:i-can-see-right-through-you",
+      "skill:after-school-stroll",
+      "skill:end-closer-savvy-2",
+      "skill:slipstream"
+    ],
+    "eventSkillIds": [
+      "skill:trick-rear",
+      "skill:subdued-end-closers",
+      "skill:end-closer-straightaways-2"
+    ],
+    "artHashes": [
+      "9d9dad8b8b9e9f0d"
+    ]
+  },
+  {
+    "id": "card:rhodonite-and-the-dreamstone-zenno-rob-roy",
+    "gameId": 30104,
+    "name": "Zenno Rob Roy",
+    "title": "\"Rhodonite and the Dreamstone\"",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:tokyo-racecourse-2",
+      "skill:up-tempo",
+      "skill:medium-corners-2",
+      "skill:tether",
+      "skill:pace-chaser-savvy-2",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:studious",
+      "skill:tactical-tweak",
+      "skill:clairvoyance",
+      "skill:medium-straightaways-2"
+    ],
+    "artHashes": [
+      "828647cb8b8bc7c7"
+    ]
+  },
+  {
+    "id": "card:run-forth-dash-on-ever-forward-oguri-cap",
+    "gameId": 30146,
+    "name": "Oguri Cap",
+    "title": "Run Forth! Dash On! Ever Forward!",
+    "characterId": "character:oguri-cap",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:cloudy-days-2",
+      "skill:corner-adept",
+      "skill:nimble-navigator",
+      "skill:preferred-position",
+      "skill:up-tempo",
+      "skill:pace-chaser-straightaways-2",
+      "skill:pace-chaser-corners-2",
+      "skill:straight-descent",
+      "skill:hydrate",
+      "skill:all-i-ve-got",
+      "skill:head-on",
+      "skill:steady-gait"
+    ],
+    "eventSkillIds": [
+      "skill:triple-7s",
+      "skill:solid-strike",
+      "skill:nakayama-racecourse-2"
+    ],
+    "artHashes": [
+      "2d189ab2a2a787a6"
+    ]
+  },
+  {
+    "id": "card:run-my-way-gold-city",
+    "gameId": 30014,
+    "name": "Gold City",
+    "title": "Run(my)way",
+    "characterId": "character:gold-city",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:sapporo-racecourse-2",
+      "skill:watchful-eye",
+      "skill:acceleration"
+    ],
+    "eventSkillIds": [
+      "skill:go-with-the-flow",
+      "skill:keen-eye",
+      "skill:a-small-breather"
+    ],
+    "artHashes": [
+      "89978ca647474696"
+    ]
+  },
+  {
+    "id": "card:searching-for-unseen-sights-silence-suzuka",
+    "gameId": 30076,
+    "name": "Silence Suzuka",
+    "title": "Searching for Unseen Sights",
+    "characterId": "character:silence-suzuka",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:focus",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:final-push",
+      "skill:rosy-outlook",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2",
+      "skill:front-runner-savvy-2",
+      "skill:leader-s-pride"
+    ],
+    "eventSkillIds": [
+      "skill:trackblazer",
+      "skill:left-handed-2"
+    ],
+    "artHashes": [
+      "6c4c270e12874606"
+    ]
+  },
+  {
+    "id": "card:sentimental-flare-maruzensky",
+    "gameId": 30107,
+    "name": "Maruzensky",
+    "title": "Sentimental Flare ♪",
+    "characterId": "character:maruzensky",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:summer-runner-2",
+      "skill:focus",
+      "skill:early-lead",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2",
+      "skill:leader-s-pride",
+      "skill:triple-7s",
+      "skill:groundwork",
+      "skill:slipstream",
+      "skill:playtime-s-over"
+    ],
+    "eventSkillIds": [
+      "skill:focus",
+      "skill:top-runner",
+      "skill:early-lead"
+    ],
+    "artHashes": [
+      "eeeede9e9e5e5e3a"
+    ]
+  },
+  {
+    "id": "card:showered-in-joy-rice-shower",
+    "gameId": 30023,
+    "name": "Rice Shower",
+    "title": "Showered in Joy",
+    "characterId": "character:rice-shower",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:maverick-2",
+      "skill:deep-breaths",
+      "skill:frenzied-pace-chasers",
+      "skill:subdued-pace-chasers",
+      "skill:flustered-pace-chasers",
+      "skill:straight-descent",
+      "skill:disorient",
+      "skill:highlander"
+    ],
+    "eventSkillIds": [
+      "skill:extra-tank",
+      "skill:adrenaline-rush",
+      "skill:firm-conditions-2"
+    ],
+    "artHashes": [
+      "c6cecad8d1874e58"
+    ]
+  },
+  {
+    "id": "card:special-dreamers-satono-diamond",
+    "gameId": 30088,
+    "name": "Satono Diamond",
+    "title": "Special Dreamers!",
+    "characterId": "character:satono-diamond",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:position-pilfer",
+      "skill:pressure",
+      "skill:late-surger-straightaways-2",
+      "skill:late-surger-corners-2",
+      "skill:late-surger-savvy-2",
+      "skill:be-still"
+    ],
+    "eventSkillIds": [
+      "skill:sympathy",
+      "skill:be-still",
+      "skill:lie-in-wait",
+      "skill:hesitant-front-runners"
+    ],
+    "artHashes": [
+      "9a1ec8cfcfced6ce"
+    ]
+  },
+  {
+    "id": "card:split-the-sky-white-lightning-tamamo-cross",
+    "gameId": 30009,
+    "name": "Tamamo Cross",
+    "title": "Split the Sky, White Lightning!",
+    "characterId": "character:tamamo-cross",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:rosy-outlook",
+      "skill:frenzied-late-surgers",
+      "skill:flustered-late-surgers",
+      "skill:medium-corners-2",
+      "skill:thunderbolt-step",
+      "skill:soft-step",
+      "skill:1-500-000-cc"
+    ],
+    "eventSkillIds": [
+      "skill:tail-held-high",
+      "skill:fast-furious",
+      "skill:calm-in-a-crowd"
+    ],
+    "artHashes": [
+      "cb5feb8a9d194581"
+    ]
+  },
+  {
+    "id": "card:step-smile-wink-tokai-teio",
+    "gameId": 20047,
+    "name": "Tokai Teio",
+    "title": "Step! Smile! Wink!",
+    "characterId": "character:tokai-teio",
+    "type": "stamina",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:prudent-positioning",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow",
+      "skill:thunderbolt-step",
+      "skill:soft-step",
+      "skill:shrewd-step"
+    ],
+    "eventSkillIds": [
+      "skill:medium-corners-2",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "artHashes": [
+      "160f07050d85c2a0"
+    ]
+  },
+  {
+    "id": "card:stop-prez-narita-top-road",
+    "gameId": 20053,
+    "name": "Narita Top Road",
+    "title": "Stop, Prez!",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:non-standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass"
+    ],
+    "eventSkillIds": [
+      "skill:inner-post-proficiency-2",
+      "skill:up-tempo"
+    ],
+    "artHashes": [
+      "cfcfc98d8f8787da"
+    ]
+  },
+  {
+    "id": "card:strict-shopper-narita-taishin",
+    "gameId": 30073,
+    "name": "Narita Taishin",
+    "title": "Strict Shopper",
+    "characterId": "character:narita-taishin",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:standing-by",
+      "skill:masterful-gambit",
+      "skill:end-closer-corners-2",
+      "skill:intense-gaze",
+      "skill:lone-wolf"
+    ],
+    "eventSkillIds": [
+      "skill:soft-step",
+      "skill:passing-pro",
+      "skill:sleeping-lion",
+      "skill:standing-by",
+      "skill:pressure"
+    ],
+    "artHashes": [
+      "b1b5bd9f879fcf4d"
+    ]
+  },
+  {
+    "id": "card:sunlit-angel-daitaku-helios",
+    "gameId": 30116,
+    "name": "Daitaku Helios",
+    "title": "Sunlit Angel ♪",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:fall-runner-2",
+      "skill:sunny-days-2",
+      "skill:mile-corners-2",
+      "skill:shifting-gears",
+      "skill:speed-eater",
+      "skill:sympathy",
+      "skill:slipstream",
+      "skill:mad-dash"
+    ],
+    "eventSkillIds": [
+      "skill:front-runner-straightaways-2",
+      "skill:tail-held-high",
+      "skill:perfect-spot",
+      "skill:long-shot-2"
+    ],
+    "artHashes": [
+      "9495b79f9eaeac9c"
+    ]
+  },
+  {
+    "id": "card:sunny-passion-haru-urara",
+    "gameId": 30098,
+    "name": "Haru Urara",
+    "title": "Sunny Passion ♪",
+    "characterId": "character:haru-urara",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:hard-worker",
+      "skill:long-shot-2"
+    ],
+    "artHashes": [
+      "ae898dcf8f96d4dd"
+    ]
+  },
+  {
+    "id": "card:super-sonic-flower-power-sakura-bakushin-o",
+    "gameId": 30083,
+    "name": "Sakura Bakushin O",
+    "title": "Super! Sonic! Flower Power!",
+    "characterId": "character:sakura-bakushin-o",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:sprinting-gear",
+      "skill:frenzied-front-runners",
+      "skill:flustered-front-runners",
+      "skill:sprint-straightaways-2",
+      "skill:sprint-corners-2",
+      "skill:huge-lead",
+      "skill:countermeasure",
+      "skill:intimidate"
+    ],
+    "eventSkillIds": [
+      "skill:groundwork",
+      "skill:in-high-spirits",
+      "skill:light-as-a-feather",
+      "skill:gap-closer"
+    ],
+    "artHashes": [
+      "2fc7e58e8e16960c"
+    ]
+  },
+  {
+    "id": "card:tailwind-to-my-goals-air-groove",
+    "gameId": 30106,
+    "name": "Air Groove",
+    "title": "Tailwind to My Goals",
+    "characterId": "character:air-groove",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:flustered-end-closers",
+      "skill:hesitant-end-closers",
+      "skill:late-surger-straightaways-2",
+      "skill:sharp-gaze",
+      "skill:be-still",
+      "skill:fearless"
+    ],
+    "eventSkillIds": [
+      "skill:fearless",
+      "skill:take-the-chance",
+      "skill:updrafters",
+      "skill:lie-in-wait",
+      "skill:go-with-the-flow"
+    ],
+    "artHashes": [
+      "83938387c7c7c666"
+    ]
+  },
+  {
+    "id": "card:take-hold-of-our-dreams-special-week",
+    "gameId": 30105,
+    "name": "Special Week",
+    "title": "Take Hold of Our Dreams!",
+    "characterId": "character:special-week",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:nakayama-racecourse-2",
+      "skill:non-standard-distance-2",
+      "skill:winter-runner-2",
+      "skill:long-straightaways-2",
+      "skill:pressure"
+    ],
+    "eventSkillIds": [
+      "skill:feature-act",
+      "skill:straightaway-recovery",
+      "skill:overwhelming-pressure",
+      "skill:extra-tank"
+    ],
+    "artHashes": [
+      "160eaea6060a1e8e"
+    ]
+  },
+  {
+    "id": "card:teio-oo-oo-tokai-teio",
+    "gameId": 30111,
+    "name": "Tokai Teio",
+    "title": "Teio-Oo-Oo!!!",
+    "characterId": "character:tokai-teio",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:corner-adept",
+      "skill:prudent-positioning",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow",
+      "skill:soft-step",
+      "skill:pace-chaser-corners-2",
+      "skill:with-all-my-soul"
+    ],
+    "eventSkillIds": [
+      "skill:preferred-position",
+      "skill:professor-of-curvature",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "artHashes": [
+      "a7a3df9f8f8f8fcf"
+    ]
+  },
+  {
+    "id": "card:that-time-i-became-the-strongest-gold-ship",
+    "gameId": 30057,
+    "name": "Gold Ship",
+    "title": "That Time I Became the Strongest",
+    "characterId": "character:gold-ship",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standing-by",
+      "skill:straightaway-spurt",
+      "skill:inside-scoop",
+      "skill:pressure",
+      "skill:smoke-screen",
+      "skill:i-can-see-right-through-you",
+      "skill:after-school-stroll",
+      "skill:strategist",
+      "skill:intense-gaze",
+      "skill:end-closer-savvy-2",
+      "skill:highlander",
+      "skill:uma-stan",
+      "skill:groundwork",
+      "skill:sympathy"
+    ],
+    "eventSkillIds": [
+      "skill:long-straightaways-2",
+      "skill:inside-scoop",
+      "skill:innate-experience",
+      "skill:maverick-2",
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "170b8b878b9b2f37"
+    ]
+  },
+  {
+    "id": "card:the-3rd-miracle-k-s-miracle",
+    "gameId": 20051,
+    "name": "K.S.Miracle",
+    "title": "The 3rd Miracle",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:updrafters",
+      "skill:sprint-corners-2",
+      "skill:countermeasure",
+      "skill:pace-chaser-straightaways-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:on-the-attack"
+    ],
+    "eventSkillIds": [
+      "skill:sprint-straightaways-2",
+      "skill:light-as-a-feather"
+    ],
+    "artHashes": [
+      "240c4c068e4e4b6e"
+    ]
+  },
+  {
+    "id": "card:the-brightest-star-in-japan-special-week",
+    "gameId": 30001,
+    "name": "Special Week",
+    "title": "The Brightest Star in Japan!",
+    "characterId": "character:special-week",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:homestretch-haste",
+      "skill:outer-swell",
+      "skill:steadfast",
+      "skill:hydrate",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:soft-step",
+      "skill:straight-descent",
+      "skill:homestretch-haste",
+      "skill:in-body-and-mind",
+      "skill:extra-tank"
+    ],
+    "artHashes": [
+      "44cecece16564c7a"
+    ]
+  },
+  {
+    "id": "card:the-brightest-star-shines-on-sirius-symboli",
+    "gameId": 20038,
+    "name": "Sirius Symboli",
+    "title": "The Brightest Star Shines On",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:prepared-to-pass",
+      "skill:medium-corners-2",
+      "skill:lone-wolf"
+    ],
+    "eventSkillIds": [
+      "skill:shrewd-step",
+      "skill:disorient"
+    ],
+    "artHashes": [
+      "ae5e4ececec44da1"
+    ]
+  },
+  {
+    "id": "card:the-ghost-finds-halloween-magic-mihono-bourbon",
+    "gameId": 30066,
+    "name": "Mihono Bourbon",
+    "title": "The Ghost Finds Halloween Magic",
+    "characterId": "character:mihono-bourbon",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:snowy-days-2",
+      "skill:early-lead",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:moxie",
+      "skill:taking-the-lead",
+      "skill:focus"
+    ],
+    "artHashes": [
+      "8d859f9b9c9e8e9c"
+    ]
+  },
+  {
+    "id": "card:the-perfect-book-for-you-zenno-rob-roy",
+    "gameId": 20028,
+    "name": "Zenno Rob Roy",
+    "title": "The Perfect Book for You",
+    "type": "stamina",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:straightaway-adept",
+      "skill:prudent-positioning",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow",
+      "skill:shrewd-step",
+      "skill:studious",
+      "skill:pace-chaser-savvy-2",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:sharp-gaze",
+      "skill:medium-straightaways-2"
+    ],
+    "artHashes": [
+      "dcdd6fdd171e862e"
+    ]
+  },
+  {
+    "id": "card:the-perfect-morning-greeting-sakura-bakushin-o",
+    "gameId": 20042,
+    "name": "Sakura Bakushin O",
+    "title": "The Perfect Morning Greeting!",
+    "characterId": "character:sakura-bakushin-o",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:sprinting-gear",
+      "skill:frenzied-front-runners",
+      "skill:flustered-front-runners",
+      "skill:sprint-straightaways-2",
+      "skill:sprint-corners-2",
+      "skill:huge-lead",
+      "skill:countermeasure",
+      "skill:intimidate"
+    ],
+    "eventSkillIds": [
+      "skill:tail-held-high",
+      "skill:gap-closer"
+    ],
+    "artHashes": [
+      "5f1b4b8f9f96948d"
+    ]
+  },
+  {
+    "id": "card:the-setting-sun-and-rising-stars-special-week",
+    "gameId": 30025,
+    "name": "Special Week",
+    "title": "The Setting Sun and Rising Stars",
+    "characterId": "character:special-week",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:homestretch-haste",
+      "skill:outer-swell",
+      "skill:steadfast",
+      "skill:hydrate",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:shake-it-out",
+      "skill:hydrate",
+      "skill:gourmand",
+      "skill:extra-tank"
+    ],
+    "artHashes": [
+      "46c6cecfd7456cec"
+    ]
+  },
+  {
+    "id": "card:the-whistling-arrow-s-taunt-narita-brian",
+    "gameId": 30069,
+    "name": "Narita Brian",
+    "title": "The Whistling Arrow's Taunt",
+    "characterId": "character:narita-brian",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:preferred-position",
+      "skill:outer-swell",
+      "skill:inside-scoop",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:long-straightaways-2",
+      "skill:hydrate"
+    ],
+    "eventSkillIds": [
+      "skill:up-tempo",
+      "skill:beeline-burst",
+      "skill:lone-wolf"
+    ],
+    "artHashes": [
+      "2a222b0e4f868ece"
+    ]
+  },
+  {
+    "id": "card:the-will-to-overtake-satono-diamond",
+    "gameId": 30029,
+    "name": "Satono Diamond",
+    "title": "The Will to Overtake",
+    "characterId": "character:satono-diamond",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:sunny-days-2",
+      "skill:flustered-front-runners",
+      "skill:medium-corners-2",
+      "skill:tether",
+      "skill:a-small-breather",
+      "skill:studious"
+    ],
+    "eventSkillIds": [
+      "skill:all-i-ve-got",
+      "skill:iron-will",
+      "skill:hesitant-front-runners"
+    ],
+    "artHashes": [
+      "c7cbe38dcfc7ce8c"
+    ]
+  },
+  {
+    "id": "card:the-world-s-my-oyster-seeking-the-pearl",
+    "gameId": 20029,
+    "name": "Seeking the Pearl",
+    "title": "The World's My Oyster",
+    "characterId": "character:seeking-the-pearl",
+    "type": "guts",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:pace-strategy",
+      "skill:sprinting-gear",
+      "skill:watchful-eye",
+      "skill:sprint-straightaways-2",
+      "skill:unyielding-spirit"
+    ],
+    "eventSkillIds": [
+      "skill:lucky-seven",
+      "skill:shifting-gears",
+      "skill:uma-stan"
+    ],
+    "artHashes": [
+      "e8ccd4cec6c6c64e"
+    ]
+  },
+  {
+    "id": "card:this-might-sting-sasami-anshinzawa",
+    "gameId": 30080,
+    "name": "Sasami Anshinzawa",
+    "title": "This Might Sting!",
+    "type": "friend",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:wallflower",
+      "skill:corner-recovery-2",
+      "skill:risky-business",
+      "skill:running-idle",
+      "skill:nothing-ventured",
+      "skill:uma-stan"
+    ],
+    "artHashes": [
+      "90920861878604a5"
+    ]
+  },
+  {
+    "id": "card:tonight-we-waltz-king-halo",
+    "gameId": 30056,
+    "name": "King Halo",
+    "title": "Tonight, We Waltz",
+    "characterId": "character:king-halo",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:outer-post-proficiency-2",
+      "skill:corner-recovery",
+      "skill:wait-and-see",
+      "skill:gap-closer"
+    ],
+    "eventSkillIds": [
+      "skill:stop-right-there",
+      "skill:uma-stan",
+      "skill:gap-closer",
+      "skill:blinding-flash",
+      "skill:homestretch-haste"
+    ],
+    "artHashes": [
+      "e5c6c68686422626"
+    ]
+  },
+  {
+    "id": "card:touching-sleeves-is-good-luck-matikanefukukitaru",
+    "gameId": 30078,
+    "name": "Matikanefukukitaru",
+    "title": "Touching Sleeves Is Good Luck! ♪",
+    "characterId": "character:matikanefukukitaru",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:hakodate-racecourse-2",
+      "skill:calm-in-a-crowd",
+      "skill:trick-rear",
+      "skill:late-surger-corners-2",
+      "skill:a-small-breather",
+      "skill:lucky-seven",
+      "skill:triple-7s"
+    ],
+    "eventSkillIds": [
+      "skill:super-lucky-seven",
+      "skill:lucky-seven"
+    ],
+    "artHashes": [
+      "55c99c1f2fa68edc"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-admire-vega",
+    "gameId": 10075,
+    "name": "Admire Vega",
+    "title": "Tracen Academy",
+    "characterId": "character:admire-vega",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:masterful-gambit",
+      "skill:tether",
+      "skill:end-closer-straightaways-2",
+      "skill:levelheaded",
+      "skill:strategist"
+    ],
+    "eventSkillIds": [
+      "skill:subdued-pace-chasers"
+    ],
+    "artHashes": [
+      "5b4a8a8e0f0c0e2f"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-agnes-digital",
+    "gameId": 10026,
+    "name": "Agnes Digital",
+    "title": "Tracen Academy",
+    "characterId": "character:agnes-digital",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:mile-straightaways-2",
+      "skill:opening-gambit",
+      "skill:medium-straightaways-2",
+      "skill:late-surger-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:rainy-days-2",
+      "skill:wet-conditions-2"
+    ],
+    "artHashes": [
+      "0e07074a0e860e1e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-agnes-tachyon",
+    "gameId": 10036,
+    "name": "Agnes Tachyon",
+    "title": "Tracen Academy",
+    "characterId": "character:agnes-tachyon",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:up-tempo",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:tether"
+    ],
+    "eventSkillIds": [
+      "skill:late-surger-savvy-2"
+    ],
+    "artHashes": [
+      "46c6ced6cece6c64"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-air-groove",
+    "gameId": 10025,
+    "name": "Air Groove",
+    "title": "Tracen Academy",
+    "characterId": "character:air-groove",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:pace-strategy",
+      "skill:up-tempo",
+      "skill:flustered-end-closers",
+      "skill:hesitant-end-closers",
+      "skill:medium-straightaways-2",
+      "skill:groundwork"
+    ],
+    "eventSkillIds": [
+      "skill:go-with-the-flow"
+    ],
+    "artHashes": [
+      "cecececec6cec4c4"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-air-shakur",
+    "gameId": 10037,
+    "name": "Air Shakur",
+    "title": "Tracen Academy",
+    "characterId": "character:air-shakur",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:pressure",
+      "skill:levelheaded",
+      "skill:strategist"
+    ],
+    "eventSkillIds": [
+      "skill:pace-strategy"
+    ],
+    "artHashes": [
+      "46464ecec6472526"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-aoi-kiryuin",
+    "gameId": 10022,
+    "name": "Aoi Kiryuin",
+    "title": "Tracen Academy",
+    "type": "friend",
+    "rarity": "R",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:maverick-2",
+      "skill:subdued-front-runners",
+      "skill:hesitant-end-closers",
+      "skill:lay-low",
+      "skill:shake-it-out"
+    ],
+    "artHashes": [
+      "e6d6cace4e4c6c8e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-bamboo-memory",
+    "gameId": 10065,
+    "name": "Bamboo Memory",
+    "title": "Tracen Academy",
+    "characterId": "character:bamboo-memory",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:target-in-sight-2",
+      "skill:straightaway-adept",
+      "skill:gap-closer",
+      "skill:mile-straightaways-2",
+      "skill:acceleration",
+      "skill:late-surger-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:standard-distance-2"
+    ],
+    "artHashes": [
+      "c6868f8dcc4e4ed9"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-biko-pegasus",
+    "gameId": 10042,
+    "name": "Biko Pegasus",
+    "title": "Tracen Academy",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:outer-post-proficiency-2",
+      "skill:wait-and-see",
+      "skill:gap-closer",
+      "skill:productive-plan",
+      "skill:updrafters",
+      "skill:meticulous-measures",
+      "skill:stop-right-there"
+    ],
+    "eventSkillIds": [
+      "skill:sprint-straightaways-2"
+    ],
+    "artHashes": [
+      "8e8686c6cecce5e5"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-biwa-hayahide",
+    "gameId": 10029,
+    "name": "Biwa Hayahide",
+    "title": "Tracen Academy",
+    "characterId": "character:biwa-hayahide",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:wet-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:outer-post-proficiency-2",
+      "skill:frenzied-end-closers"
+    ],
+    "eventSkillIds": [
+      "skill:inside-scoop"
+    ],
+    "artHashes": [
+      "9b9be9a9612706b2"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-curren-chan",
+    "gameId": 10073,
+    "name": "Curren Chan",
+    "title": "Tracen Academy",
+    "characterId": "character:curren-chan",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:sprinting-gear",
+      "skill:hesitant-late-surgers",
+      "skill:sprint-straightaways-2",
+      "skill:meticulous-measures",
+      "skill:disorient"
+    ],
+    "eventSkillIds": [
+      "skill:intimidate"
+    ],
+    "artHashes": [
+      "2b1d6d278786464b"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-daiichi-ruby",
+    "gameId": 10079,
+    "name": "Daiichi Ruby",
+    "title": "Tracen Academy",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:slick-surge",
+      "skill:gap-closer",
+      "skill:subdued-front-runners",
+      "skill:flustered-front-runners",
+      "skill:hesitant-front-runners",
+      "skill:stop-right-there",
+      "skill:opening-gambit",
+      "skill:tether",
+      "skill:late-surger-straightaways-2",
+      "skill:lone-wolf",
+      "skill:fearless"
+    ],
+    "eventSkillIds": [
+      "skill:gap-closer"
+    ],
+    "artHashes": [
+      "e6adcfcd8ececece"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-daitaku-helios",
+    "gameId": 10052,
+    "name": "Daitaku Helios",
+    "title": "Tracen Academy",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:ramp-up",
+      "skill:stamina-to-spare",
+      "skill:mile-corners-2",
+      "skill:shifting-gears",
+      "skill:speed-eater",
+      "skill:sympathy",
+      "skill:slipstream"
+    ],
+    "eventSkillIds": [
+      "skill:long-shot-2"
+    ],
+    "artHashes": [
+      "d6d657454dedecec"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-daiwa-scarlet",
+    "gameId": 10023,
+    "name": "Daiwa Scarlet",
+    "title": "Tracen Academy",
+    "characterId": "character:daiwa-scarlet",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:rosy-outlook",
+      "skill:up-tempo",
+      "skill:shifting-gears"
+    ],
+    "eventSkillIds": [
+      "skill:stamina-to-spare"
+    ],
+    "artHashes": [
+      "46aeaa8e8e86ae2e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-eishin-flash",
+    "gameId": 10038,
+    "name": "Eishin Flash",
+    "title": "Tracen Academy",
+    "characterId": "character:eishin-flash",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:straightaway-acceleration",
+      "skill:late-surger-straightaways-2",
+      "skill:late-surger-corners-2",
+      "skill:fighter"
+    ],
+    "eventSkillIds": [
+      "skill:target-in-sight-2"
+    ],
+    "artHashes": [
+      "c6c6cec6cecccccc"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-el-condor-pasa",
+    "gameId": 10011,
+    "name": "El Condor Pasa",
+    "title": "Tracen Academy",
+    "characterId": "character:el-condor-pasa",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:sunny-days-2",
+      "skill:prepared-to-pass",
+      "skill:up-tempo",
+      "skill:medium-straightaways-2",
+      "skill:hawkeye",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:sunny-days-2"
+    ],
+    "artHashes": [
+      "ddd7d7cfced4cccc"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-fine-motion",
+    "gameId": 10028,
+    "name": "Fine Motion",
+    "title": "Tracen Academy",
+    "characterId": "character:fine-motion",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:fall-runner-2",
+      "skill:outer-post-proficiency-2",
+      "skill:straightaway-acceleration",
+      "skill:nimble-navigator"
+    ],
+    "eventSkillIds": [
+      "skill:corner-adept"
+    ],
+    "artHashes": [
+      "c7878686cee6ece6"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-fuji-kiseki",
+    "gameId": 10049,
+    "name": "Fuji Kiseki",
+    "title": "Tracen Academy",
+    "characterId": "character:fuji-kiseki",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:summer-runner-2",
+      "skill:cloudy-days-2",
+      "skill:trick-front",
+      "skill:mile-corners-2",
+      "skill:unyielding-spirit"
+    ],
+    "eventSkillIds": [
+      "skill:prepared-to-pass"
+    ],
+    "artHashes": [
+      "cececececdada5dc"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-gold-city",
+    "gameId": 10017,
+    "name": "Gold City",
+    "title": "Tracen Academy",
+    "characterId": "character:gold-city",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:sapporo-racecourse-2",
+      "skill:watchful-eye",
+      "skill:acceleration"
+    ],
+    "eventSkillIds": [
+      "skill:a-small-breather"
+    ],
+    "artHashes": [
+      "37192f0f076fd795"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-gold-ship",
+    "gameId": 10006,
+    "name": "Gold Ship",
+    "title": "Tracen Academy",
+    "characterId": "character:gold-ship",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:standing-by",
+      "skill:straightaway-spurt",
+      "skill:inside-scoop",
+      "skill:pressure",
+      "skill:smoke-screen",
+      "skill:i-can-see-right-through-you",
+      "skill:after-school-stroll",
+      "skill:strategist",
+      "skill:intense-gaze",
+      "skill:end-closer-savvy-2",
+      "skill:highlander",
+      "skill:uma-stan",
+      "skill:groundwork",
+      "skill:sympathy"
+    ],
+    "eventSkillIds": [
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "234a564486a7040a"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-grass-wonder",
+    "gameId": 10009,
+    "name": "Grass Wonder",
+    "title": "Tracen Academy",
+    "characterId": "character:grass-wonder",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:competitive-spirit-2",
+      "skill:homestretch-haste",
+      "skill:position-pilfer",
+      "skill:slick-surge",
+      "skill:updrafters",
+      "skill:flustered-pace-chasers",
+      "skill:tether"
+    ],
+    "eventSkillIds": [
+      "skill:frenzied-pace-chasers",
+      "skill:target-in-sight-2"
+    ],
+    "artHashes": [
+      "8e1e4a0e0e068e0e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-haru-urara",
+    "gameId": 10020,
+    "name": "Haru Urara",
+    "title": "Tracen Academy",
+    "characterId": "character:haru-urara",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:long-shot-2"
+    ],
+    "artHashes": [
+      "8687ee8ed6cfad2d"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-hishi-akebono",
+    "gameId": 10064,
+    "name": "Hishi Akebono",
+    "title": "Tracen Academy",
+    "characterId": "character:hishi-akebono",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:sunny-days-2",
+      "skill:final-push",
+      "skill:sprint-corners-2",
+      "skill:countermeasure",
+      "skill:meticulous-measures",
+      "skill:hydrate"
+    ],
+    "eventSkillIds": [
+      "skill:sprinting-gear"
+    ],
+    "artHashes": [
+      "a69a8786cf2725b2"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-hishi-amazon",
+    "gameId": 10024,
+    "name": "Hishi Amazon",
+    "title": "Tracen Academy",
+    "characterId": "character:hishi-amazon",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:stamina-to-spare",
+      "skill:straightaway-spurt",
+      "skill:end-closer-straightaways-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:end-closer-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:hesitant-end-closers"
+    ],
+    "artHashes": [
+      "4ed6e6d6d6c6eed6"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-ikuno-dictus",
+    "gameId": 10053,
+    "name": "Ikuno Dictus",
+    "title": "Tracen Academy",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:hawkeye",
+      "skill:studious",
+      "skill:sharp-gaze"
+    ],
+    "eventSkillIds": [
+      "skill:trick-rear"
+    ],
+    "artHashes": [
+      "e6c4cc8e94ccccc6"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-inari-one",
+    "gameId": 10068,
+    "name": "Inari One",
+    "title": "Tracen Academy",
+    "characterId": "character:inari-one",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:spring-runner-2",
+      "skill:winter-runner-2",
+      "skill:target-in-sight-2",
+      "skill:ramp-up",
+      "skill:sharp-gaze",
+      "skill:tail-held-high",
+      "skill:forward-march",
+      "skill:familiar-ground"
+    ],
+    "eventSkillIds": [
+      "skill:kyoto-racecourse-2"
+    ],
+    "artHashes": [
+      "262e664646462694"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-ines-fujin",
+    "gameId": 10035,
+    "name": "Ines Fujin",
+    "title": "Tracen Academy",
+    "characterId": "character:ines-fujin",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:steadfast",
+      "skill:speed-eater",
+      "skill:moxie",
+      "skill:slipstream",
+      "skill:playtime-s-over"
+    ],
+    "eventSkillIds": [
+      "skill:fast-paced"
+    ],
+    "artHashes": [
+      "c6cecacedccdc95d"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-k-s-miracle",
+    "gameId": 10080,
+    "name": "K.S.Miracle",
+    "title": "Tracen Academy",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:updrafters",
+      "skill:sprint-corners-2",
+      "skill:countermeasure",
+      "skill:pace-chaser-straightaways-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:on-the-attack"
+    ],
+    "eventSkillIds": [
+      "skill:light-as-a-feather"
+    ],
+    "artHashes": [
+      "26172a0e0e0e0c8d"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-kawakami-princess",
+    "gameId": 10063,
+    "name": "Kawakami Princess",
+    "title": "Tracen Academy",
+    "characterId": "character:kawakami-princess",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:preferred-position",
+      "skill:soft-step",
+      "skill:tactical-tweak"
+    ],
+    "eventSkillIds": [
+      "skill:steadfast"
+    ],
+    "artHashes": [
+      "8f9f8fcecececa8b"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-king-halo",
+    "gameId": 10048,
+    "name": "King Halo",
+    "title": "Tracen Academy",
+    "characterId": "character:king-halo",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:outer-post-proficiency-2",
+      "skill:corner-recovery",
+      "skill:wait-and-see",
+      "skill:gap-closer"
+    ],
+    "eventSkillIds": [
+      "skill:homestretch-haste"
+    ],
+    "artHashes": [
+      "9e9e8e4e4e6e4ecb"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-kitasan-black",
+    "gameId": 10055,
+    "name": "Kitasan Black",
+    "title": "Tracen Academy",
+    "characterId": "character:kitasan-black",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:corner-adept",
+      "skill:corner-recovery",
+      "skill:straightaway-recovery",
+      "skill:focus",
+      "skill:extra-tank",
+      "skill:long-corners-2",
+      "skill:front-runner-straightaways-2",
+      "skill:dodging-danger"
+    ],
+    "eventSkillIds": [],
+    "artHashes": [
+      "4a8d068e8686cc8d"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-manhattan-cafe",
+    "gameId": 10031,
+    "name": "Manhattan Cafe",
+    "title": "Tracen Academy",
+    "characterId": "character:manhattan-cafe",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:long-straightaways-2",
+      "skill:passing-pro",
+      "skill:stamina-eater",
+      "skill:highlander"
+    ],
+    "eventSkillIds": [
+      "skill:non-standard-distance-2"
+    ],
+    "artHashes": [
+      "d4d4d6d6daccc6c6"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-maruzensky",
+    "gameId": 10004,
+    "name": "Maruzensky",
+    "title": "Tracen Academy",
+    "characterId": "character:maruzensky",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:early-lead",
+      "skill:productive-plan",
+      "skill:mile-corners-2",
+      "skill:shifting-gears",
+      "skill:acceleration"
+    ],
+    "eventSkillIds": [
+      "skill:early-lead"
+    ],
+    "artHashes": [
+      "85c7dbc7cf4ea6ae"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-marvelous-sunday",
+    "gameId": 10043,
+    "name": "Marvelous Sunday",
+    "title": "Tracen Academy",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:straightaway-adept",
+      "skill:ramp-up",
+      "skill:hesitant-front-runners",
+      "skill:hesitant-pace-chasers",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "8c8c8ecc4c4d4959"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-matikanefukukitaru",
+    "gameId": 10044,
+    "name": "Matikanefukukitaru",
+    "title": "Tracen Academy",
+    "characterId": "character:matikanefukukitaru",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:hakodate-racecourse-2",
+      "skill:calm-in-a-crowd",
+      "skill:trick-rear",
+      "skill:late-surger-corners-2",
+      "skill:a-small-breather",
+      "skill:lucky-seven",
+      "skill:triple-7s"
+    ],
+    "eventSkillIds": [],
+    "artHashes": [
+      "372b9e86ceccc6e2"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-matikanetannhauser",
+    "gameId": 10057,
+    "name": "Matikanetannhauser",
+    "title": "Tracen Academy",
+    "characterId": "character:matikanetannhauser",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:pace-strategy",
+      "skill:steadfast",
+      "skill:deep-breaths",
+      "skill:fighter"
+    ],
+    "eventSkillIds": [
+      "skill:subdued-front-runners"
+    ],
+    "artHashes": [
+      "a6878e8d8fcce8ec"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mayano-top-gun",
+    "gameId": 10030,
+    "name": "Mayano Top Gun",
+    "title": "Tracen Academy",
+    "characterId": "character:mayano-top-gun",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:corner-adept",
+      "skill:straightaway-adept",
+      "skill:straightaway-recovery",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow"
+    ],
+    "eventSkillIds": [
+      "skill:straightaway-adept"
+    ],
+    "artHashes": [
+      "478b87cd4e86ce0e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-meisho-doto",
+    "gameId": 10045,
+    "name": "Meisho Doto",
+    "title": "Tracen Academy",
+    "characterId": "character:meisho-doto",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:inner-post-proficiency-2",
+      "skill:long-shot-2",
+      "skill:hawkeye",
+      "skill:late-surger-straightaways-2",
+      "skill:shake-it-out"
+    ],
+    "eventSkillIds": [
+      "skill:pace-chaser-corners-2"
+    ],
+    "artHashes": [
+      "b2a6068e8686ce5c"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mejiro-ardan",
+    "gameId": 10069,
+    "name": "Mejiro Ardan",
+    "title": "Tracen Academy",
+    "characterId": "character:mejiro-ardan",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:left-handed-2",
+      "skill:preferred-position",
+      "skill:soft-step",
+      "skill:pace-chaser-corners-2",
+      "skill:pace-chaser-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:hesitant-pace-chasers"
+    ],
+    "artHashes": [
+      "b6361aaece4e6e46"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mejiro-bright",
+    "gameId": 10076,
+    "name": "Mejiro Bright",
+    "title": "Tracen Academy",
+    "characterId": "character:mejiro-bright",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:extra-tank",
+      "skill:passing-pro",
+      "skill:pressure",
+      "skill:stamina-eater"
+    ],
+    "eventSkillIds": [
+      "skill:deep-breaths"
+    ],
+    "artHashes": [
+      "cac6d6c6cfcde5a7"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mejiro-dober",
+    "gameId": 10046,
+    "name": "Mejiro Dober",
+    "title": "Tracen Academy",
+    "characterId": "character:mejiro-dober",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:sunny-days-2",
+      "skill:up-tempo",
+      "skill:steadfast",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:unyielding-spirit"
+    ],
+    "artHashes": [
+      "6e4ececececec6cd"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mejiro-mcqueen",
+    "gameId": 10010,
+    "name": "Mejiro McQueen",
+    "title": "Tracen Academy",
+    "characterId": "character:mejiro-mcqueen",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:spring-runner-2",
+      "skill:stamina-to-spare",
+      "skill:deep-breaths",
+      "skill:long-corners-2",
+      "skill:keeping-the-lead",
+      "skill:hydrate",
+      "skill:disorient"
+    ],
+    "eventSkillIds": [
+      "skill:early-lead"
+    ],
+    "artHashes": [
+      "9b9bab0f4fcfefcb"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mejiro-palmer",
+    "gameId": 10054,
+    "name": "Mejiro Palmer",
+    "title": "Tracen Academy",
+    "characterId": "character:mejiro-palmer",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:hanshin-racecourse-2",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:flustered-pace-chasers",
+      "skill:moxie",
+      "skill:sympathy"
+    ],
+    "eventSkillIds": [
+      "skill:wet-conditions-2"
+    ],
+    "artHashes": [
+      "0c8c8c0c0c8c8c48"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mejiro-ryan",
+    "gameId": 10033,
+    "name": "Mejiro Ryan",
+    "title": "Tracen Academy",
+    "characterId": "character:mejiro-ryan",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:up-tempo",
+      "skill:medium-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:pace-strategy"
+    ],
+    "artHashes": [
+      "8c968dcd4c4d6979"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mihono-bourbon",
+    "gameId": 10032,
+    "name": "Mihono Bourbon",
+    "title": "Tracen Academy",
+    "characterId": "character:mihono-bourbon",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:snowy-days-2",
+      "skill:early-lead",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:focus"
+    ],
+    "artHashes": [
+      "640d8eee47cf2dc6"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-mr-c-b",
+    "gameId": 10078,
+    "name": "Mr. C.B.",
+    "title": "Tracen Academy",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:rainy-days-2",
+      "skill:corner-acceleration",
+      "skill:homestretch-haste",
+      "skill:straightaway-spurt",
+      "skill:medium-corners-2",
+      "skill:strategist",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:early-start"
+    ],
+    "artHashes": [
+      "d4c48686cec6cc8c"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-nakayama-festa",
+    "gameId": 10067,
+    "name": "Nakayama Festa",
+    "title": "Tracen Academy",
+    "characterId": "character:nakayama-festa",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:long-shot-2",
+      "skill:slick-surge",
+      "skill:outer-swell",
+      "skill:steadfast",
+      "skill:late-surger-straightaways-2",
+      "skill:sharp-gaze",
+      "skill:lucky-seven",
+      "skill:all-i-ve-got"
+    ],
+    "eventSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "f2cacece4d4d6e6b"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-narita-brian",
+    "gameId": 10072,
+    "name": "Narita Brian",
+    "title": "Tracen Academy",
+    "characterId": "character:narita-brian",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:preferred-position",
+      "skill:outer-swell",
+      "skill:inside-scoop",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:long-straightaways-2",
+      "skill:hydrate"
+    ],
+    "eventSkillIds": [
+      "skill:lone-wolf"
+    ],
+    "artHashes": [
+      "dcecce4ece4cccec"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-narita-taishin",
+    "gameId": 10040,
+    "name": "Narita Taishin",
+    "title": "Tracen Academy",
+    "characterId": "character:narita-taishin",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:standing-by",
+      "skill:masterful-gambit",
+      "skill:end-closer-corners-2",
+      "skill:intense-gaze",
+      "skill:lone-wolf"
+    ],
+    "eventSkillIds": [
+      "skill:pressure"
+    ],
+    "artHashes": [
+      "1c9e8e0c4c4c2846"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-narita-top-road",
+    "gameId": 10077,
+    "name": "Narita Top Road",
+    "title": "Tracen Academy",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:non-standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:inner-post-proficiency-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:long-straightaways-2",
+      "skill:all-i-ve-got"
+    ],
+    "eventSkillIds": [
+      "skill:up-tempo"
+    ],
+    "artHashes": [
+      "0e0e286e4f4faf8f"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-nice-nature",
+    "gameId": 10047,
+    "name": "Nice Nature",
+    "title": "Tracen Academy",
+    "characterId": "character:nice-nature",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:kokura-racecourse-2",
+      "skill:corner-acceleration",
+      "skill:lay-low",
+      "skill:go-with-the-flow",
+      "skill:hesitant-late-surgers",
+      "skill:murmur",
+      "skill:a-small-breather",
+      "skill:sharp-gaze"
+    ],
+    "eventSkillIds": [
+      "skill:ramp-up"
+    ],
+    "artHashes": [
+      "e646c6cecfcda7c4"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-nishino-flower",
+    "gameId": 10041,
+    "name": "Nishino Flower",
+    "title": "Tracen Academy",
+    "characterId": "character:nishino-flower",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:standard-distance-2",
+      "skill:firm-conditions-2",
+      "skill:updrafters",
+      "skill:pace-chaser-corners-2"
+    ],
+    "eventSkillIds": [],
+    "artHashes": [
+      "fcd4cececec4ecc9"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-oguri-cap",
+    "gameId": 10005,
+    "name": "Oguri Cap",
+    "title": "Tracen Academy",
+    "characterId": "character:oguri-cap",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:cloudy-days-2",
+      "skill:corner-adept",
+      "skill:corner-acceleration",
+      "skill:focus",
+      "skill:nimble-navigator",
+      "skill:homestretch-haste",
+      "skill:up-tempo",
+      "skill:acceleration",
+      "skill:hydrate",
+      "skill:groundwork"
+    ],
+    "eventSkillIds": [
+      "skill:nakayama-racecourse-2"
+    ],
+    "artHashes": [
+      "a9ab290f0f0e0e8c"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-rice-shower",
+    "gameId": 10015,
+    "name": "Rice Shower",
+    "title": "Tracen Academy",
+    "characterId": "character:rice-shower",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:maverick-2",
+      "skill:deep-breaths",
+      "skill:frenzied-pace-chasers",
+      "skill:subdued-pace-chasers",
+      "skill:flustered-pace-chasers",
+      "skill:straight-descent",
+      "skill:disorient",
+      "skill:highlander"
+    ],
+    "eventSkillIds": [
+      "skill:firm-conditions-2"
+    ],
+    "artHashes": [
+      "b2f2b2c6e6e6ce8f"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-riko-kashimoto",
+    "gameId": 10060,
+    "name": "Riko Kashimoto",
+    "title": "Tracen Academy",
+    "type": "friend",
+    "rarity": "R",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:ramp-up",
+      "skill:maverick-2",
+      "skill:lone-wolf",
+      "skill:straightaway-acceleration",
+      "skill:sympathy"
+    ],
+    "artHashes": [
+      "dc9e8a8ec6cecece"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-sakura-bakushin-o",
+    "gameId": 10018,
+    "name": "Sakura Bakushin O",
+    "title": "Tracen Academy",
+    "characterId": "character:sakura-bakushin-o",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:sprinting-gear",
+      "skill:frenzied-front-runners",
+      "skill:flustered-front-runners",
+      "skill:sprint-straightaways-2",
+      "skill:sprint-corners-2",
+      "skill:huge-lead",
+      "skill:countermeasure",
+      "skill:intimidate"
+    ],
+    "eventSkillIds": [
+      "skill:gap-closer"
+    ],
+    "artHashes": [
+      "dedecfcfc5cdcdca"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-sakura-chiyono-o",
+    "gameId": 10062,
+    "name": "Sakura Chiyono O",
+    "title": "Tracen Academy",
+    "characterId": "character:sakura-chiyono-o",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:steadfast",
+      "skill:shifting-gears",
+      "skill:medium-corners-2",
+      "skill:pace-chaser-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:spring-runner-2"
+    ],
+    "artHashes": [
+      "cc8a8e8e86c6cc0e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-sakura-laurel",
+    "gameId": 10085,
+    "name": "Sakura Laurel",
+    "title": "Tracen Academy",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:spring-runner-2",
+      "skill:winter-runner-2",
+      "skill:sunny-days-2",
+      "skill:deep-breaths",
+      "skill:long-corners-2",
+      "skill:stamina-eater",
+      "skill:a-small-breather",
+      "skill:free-spirited",
+      "skill:scramble"
+    ],
+    "eventSkillIds": [
+      "skill:subdued-pace-chasers"
+    ],
+    "artHashes": [
+      "cccecececcccec2e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-satono-diamond",
+    "gameId": 10056,
+    "name": "Satono Diamond",
+    "title": "Tracen Academy",
+    "characterId": "character:satono-diamond",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:sunny-days-2",
+      "skill:flustered-front-runners",
+      "skill:medium-corners-2",
+      "skill:tether",
+      "skill:a-small-breather",
+      "skill:studious"
+    ],
+    "eventSkillIds": [
+      "skill:hesitant-front-runners"
+    ],
+    "artHashes": [
+      "0f576a4fcecccccc"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-seeking-the-pearl",
+    "gameId": 10061,
+    "name": "Seeking the Pearl",
+    "title": "Tracen Academy",
+    "characterId": "character:seeking-the-pearl",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:pace-strategy",
+      "skill:sprinting-gear",
+      "skill:watchful-eye",
+      "skill:sprint-straightaways-2",
+      "skill:unyielding-spirit"
+    ],
+    "eventSkillIds": [
+      "skill:uma-stan"
+    ],
+    "artHashes": [
+      "c88c8c8ccccc6c2b"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-seiun-sky",
+    "gameId": 10014,
+    "name": "Seiun Sky",
+    "title": "Tracen Academy",
+    "characterId": "character:seiun-sky",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:inner-post-proficiency-2",
+      "skill:long-shot-2",
+      "skill:trick-front",
+      "skill:frenzied-late-surgers",
+      "skill:hesitant-pace-chasers",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:keeping-the-lead"
+    ],
+    "artHashes": [
+      "a7e5e9cadece484e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-shinko-windy",
+    "gameId": 10066,
+    "name": "Shinko Windy",
+    "title": "Tracen Academy",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:competitive-spirit-2",
+      "skill:prepared-to-pass",
+      "skill:hesitant-front-runners"
+    ],
+    "eventSkillIds": [
+      "skill:unyielding-spirit"
+    ],
+    "artHashes": [
+      "89dd9c8ccccccd45"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-silence-suzuka",
+    "gameId": 10002,
+    "name": "Silence Suzuka",
+    "title": "Tracen Academy",
+    "characterId": "character:silence-suzuka",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:focus",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:final-push",
+      "skill:rosy-outlook",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2",
+      "skill:front-runner-savvy-2",
+      "skill:leader-s-pride"
+    ],
+    "eventSkillIds": [
+      "skill:left-handed-2"
+    ],
+    "artHashes": [
+      "1d8d8bcfcecee6e6"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-sirius-symboli",
+    "gameId": 10071,
+    "name": "Sirius Symboli",
+    "title": "Tracen Academy",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:prepared-to-pass",
+      "skill:medium-corners-2",
+      "skill:lone-wolf"
+    ],
+    "eventSkillIds": [
+      "skill:disorient"
+    ],
+    "artHashes": [
+      "cad292868ececccc"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-smart-falcon",
+    "gameId": 10039,
+    "name": "Smart Falcon",
+    "title": "Tracen Academy",
+    "characterId": "character:smart-falcon",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:outer-post-proficiency-2",
+      "skill:corner-recovery",
+      "skill:oi-racecourse-2",
+      "skill:second-wind",
+      "skill:restart",
+      "skill:front-runner-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:final-push"
+    ],
+    "artHashes": [
+      "a7160aa686ce8d07"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-special-week",
+    "gameId": 10001,
+    "name": "Special Week",
+    "title": "Tracen Academy",
+    "characterId": "character:special-week",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:homestretch-haste",
+      "skill:outer-swell",
+      "skill:steadfast",
+      "skill:hydrate",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:extra-tank"
+    ],
+    "artHashes": [
+      "ccce4e4e56462c2c"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-super-creek",
+    "gameId": 10019,
+    "name": "Super Creek",
+    "title": "Tracen Academy",
+    "characterId": "character:super-creek",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:corner-recovery",
+      "skill:ramp-up",
+      "skill:homestretch-haste",
+      "skill:hesitant-pace-chasers"
+    ],
+    "eventSkillIds": [
+      "skill:deep-breaths"
+    ],
+    "artHashes": [
+      "de5e6e8e4e46561f"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-sweep-tosho",
+    "gameId": 10050,
+    "name": "Sweep Tosho",
+    "title": "Tracen Academy",
+    "characterId": "character:sweep-tosho",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:prudent-positioning",
+      "skill:trick-front",
+      "skill:trick-rear",
+      "skill:murmur",
+      "skill:i-can-see-right-through-you",
+      "skill:after-school-stroll",
+      "skill:slipstream"
+    ],
+    "eventSkillIds": [],
+    "artHashes": [
+      "fc9b9e0c0e0eccce"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-symboli-kris-s",
+    "gameId": 10082,
+    "name": "Symboli Kris S",
+    "title": "Tracen Academy",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:corner-recovery",
+      "skill:slick-surge",
+      "skill:long-straightaways-2",
+      "skill:passing-pro",
+      "skill:late-surger-corners-2",
+      "skill:1-500-000-cc",
+      "skill:fearless",
+      "skill:scramble"
+    ],
+    "eventSkillIds": [
+      "skill:cloudy-days-2"
+    ],
+    "artHashes": [
+      "d4d4544e4e464c6c"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-symboli-rudolf",
+    "gameId": 10013,
+    "name": "Symboli Rudolf",
+    "title": "Tracen Academy",
+    "characterId": "character:symboli-rudolf",
+    "type": "wit",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:preferred-position",
+      "skill:subdued-front-runners",
+      "skill:subdued-pace-chasers",
+      "skill:subdued-late-surgers",
+      "skill:subdued-end-closers",
+      "skill:tether",
+      "skill:pace-chaser-savvy-2",
+      "skill:groundwork"
+    ],
+    "eventSkillIds": [
+      "skill:rainy-days-2"
+    ],
+    "artHashes": [
+      "c5d6cecececcecce"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-taiki-shuttle",
+    "gameId": 10008,
+    "name": "Taiki Shuttle",
+    "title": "Tracen Academy",
+    "characterId": "character:taiki-shuttle",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:productive-plan",
+      "skill:updrafters",
+      "skill:mile-straightaways-2",
+      "skill:shifting-gears"
+    ],
+    "eventSkillIds": [
+      "skill:prepared-to-pass"
+    ],
+    "artHashes": [
+      "5d65c9c98fcfcebd"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-tamamo-cross",
+    "gameId": 10027,
+    "name": "Tamamo Cross",
+    "title": "Tracen Academy",
+    "characterId": "character:tamamo-cross",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:rosy-outlook",
+      "skill:frenzied-late-surgers",
+      "skill:flustered-late-surgers",
+      "skill:medium-corners-2",
+      "skill:thunderbolt-step",
+      "skill:soft-step",
+      "skill:1-500-000-cc"
+    ],
+    "eventSkillIds": [
+      "skill:calm-in-a-crowd"
+    ],
+    "artHashes": [
+      "8a2a28ac8c8e1525"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-tanino-gimlet",
+    "gameId": 10084,
+    "name": "Tanino Gimlet",
+    "title": "Tracen Academy",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:straightaway-spurt",
+      "skill:updrafters",
+      "skill:hawkeye",
+      "skill:take-the-chance",
+      "skill:eager"
+    ],
+    "eventSkillIds": [
+      "skill:end-closer-savvy-2"
+    ],
+    "artHashes": [
+      "c2e2d6c6c6c6e44c"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-tazuna-hayakawa",
+    "gameId": 10021,
+    "name": "Tazuna Hayakawa",
+    "title": "Tracen Academy",
+    "type": "friend",
+    "rarity": "R",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:watchful-eye",
+      "skill:focus",
+      "skill:tail-held-high"
+    ],
+    "artHashes": [
+      "b66646c6464c2d07"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-tm-opera-o",
+    "gameId": 10012,
+    "name": "TM Opera O",
+    "title": "Tracen Academy",
+    "characterId": "character:tm-opera-o",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:stamina-to-spare",
+      "skill:up-tempo",
+      "skill:long-corners-2",
+      "skill:pace-chaser-straightaways-2",
+      "skill:tactical-tweak",
+      "skill:late-surger-straightaways-2",
+      "skill:studious"
+    ],
+    "eventSkillIds": [
+      "skill:non-standard-distance-2"
+    ],
+    "artHashes": [
+      "4446aa060c4c6c0e"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-tokai-teio",
+    "gameId": 10003,
+    "name": "Tokai Teio",
+    "title": "Tracen Academy",
+    "characterId": "character:tokai-teio",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:prudent-positioning",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow",
+      "skill:thunderbolt-step",
+      "skill:soft-step",
+      "skill:shrewd-step"
+    ],
+    "eventSkillIds": [
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "artHashes": [
+      "8a8a864646460584"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-tosen-jordan",
+    "gameId": 10070,
+    "name": "Tosen Jordan",
+    "title": "Tracen Academy",
+    "characterId": "character:tosen-jordan",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:long-shot-2",
+      "skill:stamina-to-spare",
+      "skill:position-pilfer",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:lucky-seven"
+    ],
+    "artHashes": [
+      "9f9f1e8f0e0e8f0b"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-tsurumaru-tsuyoshi",
+    "gameId": 10081,
+    "name": "Tsurumaru Tsuyoshi",
+    "title": "Tracen Academy",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:long-shot-2",
+      "skill:up-tempo",
+      "skill:risky-business",
+      "skill:fighting-spirit",
+      "skill:full-throttle"
+    ],
+    "eventSkillIds": [
+      "skill:fighter"
+    ],
+    "artHashes": [
+      "d89e9ace8e8ecccc"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-twin-turbo",
+    "gameId": 10051,
+    "name": "Twin Turbo",
+    "title": "Tracen Academy",
+    "type": "speed",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:target-in-sight-2",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:leader-s-pride",
+      "skill:moxie"
+    ],
+    "eventSkillIds": [
+      "skill:early-lead"
+    ],
+    "artHashes": [
+      "e6d6874d4d04a485"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-vodka",
+    "gameId": 10007,
+    "name": "Vodka",
+    "title": "Tracen Academy",
+    "characterId": "character:vodka",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:tokyo-racecourse-2",
+      "skill:straightaway-adept",
+      "skill:straightaway-acceleration",
+      "skill:straightaway-recovery",
+      "skill:homestretch-haste",
+      "skill:slick-surge",
+      "skill:updrafters",
+      "skill:mile-straightaways-2",
+      "skill:medium-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:nimble-navigator"
+    ],
+    "artHashes": [
+      "4edecfc44424642a"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-winning-ticket",
+    "gameId": 10016,
+    "name": "Winning Ticket",
+    "title": "Tracen Academy",
+    "characterId": "character:winning-ticket",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:position-pilfer",
+      "skill:slick-surge",
+      "skill:outer-swell"
+    ],
+    "eventSkillIds": [
+      "skill:late-surger-corners-2"
+    ],
+    "artHashes": [
+      "5262464e46642eb5"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-yaeno-muteki",
+    "gameId": 10058,
+    "name": "Yaeno Muteki",
+    "title": "Tracen Academy",
+    "characterId": "character:yaeno-muteki",
+    "type": "power",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:ramp-up",
+      "skill:homestretch-haste",
+      "skill:prepared-to-pass",
+      "skill:up-tempo",
+      "skill:tail-held-high"
+    ],
+    "eventSkillIds": [
+      "skill:medium-corners-2"
+    ],
+    "artHashes": [
+      "de9e9a8e8ccca9e5"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-yukino-bijin",
+    "gameId": 10034,
+    "name": "Yukino Bijin",
+    "title": "Tracen Academy",
+    "characterId": "character:yukino-bijin",
+    "type": "guts",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:nakayama-racecourse-2",
+      "skill:winter-runner-2",
+      "skill:steadfast",
+      "skill:medium-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:corner-acceleration"
+    ],
+    "artHashes": [
+      "1f1f0e4e4ec6cc1c"
+    ]
+  },
+  {
+    "id": "card:tracen-academy-zenno-rob-roy",
+    "gameId": 10059,
+    "name": "Zenno Rob Roy",
+    "title": "Tracen Academy",
+    "type": "stamina",
+    "rarity": "R",
+    "hintSkillIds": [
+      "skill:straightaway-adept",
+      "skill:prudent-positioning",
+      "skill:nimble-navigator",
+      "skill:go-with-the-flow",
+      "skill:shrewd-step",
+      "skill:studious",
+      "skill:pace-chaser-savvy-2",
+      "skill:late-surger-savvy-2"
+    ],
+    "eventSkillIds": [
+      "skill:medium-straightaways-2"
+    ],
+    "artHashes": [
+      "484e4a060e0c6c4c"
+    ]
+  },
+  {
+    "id": "card:tracen-reception-tazuna-hayakawa",
+    "gameId": 30021,
+    "name": "Tazuna Hayakawa",
+    "title": "Tracen Reception",
+    "type": "friend",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:watchful-eye",
+      "skill:focus",
+      "skill:concentration",
+      "skill:tail-held-high"
+    ],
+    "artHashes": [
+      "66664ece46464c8d"
+    ]
+  },
+  {
+    "id": "card:trainers-teamwork-aoi-kiryuin",
+    "gameId": 20021,
+    "name": "Aoi Kiryuin",
+    "title": "Trainers' Teamwork",
+    "type": "friend",
+    "rarity": "SR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:maverick-2",
+      "skill:subdued-front-runners",
+      "skill:hesitant-end-closers",
+      "skill:lay-low",
+      "skill:shake-it-out"
+    ],
+    "artHashes": [
+      "4ac2c6868287c763"
+    ]
+  },
+  {
+    "id": "card:trial-initiation-biwa-hayahide",
+    "gameId": 20006,
+    "name": "Biwa Hayahide",
+    "title": "Trial Initiation",
+    "characterId": "character:biwa-hayahide",
+    "type": "power",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:wet-conditions-2",
+      "skill:cloudy-days-2",
+      "skill:outer-post-proficiency-2",
+      "skill:frenzied-end-closers"
+    ],
+    "eventSkillIds": [
+      "skill:pressure",
+      "skill:inside-scoop"
+    ],
+    "artHashes": [
+      "8e2d6d09190bca86"
+    ]
+  },
+  {
+    "id": "card:trusting-the-dice-nakayama-festa",
+    "gameId": 30108,
+    "name": "Nakayama Festa",
+    "title": "Trusting the Dice",
+    "characterId": "character:nakayama-festa",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:summer-runner-2",
+      "skill:long-shot-2",
+      "skill:nimble-navigator",
+      "skill:slick-surge",
+      "skill:steadfast",
+      "skill:late-surger-straightaways-2",
+      "skill:lucky-seven",
+      "skill:triple-7s",
+      "skill:uma-stan",
+      "skill:all-i-ve-got",
+      "skill:risky-business"
+    ],
+    "eventSkillIds": [
+      "skill:nothing-ventured",
+      "skill:risky-business",
+      "skill:nakayama-racecourse-2",
+      "skill:hanshin-racecourse-2"
+    ],
+    "artHashes": [
+      "d5d79f9a1e3e8cd8"
+    ]
+  },
+  {
+    "id": "card:tt-ignition-twin-turbo",
+    "gameId": 30112,
+    "name": "Twin Turbo",
+    "title": "TT Ignition!",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:target-in-sight-2",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:moxie",
+      "skill:leader-s-pride",
+      "skill:mad-dash"
+    ],
+    "eventSkillIds": [
+      "skill:playtime-s-over",
+      "skill:givin-it-1000",
+      "skill:early-lead"
+    ],
+    "artHashes": [
+      "8fa323470b0b134f"
+    ]
+  },
+  {
+    "id": "card:turbo-booooost-twin-turbo",
+    "gameId": 30026,
+    "name": "Twin Turbo",
+    "title": "Turbo Booooost!",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:target-in-sight-2",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:leader-s-pride",
+      "skill:moxie"
+    ],
+    "eventSkillIds": [
+      "skill:leader-s-pride",
+      "skill:early-lead",
+      "skill:taking-the-lead",
+      "skill:watchful-eye"
+    ],
+    "artHashes": [
+      "0a168484444e8ebe"
+    ]
+  },
+  {
+    "id": "card:turf-as-nails-tosen-jordan",
+    "gameId": 20035,
+    "name": "Tosen Jordan",
+    "title": "Turf as Nails",
+    "characterId": "character:tosen-jordan",
+    "type": "stamina",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:long-shot-2",
+      "skill:stamina-to-spare",
+      "skill:position-pilfer",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:pace-chaser-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:ramp-up",
+      "skill:lucky-seven"
+    ],
+    "artHashes": [
+      "bf2f0a0e0f8d8d8f"
+    ]
+  },
+  {
+    "id": "card:twinkle-in-your-eyes-el-condor-pasa",
+    "gameId": 30102,
+    "name": "El Condor Pasa",
+    "title": "Twinkle in Your Eyes ∞",
+    "characterId": "character:el-condor-pasa",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:standard-distance-2",
+      "skill:preferred-position",
+      "skill:prepared-to-pass",
+      "skill:hawkeye",
+      "skill:pace-chaser-straightaways-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:head-on"
+    ],
+    "eventSkillIds": [
+      "skill:speed-star",
+      "skill:sunny-days-2"
+    ],
+    "artHashes": [
+      "f692d2cb43060646"
+    ]
+  },
+  {
+    "id": "card:two-pieces-narita-brian",
+    "gameId": 30044,
+    "name": "Narita Brian",
+    "title": "Two Pieces",
+    "characterId": "character:narita-brian",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:preferred-position",
+      "skill:outer-swell",
+      "skill:inside-scoop",
+      "skill:medium-straightaways-2",
+      "skill:medium-corners-2",
+      "skill:long-straightaways-2",
+      "skill:hydrate"
+    ],
+    "eventSkillIds": [
+      "skill:shatterproof",
+      "skill:lone-wolf"
+    ],
+    "artHashes": [
+      "7776fbdeacccccdc"
+    ]
+  },
+  {
+    "id": "card:u-me-mihono-bourbon",
+    "gameId": 30121,
+    "name": "Mihono Bourbon",
+    "title": "U & Me",
+    "characterId": "character:mihono-bourbon",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:focus",
+      "skill:prudent-positioning",
+      "skill:early-lead",
+      "skill:leader-s-pride",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2"
+    ],
+    "eventSkillIds": [
+      "skill:fast-paced",
+      "skill:trackblazer",
+      "skill:focus"
+    ],
+    "artHashes": [
+      "9396c6bbbe9e9c8c"
+    ]
+  },
+  {
+    "id": "card:uchronia-architect-biwa-hayahide",
+    "gameId": 30113,
+    "name": "Biwa Hayahide",
+    "title": "Uchronia Architect",
+    "characterId": "character:biwa-hayahide",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:wet-conditions-2",
+      "skill:outer-post-proficiency-2",
+      "skill:cloudy-days-2",
+      "skill:stamina-to-spare",
+      "skill:passing-pro",
+      "skill:pace-chaser-straightaways-2",
+      "skill:pace-chaser-savvy-2",
+      "skill:tail-held-high",
+      "skill:head-on",
+      "skill:all-set"
+    ],
+    "eventSkillIds": [
+      "skill:prepared-to-pass",
+      "skill:vip-pass",
+      "skill:inside-scoop"
+    ],
+    "artHashes": [
+      "79f1e5cbe3c7dbc6"
+    ]
+  },
+  {
+    "id": "card:urara-s-day-off-haru-urara",
+    "gameId": 30019,
+    "name": "Haru Urara",
+    "title": "Urara's Day Off!",
+    "characterId": "character:haru-urara",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [
+      "skill:unruffled",
+      "skill:long-shot-2"
+    ],
+    "artHashes": [
+      "d2cece8f4dd4cce9"
+    ]
+  },
+  {
+    "id": "card:warm-heart-soft-steps-ikuno-dictus",
+    "gameId": 30063,
+    "name": "Ikuno Dictus",
+    "title": "Warm Heart, Soft Steps",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:lay-low",
+      "skill:calm-in-a-crowd",
+      "skill:hawkeye",
+      "skill:studious",
+      "skill:sharp-gaze"
+    ],
+    "eventSkillIds": [
+      "skill:go-with-the-flow",
+      "skill:the-bigger-picture",
+      "skill:trick-rear"
+    ],
+    "artHashes": [
+      "2c2cad8bebc7a387"
+    ]
+  },
+  {
+    "id": "card:warning-gate-shinko-windy",
+    "gameId": 20031,
+    "name": "Shinko Windy",
+    "title": "///WARNING GATE///",
+    "type": "speed",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:competitive-spirit-2",
+      "skill:prepared-to-pass",
+      "skill:hesitant-front-runners"
+    ],
+    "eventSkillIds": [
+      "skill:shifting-gears",
+      "skill:unyielding-spirit"
+    ],
+    "artHashes": [
+      "5f3f965ac7c7eac6"
+    ]
+  },
+  {
+    "id": "card:watch-my-star-fly-ines-fujin",
+    "gameId": 30011,
+    "name": "Ines Fujin",
+    "title": "Watch My Star Fly!",
+    "characterId": "character:ines-fujin",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:steadfast",
+      "skill:speed-eater",
+      "skill:moxie",
+      "skill:slipstream",
+      "skill:playtime-s-over"
+    ],
+    "eventSkillIds": [
+      "skill:restless",
+      "skill:moxie",
+      "skill:fast-paced"
+    ],
+    "artHashes": [
+      "82918ec6c666657b"
+    ]
+  },
+  {
+    "id": "card:wave-of-gratitude-fine-motion",
+    "gameId": 30010,
+    "name": "Fine Motion",
+    "title": "Wave of Gratitude",
+    "characterId": "character:fine-motion",
+    "type": "wit",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:right-handed-2",
+      "skill:fall-runner-2",
+      "skill:outer-post-proficiency-2",
+      "skill:straightaway-acceleration",
+      "skill:nimble-navigator"
+    ],
+    "eventSkillIds": [
+      "skill:speed-star",
+      "skill:prepared-to-pass",
+      "skill:corner-adept"
+    ],
+    "artHashes": [
+      "8a4fcfcecdccd999"
+    ]
+  },
+  {
+    "id": "card:welcome-to-umayuru-tanino-gimlet",
+    "gameId": 30145,
+    "name": "Tanino Gimlet",
+    "title": "Welcome to Umayuru",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:straightaway-spurt",
+      "skill:updrafters",
+      "skill:hawkeye",
+      "skill:take-the-chance",
+      "skill:eager"
+    ],
+    "eventSkillIds": [
+      "skill:sturm-und-drang",
+      "skill:end-closer-savvy-2"
+    ],
+    "artHashes": [
+      "25189a5646145246"
+    ]
+  },
+  {
+    "id": "card:well-look-who-s-home-fuji-kiseki",
+    "gameId": 20001,
+    "name": "Fuji Kiseki",
+    "title": "Well, Look Who's Home",
+    "characterId": "character:fuji-kiseki",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:summer-runner-2",
+      "skill:cloudy-days-2",
+      "skill:trick-front",
+      "skill:mile-corners-2",
+      "skill:unyielding-spirit"
+    ],
+    "eventSkillIds": [
+      "skill:flustered-end-closers",
+      "skill:prepared-to-pass"
+    ],
+    "artHashes": [
+      "accc4c85c6c4e58a"
+    ]
+  },
+  {
+    "id": "card:who-wants-the-first-bite-hishi-akebono",
+    "gameId": 30040,
+    "name": "Hishi Akebono",
+    "title": "Who Wants the First Bite?",
+    "characterId": "character:hishi-akebono",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:sunny-days-2",
+      "skill:final-push",
+      "skill:sprint-corners-2",
+      "skill:countermeasure",
+      "skill:meticulous-measures",
+      "skill:hydrate"
+    ],
+    "eventSkillIds": [
+      "skill:sunny-days-2",
+      "skill:hydrate",
+      "skill:gap-closer",
+      "skill:sixth-sense",
+      "skill:dodging-danger",
+      "skill:sprinting-gear"
+    ],
+    "artHashes": [
+      "64615b4f0f0e4e4e"
+    ]
+  },
+  {
+    "id": "card:wild-rider-vodka",
+    "gameId": 30005,
+    "name": "Vodka",
+    "title": "Wild Rider",
+    "characterId": "character:vodka",
+    "type": "power",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:tokyo-racecourse-2",
+      "skill:straightaway-adept",
+      "skill:straightaway-acceleration",
+      "skill:straightaway-recovery",
+      "skill:homestretch-haste",
+      "skill:slick-surge",
+      "skill:updrafters",
+      "skill:mile-straightaways-2",
+      "skill:medium-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:updrafters",
+      "skill:breath-of-fresh-air",
+      "skill:nimble-navigator"
+    ],
+    "artHashes": [
+      "c8dacece4c8f0a4b"
+    ]
+  },
+  {
+    "id": "card:winning-dream-silence-suzuka",
+    "gameId": 30062,
+    "name": "Silence Suzuka",
+    "title": "Winning Dream",
+    "characterId": "character:silence-suzuka",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:focus",
+      "skill:early-lead",
+      "skill:fast-paced",
+      "skill:final-push",
+      "skill:rosy-outlook",
+      "skill:front-runner-straightaways-2",
+      "skill:front-runner-corners-2",
+      "skill:front-runner-savvy-2",
+      "skill:leader-s-pride"
+    ],
+    "eventSkillIds": [
+      "skill:hydrate",
+      "skill:soft-step",
+      "skill:concentration",
+      "skill:left-handed-2"
+    ],
+    "artHashes": [
+      "694c0f8f8f1e4e6e"
+    ]
+  },
+  {
+    "id": "card:winning-pitch-mejiro-ryan",
+    "gameId": 30048,
+    "name": "Mejiro Ryan",
+    "title": "Winning Pitch",
+    "characterId": "character:mejiro-ryan",
+    "type": "guts",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:up-tempo",
+      "skill:medium-straightaways-2"
+    ],
+    "eventSkillIds": [
+      "skill:pace-chaser-savvy-2",
+      "skill:unyielding",
+      "skill:pace-strategy"
+    ],
+    "artHashes": [
+      "8b9783878d9fcedc"
+    ]
+  },
+  {
+    "id": "card:you-earned-it-ines-fujin",
+    "gameId": 20030,
+    "name": "Ines Fujin",
+    "title": "You Earned It!",
+    "characterId": "character:ines-fujin",
+    "type": "wit",
+    "rarity": "SR",
+    "hintSkillIds": [
+      "skill:steadfast",
+      "skill:speed-eater",
+      "skill:moxie",
+      "skill:slipstream",
+      "skill:playtime-s-over"
+    ],
+    "eventSkillIds": [
+      "skill:medium-straightaways-2",
+      "skill:sympathy",
+      "skill:standard-distance-2",
+      "skill:final-push",
+      "skill:fast-paced"
+    ],
+    "artHashes": [
+      "4ecf87cecedcd48d"
+    ]
+  },
+  {
+    "id": "card:your-team-ace-mejiro-mcqueen",
+    "gameId": 30022,
+    "name": "Mejiro McQueen",
+    "title": "Your Team Ace",
+    "characterId": "character:mejiro-mcqueen",
+    "type": "stamina",
+    "rarity": "SSR",
+    "hintSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:wet-conditions-2",
+      "skill:rainy-days-2",
+      "skill:corner-adept",
+      "skill:straightaway-adept",
+      "skill:stamina-to-spare",
+      "skill:prepared-to-pass",
+      "skill:deep-breaths",
+      "skill:inside-scoop",
+      "skill:extra-tank"
+    ],
+    "eventSkillIds": [
+      "skill:cooldown",
+      "skill:deep-breaths",
+      "skill:early-lead"
+    ],
+    "artHashes": [
+      "aae16153538e3525"
+    ]
+  }
+]

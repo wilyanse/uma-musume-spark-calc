@@ -19,6 +19,21 @@ Context: activation base rates, stat gain per star, initial blue-spark bonus, ra
 Assumption taken: T03 sources community-documented values into `rules.json` with `verified:false` and citations. T15 calibrates them against the user's roster.
 Blocking: no
 
+## Q-4 (T03) Missing master-data facts: inheritance turns, card vocab kind
+Context: (a) 01 §11 `scenarios.inheritanceTurns` needs the Global turn numbers of the two inspiration events; GameTora only says "first half of April, years 2 and 3". (b) `vocab.json` kinds don't include `card`, but 20 §5 wants "The Brightest Star in Japan!" (a support-card title) to resolve.
+Assumption taken: (a) `inheritanceTurns: []` with `extra.inheritanceTurnsVerified:false`. (b) card names/titles go to `vocab-cards.json` (same entry shape, `kind:'card'`), listed in `latest.json`; the schema enum is untouched.
+Blocking: no (orchestrator: decide whether to add `card` to the VocabEntry kind enum in `@uma/schema`)
+
+## Q-5 (T03) Card art hash framing
+Context: card art hashes are computed from GameTora's 128×128 art thumbnails; the in-game list tile is portrait with badge, LB diamonds and level text. Framing differs, so Hamming thresholds are unknown.
+Assumption taken: one shared crop box (`art-crop.ts`); the agent should match by nearest hash and T09/T15 calibrate the threshold on real captures.
+Blocking: no
+
+## Q-6 (T03) Rank names and the ◯ glyph
+Context: GameTora's rank table has numeric ids only; badge names are assumed to follow G…SS+, UG…US9. GameTora writes skill circles as U+25CB while the game and spec use U+25EF.
+Assumption taken: assumed ladder (checked only at A+ = 13,471 from screenshot 02); skill names use U+25EF and vocab includes both glyphs.
+Blocking: no (verify UG/UF… names against a real veteran screenshot)
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

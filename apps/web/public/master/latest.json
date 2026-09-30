@@ -1,0 +1,29 @@
+{
+  "version": "global-20260930",
+  "files": {
+    "characters.json": "/master/global-20260930/characters.json",
+    "outfits.json": "/master/global-20260930/outfits.json",
+    "skills.json": "/master/global-20260930/skills.json",
+    "sparks.json": "/master/global-20260930/sparks.json",
+    "cards.json": "/master/global-20260930/cards.json",
+    "affinity.json": "/master/global-20260930/affinity.json",
+    "scenarios.json": "/master/global-20260930/scenarios.json",
+    "ranks.json": "/master/global-20260930/ranks.json",
+    "vocab.json": "/master/global-20260930/vocab.json",
+    "rules.json": "/master/global-20260930/rules.json",
+    "vocab-cards.json": "/master/global-20260930/vocab-cards.json"
+  },
+  "sha256": {
+    "characters.json": "a5e18a90b418daadb174221888c567066dae24361424fa4703027fc5e101f33e",
+    "outfits.json": "97c0ed0fd56df287e96bcf997490ceb7768876f2357599bb151fd816b46f113c",
+    "skills.json": "460ee66ea6514296a50e912d2f20837732aad1d221e23d54460dd2c21832f43a",
+    "sparks.json": "bb3dcd388d47849d42914af5b78066f65fb824702154b099fb8af4fe6f246f2a",
+    "cards.json": "8416198239aef2e30696dd9a814c4cc15519887d48b9c978f8063c697cafa63d",
+    "affinity.json": "b4024068aaecb1ef41a4e43351234edcd7de3785f87ca31708576d263d3d4956",
+    "scenarios.json": "71e68f890c46442bfc126341d7b84686240f5d275ee9339e3d386974c3007f91",
+    "ranks.json": "c7410619a944a0230565dac81de8faad6b968ffa3bf2cbb60fa3e164d4131339",
+    "vocab.json": "bb057f0b216a486276b7db28f2d527432c6aa3e00cf45924a1dd8fb4926846a6",
+    "rules.json": "a65908be1d5ba98973f1ba39a5f8b2d01bb221193cbf7ba74a5d8e976b33b036",
+    "vocab-cards.json": "b9d88176b50b7d356d6ca6fe0bbcd00fd7c12c49f9fbabdaff12569e24d6770b"
+  }
+}

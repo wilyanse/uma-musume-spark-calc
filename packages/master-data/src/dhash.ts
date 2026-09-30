@@ -78,8 +78,9 @@ export function dhash(image: RgbaImage, box: CropBox = { x0: 0, y0: 0, x1: 1000,
       const a = data[p + 3] as number;
       const flat = (c: number) => Math.floor((c * a + 255 * (255 - a) + 127) / 255);
       const luma = 299 * flat(data[p] as number) + 587 * flat(data[p + 1] as number) + 114 * flat(data[p + 2] as number);
-      sums[j * DHASH_COLS + i] += luma;
-      counts[j * DHASH_COLS + i] += 1;
+      const cell = j * DHASH_COLS + i;
+      sums[cell] = (sums[cell] as number) + luma;
+      counts[cell] = (counts[cell] as number) + 1;
     }
   }
 

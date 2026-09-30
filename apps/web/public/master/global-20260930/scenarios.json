@@ -1,0 +1,94 @@
+[
+  {
+    "id": "scenario:brighter-together-our-grand-concert",
+    "name": "Brighter Together Our Grand Concert",
+    "statCap": 2000,
+    "inheritanceTurns": [],
+    "extra": {
+      "fullName": "Brighter Together Our Grand Concert",
+      "gameId": 3,
+      "hardCaps": [
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        9999
+      ],
+      "aliases": [
+        "Our Grand Concert"
+      ],
+      "inheritanceTurnsVerified": false,
+      "inheritanceTurnsNote": "GameTora legacies article: inspiration happens in the first half of April of years 2 and 3; turn numbers not published"
+    }
+  },
+  {
+    "id": "scenario:trackblazer",
+    "name": "Trackblazer",
+    "statCap": 2000,
+    "inheritanceTurns": [],
+    "extra": {
+      "fullName": "Trackblazer: Start of the Climax",
+      "gameId": 4,
+      "hardCaps": [
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        9999
+      ],
+      "aliases": [
+        "TS Climax Scenario"
+      ],
+      "inheritanceTurnsVerified": false,
+      "inheritanceTurnsNote": "GameTora legacies article: inspiration happens in the first half of April of years 2 and 3; turn numbers not published"
+    }
+  },
+  {
+    "id": "scenario:unity-cup",
+    "name": "Unity Cup",
+    "statCap": 2000,
+    "inheritanceTurns": [],
+    "extra": {
+      "fullName": "Unity Cup: Shine On, Team Spirit!",
+      "gameId": 2,
+      "hardCaps": [
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        9999
+      ],
+      "aliases": [
+        "Unity Cup"
+      ],
+      "inheritanceTurnsVerified": false,
+      "inheritanceTurnsNote": "GameTora legacies article: inspiration happens in the first half of April of years 2 and 3; turn numbers not published"
+    }
+  },
+  {
+    "id": "scenario:ura-finale",
+    "name": "Ura Finale",
+    "statCap": 2000,
+    "inheritanceTurns": [],
+    "extra": {
+      "fullName": "The Beginning: URA Finale",
+      "gameId": 1,
+      "hardCaps": [
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        9999
+      ],
+      "aliases": [
+        "URA Finale"
+      ],
+      "inheritanceTurnsVerified": false,
+      "inheritanceTurnsNote": "GameTora legacies article: inspiration happens in the first half of April of years 2 and 3; turn numbers not published"
+    }
+  }
+]

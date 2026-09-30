@@ -1,0 +1,3319 @@
+[
+  {
+    "id": "outfit:always-electrifying",
+    "gameId": 103101,
+    "characterId": "character:ines-fujin",
+    "title": "Always Electrifying",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "A",
+      "medium": "A",
+      "long": "C",
+      "front": "A",
+      "pace": "C",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 15,
+      "sta": 0,
+      "pow": 0,
+      "gut": 15,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:all-charged-it-s-go-time",
+    "innateSkillIds": [
+      "skill:slipstream",
+      "skill:moxie",
+      "skill:with-all-my-soul"
+    ]
+  },
+  {
+    "id": "outfit:archer-by-moonlight",
+    "gameId": 101702,
+    "characterId": "character:symboli-rudolf",
+    "title": "Archer by Moonlight",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "B",
+      "pace": "A",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 8,
+      "sta": 14,
+      "pow": 0,
+      "gut": 0,
+      "wit": 8
+    },
+    "uniqueSkillId": "skill:arrows-whistle-shadows-disperse",
+    "innateSkillIds": [
+      "skill:fall-runner-2",
+      "skill:inside-scoop",
+      "skill:stamina-to-spare"
+    ]
+  },
+  {
+    "id": "outfit:ashen-miracle",
+    "gameId": 100602,
+    "characterId": "character:oguri-cap",
+    "title": "Ashen Miracle",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "B",
+      "sprint": "E",
+      "mile": "A",
+      "medium": "A",
+      "long": "B",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 15,
+      "sta": 15,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:festive-miracle",
+    "innateSkillIds": [
+      "skill:shake-it-out",
+      "skill:inside-scoop",
+      "skill:hydrate"
+    ]
+  },
+  {
+    "id": "outfit:authentic-1928",
+    "gameId": 104001,
+    "characterId": "character:gold-city",
+    "title": "Authentic / 1928",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "D",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "B",
+      "long": "B",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 10,
+      "gut": 20,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:keep-it-real",
+    "innateSkillIds": [
+      "skill:hanshin-racecourse-2",
+      "skill:watchful-eye",
+      "skill:slick-surge"
+    ]
+  },
+  {
+    "id": "outfit:autumn-cosmos",
+    "gameId": 104002,
+    "characterId": "character:gold-city",
+    "title": "Autumn Cosmos",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "D",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "B",
+      "long": "B",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 8,
+      "sta": 0,
+      "pow": 8,
+      "gut": 0,
+      "wit": 14
+    },
+    "uniqueSkillId": "skill:dancing-in-the-leaves",
+    "innateSkillIds": [
+      "skill:rainy-days-2",
+      "skill:opening-gambit",
+      "skill:be-still"
+    ]
+  },
+  {
+    "id": "outfit:azure-amazon",
+    "gameId": 101201,
+    "characterId": "character:hishi-amazon",
+    "title": "Azure Amazon",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "D",
+      "mile": "A",
+      "medium": "A",
+      "long": "B",
+      "front": "G",
+      "pace": "B",
+      "late": "C",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:you-and-me-one-on-one",
+    "innateSkillIds": [
+      "skill:go-with-the-flow",
+      "skill:masterful-gambit",
+      "skill:steadfast"
+    ]
+  },
+  {
+    "id": "outfit:bestest-prize",
+    "gameId": 105201,
+    "characterId": "character:haru-urara",
+    "title": "Bestest Prize ♪",
+    "aptitudes": {
+      "turf": "G",
+      "dirt": "A",
+      "sprint": "A",
+      "mile": "B",
+      "medium": "G",
+      "long": "G",
+      "front": "G",
+      "pace": "G",
+      "late": "A",
+      "end": "B"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 10,
+      "gut": 20,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:super-duper-climax",
+    "innateSkillIds": [
+      "skill:lay-low",
+      "skill:sprinting-gear",
+      "skill:1-500-000-cc"
+    ]
+  },
+  {
+    "id": "outfit:beyond-the-horizon",
+    "gameId": 100302,
+    "characterId": "character:tokai-teio",
+    "title": "Beyond the Horizon",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "E",
+      "medium": "A",
+      "long": "B",
+      "front": "D",
+      "pace": "A",
+      "late": "C",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 10,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:certain-victory",
+    "innateSkillIds": [
+      "skill:prudent-positioning",
+      "skill:soft-step",
+      "skill:preferred-position"
+    ]
+  },
+  {
+    "id": "outfit:blazed-head-covered-fists",
+    "gameId": 107201,
+    "characterId": "character:yaeno-muteki",
+    "title": "Blazed Head, Covered Fists",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "B",
+      "medium": "A",
+      "long": "E",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:peerless-dance-of-flowering-flames",
+    "innateSkillIds": [
+      "skill:ramp-up",
+      "skill:steadfast",
+      "skill:pace-chaser-corners-2"
+    ]
+  },
+  {
+    "id": "outfit:blossom-in-learning",
+    "gameId": 104101,
+    "characterId": "character:sakura-bakushin-o",
+    "title": "Blossom in Learning",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "A",
+      "mile": "B",
+      "medium": "G",
+      "long": "G",
+      "front": "A",
+      "pace": "A",
+      "late": "F",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:genius-x-bakushin-victory",
+    "innateSkillIds": [
+      "skill:flustered-front-runners",
+      "skill:pace-chaser-straightaways-2",
+      "skill:sprinting-gear"
+    ]
+  },
+  {
+    "id": "outfit:brunissage-line",
+    "gameId": 107401,
+    "characterId": "character:mejiro-bright",
+    "title": "Brunissage Line",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "D",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 14,
+      "pow": 0,
+      "gut": 8,
+      "wit": 8
+    },
+    "uniqueSkillId": "skill:lovely-spring-breeze",
+    "innateSkillIds": [
+      "skill:pace-strategy",
+      "skill:end-closer-corners-2",
+      "skill:free-spirited"
+    ]
+  },
+  {
+    "id": "outfit:bubblegum-memories",
+    "gameId": 101002,
+    "characterId": "character:taiki-shuttle",
+    "title": "Bubblegum☆Memories",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "B",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "E",
+      "long": "G",
+      "front": "C",
+      "pace": "A",
+      "late": "E",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 30,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:joyful-voyage",
+    "innateSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:productive-plan",
+      "skill:head-on"
+    ]
+  },
+  {
+    "id": "outfit:buono-alla-moda",
+    "gameId": 102801,
+    "characterId": "character:hishi-akebono",
+    "title": "Buono ☆ Alla Moda",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "A",
+      "mile": "B",
+      "medium": "F",
+      "long": "G",
+      "front": "B",
+      "pace": "A",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:yummy-speed",
+    "innateSkillIds": [
+      "skill:sunny-days-2",
+      "skill:hydrate",
+      "skill:meticulous-measures"
+    ]
+  },
+  {
+    "id": "outfit:butterfly-sting",
+    "gameId": 110001,
+    "characterId": "character:wonder-acute",
+    "title": "Butterfly Sting",
+    "aptitudes": {
+      "turf": "G",
+      "dirt": "A",
+      "sprint": "D",
+      "mile": "A",
+      "medium": "A",
+      "long": "E",
+      "front": "C",
+      "pace": "A",
+      "late": "C",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 0,
+      "gut": 15,
+      "wit": 15
+    },
+    "uniqueSkillId": "skill:never-say-never",
+    "innateSkillIds": [
+      "skill:down-in-the-dirt",
+      "skill:pace-chaser-savvy-2",
+      "skill:unyielding-spirit"
+    ]
+  },
+  {
+    "id": "outfit:cheerleader-in-noble-white",
+    "gameId": 106102,
+    "characterId": "character:king-halo",
+    "title": "Cheerleader in Noble White",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "A",
+      "mile": "B",
+      "medium": "B",
+      "long": "C",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 10,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:louder-tracen-cheer",
+    "innateSkillIds": [
+      "skill:spring-runner-2",
+      "skill:gap-closer",
+      "skill:outer-swell"
+    ]
+  },
+  {
+    "id": "outfit:chiffon-wrapped-mummy",
+    "gameId": 104502,
+    "characterId": "character:super-creek",
+    "title": "Chiffon-Wrapped Mummy",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "G",
+      "medium": "A",
+      "long": "A",
+      "front": "D",
+      "pace": "A",
+      "late": "B",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 14,
+      "sta": 8,
+      "pow": 0,
+      "gut": 8,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:give-mummy-a-hug",
+    "innateSkillIds": [
+      "skill:corner-adept",
+      "skill:murmur",
+      "skill:hydrate"
+    ]
+  },
+  {
+    "id": "outfit:clippety-tippety-clop",
+    "gameId": 106201,
+    "characterId": "character:matikanetannhauser",
+    "title": "Clippety-Tippety-Clop",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "D",
+      "medium": "A",
+      "long": "A",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:go-go-mun",
+    "innateSkillIds": [
+      "skill:calm-in-a-crowd",
+      "skill:pressure",
+      "skill:slick-surge"
+    ]
+  },
+  {
+    "id": "outfit:code-icing",
+    "gameId": 102602,
+    "characterId": "character:mihono-bourbon",
+    "title": "CODE: ICING",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "C",
+      "mile": "B",
+      "medium": "A",
+      "long": "B",
+      "front": "A",
+      "pace": "E",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 10,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:operation-cacao",
+    "innateSkillIds": [
+      "skill:focus",
+      "skill:fast-paced",
+      "skill:extra-tank"
+    ]
+  },
+  {
+    "id": "outfit:creeping-shadow",
+    "gameId": 102501,
+    "characterId": "character:manhattan-cafe",
+    "title": "Creeping Shadow",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "B",
+      "long": "A",
+      "front": "G",
+      "pace": "C",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 30,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:chasing-after-you",
+    "innateSkillIds": [
+      "skill:rainy-days-2",
+      "skill:stamina-eater",
+      "skill:a-small-breather"
+    ]
+  },
+  {
+    "id": "outfit:crystalline",
+    "gameId": 107101,
+    "characterId": "character:mejiro-ardan",
+    "title": "Crystalline",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "E",
+      "mile": "B",
+      "medium": "A",
+      "long": "D",
+      "front": "C",
+      "pace": "A",
+      "late": "D",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:a-lifelong-dream-a-moment-s-flight",
+    "innateSkillIds": [
+      "skill:left-handed-2",
+      "skill:preferred-position",
+      "skill:all-i-ve-got"
+    ]
+  },
+  {
+    "id": "outfit:darl-n-snowflake",
+    "gameId": 102901,
+    "characterId": "character:yukino-bijin",
+    "title": "Darl'n Snowflake",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "B",
+      "sprint": "D",
+      "mile": "A",
+      "medium": "A",
+      "long": "E",
+      "front": "C",
+      "pace": "A",
+      "late": "F",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 20,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:snow-bright-snow-flight",
+    "innateSkillIds": [
+      "skill:nimble-navigator",
+      "skill:medium-straightaways-2",
+      "skill:straight-descent"
+    ]
+  },
+  {
+    "id": "outfit:desperate-measures",
+    "gameId": 104901,
+    "characterId": "character:nakayama-festa",
+    "title": "Desperate Measures",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "B",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 10,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:laugh-at-the-odds",
+    "innateSkillIds": [
+      "skill:risk-taker",
+      "skill:risky-business",
+      "skill:all-i-ve-got"
+    ]
+  },
+  {
+    "id": "outfit:difference-engineer",
+    "gameId": 105002,
+    "characterId": "character:narita-taishin",
+    "title": "Difference Engineer",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "D",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "F",
+      "late": "B",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 8,
+      "pow": 0,
+      "gut": 8,
+      "wit": 14
+    },
+    "uniqueSkillId": "skill:hephaestus",
+    "innateSkillIds": [
+      "skill:nimble-navigator",
+      "skill:breakin-out",
+      "skill:take-the-chance"
+    ]
+  },
+  {
+    "id": "outfit:dot-o-lantern",
+    "gameId": 105802,
+    "characterId": "character:meisho-doto",
+    "title": "Dot-o'-Lantern",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "F",
+      "pace": "A",
+      "late": "B",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 15,
+      "gut": 0,
+      "wit": 15
+    },
+    "uniqueSkillId": "skill:spooky-scary-happy",
+    "innateSkillIds": [
+      "skill:corner-recovery",
+      "skill:head-on",
+      "skill:medium-straightaways-2"
+    ]
+  },
+  {
+    "id": "outfit:down-the-line",
+    "gameId": 102701,
+    "characterId": "character:mejiro-ryan",
+    "title": "Down the Line",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "C",
+      "medium": "A",
+      "long": "B",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:let-s-pump-some-iron",
+    "innateSkillIds": [
+      "skill:rainy-days-2",
+      "skill:up-tempo",
+      "skill:outer-swell"
+    ]
+  },
+  {
+    "id": "outfit:dream-deliverer",
+    "gameId": 103502,
+    "characterId": "character:winning-ticket",
+    "title": "Dream Deliverer",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "B",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 8,
+      "sta": 0,
+      "pow": 14,
+      "gut": 8,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:ticket-to-your-dreams",
+    "innateSkillIds": [
+      "skill:downhill-speedster",
+      "skill:1-500-000-cc",
+      "skill:all-i-ve-got"
+    ]
+  },
+  {
+    "id": "outfit:edomurasaki",
+    "gameId": 103401,
+    "characterId": "character:inari-one",
+    "title": "Edomurasaki",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "A",
+      "sprint": "F",
+      "mile": "B",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "B",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 20,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:now-we-re-cruisin",
+    "innateSkillIds": [
+      "skill:tail-held-high",
+      "skill:end-closer-straightaways-2",
+      "skill:familiar-ground"
+    ]
+  },
+  {
+    "id": "outfit:eightfold-fortune",
+    "gameId": 109801,
+    "characterId": "character:copano-rickey",
+    "title": "Eightfold☆Fortune",
+    "aptitudes": {
+      "turf": "F",
+      "dirt": "A",
+      "sprint": "C",
+      "mile": "A",
+      "medium": "A",
+      "long": "G",
+      "front": "A",
+      "pace": "A",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 10,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:luck-runs-my-way",
+    "innateSkillIds": [
+      "skill:sunny-sign",
+      "skill:pace-chaser-savvy-2",
+      "skill:medium-corners-2"
+    ]
+  },
+  {
+    "id": "outfit:el-n-mero-1",
+    "gameId": 101401,
+    "characterId": "character:el-condor-pasa",
+    "title": "El☆Número 1",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "B",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "B",
+      "front": "E",
+      "pace": "A",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:victoria-por-plancha",
+    "innateSkillIds": [
+      "skill:straightaway-adept",
+      "skill:hawkeye",
+      "skill:pace-chaser-straightaways-2"
+    ]
+  },
+  {
+    "id": "outfit:emperor-s-path",
+    "gameId": 101701,
+    "characterId": "character:symboli-rudolf",
+    "title": "Emperor's Path",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "B",
+      "pace": "A",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:behold-thine-emperor-s-divine-might",
+    "innateSkillIds": [
+      "skill:corner-adept",
+      "skill:tether",
+      "skill:preferred-position"
+    ]
+  },
+  {
+    "id": "outfit:empress-road",
+    "gameId": 101801,
+    "characterId": "character:air-groove",
+    "title": "Empress Road",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "C",
+      "mile": "B",
+      "medium": "A",
+      "long": "E",
+      "front": "D",
+      "pace": "A",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:blazing-pride",
+    "innateSkillIds": [
+      "skill:go-with-the-flow",
+      "skill:up-tempo",
+      "skill:disorient"
+    ]
+  },
+  {
+    "id": "outfit:end-of-the-skies",
+    "gameId": 101302,
+    "characterId": "character:mejiro-mcqueen",
+    "title": "End of the Skies",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "B",
+      "pace": "A",
+      "late": "D",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 10,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:legacy-of-the-strong",
+    "innateSkillIds": [
+      "skill:straightaway-adept",
+      "skill:stamina-to-spare",
+      "skill:deep-breaths"
+    ]
+  },
+  {
+    "id": "outfit:fair-lady-of-the-waves",
+    "gameId": 101303,
+    "characterId": "character:mejiro-mcqueen",
+    "title": "Fair Lady of the Waves",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "B",
+      "pace": "A",
+      "late": "D",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 8,
+      "sta": 8,
+      "pow": 0,
+      "gut": 0,
+      "wit": 14
+    },
+    "uniqueSkillId": "skill:your-smile-sparkles-as-the-waves",
+    "innateSkillIds": [
+      "skill:focus",
+      "skill:pace-chaser-savvy-2",
+      "skill:feature-act"
+    ]
+  },
+  {
+    "id": "outfit:fanatic-jiangshi",
+    "gameId": 101902,
+    "characterId": "character:agnes-digital",
+    "title": "Fanatic♡Jiangshi",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "A",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "G",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "B"
+    },
+    "growth": {
+      "spd": 7,
+      "sta": 7,
+      "pow": 8,
+      "gut": 8,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:the-moe-aaaa-thanks-for-my-life",
+    "innateSkillIds": [
+      "skill:comeback",
+      "skill:ramp-up",
+      "skill:updrafters"
+    ]
+  },
+  {
+    "id": "outfit:fast-as-lightning",
+    "gameId": 102101,
+    "characterId": "character:tamamo-cross",
+    "title": "Fast as Lightning",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "G",
+      "mile": "E",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:white-lightning-comin-through",
+    "innateSkillIds": [
+      "skill:tail-held-high",
+      "skill:thunderbolt-step",
+      "skill:position-pilfer"
+    ]
+  },
+  {
+    "id": "outfit:fiery-aqua-vitae",
+    "gameId": 100802,
+    "characterId": "character:vodka",
+    "title": "Fiery Aqua Vitae",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "E",
+      "front": "C",
+      "pace": "B",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:into-high-gear",
+    "innateSkillIds": [
+      "skill:pedal-to-the-metal",
+      "skill:nimble-navigator",
+      "skill:medium-corners-2"
+    ]
+  },
+  {
+    "id": "outfit:fille-clair",
+    "gameId": 103801,
+    "characterId": "character:curren-chan",
+    "title": "Fille Éclair",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "A",
+      "mile": "D",
+      "medium": "G",
+      "long": "G",
+      "front": "B",
+      "pace": "A",
+      "late": "E",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:lookatcurren",
+    "innateSkillIds": [
+      "skill:ramp-up",
+      "skill:disorient",
+      "skill:intimidate"
+    ]
+  },
+  {
+    "id": "outfit:flare",
+    "gameId": 108701,
+    "characterId": "character:aston-machan",
+    "title": "Flare",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "A",
+      "mile": "B",
+      "medium": "G",
+      "long": "G",
+      "front": "A",
+      "pace": "A",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:silent-letter",
+    "innateSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:light-as-a-feather",
+      "skill:early-lead"
+    ]
+  },
+  {
+    "id": "outfit:fluttertail-spirit",
+    "gameId": 107801,
+    "characterId": "character:yamanin-zephyr",
+    "title": "Fluttertail Spirit",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "D",
+      "sprint": "B",
+      "mile": "A",
+      "medium": "A",
+      "long": "G",
+      "front": "E",
+      "pace": "A",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:sunny-breeze",
+    "innateSkillIds": [
+      "skill:long-shot-2",
+      "skill:shifting-gears",
+      "skill:aspire"
+    ]
+  },
+  {
+    "id": "outfit:formula-r",
+    "gameId": 100401,
+    "characterId": "character:maruzensky",
+    "title": "Formula R",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "D",
+      "sprint": "B",
+      "mile": "A",
+      "medium": "B",
+      "long": "C",
+      "front": "A",
+      "pace": "E",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:red-shift-lp1211-m",
+    "innateSkillIds": [
+      "skill:straightaway-adept",
+      "skill:shifting-gears",
+      "skill:early-lead"
+    ]
+  },
+  {
+    "id": "outfit:frontline-elegance",
+    "gameId": 101301,
+    "characterId": "character:mejiro-mcqueen",
+    "title": "Frontline Elegance",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "B",
+      "pace": "A",
+      "late": "D",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:the-duty-of-dignity-calls",
+    "innateSkillIds": [
+      "skill:spring-runner-2",
+      "skill:stamina-to-spare",
+      "skill:keeping-the-lead"
+    ]
+  },
+  {
+    "id": "outfit:full-color-fangirling",
+    "gameId": 101901,
+    "characterId": "character:agnes-digital",
+    "title": "Full-Color Fangirling",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "A",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "G",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "B"
+    },
+    "growth": {
+      "spd": 8,
+      "sta": 8,
+      "pow": 7,
+      "gut": 0,
+      "wit": 7
+    },
+    "uniqueSkillId": "skill:omg-the-final-sprint",
+    "innateSkillIds": [
+      "skill:uma-stan",
+      "skill:forward-march",
+      "skill:late-surger-straightaways-2"
+    ]
+  },
+  {
+    "id": "outfit:get-to-winning",
+    "gameId": 103501,
+    "characterId": "character:winning-ticket",
+    "title": "Get to Winning!",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "B",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 20,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:our-ticket-to-win",
+    "innateSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:steadfast",
+      "skill:fighter"
+    ]
+  },
+  {
+    "id": "outfit:gilded-shrine-to-glory",
+    "gameId": 106801,
+    "characterId": "character:kitasan-black",
+    "title": "Gilded Shrine to Glory",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "B",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 10,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:victory-cheer",
+    "innateSkillIds": [
+      "skill:focus",
+      "skill:long-straightaways-2",
+      "skill:early-lead"
+    ]
+  },
+  {
+    "id": "outfit:golden-dream",
+    "gameId": 103402,
+    "characterId": "character:inari-one",
+    "title": "Golden Dream",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "A",
+      "sprint": "F",
+      "mile": "B",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "B",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 14,
+      "sta": 0,
+      "pow": 8,
+      "gut": 0,
+      "wit": 8
+    },
+    "uniqueSkillId": "skill:firelight",
+    "innateSkillIds": [
+      "skill:oi-racecourse-2",
+      "skill:inside-scoop",
+      "skill:straightaway-spurt"
+    ]
+  },
+  {
+    "id": "outfit:hopp-n-happy-heart",
+    "gameId": 100102,
+    "characterId": "character:special-week",
+    "title": "Hopp'n♪Happy Heart",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 10,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:dazzl-n-diver",
+    "innateSkillIds": [
+      "skill:ramp-up",
+      "skill:position-pilfer",
+      "skill:thunderbolt-step"
+    ]
+  },
+  {
+    "id": "outfit:hot-summer-night",
+    "gameId": 100402,
+    "characterId": "character:maruzensky",
+    "title": "Hot☆Summer Night",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "D",
+      "sprint": "B",
+      "mile": "A",
+      "medium": "B",
+      "long": "C",
+      "front": "A",
+      "pace": "E",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 15,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 15
+    },
+    "uniqueSkillId": "skill:a-kiss-for-courage",
+    "innateSkillIds": [
+      "skill:corner-recovery",
+      "skill:productive-plan",
+      "skill:moxie"
+    ]
+  },
+  {
+    "id": "outfit:innocent-silence",
+    "gameId": 100201,
+    "characterId": "character:silence-suzuka",
+    "title": "Innocent Silence",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "D",
+      "mile": "A",
+      "medium": "A",
+      "long": "E",
+      "front": "A",
+      "pace": "C",
+      "late": "E",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:the-view-from-the-lead-is-mine",
+    "innateSkillIds": [
+      "skill:focus",
+      "skill:final-push",
+      "skill:rosy-outlook"
+    ]
+  },
+  {
+    "id": "outfit:iron-ambition",
+    "gameId": 105301,
+    "characterId": "character:bamboo-memory",
+    "title": "Iron Ambition",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "D",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "C",
+      "long": "G",
+      "front": "G",
+      "pace": "E",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 10,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:red-hot-discipline",
+    "innateSkillIds": [
+      "skill:ramp-up",
+      "skill:outer-swell",
+      "skill:pumped"
+    ]
+  },
+  {
+    "id": "outfit:jokester-vibes",
+    "gameId": 104801,
+    "characterId": "character:tosen-jordan",
+    "title": "Jokester ☆ Vibes",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "B",
+      "front": "C",
+      "pace": "A",
+      "late": "B",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 10,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:pop-polish",
+    "innateSkillIds": [
+      "skill:long-shot-2",
+      "skill:slick-surge",
+      "skill:medium-straightaways-2"
+    ]
+  },
+  {
+    "id": "outfit:king-of-emeralds",
+    "gameId": 106101,
+    "characterId": "character:king-halo",
+    "title": "King of Emeralds",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "A",
+      "mile": "B",
+      "medium": "B",
+      "long": "C",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:prideful-king",
+    "innateSkillIds": [
+      "skill:outer-post-proficiency-2",
+      "skill:gap-closer",
+      "skill:studious"
+    ]
+  },
+  {
+    "id": "outfit:kukulkan-warrior",
+    "gameId": 101402,
+    "characterId": "character:el-condor-pasa",
+    "title": "Kukulkan Warrior",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "B",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "B",
+      "front": "E",
+      "pace": "A",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 15,
+      "sta": 0,
+      "pow": 0,
+      "gut": 15,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:condor-s-fury",
+    "innateSkillIds": [
+      "skill:homestretch-haste",
+      "skill:updrafters",
+      "skill:outer-swell"
+    ]
+  },
+  {
+    "id": "outfit:layered-petals",
+    "gameId": 105101,
+    "characterId": "character:nishino-flower",
+    "title": "Layered Petals",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "E",
+      "long": "G",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 15,
+      "sta": 0,
+      "pow": 15,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:budding-blossom",
+    "innateSkillIds": [
+      "skill:straightaway-adept",
+      "skill:acceleration",
+      "skill:straight-descent"
+    ]
+  },
+  {
+    "id": "outfit:line-breakthrough",
+    "gameId": 106401,
+    "characterId": "character:mejiro-palmer",
+    "title": "Line Breakthrough",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "E",
+      "late": "F",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 10,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:keep-pushing-ahead",
+    "innateSkillIds": [
+      "skill:playtime-s-over",
+      "skill:front-runner-straightaways-2",
+      "skill:keeping-the-lead"
+    ]
+  },
+  {
+    "id": "outfit:love-4ever",
+    "gameId": 104601,
+    "characterId": "character:smart-falcon",
+    "title": "LOVE☆4EVER",
+    "aptitudes": {
+      "turf": "E",
+      "dirt": "A",
+      "sprint": "B",
+      "mile": "A",
+      "medium": "A",
+      "long": "E",
+      "front": "A",
+      "pace": "D",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:sparkly-stardom",
+    "innateSkillIds": [
+      "skill:prudent-positioning",
+      "skill:front-runner-savvy-2",
+      "skill:top-pick"
+    ]
+  },
+  {
+    "id": "outfit:lucky-tidings",
+    "gameId": 105602,
+    "characterId": "character:matikanefukukitaru",
+    "title": "Lucky Tidings",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 0,
+      "gut": 10,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:bountiful-harvest",
+    "innateSkillIds": [
+      "skill:right-handed-2",
+      "skill:slick-surge",
+      "skill:pressure"
+    ]
+  },
+  {
+    "id": "outfit:ma-ch-rie-of-the-new-moon",
+    "gameId": 103802,
+    "characterId": "character:curren-chan",
+    "title": "Ma Chérie of the New Moon",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "A",
+      "mile": "D",
+      "medium": "G",
+      "long": "G",
+      "front": "B",
+      "pace": "A",
+      "late": "E",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 10,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:one-true-color",
+    "innateSkillIds": [
+      "skill:hesitant-front-runners",
+      "skill:pace-chaser-corners-2",
+      "skill:intimidate"
+    ]
+  },
+  {
+    "id": "outfit:maverick",
+    "gameId": 101601,
+    "characterId": "character:narita-brian",
+    "title": "Maverick",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "B",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 20,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:shadow-break",
+    "innateSkillIds": [
+      "skill:straightaway-adept",
+      "skill:medium-straightaways-2",
+      "skill:preferred-position"
+    ]
+  },
+  {
+    "id": "outfit:mb-19890425",
+    "gameId": 102601,
+    "characterId": "character:mihono-bourbon",
+    "title": "MB-19890425",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "C",
+      "mile": "B",
+      "medium": "A",
+      "long": "B",
+      "front": "A",
+      "pace": "E",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:g00-1st-f",
+    "innateSkillIds": [
+      "skill:rainy-days-2",
+      "skill:early-lead",
+      "skill:rosy-outlook"
+    ]
+  },
+  {
+    "id": "outfit:meisterschaft",
+    "gameId": 103701,
+    "characterId": "character:eishin-flash",
+    "title": "Meisterschaft",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 10,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:schwarzes-schwert",
+    "innateSkillIds": [
+      "skill:go-with-the-flow",
+      "skill:late-surger-savvy-2",
+      "skill:medium-corners-2"
+    ]
+  },
+  {
+    "id": "outfit:murmuring-stream",
+    "gameId": 104501,
+    "characterId": "character:super-creek",
+    "title": "Murmuring Stream",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "G",
+      "medium": "A",
+      "long": "A",
+      "front": "D",
+      "pace": "A",
+      "late": "B",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 0,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:pure-heart",
+    "innateSkillIds": [
+      "skill:corner-recovery",
+      "skill:deep-breaths",
+      "skill:disorient"
+    ]
+  },
+  {
+    "id": "outfit:natural-brilliance",
+    "gameId": 106701,
+    "characterId": "character:satono-diamond",
+    "title": "Natural Brilliance",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 15,
+      "pow": 0,
+      "gut": 0,
+      "wit": 15
+    },
+    "uniqueSkillId": "skill:eternal-encompassing-shine",
+    "innateSkillIds": [
+      "skill:right-handed-2",
+      "skill:be-still",
+      "skill:medium-straightaways-2"
+    ]
+  },
+  {
+    "id": "outfit:nevertheless",
+    "gameId": 105001,
+    "characterId": "character:narita-taishin",
+    "title": "Nevertheless",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "D",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "F",
+      "late": "B",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 20,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:nemesis",
+    "innateSkillIds": [
+      "skill:lone-wolf",
+      "skill:standing-by",
+      "skill:murmur"
+    ]
+  },
+  {
+    "id": "outfit:new-year-new-urara",
+    "gameId": 105202,
+    "characterId": "character:haru-urara",
+    "title": "New Year ♪ New Urara!",
+    "aptitudes": {
+      "turf": "G",
+      "dirt": "A",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "G",
+      "long": "G",
+      "front": "G",
+      "pace": "G",
+      "late": "A",
+      "end": "B"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:114th-time-s-the-charm",
+    "innateSkillIds": [
+      "skill:prudent-positioning",
+      "skill:unyielding-spirit",
+      "skill:fighter"
+    ]
+  },
+  {
+    "id": "outfit:new-year-same-radiance",
+    "gameId": 101502,
+    "characterId": "character:tm-opera-o",
+    "title": "New Year, Same Radiance!",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "E",
+      "medium": "A",
+      "long": "A",
+      "front": "C",
+      "pace": "A",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 14,
+      "sta": 8,
+      "pow": 0,
+      "gut": 0,
+      "wit": 8
+    },
+    "uniqueSkillId": "skill:barcarole-of-blessings",
+    "innateSkillIds": [
+      "skill:pace-chaser-straightaways-2",
+      "skill:feature-act",
+      "skill:corner-recovery"
+    ]
+  },
+  {
+    "id": "outfit:noble-seamair",
+    "gameId": 102201,
+    "characterId": "character:fine-motion",
+    "title": "Noble Seamair",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "C",
+      "front": "D",
+      "pace": "A",
+      "late": "E",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 15,
+      "gut": 0,
+      "wit": 15
+    },
+    "uniqueSkillId": "skill:fairy-tale",
+    "innateSkillIds": [
+      "skill:fall-runner-2",
+      "skill:prepared-to-pass",
+      "skill:medium-corners-2"
+    ]
+  },
+  {
+    "id": "outfit:nuit-toil-e-de-scarlet",
+    "gameId": 100902,
+    "characterId": "character:daiwa-scarlet",
+    "title": "Nuit Étoilée de Scarlet",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "B",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "A",
+      "late": "E",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:queen-s-lumination",
+    "innateSkillIds": [
+      "skill:firm-resolve",
+      "skill:moxie",
+      "skill:feature-act"
+    ]
+  },
+  {
+    "id": "outfit:o-sole-suo",
+    "gameId": 101501,
+    "characterId": "character:tm-opera-o",
+    "title": "O Sole Suo!",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "E",
+      "medium": "A",
+      "long": "A",
+      "front": "C",
+      "pace": "A",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:this-dance-is-for-vittoria",
+    "innateSkillIds": [
+      "skill:prepared-to-pass",
+      "skill:up-tempo",
+      "skill:non-standard-distance-2"
+    ]
+  },
+  {
+    "id": "outfit:off-the-line",
+    "gameId": 105901,
+    "characterId": "character:mejiro-dober",
+    "title": "Off the Line",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "A",
+      "medium": "A",
+      "long": "F",
+      "front": "C",
+      "pace": "B",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:moving-past-and-beyond",
+    "innateSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:sharp-gaze",
+      "skill:soft-step"
+    ]
+  },
+  {
+    "id": "outfit:peak-blue",
+    "gameId": 100901,
+    "characterId": "character:daiwa-scarlet",
+    "title": "Peak Blue",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "B",
+      "front": "A",
+      "pace": "A",
+      "late": "E",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 20,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:resplendent-red-ace",
+    "innateSkillIds": [
+      "skill:competitive-spirit-2",
+      "skill:up-tempo",
+      "skill:preferred-position"
+    ]
+  },
+  {
+    "id": "outfit:peak-joy",
+    "gameId": 100301,
+    "characterId": "character:tokai-teio",
+    "title": "Peak Joy",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "E",
+      "medium": "A",
+      "long": "B",
+      "front": "D",
+      "pace": "A",
+      "late": "C",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 10,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:sky-high-teio-step",
+    "innateSkillIds": [
+      "skill:prudent-positioning",
+      "skill:thunderbolt-step",
+      "skill:shrewd-step"
+    ]
+  },
+  {
+    "id": "outfit:pf-winning-equation",
+    "gameId": 102301,
+    "characterId": "character:biwa-hayahide",
+    "title": "pf. Winning Equation...",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "E",
+      "pace": "A",
+      "late": "B",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:win-q-e-d",
+    "innateSkillIds": [
+      "skill:wet-conditions-2",
+      "skill:deep-breaths",
+      "skill:stamina-to-spare"
+    ]
+  },
+  {
+    "id": "outfit:platanus-witch",
+    "gameId": 104401,
+    "characterId": "character:sweep-tosho",
+    "title": "Platanus Witch",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "A",
+      "medium": "A",
+      "long": "D",
+      "front": "G",
+      "pace": "G",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:victory-belongs-to-me-strelitzia",
+    "innateSkillIds": [
+      "skill:trick-rear",
+      "skill:after-school-stroll",
+      "skill:take-the-chance"
+    ]
+  },
+  {
+    "id": "outfit:poinsettia-ribbon",
+    "gameId": 106001,
+    "characterId": "character:nice-nature",
+    "title": "Poinsettia Ribbon",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "F",
+      "pace": "B",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:just-a-little-farther",
+    "innateSkillIds": [
+      "skill:kokura-racecourse-2",
+      "skill:murmur",
+      "skill:sharp-gaze"
+    ]
+  },
+  {
+    "id": "outfit:precise-chocolatier",
+    "gameId": 103702,
+    "characterId": "character:eishin-flash",
+    "title": "Precise Chocolatier",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 8,
+      "pow": 8,
+      "gut": 0,
+      "wit": 14
+    },
+    "uniqueSkillId": "skill:guten-appetit",
+    "innateSkillIds": [
+      "skill:long-shot-2",
+      "skill:position-pilfer",
+      "skill:tether"
+    ]
+  },
+  {
+    "id": "outfit:princess-of-pink",
+    "gameId": 103901,
+    "characterId": "character:kawakami-princess",
+    "title": "Princess of Pink",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "D",
+      "mile": "B",
+      "medium": "A",
+      "long": "F",
+      "front": "G",
+      "pace": "C",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 10,
+      "gut": 20,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:a-princess-must-seize-victory",
+    "innateSkillIds": [
+      "skill:nimble-navigator",
+      "skill:unyielding-spirit",
+      "skill:outer-swell"
+    ]
+  },
+  {
+    "id": "outfit:quercus-civilis",
+    "gameId": 101802,
+    "characterId": "character:air-groove",
+    "title": "Quercus Civilis",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "C",
+      "mile": "B",
+      "medium": "A",
+      "long": "E",
+      "front": "D",
+      "pace": "A",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 10,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:eternal-moments",
+    "innateSkillIds": [
+      "skill:corner-acceleration",
+      "skill:unyielding-spirit",
+      "skill:pace-chaser-corners-2"
+    ]
+  },
+  {
+    "id": "outfit:raging-thunder",
+    "gameId": 102102,
+    "characterId": "character:tamamo-cross",
+    "title": "Raging Thunder",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "G",
+      "mile": "E",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 14,
+      "sta": 8,
+      "pow": 0,
+      "gut": 8,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:lightning-flare",
+    "innateSkillIds": [
+      "skill:ramp-up",
+      "skill:up-tempo",
+      "skill:head-on"
+    ]
+  },
+  {
+    "id": "outfit:red-strife",
+    "gameId": 100701,
+    "characterId": "character:gold-ship",
+    "title": "Red Strife",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "B",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:anchors-aweigh",
+    "innateSkillIds": [
+      "skill:uma-stan",
+      "skill:pressure",
+      "skill:i-can-see-right-through-you"
+    ]
+  },
+  {
+    "id": "outfit:reeling-in-the-big-one",
+    "gameId": 102001,
+    "characterId": "character:seiun-sky",
+    "title": "Reeling in the Big One",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "B",
+      "late": "D",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 0,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:angling-and-scheming",
+    "innateSkillIds": [
+      "skill:hesitant-pace-chasers",
+      "skill:keeping-the-lead",
+      "skill:fast-paced"
+    ]
+  },
+  {
+    "id": "outfit:rising-fortune",
+    "gameId": 105601,
+    "characterId": "character:matikanefukukitaru",
+    "title": "Rising☆Fortune",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:i-see-victory-in-my-future",
+    "innateSkillIds": [
+      "skill:lucky-seven",
+      "skill:a-small-breather",
+      "skill:smoke-screen"
+    ]
+  },
+  {
+    "id": "outfit:rocket-star",
+    "gameId": 104201,
+    "characterId": "character:seeking-the-pearl",
+    "title": "Rocket☆Star",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "E",
+      "long": "G",
+      "front": "C",
+      "pace": "A",
+      "late": "A",
+      "end": "B"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:i-m-possible",
+    "innateSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:sprint-straightaways-2",
+      "skill:unyielding-spirit"
+    ]
+  },
+  {
+    "id": "outfit:rosy-dreams",
+    "gameId": 103001,
+    "characterId": "character:rice-shower",
+    "title": "Rosy Dreams",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "B",
+      "pace": "A",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 0,
+      "gut": 20,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:blue-rose-closer",
+    "innateSkillIds": [
+      "skill:subdued-pace-chasers",
+      "skill:straight-descent",
+      "skill:deep-breaths"
+    ]
+  },
+  {
+    "id": "outfit:rouge-caroler",
+    "gameId": 102302,
+    "characterId": "character:biwa-hayahide",
+    "title": "Rouge Caroler",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "E",
+      "pace": "A",
+      "late": "B",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 12,
+      "pow": 12,
+      "gut": 0,
+      "wit": 6
+    },
+    "uniqueSkillId": "skill:presents-from-x",
+    "innateSkillIds": [
+      "skill:homestretch-haste",
+      "skill:passing-pro",
+      "skill:preferred-position"
+    ]
+  },
+  {
+    "id": "outfit:ruler-of-japan",
+    "gameId": 100103,
+    "characterId": "character:special-week",
+    "title": "Ruler of Japan",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 10,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:dreams-donned-with-pride",
+    "innateSkillIds": [
+      "skill:corner-adept",
+      "skill:pressure",
+      "skill:outer-swell"
+    ]
+  },
+  {
+    "id": "outfit:run-ruin-launcher",
+    "gameId": 100702,
+    "characterId": "character:gold-ship",
+    "title": "RUN! RUIN! LAUNCHER!",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "B",
+      "late": "B",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:564-escapades",
+    "innateSkillIds": [
+      "skill:lucky-seven",
+      "skill:inside-scoop",
+      "skill:after-school-stroll"
+    ]
+  },
+  {
+    "id": "outfit:run-win",
+    "gameId": 106002,
+    "characterId": "character:nice-nature",
+    "title": "Run & Win",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "F",
+      "pace": "B",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 10,
+      "pow": 10,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:go-go-goal",
+    "innateSkillIds": [
+      "skill:nimble-navigator",
+      "skill:tether",
+      "skill:late-surger-savvy-2"
+    ]
+  },
+  {
+    "id": "outfit:saintly-jade-cleric",
+    "gameId": 101102,
+    "characterId": "character:grass-wonder",
+    "title": "Saintly Jade Cleric",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "A",
+      "medium": "B",
+      "long": "A",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 15,
+      "pow": 0,
+      "gut": 0,
+      "wit": 15
+    },
+    "uniqueSkillId": "skill:superior-heal",
+    "innateSkillIds": [
+      "skill:pace-strategy",
+      "skill:deep-breaths",
+      "skill:a-small-breather"
+    ]
+  },
+  {
+    "id": "outfit:sapphire-sojourn",
+    "gameId": 105902,
+    "characterId": "character:mejiro-dober",
+    "title": "Sapphire Sojourn",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "A",
+      "medium": "A",
+      "long": "F",
+      "front": "C",
+      "pace": "B",
+      "late": "A",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:wherever-this-wonder-leads",
+    "innateSkillIds": [
+      "skill:kyoto-racecourse-2",
+      "skill:fearless",
+      "skill:take-the-chance"
+    ]
+  },
+  {
+    "id": "outfit:scramble-zone",
+    "gameId": 102401,
+    "characterId": "character:mayano-top-gun",
+    "title": "Scramble☆Zone",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "D",
+      "mile": "D",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "A",
+      "late": "B",
+      "end": "B"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:flashy-landing",
+    "innateSkillIds": [
+      "skill:straightaway-recovery",
+      "skill:leader-s-pride",
+      "skill:deep-breaths"
+    ]
+  },
+  {
+    "id": "outfit:shooting-star-revue",
+    "gameId": 100501,
+    "characterId": "character:fuji-kiseki",
+    "title": "Shooting Star Revue",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "B",
+      "mile": "A",
+      "medium": "B",
+      "long": "E",
+      "front": "C",
+      "pace": "A",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:lights-of-vaudeville",
+    "innateSkillIds": [
+      "skill:trick-front",
+      "skill:unyielding-spirit",
+      "skill:preferred-position"
+    ]
+  },
+  {
+    "id": "outfit:soir-e-des-chatons",
+    "gameId": 102002,
+    "characterId": "character:seiun-sky",
+    "title": "Soirée des Chatons",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "B",
+      "late": "D",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 8,
+      "sta": 0,
+      "pow": 8,
+      "gut": 14,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:break-it-down",
+    "innateSkillIds": [
+      "skill:spring-runner-2",
+      "skill:rosy-outlook",
+      "skill:fast-paced"
+    ]
+  },
+  {
+    "id": "outfit:special-dreamer",
+    "gameId": 100101,
+    "characterId": "character:special-week",
+    "title": "Special Dreamer",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "A",
+      "late": "A",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:shooting-star",
+    "innateSkillIds": [
+      "skill:homestretch-haste",
+      "skill:hydrate",
+      "skill:steadfast"
+    ]
+  },
+  {
+    "id": "outfit:starlight-beat",
+    "gameId": 100601,
+    "characterId": "character:oguri-cap",
+    "title": "Starlight Beat",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "B",
+      "sprint": "E",
+      "mile": "A",
+      "medium": "A",
+      "long": "B",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "D"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:triumphant-pulse",
+    "innateSkillIds": [
+      "skill:corner-acceleration",
+      "skill:acceleration",
+      "skill:hydrate"
+    ]
+  },
+  {
+    "id": "outfit:starry-nocturne",
+    "gameId": 103301,
+    "characterId": "character:admire-vega",
+    "title": "Starry Nocturne",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "C",
+      "medium": "A",
+      "long": "C",
+      "front": "G",
+      "pace": "G",
+      "late": "B",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:shooting-star-of-dioskouroi",
+    "innateSkillIds": [
+      "skill:nimble-navigator",
+      "skill:tether",
+      "skill:levelheaded"
+    ]
+  },
+  {
+    "id": "outfit:stone-piercing-blue",
+    "gameId": 101101,
+    "characterId": "character:grass-wonder",
+    "title": "Stone-Piercing Blue",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "A",
+      "medium": "B",
+      "long": "A",
+      "front": "F",
+      "pace": "A",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 10,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:where-there-s-a-will-there-s-a-way",
+    "innateSkillIds": [
+      "skill:flustered-pace-chasers",
+      "skill:tether",
+      "skill:slick-surge"
+    ]
+  },
+  {
+    "id": "outfit:strength-in-full-bloom",
+    "gameId": 106901,
+    "characterId": "character:sakura-chiyono-o",
+    "title": "Strength in Full Bloom",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "A",
+      "medium": "A",
+      "long": "E",
+      "front": "B",
+      "pace": "A",
+      "late": "F",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:ambition-to-surpass-the-sakura",
+    "innateSkillIds": [
+      "skill:spring-runner-2",
+      "skill:prepared-to-pass",
+      "skill:medium-corners-2"
+    ]
+  },
+  {
+    "id": "outfit:succ-s-toil",
+    "gameId": 100502,
+    "characterId": "character:fuji-kiseki",
+    "title": "Succès Étoilé",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "F",
+      "sprint": "B",
+      "mile": "A",
+      "medium": "B",
+      "long": "E",
+      "front": "C",
+      "pace": "A",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 8,
+      "sta": 0,
+      "pow": 14,
+      "gut": 0,
+      "wit": 8
+    },
+    "uniqueSkillId": "skill:ravissant",
+    "innateSkillIds": [
+      "skill:trick-front",
+      "skill:mile-corners-2",
+      "skill:prepared-to-pass"
+    ]
+  },
+  {
+    "id": "outfit:sunlight-bouquet",
+    "gameId": 102402,
+    "characterId": "character:mayano-top-gun",
+    "title": "Sunlight Bouquet",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "D",
+      "mile": "D",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "A",
+      "late": "B",
+      "end": "B"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 10,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:flowery-maneuver",
+    "innateSkillIds": [
+      "skill:corner-recovery",
+      "skill:shrewd-step",
+      "skill:murmur"
+    ]
+  },
+  {
+    "id": "outfit:tach-nology",
+    "gameId": 103201,
+    "characterId": "character:agnes-tachyon",
+    "title": "tach-nology",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "D",
+      "medium": "A",
+      "long": "B",
+      "front": "E",
+      "pace": "A",
+      "late": "B",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:u-ma2",
+    "innateSkillIds": [
+      "skill:standard-distance-2",
+      "skill:tether",
+      "skill:preferred-position"
+    ]
+  },
+  {
+    "id": "outfit:titania",
+    "gameId": 102202,
+    "characterId": "character:fine-motion",
+    "title": "Titania",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "C",
+      "front": "D",
+      "pace": "A",
+      "late": "E",
+      "end": "C"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 20
+    },
+    "uniqueSkillId": "skill:best-day-ever",
+    "innateSkillIds": [
+      "skill:firm-conditions-2",
+      "skill:head-on",
+      "skill:shifting-gears"
+    ]
+  },
+  {
+    "id": "outfit:turbulent-blue",
+    "gameId": 105801,
+    "characterId": "character:meisho-doto",
+    "title": "Turbulent Blue",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "F",
+      "medium": "A",
+      "long": "A",
+      "front": "F",
+      "pace": "A",
+      "late": "B",
+      "end": "E"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 20,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:i-never-goof-up",
+    "innateSkillIds": [
+      "skill:pace-strategy",
+      "skill:medium-corners-2",
+      "skill:prepared-to-pass"
+    ]
+  },
+  {
+    "id": "outfit:twilight-triumph",
+    "gameId": 104602,
+    "characterId": "character:smart-falcon",
+    "title": "Twilight Triumph",
+    "aptitudes": {
+      "turf": "E",
+      "dirt": "A",
+      "sprint": "B",
+      "mile": "A",
+      "medium": "A",
+      "long": "E",
+      "front": "A",
+      "pace": "D",
+      "late": "G",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 10,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:star",
+    "innateSkillIds": [
+      "skill:top-pick",
+      "skill:front-runner-corners-2",
+      "skill:with-all-my-soul"
+    ]
+  },
+  {
+    "id": "outfit:unsigned",
+    "gameId": 103601,
+    "characterId": "character:air-shakur",
+    "title": "unsigned",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "G",
+      "mile": "E",
+      "medium": "A",
+      "long": "A",
+      "front": "G",
+      "pace": "C",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 30
+    },
+    "uniqueSkillId": "skill:trigger-beat",
+    "innateSkillIds": [
+      "skill:ramp-up",
+      "skill:eager",
+      "skill:end-closer-straightaways-2"
+    ]
+  },
+  {
+    "id": "outfit:vampire-makeover",
+    "gameId": 103002,
+    "characterId": "character:rice-shower",
+    "title": "Vampire Makeover!",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "E",
+      "mile": "C",
+      "medium": "A",
+      "long": "A",
+      "front": "B",
+      "pace": "A",
+      "late": "C",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 15,
+      "pow": 15,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:every-rose-has-its-fangs",
+    "innateSkillIds": [
+      "skill:trick-front",
+      "skill:long-straightaways-2",
+      "skill:stamina-to-spare"
+    ]
+  },
+  {
+    "id": "outfit:wild-frontier",
+    "gameId": 101001,
+    "characterId": "character:taiki-shuttle",
+    "title": "Wild Frontier",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "B",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "E",
+      "long": "G",
+      "front": "C",
+      "pace": "A",
+      "late": "E",
+      "end": "G"
+    },
+    "growth": {
+      "spd": 20,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 10
+    },
+    "uniqueSkillId": "skill:shooting-for-victory",
+    "innateSkillIds": [
+      "skill:straightaway-adept",
+      "skill:shifting-gears",
+      "skill:pace-chaser-savvy-2"
+    ]
+  },
+  {
+    "id": "outfit:wild-top-gear",
+    "gameId": 100801,
+    "characterId": "character:vodka",
+    "title": "Wild Top Gear",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "G",
+      "sprint": "F",
+      "mile": "A",
+      "medium": "A",
+      "long": "F",
+      "front": "C",
+      "pace": "B",
+      "late": "A",
+      "end": "F"
+    },
+    "growth": {
+      "spd": 10,
+      "sta": 0,
+      "pow": 20,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:cut-and-drive",
+    "innateSkillIds": [
+      "skill:straightaway-recovery",
+      "skill:updrafters",
+      "skill:slick-surge"
+    ]
+  }
+]
