@@ -162,15 +162,15 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T02 | Merged | task/T02-app-skeletons | T02-app-skeletons.md | PASS r1 |
 | T03 | Merged locally | task/T03-master-data | T03-master-data.md | PASS r2 |
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
-| T04b | Queued | task/T04b-api-consistency | T04b-api-consistency.md | Pending |
-| T05 | Queued | task/T05-inheritance | T05-inheritance.md | Pending |
+| T04b | Running (Opus medium) | task/T04b-api-consistency | T04b-api-consistency.md | Pending |
+| T05 | Running (Opus medium) | task/T05-inheritance | T05-inheritance.md | Pending |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
-| T09 | Queued | task/T09-agent-core | T09-agent-core.md | Pending |
+| T09 | Running (Opus medium) | task/T09-agent-core | T09-agent-core.md | Pending |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
-| T12 | Queued | task/T12-devops | T12-devops.md | Pending |
+| T12 | Running (Opus medium) | task/T12-devops | T12-devops.md | Pending |
 | T13 | Not started | | | |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
