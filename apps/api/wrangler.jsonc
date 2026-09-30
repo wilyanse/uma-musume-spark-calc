@@ -23,6 +23,33 @@
     "ACCESS_TEAM_DOMAIN": "",
     "MASTER_VERSION": "unversioned",
   },
-  // ACCESS_AUD is a secret; AUTH_DISABLED lives only in .dev.vars (65 §3). No env.production
-  // block defines AUTH_DISABLED (T04 adds the startup assertion).
+  // ACCESS_AUD is a secret; AUTH_DISABLED lives only in .dev.vars (65 §3).
+  // Bindings and vars are repeated because Wrangler environments do not inherit them.
+  // H2 must replace the placeholder database_id and set ACCESS_TEAM_DOMAIN before deploy.
+  "env": {
+    "production": {
+      "name": "uma-spark-calc",
+      "main": "src/index.ts",
+      "compatibility_date": "2026-08-01",
+      "assets": {
+        "directory": "../web/dist",
+        "binding": "ASSETS",
+        "not_found_handling": "single-page-application",
+        "run_worker_first": ["/api/*"],
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "uma-spark-calc",
+          "database_id": "00000000-0000-0000-0000-000000000000",
+          "migrations_dir": "migrations",
+        },
+      ],
+      "r2_buckets": [{ "binding": "CROPS", "bucket_name": "uma-spark-calc-crops" }],
+      "vars": {
+        "ACCESS_TEAM_DOMAIN": "",
+        "MASTER_VERSION": "global-20260930",
+      },
+    },
+  },
 }

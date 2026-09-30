@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  typescript:
+    name: TS ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ['@uma/schema', '@uma/master-data', api, web]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          version: 11.22.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter "${{ matrix.package }}" lint
+      - run: pnpm --filter "${{ matrix.package }}" typecheck
+      - run: pnpm --filter "${{ matrix.package }}" test
+      - name: Build web from committed master data
+        if: matrix.package == 'web'
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm --filter web build
+          main=$(find apps/web/dist/assets -maxdepth 1 -type f -name '*.js' ! -name '*.worker-*.js' -print -quit)
+          test -n "$main"
+          bytes=$(gzip -9 -c "$main" | wc -c | tr -d ' ')
+          echo "main gzip bytes: $bytes"
+          test "$bytes" -le 256000
+      - name: Production dependency audit (report only)
+        if: matrix.package == 'api'
+        continue-on-error: true
+        run: pnpm audit --prod
+
+  dotnet:
+    name: Agent .NET gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 9.0.x
+      - name: Agent Core tests (activate when T09 lands)
+        shell: bash
+        run: |
+          set -euo pipefail
+          projects=$(find agent -name '*.csproj' -type f -print)
+          if [[ -z "$projects" ]]; then
+            echo 'Agent projects are not present yet (T09/T10 queued); no claim of a pass.'
+            exit 0
+          fi
+          test_project=$(find agent/tests -name '*.csproj' -type f -print -quit)
+          test -n "$test_project"
+          dotnet test "$test_project" --configuration Release
+      - name: Windows agent build (activate when T10 lands)
+        shell: bash
+        run: |
+          set -euo pipefail
+          project=$(find agent/src/Uma.Agent.Windows -name '*.csproj' -type f -print -quit 2>/dev/null || true)
+          if [[ -z "$project" ]]; then
+            echo 'Uma.Agent.Windows is not present yet (T10 queued); no claim of a pass.'
+            exit 0
+          fi
+          dotnet build "$project" --configuration Release -p:EnableWindowsTargeting=true
