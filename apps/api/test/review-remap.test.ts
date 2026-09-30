@@ -411,6 +411,63 @@ describe('REMAP_REVIEW_PATHS_SQL (direct)', () => {
   });
 });
 
+describe('same-fingerprint re-ingest reordering sparks', () => {
+  it('retires old open and closed index targets before replacing fields without extra statements', async () => {
+    const h = makeHarness();
+    const original = await makeCapture((c) => {
+      for (const n of [19, 25])
+        c.fields.push(low(`/sparks/${n}/stars`, c.veteran.sparks[n]!.stars));
+    });
+    const first = await ingest(h, original);
+    const [oldOpen, oldClosed] = first.reviewItemIds!;
+    const oldSparks = original.veteran.sparks;
+    expect(
+      (
+        await h.call('POST', `/review-items/${oldClosed}/resolve`, {
+          value: oldSparks[25]!.stars,
+        })
+      ).status,
+    ).toBe(200);
+    const reordered = await makeCapture((c) => {
+      [c.veteran.sparks[19], c.veteran.sparks[25]] = [c.veteran.sparks[25]!, c.veteran.sparks[19]!];
+      for (const n of [19, 25])
+        c.fields.push(low(`/sparks/${n}/stars`, c.veteran.sparks[n]!.stars));
+    });
+    expect(reordered.fingerprint).toBe(original.fingerprint); // sorting hides order changes
+    const response = await h.call('POST', '/veterans', reordered);
+    expect(response.status, await response.clone().text()).toBe(200);
+    const second = IngestResponse.parse(await response.json());
+    expect(second.veteranId).toBe(first.veteranId);
+    const rows = Object.fromEntries((await rawItems()).map((r) => [r.id, r]));
+    expect(rows[oldOpen!]).toMatchObject({
+      path: '/sparks/19/stars',
+      status: 'dismissed',
+      retired: 1,
+    });
+    expect(rows[oldClosed!]).toMatchObject({
+      path: '/sparks/25/stars',
+      status: 'resolved',
+      retired: 1,
+    });
+    expect(second.reviewItemIds).toHaveLength(2);
+    for (const id of second.reviewItemIds!) {
+      expect(id).not.toBe(oldOpen);
+      expect(id).not.toBe(oldClosed);
+      expect(rows[id]).toMatchObject({ status: 'open', retired: 0 });
+    }
+    const detail = await detailOf(h, first.veteranId);
+    expect(detail.fingerprint).toBe(await fingerprint(detail));
+    expect(detail.sparks[19]!.sparkId).toBe(oldSparks[25]!.sparkId);
+    expect(detail.sparks[25]!.sparkId).toBe(oldSparks[19]!.sparkId);
+    expectFieldsFollowSparks(detail);
+    expect((await listItems(h, 'resolved')).some((i) => i.id === oldClosed)).toBe(false);
+    for (const item of await listItems(h, 'open')) {
+      const index = Number(/^\/sparks\/(\d+)\//.exec(item.path)![1]);
+      expect(item.field.value).toBe(detail.sparks[index]!.stars);
+    }
+  });
+});
+
 describe('array-restructuring corrections are refused (S2)', () => {
   const UNSAFE = [
     '/sparks',
