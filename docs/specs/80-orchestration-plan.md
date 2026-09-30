@@ -171,7 +171,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T09 | Resumed; partial work preserved (Sol medium fallback after Opus 429) | task/T09-agent-core | T09-agent-core.md | Pending |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
-| T12 | Resumed review fixes (Sol medium fallback after Opus 429); deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 |
+| T12 | Independent review r2 (Opus medium); deployment waits for H2 | task/T12-devops | T12-devops.md | Fix verification passed, including 62 regression checks |
 | T13 | Not started | | | |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
