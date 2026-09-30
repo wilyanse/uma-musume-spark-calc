@@ -168,7 +168,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
-| T09 | Resumed; partial work preserved (Sol medium fallback after Opus 429) | task/T09-agent-core | T09-agent-core.md | Pending |
+| T09 | Continuing incomplete implementation (Opus medium); partial work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: 11 helper tests pass with runtime roll-forward; parser/assembly/fixture acceptance missing |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
 | T12 | Independent review r2 (Opus medium); deployment waits for H2 | task/T12-devops | T12-devops.md | Fix verification passed, including 62 regression checks |
