@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Planner — Uma Spark Calc (design prototype)</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../app.css">
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Main">
+    <div class="brand"><i aria-hidden="true">★</i>Uma Spark Calc</div>
+    <a class="nav" href="S01-roster.html"><span>Roster</span></a><a class="nav" href="S03-review.html"><span>Review</span><span class="badge-count" aria-label="7 open review items">7</span></a><a class="nav" href="S04-cards.html"><span>Cards</span></a><a class="nav" href="S05-targets.html"><span>Targets</span></a><a class="nav" href="S06-planner.html" aria-current="page"><span>Planner</span></a><a class="nav" href="S07-health.html"><span>Health</span></a>
+    <div class="foot">Master data v2026.09.1<br>Model: training-v1</div>
+  </nav>
+  <div class="main">
+    <header class="topbar"><h1>Planner</h1><span class="sp"></span><span class="hint">Model training-v1 · fitted on 142 veterans · 80% interval coverage 0.81 (holdout)</span></header>
+    <main class="content">
+<div class="split">
+<div class="panel"><header>Plan</header><div class="body grid" style="gap:14px">
+ <label class="field"><span>Trainee (outfit)</span><select class="input"><option>Mejiro McQueen [Frontline Elegance]</option><option>Tokai Teio [Beyond the Horizon]</option></select></label>
+ <div class="field"><span>Support deck <a href="S04-cards.html">edit in Cards</a></span><div class="row" style="gap:4px"><span class="chip">Special GUT ◆◆◆◆</span><span class="chip">Kitasan SPD ◆◆◆◆</span><span class="chip">Oguri STA ◆◆◆</span><span class="chip">Tokai POW ◆</span><span class="chip">Oguri POW ◆◆◆◆</span><span class="chip sel">Friend: T.M. Opera O ◆◆◆◆</span></div></div>
+ <div class="field"><span id="pm">Train mode</span><div class="seg" role="radiogroup" aria-labelledby="pm"><label><input type="radio" name="pm" checked>Independent</label><label><input type="radio" name="pm">Manual</label></div></div>
+ <label class="field"><span>Scenario</span><select class="input"><option>URA Finale</option><option>Unity Cup</option></select></label>
+ <label class="field"><span>CM target <a href="S05-targets.html">edit</a></span><select class="input"><option>Turf Medium · Pace</option><option>Turf Mile · Front</option></select></label>
+ <label class="field"><span>Lock parent 1 (optional)</span><select class="input"><option>— none —</option><option>Special Week [Special Dreamer]</option></select></label>
+ <div class="row"><button class="btn primary">Rank pairs</button><button class="btn" disabled>Cancel</button></div>
+</div></div>
+<div class="grid" style="gap:12px">
+ <div class="panel"><div class="body"><div class="row" style="justify-content:space-between"><b>Ranked 33,670 legal pairs in 3.2 s · showing top 6 of 50</b><span class="hint">Fast pass → Monte Carlo on top 100 (2,000 samples each)</span></div>
+  <div class="progress" style="margin-top:6px" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Ranking progress"><i style="width:100%"></i></div></div></div>
+ <div class="tbl-wrap fit2"><table><caption class="sr">Ranked parent pairs</caption><thead><tr><th scope="col" class="num hc">#</th><th scope="col">Parent 1</th><th scope="col">Parent 2</th><th scope="col">P(meet target)</th><th scope="col" class="num hm">Stat surplus</th><th scope="col" class="num hm">Affinity</th><th scope="col" class="hm">Bottleneck</th></tr></thead><tbody><tr class="open">
+    <td class="num hc">1</td><th scope="row"><button class="btn sm" aria-expanded="true" aria-label="Collapse details for pair 1">▾</button> <b>Special Week</b></th><td><b>Kitasan Black</b></td>
+    <td><span class="pmeet"><span class="bar" role="img" aria-label="71 percent"><i style="width:71%"></i></span><b class="num">71%</b><small class="muted">n=142</small></span></td>
+    <td class="num hm">+148</td><td class="num hm">26</td><td class="hm">Long Straightaways</td></tr><tr><td colspan="7" class="detail">
+   <div class="detailgrid">
+    <div><h4>Predicted stats · mean and p10–p90 vs target (dashed) · model n=142</h4>
+      <div class="statrow"><span>Speed</span><div class="rb" style="--lo:81.1%;--mean:84.8%;--hi:88.8%;--tgt:77.8%"><i class="tgt"></i><i class="rng"></i><i class="mean"></i></div><span class="val num">1063 <span class="muted">(1030–1099)</span> / 1000</span></div><div class="statrow"><span>Stamina</span><div class="rb" style="--lo:46.2%;--mean:49.6%;--hi:53.4%;--tgt:44.4%"><i class="tgt"></i><i class="rng"></i><i class="mean"></i></div><span class="val num">746 <span class="muted">(716–781)</span> / 700</span></div><div class="statrow"><span>Power</span><div class="rb" style="--lo:39.4%;--mean:43.1%;--hi:47.2%;--tgt:44.4%"><i class="tgt"></i><i class="rng"></i><i class="mean"></i></div><span class="val num">688 <span class="muted">(655–725)</span> / 700</span></div><div class="statrow"><span>Guts</span><div class="rb" style="--lo:12.4%;--mean:15.1%;--hi:18.9%;--tgt:11.1%"><i class="tgt"></i><i class="rng"></i><i class="mean"></i></div><span class="val num">436 <span class="muted">(412–470)</span> / 400</span></div><div class="statrow"><span>Wit</span><div class="rb" style="--lo:24.4%;--mean:27.9%;--hi:32.0%;--tgt:22.2%"><i class="tgt"></i><i class="rng"></i><i class="mean"></i></div><span class="val num">551 <span class="muted">(520–588)</span> / 500</span></div>
+      <div class="hint">Interval from 2,000 simulated children. Stat cap 1200 (illustrative).</div></div>
+    <div><h4>Aptitude before → after · model n=142</h4>
+      <div class="contrib" style="align-items:center">
+       <span>Turf</span><span><span class="grade g-A " title="Grade A">A</span> → <span class="grade g-A " title="Grade A">A</span> <span class="muted">100% ≥ A</span></span>
+       <span>Medium</span><span><span class="grade g-B " title="Grade B">B</span> → <span class="grade g-A " title="Grade A">A</span> <span class="muted">72% ≥ A</span></span>
+       <span>Pace</span><span><span class="grade g-A " title="Grade A">A</span> → <span class="grade g-A " title="Grade A">A</span> <span class="muted">100% ≥ A</span></span></div>
+      <h4 style="margin-top:12px">Required skills · P(acquired)</h4>
+      <div class="contrib"><span>Medium Corners ◯</span><span><b>91%</b> <span class="muted">n=64</span></span>
+       <span>Keeping the Lead</span><span><b>83%</b> <span class="muted">n=41</span></span>
+       <span>Long Straightaways <span class="tag warn">bottleneck</span></span><span><b>74%</b> <span class="tag warn">low data n=6</span></span></div></div>
+    <div><h4>Spark contributions (top) · model n=142</h4>
+      <div class="contrib"><span><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Power</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="hint"> P1</span></span><span class="num">+18</span>
+       <span><span class="spark blue" title="Blue (stat)"><span class="g" aria-hidden="true">●</span><span class="sr">blue spark: </span><span class="nm">Stamina</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="hint"> P2</span></span><span class="num">+27</span>
+       <span><span class="spark pink" title="Pink (aptitude)"><span class="g" aria-hidden="true">♥</span><span class="sr">pink spark: </span><span class="nm">Medium</span> <span class="stars" role="img" aria-label="3 of 3 stars">★★★<span class="off"></span></span></span><span class="hint"> P1</span></span><span class="num">72%</span>
+       <span><span class="spark white" title="White (skill/race)"><span class="g" aria-hidden="true">◇</span><span class="sr">white spark: </span><span class="nm">Medium Corners</span> <span class="stars" role="img" aria-label="2 of 3 stars">★★<span class="off">★</span></span></span><span class="hint"> P1</span></span><span class="num">hint 44%</span></div>
+      <h4 style="margin-top:12px">Affinity · total 26</h4>
+      <div class="contrib"><span>Trainee × Parent 1</span><span class="num">12</span><span>Trainee × Parent 2</span><span class="num">9</span><span>Grandparents</span><span class="num">5</span></div></div>
+   </div></td></tr><tr>
+    <td class="num hc">2</td><th scope="row"><button class="btn sm" aria-expanded="false" aria-label="Expand details for pair 2">▸</button> <b>Special Week</b></th><td><b>Oguri Cap</b></td>
+    <td><span class="pmeet"><span class="bar" role="img" aria-label="64 percent"><i style="width:64%"></i></span><b class="num">64%</b><small class="muted">n=142</small></span></td>
+    <td class="num hm">+131</td><td class="num hm">31</td><td class="hm">Guts (min 400)</td></tr><tr>
+    <td class="num hc">3</td><th scope="row"><button class="btn sm" aria-expanded="false" aria-label="Expand details for pair 3">▸</button> <b>Gold City</b></th><td><b>Special Week</b></td>
+    <td><span class="pmeet"><span class="bar" role="img" aria-label="58 percent"><i style="width:57.99999999999999%"></i></span><b class="num">58%</b><small class="muted">n=142</small></span></td>
+    <td class="num hm">+120</td><td class="num hm">22</td><td class="hm">Medium Corners ◯</td></tr><tr>
+    <td class="num hc">4</td><th scope="row"><button class="btn sm" aria-expanded="false" aria-label="Expand details for pair 4">▸</button> <b>Kitasan Black</b></th><td><b>Oguri Cap</b></td>
+    <td><span class="pmeet"><span class="bar" role="img" aria-label="47 percent"><i style="width:47%"></i></span><b class="num">47%</b><small class="muted">n=142</small></span></td>
+    <td class="num hm">+96</td><td class="num hm">18</td><td class="hm">Power (min 700)</td></tr><tr>
+    <td class="num hc">5</td><th scope="row"><button class="btn sm" aria-expanded="false" aria-label="Expand details for pair 5">▸</button> <b>Special Week</b></th><td><b>Gold City</b></td>
+    <td><span class="pmeet"><span class="bar" role="img" aria-label="41 percent"><i style="width:41%"></i></span><b class="num">41%</b><small class="muted">n=142</small></span></td>
+    <td class="num hm">+88</td><td class="num hm">22</td><td class="hm">Keeping the Lead</td></tr><tr>
+    <td class="num hc">6</td><th scope="row"><button class="btn sm" aria-expanded="false" aria-label="Expand details for pair 6">▸</button> <b>Oguri Cap</b></th><td><b>Kitasan Black</b></td>
+    <td><span class="pmeet"><span class="bar" role="img" aria-label="33 percent"><i style="width:33%"></i></span><b class="num">33%</b><small class="muted">n=142</small></span></td>
+    <td class="num hm">+70</td><td class="num hm">15</td><td class="hm">Wit (min 500)</td></tr></tbody></table></div>
+</div></div>
+    </main>
+    <div class="demo">Illustrative data — not from a real account. Prototype S06-planner.html.</div>
+    <nav class="tabs-bottom" aria-label="Main (mobile)"><a href="S01-roster.html"><span aria-hidden="true">☰</span>Roster</a><a href="S06-planner.html" aria-current="page"><span aria-hidden="true">⇅</span>Planner</a><a href="S05-targets.html"><span aria-hidden="true">◎</span>Targets</a><a href="S03-review.html"><span aria-hidden="true">⋯</span>More<span class="badge-count" aria-label="7 open review items">7</span></a></nav>
+  </div>
+</div>
+</body>
+</html>

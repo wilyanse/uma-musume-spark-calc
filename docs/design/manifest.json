@@ -1,0 +1,128 @@
+[
+ {
+  "screen": "S01-roster",
+  "theme": "light",
+  "viewport": "1440x900",
+  "file": "screens/S01-roster-desktop-light.png"
+ },
+ {
+  "screen": "S01-roster",
+  "theme": "dark",
+  "viewport": "1440x900",
+  "file": "screens/S01-roster-desktop-dark.png"
+ },
+ {
+  "screen": "S01-roster",
+  "theme": "light",
+  "viewport": "390x844",
+  "file": "screens/S01-roster-mobile-light.png"
+ },
+ {
+  "screen": "S02-veteran",
+  "theme": "light",
+  "viewport": "1440x900",
+  "file": "screens/S02-veteran-desktop-light.png"
+ },
+ {
+  "screen": "S02-veteran",
+  "theme": "dark",
+  "viewport": "1440x900",
+  "file": "screens/S02-veteran-desktop-dark.png"
+ },
+ {
+  "screen": "S02-veteran",
+  "theme": "light",
+  "viewport": "390x844",
+  "file": "screens/S02-veteran-mobile-light.png"
+ },
+ {
+  "screen": "S03-review",
+  "theme": "light",
+  "viewport": "1440x900",
+  "file": "screens/S03-review-desktop-light.png"
+ },
+ {
+  "screen": "S03-review",
+  "theme": "dark",
+  "viewport": "1440x900",
+  "file": "screens/S03-review-desktop-dark.png"
+ },
+ {
+  "screen": "S03-review",
+  "theme": "light",
+  "viewport": "390x844",
+  "file": "screens/S03-review-mobile-light.png"
+ },
+ {
+  "screen": "S04-cards",
+  "theme": "light",
+  "viewport": "1440x900",
+  "file": "screens/S04-cards-desktop-light.png"
+ },
+ {
+  "screen": "S04-cards",
+  "theme": "dark",
+  "viewport": "1440x900",
+  "file": "screens/S04-cards-desktop-dark.png"
+ },
+ {
+  "screen": "S04-cards",
+  "theme": "light",
+  "viewport": "390x844",
+  "file": "screens/S04-cards-mobile-light.png"
+ },
+ {
+  "screen": "S05-targets",
+  "theme": "light",
+  "viewport": "1440x900",
+  "file": "screens/S05-targets-desktop-light.png"
+ },
+ {
+  "screen": "S05-targets",
+  "theme": "dark",
+  "viewport": "1440x900",
+  "file": "screens/S05-targets-desktop-dark.png"
+ },
+ {
+  "screen": "S05-targets",
+  "theme": "light",
+  "viewport": "390x844",
+  "file": "screens/S05-targets-mobile-light.png"
+ },
+ {
+  "screen": "S06-planner",
+  "theme": "light",
+  "viewport": "1440x900",
+  "file": "screens/S06-planner-desktop-light.png"
+ },
+ {
+  "screen": "S06-planner",
+  "theme": "dark",
+  "viewport": "1440x900",
+  "file": "screens/S06-planner-desktop-dark.png"
+ },
+ {
+  "screen": "S06-planner",
+  "theme": "light",
+  "viewport": "390x844",
+  "file": "screens/S06-planner-mobile-light.png"
+ },
+ {
+  "screen": "S07-health",
+  "theme": "light",
+  "viewport": "1440x900",
+  "file": "screens/S07-health-desktop-light.png"
+ },
+ {
+  "screen": "S07-health",
+  "theme": "dark",
+  "viewport": "1440x900",
+  "file": "screens/S07-health-desktop-dark.png"
+ },
+ {
+  "screen": "S07-health",
+  "theme": "light",
+  "viewport": "390x844",
+  "file": "screens/S07-health-mobile-light.png"
+ }
+]
