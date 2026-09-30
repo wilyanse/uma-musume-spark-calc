@@ -1,136 +1,242 @@
 # Cloudflare production setup (H2)
 
-This runbook creates the resources used by `uma-spark-calc`. It is intentionally human-run: do not put account IDs, Access AUDs, API tokens, or service-token secrets in git.
+This runbook is for the human operator (H2). Every command here that touches Cloudflare or GitHub settings is **H2-only**: implementing agents never run it. Do not put account IDs in chat, and never commit Access AUDs, API tokens, service-token secrets or age private keys to git.
 
-Cloudflare's current documentation confirms these hard constraints: Workers Free is 100,000 requests/day and 10 ms CPU/request with 50 subrequests; D1 Free is 500 MB/database, 5 GB/account, 10 databases, and 50 queries/invocation; R2 Free includes 10 GB-month, 1M Class A and 10M Class B operations/month. Worker CPU is CPU time, not local wall time. See https://developers.cloudflare.com/workers/platform/limits/, https://developers.cloudflare.com/d1/platform/limits/, and https://developers.cloudflare.com/r2/pricing/.
+Secret handling rules for every step:
 
-## 1. Create the account and Zero Trust team
+- Never type a secret as a command argument or inline `VAR='...'` assignment. Those end up in shell history and `ps`. Use the `read -rs` prompt pattern below, or your password manager's CLI injection (for example `op run --env-file=...`).
+- `unset` secret variables when the step is done.
+- The prompt pattern works in bash and zsh:
 
-1. Create/sign in to a Cloudflare account and enable 2FA: https://dash.cloudflare.com/sign-up.
-2. Open **Zero Trust** from the dashboard and create an organization on the Zero Trust Free plan. Enter a team name; it becomes `<team>.cloudflareaccess.com`. The current Cloudflare onboarding asks for payment details even on the Free plan; it says the Free plan is not charged.
-3. Enable **One-time PIN** under **Zero Trust > Settings > Authentication > Login methods**. Record the team hostname exactly (lowercase, no `https://`).
+```sh
+printf 'Secret value: '; IFS= read -rs SOME_SECRET; echo; export SOME_SECRET
+# ... use it ...
+unset SOME_SECRET
+```
 
-Verify:
+## 0. Limits and paid-plan prerequisites
+
+Cloudflare's current documentation sets these hard constraints. Workers Free: 100,000 requests/day, 10 ms CPU per request, 50 subrequests. D1 Free: 500 MB per database, 5 GB per account, 10 databases, 50 queries per invocation, 7-day Time Travel. R2 Free usage: 10 GB-month, 1M Class A and 10M Class B operations per month. Worker CPU is CPU time, not local wall time.
+
+Before you start, know these checkout steps:
+
+- **R2 needs a subscription.** Cloudflare's R2 "Get started" page says: "You need a Cloudflare account with an R2 subscription … Complete the checkout flow to add an R2 subscription". R2 includes free monthly usage and bills only usage above it. This project stays far below the free usage (65 §1), but the checkout step (payment method) is still required. If you won't add a payment method, stop here and record `Blocked (tier)` (65 §1). Don't substitute another product.
+- **Zero Trust Free** also asks for payment details during onboarding. The Free plan is not charged.
+- Nothing here needs Workers Paid. **Free-plan CPU fit is UNVERIFIED** until step 9 is done against real traffic (Q-4 scaling risk).
+
+## 1. Account and Zero Trust team
+
+1. Create or sign in to a Cloudflare account and enable 2FA: https://dash.cloudflare.com/sign-up.
+2. Open **Zero Trust** and create an organization on the **Free** plan. The team name you choose becomes `<team>.cloudflareaccess.com`.
+3. Under **Zero Trust > Settings > Authentication > Login methods**, enable **One-time PIN**.
+4. Record the team host name exactly: lowercase, no `https://`.
+
+Verify (public endpoint, no credentials needed):
 
 ```sh
 curl -fsS "https://<team>.cloudflareaccess.com/cdn-cgi/access/certs" | jq -e '.keys | length >= 1'
 ```
 
-## 2. Create D1 and R2
+## 2. D1, R2 and the Wrangler config (H2)
 
-From the repository root, use the pinned Wrangler from `apps/api`:
+1. In **Storage & databases > R2 > Overview**, complete the R2 subscription checkout (see step 0).
+2. From the repository root:
 
 ```sh
+pnpm install --frozen-lockfile
 cd apps/api
-pnpm exec wrangler login
+pnpm exec wrangler login            # browser OAuth; no token is typed
 pnpm exec wrangler whoami
 pnpm exec wrangler d1 create uma-spark-calc
 pnpm exec wrangler r2 bucket create uma-spark-calc-crops
-pnpm exec wrangler d1 list
-pnpm exec wrangler r2 bucket list
 ```
 
-Copy the D1 `database_id` from `d1 create` into both the top-level and `env.production.d1_databases[0]` entries in `apps/api/wrangler.jsonc`. Set both `ACCESS_TEAM_DOMAIN` vars there to the team hostname. Do not add `AUTH_DISABLED` to the file. The committed `MASTER_VERSION` (`global-20260930`) must match the committed directory under `apps/web/public/master/`.
+3. Edit `apps/api/wrangler.jsonc`:
+   - Copy the `database_id` printed by `d1 create` into **both** `d1_databases[0].database_id` entries: top-level and `env.production`.
+   - Set both `ACCESS_TEAM_DOMAIN` values to `<team>.cloudflareaccess.com`.
+   - Never add `AUTH_DISABLED`.
+   - `MASTER_VERSION` must equal `apps/web/public/master/latest.json` `.version`. CI enforces this.
+4. Merge that change to `main` through a pull request. The IDs are not secrets.
 
-Verify the database ID and storage location:
+Verify:
 
 ```sh
 pnpm exec wrangler d1 info uma-spark-calc
 pnpm exec wrangler r2 bucket list | grep -F 'uma-spark-calc-crops'
+cd ../.. && node .github/scripts/check-config.mjs . --require-provisioned
+# expected: config check ok (provisioned): MASTER_VERSION=global-20260930
 ```
 
-## 3. Create the Access application and policies
+## 3. workers.dev host name and the Access application (before any deploy)
 
-Protect the entire production hostname, not just `/api`: this covers the SPA, `/master/*`, crops, and API. Cloudflare's dashboard path is **Zero Trust > Access controls > Applications > Create new application > Self-hosted and private > Add public hostname**. Use either:
+Create the Access application **before** the Worker is first deployed, so the host name is never publicly reachable.
 
-- `uma-spark-calc.<your-subdomain>.workers.dev`, or
-- the chosen custom-domain hostname.
+1. In **Workers & Pages**, note the account's `workers.dev` subdomain. If none exists yet, register one on that page. The production host is then `uma-spark-calc.<subdomain>.workers.dev`.
+2. Go to **Zero Trust > Access controls > Applications > Create new application > Self-hosted and private > Add public hostname**, and enter that exact host with no path. This protects the SPA, `/master/*`, crops and the API.
+   - Name: **Uma Spark Calc**.
+   - Policy 1, **Allow**: Include > Emails > your email address. The login method is One-time PIN.
+   - Policy 2, **Service Auth**: Include > Service Token > `uma-agent` (created in step 4; come back and attach it).
+   - Access is deny-by-default. Never add an Everyone or Bypass policy for the host name.
+3. Open the application's **Overview/Basic information** and copy the **Application Audience (AUD) Tag**. It is used once in step 5. Don't paste it into chat or git.
 
-Name it **Uma Spark Calc**. Add an **Allow** policy for the user's email address and use One-time PIN. Add a second **Service Auth** policy for the service token named `uma-agent`. Access policies are deny-by-default. Do not add an Everyone bypass.
+`wrangler.jsonc` sets `env.production.preview_urls: false`. Version and preview URLs are separate host names that this host-name Access application does not cover, so they stay disabled. Alternatively, you can protect the whole Worker from **Workers & Pages > uma-spark-calc > Access** once it exists. That covers every host name and preview. The Worker still validates the Access JWT either way.
 
-The Worker itself deliberately leaves `/api/v1/health` outside its JWT middleware for health checks. This is not an unauthenticated public application: the hostname-level Access application still protects the health request at the edge. If an external uptime monitor must reach health without Access, create a separately reviewed, narrowly scoped Access bypass for that path; never bypass the whole hostname and never bypass `/api/*` data routes. The static SPA and master data must remain behind Access.
+`/api/v1/health` is outside the Worker's JWT middleware only. Edge Access still protects it. If an external uptime monitor ever needs it, create a separately reviewed Bypass application for exactly that path. Never bypass `/api/*` data routes, `/master/*` or `/`.
 
-Verify in **Zero Trust > Access controls > Applications** that the application domain covers the production hostname and that both policies are attached. In a browser, an incognito request to `/` must show Access login; after the email OTP, `/` and `/master/global-20260930/latest.json` must load.
+Verify: **Zero Trust > Access controls > Applications** lists `Uma Spark Calc` with the exact host and both policies.
 
-## 4. Create the agent service token
+## 4. Agent service token (H2)
 
-In **Zero Trust > Access controls > Service credentials > Service Tokens**, create **uma-agent**. Choose a finite duration and record the displayed client ID and secret only in the Windows agent's Settings dialog / DPAPI storage. Never commit or paste them into this repository. In the application's policies, ensure the token is accepted by the **Service Auth** policy.
+1. Go to **Zero Trust > Access controls > Service credentials > Service Tokens > Create**. Name it `uma-agent` and choose a finite duration.
+2. The client secret is shown once. Store the ID and secret only in your password manager and in the Windows agent's Settings dialog (DPAPI).
+3. Attach the token to the application's **Service Auth** policy (step 3).
 
-Verify from a machine where the values can be supplied by its secret manager (do not put values in shell history):
+Verification happens after the first deploy (step 6), because only then does something answer behind Access.
 
-```sh
-curl -fsSI \
-  -H 'CF-Access-Client-Id: <client-id>' \
-  -H 'CF-Access-Client-Secret: <client-secret>' \
-  'https://<production-host>/api/v1/health'
-```
+## 5. First deploy with ACCESS_AUD (H2, from a clean checkout of `main`)
 
-A successful response is HTTP 200. A request without the headers must be redirected/blocked by Access. The Worker still validates the Access JWT; Access service-token authentication is not a replacement for that check.
+The Worker fails closed without `ACCESS_AUD` (apps/api/src/auth.ts `resolveAuthMode`). Upload the secret **in the same deploy that creates the Worker**, using `wrangler deploy --secrets-file`. This avoids `wrangler secret put` against a Worker that doesn't exist yet: that path prompts interactively to create one.
 
-## 5. Create the deploy API token
-
-Go to **Account API tokens > Create Token > Custom**. Scope it to this account and grant only the permissions needed by this repository: Workers Scripts Edit, D1 Edit, and R2 Edit (plus account read if the dashboard requires it for these operations). Restrict resources to the account containing the three named resources. Copy the token once.
-
-In the GitHub repository, open **Settings > Secrets and variables > Actions** and add exactly:
-
-- `CLOUDFLARE_API_TOKEN` — the token value
-- `CLOUDFLARE_ACCOUNT_ID` — the account ID
-
-Verify locally without printing the token:
+From the repository root:
 
 ```sh
-CLOUDFLARE_API_TOKEN='...' CLOUDFLARE_ACCOUNT_ID='<id>' \
-  pnpm exec wrangler whoami
-```
-
-## 6. Dry-run, migrate, and deploy
-
-From a clean checkout, build static assets from committed master data. Do not run `pnpm -r build`; the master-data build fetches game data and can create a new version.
-
-```sh
-cd apps/api
+git switch main && git pull --ff-only && git status --short   # must be clean
 pnpm install --frozen-lockfile
-pnpm --filter web build
-pnpm exec wrangler deploy --env production --dry-run --outdir .wrangler/dry-run
+node .github/scripts/check-config.mjs . --require-provisioned
+pnpm --filter web build                 # committed master data; never `pnpm -r build`
+cd apps/api
+pnpm exec wrangler deploy --env production --dry-run --outdir "$(mktemp -d)"
 pnpm exec wrangler d1 migrations apply uma-spark-calc --remote --env production
-pnpm exec wrangler deploy --env production --strict
+
+# ACCESS_AUD goes through a prompt into a private temp file (never argv or history).
+# The subshell EXIT trap cleans up even if Wrangler or the operator interrupts the step.
+(
+  umask 077
+  secrets_file=$(mktemp)
+  trap 'rm -f "$secrets_file"; unset ACCESS_AUD' EXIT
+  printf 'Access AUD tag: '; IFS= read -rs ACCESS_AUD; echo
+  test -n "$ACCESS_AUD" || { echo 'ACCESS_AUD is empty; refusing deploy' >&2; exit 1; }
+  printf 'ACCESS_AUD=%s\n' "$ACCESS_AUD" >"$secrets_file"   # shell builtin: no argv exposure
+  unset ACCESS_AUD
+  pnpm exec wrangler deploy --env production --strict --secrets-file "$secrets_file"
+)
 ```
 
-Verify configuration and the deployed resources:
+If the account has no `workers.dev` subdomain yet, `wrangler deploy` asks to register one. Accept it, then make sure the Access application host (step 3) matches.
+
+Verify that the secret exists without printing its value:
 
 ```sh
-pnpm exec wrangler d1 info uma-spark-calc
-pnpm exec wrangler r2 bucket list | grep -F 'uma-spark-calc-crops'
-curl -fsS 'https://<production-host>/api/v1/health'  # after Access login/token
-curl -fsS 'https://<production-host>/master/global-20260930/latest.json' | jq -e '.version == "global-20260930"'
+pnpm exec wrangler secret list --env production | jq -e 'map(.name) | index("ACCESS_AUD") != null'
 ```
 
-After the first deploy, inspect **Workers & Pages > uma-spark-calc > Metrics**. Confirm CPU time (not wall time), request counts, errors, and bundle/startup checks. The local dry-run cannot prove the Free-plan 10 ms CPU budget. Q-4 remains an explicit scaling risk for large rosters.
+## 6. Verify through Access (H2)
 
-## 7. Rotate and revoke
+`.github/scripts/verify-production.sh` asserts exact HTTP status codes and response bodies, and never follows redirects. An Access login redirect (302) therefore always counts as a failure. It checks:
 
-Treat the API token and service-token secret as credentials. Rotate them from their respective Cloudflare dashboard pages, update the GitHub secret or Windows agent settings, and revoke the old credential after verifying the new one. Access application AUD values are copied into the Worker secret named `ACCESS_AUD` and are not committed.
+1. Anonymous `/`, `/master/latest.json` and `/api/v1/health` are blocked by Access (302/401/403).
+2. With the service token, `/api/v1/health` returns 200 with `ok: true` and the expected `masterVersion`.
+3. `/master/latest.json` (the index; **not** `/master/<version>/latest.json`) returns 200 with the expected `.version`.
+4. `/api/v1/roster` returns 200 JSON. This proves the Worker accepted the Access JWT, so `ACCESS_AUD` and the team domain are correct. A 401 means an AUD or team mismatch.
 
-Set the Worker secret after creating the Access application:
+```sh
+cd "$(git rev-parse --show-toplevel)"
+printf 'uma-agent client ID: '; IFS= read -rs CF_ACCESS_CLIENT_ID; echo; export CF_ACCESS_CLIENT_ID
+printf 'uma-agent client secret: '; IFS= read -rs CF_ACCESS_CLIENT_SECRET; echo; export CF_ACCESS_CLIENT_SECRET
+bash .github/scripts/verify-production.sh "https://uma-spark-calc.<subdomain>.workers.dev" \
+  "$(jq -r .version apps/web/public/master/latest.json)"
+unset CF_ACCESS_CLIENT_ID CF_ACCESS_CLIENT_SECRET
+# expected last line: production verification: all checks passed
+```
+
+The script sends the headers to curl on stdin, not argv. Then check in a private browser window: `/` shows the Access login, and after the email OTP both the SPA and `/master/latest.json` load.
+
+## 7. Deploy API token (H2)
+
+Go to **My Profile / Manage Account > Account API tokens > Create Token > Custom token**. Grant exactly these permissions, scoped to this one account:
+
+- Account › **Workers Scripts** › Edit
+- Account › **D1** › Edit
+- Account › **Workers R2 Storage** › Edit
+- Account › **Account Settings** › Read
+
+Set a finite TTL (expiry). Optionally restrict client IPs, but GitHub-hosted runner IPs are not stable, so this is usually impractical. Copy the token once, into your password manager.
+
+Verify read access for each resource type, without echoing the token:
 
 ```sh
 cd apps/api
-printf '%s' '<aud-tag>' | pnpm exec wrangler secret put ACCESS_AUD --env production
+printf 'Cloudflare API token: '; IFS= read -rs CLOUDFLARE_API_TOKEN; echo; export CLOUDFLARE_API_TOKEN
+printf 'Cloudflare account ID: '; IFS= read -r CLOUDFLARE_ACCOUNT_ID; export CLOUDFLARE_ACCOUNT_ID
+pnpm exec wrangler d1 info uma-spark-calc                                  # D1
+pnpm exec wrangler r2 bucket list | grep -F uma-spark-calc-crops           # R2
+pnpm exec wrangler deployments list --env production | head -n 5          # Workers Scripts
+pnpm exec wrangler d1 migrations list uma-spark-calc --remote --env production
+unset CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID
 ```
 
-Verify that `ACCESS_AUD` is present by making an authenticated API request; do not use a command that prints secret values.
+These commands prove only read access. **Edit** permission is proven by the first CI deploy (step 8). There is no non-mutating command that proves it.
 
-## Resource names and Q-number reservation
+## 8. GitHub environment `production` (H2)
 
-Required names are fixed: Worker `uma-spark-calc`, D1 `uma-spark-calc` binding `DB`, R2 `uma-spark-calc-crops` binding `CROPS`, Access app `Uma Spark Calc`, service token `uma-agent`. Q-100 through Q-109 are reserved for H2 setup follow-ups; this task does not invent account-specific values.
+Keep the repository's visibility unchanged. Deploy secrets live on an **environment**, not at repository level, so only the deploy job can read them.
 
-Sources checked 2026-09-30:
+1. Go to **Settings > Environments > New environment** and name it `production`.
+2. **Deployment branches and tags: Selected branches and tags**, then add a rule for exactly `main`. Workflow runs from any other ref, including forks, can't enter the environment. For `workflow_run` the ref is the default branch, which is also what deploy.yml checks explicitly.
+3. Optional but recommended: **Required reviewers** (yourself), so every production deploy waits for a click. You can also tick **Prevent self-review** if a second person exists. On GitHub Free, required reviewers and environment secrets are available for public repositories. For a private repository they need GitHub Pro/Team.
+4. **Environment secrets**: `CLOUDFLARE_API_TOKEN` (step 7) and `CLOUDFLARE_ACCOUNT_ID`. Don't also add them as repository secrets.
+5. Go to **Settings > Secrets and variables > Actions > Variables** and add the **repository variable** `PRODUCTION_DEPLOY_ENABLED` = `true`. Add it only after steps 1–7 pass. Until it exists, deploy.yml ends successfully with an explicit "SKIPPED: production deploy is not enabled" notice and never touches Cloudflare.
+6. Optional hardening: protect `main` with a branch ruleset (require a pull request and the CI checks).
+
+What deploy.yml enforces (see `.github/workflows/deploy.yml` and `.github/scripts/deploy-gate.sh`):
+
+- It runs only after a **successful CI run triggered by `push`** to **`main`** of **this repository** (`head_repository == github.repository`). Pull-request runs, including a fork branch named `main`, are rejected before any candidate code is checked out.
+- Deploys are serialised with `concurrency: production-deploy`, `cancel-in-progress: false`. A running migration or deploy is never cancelled.
+- Inside that lock, immediately before migrations, the candidate SHA must still be the tip of `main`. A stale run logs `SKIPPED: candidate … is stale` and exits successfully without migrating or deploying.
+- The preflight fails if the environment secrets are missing, the D1 ID is the placeholder, or `ACCESS_TEAM_DOMAIN` is empty.
+
+Verify: push a trivial commit to `main` (or re-run the latest main CI). **Actions > Deploy production** must show the gate passing, the approval if you set one, the migration, then the deploy. Afterwards rerun step 6.
+
+## 9. Post-deploy CPU check (H2)
+
+Open **Workers & Pages > uma-spark-calc > Metrics**. Look at **CPU time** percentiles (not wall time), errors and request counts after exercising the roster/import flows. The Free limit is 10 ms CPU per request. Until you record these numbers, Free-tier CPU fit is **UNVERIFIED**, and Q-4 (large-roster scaling) stays open.
+
+## 10. Rotate and revoke
+
+- **API token:** create the new token (step 7) and replace the `production` environment secret (plus the `backup` environment secret, see backup.md). Trigger a deploy/backup to verify, then roll or delete the old token under **Account API tokens**.
+- **Service token:** create a new token under the same policy, update the agent Settings, rerun step 6 with the new values, then revoke the old token.
+- **ACCESS_AUD** changes only if the Access application is recreated. Upload the new value with `wrangler secret put ACCESS_AUD --env production` (it prompts; the Worker exists by then), then rerun step 6.
+- **Backup age key:** see backup.md §5.
+
+## Resource names
+
+Required names are fixed:
+
+| Resource                    | Name                                                |
+| --------------------------- | --------------------------------------------------- |
+| Worker                      | `uma-spark-calc`                                    |
+| D1 database (binding `DB`)  | `uma-spark-calc`                                    |
+| R2 bucket (binding `CROPS`) | `uma-spark-calc-crops`                              |
+| Access application          | `Uma Spark Calc`                                    |
+| Service token               | `uma-agent`                                         |
+| GitHub environments         | `production`, `backup`                              |
+| Repository variables        | `PRODUCTION_DEPLOY_ENABLED`, `BACKUP_AGE_RECIPIENT` |
+
+Q-100 through Q-109 are reserved for H2 setup follow-ups.
+
+Sources checked 2026-09-30 (fetched as Markdown from developers.cloudflare.com and docs.github.com):
 
 - https://developers.cloudflare.com/workers/platform/limits/
 - https://developers.cloudflare.com/d1/platform/limits/
+- https://developers.cloudflare.com/r2/get-started/ (R2 subscription checkout requirement)
 - https://developers.cloudflare.com/r2/pricing/
-- https://developers.cloudflare.com/workers/wrangler/environments/
-- https://developers.cloudflare.com/workers/configuration/cloudflare-access/
-- https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/
+- https://developers.cloudflare.com/workers/configuration/cloudflare-access/ (host-name vs Worker-level Access)
+- https://developers.cloudflare.com/workers/configuration/routing/workers-dev/
+- https://developers.cloudflare.com/workers/wrangler/configuration/ (`workers_dev`, `preview_urls`)
+- https://developers.cloudflare.com/workers/configuration/secrets/ (`--secrets-file` "Upload secrets alongside code")
+- https://developers.cloudflare.com/workers/wrangler/commands/workers/ (`secret put`, `deploy --secrets-file`)
 - https://developers.cloudflare.com/cloudflare-one/access-controls/service-credentials/service-tokens/
-- https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/
+- https://developers.cloudflare.com/fundamentals/api/reference/permissions/ (permission names)
+- https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows (`workflow_run`)
+- https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments
+- https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency

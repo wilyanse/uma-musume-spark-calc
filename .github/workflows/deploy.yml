@@ -1,5 +1,12 @@
 name: Deploy production
 
+# Privileged workflow. It never trusts the triggering run by branch name alone:
+#   1. the job `if`s and deploy-gate.sh (run from the default-branch checkout, before any candidate
+#      code) require a successful PUSH CI run of THIS repository's main branch;
+#   2. the workflow-level concurrency group serialises deploys and never cancels one in progress,
+#      so a migration is never interrupted;
+#   3. inside that group, just before migrations, the candidate SHA must still be the tip of main.
+#      Otherwise the run skips, and the newer queued run deploys main instead.
 on:
   workflow_run:
     workflows: [CI]
@@ -9,32 +16,92 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
 jobs:
-  deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  gate:
+    name: Trust + freshness gate
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
-    environment: production
+    timeout-minutes: 5
+    outputs:
+      proceed: ${{ steps.gate.outputs.proceed }}
     steps:
+      # For workflow_run the default ref is the default branch (trusted code), not the candidate.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+          persist-credentials: false
+          sparse-checkout: .github/scripts
+      - id: gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WR_EVENT: ${{ github.event.workflow_run.event }}
+          WR_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          WR_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          WR_HEAD_REPO: ${{ github.event.workflow_run.head_repository.full_name }}
+          WR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          DEPLOY_ENABLED: ${{ vars.PRODUCTION_DEPLOY_ENABLED }}
+        run: bash .github/scripts/deploy-gate.sh trust
+
+  deploy:
+    name: Migrate + deploy
+    needs: gate
+    if: >-
+      needs.gate.outputs.proceed == 'true' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Cloudflare deploy secrets live ONLY on this environment (deployment branch rule: main).
+    # See docs/runbooks/cloudflare-setup.md §8.
+    environment: production
+    steps:
+      - name: Check out the verified main commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          version: 11.22.0
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      # No dependency cache in the privileged job (no cache-poisoning surface).
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24.14.0
-          cache: pnpm
+      - name: Preflight (H2 provisioning complete, MASTER_VERSION aligned)
+        env:
+          HAS_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+          HAS_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+        run: |
+          set -euo pipefail
+          [[ "$HAS_TOKEN" == true ]] || { echo '::error::production environment secret CLOUDFLARE_API_TOKEN is not set'; exit 1; }
+          [[ "$HAS_ACCOUNT" == true ]] || { echo '::error::production environment secret CLOUDFLARE_ACCOUNT_ID is not set'; exit 1; }
+          node .github/scripts/check-config.mjs . --require-provisioned
+      # Cloudflare credentials are NOT exposed to install or build.
       - run: pnpm install --frozen-lockfile
       # Do not run master-data build here: it fetches upstream game data and can create a new version.
       - run: pnpm --filter web build
+      - name: Freshness re-check (candidate must still be the tip of main)
+        id: fresh
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: bash .github/scripts/deploy-gate.sh fresh
       - name: Apply D1 migrations
+        if: steps.fresh.outputs.proceed == 'true'
         working-directory: apps/api
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: pnpm exec wrangler d1 migrations apply uma-spark-calc --remote --env production
       - name: Deploy Worker and committed static assets
+        if: steps.fresh.outputs.proceed == 'true'
         working-directory: apps/api
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

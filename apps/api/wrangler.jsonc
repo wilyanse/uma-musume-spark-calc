@@ -31,6 +31,10 @@
       "name": "uma-spark-calc",
       "main": "src/index.ts",
       "compatibility_date": "2026-08-01",
+      // Production is served only on uma-spark-calc.<subdomain>.workers.dev, which the hostname
+      // Access app protects. Version/preview URLs are separate hostnames, so they stay off.
+      "workers_dev": true,
+      "preview_urls": false,
       "assets": {
         "directory": "../web/dist",
         "binding": "ASSETS",
@@ -46,6 +50,7 @@
         },
       ],
       "r2_buckets": [{ "binding": "CROPS", "bucket_name": "uma-spark-calc-crops" }],
+      // MASTER_VERSION must equal apps/web/public/master/latest.json "version" (CI enforces it).
       "vars": {
         "ACCESS_TEAM_DOMAIN": "",
         "MASTER_VERSION": "global-20260930",

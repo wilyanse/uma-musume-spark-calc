@@ -7,28 +7,55 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: agent-release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: windows-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Same SDK/runtime set as CI (agent/global.json: SDK 9.0.100 latestMajor; projects net8.0).
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: |
+            8.0.x
+            9.0.x
+      # The tag reaches PowerShell only through $env:TAG, never through ${{ }} interpolation.
       - name: Build single-file agent
+        id: build
         shell: pwsh
+        env:
+          TAG: ${{ github.ref_name }}
         run: |
-          $project = Get-ChildItem agent/src/Uma.Agent.Windows -Filter *.csproj -Recurse | Select-Object -First 1
-          if (-not $project) { throw 'Uma.Agent.Windows project is not present; T10 must land before an agent tag is published.' }
-          dotnet publish $project.FullName -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+          $ErrorActionPreference = 'Stop'
+          if ($env:TAG -cnotmatch '^agent-v\d+\.\d+\.\d+(-[0-9A-Za-z.]+)?$') { throw "Unexpected tag format: $env:TAG" }
+          $project = 'agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj'
+          if (-not (Test-Path -LiteralPath $project -PathType Leaf)) { throw "$project is not present; T10 must land before an agent tag is published." }
+          Push-Location agent
+          dotnet publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ../publish
+          if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed ($LASTEXITCODE)" }
+          Pop-Location
+          $exe = @(Get-ChildItem -LiteralPath publish -Filter *.exe -File)
+          if ($exe.Count -ne 1) { throw "Expected exactly one .exe in publish/, found $($exe.Count)" }
+          "exe=$($exe[0].FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: uma-agent-${{ github.ref_name }}
-          path: publish/*.exe
+          path: ${{ steps.build.outputs.exe }}
           if-no-files-found: error
           retention-days: 90
       - name: Create GitHub release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${{ github.ref_name }}" publish/*.exe --generate-notes
+          TAG: ${{ github.ref_name }}
+          EXE: ${{ steps.build.outputs.exe }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          gh release create $env:TAG $env:EXE --verify-tag --generate-notes
+          if ($LASTEXITCODE -ne 0) { throw "gh release create failed ($LASTEXITCODE)" }
