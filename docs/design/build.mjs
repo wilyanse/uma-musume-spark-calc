@@ -117,7 +117,7 @@ ${body}
 // ---------------------------------------------------------------- S01 roster
 {
   const rows = V.map((v) => `<tr>
-    <td>${avatar(v.name)}</td>
+    <td class="hc">${avatar(v.name)}</td>
     <th scope="row" class="name"><a href="S02-veteran.html"><b>${esc(v.name)}</b></a><small>${esc(v.outfit)}</small></th>
     <td><span class="rank">${v.rank}</span></td>
     <td class="num">${v.rating.toLocaleString('en-US')}</td>
@@ -142,7 +142,7 @@ ${body}
 <div class="pager" style="padding:0 0 6px"><span>Showing 8 of 214 veterans · sorted by date, newest first</span></div>
 <div class="tbl-wrap"><table>
 <caption class="sr">Veterans</caption>
-<thead><tr><th scope="col"><span class="sr">Portrait</span></th><th scope="col">Veteran</th><th scope="col">Rank</th><th scope="col" class="num" aria-sort="descending">Rating</th>
+<thead><tr><th scope="col" class="hc"><span class="sr">Portrait</span></th><th scope="col">Veteran</th><th scope="col">Rank</th><th scope="col" class="num" aria-sort="descending">Rating</th>
 <th scope="col" class="num hm">Spd</th><th scope="col" class="num hm">Sta</th><th scope="col" class="num hm">Pow</th><th scope="col" class="num hm">Gut</th><th scope="col" class="num hm">Wit</th>
 <th scope="col">Mode</th><th scope="col" class="hm">Sparks (own: blue / pink / green)</th><th scope="col" class="hm">Scenario</th><th scope="col" class="hm">Acquired</th></tr></thead>
 <tbody>${rows}</tbody></table>
@@ -160,6 +160,7 @@ ${body}
   const deck = [['Special Week', 'The Brightest Star in Japan!', 'Guts', 4, 50], ['Kitasan Black', 'Illustrative title K', 'Speed', 4, 50], ['Gold City', 'Illustrative title A', 'Speed', 2, 40], ['Oguri Cap', 'Illustrative title B', 'Stamina', 3, 45], ['Tokai Teio', 'Illustrative title C', 'Power', 1, 35], ['T.M. Opera O', 'Illustrative title E', 'Friend', 4, 50, true]];
   const apt = (label, cells) => `<div class="aptrow"><span>${label}</span><div class="cells">${cells.map(([k, g]) => `<span class="cell"><span>${k}</span>${grade(g)}</span>`).join('')}</div></div>`;
   const statNames = ['Speed', 'Stamina', 'Power', 'Guts', 'Wit'];
+  const STAT_CAP = 1200; // illustrative scenario statCap (real value: M.scenarios.statCap)
   const stats = [894, 938, 740, 559, 635];
   page({
     file: 'S02-veteran.html', title: 'Veteran detail', active: 'roster',
@@ -173,7 +174,7 @@ ${body}
    <div class="seg" role="radiogroup" aria-labelledby="tm"><label><input type="radio" name="tm" checked>Independent</label><label><input type="radio" name="tm">Manual</label></div>
    <span class="hint">Overrides are kept on re-import.</span></div>
 </div></div>
-<div class="stat5" style="margin-bottom:12px">${statNames.map((n, i) => `<div><small>${n}</small><b>${i === 3 ? '<a class="lowconf" href="S03-review.html" title="Low confidence — review">559</a>' : stats[i]}</b><div class="cap" role="img" aria-label="${stats[i]} of 2000 max"><i style="width:${stats[i] / 20}%"></i></div></div>`).join('')}</div>
+<div class="stat5" style="margin-bottom:12px">${statNames.map((n, i) => `<div><small>${n}</small><b>${i === 3 ? '<a class="lowconf" href="S03-review.html" title="Low confidence — review">559</a>' : stats[i]}</b><div class="cap" role="img" aria-label="${stats[i]} of ${STAT_CAP} scenario stat cap"><i style="width:${Math.min(100, stats[i] / STAT_CAP * 100)}%"></i></div></div>`).join('')}</div>
 <div class="panel" style="margin-bottom:12px"><div class="body">
 ${apt('Track', [['Turf', 'A'], ['Dirt', 'E']])}
 ${apt('Distance', [['Sprint', 'G'], ['Mile', 'D'], ['Medium', 'A'], ['Long', 'S']])}
@@ -181,7 +182,7 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
 </div></div>
 <div class="tabset">
 <input type="radio" name="tab" id="t-skills"><input type="radio" name="tab" id="t-sparks" checked><input type="radio" name="tab" id="t-deck"><input type="radio" name="tab" id="t-lineage">
-<div class="tablist" role="tablist"><label for="t-skills">Skills</label><label for="t-sparks">Sparks</label><label for="t-deck">Deck</label><label for="t-lineage">Lineage</label></div>
+<div class="tablist"><label for="t-skills">Skills</label><label for="t-sparks">Sparks</label><label for="t-deck">Deck</label><label for="t-lineage">Lineage</label></div>
 <div class="tabs">
  <section class="tab" id="p-skills"><div class="skills">${skills.map(([n, lv, u]) => `<div class="skill${u ? ' unique' : ''}"><span>${n}</span><span>${lv || ''}</span></div>`).join('')}</div></section>
  <section class="tab" id="p-sparks"><div class="sparkgroups">
@@ -215,7 +216,7 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
     actions: '<span class="hint">7 open · 12 resolved this week</span>',
     body: `<div class="split">
 <div class="panel"><header>Open items <span class="tag err">7</span></header>
-<div class="queue" role="listbox" aria-label="Open review items">${items.map(([n, p, raw, cur]) => `<a href="#" role="option"${cur ? ' aria-current="true" aria-selected="true"' : ''}><b>${n}</b><small>${p} · OCR “${esc(raw)}”</small></a>`).join('')}</div></div>
+<nav class="queue" aria-label="Open review items">${items.map(([n, p, raw, cur]) => `<a href="#"${cur ? ' aria-current="true"' : ''}><b>${n}</b><small>${p} · OCR “${esc(raw)}”</small></a>`).join('')}</nav></div>
 <div class="grid">
  <div class="panel"><header>Mejiro McQueen — Sparks · Self · white #5 <span class="tag warn">confidence 0.62</span></header><div class="body grid">
   <div><div class="hint" style="margin-bottom:4px">Crop from capture (412 × 34 px)</div><div class="crop"><span>Kawasaki Kinen ★☆☆</span></div></div>
@@ -248,7 +249,7 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
  <div><div class="pager" style="padding:0 0 6px"><span>Showing 12 of 208 owned cards</span></div><div class="cardgrid">${CARDS.map((c, i) => tile(c, [0, 1, 3, 4, 10].includes(i))).join('')}</div></div>
  <div class="panel"><header>Deck builder <span class="hint" style="font-weight:400">5 owned + 1 Friend</span></header><div class="body grid">
   ${slots.map((c, i) => `<div class="row" style="gap:8px;justify-content:space-between;border:1px solid var(--border);border-radius:8px;padding:6px 8px"><span><span class="hint">Slot ${i + 1}</span><br><b>${c.n}</b> ${typeChip(c.ty)}</span><span>${lb(c.lb)}<br><span class="hint">Lv ${c.lv}</span></span><button class="btn sm" aria-label="Remove slot ${i + 1}">✕</button></div>`).join('')}
-  <div class="row" style="gap:8px;justify-content:space-between;border:1px dashed var(--accent);border-radius:8px;padding:6px 8px"><span><span class="hint">Slot 6 · Friend (borrowed)</span><br><b>T.M. Opera O</b> ${typeChip('Friend')}</span><span class="grid" style="gap:4px"><select class="input" aria-label="Friend card limit break"><option>LB4</option><option>LB3</option></select></span></div>
+  <div class="row" style="gap:8px;justify-content:space-between;border:1px dashed var(--accent);border-radius:8px;padding:6px 8px"><span><span class="hint">Slot 6 · Friend (borrowed)</span><br><b>T.M. Opera O</b> ${typeChip('Friend')}</span><span class="grid" style="gap:4px"><select class="input" aria-label="Friend card limit break"><option>LB4</option><option>LB3</option><option>LB2</option><option>LB1</option><option>LB0</option></select><input class="input" type="number" min="1" max="50" value="50" aria-label="Friend card level"></span></div>
   <label class="field"><span>Friend card (any card in the game)</span><input class="input" placeholder="Search all cards…"></label>
   <div class="row"><button class="btn primary">Use in planner</button><button class="btn">Clear</button></div>
  </div></div></div>`,
@@ -303,14 +304,14 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
     ['Oguri Cap', 'Kitasan Black', 0.33, 70, 15, 'Wit (min 500)'],
   ];
   const rowsHtml = pairs.map(([a, b, p, s, aff, bn], i) => `<tr${i === 0 ? ' class="open"' : ''}>
-    <td class="num">${i + 1}</td><th scope="row"><button class="btn sm" aria-expanded="${i === 0}" aria-label="${i === 0 ? 'Collapse' : 'Expand'} details for pair ${i + 1}">${i === 0 ? '▾' : '▸'}</button> <b>${a}</b></th><td><b>${b}</b></td>
-    <td><span class="pmeet"><span class="bar" role="img" aria-label="${Math.round(p * 100)} percent"><i style="width:${p * 100}%"></i></span><b class="num">${(p * 100).toFixed(0)}%</b></span></td>
+    <td class="num hc">${i + 1}</td><th scope="row"><button class="btn sm" aria-expanded="${i === 0}" aria-label="${i === 0 ? 'Collapse' : 'Expand'} details for pair ${i + 1}">${i === 0 ? '▾' : '▸'}</button> <b>${a}</b></th><td><b>${b}</b></td>
+    <td><span class="pmeet"><span class="bar" role="img" aria-label="${Math.round(p * 100)} percent"><i style="width:${p * 100}%"></i></span><b class="num">${(p * 100).toFixed(0)}%</b><small class="muted">n=142</small></span></td>
     <td class="num hm">+${s}</td><td class="num hm">${aff}</td><td class="hm">${bn}</td></tr>${i === 0 ? `<tr><td colspan="7" class="detail">
    <div class="detailgrid">
     <div><h4>Predicted stats · mean and p10–p90 vs target (dashed) · model n=142</h4>
       ${stats.map((n, k) => `<div class="statrow"><span>${n}</span>${posRow(k)}<span class="val num">${pred[k][1]} <span class="muted">(${pred[k][0]}–${pred[k][2]})</span> / ${pred[k][3]}</span></div>`).join('')}
       <div class="hint">Interval from 2,000 simulated children. Stat cap 1200 (illustrative).</div></div>
-    <div><h4>Aptitude before → after</h4>
+    <div><h4>Aptitude before → after · model n=142</h4>
       <div class="contrib" style="align-items:center">
        <span>Turf</span><span>${grade('A')} → ${grade('A')} <span class="muted">100% ≥ A</span></span>
        <span>Medium</span><span>${grade('B')} → ${grade('A')} <span class="muted">72% ≥ A</span></span>
@@ -319,7 +320,7 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
       <div class="contrib"><span>Medium Corners ◯</span><span><b>91%</b> <span class="muted">n=64</span></span>
        <span>Keeping the Lead</span><span><b>83%</b> <span class="muted">n=41</span></span>
        <span>Long Straightaways <span class="tag warn">bottleneck</span></span><span><b>74%</b> <span class="tag warn">low data n=6</span></span></div></div>
-    <div><h4>Spark contributions (top)</h4>
+    <div><h4>Spark contributions (top) · model n=142</h4>
       <div class="contrib"><span>${spark('blue', 'Power', 2)}<span class="hint"> P1</span></span><span class="num">+18</span>
        <span>${spark('blue', 'Stamina', 3)}<span class="hint"> P2</span></span><span class="num">+27</span>
        <span>${spark('pink', 'Medium', 3)}<span class="hint"> P1</span></span><span class="num">72%</span>
@@ -343,7 +344,7 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
 <div class="grid" style="gap:12px">
  <div class="panel"><div class="body"><div class="row" style="justify-content:space-between"><b>Ranked 33,670 legal pairs in 3.2 s · showing top 6 of 50</b><span class="hint">Fast pass → Monte Carlo on top 100 (2,000 samples each)</span></div>
   <div class="progress" style="margin-top:6px" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Ranking progress"><i style="width:100%"></i></div></div></div>
- <div class="tbl-wrap"><table><caption class="sr">Ranked parent pairs</caption><thead><tr><th scope="col" class="num">#</th><th scope="col">Parent 1</th><th scope="col">Parent 2</th><th scope="col">P(meet target)</th><th scope="col" class="num hm">Stat surplus</th><th scope="col" class="num hm">Affinity</th><th scope="col" class="hm">Bottleneck</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
+ <div class="tbl-wrap fit2"><table><caption class="sr">Ranked parent pairs</caption><thead><tr><th scope="col" class="num hc">#</th><th scope="col">Parent 1</th><th scope="col">Parent 2</th><th scope="col">P(meet target)</th><th scope="col" class="num hm">Stat surplus</th><th scope="col" class="num hm">Affinity</th><th scope="col" class="hm">Bottleneck</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
 </div></div>`,
   });
 }
@@ -357,7 +358,8 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
     const sx = (v) => 10 + ((v - lo) / (hi - lo)) * 130, sy = (v) => 140 - ((Math.min(Math.max(v, lo), hi) - lo) / (hi - lo)) * 130;
     return `<div class="scatter"><b style="font-size:12px">${name}</b><svg viewBox="0 0 150 150" role="img" aria-label="${name}: predicted versus actual, held-out veterans"><rect x="10" y="10" width="130" height="130" fill="none" stroke="var(--border)"/><line x1="10" y1="140" x2="140" y2="10" stroke="var(--target-line)" stroke-dasharray="4 3"/>${dots.map(([x, y]) => `<circle cx="${sx(x).toFixed(1)}" cy="${sy(y).toFixed(1)}" r="2.4" fill="var(--bar-mean)" opacity=".85"/>`).join('')}<text x="75" y="149" font-size="8" text-anchor="middle" fill="var(--muted)">predicted</text><text x="6" y="75" font-size="8" fill="var(--muted)" transform="rotate(-90 6 75)" text-anchor="middle">actual</text></svg><span class="hint">n=28 held out</span></div>`;
   };
-  const rules = [['activation.blue', '1★ 0.70 · 2★ 0.80 · 3★ 0.90', false, 'community wiki (illustrative)'], ['activation.pink', '1★ 0.01 · 2★ 0.03 · 3★ 0.05', false, 'community wiki (illustrative)'], ['affinityMultiplier', '1 + affinity/100', false, 'community wiki (illustrative)'], ['grandparentWeight', '0.5', false, 'community wiki (illustrative)'], ['pinkGradeGain', '1★–3★ = 1', true, 'in-game observation']];
+  const rules = [['activation.blue', '1★ x.xx · 2★ x.xx · 3★ x.xx', false, 'placeholder, not a real value (Q-3)'], ['activation.pink', '1★ x.xx · 2★ x.xx · 3★ x.xx', false, 'placeholder, not a real value (Q-3)'], ['affinityMultiplier', 'formula placeholder', false, 'placeholder, not a real value (Q-3)'], ['grandparentWeight', 'x.xx', false, 'placeholder, not a real value (Q-3)'], ['pinkGradeGain', '1★–3★ = 1', true, 'in-game observation']];
+
   page({
     file: 'S07-health.html', title: 'Model health', active: 'health',
     actions: '<button class="btn">Refit model</button><button class="btn primary">Run calibration</button>',
@@ -367,18 +369,18 @@ ${apt('Style', [['Front', 'B'], ['Pace', 'A'], ['Late', 'D'], ['End', 'F']])}
   <div class="kpi"><small>80% interval coverage</small><b>0.81</b><small>target 0.72–0.88 <span class="tag ok">in range</span></small></div>
   <div class="kpi"><small>Model</small><b style="font-size:16px">training-v1</b><small>fitted 2026-09-28 22:44 · master 2026.09.1</small></div>
 </div>
-<div class="split" style="grid-template-columns:1fr 1fr">
- <div class="tbl-wrap"><table><caption style="text-align:left;padding:8px 10px;font-weight:650">Sample counts</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Mode</th><th scope="col" class="num">Veterans</th><th scope="col"></th></tr></thead><tbody>
+<div class="split s2">
+ <div class="tbl-wrap fit"><table><caption style="text-align:left;padding:8px 10px;font-weight:650">Sample counts</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Mode</th><th scope="col" class="num">Veterans</th><th scope="col"></th></tr></thead><tbody>
   <tr><th scope="row">URA Finale</th><td>Independent</td><td class="num">61</td><td></td></tr>
   <tr><th scope="row">URA Finale</th><td>Manual</td><td class="num">44</td><td></td></tr>
   <tr><th scope="row">Unity Cup</th><td>Independent</td><td class="num">31</td><td></td></tr>
   <tr><th scope="row">Unity Cup</th><td>Manual</td><td class="num">6</td><td><span class="tag warn">low data (n &lt; 10)</span></td></tr></tbody></table></div>
- <div class="tbl-wrap"><table><caption style="text-align:left;padding:8px 10px;font-weight:650">Holdout error (MAE, stat points)</caption><thead><tr><th scope="col">Stat</th><th scope="col" class="num">MAE</th><th scope="col" class="num">σ</th></tr></thead><tbody>
+ <div class="tbl-wrap fit"><table><caption style="text-align:left;padding:8px 10px;font-weight:650">Holdout error (MAE, stat points)</caption><thead><tr><th scope="col">Stat</th><th scope="col" class="num">MAE</th><th scope="col" class="num">σ</th></tr></thead><tbody>
   <tr><th scope="row">Speed</th><td class="num">31.2</td><td class="num">38.0</td></tr><tr><th scope="row">Stamina</th><td class="num">27.4</td><td class="num">33.5</td></tr><tr><th scope="row">Power</th><td class="num">29.8</td><td class="num">36.1</td></tr><tr><th scope="row">Guts</th><td class="num">33.9</td><td class="num">41.2</td></tr><tr><th scope="row">Wit</th><td class="num">26.1</td><td class="num">31.7</td></tr></tbody></table></div>
 </div>
 <div><h2 style="margin-bottom:6px">Predicted vs actual (held-out veterans)</h2><div class="scatters">${scatter('Speed', 600, 1100, 60)}${scatter('Stamina', 500, 1000, 50)}${scatter('Power', 500, 1000, 55)}${scatter('Guts', 300, 800, 60)}${scatter('Wit', 400, 900, 50)}</div><div class="hint" style="margin-top:4px">Dashed line = perfect prediction.</div></div>
-<div class="split" style="grid-template-columns:1.2fr 1fr">
- <div class="tbl-wrap"><table><caption style="text-align:left;padding:8px 10px;font-weight:650">Inheritance rules (rules-1)</caption><thead><tr><th scope="col">Rule</th><th scope="col">Value</th><th scope="col">Status</th><th scope="col" class="hm">Source</th></tr></thead><tbody>${rules.map(([r, v, ok, s]) => `<tr><th scope="row" class="mono">${r}</th><td>${v}</td><td><span class="tag ${ok ? 'ok' : 'warn'}">${ok ? '✓ verified' : '⚠ unverified'}</span></td><td class="hm muted">${s}</td></tr>`).join('')}</tbody></table></div>
+<div class="split s2b">
+ <div class="tbl-wrap fit"><table><caption style="text-align:left;padding:8px 10px;font-weight:650">Inheritance rules (rules-1)</caption><thead><tr><th scope="col">Rule</th><th scope="col">Value</th><th scope="col">Status</th><th scope="col" class="hm">Source</th></tr></thead><tbody>${rules.map(([r, v, ok, s]) => `<tr><th scope="row" class="mono">${r}</th><td>${v}</td><td><span class="tag ${ok ? 'ok' : 'warn'}">${ok ? '✓ verified' : '⚠ unverified'}</span></td><td class="hm muted">${s}</td></tr>`).join('')}</tbody></table></div>
  <div class="panel"><header>Calibration result <span class="hint" style="font-weight:400">run 2026-09-28 22:51</span></header><div class="body grid">
   <div class="contrib"><span>blueStatGain multiplier</span><b class="num">×1.24</b><span>Aptitude log-likelihood</span><b class="num">−41.7</b><span>Skill check (Brier)</span><b class="num">0.16</b></div>
   <div class="hint">Suggested values are never applied automatically.</div>

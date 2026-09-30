@@ -30,10 +30,10 @@ State legend: **D** default · **H** hover · **F** focus (2 px `focus` ring, 2 
 | Component | Purpose | Notes / states |
 |---|---|---|
 | **RangeBar** (`.rb`) | One stat prediction: `mean` marker (`bar.mean`), p10–p90 span (`bar.range`), dashed `target.line` at the minimum. Always followed by text `mean (p10–p90) / target`, so the chart is not the only carrier of the numbers. D: as drawn. L: flat `surface2` track. E: hidden with "No requirement" if the target has no min for that stat. Err: "Prediction failed" tag. |
-| **ProbabilityBar** (`.pmeet`) | P(meet target) as a 64 px bar + percentage. Shows "low data" `Tag` when the sample size behind the number is < 10. |
+| **ProbabilityBar** (`.pmeet`) | P(meet target) as a 64 px bar + percentage. Always followed by the sample size `n` (the model's training n, `ModelSnapshot.nTrain`-equivalent; see Q-76 for per-skill n). Shows a "low data" `Tag` when that n is < 10 (10 §2). |
 | **ProgressBar** (`.progress`) | Ranking progress, `role=progressbar` with `aria-valuenow`. L: determinate while `onProgress` fires. Err: `danger` bar + retry button. |
-| **Scatter** (`.scatter`) | SVG predicted-vs-actual with y=x dashed line, one per stat (S07). E: "Not enough held-out data (needs ≥ 10)". Err: card with retry. |
-| **StatStrip** (`.stat5`) | Five stats with a thin bar to the 2000 cap; low-confidence stat gets `LowConfidence`. |
+| **Scatter** (`.scatter`) | SVG predicted-vs-actual with y=x dashed line, one per stat (S07). E: "Not enough held-out data (needs at least 10 held-out veterans)". The 10 is a design assumption that reuses the 10 §2 "low data" threshold (n < 10); it is not sourced from a spec (Q-76). Err: card with retry. |
+| **StatStrip** (`.stat5`) | Five stats with a thin bar to the scenario `statCap` (01 §11; prototype uses an illustrative 1200); low-confidence stat gets `LowConfidence`. |
 | **AptitudeGrid** (`.aptrow`) | Track / Distance / Style rows of label + `GradeBadge` cells, same grouping as the game. |
 
 ## Composite

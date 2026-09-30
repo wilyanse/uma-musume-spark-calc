@@ -31,7 +31,7 @@ Modified:
 - **Themes:** `prefers-color-scheme` by default; `data-theme` on `<html>` overrides (used by the export so PNGs are deterministic).
 - **Mobile breakpoint is 720 px.** The export uses 390×844. Tables hide low-priority columns (`.hm`); the rail becomes bottom tabs (Roster, Planner, Targets, More; More leads to Review, Cards, Health).
 - **Prototype generation:** screens are built from `build.mjs` (one template per screen) so tokens and shared markup can't drift. The output is plain HTML + CSS with no JS or framework, as the spec requires. Tabs on S02 use radios so they work without JS. S06 shows its first row expanded to show the explain view.
-- **Illustrative data:** real names from the screenshots (Mejiro McQueen [Frontline Elegance], Tokai Teio [Beyond the Horizon], Special Week, Oguri Cap, Gold City, Kitasan Black, T.M. Opera O as a guest parent and Friend card). Stats and aptitudes for McQueen (894/938/740/559/635; grades as in screenshot 01) are copied from screenshot 01. Her rank/rating, the outfit titles for Special Week, Oguri Cap and Gold City, and every other number are made up. The only real card title used is Special Week's "The Brightest Star in Japan!" (screenshot 14); card titles I couldn't read are labelled "Illustrative title X". Every page has the "Illustrative data" footer. No screenshots or game art are committed.
+- **Illustrative data:** real names from the screenshots (Mejiro McQueen [Frontline Elegance], Tokai Teio [Beyond the Horizon], Special Week, Oguri Cap, Gold City, Kitasan Black, T.M. Opera O as a guest parent and Friend card). Stats and aptitudes for McQueen (894/938/740/559/635; grades as in screenshot 01) are copied from screenshot 01. Her rank (A+) and rating (13,471) are also from screenshot 01 (corrected in review round 1, N1). The outfit titles for Special Week, Oguri Cap and Gold City, and every other number are made up. The only real card title used is Special Week's "The Brightest Star in Japan!" (screenshot 14); card titles I couldn't read are labelled "Illustrative title X". Every page has the "Illustrative data" footer. No screenshots or game art are committed.
 - **S06 sample sizes:** P(meet), the p10–p90 bar and "n" are shown as 10 §2 requires, including a "low data n=6" tag on one skill (this drove Q-76).
 - **Pinned Playwright 1.62.1:** it reused the Chromium already in the local cache (`~/Library/Caches/ms-playwright`), so `playwright install chromium` was a no-op.
 
@@ -110,3 +110,54 @@ What to check:
 8. **Accessibility:** contrast passes AA in both themes; flag any control that feels too small or hard to see.
 
 Reply "H5 approved", or list the changes wanted (I'll edit `docs/design/` and re-export).
+
+## Review round 1
+Review: `docs/reviews/T07-review-1.md` (CHANGES_REQUESTED). Every item answered below. Nothing was rebased, merged or pushed.
+
+### Blocking
+- **B1 fixed.** The mobile rule `.tbl-wrap td:first-child, th:first-child:not([scope=row])` is gone. The hide rule is now `.tbl-wrap .hc{display:none}` (mobile only), and only the S01 Portrait column and the S06 "#" column carry `.hc` (header and body cells). S07 tables have no hidden column, so headers and row-header cells line up. S07 tables use `.fit` (wrapping cells) and the S07 split rows stack to one column below 720 px, so no value is clipped at 390 px. S06's P(meet) cell wraps at 390 px (`.fit2`) and its detail grid stacks, so its table also has no overflow. New probe `docs/design/probe-mobile.mjs` (Playwright 1.62.1, 390×844) checks, per table, that visible header count equals visible body-cell count, that each header's left edge and width match its body cell, that no cell has scrollWidth > clientWidth, and that neither the wrapper nor the page overflows. I viewed `S07-health-mobile-light.png` afterwards: SCENARIO / MODE / VETERANS and STAT / MAE / Σ sit over the right columns. Before the fix the probe reproduced the reviewer's finding (3 mismatches on S07); the S06 overflow appeared mid-fix (the new `n=` text) and was fixed too.
+
+### Should fix
+- **S1 fixed.** `opacity:.75` removed from `.rb .rng`. The rendered colour is the token colour: `bar.range` is 3.31:1 (light) and 4.77:1 (dark) on `bg`. Added the pair `bar.range` on `bg` to `contrast-pairs`, so the S06 detail-cell case is checked.
+- **S2 fixed.** P(meet target) cells show `n=142`, and the aptitude and spark-contribution headings say "model n=142" (illustrative). The binding is in `bindings.md` (model training n, same figure as S07 "Training rows"; per-skill n stays Q-76). `components.md` ProbabilityBar now says n is always shown.
+- **S3 fixed.** The S02 stat bar uses `STAT_CAP` (an illustrative 1200, labelled as standing in for `M.scenarios.statCap`) instead of 2000. `aria-label` reads "of 1200 scenario stat cap". `bindings.md` and `components.md` now agree.
+- **S4 fixed.** One threshold, "at least 10 held-out veterans", in `components.md` and `copy.md`; the planner empty state is "at least 2 veterans" (two parents). Both are marked design assumptions in new **Q-78** (non-blocking), because no spec gives them.
+- **S5 fixed.** Removed `role="tablist"` from the label row (the real build's tablist/tab/tabpanel is still described in `components.md`). The S03 queue is a `<nav aria-label>` of links with `aria-current` and no listbox/option roles.
+- **S6 not changed here (out of ownership).** Root `.prettierignore` is T01's file. Orchestrator follow-up: add `docs/design/` to root `.prettierignore` so `pnpm format` does not rewrite generated `tokens.css`/`screens/*.html` (`npx prettier --check docs/design` currently reports 18 files).
+
+### Nits
+- **N1 fixed.** The Decisions text now says McQueen's A+ / 13,471 are real (screenshot 01).
+- **N2 answered.** New IDs start at Q-70 to avoid collisions with parallel tasks that would also take "next number" (T03 etc.). The last existing ID when T07 started was Q-3. Q-78 continues the T07 range. The orchestrator can renumber on merge.
+- **N3 fixed.** The S04 Friend slot has LB0–LB4 and a level input, matching `bindings.md`.
+- **N4 fixed.** `bindings.md` calls `weight > 0` a client-side UI rule, since `optionalSkills[].weight` is a plain number in the schema.
+- **N5 fixed.** S07 rule rows now show `x.xx` / "formula placeholder", source "placeholder, not a real value (Q-3)". Real values remain T03's job (`verified:false`).
+- **N6 partly done.** Added contrast pairs for `bar.range` on `bg` and `surface` on `danger` (`.badge-count`); 76 → 80 checks. Not done: `verify.mjs` checks for `app.css`, `index.html` links and semantic token names. `app.css` "/* fixes */" layers were also not folded in. Both are follow-ups.
+
+### Files changed in this round
+`docs/design/{app.css,build.mjs,tokens.json,bindings.md,components.md,copy.md,probe-mobile.mjs}`, regenerated `tokens.css`, `index.html`, `screens/*.html`, `screens/*.png`, `manifest.json`; `docs/OPEN_QUESTIONS.md` (Q-78); this changelog.
+
+### Verification (real output)
+```
+$ cd docs/design && node build.mjs && node export.mjs && node verify.mjs | grep -v '^ok'
+built tokens.css, 7 screens, index.html
+exported 21 PNGs
+files: 7 top-level + 7 screen html checked
+manifest: 21 PNGs checked for existence and exact dimensions
+contrast: 80 pair checks
+RESULT: all checks passed
+$ node verify.mjs | grep -c '^ok'
+80
+$ node probe-mobile.mjs S01-roster S02-veteran S03-review S04-cards S05-targets S06-planner S07-health
+ok   S01-roster {"caption":"Veterans","heads":4,"bodyCells":4,"misaligned":0,"clipped":0,"wrapOverflow":0,"pageOverflow":0}
+ok   S06-planner {"caption":"Ranked parent pairs","heads":3,"bodyCells":3,"misaligned":0,"clipped":0,"wrapOverflow":0,"pageOverflow":0}
+ok   S07-health {"caption":"Sample counts","heads":4,"bodyCells":4,"misaligned":0,"clipped":0,"wrapOverflow":0,"pageOverflow":0}
+ok   S07-health {"caption":"Holdout error (MAE, stat points)","heads":3,"bodyCells":3,"misaligned":0,"clipped":0,"wrapOverflow":0,"pageOverflow":0}
+ok   S07-health {"caption":"Inheritance rules (rules-1)","heads":3,"bodyCells":3,"misaligned":0,"clipped":0,"wrapOverflow":0,"pageOverflow":0}
+RESULT: all tables aligned, nothing clipped
+```
+(S02–S05 have no `<table>`, so the probe prints nothing for them.) `pnpm -r lint/typecheck/test` not re-run: no TS/.NET packages touched.
+
+### Follow-ups
+- Orchestrator: add `docs/design/` to root `.prettierignore` (S6).
+- N6 remainder: verify.mjs file/link/token-name checks; fold the app.css "/* fixes */" layer.
+- Q-78 (new), plus Q-70…Q-77 unchanged.

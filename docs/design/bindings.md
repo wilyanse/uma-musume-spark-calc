@@ -55,7 +55,7 @@ Loads `GET /api/v1/veterans/:id` → `RV` + `fields[]` (`CaptureField`).
 | Mode toggle (value) | `RV.trainMode`; helper text "detected from epithet" when `RV.modeSource==='epithet'`, "overridden" when `'override'`. |
 | Mode toggle (action) | `PATCH /api/v1/veterans/:id {trainMode}` (optimistic; 60 §3). |
 | Low-confidence banner and count | Client: `fields.filter(f => f.status==='low_confidence').length`. |
-| Stat strip values | `RV.stats.*`. Bar length = value ÷ scenario stat cap (`M.scenarios.statCap` of `RV.scenarioId`), clamped. |
+| Stat strip values | `RV.stats.*`. Bar length = value ÷ scenario stat cap (`M.scenarios.statCap` of `RV.scenarioId`), clamped to 100%. The prototype uses an illustrative cap of 1200 and never a hard-coded 2000. |
 | Dotted underline on a value | `fields[].status==='low_confidence'` where `path` matches the value (e.g. `/stats/gut`). Links to S03 for that item. |
 | Aptitude grid (Turf, Dirt, Sprint, Mile, Medium, Long, Front, Pace, Late, End) | `RV.aptitudes.{turf,dirt,sprint,mile,medium,long,front,pace,late,end}` (grade enum G–S). |
 | Skills tab: names | `RV.skills[].skillId` → `M.skills.name`. |
@@ -136,7 +136,7 @@ Loads `GET /api/v1/cm-targets` → `CmTarget[]` (01 §10).
 | Save target (action) | `PUT /api/v1/cm-targets/:id`. |
 | Save as new (action) | `POST /api/v1/cm-targets`. |
 | Delete (action) | `DELETE /api/v1/cm-targets/:id`. |
-| Validation messages | Client, mirroring `CmTarget` schema (stats 1–2000 ints, weight > 0, no duplicate skills). |
+| Validation messages | Client-side rules (not all in the `CmTarget` schema: `optionalSkills[].weight` is a plain number there, so `weight > 0` is a client-side UI rule, not a contract): stats 1–2000 ints, weight > 0, no duplicate skills. |
 
 ## S06 Planner (F09, F11)
 
@@ -158,6 +158,7 @@ Loads `GET /api/v1/cm-targets` → `CmTarget[]` (01 §10).
 | Table: rank | Index in `RankedPair[]`. |
 | Table: parent 1 / parent 2 names | `RankedPair.parents[0|1]` → `RV` → `M.characters.name`. |
 | P(meet target) | `RankedPair.pMeet` (50 §6). |
+| n beside P(meet), aptitude and spark probabilities | Assumption: the model training n, `ModelSnapshot` fitted-row count (S07 "Training rows"). Per-skill n: Q-76. |
 | Stat surplus | `RankedPair.surplus`. |
 | Affinity | `RankedPair.affinity.total` (50 §3). |
 | Bottleneck | `RankedPair.bottleneck` (50 §6). |

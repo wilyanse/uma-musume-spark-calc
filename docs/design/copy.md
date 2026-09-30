@@ -192,7 +192,7 @@ Sentence case. No exclamation marks except where the game's own names contain th
 | detail.affinity | Affinity · total {n} |
 | tag.bottleneck | bottleneck |
 | state.needsFit | The model needs fitting before ranking. Fitting on {n} veterans… |
-| empty.noRoster | Import at least 3 veterans to plan parents. |
+| empty.noRoster | Import at least 2 veterans to plan parents. |
 | empty.noTarget | Create a CM target first. |
 | empty.noDeck | Choose a full deck in Cards first. |
 | empty.noPairs | No legal pairs. Parents must be different characters and differ from the trainee. |
@@ -225,6 +225,6 @@ Sentence case. No exclamation marks except where the game's own names contain th
 | calib.apply / dismiss | Apply suggested multipliers / Dismiss |
 | calib.running | Calibrating… |
 | empty.noModel | No model yet. Import veterans, then fit one from the Planner. |
-| empty.noHoldout | Not enough data for a held-out check (needs at least 25 veterans). |
+| empty.noHoldout | Not enough data for a held-out check (needs at least 10 held-out veterans). |
 | empty.noCalib | Calibration hasn't been run. |
 | error.load | Couldn't load model health. |

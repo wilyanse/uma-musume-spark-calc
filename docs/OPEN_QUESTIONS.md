@@ -59,6 +59,11 @@ Context: S04's deck builder and S06's settings have no API contract (`owned_card
 Assumption taken: browser local storage, single device. No server storage.
 Blocking: no
 
+## Q-78 (T07) UI thresholds for empty states are design assumptions
+Context: S07 "not enough held-out data" and S06 "import veterans" empty states need minimum counts. No spec gives them.
+Assumption taken: held-out check needs at least 10 held-out veterans (reuses the 10 §2 "low data" n < 10 threshold); the planner needs at least 2 veterans (two distinct parents). Both are UI assumptions, not model rules. T13/T06 should replace them with the real minimums (e.g. from the 80/20 split).
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)
