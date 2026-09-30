@@ -94,7 +94,19 @@ Review file: `docs/reviews/T03-review-1.md`. The bundle was rebuilt in place und
 - **N2** ambiguous texts ("Carnival Bonus", "Indomitable") documented in SOURCES.md Gaps.
 - **N3** `dhash.ts` header says the C# mirror must use `long`.
 - **N4** README states Node >= 22.18 for `node src/build.ts`.
-- Q-5 to Q-7 keep their numbers; Q-6 was rewritten.
+- Q-5 to Q-7 were renumbered at integration because T04 already used Q-4; Q-6 now records crop-offset sensitivity from review round 2.
+
+## Integration verification (orchestrator)
+- `pnpm install --frozen-lockfile` — lockfile up to date; after merging T04 and T03, regenerated lockfile to retain both package graphs.
+- `pnpm -r lint` — schema, API, web, master-data: Done.
+- `pnpm -r typecheck` — schema, API, web, master-data: Done. Initial run failed because `MASTER_FILE_NAMES` no longer exists in the T01b schema; the bundle test now declares the spec's ten required file names locally.
+- `pnpm -r test` — schema 146, master-data 82, web 5, API 86 passed.
+- `pnpm --filter @uma/schema build` — wrote 17 schemas; `pnpm --filter web build` — 146 modules transformed, built.
+- `pnpm --filter @uma/master-data build -- --offline --date 20260930` — 68/68 characters and 255/255 cards hashed; 68 characters, 107 outfits, 623 skills, 395 sparks, 255 cards, 1579 vocab; `diff -r` against committed `global-20260930` exited 0. The temporary `-2` bundle was removed and `latest.json` restored.
+- `pnpm -r build` attempted an online master-data refresh but timed out after 180 seconds during remote fetching; this is not a completed build check. The deterministic offline rebuild above and web/schema builds passed.
+
+## Review round 2 / integration
+Independent review: `docs/reviews/T03-review-2.md` — PASS, no Blocking findings. S1 crop alignment risk is in Q-6 for T09; S2 `--replace` is restricted in README to unpublished/unmerged versions; S3 stale file list and vocab count corrected. N1–N3 remain non-blocking follow-ups. No source data or ID changes were made after review. The orchestrator's only code edit was a test-local list of the ten required master file names, replacing a removed schema export; lint, typecheck, tests and offline rebuild were rerun.
 
 ### Verification (real output)
 ```

@@ -6,7 +6,6 @@ import {
   AffinityFile,
   CardsFile,
   CharactersFile,
-  MASTER_FILE_NAMES,
   MasterLatest,
   OutfitsFile,
   RanksFile,
@@ -36,6 +35,10 @@ const scenarios = ScenariosFile.parse(load('scenarios'));
 const ranks = RanksFile.parse(load('ranks'));
 const vocab = VocabFile.parse(load('vocab'));
 const rules = Rules.parse(load('rules'));
+const MASTER_FILE_NAMES = [
+  'characters', 'outfits', 'skills', 'sparks', 'cards', 'affinity',
+  'scenarios', 'ranks', 'vocab', 'rules',
+] as const;
 
 describe('bundle', () => {
   it('latest.json lists every 01 §11 file with a matching sha256 and the version folder exists', () => {
