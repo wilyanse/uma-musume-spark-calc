@@ -30,7 +30,7 @@
 | H2 | during W3–W4 | Create a free Cloudflare account; follow `docs/runbooks/cloudflare-setup.md` (from T12); add the GitHub secrets | real deploy |
 | H3 | anytime before W6 | Screenshots: Veteran List screen (scroll top + middle); a Career Info tab where a grandparent portrait is tapped (if tapping opens anything) | T14, Q-1 |
 | H4 | after T10 | On Windows: build/run the agent, record OCR for the 15 fixture screens (`--record-ocr`), check the T09 labels, then import ≥ 20 real veterans and spot-check 3 in the web app | M2 exit, T15 |
-| H5 | after T07 | Approve the design gallery `docs/design/index.html` (or request changes) | T13 |
+| H5 | Approved 2026-09-30 | User approved `docs/design/index.html`, including Planner and Model Health | T13 (still requires T04 and T06) |
 
 ## 4. Task cards
 Each card lists: **Spec** sections · **Owns** (paths the task may create/modify) · **Needs** · **Done when** (in addition to AGENTS.md DoD).
@@ -152,7 +152,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04 | In progress | task/T04-api-core | | |
 | T05 | Not started | | | |
 | T06 | Not started | | | |
-| T07 | Merged; H5 design approval pending | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
+| T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
 | T09 | Not started | | | |
 | T10 | Not started | | | |
