@@ -163,7 +163,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T03 | Merged locally | task/T03-master-data | T03-master-data.md | PASS r2 |
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
 | T04b | Running (Opus medium) | task/T04b-api-consistency | T04b-api-consistency.md | Pending |
-| T05 | Running (Opus medium) | task/T05-inheritance | T05-inheritance.md | Pending |
+| T05 | Independent review r1 | task/T05-inheritance | T05-inheritance.md | Gate A passed; review running |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
