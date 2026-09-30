@@ -1,0 +1,177 @@
+{
+  "definition": "src/dhash.ts, DHASH_VERSION 1",
+  "vectors": [
+    {
+      "name": "horizontal gradient ascending -> every left cell is darker -> all zero",
+      "generator": {
+        "kind": "gradient-x-asc",
+        "width": 90,
+        "height": 80
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "0000000000000000"
+    },
+    {
+      "name": "horizontal gradient descending -> every left cell is brighter -> all one",
+      "generator": {
+        "kind": "gradient-x-desc",
+        "width": 90,
+        "height": 80
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "ffffffffffffffff"
+    },
+    {
+      "name": "vertical gradient: rows are constant -> equal cells -> all zero",
+      "generator": {
+        "kind": "gradient-y",
+        "width": 64,
+        "height": 64
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "0000000000000000"
+    },
+    {
+      "name": "minimum size 9x8 gradient descending",
+      "generator": {
+        "kind": "gradient-x-desc",
+        "width": 9,
+        "height": 8
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "ffffffffffffffff"
+    },
+    {
+      "name": "checker 3px, size not divisible by 9/8",
+      "generator": {
+        "kind": "checker",
+        "width": 37,
+        "height": 29
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "db24db0024db2400"
+    },
+    {
+      "name": "seeded noise 128x128",
+      "generator": {
+        "kind": "lcg",
+        "seed": 1,
+        "width": 128,
+        "height": 128
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "39b45d8fd6c5f551"
+    },
+    {
+      "name": "seeded noise 233x256 (veteran icon size)",
+      "generator": {
+        "kind": "lcg",
+        "seed": 20260930,
+        "width": 233,
+        "height": 256
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "49aa2ad2aa32a4cd"
+    },
+    {
+      "name": "seeded noise with alpha, 101x77",
+      "generator": {
+        "kind": "lcg",
+        "seed": 7,
+        "width": 101,
+        "height": 77,
+        "alpha": true
+      },
+      "crop": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 1000,
+        "y1": 1000
+      },
+      "hash": "3255abc6b64b9212"
+    },
+    {
+      "name": "seeded noise 128x128, card-art crop",
+      "generator": {
+        "kind": "lcg",
+        "seed": 42,
+        "width": 128,
+        "height": 128
+      },
+      "crop": {
+        "x0": 100,
+        "y0": 340,
+        "x1": 900,
+        "y1": 780
+      },
+      "hash": "d3c9d5aa5a29a996"
+    },
+    {
+      "name": "seeded noise 256x256, char-icon crop",
+      "generator": {
+        "kind": "lcg",
+        "seed": 99,
+        "width": 256,
+        "height": 256
+      },
+      "crop": {
+        "x0": 180,
+        "y0": 150,
+        "x1": 820,
+        "y1": 750
+      },
+      "hash": "d55a4b9aaac5acd4"
+    },
+    {
+      "name": "seeded noise 233x256, veteran-icon crop",
+      "generator": {
+        "kind": "lcg",
+        "seed": 5,
+        "width": 233,
+        "height": 256
+      },
+      "crop": {
+        "x0": 220,
+        "y0": 150,
+        "x1": 780,
+        "y1": 700
+      },
+      "hash": "d58dd089b5679567"
+    }
+  ]
+}
