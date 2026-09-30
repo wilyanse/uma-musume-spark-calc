@@ -163,7 +163,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T02 | Merged | task/T02-app-skeletons | T02-app-skeletons.md | PASS r1 |
 | T03 | Merged locally | task/T03-master-data | T03-master-data.md | PASS r2 |
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
-| T04b | Resumed review fixes (Sol medium fallback after Opus 429) | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1 |
+| T04b | Independent review r2 (Opus medium) | task/T04b-api-consistency | T04b-api-consistency.md | Fix verification passed: 104 API tests, local migrations and statement budgets |
 | T05 | Review passed; awaiting local integration | task/T05-inheritance | T05-inheritance.md | PASS r2; plugin validation and per-pair RulesError follow-ups |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
