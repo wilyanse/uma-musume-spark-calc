@@ -7,7 +7,7 @@ import {
   fingerprint,
   type VeteranCapture,
 } from '@uma/schema';
-import { fixtureMaster, makeCapture, makeHarness, problem, resetDb } from './helpers/harness.ts';
+import { makeCapture, makeHarness, problem, resetDb } from './helpers/harness.ts';
 
 beforeEach(resetDb);
 type H = ReturnType<typeof makeHarness>;
@@ -249,41 +249,8 @@ describe('review queue', () => {
     expect(detail.skills).toHaveLength(capture.veteran.skills.length);
   });
 
-  it('guards two coordinated resolves: one commits and the stale one stays open', async () => {
-    let release!: () => void;
-    const gate = new Promise<void>((resolve) => (release = resolve));
-    let active = false;
-    let masterCalls = 0;
-    const h = makeHarness({
-      master: async () => {
-        if (!active) return fixtureMaster;
-        masterCalls += 1;
-        if (masterCalls === 2) release();
-        await gate;
-        return fixtureMaster;
-      },
-    });
-    const capture = await makeCapture((c) => {
-      withLow('/stats/spd', c.veteran.stats.spd, 'x')(c);
-      withLow('/stats/sta', c.veteran.stats.sta, 'x')(c);
-    });
-    const { veteranId } = await ingest(h, capture);
-    active = true;
-    const items = await openItems(h);
-    expect(items).toHaveLength(2);
-    const responses = await Promise.all(
-      [
-        [items[0]!.id, 884],
-        [items[1]!.id, 700],
-      ].map(([id, value]) => h.call('POST', `/review-items/${id}/resolve`, { value })),
-    );
-    expect(responses.map((r) => r.status).sort()).toEqual([200, 409]);
-    const detail = RosterVeteranDetail.parse(
-      await (await h.call('GET', `/veterans/${veteranId}`)).json(),
-    );
-    expect([detail.stats.spd, detail.stats.sta]).toContain(884);
-    expect(await openItems(h)).toHaveLength(1);
-  });
+  // Resolve races (resolve vs delete/PATCH/ingest/another item/the same item) are in
+  // review-races.test.ts, with the winner chosen by an injected D1 barrier (T04b review r1 B1/N3).
 
   it('accepts an ok provenance field for /trainMode but rejects it when low-confidence', async () => {
     const h = makeHarness();
@@ -305,7 +272,8 @@ describe('review queue', () => {
     await problem(await h.call('POST', '/veterans', rejected), 422);
   });
 
-  it('N4: resolving /sparks/<owner> keeps the owner block in place', async () => {
+  // Owner blocks that already exist (shrink/grow, index remapping) are in review-remap.test.ts.
+  it('N4: resolving /sparks/<owner> for an absent owner appends its block', async () => {
     const h = makeHarness();
     const capture = await makeCapture((c) => {
       c.veteran.sparks = c.veteran.sparks.filter((s) => s.owner !== 'parent1');

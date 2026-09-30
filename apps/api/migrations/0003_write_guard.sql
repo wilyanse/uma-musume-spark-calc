@@ -17,3 +17,9 @@ BEGIN
                          WHERE id = NEW.review_item_id AND veteran_id = NEW.veteran_id
                            AND status = 'open'));
 END;
+
+-- A review item whose index-based `/sparks/<n>…` target was removed by a `/sparks/<owner>`
+-- correction (T04b review r1 S1). Its path is kept (the audit record of what was reviewed) but
+-- that index now names another spark or nothing, so the item is no longer listed: joining it to
+-- the field now at that path would attach another spark's field to it. Internal; not in the API.
+ALTER TABLE review_items ADD COLUMN retired INTEGER NOT NULL DEFAULT 0 CHECK (retired IN (0, 1));

@@ -2,7 +2,8 @@
 
 - **Status:** Done
 - **Branch:** task/T04b-api-consistency
-- **Agent / model:** gpt-5.6-luna-900k
+- **Initial implementation attribution:** recorded as `gpt-5.6-luna-900k` in the prior changelog; the initial requested model and whether fallback selected it are not independently verified here. The preceding Opus retry exhausted HTTP 429 retries without completing this fix.
+- **Review round 1 fix launch:** requested `gpt-6-sol` / `openai-codex`, medium reasoning, profile fallback disabled (explicit orchestrator retry). This is separate from the initial implementation attribution.
 - **Date:** 2026-09-30
 
 ## Summary
@@ -67,7 +68,7 @@ Migrations to be applied: 0001_init.sql, 0002_roster_revision.sql, 0003_write_gu
 19 commands executed successfully; 8 commands executed successfully; 3 commands executed successfully.
 ```
 
-The API test suite includes the deterministic coordinated-resolve race, stale-item preservation, `/trainMode` provenance acceptance/restriction, and spark-owner index remapping. Existing statement-budget coverage remains green at the prior 15-statement ingest limit and 6-query roster limit.
+The initial round-1 review correctly identified that the original 88-test suite did not exercise the actual remap SQL: the absent-owner test used an identity map. The new tests below now exercise both shrink and growth; the earlier coverage claim was premature.
 
 ## Open questions / follow-ups
 - Q-110: T09 must mirror the API/schema parity gap for low-confidence correctability and valid provenance pointers; shared contracts remain unchanged.
@@ -85,3 +86,42 @@ The API test suite includes the deterministic coordinated-resolve race, stale-it
 - T04 review r1 N6: unused `ULID_A` remains.
 - T04 review r1 N7: crop download still buffers bodies before the size check.
 - T04 review r1 N4/index limitation: resolved for owner replacement length changes by remapping/dismissing affected index-based review paths; the shared index-based path contract remains in force.
+
+## Review round 1
+- **B1:** Replaced the microtask-order-dependent test with one-shot D1 batch barriers. Tests explicitly choose DELETE, PATCH, re-ingest, another resolve (both winner directions), or same-item resolve as the winner before the guarded batch; also DELETE just after commit. They assert statuses, unchanged losing values/fields, open-versus-closed item state, counts/orphans, override/mode preservation, fingerprint recomputed from persisted detail, successful retries only for still-open stale items, and 409 for resolved/dismissed retries. The re-ingest clearing low confidence is tested separately. No sleeps.
+- **B2:** Added real shrinking 10→3 and growing 10→13 owner-block integration cases, including two-digit indexes before/inside/after the block. They execute `REMAP_REVIEW_PATHS_SQL` through resolve, compare each survivor's sparkId and field value, retire removed targets, keep unrelated items, and resolve a moved item against only its intended spark. A direct SQL test checks parsing, removed/closed items, unrelated paths/veterans, and repeat remap. The original changelog's untested remap claim is corrected above.
+- **S1:** Added migration 0003's internal `retired` marker; removed-target review rows retain the original path and scalar resolved value, with open rows dismissed. GET excludes retired rows rather than joining an old path to a different spark's current field. Surviving closed paths follow the same spark. Regression tests check both cases. Contract limitation: GET has only current `CaptureField` metadata, not an immutable historical snapshot; it cannot display the removed target's closed audit entry faithfully, so that entry remains in D1 but is omitted from GET. No shared API field added.
+- **S2:** Ingest and resolve now reject low-confidence correction paths targeting whole arrays, array elements, or spark owner/ID leaves; the latter can change identity even without changing array length. Other safe leaf values and the remapped `/sparks/<owner>` correction remain supported. Tests cover rejection at ingest and for legacy open items at resolve, as well as provenance-only acceptance. Q-110 records the rule. Other array containers (`skills`, `deck`, `parents`) are covered for whole-element/array replacements.
+- **S3:** `countingEnv` verifies create/re-ingest=15, roster=6, worst-case owner resolve with actual remap=24, PATCH=7; resolve and PATCH assert ≤50.
+- **S4:** Initial recorded model, uncertain initial fallback provenance, failed Opus HTTP-429 retry and this explicit GPT-6 Sol medium request are separately identified at the top. No claim about an unobserved fallback selection.
+- **N1:** Path helper's comment now describes its actual resolution and unsafe-segment checks.
+- **N2:** Kept orchestrator-reserved Q-110 (not Q-8), moved it to the end of Open without modifying other questions, and explained the reservation in its context.
+- **N3:** Both winner directions are chosen by barriers, not incidental Promise order.
+- **N4:** Documented that syntactically valid unsafe provenance pointers are stored but never applied; a test checks `/__proto__/polluted` creates no item or prototype mutation.
+
+Verification (real output, trimmed):
+```
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test
+Scope: 4 of 5 workspace projects
+packages/schema lint: Done; apps/web lint: Done; packages/master-data lint: Done; apps/api lint: Done
+packages/schema typecheck: Done; apps/web typecheck: Done; packages/master-data typecheck: Done; apps/api typecheck: Done
+packages/schema test: Test Files 4 passed (4); Tests 146 passed (146)
+packages/master-data test: Test Files 3 passed (3); Tests 82 passed (82)
+apps/web test: Test Files 1 passed (1); Tests 5 passed (5)
+apps/api test: Test Files 10 passed (10); Tests 103 passed (103)
+
+$ cd apps/api && pnpm exec vitest run test/ingest.test.ts --reporter=verbose
+statements: create=15 re-ingest=15 roster=6
+statements: resolve(owner+remap)=24 patch=7
+Test Files 1 passed (1); Tests 19 passed (19)
+
+$ pnpm exec prettier --check apps/api
+Checking formatting...
+All matched files use Prettier code style!
+$ git diff --check
+(no output; exit 0)
+
+$ cd apps/api && npx wrangler d1 migrations apply uma-spark-calc --local --persist-to /Users/willjose/.hermes/cache/scratch/t04b-r1-d1
+0001_init.sql ✅ (19 commands); 0002_roster_revision.sql ✅ (8 commands); 0003_write_guard.sql ✅ (4 commands)
+```
+A broad Prettier check including the existing Markdown documents reports style warnings on `docs/OPEN_QUESTIONS.md` and this changelog; the API source/test formatting check is recorded separately below. No workspace build/master-data refresh, push or deploy was run. A second independent review is required before merge.

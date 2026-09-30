@@ -115,6 +115,69 @@ export async function problem(res: Response, status: number): Promise<Problem> {
   return body;
 }
 
+/** When a `barrierEnv` hook runs relative to the intercepted `batch()`. */
+export type BarrierPhase = 'before' | 'after';
+
+/**
+ * Wraps D1 so a test can run code at an exact point of a request, independent of Promise or
+ * microtask order: `on(phase, match, fn)` arms a one-shot hook that fires on the next `batch()`
+ * whose SQL (all statements joined) contains `match`. `before` runs `fn` to completion after the
+ * request has done all its reads but before its batch (transaction) executes, so whatever `fn`
+ * commits deterministically lands inside the request's read-modify-write window. `after` runs it
+ * once the batch has committed, before the request's final reads. Hooks fire once, so a
+ * competing request issued from `fn` through the same env is not intercepted itself.
+ */
+export function barrierEnv(base: Env): {
+  env: Env;
+  on: (phase: BarrierPhase, match: string, fn: () => Promise<void>) => void;
+  fired: () => number;
+} {
+  const hooks: { phase: BarrierPhase; match: string; fn: () => Promise<void> }[] = [];
+  let fired = 0;
+  const take = (phase: BarrierPhase, sql: string) => {
+    const i = hooks.findIndex((k) => k.phase === phase && sql.includes(k.match));
+    if (i < 0) return null;
+    fired += 1;
+    return hooks.splice(i, 1)[0]!.fn;
+  };
+  class Stmt {
+    constructor(
+      readonly inner: D1PreparedStatement,
+      readonly sql: string,
+    ) {}
+    bind(...v: unknown[]) {
+      return new Stmt(this.inner.bind(...v), this.sql);
+    }
+    first(col?: string) {
+      return col === undefined ? this.inner.first() : this.inner.first(col);
+    }
+    all() {
+      return this.inner.all();
+    }
+    run() {
+      return this.inner.run();
+    }
+    raw() {
+      return this.inner.raw();
+    }
+  }
+  const db = {
+    prepare: (sql: string) => new Stmt(base.DB.prepare(sql), sql),
+    batch: async (stmts: Stmt[]) => {
+      const sql = stmts.map((s) => s.sql).join('\n');
+      await take('before', sql)?.();
+      const out = await base.DB.batch(stmts.map((s) => s.inner));
+      await take('after', sql)?.();
+      return out;
+    },
+  };
+  return {
+    env: { ...base, DB: db as unknown as D1Database } as Env,
+    on: (phase, match, fn) => hooks.push({ phase, match, fn }),
+    fired: () => fired,
+  };
+}
+
 /** Wraps D1 so tests can count executed statements (a batch counts each statement, as D1 bills it). */
 export function countingEnv(base: Env): { env: Env; count: () => number; reset: () => void } {
   let n = 0;

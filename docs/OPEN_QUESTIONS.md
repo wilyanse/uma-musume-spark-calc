@@ -40,11 +40,6 @@ Context: GameTora's rank table has numeric ids only; badge names are assumed to 
 Assumption taken: assumed ladder (checked only at A+ = 13,471 from screenshot 02); skill names use U+25EF and vocab includes both glyphs.
 Blocking: no (verify UG/UF… names against a real veteran screenshot)
 
-## Q-110 (T04b) API/schema field-path parity for T09
-Context: the shared `CaptureField.path` schema intentionally accepts any syntactically valid JSON pointer, while the API applies correctability/resolution restrictions only to `low_confidence` fields. In particular, provenance fields such as `ok` `/trainMode` are accepted, but a low-confidence `/trainMode` or unsafe/unresolvable pointer is rejected. The API also remaps index-based spark review paths when a spark-owner correction changes array length.
-Assumption taken: keep shared contracts unchanged; T09 must mirror the API's low-confidence correctability checks and should continue emitting valid provenance pointers. Resolve remains restricted to existing safe targets.
-Blocking: no
-
 ## Q-70 (T07) No endpoint to dismiss a review item
 Context: S03 has a "Dismiss" action (spec 10 §3). 01 §9 only defines `POST /review-items/:id/resolve`; the D1 `review_items.status` CHECK allows `dismissed`.
 Assumption taken: the design keeps the action and expects `POST /api/v1/review-items/:id/dismiss` (no body) → `204`, or a `status` field on the resolve call. Needs a 01 §9 decision (T01/T04).
@@ -89,6 +84,12 @@ Blocking: no
 Context: S07 "not enough held-out data" and S06 "import veterans" empty states need minimum counts. No spec gives them.
 Assumption taken: held-out check needs at least 10 held-out veterans (reuses the 10 §2 "low data" n < 10 threshold); the planner needs at least 2 veterans (two distinct parents). Both are UI assumptions, not model rules. T13/T06 should replace them with the real minimums (e.g. from the 80/20 split).
 Blocking: no
+
+## Q-110 (T04b) API/schema field-path parity for T09
+Context: Q-110 was reserved for T04b by the orchestrator while parallel tasks use other number ranges; it is deliberately not renumbered Q-8. The shared `CaptureField.path` schema accepts any syntactically valid JSON pointer. The API requires `low_confidence` paths (which create correctable review items) to resolve safely: `/trainMode`, unsafe/unresolvable pointers, whole arrays or array elements (`/sparks`, `/sparks/25`, `/skills/2`, etc.), and `/sparks/<n>/owner` or `/sparks/<n>/sparkId` are rejected at ingest and resolve. Other leaf corrections cannot reorder arrays or change a spark's identity; `/sparks/<owner>` is the explicit owner-block correction with review/field remapping and invalidation of removed targets. `ok`/`corrected` paths, even an unsafe pointer such as `/__proto__/polluted`, are provenance only: accepted as data but never applied to a veteran, and never open review items. Removed-spark closed review rows retain their historical scalar value and path internally but cannot be joined safely to current field metadata; the GET contract has no historical field snapshot, so those retired rows are omitted from GET results.
+Assumption taken: keep shared contracts unchanged; T09 must mirror the low-confidence correctability rules, continue emitting valid provenance pointers, and not treat an omitted retired closed item as an active correction.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

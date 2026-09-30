@@ -406,4 +406,54 @@ describe('D1 statement budget (40 §4)', () => {
     expect(create).toBeGreaterThan(5);
     expect(create).toBeLessThanOrEqual(15); // guards against the counter silently counting nothing
   });
+
+  it('worst-case resolve (owner replacement with remap) and PATCH stay ≤ 50 statements (T04b r1 S3)', async () => {
+    const counted = countingEnv(env);
+    const h = makeHarness({}, counted.env);
+    // Every child table non-empty, a shrinking parent1 block (10 → 3) so the remap statement runs,
+    // plus an index-based item after the block that it moves.
+    const capture = await makeCapture((c) => {
+      for (const path of ['/sparks/parent1', '/sparks/25/stars']) {
+        c.fields.push({
+          path,
+          rawText: null,
+          value: null,
+          confidence: 0.2,
+          status: 'low_confidence',
+          candidates: [],
+          cropKey: null,
+        });
+      }
+    });
+    const ingested = IngestResponse.parse(
+      await (await h.call('POST', '/veterans', capture)).json(),
+    );
+    const [ownerItem, movedItem] = ingested.reviewItemIds!;
+    counted.reset();
+    const res = await h.call('POST', `/review-items/${ownerItem}/resolve`, {
+      value: [
+        { sparkId: 'spark:power', type: 'blue', stars: 1 },
+        { sparkId: 'spark:medium', type: 'pink', stars: 1 },
+        { sparkId: 'spark:arima-kinen', type: 'white', stars: 1 },
+      ],
+    });
+    expect(res.status, await res.clone().text()).toBe(200);
+    const resolve = counted.count();
+    // The remap really ran: the later item moved by -7.
+    const moved = await env.DB.prepare('SELECT path FROM review_items WHERE id = ?')
+      .bind(movedItem)
+      .first<{ path: string }>();
+    expect(moved!.path).toBe('/sparks/18/stars');
+    counted.reset();
+    const patched = await h.call('PATCH', `/veterans/${ingested.veteranId}`, {
+      trainMode: 'manual',
+    });
+    expect(patched.status).toBe(200);
+    const patch = counted.count();
+    console.log(`statements: resolve(owner+remap)=${resolve} patch=${patch}`);
+    expect(resolve).toBeGreaterThan(15); // the counter saw the whole batch
+    expect(resolve).toBeLessThanOrEqual(50);
+    expect(patch).toBeGreaterThan(1);
+    expect(patch).toBeLessThanOrEqual(50);
+  });
 });

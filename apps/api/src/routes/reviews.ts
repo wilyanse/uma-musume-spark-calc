@@ -11,7 +11,7 @@ import {
   type ReviewItem,
 } from '@uma/schema';
 import { ApiError, validationError, zodProblems } from '../problem.ts';
-import { OWNER_PSEUDO, extraVeteranChecks, isCorrectablePath, setAtPointer } from '../checks.ts';
+import { OWNER_PSEUDO, correctionTarget, extraVeteranChecks } from '../checks.ts';
 import { nowIso, parseBody, parseQuery, type AppEnv } from '../http.ts';
 import {
   deriveTrainMode,
@@ -36,9 +36,14 @@ interface ReviewRow extends FieldRow {
   resolved_at: string | null;
 }
 
+// Items are listed joined with their field (01 §9), so an item whose field row is gone is not
+// listed, and neither is a `retired` one (migration 0003): a closed item whose spark was removed by
+// a `/sparks/<owner>` correction. Its path still names the old index, which now holds another
+// spark (or nothing); joining it would show that spark's field as its own (T04b review r1 S1).
 const SELECT_REVIEW = `SELECT r.id, r.veteran_id, r.path, r.status AS review_status, r.resolved_value_json,
     r.created_at, r.resolved_at, f.raw_text, f.value_json, f.confidence, f.status, f.candidates_json, f.crop_key
-  FROM review_items r JOIN capture_fields f ON f.veteran_id = r.veteran_id AND f.path = r.path`;
+  FROM review_items r JOIN capture_fields f ON f.veteran_id = r.veteran_id AND f.path = r.path
+  WHERE r.retired = 0`;
 
 const toReviewItem = (r: ReviewRow): ReviewItem => ({
   id: r.id,
@@ -57,7 +62,7 @@ reviews.get('/review-items', async (c) => {
   const stmt =
     status === undefined
       ? c.env.DB.prepare(`${SELECT_REVIEW} ORDER BY r.created_at, r.rowid`)
-      : c.env.DB.prepare(`${SELECT_REVIEW} WHERE r.status = ? ORDER BY r.created_at, r.rowid`).bind(
+      : c.env.DB.prepare(`${SELECT_REVIEW} AND r.status = ? ORDER BY r.created_at, r.rowid`).bind(
           status,
         );
   const { results } = await stmt.all<ReviewRow>();
@@ -82,19 +87,27 @@ function remapSparkPath(path: string, map: number[]): string | null | undefined 
 }
 
 /**
- * The same remapping for every review item of the veteran (open or closed), in SQL so items whose
- * field row is gone are covered too. A retired path is re-pointed at the owner pseudo-path, and an
- * open item there is dismissed: the owner's whole list was just corrected, which supersedes it.
- * ?1 veteran id, ?2 JSON index map, ?3 owner pseudo-path, ?4 now.
+ * The same remapping for the veteran's review items, in SQL so items whose field row is gone are
+ * covered too (exported for tests). For each index-based item (`/sparks/<n>` or `/sparks/<n>/…`):
+ * - the spark survived (`map[n] >= 0`): the path follows it to `/sparks/<map[n]>/…`, open or
+ *   closed, so the item keeps joining the field of the same spark (whose path moves identically
+ *   in JS). Closed items keep their status and resolved value, which still describe that spark.
+ * - the spark was removed (`map[n] < 0`, or `n` past the old array): the path is left as it was
+ *   (it is never rewritten to the owner pseudo-path, whose field is a whole spark list; review
+ *   r1 S1), the item is marked `retired` so it is no longer listed, and an open one is dismissed:
+ *   the owner's whole list was just corrected, which supersedes it.
+ * ?1 veteran id, ?2 JSON index map (old index → new index or -1), ?3 now.
  */
 const idx = `(CASE WHEN instr(substr(path, 9), '/') > 0
                 THEN substr(path, 9, instr(substr(path, 9), '/') - 1) ELSE substr(path, 9) END)`;
 const to = `COALESCE(json_extract(?2, '$[' || CAST(${idx} AS INTEGER) || ']'), -1)`;
-const REMAP_REVIEW_PATHS_SQL = `UPDATE review_items SET
-    path = CASE WHEN ${to} < 0 THEN ?3 ELSE '/sparks/' || ${to} || substr(path, 9 + length(${idx})) END,
+export const REMAP_REVIEW_PATHS_SQL = `UPDATE review_items SET
+    path = CASE WHEN ${to} < 0 THEN path ELSE '/sparks/' || ${to} || substr(path, 9 + length(${idx})) END,
+    retired = CASE WHEN ${to} < 0 THEN 1 ELSE retired END,
     status = CASE WHEN ${to} < 0 AND status = 'open' THEN 'dismissed' ELSE status END,
-    resolved_at = CASE WHEN ${to} < 0 AND status = 'open' THEN ?4 ELSE resolved_at END
-  WHERE veteran_id = ?1 AND path LIKE '/sparks/%' AND ${idx} <> '' AND ${idx} NOT GLOB '*[^0-9]*'`;
+    resolved_at = CASE WHEN ${to} < 0 AND status = 'open' THEN ?3 ELSE resolved_at END
+  WHERE veteran_id = ?1 AND retired = 0 AND path LIKE '/sparks/%' AND ${idx} <> ''
+    AND ${idx} NOT GLOB '*[^0-9]*'`;
 
 // 01 §9: apply the value to the veteran, recompute the fingerprint (409 on collision), resolve.
 // Read-modify-write under optimistic concurrency (T04b): the batch starts with a write guard that
@@ -150,11 +163,16 @@ reviews.post('/review-items/:id/resolve', async (c) => {
       kept += 1;
       return next;
     });
-  } else if (!isCorrectablePath(item.path) || !setAtPointer(draft, item.path, value)) {
-    throw validationError(
-      [{ path: item.path, message: 'this field cannot be corrected through a review item' }],
-      'Unresolvable review path',
-    );
+  } else {
+    // Leaf values only: whole arrays/elements and spark owner/ID leaves are refused, because
+    // they could move or replace sparks under sibling index-based items (review r1 S2; Q-110).
+    const at = correctionTarget(draft, item.path);
+    if (at) at.node[at.key] = value;
+    else
+      throw validationError(
+        [{ path: item.path, message: 'this field cannot be corrected through a review item' }],
+        'Unresolvable review path',
+      );
   }
 
   const parsed = Veteran.safeParse(draft);
@@ -240,11 +258,7 @@ reviews.post('/review-items/:id/resolve', async (c) => {
       db.prepare('DELETE FROM capture_fields WHERE veteran_id = ?').bind(detail.id),
       ...insertFieldsStatement(db, newFingerprint, fields),
       ...(remapped
-        ? [
-            db
-              .prepare(REMAP_REVIEW_PATHS_SQL)
-              .bind(detail.id, JSON.stringify(sparkMap), item.path, now),
-          ]
+        ? [db.prepare(REMAP_REVIEW_PATHS_SQL).bind(detail.id, JSON.stringify(sparkMap), now)]
         : []),
       db
         .prepare(
@@ -262,7 +276,7 @@ reviews.post('/review-items/:id/resolve', async (c) => {
     throw e;
   }
 
-  const row = await db.prepare(`${SELECT_REVIEW} WHERE r.id = ?`).bind(item.id).first<ReviewRow>();
+  const row = await db.prepare(`${SELECT_REVIEW} AND r.id = ?`).bind(item.id).first<ReviewRow>();
   // Only a delete landing right after the commit can make it disappear.
   if (!row) throw new ApiError(404, 'Not Found', 'The veteran of this review item was deleted');
   return c.json(toReviewItem(row));
