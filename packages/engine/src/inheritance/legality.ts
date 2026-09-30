@@ -15,8 +15,10 @@ export interface Legality {
 /** Thrown by `inheritanceExpectation` / `planInheritance` for an illegal pair. */
 export class IllegalPairError extends Error {
   override name = 'IllegalPairError';
-  constructor(readonly reasons: IllegalReason[]) {
+  readonly reasons: IllegalReason[];
+  constructor(reasons: IllegalReason[]) {
     super(`illegal parent pair: ${reasons.join(', ')}`);
+    this.reasons = reasons;
   }
 }
 

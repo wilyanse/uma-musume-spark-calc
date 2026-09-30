@@ -27,7 +27,10 @@ export interface Effect {
   stats: StatVector;
   /** Aptitude grade steps added (integers), before the S cap. */
   aptitudeGrades: Partial<Record<AptKey, number>>;
-  /** Skill hints granted. */
+  /**
+   * Skill hints granted. Within one activation a skill id appears at most once: the engine
+   * merges duplicates (keeping the highest level), so one activation is one hint chance.
+   */
   hints: { skillId: string; level: number }[];
 }
 

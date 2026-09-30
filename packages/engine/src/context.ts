@@ -3,7 +3,7 @@ import { Rules, StatKey, STAT_KEYS } from '@uma/schema';
 import type { Character, Outfit, Skill, Spark } from '@uma/schema';
 import type { MasterBundle } from '@uma/master-data';
 import { compileAffinityFormula } from './formula.ts';
-import { pluginFor, type ScenarioPlugin } from './scenarios/index.ts';
+import { pluginFor, type ScenarioPlugin, type ScenarioPluginFactory } from './scenarios/index.ts';
 
 /** Raised when the rules file cannot drive the engine (malformed, not just unverified). */
 export class RulesError extends Error {
@@ -59,7 +59,11 @@ export interface EngineContext {
   affinityGroupsOf: ReadonlyMap<string, ReadonlyMap<string, number>>;
   /** `a|b` (sorted) -> points, from the optional pairwise table. */
   affinityPairs: ReadonlyMap<string, number>;
-  /** `affinityMultiplier.formula`, parsed (never `eval`ed). */
+  /**
+   * `affinityMultiplier.formula`, parsed (never `eval`ed). Throws `RulesError` when the formula is
+   * not finite (e.g. a pole) or negative at the affinity it is asked for; `FormulaError` never
+   * escapes it.
+   */
   affinityMultiplier: (affinity: number) => number;
   /** Resolved rule tables. */
   tables: {
@@ -88,11 +92,22 @@ function assertFinite(name: string, v: PerStar | number): void {
   if (!xs.every(Number.isFinite)) throw new RulesError(`rules.${name} must be finite numbers`);
 }
 
+/** Optional `loadContext` inputs beyond 50 §1 (all have defaults). */
+export interface LoadContextOptions {
+  /**
+   * Extra scenario plugins keyed by scenario id, used before `SCENARIO_PLUGINS` (tests, or a
+   * caller that knows scenario-specific effects). Rows without a plugin use `DefaultScenario`.
+   */
+  plugins?: Readonly<Record<string, ScenarioPluginFactory>>;
+}
+
 /**
  * 50 §1 `loadContext(master, rules)`. `rules` is taken separately from `master.rules` so callers
  * (tests, T15 calibration) can swap it. The rules object is validated against the 01 §12 schema.
+ * Throws `RulesError` for rules the engine cannot use (schema-invalid, non-finite, fractional
+ * grade gains, unparseable formula or a formula invalid at affinity 0).
  */
-export function loadContext(master: MasterBundle, rulesInput: Rules): EngineContext {
+export function loadContext(master: MasterBundle, rulesInput: Rules, options: LoadContextOptions = {}): EngineContext {
   const parsed = Rules.safeParse(rulesInput);
   if (!parsed.success) throw new RulesError(`invalid rules: ${parsed.error.message}`);
   const rules = parsed.data;
@@ -159,13 +174,29 @@ export function loadContext(master: MasterBundle, rulesInput: Rules): EngineCont
     throw new RulesError('rules.pinkGradeGain must be non-negative integers (grade steps)');
   }
 
-  let affinityMultiplier: (a: number) => number;
+  let rawMultiplier: (a: number) => number;
   try {
-    affinityMultiplier = compileAffinityFormula(rules.affinityMultiplier.formula);
-    affinityMultiplier(0);
+    rawMultiplier = compileAffinityFormula(rules.affinityMultiplier.formula);
   } catch (e) {
     throw new RulesError(`rules.affinityMultiplier.formula: ${(e as Error).message}`);
   }
+  const affinityMultiplier = (affinity: number): number => {
+    let m: number;
+    try {
+      m = rawMultiplier(affinity);
+    } catch (e) {
+      // FormulaError (non-finite result, e.g. a pole at a reachable affinity) becomes a RulesError.
+      throw new RulesError(`rules.affinityMultiplier.formula: ${(e as Error).message}`);
+    }
+    // A negative multiplier would make p < 0 and be silently clamped to 0: reject it instead.
+    if (m < 0) {
+      throw new RulesError(
+        `rules.affinityMultiplier.formula "${rules.affinityMultiplier.formula}" is negative (${m}) at affinity=${affinity}`,
+      );
+    }
+    return m;
+  };
+  affinityMultiplier(0); // fail fast on formulas that are already invalid at affinity 0
 
   // Provenance summary.
   const sourced: [string, { verified: boolean; source: string }][] = [
@@ -201,7 +232,7 @@ export function loadContext(master: MasterBundle, rulesInput: Rules): EngineCont
   }
 
   const scenarios = new Map<string, ScenarioPlugin>();
-  for (const row of master.scenarios) scenarios.set(row.id, pluginFor(row));
+  for (const row of master.scenarios) scenarios.set(row.id, pluginFor(row, options.plugins));
 
   return {
     masterVersion: master.version,

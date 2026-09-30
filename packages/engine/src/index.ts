@@ -3,12 +3,12 @@
  * (`fitTrainingModel`, `predictChild`, `scoreTarget`, `rankPairs`); they are not exported yet.
  */
 export { loadContext, RulesError, STAT_INDEX } from './context.ts';
-export type { EngineContext, PerStar, RaceEffectRow } from './context.ts';
+export type { EngineContext, LoadContextOptions, PerStar, RaceEffectRow } from './context.ts';
 export { compileAffinityFormula, FormulaError } from './formula.ts';
 export { mulberry32, seedFromString } from './rng.ts';
 export type { Rng } from './rng.ts';
 export { defaultScenario, pluginFor, SCENARIO_PLUGINS } from './scenarios/index.ts';
-export type { ScenarioPlugin } from './scenarios/index.ts';
+export type { ScenarioPlugin, ScenarioPluginFactory } from './scenarios/index.ts';
 export { affinity2, affinity3, computeAffinity } from './inheritance/affinity.ts';
 export type { AffinityRelation, AffinityResult } from './inheritance/affinity.ts';
 export { checkLegality, IllegalPairError, traineeCharacter, UnknownIdError } from './inheritance/legality.ts';

@@ -10,9 +10,10 @@
     }
   },
   "scripts": {
-    "lint": "eslint src test vitest.config.ts",
+    "lint": "eslint src test scripts vitest.config.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "smoke": "node scripts/smoke.ts"
   },
   "dependencies": {
     "@uma/master-data": "workspace:*",

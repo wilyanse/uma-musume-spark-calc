@@ -12,8 +12,11 @@ export interface ScenarioPlugin {
   /** Extra model features for T06; may be `{}`. */
   deckFeatures(deck: DeckSlot[], ctx: EngineContext): Record<string, number>;
   /**
-   * Scenario-specific effect of a white spark. Returning `undefined` keeps the rules-driven
-   * default effect; returning an object replaces it (missing fields mean "no effect").
+   * Scenario-specific effect of a white spark. Deviation from 50 §2 (`sparkEffects?(spark, ctx)`):
+   * the first argument is `{spark, stars}` because an effect depends on the star count, and the
+   * result may be `undefined`. Returning `undefined` keeps the rules-driven default effect;
+   * returning an object replaces it (missing fields mean "no effect"). Duplicate hint skill ids in
+   * the result are merged (see `Effect.hints`).
    */
   sparkEffects?(spark: { spark: Spark; stars: Stars }, ctx: EngineContext): Partial<Effect> | undefined;
 }
@@ -28,14 +31,17 @@ export function defaultScenario(row: Scenario): ScenarioPlugin {
   };
 }
 
+/** Builds a plugin from its master-data row. */
+export type ScenarioPluginFactory = (row: Scenario) => ScenarioPlugin;
+
 /**
  * Registered plugins keyed by scenario id. Empty: every Global scenario currently uses
  * `DefaultScenario` (adding a scenario = a master-data row, plus an optional file here).
  */
-export const SCENARIO_PLUGINS: Readonly<Record<string, (row: Scenario) => ScenarioPlugin>> = {};
+export const SCENARIO_PLUGINS: Readonly<Record<string, ScenarioPluginFactory>> = {};
 
-/** The plugin for a scenario row: the registered one, else `DefaultScenario`. */
-export function pluginFor(row: Scenario): ScenarioPlugin {
-  const make = SCENARIO_PLUGINS[row.id];
+/** The plugin for a scenario row: `extra[id]`, else the registered one, else `DefaultScenario`. */
+export function pluginFor(row: Scenario, extra?: Readonly<Record<string, ScenarioPluginFactory>>): ScenarioPlugin {
+  const make = extra?.[row.id] ?? SCENARIO_PLUGINS[row.id];
   return make ? make(row) : defaultScenario(row);
 }

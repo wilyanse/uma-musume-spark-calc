@@ -77,9 +77,14 @@ export interface Contribution {
   /** Probability of at least one activation over all events: 1 − (1 − p)^events. */
   pAny: number;
   /**
-   * Expected effect over the career: stats and aptitude steps are p × events × effect (stats also
-   * include this spark's share of the initial blue bonus); hints carry `prob` = pAny.
-   * Summing the stat vectors of all contributions gives `expectedStatGain`.
+   * This spark's career-start bonus (parent blue sparks only; zeros for everything else,
+   * including grandparent blue sparks). Already included in `expectedEffect.stats`.
+   */
+  initialBonus: StatVector;
+  /**
+   * Expected effect over the career. `stats` = `initialBonus` + p × events × effect.stats, so
+   * summing `stats` over all contributions gives `expectedStatGain` exactly (component-wise).
+   * Aptitude steps are p × events × steps (before the S cap); hints carry `prob` = pAny.
    */
   expectedEffect: {
     stats: StatVector;
@@ -202,18 +207,30 @@ function defaultEffect(ctx: EngineContext, spark: Spark, stars: Stars, warn: (m:
   return effect;
 }
 
-function mergeEffect(partial: Partial<Effect>): Effect {
+function mergeEffect(sparkId: string, partial: Partial<Effect>): Effect {
+  const stats = partial.stats ? ([...partial.stats] as StatVector) : zeros();
+  if (stats.length !== 5 || !stats.every(Number.isFinite)) {
+    throw new RangeError(`${sparkId}: scenario plugin stats must be 5 finite numbers`);
+  }
   return {
-    stats: partial.stats ? ([...partial.stats] as StatVector) : zeros(),
+    stats,
     aptitudeGrades: { ...(partial.aptitudeGrades ?? {}) },
     hints: [...(partial.hints ?? [])],
   };
 }
 
+/** One activation hints a skill at most once (N1): duplicates keep the highest level. */
+function dedupeHints(hints: Effect['hints']): Effect['hints'] {
+  const byId = new Map<string, number>();
+  for (const h of hints) byId.set(h.skillId, Math.max(byId.get(h.skillId) ?? -Infinity, h.level));
+  return [...byId].map(([skillId, level]) => ({ skillId, level }));
+}
+
 /**
  * Builds the activation list for a trainee, two legacies and a scenario. Throws
- * `IllegalPairError` for an illegal pair and `UnknownIdError` for an unknown outfit / scenario.
- * Unknown spark ids are skipped and reported (never guessed).
+ * `IllegalPairError` for an illegal pair, `UnknownIdError` for an unknown outfit / scenario, and
+ * `RulesError` when the affinity multiplier formula is non-finite or negative at a source's
+ * actual affinity. Unknown spark ids are skipped and reported (never guessed).
  */
 export function planInheritance(
   ctx: EngineContext,
@@ -265,8 +282,10 @@ export function planInheritance(
       let effect = defaultEffect(ctx, spark, ref.stars, warn);
       if (spark.type === 'white' && plugin.sparkEffects) {
         const custom = plugin.sparkEffects({ spark, stars: ref.stars }, ctx);
-        if (custom) effect = mergeEffect(custom);
+        if (custom) effect = mergeEffect(spark.id, custom);
       }
+      // 50 §3: parents' blue sparks only. rules.json's cited source says the bonus is additive
+      // over every legacy *and sub-legacy*; the spec wins here (see Q-3 / T15 in the changelog).
       const initialBonus = zeros();
       if (spark.type === 'blue' && spark.target.kind === 'stat' && (from === 'P1' || from === 'P2')) {
         const k = STAT_INDEX[spark.target.stat];
@@ -279,6 +298,7 @@ export function planInheritance(
           throw new RangeError(`${spark.id}: aptitude gain for ${apt} must be a non-negative integer, got ${g}`);
         }
       }
+      effect = { ...effect, hints: dedupeHints(effect.hints) };
       activations.push({ sparkId: spark.id, from, type: spark.type, kind, stars: ref.stars, p, effect, initialBonus });
     }
   }
@@ -334,11 +354,13 @@ export function expectationFromPlan(plan: InheritancePlan): InheritanceResult {
 
   for (const a of plan.activations) {
     const pAny = 1 - (1 - a.p) ** n;
-    const stats = zeros();
+    // B1: the initial bonus is part of this spark's effect (already in `expected` via
+    // `plan.initialStatBonus`, so it is added here to the contribution only).
+    const stats = [...a.initialBonus] as StatVector;
     for (let k = 0; k < 5; k++) {
       const g = a.effect.stats[k] as number;
       const mean = n * a.p * g;
-      stats[k] = mean;
+      addAt(stats, k, mean);
       addAt(expected, k, mean);
       const row = cov[k] as number[];
       for (let j = 0; j < 5; j++) addAt(row, j, n * a.p * (1 - a.p) * g * (a.effect.stats[j] as number));
@@ -362,6 +384,7 @@ export function expectationFromPlan(plan: InheritancePlan): InheritanceResult {
       stars: a.stars,
       p: a.p,
       pAny,
+      initialBonus: [...a.initialBonus] as StatVector,
       expectedEffect: { stats, aptitudeGrades, hints },
     });
   }
