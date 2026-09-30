@@ -171,7 +171,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T09 | Resumed; partial work preserved (Opus medium, pinned) | task/T09-agent-core | T09-agent-core.md | Pending |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
-| T12 | Independent review r1; deployment waits for H2 | task/T12-devops | T12-devops.md | Gate A passed; review running |
+| T12 | Fixing review r1 (Opus medium); deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 |
 | T13 | Not started | | | |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
