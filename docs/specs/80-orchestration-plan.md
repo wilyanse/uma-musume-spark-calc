@@ -152,7 +152,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04 | In progress | task/T04-api-core | | |
 | T05 | Not started | | | |
 | T06 | Not started | | | |
-| T07 | In progress | | | |
+| T07 | Merged; H5 design approval pending | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
 | T09 | Not started | | | |
 | T10 | Not started | | | |

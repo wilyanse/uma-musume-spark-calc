@@ -158,7 +158,7 @@ Loads `GET /api/v1/cm-targets` → `CmTarget[]` (01 §10).
 | Table: rank | Index in `RankedPair[]`. |
 | Table: parent 1 / parent 2 names | `RankedPair.parents[0|1]` → `RV` → `M.characters.name`. |
 | P(meet target) | `RankedPair.pMeet` (50 §6). |
-| n beside P(meet), aptitude and spark probabilities | Assumption: the model training n, `ModelSnapshot` fitted-row count (S07 "Training rows"). Per-skill n: Q-76. |
+| n beside P(meet), aptitude and spark probabilities | `ModelSnapshot.nSamples` (S07 "Training rows"). Per-skill n: Q-76. |
 | Stat surplus | `RankedPair.surplus`. |
 | Affinity | `RankedPair.affinity.total` (50 §3). |
 | Bottleneck | `RankedPair.bottleneck` (50 §6). |
