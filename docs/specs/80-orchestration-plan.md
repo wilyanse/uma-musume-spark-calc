@@ -1,15 +1,15 @@
 # 80 — Orchestration plan
 
 ## 1. How orchestration works
-- **Orchestrator:** Hermes (Claude Opus) in the main checkout `~/Projects/personal/uma-musume-spark-calc`, on `main`. It creates worktrees, dispatches workers, reviews diffs, runs the verification commands itself, merges into local `main` and adds one line to `CHANGELOG.md`. **Pushing** to `origin main` happens at the end of each wave, after the user has reviewed the wave summary (the user reviews before anything is published).
-- **Workers:** Claude **Sonnet 5.5**, reasoning **medium**. Each task runs in its own git worktree at `../uma-musume-spark-calc.worktrees/Txx-<slug>` on branch `task/Txx-<slug>`, created from the current `main`. Launch:
+- **Orchestrator:** Hermes in the main checkout `~/Projects/personal/uma-musume-spark-calc`, on `main`. It creates worktrees, dispatches workers, reviews diffs, runs the verification commands itself, merges into local `main` and adds one line to `CHANGELOG.md`. **Pushing** to `origin main` happens at the end of each wave, after the user has reviewed the wave summary (the user reviews before anything is published).
+- **Workers:** Claude **Opus 5.5**, reasoning **medium**, first; **GPT-6 Sol**, reasoning **medium** via `openai-codex`, fallback if Opus is unavailable or provider-blocked (user direction). Preserve partial work when switching; record the reason and actual model. Each task runs in its own git worktree at `../uma-musume-spark-calc.worktrees/Txx-<slug>` on branch `task/Txx-<slug>`, created from the current `main`. Launch:
   ```
-  hermes chat --oneshot -Q --provider anthropic -m claude-sonnet-5-5 --reasoning medium \
+  hermes chat --oneshot -Q --provider anthropic -m claude-opus-5-5 --reasoning medium \
     --query-file docs/tasks/Txx.prompt.md        # run with workdir = the task worktree
   ```
   The prompt file contains the task card from §4 plus: "Read AGENTS.md first. Write docs/changelog/Txx-<slug>.md. Commit on your branch. Don't push."
 - **Parallelism:** at most **4** workers at a time. Tasks in the same wave with no `Needs` between them run in parallel.
-- **Review gate per task:** orchestrator gate A (changelog, scope, re-run verification), then an **independent reviewer** (Opus 5.5, high, read-only) per `85-implementation-review.md`. A task merges (`--no-ff`) only on reviewer `PASS` + a green re-run. `CHANGES_REQUESTED` goes back to the worker, for at most 2 rounds; after that the orchestrator fixes it or escalates.
+- **Review gate per task:** orchestrator gate A (changelog, scope, re-run verification), then an **independent reviewer** (Opus 5.5 medium first, GPT-6 Sol medium fallback, fresh read-only session) per `85-implementation-review.md`. A task merges (`--no-ff`) only on reviewer `PASS` + a green re-run. `CHANGES_REQUESTED` goes back to the worker, for at most 2 rounds; after that the orchestrator fixes it or escalates.
 - **Status:** tracked in §5 of this file and updated by the orchestrator only.
 
 ## 2. Waves
@@ -77,6 +77,18 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Owns: `apps/api/src/**`, `apps/api/migrations/**`, `apps/api/test/**`.
 - Needs: T01, T02.
 - Done when: 40 §5.
+
+### T04b — API review consistency hardening
+- Spec: 01 §3–9, 40 §4–5, `docs/reviews/T04-review-2.md` S1–S2 and nits; T04 review round 1 follow-ups.
+- Owns: `apps/api/src/**`, `apps/api/test/**`, `apps/api/migrations/**` only if an additive migration is required; `docs/OPEN_QUESTIONS.md` (append only).
+- Needs: T04.
+- Done when:
+  - Concurrent corrections of one veteran cannot silently lose updates: atomically guard the loaded revision, return 409 on a stale correction, and do not mark its review resolved.
+  - Resolve versus deletion never resurrects a veteran or leaves orphaned children; concurrent PATCH/ingest versus resolve preserve override and field consistency. Deterministic race tests demonstrate this.
+  - `ok` provenance `/trainMode` is accepted by ingest; correctability restrictions apply to low-confidence review fields only. Unsafe pointers remain rejected for corrections. Document the remaining API/schema validation gap for T09; do not edit shared contracts.
+  - Spark owner replacements cannot leave existing open index-based review paths targeting different sparks; test length changes and stale review handling.
+  - Fix review r2 N1–N3 misleading comments/assertions; record all remaining review follow-ups explicitly.
+  - Full TS lint/typecheck/tests pass; ingest remains <=15 statements and every invocation remains within the D1 statement budget. No deployment or production config edits.
 
 ### T05 — Engine: inheritance and scenarios
 - Spec: 50 §1–3, §9 (T05), 01 §11–12.
@@ -148,16 +160,17 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T01 | Merged | task/T01-monorepo-contracts | T01-monorepo-contracts.md | PASS r1 (8 should-fix → T01b) |
 | T01b | Merged | task/T01b-contract-hardening | T01b-contract-hardening.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T02 | Merged | task/T02-app-skeletons | T02-app-skeletons.md | PASS r1 |
-| T03 | In progress | | | |
-| T04 | In progress | task/T04-api-core | | |
-| T05 | Not started | | | |
+| T03 | Merged locally | task/T03-master-data | T03-master-data.md | PASS r2 |
+| T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
+| T04b | Queued | task/T04b-api-consistency | T04b-api-consistency.md | Pending |
+| T05 | Queued | task/T05-inheritance | T05-inheritance.md | Pending |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
-| T09 | Not started | | | |
+| T09 | Queued | task/T09-agent-core | T09-agent-core.md | Pending |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
-| T12 | Not started | | | |
+| T12 | Queued | task/T12-devops | T12-devops.md | Pending |
 | T13 | Not started | | | |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
