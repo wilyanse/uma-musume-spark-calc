@@ -1,0 +1,100 @@
+[
+  {
+    "id": "skill:the-duty-of-dignity-calls",
+    "name": "The Duty of Dignity Calls",
+    "aliases": [],
+    "rarity": "unique",
+    "tags": []
+  },
+  {
+    "id": "skill:corner-recovery",
+    "name": "Corner Recovery",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:straightaway-adept",
+    "name": "Straightaway Adept",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:ramp-up",
+    "name": "Ramp Up",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:nimble-navigator",
+    "name": "Nimble Navigator",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:prepared-to-pass",
+    "name": "Prepared to Pass",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:medium-corners",
+    "name": "Medium Corners",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:long-corners",
+    "name": "Long Corners",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:vanguard-spirit",
+    "name": "Vanguard Spirit",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:pace-chaser-straightaways",
+    "name": "Pace Chaser Straightaways",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:hydrate",
+    "name": "Hydrate",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:front-runner-savvy",
+    "name": "Front Runner Savvy",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:uma-stan",
+    "name": "Uma Stan",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  },
+  {
+    "id": "skill:groundwork",
+    "name": "Groundwork",
+    "aliases": [],
+    "rarity": "normal",
+    "tags": []
+  }
+]

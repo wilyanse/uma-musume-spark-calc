@@ -1,0 +1,72 @@
+[
+  {
+    "id": "card:fixture-card-1",
+    "name": "Fixture card 1",
+    "title": "",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [],
+    "artHashes": []
+  },
+  {
+    "id": "card:fixture-card-2",
+    "name": "Fixture card 2",
+    "title": "",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [],
+    "artHashes": []
+  },
+  {
+    "id": "card:fixture-card-3",
+    "name": "Fixture card 3",
+    "title": "",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [],
+    "artHashes": []
+  },
+  {
+    "id": "card:fixture-card-4",
+    "name": "Fixture card 4",
+    "title": "",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [],
+    "artHashes": []
+  },
+  {
+    "id": "card:fixture-card-5",
+    "name": "Fixture card 5",
+    "title": "",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [],
+    "artHashes": []
+  },
+  {
+    "id": "card:fixture-card-6",
+    "name": "Fixture card 6",
+    "title": "",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [],
+    "artHashes": []
+  },
+  {
+    "id": "card:kitasan-black-ssr",
+    "name": "Kitasan Black",
+    "title": "",
+    "type": "speed",
+    "rarity": "SSR",
+    "hintSkillIds": [],
+    "eventSkillIds": [],
+    "artHashes": []
+  }
+]
