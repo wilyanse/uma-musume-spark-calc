@@ -12,6 +12,8 @@ wt="$WT_BASE/$tid-$slug"; branch="task/$tid-$slug"
 provider="${ORCH_PROVIDER:-anthropic}"
 model="${ORCH_MODEL:-claude-opus-5-5}"
 reasoning="${ORCH_REASONING:-medium}"
+# Ignore profile defaults so its fallback chain cannot select an unrequested model.
+# Credentials still load. Provider/model/effort and tool budget are explicit per run.
 mkdir -p "$ROOT/.orch/logs" "$WT_BASE"
 if [ ! -d "$wt" ]; then
   git -C "$ROOT" worktree add -b "$branch" "$wt" main
@@ -21,12 +23,14 @@ case "$mode" in
   worker)
     prompt="$ROOT/docs/tasks/$tid.prompt.md"; log="$ROOT/.orch/logs/$tid-worker.log"
     [ -n "${ORCH_RESUME:-}" ] && prompt="$ROOT/docs/tasks/$tid.fix-$round.prompt.md" && log="$ROOT/.orch/logs/$tid-fix-$round.log"
-    cd "$wt" && hermes chat --oneshot -Q --yolo --provider "$provider" -m "$model" --reasoning "$reasoning" \
+    if [ -f "$log" ]; then cp "$log" "$log.$(date +%Y%m%d-%H%M%S).previous"; fi
+    cd "$wt" && hermes chat --oneshot -Q --ignore-user-config --yolo --provider "$provider" -m "$model" --reasoning "$reasoning" \
       --max-turns 400 --query-file "$prompt" >"$log" 2>&1
     ;;
   review)
     prompt="$ROOT/docs/tasks/$tid.review-$round.prompt.md"; log="$ROOT/.orch/logs/$tid-review-$round.log"
-    cd "$wt" && hermes chat --oneshot -Q --yolo --provider "$provider" -m "$model" --reasoning "$reasoning" \
+    if [ -f "$log" ]; then cp "$log" "$log.$(date +%Y%m%d-%H%M%S).previous"; fi
+    cd "$wt" && hermes chat --oneshot -Q --ignore-user-config --yolo --provider "$provider" -m "$model" --reasoning "$reasoning" \
       --max-turns 200 --query-file "$prompt" >"$log" 2>&1
     ;;
 esac

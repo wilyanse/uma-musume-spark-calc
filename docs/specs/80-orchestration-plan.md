@@ -10,6 +10,7 @@
   The prompt file contains the task card from §4 plus: "Read AGENTS.md first. Write docs/changelog/Txx-<slug>.md. Commit on your branch. Don't push."
 - **Parallelism:** at most **4** workers at a time. Tasks in the same wave with no `Needs` between them run in parallel.
 - **Review gate per task:** orchestrator gate A (changelog, scope, re-run verification), then an **independent reviewer** (Opus 5.5 medium first, GPT-6 Sol medium fallback, fresh read-only session) per `85-implementation-review.md`. A task merges (`--no-ff`) only on reviewer `PASS` + a green re-run. `CHANGES_REQUESTED` goes back to the worker, for at most 2 rounds; after that the orchestrator fixes it or escalates.
+- **Pinned launch policy:** `scripts/orch.sh` uses `--ignore-user-config` with explicit provider/model/medium effort so the profile's unrelated fallback cannot run. On failure, preserve logs and partial work, probe Opus first, then explicitly retry with `ORCH_PROVIDER=openai-codex ORCH_MODEL=gpt-6-sol` if needed. Never infer actual model from initial session metadata alone after fallback.
 - **Status:** tracked in §5 of this file and updated by the orchestrator only.
 
 ## 2. Waves
@@ -162,15 +163,15 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T02 | Merged | task/T02-app-skeletons | T02-app-skeletons.md | PASS r1 |
 | T03 | Merged locally | task/T03-master-data | T03-master-data.md | PASS r2 |
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
-| T04b | Running (Opus medium) | task/T04b-api-consistency | T04b-api-consistency.md | Pending |
+| T04b | Independent review r1 | task/T04b-api-consistency | T04b-api-consistency.md | Gate A passed; review running |
 | T05 | Independent review r1 | task/T05-inheritance | T05-inheritance.md | Gate A passed; review running |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
-| T09 | Running (Opus medium) | task/T09-agent-core | T09-agent-core.md | Pending |
+| T09 | Resumed; partial work preserved (Opus medium, pinned) | task/T09-agent-core | T09-agent-core.md | Pending |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
-| T12 | Running (Opus medium) | task/T12-devops | T12-devops.md | Pending |
+| T12 | Independent review r1; deployment waits for H2 | task/T12-devops | T12-devops.md | Gate A passed; review running |
 | T13 | Not started | | | |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
