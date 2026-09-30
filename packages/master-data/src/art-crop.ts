@@ -7,10 +7,13 @@
  * tile (docs/reference/screenshots/13-support-card-list.png) the rarity badge sits top-left, the type
  * icon top-right, and the LB diamonds + "Lvl N" text along the bottom. The box keeps the middle band:
  * x 10%..90%, y 34%..78% (below the badge / type icon, above the diamonds / level text).
- * The same box is applied to the GameTora 128x128 art thumbnail (`support_card_s_<id>.png`), whose
- * rarity badge also sits top-left within the top third.
- * CAVEAT (Q-5): the in-game tile is portrait and the thumbnail is square, so the two show slightly
- * different framings of the art. Hamming-distance thresholds must be calibrated on real captures.
+ * The same box is applied to GameTora's full portrait `tex_support_card_<id>.png` (450x600), which has
+ * the same framing as the in-game tile. NOT the 128x128 `support_card_s_<id>.png` thumbnail: that is a
+ * face close-up and ranks ~180th of 255 against the real tile (review B1). Checked on screenshot 13:
+ * the first tile (The Brightest Star in Japan!, Special Week) is Hamming 7 from its portrait hash and
+ * the nearest of all 255 cards (test/bundle.test.ts).
+ * CAVEAT (Q-5): the screenshot is a scaled, lossy capture, so a Hamming threshold still has to be
+ * calibrated on real captures; matching by nearest hash works today.
  *
  * CHAR_ICON_CROP: the face of the round `chr_icon_<charId>.png` (256x256): x 18%..82%, y 15%..75%
  * (inside the circular border, excluding the transparent/white corners).

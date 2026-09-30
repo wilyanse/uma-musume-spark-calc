@@ -2152,17 +2152,17 @@
   {
     "kind": "scenario",
     "id": "scenario:trackblazer",
+    "text": "TS Climax Scenario"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:trackblazer",
     "text": "Trackblazer"
   },
   {
     "kind": "scenario",
     "id": "scenario:trackblazer",
     "text": "Trackblazer: Start of the Climax"
-  },
-  {
-    "kind": "scenario",
-    "id": "scenario:trackblazer",
-    "text": "TS Climax Scenario"
   },
   {
     "kind": "scenario",
@@ -2178,11 +2178,6 @@
     "kind": "scenario",
     "id": "scenario:ura-finale",
     "text": "The Beginning: URA Finale"
-  },
-  {
-    "kind": "scenario",
-    "id": "scenario:ura-finale",
-    "text": "Ura Finale"
   },
   {
     "kind": "scenario",

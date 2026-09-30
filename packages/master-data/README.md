@@ -14,3 +14,7 @@ pnpm --filter @uma/master-data build -- --date 20260930 # version = global-<date
 - `src/art-crop.ts` holds the crop boxes mirrored by `agent/layouts/*.json`.
 - `overrides/ids.json` pins slug-collision IDs (auto-written); `overrides/aliases.json` adds in-game spelling aliases.
 - Images are decoded in memory (sharp) and never written to disk; only hashes are stored.
+
+Requires Node >= 22.18 (unflagged TypeScript type stripping, needed by `node src/build.ts`); older 22.x needs `--experimental-strip-types`.
+`--replace` rebuilds the current `global-<date>` folder in place instead of creating `-2` (use for fixes within a version).
+`overrides/ids.json` pins EVERY allocated ID (`<kind>:<gameId>` -> id) so IDs never change across updates (01 §1); never edit or delete entries.

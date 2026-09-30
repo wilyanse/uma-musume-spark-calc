@@ -68,7 +68,8 @@ describe('normalise', () => {
   });
   it('resolves slug collisions with -2 and reports them for overrides/ids.json', () => {
     expect(n.outfits.map((o) => o.id)).toEqual(['outfit:same-title', 'outfit:same-title-2']);
-    expect(n.ids).toEqual({ 'outfit:100101': 'outfit:same-title', 'outfit:100201': 'outfit:same-title-2' });
+    expect(n.ids['outfit:100101']).toBe('outfit:same-title');
+    expect(n.ids['outfit:100201']).toBe('outfit:same-title-2');
   });
   it('honours pinned IDs so collisions stay stable', () => {
     const swapped = normalise(rawFixture(), { ids: { 'outfit:100101': 'outfit:same-title-2', 'outfit:100201': 'outfit:same-title' }, aliases: {} });
@@ -89,6 +90,13 @@ describe('normalise', () => {
     expect(n.affinity.groups).toEqual([{ id: 'relation:101', members: ['character:alpha', 'character:beta'], points: 2 }]);
     expect(n.characters[0]?.affinityGroups).toEqual(['relation:101']);
   });
+  it('uses the in-game casing from the static scenario factor (review S4)', () => {
+    const raw = rawFixture();
+    raw.staticScenarios = [{ id: 1, factors: [{ name_en: 'URA Finale' }] }] as never;
+    const r = normalise(raw, { ids: {}, aliases: {} });
+    expect(r.scenarios[0]?.name).toBe('URA Finale');
+    expect(r.scenarios[0]?.id).toBe('scenario:ura-finale');
+  });
   it('excludes scenarios without a Global start date', () => {
     expect(n.scenarios.map((s) => s.id)).toEqual(['scenario:ura-finale']);
     expect(n.scenarios[0]?.statCap).toBe(2000);
@@ -103,5 +111,36 @@ describe('normalise', () => {
     expect(r.cards[0]?.hintSkillIds).toEqual(['skill:corner-recovery']);
     expect(r.cards[0]?.eventSkillIds).toEqual([]);
     expect(r.gaps.some((g) => g.includes('skill 4'))).toBe(true);
+  });
+});
+
+describe('ID stability across Global updates (01 §1, review B2)', () => {
+  it('keeps a previously allocated slug when a NEW entity with a lower gameId shares it', () => {
+    const before = rawFixture();
+    before.skills.push({ id: 50, name_en: 'Forward March!', rarity: 1 });
+    const first = normalise(before, { ids: {}, aliases: {} });
+    expect(first.skills.find((s) => s.gameId === 50)?.id).toBe('skill:forward-march');
+
+    const after = rawFixture();
+    after.skills.push({ id: 50, name_en: 'Forward March!', rarity: 1 }, { id: 5, name_en: 'Forward March!', rarity: 1 });
+    const second = normalise(after, { ids: first.ids, aliases: {} });
+    expect(second.skills.find((s) => s.gameId === 50)?.id).toBe('skill:forward-march'); // existing ID unchanged
+    expect(second.skills.find((s) => s.gameId === 5)?.id).toBe('skill:forward-march-2'); // newcomer moves
+    // Regression guard: without the previous pins the lower gameId steals the base ID (the round-1 bug).
+    expect(normalise(after, { ids: {}, aliases: {} }).skills.find((s) => s.gameId === 50)?.id).toBe('skill:forward-march-2');
+  });
+
+  it('pins every allocation, is deterministic, and never drops retired pins', () => {
+    const a = normalise(rawFixture(), { ids: {}, aliases: {} });
+    const b = normalise(rawFixture(), { ids: a.ids, aliases: {} });
+    expect(b.ids).toEqual(a.ids);
+    expect(a.ids['character:1001']).toBe('character:alpha');
+    expect(a.ids['skill:3']).toBe('skill:corner-recovery');
+    const retired = normalise(rawFixture(), { ids: { ...a.ids, 'skill:99': 'skill:gone' }, aliases: {} });
+    expect(retired.ids['skill:99']).toBe('skill:gone');
+  });
+
+  it('rejects two pin keys that claim the same ID', () => {
+    expect(() => normalise(rawFixture(), { ids: { 'skill:1': 'skill:x', 'skill:2': 'skill:x' }, aliases: {} })).toThrow(/both/);
   });
 });

@@ -142,7 +142,7 @@ export interface Normalised {
   /** Card titles/names for OCR; `kind: 'card'` isn't in the schema's vocab enum yet (Q-4). */
   cardVocab: { kind: 'card'; id: string; text: string }[];
   rules: Rules;
-  /** Pins to write back to overrides/ids.json. */
+  /** Full pin map (every allocated ID, plus retired ones) to write back to overrides/ids.json. */
   ids: IdPins;
   /** Non-fatal data gaps, for SOURCES.md and the build log. */
   gaps: string[];
@@ -157,6 +157,9 @@ export interface Normalised {
 // ---------------------------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------------------------
+/** Code-unit comparison: locale/ICU independent, so output is identical on every machine. */
+const cmp = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -197,40 +200,41 @@ const CARD_RARITY: Record<number, SupportCard['rarity']> = { 1: 'R', 2: 'SR', 3:
 const SKILL_RARITY: Record<number, Skill['rarity']> = { 1: 'normal', 2: 'gold', 3: 'unique', 4: 'unique', 5: 'unique', 6: 'evolved' };
 const GRADES = new Set(['G', 'F', 'E', 'D', 'C', 'B', 'A', 'S']);
 
-/** Allocates `<kind>:<slug>` IDs; collisions get -2, -3… and every member of a collision group is pinned. */
+/**
+ * Allocates `<kind>:<slug>` IDs. IDs are stable across Global updates (01 §1): `pins` maps every
+ * previously allocated pin key (`<kind>:<gameId>`) to its ID, and all pinned IDs are reserved up
+ * front, so a NEW entity that shares a slug with an existing one (even with a lower gameId) gets
+ * `-2`, `-3`… and never takes the existing entity's ID. Every allocation is reported back via
+ * `allPins()`; the build merges them into overrides/ids.json.
+ */
 class IdAllocator {
   private readonly used = new Map<string, string>(); // id -> pin key
-  private readonly bySlug = new Map<string, string[]>(); // base id -> pin keys
   readonly assigned = new Map<string, string>(); // pin key -> id
   private readonly pins: IdPins;
   constructor(pins: IdPins) {
     this.pins = pins;
-    for (const [key, id] of Object.entries(pins)) this.used.set(id, key);
+    for (const [key, id] of Object.entries(pins)) {
+      const other = this.used.get(id);
+      if (other !== undefined) throw new Error(`overrides/ids.json pins ${id} to both ${other} and ${key}`);
+      this.used.set(id, key);
+    }
   }
   allocate(kind: string, pinKey: string, name: string): string {
-    const base = `${kind}:${slugify(name) || 'unnamed'}`;
-    const keys = this.bySlug.get(base) ?? [];
-    keys.push(pinKey);
-    this.bySlug.set(base, keys);
     const pinned = this.pins[pinKey];
     if (pinned) {
       this.assigned.set(pinKey, pinned);
       return pinned;
     }
+    const base = `${kind}:${slugify(name) || 'unnamed'}`;
     let id = base;
     for (let n = 2; this.used.has(id); n++) id = `${base}-${n}`;
     this.used.set(id, pinKey);
     this.assigned.set(pinKey, id);
     return id;
   }
-  /** Pins for every entry that shares a base slug with another one. */
-  collisionPins(): IdPins {
-    const out: IdPins = {};
-    for (const keys of this.bySlug.values()) {
-      if (keys.length < 2) continue;
-      for (const k of keys) out[k] = this.assigned.get(k) as string;
-    }
-    return out;
+  /** Previous pins (kept even if the entity vanished, so its ID is never reused) + this run's allocations. */
+  allPins(): IdPins {
+    return { ...this.pins, ...Object.fromEntries(this.assigned) };
   }
 }
 
@@ -345,12 +349,15 @@ export function normalise(raw: RawBundle, overrides: Overrides): Normalised {
   const scenarios: Scenario[] = [];
   const scenarioIdByGame = new Map<number, string>();
   for (const s of raw.scenarios.filter((x) => x.start_en && x.name_en).sort((a, b) => a.id - b.id)) {
-    const id = alloc.allocate('scenario', `scenario:${s.id}`, s.name_en as string);
-    scenarioIdByGame.set(s.id, id);
     const st = staticById.get(s.id);
+    // GameTora's `name_en` is title-cased ("Ura Finale"); the game and spec write "URA Finale". The
+    // static scenario factor carries the in-game spelling, so prefer it when it only differs in case.
+    const gameName = st?.factors.map((f) => f.name_en).find((n) => n && n.toLowerCase() === (s.name_en as string).toLowerCase()) ?? (s.name_en as string);
+    const id = alloc.allocate('scenario', `scenario:${s.id}`, gameName);
+    scenarioIdByGame.set(s.id, id);
     scenarios.push({
       id,
-      name: s.name_en as string,
+      name: gameName,
       statCap: s.hard_caps[0] as number,
       // The Global turn numbers of the inspiration events aren't in any cited source (Q-4).
       inheritanceTurns: [],
@@ -479,12 +486,10 @@ export function normalise(raw: RawBundle, overrides: Overrides): Normalised {
     epithetIds.add(id);
     addVocab('epithet', id, n.name_en_gl as string);
   }
-  const vocab = [...vocabMap.values()].sort(
-    (a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id) || a.text.localeCompare(b.text),
-  );
+  const vocab = [...vocabMap.values()].sort((a, b) => cmp(a.kind, b.kind) || cmp(a.id, b.id) || cmp(a.text, b.text));
   const cardVocab = cards
     .flatMap((c) => [c.title, c.name].map((text) => ({ kind: 'card' as const, id: c.id, text })))
-    .sort((a, b) => a.id.localeCompare(b.id) || a.text.localeCompare(b.text));
+    .sort((a, b) => cmp(a.id, b.id) || cmp(a.text, b.text));
 
   return {
     characters,
@@ -498,7 +503,7 @@ export function normalise(raw: RawBundle, overrides: Overrides): Normalised {
     vocab,
     cardVocab,
     rules: buildRules(raw, scenarioIdByGame, staticByFactorGroup),
-    ids: alloc.collisionPins(),
+    ids: alloc.allPins(),
     gaps,
     imageJobs: {
       characters: characters.map((c) => ({ id: c.id, charId: c.gameId as number })),
@@ -529,7 +534,7 @@ export function buildRankNames(count: number): string[] {
 // rules.json (01 §12): everything verified:false with a source. Unknown numbers are 0 and say so.
 // ---------------------------------------------------------------------------------------------
 const GT_LEGACIES = 'https://gametora.com/umamusume/legacies';
-const GT_CALC_JS = 'https://gametora.com/_next/static/chunks/2464-2e90db37675bc47e.js (compatibility calculator, spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`)';
+const GT_CALC_JS = 'https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return"blue"===t?i=[.7,.8,.9]:"red"===t||"aptitude"===t?i=[.01,.03,.05]:"green"===t?i=[.05,.1,.15]:"race"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`)';
 const GT_FACTORS = 'https://gametora.com/data/umamusume/factors.<hash>.json';
 const UNKNOWN = 'UNKNOWN: no cited source; 0 is a placeholder to be calibrated by T15 (Q-3)';
 

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -17,6 +17,9 @@ import {
   VocabFile,
 } from '@uma/schema';
 import { createHash } from 'node:crypto';
+import sharp from 'sharp';
+import { CARD_ART_CROP, VETERAN_ICON_CROP } from '../src/art-crop.ts';
+import { dhash, hamming, type CropBox } from '../src/dhash.ts';
 
 const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..', '..', '..', 'apps', 'web', 'public', 'master');
 const latest = MasterLatest.parse(JSON.parse(readFileSync(join(ROOT, 'latest.json'), 'utf8')));
@@ -48,7 +51,15 @@ describe('bundle', () => {
   });
 
   it('only contains the expected files (no images or downloaded art)', () => {
-    for (const f of readdirSync(dir)) expect(f.endsWith('.json'), f).toBe(true);
+    const png = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
+    let total = 0;
+    for (const f of readdirSync(dir)) {
+      expect(f.endsWith('.json'), f).toBe(true);
+      const bytes = readFileSync(join(dir, f));
+      total += bytes.length;
+      expect(bytes.subarray(0, 4).equals(png), `${f} starts with PNG magic`).toBe(false);
+    }
+    expect(total).toBeLessThan(3_000_000);
   });
 
   it('is sorted by id (deterministic output)', () => {
@@ -95,11 +106,14 @@ describe('no dangling references', () => {
       if (s.target.kind === 'scenario') expect(scenarioIds.has(s.target.scenarioId), s.id).toBe(true);
     }
     const uniqueSkillIds = new Set(outfits.map((o) => o.uniqueSkillId));
-    for (const s of sparks.filter((x) => x.type === 'green')) {
+    const outfitGameIds = new Set(outfits.map((o) => o.gameId));
+    const greens = sparks.filter((x) => x.type === 'green');
+    expect(greens.length).toBeGreaterThan(0);
+    for (const s of greens) {
       expect(s.target.kind).toBe('skill');
-      if (s.target.kind === 'skill') expect(skillIds.has(s.target.skillId)).toBe(true);
+      if (s.target.kind === 'skill') expect(uniqueSkillIds.has(s.target.skillId), `${s.id} -> ${s.target.skillId} is not an outfit unique skill`).toBe(true);
+      expect(outfitGameIds.has(s.gameId as number), `${s.id} gameId ${s.gameId} is not an outfit`).toBe(true);
     }
-    expect(uniqueSkillIds.size).toBeGreaterThan(0);
   });
   it('affinity groups -> characters and back', () => {
     for (const g of affinity.groups) for (const m of g.members) expect(charIds.has(m), `${g.id} -> ${m}`).toBe(true);
@@ -137,7 +151,7 @@ describe('Global-only content', () => {
   });
   it('scenarios are the four with a Global start date', () => {
     expect(scenarios.map((s) => s.name).sort()).toEqual(
-      ['Brighter Together Our Grand Concert', 'Trackblazer', 'Unity Cup', 'Ura Finale'].sort(),
+      ['Brighter Together Our Grand Concert', 'Trackblazer', 'Unity Cup', 'URA Finale'].sort(),
     );
     for (const s of scenarios) expect(s.statCap).toBeGreaterThanOrEqual(1);
   });
@@ -259,7 +273,40 @@ describe('image hashes', () => {
     expect(characters.filter((c) => c.iconHashes.length > 0).length).toBeGreaterThanOrEqual(characters.length * 0.95);
     expect(cards.filter((c) => c.artHashes.length > 0).length).toBeGreaterThanOrEqual(cards.length * 0.95);
   });
-  it('the committed bundle contains no image bytes', () => {
-    expect(existsSync(join(dir, 'gaps.txt'))).toBe(false);
+});
+
+// Real-screenshot regressions: hashes of the committed bundle must identify what the agent will see.
+const SHOTS = join(ROOT, '..', '..', '..', '..', 'docs', 'reference', 'screenshots');
+async function hashRegion(file: string, [left, top, width, height]: number[], crop: CropBox): Promise<string> {
+  const { data, info } = await sharp(join(SHOTS, file))
+    .extract({ left: left as number, top: top as number, width: width as number, height: height as number })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  return dhash({ width: info.width, height: info.height, data }, crop);
+}
+
+describe('image hashes match real screenshots', () => {
+  it('screenshot 13, first tile: nearest card artHash is The Brightest Star in Japan! (Special Week) (review B1)', async () => {
+    const tile = await hashRegion('13-support-card-list.png', [273, 93, 101, 134], CARD_ART_CROP);
+    const ranked = cards
+      .flatMap((c) => c.artHashes.map((h) => ({ id: c.id, d: hamming(h, tile) })))
+      .sort((a, b) => a.d - b.d || (a.id < b.id ? -1 : 1));
+    expect(ranked[0]?.id).toBe('card:the-brightest-star-in-japan-special-week');
+    expect(ranked[0]?.d).toBeLessThanOrEqual(12);
+    expect((ranked[1]?.d as number) - (ranked[0]?.d as number)).toBeGreaterThanOrEqual(5); // clear margin
+  });
+
+  it('screenshot 05, Legacy 1 portrait: Special Week is in the top 3 characters by iconHashes (review S5)', async () => {
+    // chr_icon hashes are a different pose from the in-game portrait, so only top-k is asserted.
+    const boxes = [[296, 730, 110, 112], [300, 735, 105, 105], [292, 728, 115, 118]];
+    for (const box of boxes) {
+      const p = await hashRegion('05-veteran-details-career-info-deck-legacy.png', box, VETERAN_ICON_CROP);
+      const ranked = characters
+        .map((c) => ({ name: c.name, d: Math.min(...c.iconHashes.map((h) => hamming(h, p))) }))
+        .sort((a, b) => a.d - b.d || (a.name < b.name ? -1 : 1));
+      const rank = ranked.findIndex((r) => r.name === 'Special Week');
+      expect(rank, `crop ${box.join(',')}`).toBeLessThan(3);
+    }
   });
 });

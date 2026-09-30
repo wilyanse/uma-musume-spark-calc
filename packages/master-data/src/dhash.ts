@@ -23,6 +23,9 @@
  * 6. HEX. The 64 bits are packed MSB-first (bit for row 0 / column 0 is the most significant bit) and
  *    written as 16 lowercase hex digits.
  *
+ * C# NOTE: the per-cell luma sums (up to ~255000 * cell pixels, ~1e8 for a 1080p crop) and the
+ * cross-multiplied products in step 5 (~2e14) exceed Int32; use `long` (Int64) for both.
+ *
  * Test vectors: `test/dhash.vectors.json`, produced by the independent `scripts/dhash_ref.py`.
  */
 

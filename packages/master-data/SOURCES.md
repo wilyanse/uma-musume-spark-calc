@@ -23,10 +23,11 @@ The pages are a Next.js static export whose `__NEXT_DATA__` is empty; the client
 | `nicknames` | epithets (`name_en_gl`, e.g. "Independent Learner") for OCR vocab |
 | `en/db-files/single_mode_rank` | ranks → min rating (98 rows, Global copy) |
 | `en/db-files/succession_relation`, `…_member` | affinity groups (relation_type → points; members = char ids), Global copy |
-| images (hashed in memory only) | `https://gametora.com/images/umamusume/supports/support_card_s_<support_id>.png`, `…/characters/icons/chr_icon_<char_id>.png`, `https://media.gametora.com/umamusume/characters/veteran_icon/<card_id>_01.png` |
+| images (hashed in memory only) | `https://gametora.com/images/umamusume/supports/tex_support_card_<support_id>.png` (450×600 full portrait; same framing as the in-game tile. The 128×128 `support_card_s_<id>.png` face thumbnail is NOT used, review B1), `…/characters/icons/chr_icon_<char_id>.png`, `https://media.gametora.com/umamusume/characters/veteran_icon/<card_id>_01.png` |
 
-Pages read for rules: `https://gametora.com/umamusume/legacies`, `https://gametora.com/umamusume/compatibility` and its chunk
-`https://gametora.com/_next/static/chunks/2464-2e90db37675bc47e.js`.
+Pages read for rules: `https://gametora.com/umamusume/legacies`, `https://gametora.com/umamusume/compatibility` and the calculator script it loaded on 2026-09-30
+(`/_next/static/chunks/2464-2e90db37675bc47e.js`; Next.js chunk hashes rotate and that URL now returns 404, so cite the page + snippet, not the chunk).
+Quoted snippet (fetched 2026-09-30): `i=[.03,.06,.09];return"blue"===t?i=[.7,.8,.9]:"red"===t||"aptitude"===t?i=[.01,.03,.05]:"green"===t?i=[.05,.1,.15]:"race"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)` with `l=1+(Number(r)||0)/100`.
 
 ## Per-field sources for rules.json (all `verified:false`)
 | Field | Value | Source |
@@ -45,8 +46,11 @@ Affinity symbols in the calculator: total > 50 ⇒ ◯, > 150 ⇒ ◎ (recorded 
 - **Inheritance turn numbers** per scenario: not published; `scenarios.json.inheritanceTurns` is `[]` and `extra.inheritanceTurnsVerified:false` (Q-4).
 - **Rank names**: `single_mode_rank` has numeric ids only. Names G…UG…US9 are an assumed ladder (98 rows = 18 + 8×10); verified only at one point (13,471 → A+, screenshot 02). Q-6.
 - **Circle glyph**: GameTora writes `○` (U+25CB); the game/spec use `◯` (U+25EF). Skill names use `◯`; vocab carries both. Q-6.
-- **Card ↔ character `characterId`** is omitted for the 5 cards of non-playable/JP-only characters (guest/friend cards such as Tazuna).
-- **Card art hashes** come from GameTora's square 128×128 thumbnails, not the in-game portrait tile: thresholds need calibration on real captures (Q-5).
+- **Card ↔ character `characterId`** is omitted for 54 of the 255 cards: their character is not playable on Global yet (e.g. Twin Turbo, Zenno Rob Roy, Sirius Symboli, Daitaku Helios) or is a guide/friend character (e.g. Tazuna). Cards are still listed because they are released on Global.
+- **Card art hashes** come from GameTora's full portrait `tex_support_card_<id>.png`. On screenshot 13 the first tile is nearest to its own card (Hamming 7, test in `bundle.test.ts`); a match threshold is still uncalibrated (Q-5).
+- **Portrait (character) hashes**: `chr_icon` / `veteran_icon` show a different pose than the in-game Legacy portrait; on screenshot 05 Special Week ranks 1st of 68 for three crop placements (test), but treat portrait matching as top-k, not exact.
+- **Ambiguous vocab texts** (T09's matcher must handle several ids per text): "Carnival Bonus" (two skills) and "Indomitable" (a gold and a unique skill). The same-kind ambiguity is real in game data; disambiguate by context/`kind` or by the skill's rarity.
+- **ID stability**: `overrides/ids.json` pins every allocated ID (`<kind>:<gameId>` → id); IDs already in it are never re-slugged, so a new entity with a lower gameId and the same slug gets `-2`.
 - **Card vocab**: `vocab.json` can't hold card names (schema enum); they are in `vocab-cards.json` (Q-4).
 - Dropped on Global (logged at build time in `.cache/gaps.txt`): 21 white skill sparks whose target skill isn't released on Global, the Grandmasters scenario spark, one event skill (Straight Course ○, id 202992) on 5 cards; 10 scenarios without a Global start date.
 - Secondary sources (community master.mdb dumps) were **not** used.

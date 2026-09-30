@@ -25,8 +25,8 @@ Assumption taken: (a) `inheritanceTurns: []` with `extra.inheritanceTurnsVerifie
 Blocking: no (orchestrator: decide whether to add `card` to the VocabEntry kind enum in `@uma/schema`)
 
 ## Q-5 (T03) Card art hash framing
-Context: card art hashes are computed from GameTora's 128×128 art thumbnails; the in-game list tile is portrait with badge, LB diamonds and level text. Framing differs, so Hamming thresholds are unknown.
-Assumption taken: one shared crop box (`art-crop.ts`); the agent should match by nearest hash and T09/T15 calibrate the threshold on real captures.
+Context: card art hashes are computed from GameTora's full portrait `tex_support_card_<id>.png` (450×600), using one crop box (`art-crop.ts`). Round-1 review showed the earlier 128×128 `support_card_s` thumbnail was a face close-up that did not match tiles. With the portrait, the first tile of screenshot 13 is Hamming 7 from its own card and the nearest of 255. The Hamming distance to accept as a match is still unknown (real captures are scaled/lossy).
+Assumption taken: match by nearest hash with a margin; T09/T15 calibrate the threshold on real captures across more than one tile.
 Blocking: no
 
 ## Q-6 (T03) Rank names and the ◯ glyph

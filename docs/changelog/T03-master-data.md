@@ -73,6 +73,41 @@ Verified-by-eye from real data: ranks — rating 13,471 (screenshot 02) maps to 
 - **Q-6** rank names beyond `A+` are an assumed ladder; ◯/○ glyph handling.
 - Q-3 (existing): `blueStatGain` and `whiteHintLevels` still unknown; all rules `verified:false`.
 - Follow-up: the agent's `layouts/*.json` must mirror `art-crop.ts` (permille) — T09.
-- Follow-up: `fetch.sh` can be deleted once the orchestrator is happy with `src/fetch.ts`.
+- (Done in review round 1) `fetch.sh` deleted.
 - Follow-up: 21 white skill sparks and one event skill dropped as not released on Global (listed in `SOURCES.md` → Gaps); re-run the build after Global updates.
 - Note: the bundle version is the build date; rebuilding on the same day creates `-2`.
+
+## Review round 1
+Review file: `docs/reviews/T03-review-1.md`. The bundle was rebuilt in place under the SAME version `global-20260930` (`node src/build.ts --replace --date 20260930`; new `--replace` flag avoids `-2`). Existing IDs unchanged (all 623 skill IDs compared before/after: 0 changed); `overrides/ids.json` grew 173 -> 1704 pins.
+
+- **B1 fixed.** Card hashes now come from `tex_support_card_<id>.png` (450x600, in memory only). Updated `build.ts`, the `art-crop.ts` comment, SOURCES.md and Q-5. New test `bundle.test.ts` "screenshot 13, first tile": crops the tile at (273,93,101,134), asserts the nearest `artHashes` entry is `card:the-brightest-star-in-japan-special-week`, Hamming <= 12, and a margin >= 5 to the runner-up. Probe output: nearest = that card at distance 7-ish (see test), 255/255 cards hashed. No image bytes committed.
+- **B2 fixed.** `IdAllocator` now reserves every previously pinned ID up front and pins are looked up before slug allocation, so a newcomer with a lower gameId takes `-2`. `ids.json` now stores every allocated ID (retired pins are kept so IDs are never reused); duplicate pinned IDs throw. Tests: "keeps a previously allocated slug when a NEW entity with a lower gameId shares it" (asserts the old bug happens with no pins), "pins every allocation, is deterministic, never drops retired pins", "rejects two pin keys that claim the same ID". Not re-run: the reviewer's exact JP-skill 120461 repro against the real cache (covered by the unit test instead).
+- **S1** the no-image-bytes test now checks every file is `.json`, has no PNG magic bytes, and total size < 3 MB.
+- **S2** green-spark test now asserts each green target is in the set of outfit unique skills and that `gameId` is an outfit gameId.
+- **S3** SOURCES.md now says 54 (of 255) cards lack `characterId`, with the real reason (character not yet playable on Global, or a guide character). Count checked: 255 cards, 201 with `characterId`.
+- **S4** scenario name uses the in-game casing from the static scenario factor: `URA Finale` (id `scenario:ura-finale` unchanged). The bundle test and a normaliser test assert it.
+- **S5** new screenshot-05 test: for three crop placements of the Legacy 1 portrait, Special Week is in the top 3 by `iconHashes` (measured rank 1st for all three, Hamming 13/13/14). `chr_icon` hashes are kept (dropping them was not needed); SOURCES notes portrait matching is top-k only.
+- **S6** `fetch.sh` deleted.
+- **S7** failed image fetches are no longer cached; only successful hashes are written to `.cache/hashes.json`.
+- **S8** SOURCES.md and the `rules.json` source strings now cite the compatibility page URL, the fetch date (2026-09-30), and the quoted snippet, and say the chunk URL is 404 now. All rules stay `verified:false`.
+- **N1** `vocab`/`cardVocab` use code-unit comparison (`cmp`); no `localeCompare` remains in `src/`. The vocab output order changed slightly (scenario texts), no content changes besides the S4 rename.
+- **N2** ambiguous texts ("Carnival Bonus", "Indomitable") documented in SOURCES.md Gaps.
+- **N3** `dhash.ts` header says the C# mirror must use `long`.
+- **N4** README states Node >= 22.18 for `node src/build.ts`.
+- Q-4 to Q-6 keep their numbers; Q-5 was rewritten.
+
+### Verification (real output)
+```
+$ node src/build.ts --replace --date 20260930          (online, image hashing with tex_support_card_*)
+... hashes: 68/68 characters, 255/255 cards  (gaps: 28 = same as before, no image gaps)
+$ node src/build.ts --offline --replace --date 20260930   (twice) ; shasum of every file under apps/web/public/master
+IDENTICAL_TWICE
+$ node src/build.ts --offline --date 20260930 ; diff -r global-20260930 global-20260930-2
+DIRS_IDENTICAL     (the -2 folder was deleted and latest.json restored to global-20260930)
+$ pnpm -r lint          -> both packages Done, no errors
+$ pnpm -r typecheck     -> both packages Done, no errors
+$ pnpm -r test
+packages/schema test:  Test Files  4 passed (4)   Tests  124 passed (124)
+packages/master-data test:  Test Files  3 passed (3)   Tests  82 passed (82)
+$ probe (screenshot 05, three crops): Special Week rank index 0, 0, 0 (distances 13, 13, 14)
+```

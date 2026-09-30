@@ -43,7 +43,7 @@ const log = (m: string) => console.log(m);
 
 const json = (v: unknown) => `${JSON.stringify(v, null, 2)}\n`;
 const sha256 = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex');
-const byId = <T extends { id: string }>(list: T[]) => [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+const byId = <T extends { id: string }>(list: T[]) => [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)); // code-unit order, never localeCompare
 
 function readOverrides(): Overrides {
   const read = <T>(name: string, fallback: T): T => {
@@ -55,16 +55,16 @@ function readOverrides(): Overrides {
 
 // --- image hashing (bytes never touch the repo; only hashes are cached, under .cache/) -----------
 const hashCachePath = join(CACHE_DIR, 'hashes.json');
-const hashCache: Record<string, string | null> = existsSync(hashCachePath) ? JSON.parse(readFileSync(hashCachePath, 'utf8')) : {};
+// Only successful hashes are cached: a failed fetch (404/5xx/network) is retried on the next online build.
+const hashCache: Record<string, string> = existsSync(hashCachePath) ? JSON.parse(readFileSync(hashCachePath, 'utf8')) : {};
 
 async function hashImage(url: string, crop: CropBox, gaps: string[], offline: boolean): Promise<string | undefined> {
   const key = `v${DHASH_VERSION}|${JSON.stringify(crop)}|${url}`;
-  if (key in hashCache) return hashCache[key] ?? undefined;
+  if (hashCache[key]) return hashCache[key];
   if (offline) return undefined;
   try {
     const res = await politeFetch(url);
     if (!res.ok) {
-      hashCache[key] = null;
       gaps.push(`image ${url}: HTTP ${res.status}; no hash`);
       return undefined;
     }
@@ -81,8 +81,9 @@ async function hashImage(url: string, crop: CropBox, gaps: string[], offline: bo
   }
 }
 
-function pickVersion(date: string): string {
+function pickVersion(date: string, replace: boolean): string {
   const base = `global-${date}`;
+  if (replace) return base; // --replace: rebuild the same version in place (used for review fixes)
   const taken = existsSync(OUT_ROOT) ? new Set(readdirSync(OUT_ROOT)) : new Set<string>();
   if (!taken.has(base)) return base;
   for (let n = 2; ; n++) if (!taken.has(`${base}-${n}`)) return `${base}-${n}`;
@@ -120,7 +121,9 @@ async function main() {
     }
     for (const c of n.characters) c.iconHashes = charIcons.get(c.id) ?? [];
     for (const job of n.imageJobs.cards) {
-      const h = await hashImage(`${IMAGE_BASE}/supports/support_card_s_${job.supportId}.png`, CARD_ART_CROP, gaps, offline);
+      // Full 450x600 portrait, NOT the 128x128 `support_card_s_<id>.png` face thumbnail (review B1):
+      // only the portrait has the same framing as the in-game tile.
+      const h = await hashImage(`${IMAGE_BASE}/supports/tex_support_card_${job.supportId}.png`, CARD_ART_CROP, gaps, offline);
       const card = n.cards.find((c) => c.id === job.id);
       if (card && h) card.artHashes = [h];
     }
@@ -148,7 +151,7 @@ async function main() {
     'vocab-cards': n.cardVocab,
   };
 
-  const version = pickVersion(opt('date') ?? new Date().toISOString().slice(0, 10).replaceAll('-', ''));
+  const version = pickVersion(opt('date') ?? new Date().toISOString().slice(0, 10).replaceAll('-', ''), flag('replace'));
   const dir = join(OUT_ROOT, version);
   mkdirSync(dir, { recursive: true });
   const latest: MasterLatest = { version, files: {}, sha256: {} };
@@ -161,7 +164,7 @@ async function main() {
   writeFileSync(join(OUT_ROOT, 'latest.json'), json(MasterLatest.parse(latest)));
 
   mkdirSync(OVERRIDES_DIR, { recursive: true });
-  writeFileSync(join(OVERRIDES_DIR, 'ids.json'), json(Object.fromEntries(Object.entries(n.ids).sort())));
+  writeFileSync(join(OVERRIDES_DIR, 'ids.json'), json(Object.fromEntries(Object.entries(n.ids).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))));
   writeFileSync(join(CACHE_DIR, 'gaps.txt'), `${gaps.join('\n')}\n`);
   log(`wrote ${dir}`);
   for (const [k, v] of Object.entries(files)) log(`  ${k}: ${Array.isArray(v) ? v.length : Object.keys(v as object).length}`);
