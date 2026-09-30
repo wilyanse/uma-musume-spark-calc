@@ -21,20 +21,29 @@ export type AuthMode =
 
 /**
  * Decides how to authenticate (40 §3), failing closed:
- *  - `AUTH_DISABLED` is honoured only when no Access config is present at all (local dev/tests).
- *    Set next to a team domain or AUD (i.e. production-shaped config) it's a misconfiguration.
+ *  - `AUTH_DISABLED=1` is honoured only when (a) no Access config is present and (b) the request
+ *    host is local (`localhost`, `127.0.0.1`, `[::1]`). A stray var on a deployed Worker is reached
+ *    through a public host name, so it fails closed instead of opening the API (T04 review S4).
+ *    Residual risk: a deployment whose public host name were literally `localhost` (impossible on
+ *    workers.dev or a Cloudflare zone, where the host is a name Cloudflare routes to us).
  *  - An empty `ACCESS_TEAM_DOMAIN` or a missing `ACCESS_AUD` is a misconfiguration, never a
  *    reason to skip the issuer/audience checks (T02 review N5).
  */
-export function resolveAuthMode(env: Env): AuthMode {
+export const isLocalHost = (host: string): boolean =>
+  host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host.endsWith('.localhost');
+
+export function resolveAuthMode(env: Env, host: string): AuthMode {
   const team = (env.ACCESS_TEAM_DOMAIN ?? '').trim();
   const aud = (env.ACCESS_AUD ?? '').trim();
   const disabledFlag = (env.AUTH_DISABLED ?? '') !== '';
   if (disabledFlag) {
-    if (env.AUTH_DISABLED === '1' && team === '' && aud === '') return { kind: 'disabled' };
+    if (env.AUTH_DISABLED === '1' && team === '' && aud === '' && isLocalHost(host)) {
+      return { kind: 'disabled' };
+    }
     return {
       kind: 'misconfigured',
-      reason: 'AUTH_DISABLED must not be set when ACCESS_TEAM_DOMAIN or ACCESS_AUD is configured',
+      reason:
+        'AUTH_DISABLED is only honoured on a local host (localhost / 127.0.0.1) with no ACCESS_TEAM_DOMAIN or ACCESS_AUD',
     };
   }
   if (team === '') return { kind: 'misconfigured', reason: 'ACCESS_TEAM_DOMAIN is not set' };
@@ -157,7 +166,7 @@ export function accessAuth(deps: Pick<Deps, 'now' | 'fetchJson'>): MiddlewareHan
   const verify = createJwtVerifier(deps);
   return async (c, next) => {
     if (c.req.path === '/api/v1/health') return next();
-    const mode = resolveAuthMode(c.env);
+    const mode = resolveAuthMode(c.env, new URL(c.req.url).hostname);
     if (mode.kind === 'disabled') return next();
     if (mode.kind === 'misconfigured') {
       throw new ApiError(

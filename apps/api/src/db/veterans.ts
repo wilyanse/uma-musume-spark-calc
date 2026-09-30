@@ -64,8 +64,16 @@ const upsertSql = (conflict: 'id' | 'fingerprint') =>
        ? `train_mode = CASE WHEN veterans.mode_source = 'override' THEN veterans.train_mode ELSE excluded.train_mode END`
        : c === 'mode_source'
          ? `mode_source = veterans.mode_source`
-         : `${c} = excluded.${c}`,
-   ).join(', ')}`;
+         : c === 'updated_at'
+           ? // Always strictly after created_at, so `created_at = updated_at` means "inserted just now".
+             `updated_at = CASE WHEN excluded.updated_at > veterans.created_at THEN excluded.updated_at
+                ELSE strftime('%Y-%m-%dT%H:%M:%fZ', veterans.created_at, '+0.001 seconds') END`
+           : `${c} = excluded.${c}`,
+   ).join(', ')}
+   RETURNING id, created_at = updated_at AS created`;
+
+/** The persisted id of a veteran, resolved inside the transaction (never a JS-side guess; B1). */
+export const ID_BY_FINGERPRINT = '(SELECT id FROM veterans WHERE fingerprint = ?1)';
 
 const CHILD_TABLES = [
   'veteran_skills',
@@ -81,6 +89,12 @@ const CHILD_TABLES = [
  * Insertion order is preserved in rowid: it is the only record of the capture's array order,
  * which review-item paths such as `/sparks/3/stars` index into.
  */
+export interface UpsertResult {
+  id: string;
+  created: number;
+}
+
+/** Statement 0 of the returned list is the upsert; its single RETURNING row is the persisted id. */
 export function writeVeteranStatements(
   db: D1Database,
   v: Veteran,
@@ -118,31 +132,33 @@ export function writeVeteranStatements(
       ),
   ];
   for (const t of CHILD_TABLES) {
-    stmts.push(db.prepare(`DELETE FROM ${t} WHERE veteran_id = ?`).bind(meta.id));
+    stmts.push(
+      db.prepare(`DELETE FROM ${t} WHERE veteran_id = ${ID_BY_FINGERPRINT}`).bind(meta.fingerprint),
+    );
   }
   const insertMany = (sql: string, rows: unknown[]) => {
-    if (rows.length > 0) stmts.push(db.prepare(sql).bind(meta.id, JSON.stringify(rows)));
+    if (rows.length > 0) stmts.push(db.prepare(sql).bind(meta.fingerprint, JSON.stringify(rows)));
   };
   insertMany(
     `INSERT INTO veteran_skills (veteran_id, skill_id, level)
-     SELECT ?1, json_extract(value, '$.s'), json_extract(value, '$.l') FROM json_each(?2) ORDER BY key`,
+     SELECT ${ID_BY_FINGERPRINT}, json_extract(value, '$.s'), json_extract(value, '$.l') FROM json_each(?2) ORDER BY key`,
     v.skills.map((k) => ({ s: k.skillId, l: k.level })),
   );
   insertMany(
     `INSERT INTO veteran_sparks (veteran_id, owner, spark_id, type, stars)
-     SELECT ?1, json_extract(value, '$.o'), json_extract(value, '$.s'), json_extract(value, '$.t'),
+     SELECT ${ID_BY_FINGERPRINT}, json_extract(value, '$.o'), json_extract(value, '$.s'), json_extract(value, '$.t'),
             json_extract(value, '$.n') FROM json_each(?2) ORDER BY key`,
     v.sparks.map((k) => ({ o: k.owner, s: k.sparkId, t: k.type, n: k.stars })),
   );
   insertMany(
     `INSERT INTO veteran_deck (veteran_id, slot, card_id, lb, level, borrowed)
-     SELECT ?1, json_extract(value, '$.n'), json_extract(value, '$.c'), json_extract(value, '$.l'),
+     SELECT ${ID_BY_FINGERPRINT}, json_extract(value, '$.n'), json_extract(value, '$.c'), json_extract(value, '$.l'),
             json_extract(value, '$.v'), json_extract(value, '$.b') FROM json_each(?2) ORDER BY key`,
     v.deck.map((d) => ({ n: d.slot, c: d.cardId, l: d.lb, v: d.level, b: d.borrowed ? 1 : 0 })),
   );
   insertMany(
     `INSERT INTO veteran_parents (veteran_id, slot, character_id, outfit_id, is_guest, guest_trainer)
-     SELECT ?1, json_extract(value, '$.n'), json_extract(value, '$.c'), json_extract(value, '$.o'),
+     SELECT ${ID_BY_FINGERPRINT}, json_extract(value, '$.n'), json_extract(value, '$.c'), json_extract(value, '$.o'),
             json_extract(value, '$.g'), json_extract(value, '$.t') FROM json_each(?2) ORDER BY key`,
     v.parents.map((p) => ({
       n: p.slot,
@@ -157,7 +173,7 @@ export function writeVeteranStatements(
 
 export function insertFieldsStatement(
   db: D1Database,
-  veteranId: string,
+  fingerprint: string,
   fields: CaptureField[],
 ): D1PreparedStatement[] {
   if (fields.length === 0) return [];
@@ -174,11 +190,11 @@ export function insertFieldsStatement(
     db
       .prepare(
         `INSERT INTO capture_fields (veteran_id, path, raw_text, value_json, confidence, status, candidates_json, crop_key)
-         SELECT ?1, json_extract(value, '$.p'), json_extract(value, '$.r'), json_extract(value, '$.v'),
+         SELECT ${ID_BY_FINGERPRINT}, json_extract(value, '$.p'), json_extract(value, '$.r'), json_extract(value, '$.v'),
                 json_extract(value, '$.c'), json_extract(value, '$.s'), json_extract(value, '$.x'),
                 json_extract(value, '$.k') FROM json_each(?2) ORDER BY key`,
       )
-      .bind(veteranId, JSON.stringify(rows)),
+      .bind(fingerprint, JSON.stringify(rows)),
   ];
 }
 
@@ -194,12 +210,15 @@ export function insertFieldsStatement(
  */
 export function matchParentsStatement(
   db: D1Database,
-  veteranId: string,
+  veteran: { id: string } | { fingerprint: string },
   pairs: [string, string][],
 ): D1PreparedStatement {
   const p1 = pairs[0];
   if (!p1) throw new Error('matchParentsStatement: at least one pair is required');
   const p2 = pairs[1] ?? p1;
+  // `?1` is either the id itself or the fingerprint the id is looked up by inside the batch.
+  const [idExpr, ref] =
+    'id' in veteran ? ['?1', veteran.id] : [ID_BY_FINGERPRINT, veteran.fingerprint];
   return db
     .prepare(
       `UPDATE veteran_parents SET matched_veteran_id = (
@@ -218,10 +237,10 @@ export function matchParentsStatement(
                                WHERE os.veteran_id = c.id AND os.owner = 'self'
                                  AND os.spark_id = ps.spark_id AND os.stars = ps.stars)))
        WHERE is_guest = 0 AND outfit_id IS NOT NULL
-         AND (veteran_id = ?1 OR matched_veteran_id = ?1
+         AND (veteran_id = ${idExpr} OR matched_veteran_id = ${idExpr}
               OR (character_id = ?2 AND outfit_id = ?3) OR (character_id = ?4 AND outfit_id = ?5))`,
     )
-    .bind(veteranId, p1[0], p1[1], p2[0], p2[1]);
+    .bind(ref, p1[0], p1[1], p2[0], p2[1]);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -366,11 +385,14 @@ function assemble(r: VeteranRow, ch: Children): RosterVeteran {
 /** Roster summary used for the ETag (40 §4): 1 query. */
 export async function rosterStamp(
   db: D1Database,
-): Promise<{ maxUpdated: string | null; count: number }> {
+): Promise<{ revision: number; maxUpdated: string | null; count: number }> {
   const row = await db
-    .prepare('SELECT MAX(updated_at) AS max_updated, COUNT(*) AS n FROM veterans')
-    .first<{ max_updated: string | null; n: number }>();
-  return { maxUpdated: row?.max_updated ?? null, count: row?.n ?? 0 };
+    .prepare(
+      `SELECT (SELECT revision FROM roster_meta WHERE id = 1) AS revision,
+              MAX(updated_at) AS max_updated, COUNT(*) AS n FROM veterans`,
+    )
+    .first<{ revision: number | null; max_updated: string | null; n: number }>();
+  return { revision: row?.revision ?? 0, maxUpdated: row?.max_updated ?? null, count: row?.n ?? 0 };
 }
 
 /** Whole roster in 5 queries (40 §4: ≤ 6 with the stamp), assembled in JS. */

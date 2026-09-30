@@ -1,3 +1,4 @@
+import { env } from 'cloudflare:workers';
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
   IngestResponse,
@@ -182,18 +183,92 @@ describe('review queue', () => {
     );
   });
 
-  it('refuses paths that do not exist in the veteran, and prototype-pollution pointers', async () => {
+  it('rejects unresolvable field paths at ingest (S3c), incl. prototype-pollution pointers', async () => {
     const h = makeHarness();
-    await ingest(
-      h,
-      await makeCapture((c) => {
-        c.fields.push(low('/nope/deeper', 1, 'x'), low('/__proto__/polluted', 1, 'x'));
-      }),
-    );
-    for (const item of await openItems(h)) {
-      await problem(await h.call('POST', `/review-items/${item.id}/resolve`, { value: 1 }), 422);
+    for (const path of ['/nope/deeper', '/__proto__/polluted', '/trainMode', '/sparks/99/stars']) {
+      const res = await h.call(
+        'POST',
+        '/veterans',
+        await makeCapture((c) => {
+          c.fields.push(low(path, 1, 'x'));
+        }),
+      );
+      const p = await problem(res, 422);
+      expect(p.errors![0]!.path).toMatch(/^\/fields\/\d+\/path$/);
     }
+    expect(await openItems(h)).toEqual([]);
     expect(({} as Record<string, unknown>).polluted).toBeUndefined();
+  });
+
+  it('re-ingest dismisses open items whose field is now ok or gone (S3a/b)', async () => {
+    const h = makeHarness();
+    const both = async () =>
+      makeCapture((c) => {
+        withLow('/stats/spd', 894, 'x')(c);
+        withLow('/stats/sta', 700, 'x')(c);
+      });
+    await ingest(h, await both());
+    expect(await openItems(h)).toHaveLength(2);
+    // Same veteran (fields aren't part of the fingerprint): spd is now read ok, sta is absent.
+    const again = await makeCapture((c) => {
+      c.fields = c.fields.filter((f) => f.path !== '/stats/sta');
+    });
+    const r = await ingest(h, again);
+    expect(r.created).toBe(false);
+    expect(r.reviewItemIds).toBeUndefined();
+    expect(await openItems(h)).toEqual([]);
+    const all = ReviewItem.array().parse(await (await h.call('GET', '/review-items')).json());
+    // The dismissed 'sta' item has no field row any more; it is hidden but never 'open'.
+    expect(all.filter((i) => i.status === 'open')).toHaveLength(0);
+    const rows = await env.DB.prepare('SELECT path, status FROM review_items ORDER BY path').all();
+    expect(rows.results).toEqual([
+      { path: '/stats/spd', status: 'dismissed' },
+      { path: '/stats/sta', status: 'dismissed' },
+    ]);
+    // A later low-confidence read of spd opens a fresh item.
+    const third = await ingest(h, await both());
+    expect(third.reviewItemIds).toHaveLength(2);
+    expect(await openItems(h)).toHaveLength(2);
+  });
+
+  it('S2: resolving to a duplicate skill is a 422 (not a misleading 409) and changes nothing', async () => {
+    const h = makeHarness();
+    const capture = await makeCapture(withLow('/skills/2/skillId', 'skill:x', 'x'));
+    const { veteranId } = await ingest(h, capture);
+    const [item] = await openItems(h);
+    const dup = capture.veteran.skills[1]!.skillId;
+    const p = await problem(
+      await h.call('POST', `/review-items/${item!.id}/resolve`, { value: dup }),
+      422,
+    );
+    expect(p.errors![0]).toMatchObject({ path: '/veteran/skills/2/skillId' });
+    expect((await openItems(h)).length).toBe(1);
+    const detail = RosterVeteranDetail.parse(
+      await (await h.call('GET', `/veterans/${veteranId}`)).json(),
+    );
+    expect(detail.skills).toHaveLength(capture.veteran.skills.length);
+  });
+
+  it('N4: resolving /sparks/<owner> keeps the owner block in place', async () => {
+    const h = makeHarness();
+    const capture = await makeCapture((c) => {
+      c.veteran.sparks = c.veteran.sparks.filter((s) => s.owner !== 'parent1');
+      c.fields.push(low('/sparks/parent1', null, ''));
+    });
+    const { veteranId } = await ingest(h, capture);
+    const [item] = await openItems(h);
+    const before = capture.veteran.sparks.map((s) => s.owner);
+    await h.call('POST', `/review-items/${item!.id}/resolve`, {
+      value: [
+        { sparkId: 'spark:speed', type: 'blue', stars: 1 },
+        { sparkId: 'spark:turf', type: 'pink', stars: 1 },
+      ],
+    });
+    const detail = RosterVeteranDetail.parse(
+      await (await h.call('GET', `/veterans/${veteranId}`)).json(),
+    );
+    // Untouched owners keep their relative order, and the (previously absent) block is appended.
+    expect(detail.sparks.filter((s) => s.owner !== 'parent1').map((s) => s.owner)).toEqual(before);
   });
 
   it('404s for an unknown item and 422s for a missing value', async () => {

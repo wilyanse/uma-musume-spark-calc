@@ -8,9 +8,11 @@ import {
   type IngestResponse,
 } from '@uma/schema';
 import { ApiError, validationError } from '../problem.ts';
-import { CROP_KEY_RE } from './crops.ts';
+import { captureFieldChecks, extraVeteranChecks } from '../checks.ts';
 import { nowIso, parseBody, type AppEnv } from '../http.ts';
 import {
+  ID_BY_FINGERPRINT,
+  type UpsertResult,
   deriveTrainMode,
   insertFieldsStatement,
   loadRoster,
@@ -37,35 +39,18 @@ veterans.post('/veterans', async (c) => {
   const { veteran } = capture;
   const db = c.env.DB;
 
-  const fp = await fingerprint(veteran);
-  if (fp !== capture.fingerprint) {
+  const computed = await fingerprint(veteran);
+  if (computed !== capture.fingerprint) {
     throw validationError(
       [{ path: '/fingerprint', message: 'fingerprint does not match the veteran payload (01 §5)' }],
       'Fingerprint mismatch',
     );
   }
 
-  const extra: { path: string; message: string }[] = [];
-  const seenSkills = new Set<string>();
-  veteran.skills.forEach((s, i) => {
-    if (seenSkills.has(s.skillId)) {
-      extra.push({ path: `/veteran/skills/${i}/skillId`, message: 'the same skill appears twice' });
-    }
-    seenSkills.add(s.skillId);
-  });
-  const seenPaths = new Set<string>();
-  capture.fields.forEach((f, i) => {
-    if (seenPaths.has(f.path)) {
-      extra.push({ path: `/fields/${i}/path`, message: 'the same field path appears twice' });
-    }
-    seenPaths.add(f.path);
-    if (f.cropKey !== null && !CROP_KEY_RE.test(f.cropKey)) {
-      extra.push({
-        path: `/fields/${i}/cropKey`,
-        message: 'cropKey is not a crops/<ULID>/<path>.png key',
-      });
-    }
-  });
+  const extra = [
+    ...extraVeteranChecks(veteran, '/veteran'),
+    ...captureFieldChecks(capture.fields, veteran),
+  ];
   if (extra.length > 0) throw validationError(extra);
 
   const master = await c.var.deps.master(capture.masterVersion, c.env);
@@ -94,42 +79,26 @@ veterans.post('/veterans', async (c) => {
   }
 
   const now = nowIso(c);
-  const existing = await db
-    .prepare('SELECT id FROM veterans WHERE fingerprint = ?')
-    .bind(capture.fingerprint)
-    .first<{ id: string }>();
-  const created = existing === null;
-  const id = existing?.id ?? c.var.deps.newId(c.var.deps.now().getTime());
-
-  const openByPath = new Map<string, string>();
-  if (!created) {
-    const open = await db
-      .prepare(`SELECT id, path FROM review_items WHERE veteran_id = ? AND status = 'open'`)
-      .bind(id)
-      .all<{ id: string; path: string }>();
-    for (const r of open.results) openByPath.set(r.path, r.id);
-  }
-  const reviewItemIds: string[] = [];
-  const newReviews: { i: string; p: string; t: string }[] = [];
-  for (const f of capture.fields) {
-    if (f.status !== 'low_confidence') continue;
-    let rid = openByPath.get(f.path);
-    if (!rid) {
-      rid = c.var.deps.newId(c.var.deps.now().getTime());
-      newReviews.push({ i: rid, p: f.path, t: now });
-    }
-    reviewItemIds.push(rid);
-  }
+  const lowPaths = capture.fields.filter((f) => f.status === 'low_confidence').map((f) => f.path);
+  const newReviews = lowPaths.map((p) => ({
+    i: c.var.deps.newId(c.var.deps.now().getTime()),
+    p,
+    t: now,
+  }));
 
   const minConfidence = capture.fields.reduce((m, f) => Math.min(m, f.confidence), 1);
   const trainMode = deriveTrainMode(veteran.epithet); // 01 §6; the server derives it, whatever the payload says
+  // Everything below is bound to the veteran row that actually exists after the upsert, found by
+  // fingerprint inside the same D1 transaction: two identical POSTs racing each other end with one
+  // veteran, one set of child rows and one set of review items (T04 review B1).
+  const fp = capture.fingerprint; // === the verified fingerprint above
   const stmts = [
     ...writeVeteranStatements(
       db,
       { ...veteran, trainMode },
       {
-        id,
-        fingerprint: capture.fingerprint,
+        id: c.var.deps.newId(c.var.deps.now().getTime()),
+        fingerprint: fp,
         masterVersion: capture.masterVersion,
         captureId: capture.captureId,
         capturedAt: capture.capturedAt,
@@ -140,31 +109,61 @@ veterans.post('/veterans', async (c) => {
       },
       'fingerprint',
     ),
-    db.prepare('DELETE FROM capture_fields WHERE veteran_id = ?').bind(id),
-    ...insertFieldsStatement(db, id, capture.fields),
+    db.prepare(`DELETE FROM capture_fields WHERE veteran_id = ${ID_BY_FINGERPRINT}`).bind(fp),
+    ...insertFieldsStatement(db, fp, capture.fields),
+    // Open items whose field is no longer low-confidence in this capture are closed (S3a/b).
+    db
+      .prepare(
+        `UPDATE review_items SET status = 'dismissed', resolved_at = ?3
+         WHERE veteran_id = ${ID_BY_FINGERPRINT} AND status = 'open'
+           AND path NOT IN (SELECT value FROM json_each(?2))`,
+      )
+      .bind(fp, JSON.stringify(lowPaths), now),
   ];
   if (newReviews.length > 0) {
     stmts.push(
       db
         .prepare(
           `INSERT INTO review_items (id, veteran_id, path, status, created_at)
-           SELECT json_extract(value, '$.i'), ?1, json_extract(value, '$.p'), 'open',
-                  json_extract(value, '$.t') FROM json_each(?2) ORDER BY key`,
+           SELECT json_extract(value, '$.i'), ${ID_BY_FINGERPRINT}, json_extract(value, '$.p'), 'open',
+                  json_extract(value, '$.t') FROM json_each(?2)
+           WHERE NOT EXISTS (SELECT 1 FROM review_items o
+                             WHERE o.veteran_id = ${ID_BY_FINGERPRINT}
+                               AND o.path = json_extract(value, '$.p') AND o.status = 'open')
+           ORDER BY key`,
         )
-        .bind(id, JSON.stringify(newReviews)),
+        .bind(fp, JSON.stringify(newReviews)),
     );
   }
   const pair: [string, string] = [veteran.characterId, veteran.outfitId];
-  stmts.push(matchParentsStatement(db, id, [pair]));
-  await db.batch(stmts);
+  stmts.push(matchParentsStatement(db, { fingerprint: fp }, [pair]));
+  if (newReviews.length > 0) {
+    stmts.push(
+      db
+        .prepare(
+          `SELECT id, path FROM review_items WHERE veteran_id = ${ID_BY_FINGERPRINT} AND status = 'open' ORDER BY rowid`,
+        )
+        .bind(fp),
+    );
+  }
+  const results = await db.batch(stmts);
 
-  const body: IngestResponse = { veteranId: id, created };
-  if (reviewItemIds.length > 0) body.reviewItemIds = reviewItemIds;
+  const upserted = (results[0] as D1Result<UpsertResult>).results[0];
+  if (!upserted) throw new Error('ingest upsert returned no row');
+  const created = upserted.created === 1;
+  const body: IngestResponse = { veteranId: upserted.id, created };
+  if (newReviews.length > 0) {
+    const open = (results[results.length - 1] as D1Result<{ id: string; path: string }>).results;
+    const byPath = new Map(open.map((r) => [r.path, r.id]));
+    body.reviewItemIds = lowPaths.map((p) => byPath.get(p)!);
+  }
   return c.json(body, created ? 201 : 200);
 });
 
-const etagOf = async (maxUpdated: string | null, count: number) =>
-  `"${(await sha256Hex(`${maxUpdated ?? ''}|${count}`)).slice(0, 32)}"`;
+// 40 §4: hash of max(updated_at) + count, plus the monotonic roster revision (migration 0002),
+// which moves under every write, including ones that leave max(updated_at) unchanged (S1).
+const etagOf = async (s: { revision: number; maxUpdated: string | null; count: number }) =>
+  `"${(await sha256Hex(`${s.maxUpdated ?? ''}|${s.count}|${s.revision}`)).slice(0, 32)}"`;
 
 const matchesEtag = (header: string | undefined, etag: string): boolean =>
   header !== undefined &&
@@ -174,8 +173,7 @@ const matchesEtag = (header: string | undefined, etag: string): boolean =>
   });
 
 veterans.get('/roster', async (c) => {
-  const { maxUpdated, count } = await rosterStamp(c.env.DB);
-  const etag = await etagOf(maxUpdated, count);
+  const etag = await etagOf(await rosterStamp(c.env.DB));
   const headers = { ETag: etag, 'Cache-Control': 'private, no-cache' };
   if (matchesEtag(c.req.header('If-None-Match'), etag)) {
     return new Response(null, { status: 304, headers });
@@ -224,7 +222,7 @@ veterans.delete('/veterans/:id', async (c) => {
     db.prepare('DELETE FROM veteran_parents WHERE veteran_id = ?').bind(id),
     db.prepare('DELETE FROM veterans WHERE id = ?').bind(id),
     // Children that pointed at this veteran (or share its identity) are re-matched without it.
-    matchParentsStatement(db, id, [[row.character_id, row.outfit_id]]),
+    matchParentsStatement(db, { id }, [[row.character_id, row.outfit_id]]),
   ]);
   const keys = crops.results.map((r) => r.crop_key);
   if (keys.length > 0) await c.env.CROPS.delete(keys);

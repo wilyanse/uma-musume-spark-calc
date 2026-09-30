@@ -99,3 +99,72 @@ The benchmark numbers are wall-clock inside miniflare on the dev Mac, **not** Wo
 - Follow-up (T12): set real `ACCESS_TEAM_DOMAIN` (var) and `ACCESS_AUD` (secret); until then every non-health route answers 500 "misconfigured" outside tests/`.dev.vars`. Local dev needs `.dev.vars` with `AUTH_DISABLED=1`.
 - Follow-up: parent matching only sees parents whose outfit the agent captured; grandparent-level matching isn't part of the spec.
 - Not verified: default `assetsMasterLoader` against a real `ASSETS` binding (tested with a fake Fetcher only; no built web assets yet).
+
+## Review round 1
+
+Review: `docs/reviews/T04-review-1.md` (CHANGES_REQUESTED). Both blocking items and S1–S4 are fixed, each with a regression test; N4 is partly fixed. No rebase, merge or push; 01 contract unchanged.
+
+### B1 — concurrent identical POSTs (fixed)
+- Cause: `id` came from a pre-read outside the batch, so a racing request bound its child/review rows to an id the upsert then discarded.
+- Fix: the handler no longer pre-reads. Every child insert/delete, `capture_fields`, `review_items` and the parent-match statement resolve the veteran with `(SELECT id FROM veterans WHERE fingerprint = ?1)` inside the same D1 batch. The upsert ends with `RETURNING id, created_at = updated_at AS created`; the response uses that row, so `veteranId` is the persisted id and `created` comes from the database. `updated_at` is forced strictly after `created_at` on conflict so the flag can't be wrong at a frozen clock.
+- New review items are inserted only where no open item exists for that (veteran, path); a final SELECT in the batch returns the persisted item ids for `reviewItemIds`.
+- Test `concurrent identical ingests (B1)`: three identical POSTs in `Promise.all`. Asserts one veteran, every response carries the stored id, zero orphan child/field/review rows, the same spark count as a single ingest, exactly one review item, ≤ 1 `created:true`. Run against the old code it failed (`expected 3 to be less than or equal to 1`).
+- Statement budget: create=15, re-ingest=15 (with a review item; the count includes the final SELECT), roster=6. Limit is 15, asserted for both. There is no headroom left.
+
+### B2 — undeclared files (fixed by declaration)
+See *Cross-task edits* below (the same section is extended, not duplicated). `scripts/fixture-fingerprint.ts` was not moved.
+
+### S1 — stale roster ETag (fixed)
+Migration `0002_roster_revision.sql` (DB_SCHEMA_VERSION 2): drops the `updated_at`-bumping trigger and adds a one-row `roster_meta.revision`, incremented by triggers on veterans INSERT/UPDATE/DELETE and on `veteran_parents.matched_veteran_id` changes. ETag = sha256(`max(updated_at)|count|revision`). Nothing touches `updated_at` except the write itself, so no clock drift ahead. Test `S1` runs at a frozen clock: parent-match ingest, patch parent, and delete parent each produce 200 (not 304) for the old tag. Side effect: the empty roster after a delete no longer has the same ETag as the initial empty roster (the existing test was changed to expect 4 distinct tags).
+
+### S2 — duplicate skill on resolve (fixed)
+`src/checks.ts` `extraVeteranChecks` (duplicate skillId, and duplicate owner+sparkId) is shared by ingest and resolve, so resolve answers 422 with path `/veteran/skills/2/skillId`. 409 is only mapped from a UNIQUE error mentioning `veterans.fingerprint`. Test `S2`.
+
+### S3 — stale/unresolvable review items (fixed)
+- (a)/(b): the ingest batch sets open items to `dismissed` (with `resolved_at`) when their path is not low-confidence in this capture, including when the field is gone. A later low-confidence read opens a fresh item. Test `re-ingest dismisses open items…`.
+- (c): ingest now 422s a field path that doesn't resolve in the veteran (or isn't `/sparks/parent1|2`, and `/trainMode`) at `/fields/<i>/path`. The old test that accepted `/nope/deeper` became a 422 test (also covers `__proto__`, `/sparks/99/stars`). Shared pointer helpers moved to `src/checks.ts`.
+- Behaviour change to note: captures whose agent emits field paths outside the veteran (e.g. non-correctable `/trainMode`) are now rejected. 01 §3 doesn't say either way.
+
+### S4 — AUTH_DISABLED (fixed)
+`resolveAuthMode(env, host)` honours `AUTH_DISABLED=1` only when the ACCESS vars are empty AND the request host is `localhost`, `127.0.0.1`, `[::1]` or `*.localhost`. Any other host with the flag set → 500 "misconfigured" (fail closed). Tests: local hosts allowed; `uma.example.workers.dev`, `example.com`, `localhost.evil.com`, `notlocalhost` refused, end to end through the app. The test harness now calls `https://localhost/…`. Residual risk: a deployment reachable under the host name `localhost` (not possible via workers.dev or a Cloudflare zone). `wrangler dev` serves `localhost`, so local dev is unaffected.
+
+### N4 — spark-index invalidation (partly fixed; follow-up)
+Resolving `/sparks/<owner>` now replaces that owner's block in place instead of moving it to the end, so other owners' indices don't move. It is not fully fixed: if the new list has a different length than the old one, indices of later sparks (`/sparks/<n>/…`) in other open items still shift. A complete fix needs review paths that don't depend on array position (e.g. `/sparks/<owner>/<sparkId>/stars`), which changes the field-path contract in 01, so I did not do it. Follow-up: raise with the spec owner; the `N4` test asserts only that the untouched owners' order is preserved (it is weak; it does not cover the index-shift case above).
+
+### Not addressed
+N1, N2, N3, N5 (OPEN_QUESTIONS entry), N6, N7. Q-4 kept as is; the orchestrator renumbers on merge.
+
+### Cross-task edits (extended)
+- `apps/api/package.json` — T02 skeleton file; adds the direct `zod` 4.6.5 dependency (same version as `packages/schema`); the lockfile change above follows from it.
+- `apps/api/vitest.config.ts` — T02 file; reads `migrations/` with `readD1Migrations` and injects `TEST_MIGRATIONS` plus `AUTH_DISABLED=1` (tests only; never in `wrangler.jsonc`).
+- `apps/api/env.d.ts` — T02 file; declares the new bindings/vars used by the API (`AUTH_DISABLED`, `TEST_MIGRATIONS`, Access vars) so `typecheck` passes.
+- `apps/api/scripts/fixture-fingerprint.ts` — new, in a path no card owns; a dev script recomputing `test/fixtures/mcqueen.json`'s fingerprint. Kept because the fixture is regenerated by hand; it could be moved to `test/helpers/` if the orchestrator prefers.
+
+### Verification
+```
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test     (exit 0)
+packages/schema test:  Test Files  4 passed (4)
+packages/schema test:       Tests  146 passed (146)
+apps/web test:  Test Files  1 passed (1)
+apps/web test:       Tests  5 passed (5)
+apps/api test:  Test Files  8 passed (8)
+apps/api test:       Tests  86 passed (86)
+
+$ pnpm exec prettier --check apps/api
+All matched files use Prettier code style!
+
+$ cd apps/api && pnpm exec vitest run --reporter=verbose | grep -E "statements:|benchmark:|roster 304"
+statements: create=15 re-ingest=15 roster=6
+roster benchmark: n=260 bytes=1226681 first-request=33.0ms first-parse=3.0ms warm-handler=28.4ms warm-parse=2.6ms
+roster 304 (n=260): 1.0ms
+roster benchmark: n=2000 bytes=9436001 first-request=250.0ms first-parse=20.0ms warm-handler=233.4ms warm-parse=21.2ms
+roster 304 (n=2000): 2.0ms
+
+$ npx wrangler d1 migrations apply uma-spark-calc --local --persist-to $TMPDIR/t04-d1
+│ 0001_init.sql            │ ✅ │
+│ 0002_roster_revision.sql │ ✅ │
+
+# B1 test against the pre-fix source (src/ and migrations/ stashed):
+× Promise.all of identical POSTs: one veteran, no orphans, one review set, ≤ 1 created:true
+AssertionError: expected 3 to be less than or equal to 1
+```

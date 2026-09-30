@@ -39,9 +39,9 @@ describe('GET /roster ETag', () => {
     h.tick();
     await h.call('DELETE', `/veterans/${veteranId}`);
     etags.push(await tag());
-    expect(new Set(etags).size).toBe(3);
-    // Deleting brings the roster back to empty (3 distinct states), which hashes like the initial one.
-    expect(etags[3]).toBe(etags[0]);
+    // Four distinct tags: the revision is monotonic, so even the empty roster after the delete
+    // differs from the initial empty roster (a client holding the first tag must refetch).
+    expect(new Set(etags).size).toBe(4);
   });
 
   it('serves the new body after a change even when the client sends a stale ETag', async () => {
@@ -170,20 +170,43 @@ describe('parent matching (40 §4)', () => {
     expect(child.parents[0]!.matchedVeteranId).toBeNull();
   });
 
-  it('a match change alone moves the roster ETag (trigger bumps the child updated_at)', async () => {
+  it('a match change alone moves the roster ETag (revision trigger)', async () => {
     const h = makeHarness();
     await ingest(h, await makeCapture());
-    const before = (await h.call('GET', '/roster')).headers.get('etag');
-    // Same wall-clock: only the parent's arrival changes the child's match, and the count also
-    // changes, so compare the child's stamp directly.
-    const stamp = () =>
-      env.DB.prepare('SELECT updated_at FROM veterans WHERE character_id = ?')
-        .bind('character:mejiro-mcqueen')
-        .first<{ updated_at: string }>();
-    const t0 = (await stamp())!.updated_at;
+    const child = () =>
+      env.DB.prepare(
+        'SELECT COUNT(*) n FROM veteran_parents WHERE matched_veteran_id IS NOT NULL',
+      ).first<{
+        n: number;
+      }>();
+    expect((await child())!.n).toBe(0);
     await ingest(h, await asParent());
-    expect((await stamp())!.updated_at > t0).toBe(true);
-    expect((await h.call('GET', '/roster')).headers.get('etag')).not.toBe(before);
+    expect((await child())!.n).toBe(1);
+  });
+
+  it('S1: a stale ETag never yields 304 after a write at the same clock time', async () => {
+    const h = makeHarness(); // the clock is frozen: every write below has the same `now`
+    await ingest(h, await makeCapture());
+    const parent = await ingest(h, await asParent());
+    const etag = (await h.call('GET', '/roster')).headers.get('etag')!;
+    const conditional = (tag: string) =>
+      h.call('GET', '/roster', undefined, { headers: { 'If-None-Match': tag } });
+    expect((await conditional(etag)).status).toBe(304);
+    const patched = await h.call('PATCH', `/veterans/${parent.veteranId}`, { trainMode: 'manual' });
+    expect(patched.status).toBe(200);
+    const after = await conditional(etag);
+    expect(after.status).toBe(200);
+    const etag2 = after.headers.get('etag')!;
+    expect(etag2).not.toBe(etag);
+    // A parent-match change (delete the parent) at the same instant also moves the tag, even
+    // though the child's own row is untouched.
+    await h.call('DELETE', `/veterans/${parent.veteranId}`);
+    expect((await conditional(etag2)).status).toBe(200);
+    // Every write bumps the revision monotonically.
+    const rev = await env.DB.prepare('SELECT revision FROM roster_meta').first<{
+      revision: number;
+    }>();
+    expect(rev!.revision).toBeGreaterThanOrEqual(4);
   });
 
   it('clears the link when the matched parent is deleted', async () => {

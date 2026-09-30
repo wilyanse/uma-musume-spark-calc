@@ -10,6 +10,7 @@ import {
   type ReviewItem,
 } from '@uma/schema';
 import { ApiError, validationError, zodProblems } from '../problem.ts';
+import { OWNER_PSEUDO, extraVeteranChecks, setAtPointer } from '../checks.ts';
 import { nowIso, parseBody, parseQuery, type AppEnv } from '../http.ts';
 import {
   deriveTrainMode,
@@ -59,29 +60,7 @@ reviews.get('/review-items', async (c) => {
   return c.json(results.map(toReviewItem));
 });
 
-const unescapePointer = (s: string) => s.replace(/~1/g, '/').replace(/~0/g, '~');
-const UNSAFE = new Set(['__proto__', 'constructor', 'prototype']);
-const OWNER_PSEUDO = /^\/sparks\/(parent1|parent2)$/;
 const SparkWithoutOwner = VeteranSpark.omit({ owner: true });
-
-/** Sets `value` at a JSON pointer inside `root`; the target must already exist (no creation). */
-function setAtPointer(root: Record<string, unknown>, pointer: string, value: unknown): boolean {
-  const segs = pointer.split('/').slice(1).map(unescapePointer);
-  if (segs.length === 0 || segs.some((s) => UNSAFE.has(s))) return false;
-  let node: unknown = root;
-  for (const seg of segs.slice(0, -1)) {
-    if (node === null || typeof node !== 'object') return false;
-    if (Array.isArray(node) ? !/^\d+$/.test(seg) : !Object.hasOwn(node, seg)) return false;
-    node = (node as Record<string, unknown>)[seg];
-  }
-  const last = segs[segs.length - 1]!;
-  if (node === null || typeof node !== 'object') return false;
-  if (Array.isArray(node)) {
-    if (!/^\d+$/.test(last) || Number(last) >= node.length) return false;
-  } else if (!Object.hasOwn(node, last)) return false;
-  (node as Record<string, unknown>)[last] = value;
-  return true;
-}
 
 // 01 §9: apply the value to the veteran, recompute the fingerprint (409 on collision), resolve.
 reviews.post('/review-items/:id/resolve', async (c) => {
@@ -115,10 +94,13 @@ reviews.post('/review-items/:id/resolve', async (c) => {
       );
     }
     const sparks = draft.sparks as { owner: string }[];
-    draft.sparks = [
-      ...sparks.filter((s) => s.owner !== owner),
-      ...parsed.data.map((s) => ({ owner, ...s })),
-    ];
+    const replacement = parsed.data.map((s) => ({ owner, ...s }));
+    // Keep the owner's block where it was (or at the end when it had none), so other open
+    // `/sparks/<n>/…` items keep pointing at the same sparks (T04 review N4).
+    const at = sparks.findIndex((s) => s.owner === owner);
+    const rest = sparks.filter((s) => s.owner !== owner);
+    const insertAt = at === -1 ? rest.length : at;
+    draft.sparks = [...rest.slice(0, insertAt), ...replacement, ...rest.slice(insertAt)];
   } else if (item.path === '/trainMode' || !setAtPointer(draft, item.path, value)) {
     throw validationError(
       [{ path: item.path, message: 'this field cannot be corrected through a review item' }],
@@ -133,6 +115,8 @@ reviews.post('/review-items/:id/resolve', async (c) => {
     );
   }
   const veteran = parsed.data;
+  const extra = extraVeteranChecks(veteran, '/veteran');
+  if (extra.length > 0) throw validationError(extra);
   const master = await c.var.deps.master(detail.masterVersion, c.env);
   if (!master) {
     throw new ApiError(
@@ -202,11 +186,11 @@ reviews.post('/review-items/:id/resolve', async (c) => {
           `UPDATE review_items SET status = 'resolved', resolved_value_json = ?, resolved_at = ? WHERE id = ?`,
         )
         .bind(JSON.stringify(value), now, item.id),
-      matchParentsStatement(db, detail.id, [oldPair, newPair]),
+      matchParentsStatement(db, { id: detail.id }, [oldPair, newPair]),
     ]);
   } catch (e) {
     // A concurrent ingest can take the new fingerprint between the check and the batch.
-    if (String(e).includes('UNIQUE')) {
+    if (String(e).includes('UNIQUE') && String(e).includes('veterans.fingerprint')) {
       throw new ApiError(409, 'Conflict', 'The corrected veteran duplicates an existing one');
     }
     throw e;

@@ -187,13 +187,30 @@ describe('fail-closed configuration (T02 review N5; 40 §3)', () => {
       ACCESS_AUD: undefined,
       ACCESS_TEAM_DOMAIN: '',
     } as unknown as Env;
-    expect(resolveAuthMode(shipped).kind).toBe('misconfigured');
+    expect(resolveAuthMode(shipped, 'localhost').kind).toBe('misconfigured');
   });
 
-  it('AUTH_DISABLED=1 alone (local dev / tests) disables the check', () => {
-    expect(
-      resolveAuthMode({ AUTH_DISABLED: '1', ACCESS_TEAM_DOMAIN: '' } as unknown as Env).kind,
-    ).toBe('disabled');
+  it('AUTH_DISABLED=1 alone on a local host (dev / tests) disables the check', () => {
+    const e = { AUTH_DISABLED: '1', ACCESS_TEAM_DOMAIN: '' } as unknown as Env;
+    for (const host of ['localhost', '127.0.0.1', '[::1]', 'dev.localhost']) {
+      expect(resolveAuthMode(e, host).kind).toBe('disabled');
+    }
+  });
+
+  it('AUTH_DISABLED=1 on any non-local host fails closed (S4: a stray var in production)', async () => {
+    const e = { AUTH_DISABLED: '1', ACCESS_TEAM_DOMAIN: '', ACCESS_AUD: '' } as unknown as Env;
+    for (const host of [
+      'uma.example.workers.dev',
+      'example.com',
+      'localhost.evil.com',
+      'notlocalhost',
+    ]) {
+      expect(resolveAuthMode(e, host).kind).toBe('misconfigured');
+    }
+    // End to end: the same env served under a public host name answers 500, not data.
+    const h = makeHarness({}, e);
+    const res = await h.app.fetch(new Request('https://uma.example.workers.dev/api/v1/roster'), e);
+    expect((await problem(res, 500)).detail).toContain('misconfigured');
   });
 
   it('wrangler.jsonc never defines AUTH_DISABLED (no production path, 40 §3)', () => {

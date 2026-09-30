@@ -17,7 +17,7 @@ describe('GET /api/v1/health', () => {
   });
 
   it('returns RFC 9457 problem+json for unknown API routes through the real entry point', async () => {
-    const res = await SELF.fetch('https://example.com/api/v1/nope');
+    const res = await SELF.fetch('https://localhost/api/v1/nope');
     expect(res.status).toBe(404);
     expect(res.headers.get('content-type')).toContain('application/problem+json');
     expect(await res.json()).toMatchObject({

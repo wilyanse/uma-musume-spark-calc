@@ -53,7 +53,7 @@ export function makeHarness(overrides: Partial<Deps> = {}, testEnv: Env = env) {
       headers.set('content-type', 'application/json');
     }
     return app.fetch(
-      new Request(`https://example.com/api/v1${path}`, { ...init, method, headers, body: payload }),
+      new Request(`https://localhost/api/v1${path}`, { ...init, method, headers, body: payload }),
       testEnv,
     );
   };

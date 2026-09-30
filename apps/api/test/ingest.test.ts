@@ -330,6 +330,58 @@ describe('review items created at ingest', () => {
   });
 });
 
+describe('concurrent identical ingests (B1)', () => {
+  const counts = async () => {
+    const q = async (sql: string) => (await env.DB.prepare(sql).first<{ n: number }>())!.n;
+    return {
+      veterans: await q('SELECT COUNT(*) n FROM veterans'),
+      orphanChildren: await q(
+        `SELECT (SELECT COUNT(*) FROM veteran_skills WHERE veteran_id NOT IN (SELECT id FROM veterans))
+              + (SELECT COUNT(*) FROM veteran_sparks WHERE veteran_id NOT IN (SELECT id FROM veterans))
+              + (SELECT COUNT(*) FROM veteran_deck WHERE veteran_id NOT IN (SELECT id FROM veterans))
+              + (SELECT COUNT(*) FROM veteran_parents WHERE veteran_id NOT IN (SELECT id FROM veterans))
+              + (SELECT COUNT(*) FROM capture_fields WHERE veteran_id NOT IN (SELECT id FROM veterans)) AS n`,
+      ),
+      orphanReviews: await q(
+        'SELECT COUNT(*) n FROM review_items WHERE veteran_id NOT IN (SELECT id FROM veterans)',
+      ),
+      reviews: await q('SELECT COUNT(*) n FROM review_items'),
+      sparks: await q('SELECT COUNT(*) n FROM veteran_sparks'),
+    };
+  };
+
+  it('Promise.all of identical POSTs: one veteran, no orphans, one review set, ≤ 1 created:true', async () => {
+    const h = makeHarness();
+    const capture = await makeCapture((c) => {
+      c.fields[0]!.status = 'low_confidence';
+    });
+    const single = makeHarness();
+    await single.call('POST', '/veterans', capture);
+    const expectedSparks = (await counts()).sparks;
+    await resetDb();
+
+    const responses = await Promise.all([1, 2, 3].map(() => h.call('POST', '/veterans', capture)));
+    const bodies = await Promise.all(
+      responses.map((r) => r.json().then((b) => IngestResponse.parse(b))),
+    );
+    expect(bodies.filter((b) => b.created).length).toBeLessThanOrEqual(1);
+    expect(responses.map((r) => r.status).sort()).toEqual(
+      responses.map((r) => (r.status === 201 ? 201 : 200)).sort(),
+    );
+    const stored = await env.DB.prepare('SELECT id FROM veterans').all<{ id: string }>();
+    expect(stored.results).toHaveLength(1);
+    for (const b of bodies) expect(b.veteranId).toBe(stored.results[0]!.id);
+    const c = await counts();
+    expect(c).toMatchObject({ veterans: 1, orphanChildren: 0, orphanReviews: 0, reviews: 1 });
+    expect(c.sparks).toBe(expectedSparks);
+    // Every returned review id is the one persisted open item.
+    const items = await env.DB.prepare('SELECT id FROM review_items').all<{ id: string }>();
+    for (const b of bodies) expect(b.reviewItemIds).toEqual([items.results[0]!.id]);
+    const open = await (await h.call('GET', '/review-items?status=open')).json();
+    expect(open).toHaveLength(1);
+  });
+});
+
 describe('D1 statement budget (40 §4)', () => {
   it('ingest uses ≤ 15 statements (create and re-ingest with review items), roster ≤ 6', async () => {
     const counted = countingEnv(env);
@@ -350,6 +402,7 @@ describe('D1 statement budget (40 §4)', () => {
     expect(create).toBeLessThanOrEqual(15);
     expect(reingest).toBeLessThanOrEqual(15);
     expect(rosterRead).toBeLessThanOrEqual(6);
-    expect(create).toBeGreaterThan(5); // guards against the counter silently counting nothing
+    expect(create).toBeGreaterThan(5);
+    expect(create).toBeLessThanOrEqual(15); // guards against the counter silently counting nothing
   });
 });
