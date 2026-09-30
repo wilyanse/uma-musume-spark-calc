@@ -40,6 +40,11 @@ Context: GameTora's rank table has numeric ids only; badge names are assumed to 
 Assumption taken: assumed ladder (checked only at A+ = 13,471 from screenshot 02); skill names use U+25EF and vocab includes both glyphs.
 Blocking: no (verify UG/UF… names against a real veteran screenshot)
 
+## Q-110 (T04b) API/schema field-path parity for T09
+Context: the shared `CaptureField.path` schema intentionally accepts any syntactically valid JSON pointer, while the API applies correctability/resolution restrictions only to `low_confidence` fields. In particular, provenance fields such as `ok` `/trainMode` are accepted, but a low-confidence `/trainMode` or unsafe/unresolvable pointer is rejected. The API also remaps index-based spark review paths when a spark-owner correction changes array length.
+Assumption taken: keep shared contracts unchanged; T09 must mirror the API's low-confidence correctability checks and should continue emitting valid provenance pointers. Resolve remains restricted to existing safe targets.
+Blocking: no
+
 ## Q-70 (T07) No endpoint to dismiss a review item
 Context: S03 has a "Dismiss" action (spec 10 §3). 01 §9 only defines `POST /review-items/:id/resolve`; the D1 `review_items.status` CHECK allows `dismissed`.
 Assumption taken: the design keeps the action and expects `POST /api/v1/review-items/:id/dismiss` (no body) → `204`, or a `status` field on the resolve call. Needs a 01 §9 decision (T01/T04).

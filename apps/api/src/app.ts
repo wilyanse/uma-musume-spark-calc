@@ -12,7 +12,7 @@ import { cmTargets } from './routes/cm-targets.ts';
 import { modelSnapshots } from './routes/model-snapshots.ts';
 
 /** Number of the last file in `migrations/` (kept in step by a test). */
-export const DB_SCHEMA_VERSION = 2;
+export const DB_SCHEMA_VERSION = 3;
 
 export function createApp(deps: Deps = defaultDeps) {
   const app = new Hono<AppEnv>().basePath('/api/v1');

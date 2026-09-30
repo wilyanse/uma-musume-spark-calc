@@ -13,6 +13,7 @@ import { nowIso, parseBody, type AppEnv } from '../http.ts';
 import {
   ID_BY_FINGERPRINT,
   type UpsertResult,
+  bumpUpdatedAt,
   deriveTrainMode,
   insertFieldsStatement,
   loadRoster,
@@ -22,18 +23,19 @@ import {
   writeVeteranStatements,
 } from '../db/veterans.ts';
 
-const withoutMasterVersion = <T extends { masterVersion: string }>(
-  d: T,
-): Omit<T, 'masterVersion'> => {
-  const { masterVersion, ...rest } = d;
-  void masterVersion;
+/** Drops the stored-only columns `loadVeteranDetail` carries for read-modify-write callers. */
+const withoutInternal = <T extends { internal: unknown }>(d: T): Omit<T, 'internal'> => {
+  const { internal, ...rest } = d;
+  void internal;
   return rest;
 };
 
 export const veterans = new Hono<AppEnv>();
 
-// 40 §4 ingest. Statement budget (≤ 15): 1 lookup + 1 open-review lookup + batch of
-// upsert, 4 deletes, ≤ 4 child inserts, fields delete + insert, review insert, parent match = ≤ 15.
+// 40 §4 ingest. Statement budget (≤ 15, asserted in test/ingest.test.ts), all in one batch:
+// upsert + 4 child deletes + ≤ 4 child inserts + fields delete + fields insert + stale-item dismiss
+// + review insert + parent match + final open-item SELECT = 15 with a review item (13 without).
+// There is no headroom: any new ingest statement must replace one of these.
 veterans.post('/veterans', async (c) => {
   const capture = await parseBody(c, VeteranCapture);
   const { veteran } = capture;
@@ -107,7 +109,7 @@ veterans.post('/veterans', async (c) => {
         modeSource: 'epithet',
         now,
       },
-      'fingerprint',
+      'upsert',
     ),
     db.prepare(`DELETE FROM capture_fields WHERE veteran_id = ${ID_BY_FINGERPRINT}`).bind(fp),
     ...insertFieldsStatement(db, fp, capture.fields),
@@ -184,15 +186,18 @@ veterans.get('/roster', async (c) => {
 veterans.get('/veterans/:id', async (c) => {
   const detail = await loadVeteranDetail(c.env.DB, c.req.param('id'));
   if (!detail) throw new ApiError(404, 'Not Found', 'No such veteran');
-  return c.json(withoutMasterVersion(detail));
+  return c.json(withoutInternal(detail));
 });
 
 veterans.patch('/veterans/:id', async (c) => {
   const patch = await parseBody(c, VeteranPatch);
   const id = c.req.param('id');
   if (patch.trainMode !== undefined) {
+    // `updated_at` moves strictly forward, so a review resolve that loaded the row before this
+    // PATCH fails its write guard instead of silently writing over it (T04b).
     const res = await c.env.DB.prepare(
-      `UPDATE veterans SET train_mode = ?, mode_source = 'override', updated_at = ? WHERE id = ?`,
+      `UPDATE veterans SET train_mode = ?1, mode_source = 'override', updated_at = ${bumpUpdatedAt('?2')}
+       WHERE id = ?3`,
     )
       .bind(patch.trainMode, nowIso(c), id)
       .run();
@@ -200,7 +205,7 @@ veterans.patch('/veterans/:id', async (c) => {
   }
   const detail = await loadVeteranDetail(c.env.DB, id);
   if (!detail) throw new ApiError(404, 'Not Found', 'No such veteran');
-  return c.json(withoutMasterVersion(detail));
+  return c.json(withoutInternal(detail));
 });
 
 veterans.delete('/veterans/:id', async (c) => {

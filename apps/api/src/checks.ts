@@ -64,9 +64,17 @@ export function extraVeteranChecks(veteran: Veteran, prefix: string): Problem[] 
 }
 
 /**
- * Field-path checks for ingest: no duplicates, well-formed crop keys, and every path must resolve
- * in the veteran (or be the `/sparks/<owner>` pseudo-pointer) so a review item can always be
- * resolved (T04 review S3c). `/trainMode` can't be corrected through a review item (use PATCH).
+ * Paths a review item may correct: anything but `/trainMode`, which is derived from the epithet
+ * (01 §6) and changed only through `PATCH /veterans/:id`. The pointer must still resolve.
+ */
+export const isCorrectablePath = (path: string): boolean => path !== '/trainMode';
+
+/**
+ * Field-path checks for ingest: no duplicate paths (primary key), well-formed crop keys, and every
+ * `low_confidence` path (the ones that open review items) must be correctable: resolve in the
+ * veteran, or be the `/sparks/<owner>` pseudo-pointer, and not be `/trainMode` (T04 review S3c).
+ * `ok`/`corrected` fields are provenance only and never applied, so any well-formed pointer
+ * (01 §3; e.g. `/trainMode`) is accepted for them (T04 review r2 S2).
  */
 export function captureFieldChecks(fields: CaptureField[], veteran: Veteran): Problem[] {
   const out: Problem[] = [];
@@ -83,10 +91,13 @@ export function captureFieldChecks(fields: CaptureField[], veteran: Veteran): Pr
         message: 'cropKey is not a crops/<ULID>/<path>.png key',
       });
     }
-    if (f.path === '/trainMode' || (!OWNER_PSEUDO.test(f.path) && !locate(root, f.path))) {
+    if (
+      f.status === 'low_confidence' &&
+      (!isCorrectablePath(f.path) || (!OWNER_PSEUDO.test(f.path) && !locate(root, f.path)))
+    ) {
       out.push({
         path: `/fields/${i}/path`,
-        message: 'the field path does not point at a correctable part of the veteran',
+        message: 'a low_confidence field must point at a correctable part of the veteran',
       });
     }
   });

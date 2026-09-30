@@ -7,7 +7,7 @@ import {
   fingerprint,
   type VeteranCapture,
 } from '@uma/schema';
-import { makeCapture, makeHarness, problem, resetDb } from './helpers/harness.ts';
+import { fixtureMaster, makeCapture, makeHarness, problem, resetDb } from './helpers/harness.ts';
 
 beforeEach(resetDb);
 type H = ReturnType<typeof makeHarness>;
@@ -249,6 +249,62 @@ describe('review queue', () => {
     expect(detail.skills).toHaveLength(capture.veteran.skills.length);
   });
 
+  it('guards two coordinated resolves: one commits and the stale one stays open', async () => {
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => (release = resolve));
+    let active = false;
+    let masterCalls = 0;
+    const h = makeHarness({
+      master: async () => {
+        if (!active) return fixtureMaster;
+        masterCalls += 1;
+        if (masterCalls === 2) release();
+        await gate;
+        return fixtureMaster;
+      },
+    });
+    const capture = await makeCapture((c) => {
+      withLow('/stats/spd', c.veteran.stats.spd, 'x')(c);
+      withLow('/stats/sta', c.veteran.stats.sta, 'x')(c);
+    });
+    const { veteranId } = await ingest(h, capture);
+    active = true;
+    const items = await openItems(h);
+    expect(items).toHaveLength(2);
+    const responses = await Promise.all(
+      [
+        [items[0]!.id, 884],
+        [items[1]!.id, 700],
+      ].map(([id, value]) => h.call('POST', `/review-items/${id}/resolve`, { value })),
+    );
+    expect(responses.map((r) => r.status).sort()).toEqual([200, 409]);
+    const detail = RosterVeteranDetail.parse(
+      await (await h.call('GET', `/veterans/${veteranId}`)).json(),
+    );
+    expect([detail.stats.spd, detail.stats.sta]).toContain(884);
+    expect(await openItems(h)).toHaveLength(1);
+  });
+
+  it('accepts an ok provenance field for /trainMode but rejects it when low-confidence', async () => {
+    const h = makeHarness();
+    const capture = await makeCapture((c) => {
+      c.fields.push({
+        path: '/trainMode',
+        rawText: 'Independent Learner',
+        value: 'independent',
+        confidence: 1,
+        status: 'ok',
+        candidates: [],
+        cropKey: null,
+      });
+    });
+    expect((await h.call('POST', '/veterans', capture)).status).toBe(201);
+    const rejected = await makeCapture((c) => {
+      c.fields.push(low('/trainMode', 'independent', 'x'));
+    });
+    await problem(await h.call('POST', '/veterans', rejected), 422);
+  });
+
   it('N4: resolving /sparks/<owner> keeps the owner block in place', async () => {
     const h = makeHarness();
     const capture = await makeCapture((c) => {
@@ -258,17 +314,24 @@ describe('review queue', () => {
     const { veteranId } = await ingest(h, capture);
     const [item] = await openItems(h);
     const before = capture.veteran.sparks.map((s) => s.owner);
-    await h.call('POST', `/review-items/${item!.id}/resolve`, {
+    const resolvedResponse = await h.call('POST', `/review-items/${item!.id}/resolve`, {
       value: [
-        { sparkId: 'spark:speed', type: 'blue', stars: 1 },
-        { sparkId: 'spark:turf', type: 'pink', stars: 1 },
+        { sparkId: capture.veteran.sparks[0]!.sparkId, type: 'blue', stars: 1 },
+        { sparkId: capture.veteran.sparks[1]!.sparkId, type: 'pink', stars: 1 },
       ],
     });
+    expect(resolvedResponse.status, await resolvedResponse.clone().text()).toBe(200);
     const detail = RosterVeteranDetail.parse(
       await (await h.call('GET', `/veterans/${veteranId}`)).json(),
     );
-    // Untouched owners keep their relative order, and the (previously absent) block is appended.
-    expect(detail.sparks.filter((s) => s.owner !== 'parent1').map((s) => s.owner)).toEqual(before);
+    // Untouched owners keep their relative order; the absent owner's replacement is appended.
+    expect(detail.sparks.filter((s) => s.owner !== 'parent1').map((s) => s.owner)).toEqual(
+      before.filter((owner) => owner !== 'parent1'),
+    );
+    expect(detail.sparks.filter((s) => s.owner === 'parent1')).toHaveLength(2);
+    expect(detail.sparks.findIndex((s) => s.owner === 'parent1')).toBeGreaterThan(
+      detail.sparks.findIndex((s) => s.owner === 'parent2'),
+    );
   });
 
   it('404s for an unknown item and 422s for a missing value', async () => {

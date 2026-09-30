@@ -7,17 +7,21 @@ import {
   VeteranSpark,
   checkMasterIds,
   fingerprint,
+  type CaptureField,
   type ReviewItem,
 } from '@uma/schema';
 import { ApiError, validationError, zodProblems } from '../problem.ts';
-import { OWNER_PSEUDO, extraVeteranChecks, setAtPointer } from '../checks.ts';
+import { OWNER_PSEUDO, extraVeteranChecks, isCorrectablePath, setAtPointer } from '../checks.ts';
 import { nowIso, parseBody, parseQuery, type AppEnv } from '../http.ts';
 import {
   deriveTrainMode,
   fieldFromRow,
+  insertFieldsStatement,
+  isStaleWrite,
   loadVeteranDetail,
   matchParentsStatement,
   toVeteran,
+  writeGuardStatement,
   writeVeteranStatements,
   type FieldRow,
 } from '../db/veterans.ts';
@@ -52,8 +56,8 @@ reviews.get('/review-items', async (c) => {
   const { status } = parseQuery(c, z.object({ status: ReviewStatus.optional() }));
   const stmt =
     status === undefined
-      ? c.env.DB.prepare(`${SELECT_REVIEW} ORDER BY r.created_at, r.id`)
-      : c.env.DB.prepare(`${SELECT_REVIEW} WHERE r.status = ? ORDER BY r.created_at, r.id`).bind(
+      ? c.env.DB.prepare(`${SELECT_REVIEW} ORDER BY r.created_at, r.rowid`)
+      : c.env.DB.prepare(`${SELECT_REVIEW} WHERE r.status = ? ORDER BY r.created_at, r.rowid`).bind(
           status,
         );
   const { results } = await stmt.all<ReviewRow>();
@@ -62,16 +66,51 @@ reviews.get('/review-items', async (c) => {
 
 const SparkWithoutOwner = VeteranSpark.omit({ owner: true });
 
+/** `/sparks/<n>` or `/sparks/<n>/…`: an index-based pointer into the spark array. */
+const SPARK_INDEX_PATH = /^\/sparks\/(\d+)(\/.*)?$/;
+
+/**
+ * Index remapping after a `/sparks/<owner>` replacement. `map[i]` is the new index of old spark
+ * `i`, or -1 when it belonged to the replaced owner (it no longer exists as such). Paths that
+ * index past the old array are treated like replaced ones: they pointed at nothing before.
+ */
+function remapSparkPath(path: string, map: number[]): string | null | undefined {
+  const m = SPARK_INDEX_PATH.exec(path);
+  if (!m) return undefined; // not index-based: unchanged
+  const to = map[Number(m[1])] ?? -1;
+  return to < 0 ? null : `/sparks/${to}${m[2] ?? ''}`;
+}
+
+/**
+ * The same remapping for every review item of the veteran (open or closed), in SQL so items whose
+ * field row is gone are covered too. A retired path is re-pointed at the owner pseudo-path, and an
+ * open item there is dismissed: the owner's whole list was just corrected, which supersedes it.
+ * ?1 veteran id, ?2 JSON index map, ?3 owner pseudo-path, ?4 now.
+ */
+const idx = `(CASE WHEN instr(substr(path, 9), '/') > 0
+                THEN substr(path, 9, instr(substr(path, 9), '/') - 1) ELSE substr(path, 9) END)`;
+const to = `COALESCE(json_extract(?2, '$[' || CAST(${idx} AS INTEGER) || ']'), -1)`;
+const REMAP_REVIEW_PATHS_SQL = `UPDATE review_items SET
+    path = CASE WHEN ${to} < 0 THEN ?3 ELSE '/sparks/' || ${to} || substr(path, 9 + length(${idx})) END,
+    status = CASE WHEN ${to} < 0 AND status = 'open' THEN 'dismissed' ELSE status END,
+    resolved_at = CASE WHEN ${to} < 0 AND status = 'open' THEN ?4 ELSE resolved_at END
+  WHERE veteran_id = ?1 AND path LIKE '/sparks/%' AND ${idx} <> '' AND ${idx} NOT GLOB '*[^0-9]*'`;
+
 // 01 §9: apply the value to the veteran, recompute the fingerprint (409 on collision), resolve.
+// Read-modify-write under optimistic concurrency (T04b): the batch starts with a write guard that
+// aborts the whole D1 transaction unless the veteran still has the `updated_at` loaded here and
+// the item is still open, so a concurrent resolve, PATCH, ingest or delete can't be overwritten,
+// resurrected or half-applied. The losing request gets 409 (or 404 when the veteran is gone).
 reviews.post('/review-items/:id/resolve', async (c) => {
   const db = c.env.DB;
   const { value } = await parseBody(c, ResolveReviewRequest);
   if (value === undefined) {
     throw validationError([{ path: '/value', message: 'value is required' }]);
   }
+  const itemId = c.req.param('id');
   const item = await db
     .prepare('SELECT id, veteran_id, path, status FROM review_items WHERE id = ?')
-    .bind(c.req.param('id'))
+    .bind(itemId)
     .first<{ id: string; veteran_id: string; path: string; status: string }>();
   if (!item) throw new ApiError(404, 'Not Found', 'No such review item');
   if (item.status !== 'open') {
@@ -80,10 +119,12 @@ reviews.post('/review-items/:id/resolve', async (c) => {
   const detail = await loadVeteranDetail(db, item.veteran_id);
   if (!detail)
     throw new ApiError(404, 'Not Found', 'The veteran of this review item no longer exists');
+  const { internal } = detail;
 
   // Apply the value to a copy of the `veteran` object.
   const draft = structuredClone(toVeteran(detail)) as unknown as Record<string, unknown>;
   const owner = OWNER_PSEUDO.exec(item.path)?.[1];
+  let sparkMap: number[] | null = null;
   if (owner) {
     // Pseudo-pointer "/sparks/<owner>" (CaptureField.path): the value is that owner's whole spark set.
     const parsed = z.array(SparkWithoutOwner).min(1).safeParse(value);
@@ -95,13 +136,21 @@ reviews.post('/review-items/:id/resolve', async (c) => {
     }
     const sparks = draft.sparks as { owner: string }[];
     const replacement = parsed.data.map((s) => ({ owner, ...s }));
-    // Keep the owner's block where it was (or at the end when it had none), so other open
-    // `/sparks/<n>/…` items keep pointing at the same sparks (T04 review N4).
+    // The owner's block goes where its first spark was (at the end when it had none). Every other
+    // spark keeps its relative order; `sparkMap` records where each one moved, so index-based
+    // fields and review items can follow it (T04 review N4).
     const at = sparks.findIndex((s) => s.owner === owner);
     const rest = sparks.filter((s) => s.owner !== owner);
-    const insertAt = at === -1 ? rest.length : at;
+    const insertAt = at === -1 ? rest.length : at; // every spark before `at` stays in `rest`
     draft.sparks = [...rest.slice(0, insertAt), ...replacement, ...rest.slice(insertAt)];
-  } else if (item.path === '/trainMode' || !setAtPointer(draft, item.path, value)) {
+    let kept = 0;
+    sparkMap = sparks.map((s) => {
+      if (s.owner === owner) return -1;
+      const next = kept < insertAt ? kept : kept + replacement.length;
+      kept += 1;
+      return next;
+    });
+  } else if (!isCorrectablePath(item.path) || !setAtPointer(draft, item.path, value)) {
     throw validationError(
       [{ path: item.path, message: 'this field cannot be corrected through a review item' }],
       'Unresolvable review path',
@@ -117,12 +166,12 @@ reviews.post('/review-items/:id/resolve', async (c) => {
   const veteran = parsed.data;
   const extra = extraVeteranChecks(veteran, '/veteran');
   if (extra.length > 0) throw validationError(extra);
-  const master = await c.var.deps.master(detail.masterVersion, c.env);
+  const master = await c.var.deps.master(internal.masterVersion, c.env);
   if (!master) {
     throw new ApiError(
       500,
       'Internal Server Error',
-      `Master data ${detail.masterVersion} is unavailable`,
+      `Master data ${internal.masterVersion} is unavailable`,
     );
   }
   const unknown = checkMasterIds(veteran, master);
@@ -132,7 +181,7 @@ reviews.post('/review-items/:id/resolve', async (c) => {
         path: `/veteran${u.path}`,
         kind: u.kind,
         id: u.id,
-        message: `unknown ${u.kind} ID "${u.id}" in master data ${detail.masterVersion}`,
+        message: `unknown ${u.kind} ID "${u.id}" in master data ${internal.masterVersion}`,
       })),
       'Unknown master-data IDs',
     );
@@ -149,38 +198,54 @@ reviews.post('/review-items/:id/resolve', async (c) => {
     ]);
   }
 
+  // Capture fields are rewritten from the loaded snapshot (the guard proves it is current): the
+  // resolved one becomes `corrected`, index-based ones follow their spark, and ones that pointed
+  // into the replaced owner block are dropped (they described sparks that no longer exist).
+  const fields: CaptureField[] = [];
+  for (const f of detail.fields) {
+    if (f.path === item.path) {
+      fields.push({ ...f, value, status: 'corrected' });
+      continue;
+    }
+    const moved = sparkMap ? remapSparkPath(f.path, sparkMap) : undefined;
+    if (moved === null) continue;
+    fields.push(moved === undefined ? f : { ...f, path: moved });
+  }
+  const remapped = sparkMap !== null && sparkMap.some((to, from) => to !== from);
+
   const now = nowIso(c);
-  const { capture_id: captureId } = (await db
-    .prepare('SELECT capture_id FROM veterans WHERE id = ?')
-    .bind(detail.id)
-    .first<{ capture_id: string }>())!;
   const trainMode =
     detail.modeSource === 'override' ? detail.trainMode : deriveTrainMode(veteran.epithet);
   const oldPair: [string, string] = [detail.characterId, detail.outfitId];
   const newPair: [string, string] = [veteran.characterId, veteran.outfitId];
   try {
     await db.batch([
+      writeGuardStatement(db, detail.id, internal.updatedAt, item.id),
       ...writeVeteranStatements(
         db,
         { ...veteran, trainMode },
         {
           id: detail.id,
           fingerprint: newFingerprint,
-          masterVersion: detail.masterVersion,
-          captureId,
+          masterVersion: internal.masterVersion,
+          captureId: internal.captureId,
           capturedAt: detail.capturedAt,
           minConfidence: detail.minConfidence,
           trainMode,
           modeSource: detail.modeSource,
           now,
         },
-        'id',
+        'update',
       ),
-      db
-        .prepare(
-          `UPDATE capture_fields SET value_json = ?, status = 'corrected' WHERE veteran_id = ? AND path = ?`,
-        )
-        .bind(JSON.stringify(value), detail.id, item.path),
+      db.prepare('DELETE FROM capture_fields WHERE veteran_id = ?').bind(detail.id),
+      ...insertFieldsStatement(db, newFingerprint, fields),
+      ...(remapped
+        ? [
+            db
+              .prepare(REMAP_REVIEW_PATHS_SQL)
+              .bind(detail.id, JSON.stringify(sparkMap), item.path, now),
+          ]
+        : []),
       db
         .prepare(
           `UPDATE review_items SET status = 'resolved', resolved_value_json = ?, resolved_at = ? WHERE id = ?`,
@@ -189,6 +254,7 @@ reviews.post('/review-items/:id/resolve', async (c) => {
       matchParentsStatement(db, { id: detail.id }, [oldPair, newPair]),
     ]);
   } catch (e) {
+    if (isStaleWrite(e)) throw await staleResolveError(db, item.id);
     // A concurrent ingest can take the new fingerprint between the check and the batch.
     if (String(e).includes('UNIQUE') && String(e).includes('veterans.fingerprint')) {
       throw new ApiError(409, 'Conflict', 'The corrected veteran duplicates an existing one');
@@ -197,5 +263,29 @@ reviews.post('/review-items/:id/resolve', async (c) => {
   }
 
   const row = await db.prepare(`${SELECT_REVIEW} WHERE r.id = ?`).bind(item.id).first<ReviewRow>();
-  return c.json(toReviewItem(row!));
+  // Only a delete landing right after the commit can make it disappear.
+  if (!row) throw new ApiError(404, 'Not Found', 'The veteran of this review item was deleted');
+  return c.json(toReviewItem(row));
 });
+
+/** Why the write guard refused the batch: the item/veteran is gone (404) or changed (409). */
+async function staleResolveError(db: D1Database, itemId: string): Promise<ApiError> {
+  const now = await db
+    .prepare(
+      `SELECT r.status, EXISTS (SELECT 1 FROM veterans v WHERE v.id = r.veteran_id) AS alive
+       FROM review_items r WHERE r.id = ?`,
+    )
+    .bind(itemId)
+    .first<{ status: string; alive: number }>();
+  if (!now || now.alive === 0) {
+    return new ApiError(404, 'Not Found', 'The veteran of this review item no longer exists');
+  }
+  if (now.status !== 'open') {
+    return new ApiError(409, 'Conflict', `Review item is already ${now.status}`);
+  }
+  return new ApiError(
+    409,
+    'Conflict',
+    'The veteran changed while this correction was being applied; reload and try again',
+  );
+}

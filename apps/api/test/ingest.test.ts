@@ -365,8 +365,9 @@ describe('concurrent identical ingests (B1)', () => {
       responses.map((r) => r.json().then((b) => IngestResponse.parse(b))),
     );
     expect(bodies.filter((b) => b.created).length).toBeLessThanOrEqual(1);
-    expect(responses.map((r) => r.status).sort()).toEqual(
-      responses.map((r) => (r.status === 201 ? 201 : 200)).sort(),
+    expect(responses.every((r) => r.status === 200 || r.status === 201)).toBe(true);
+    expect(responses.filter((r) => r.status === 201).length).toBe(
+      bodies.filter((b) => b.created).length,
     );
     const stored = await env.DB.prepare('SELECT id FROM veterans').all<{ id: string }>();
     expect(stored.results).toHaveLength(1);
