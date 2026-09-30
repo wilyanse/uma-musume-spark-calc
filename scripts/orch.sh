@@ -15,8 +15,7 @@ reasoning="${ORCH_REASONING:-medium}"
 mkdir -p "$ROOT/.orch/logs" "$WT_BASE"
 if [ ! -d "$wt" ]; then
   git -C "$ROOT" worktree add -b "$branch" "$wt" main
-  git -C "$wt" config user.email willjose51@gmail.com
-  git -C "$wt" config user.name "Will Jose"
+  # Linked worktrees inherit the repository identity; do not race on shared .git/config.
 fi
 case "$mode" in
   worker)
