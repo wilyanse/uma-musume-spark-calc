@@ -1,0 +1,3952 @@
+[
+  {
+    "id": "spark:1-500-000-cc",
+    "gameId": 20141,
+    "name": "1,500,000 CC",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:1-500-000-cc"
+    }
+  },
+  {
+    "id": "spark:114th-time-s-the-charm",
+    "gameId": 105202,
+    "name": "114th Time's the Charm",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:114th-time-s-the-charm"
+    }
+  },
+  {
+    "id": "spark:564-escapades",
+    "gameId": 100702,
+    "name": "564 Escapades",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:564-escapades"
+    }
+  },
+  {
+    "id": "spark:a-kiss-for-courage",
+    "gameId": 100402,
+    "name": "A Kiss for Courage",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:a-kiss-for-courage"
+    }
+  },
+  {
+    "id": "spark:a-lifelong-dream-a-moment-s-flight",
+    "gameId": 107101,
+    "name": "A Lifelong Dream, A Moment's Flight",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:a-lifelong-dream-a-moment-s-flight"
+    }
+  },
+  {
+    "id": "spark:a-princess-must-seize-victory",
+    "gameId": 103901,
+    "name": "A Princess Must Seize Victory!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:a-princess-must-seize-victory"
+    }
+  },
+  {
+    "id": "spark:a-small-breather",
+    "gameId": 20142,
+    "name": "A Small Breather",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:a-small-breather"
+    }
+  },
+  {
+    "id": "spark:acceleration",
+    "gameId": 20106,
+    "name": "Acceleration",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:acceleration"
+    }
+  },
+  {
+    "id": "spark:after-school-stroll",
+    "gameId": 20148,
+    "name": "After-School Stroll",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:after-school-stroll"
+    }
+  },
+  {
+    "id": "spark:all-charged-it-s-go-time",
+    "gameId": 103101,
+    "name": "All Charged! It's Go Time!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:all-charged-it-s-go-time"
+    }
+  },
+  {
+    "id": "spark:all-i-ve-got",
+    "gameId": 20170,
+    "name": "All I've Got",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:all-i-ve-got"
+    }
+  },
+  {
+    "id": "spark:all-set",
+    "gameId": 20219,
+    "name": "All Set",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:all-set"
+    }
+  },
+  {
+    "id": "spark:ambition-to-surpass-the-sakura",
+    "gameId": 106901,
+    "name": "Ambition to Surpass the Sakura",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ambition-to-surpass-the-sakura"
+    }
+  },
+  {
+    "id": "spark:anchors-aweigh",
+    "gameId": 100701,
+    "name": "Anchors Aweigh!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:anchors-aweigh"
+    }
+  },
+  {
+    "id": "spark:angling-and-scheming",
+    "gameId": 102001,
+    "name": "Angling and Scheming",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:angling-and-scheming"
+    }
+  },
+  {
+    "id": "spark:arima-kinen",
+    "gameId": 10023,
+    "name": "Arima Kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1023"
+    }
+  },
+  {
+    "id": "spark:arrows-whistle-shadows-disperse",
+    "gameId": 101702,
+    "name": "Arrows Whistle, Shadows Disperse",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:arrows-whistle-shadows-disperse"
+    }
+  },
+  {
+    "id": "spark:asahi-hai-f-s",
+    "gameId": 10022,
+    "name": "Asahi Hai F.S.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1022"
+    }
+  },
+  {
+    "id": "spark:aspire",
+    "gameId": 20241,
+    "name": "Aspire",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:aspire"
+    }
+  },
+  {
+    "id": "spark:barcarole-of-blessings",
+    "gameId": 101502,
+    "name": "Barcarole of Blessings",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:barcarole-of-blessings"
+    }
+  },
+  {
+    "id": "spark:be-still",
+    "gameId": 20169,
+    "name": "Be Still",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:be-still"
+    }
+  },
+  {
+    "id": "spark:behold-thine-emperor-s-divine-might",
+    "gameId": 101701,
+    "name": "Behold Thine Emperor's Divine Might",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:behold-thine-emperor-s-divine-might"
+    }
+  },
+  {
+    "id": "spark:best-day-ever",
+    "gameId": 102202,
+    "name": "Best day ever",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:best-day-ever"
+    }
+  },
+  {
+    "id": "spark:blazing-pride",
+    "gameId": 101801,
+    "name": "Blazing Pride",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:blazing-pride"
+    }
+  },
+  {
+    "id": "spark:blue-rose-closer",
+    "gameId": 103001,
+    "name": "Blue Rose Closer",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:blue-rose-closer"
+    }
+  },
+  {
+    "id": "spark:bountiful-harvest",
+    "gameId": 105602,
+    "name": "Bountiful Harvest",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:bountiful-harvest"
+    }
+  },
+  {
+    "id": "spark:break-it-down",
+    "gameId": 102002,
+    "name": "Break It Down!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:break-it-down"
+    }
+  },
+  {
+    "id": "spark:breakin-out",
+    "gameId": 20238,
+    "name": "Breakin' Out",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:breakin-out"
+    }
+  },
+  {
+    "id": "spark:budding-blossom",
+    "gameId": 105101,
+    "name": "Budding Blossom",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:budding-blossom"
+    }
+  },
+  {
+    "id": "spark:calm-in-a-crowd",
+    "gameId": 20048,
+    "name": "Calm in a Crowd",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:calm-in-a-crowd"
+    }
+  },
+  {
+    "id": "spark:certain-victory",
+    "gameId": 100302,
+    "name": "Certain Victory",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:certain-victory"
+    }
+  },
+  {
+    "id": "spark:champions-c",
+    "gameId": 10020,
+    "name": "Champions C.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1020"
+    }
+  },
+  {
+    "id": "spark:chasing-after-you",
+    "gameId": 102501,
+    "name": "Chasing after You",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:chasing-after-you"
+    }
+  },
+  {
+    "id": "spark:chukyo-racecourse",
+    "gameId": 20007,
+    "name": "Chukyo Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:chukyo-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:cloudy-days",
+    "gameId": 20022,
+    "name": "Cloudy Days ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:cloudy-days-2"
+    }
+  },
+  {
+    "id": "spark:collaborative-graded-races",
+    "gameId": 20225,
+    "name": "Collaborative Graded Races ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:collaborative-graded-races-2"
+    }
+  },
+  {
+    "id": "spark:comeback",
+    "gameId": 20227,
+    "name": "Comeback",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:comeback"
+    }
+  },
+  {
+    "id": "spark:competitive-spirit",
+    "gameId": 20028,
+    "name": "Competitive Spirit ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:competitive-spirit-2"
+    }
+  },
+  {
+    "id": "spark:condor-s-fury",
+    "gameId": 101402,
+    "name": "Condor's Fury",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:condor-s-fury"
+    }
+  },
+  {
+    "id": "spark:corner-acceleration",
+    "gameId": 20034,
+    "name": "Corner Acceleration ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:corner-acceleration"
+    }
+  },
+  {
+    "id": "spark:corner-adept",
+    "gameId": 20033,
+    "name": "Corner Adept ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:corner-adept"
+    }
+  },
+  {
+    "id": "spark:corner-recovery",
+    "gameId": 20035,
+    "name": "Corner Recovery ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:corner-recovery"
+    }
+  },
+  {
+    "id": "spark:countermeasure",
+    "gameId": 20099,
+    "name": "Countermeasure",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:countermeasure"
+    }
+  },
+  {
+    "id": "spark:cut-and-drive",
+    "gameId": 100801,
+    "name": "Cut and Drive!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:cut-and-drive"
+    }
+  },
+  {
+    "id": "spark:dancing-in-the-leaves",
+    "gameId": 104002,
+    "name": "Dancing in the Leaves",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:dancing-in-the-leaves"
+    }
+  },
+  {
+    "id": "spark:dazzl-n-diver",
+    "gameId": 100102,
+    "name": "Dazzl'n ♪ Diver",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:dazzl-n-diver"
+    }
+  },
+  {
+    "id": "spark:deep-breaths",
+    "gameId": 20074,
+    "name": "Deep Breaths",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:deep-breaths"
+    }
+  },
+  {
+    "id": "spark:dirt",
+    "gameId": 12,
+    "name": "Dirt",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "dirt"
+    }
+  },
+  {
+    "id": "spark:disorient",
+    "gameId": 20137,
+    "name": "Disorient",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:disorient"
+    }
+  },
+  {
+    "id": "spark:dodging-danger",
+    "gameId": 20126,
+    "name": "Dodging Danger",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:dodging-danger"
+    }
+  },
+  {
+    "id": "spark:down-in-the-dirt",
+    "gameId": 20230,
+    "name": "Down in the Dirt ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:down-in-the-dirt"
+    }
+  },
+  {
+    "id": "spark:downhill-speedster",
+    "gameId": 20217,
+    "name": "Downhill Speedster",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:downhill-speedster"
+    }
+  },
+  {
+    "id": "spark:dreams-donned-with-pride",
+    "gameId": 100103,
+    "name": "Dreams Donned with Pride!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:dreams-donned-with-pride"
+    }
+  },
+  {
+    "id": "spark:dust-cloud",
+    "gameId": 20235,
+    "name": "Dust Cloud",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:dust-cloud"
+    }
+  },
+  {
+    "id": "spark:eager",
+    "gameId": 20210,
+    "name": "Eager",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:eager"
+    }
+  },
+  {
+    "id": "spark:early-lead",
+    "gameId": 20053,
+    "name": "Early Lead",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:early-lead"
+    }
+  },
+  {
+    "id": "spark:early-start",
+    "gameId": 20202,
+    "name": "Early Start",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:early-start"
+    }
+  },
+  {
+    "id": "spark:end-closer",
+    "gameId": 24,
+    "name": "End Closer",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "end"
+    }
+  },
+  {
+    "id": "spark:end-closer-corners",
+    "gameId": 20146,
+    "name": "End Closer Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:end-closer-corners-2"
+    }
+  },
+  {
+    "id": "spark:end-closer-savvy",
+    "gameId": 20155,
+    "name": "End Closer Savvy ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:end-closer-savvy-2"
+    }
+  },
+  {
+    "id": "spark:end-closer-straightaways",
+    "gameId": 20145,
+    "name": "End Closer Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:end-closer-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:eternal-encompassing-shine",
+    "gameId": 106701,
+    "name": "Eternal Encompassing Shine",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:eternal-encompassing-shine"
+    }
+  },
+  {
+    "id": "spark:eternal-moments",
+    "gameId": 101802,
+    "name": "Eternal Moments",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:eternal-moments"
+    }
+  },
+  {
+    "id": "spark:every-rose-has-its-fangs",
+    "gameId": 103002,
+    "name": "Every Rose Has Its Fangs",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:every-rose-has-its-fangs"
+    }
+  },
+  {
+    "id": "spark:extra-tank",
+    "gameId": 20076,
+    "name": "Extra Tank",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:extra-tank"
+    }
+  },
+  {
+    "id": "spark:eyes-on-the-goal",
+    "gameId": 21020,
+    "name": "Eyes on the Goal",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:eyes-on-the-goal"
+    }
+  },
+  {
+    "id": "spark:fairy-tale",
+    "gameId": 102201,
+    "name": "Fairy Tale",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:fairy-tale"
+    }
+  },
+  {
+    "id": "spark:fall-runner",
+    "gameId": 20019,
+    "name": "Fall Runner ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:fall-runner-2"
+    }
+  },
+  {
+    "id": "spark:familiar-ground",
+    "gameId": 20200,
+    "name": "Familiar Ground",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:familiar-ground"
+    }
+  },
+  {
+    "id": "spark:fast-paced",
+    "gameId": 20054,
+    "name": "Fast-Paced",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:fast-paced"
+    }
+  },
+  {
+    "id": "spark:fearless",
+    "gameId": 20212,
+    "name": "Fearless",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:fearless"
+    }
+  },
+  {
+    "id": "spark:feature-act",
+    "gameId": 20201,
+    "name": "Feature Act",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:feature-act"
+    }
+  },
+  {
+    "id": "spark:february-s",
+    "gameId": 10001,
+    "name": "February S.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1001"
+    }
+  },
+  {
+    "id": "spark:festive-miracle",
+    "gameId": 100602,
+    "name": "Festive Miracle",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:festive-miracle"
+    }
+  },
+  {
+    "id": "spark:fighter",
+    "gameId": 20140,
+    "name": "Fighter",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:fighter"
+    }
+  },
+  {
+    "id": "spark:fighting-spirit",
+    "gameId": 20209,
+    "name": "Fighting Spirit",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:fighting-spirit"
+    }
+  },
+  {
+    "id": "spark:final-push",
+    "gameId": 20055,
+    "name": "Final Push",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:final-push"
+    }
+  },
+  {
+    "id": "spark:firelight",
+    "gameId": 103402,
+    "name": "Firelight",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:firelight"
+    }
+  },
+  {
+    "id": "spark:firm-conditions",
+    "gameId": 20015,
+    "name": "Firm Conditions ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:firm-conditions-2"
+    }
+  },
+  {
+    "id": "spark:firm-resolve",
+    "gameId": 20246,
+    "name": "Firm Resolve",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:firm-resolve"
+    }
+  },
+  {
+    "id": "spark:flashy-landing",
+    "gameId": 102401,
+    "name": "Flashy☆Landing",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:flashy-landing"
+    }
+  },
+  {
+    "id": "spark:flowery-maneuver",
+    "gameId": 102402,
+    "name": "Flowery☆Maneuver",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:flowery-maneuver"
+    }
+  },
+  {
+    "id": "spark:flustered-end-closers",
+    "gameId": 20093,
+    "name": "Flustered End Closers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:flustered-end-closers"
+    }
+  },
+  {
+    "id": "spark:flustered-front-runners",
+    "gameId": 20084,
+    "name": "Flustered Front Runners",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:flustered-front-runners"
+    }
+  },
+  {
+    "id": "spark:flustered-late-surgers",
+    "gameId": 20090,
+    "name": "Flustered Late Surgers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:flustered-late-surgers"
+    }
+  },
+  {
+    "id": "spark:flustered-pace-chasers",
+    "gameId": 20087,
+    "name": "Flustered Pace Chasers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:flustered-pace-chasers"
+    }
+  },
+  {
+    "id": "spark:focus",
+    "gameId": 20043,
+    "name": "Focus",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:focus"
+    }
+  },
+  {
+    "id": "spark:forward-march",
+    "gameId": 20168,
+    "name": "Forward, March!",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:forward-march"
+    }
+  },
+  {
+    "id": "spark:free-spirited",
+    "gameId": 20207,
+    "name": "Free-Spirited",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:free-spirited"
+    }
+  },
+  {
+    "id": "spark:frenzied-end-closers",
+    "gameId": 20082,
+    "name": "Frenzied End Closers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:frenzied-end-closers"
+    }
+  },
+  {
+    "id": "spark:frenzied-front-runners",
+    "gameId": 20079,
+    "name": "Frenzied Front Runners",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:frenzied-front-runners"
+    }
+  },
+  {
+    "id": "spark:frenzied-late-surgers",
+    "gameId": 20081,
+    "name": "Frenzied Late Surgers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:frenzied-late-surgers"
+    }
+  },
+  {
+    "id": "spark:frenzied-pace-chasers",
+    "gameId": 20080,
+    "name": "Frenzied Pace Chasers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:frenzied-pace-chasers"
+    }
+  },
+  {
+    "id": "spark:front-runner",
+    "gameId": 21,
+    "name": "Front Runner",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "front"
+    }
+  },
+  {
+    "id": "spark:front-runner-corners",
+    "gameId": 20125,
+    "name": "Front Runner Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:front-runner-corners-2"
+    }
+  },
+  {
+    "id": "spark:front-runner-savvy",
+    "gameId": 20152,
+    "name": "Front Runner Savvy ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:front-runner-savvy-2"
+    }
+  },
+  {
+    "id": "spark:front-runner-straightaways",
+    "gameId": 20124,
+    "name": "Front Runner Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:front-runner-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:fukushima-racecourse",
+    "gameId": 20010,
+    "name": "Fukushima Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:fukushima-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:full-throttle",
+    "gameId": 20215,
+    "name": "Full Throttle",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:full-throttle"
+    }
+  },
+  {
+    "id": "spark:full-tilt",
+    "gameId": 20228,
+    "name": "Full Tilt",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:full-tilt"
+    }
+  },
+  {
+    "id": "spark:funabashi-racecourse",
+    "gameId": 20221,
+    "name": "Funabashi Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:funabashi-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:g00-1st-f",
+    "gameId": 102601,
+    "name": "G00 1st. F∞;",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:g00-1st-f"
+    }
+  },
+  {
+    "id": "spark:gap-closer",
+    "gameId": 20067,
+    "name": "Gap Closer",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:gap-closer"
+    }
+  },
+  {
+    "id": "spark:genius-x-bakushin-victory",
+    "gameId": 104101,
+    "name": "Genius x Bakushin = Victory",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:genius-x-bakushin-victory"
+    }
+  },
+  {
+    "id": "spark:give-mummy-a-hug",
+    "gameId": 104502,
+    "name": "Give Mummy a Hug ♡",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:give-mummy-a-hug"
+    }
+  },
+  {
+    "id": "spark:glittering-star",
+    "gameId": 21006,
+    "name": "Glittering Star",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:glittering-star"
+    }
+  },
+  {
+    "id": "spark:go-go-goal",
+    "gameId": 106002,
+    "name": "Go☆Go☆Goal!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:go-go-goal"
+    }
+  },
+  {
+    "id": "spark:go-go-mun",
+    "gameId": 106201,
+    "name": "Go, Go, Mun!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:go-go-mun"
+    }
+  },
+  {
+    "id": "spark:go-with-the-flow",
+    "gameId": 20050,
+    "name": "Go with the Flow",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:go-with-the-flow"
+    }
+  },
+  {
+    "id": "spark:got-the-spirit",
+    "gameId": 20231,
+    "name": "Got the Spirit!",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:got-the-spirit"
+    }
+  },
+  {
+    "id": "spark:groundwork",
+    "gameId": 20160,
+    "name": "Groundwork",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:groundwork"
+    }
+  },
+  {
+    "id": "spark:guten-appetit",
+    "gameId": 103702,
+    "name": "Guten Appetit ♪",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:guten-appetit"
+    }
+  },
+  {
+    "id": "spark:guts",
+    "gameId": 4,
+    "name": "Guts",
+    "type": "blue",
+    "target": {
+      "kind": "stat",
+      "stat": "gut"
+    }
+  },
+  {
+    "id": "spark:hakodate-racecourse",
+    "gameId": 20009,
+    "name": "Hakodate Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hakodate-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:hanshin-j-f",
+    "gameId": 10021,
+    "name": "Hanshin J.F.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1021"
+    }
+  },
+  {
+    "id": "spark:hanshin-racecourse",
+    "gameId": 20005,
+    "name": "Hanshin Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hanshin-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:hawkeye",
+    "gameId": 20112,
+    "name": "Hawkeye",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hawkeye"
+    }
+  },
+  {
+    "id": "spark:head-on",
+    "gameId": 20190,
+    "name": "Head-On",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:head-on"
+    }
+  },
+  {
+    "id": "spark:hephaestus",
+    "gameId": 105002,
+    "name": "Hephaestus",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hephaestus"
+    }
+  },
+  {
+    "id": "spark:hesitant-end-closers",
+    "gameId": 20094,
+    "name": "Hesitant End Closers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hesitant-end-closers"
+    }
+  },
+  {
+    "id": "spark:hesitant-front-runners",
+    "gameId": 20085,
+    "name": "Hesitant Front Runners",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hesitant-front-runners"
+    }
+  },
+  {
+    "id": "spark:hesitant-late-surgers",
+    "gameId": 20091,
+    "name": "Hesitant Late Surgers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hesitant-late-surgers"
+    }
+  },
+  {
+    "id": "spark:hesitant-pace-chasers",
+    "gameId": 20088,
+    "name": "Hesitant Pace Chasers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hesitant-pace-chasers"
+    }
+  },
+  {
+    "id": "spark:highlander",
+    "gameId": 20158,
+    "name": "Highlander",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:highlander"
+    }
+  },
+  {
+    "id": "spark:homestretch-haste",
+    "gameId": 20051,
+    "name": "Homestretch Haste",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:homestretch-haste"
+    }
+  },
+  {
+    "id": "spark:hopeful-s",
+    "gameId": 10024,
+    "name": "Hopeful S.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1024"
+    }
+  },
+  {
+    "id": "spark:huge-lead",
+    "gameId": 20098,
+    "name": "Huge Lead",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:huge-lead"
+    }
+  },
+  {
+    "id": "spark:hydrate",
+    "gameId": 20135,
+    "name": "Hydrate",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:hydrate"
+    }
+  },
+  {
+    "id": "spark:i-can-see-right-through-you",
+    "gameId": 20147,
+    "name": "I Can See Right Through You",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:i-can-see-right-through-you"
+    }
+  },
+  {
+    "id": "spark:i-m-possible",
+    "gameId": 104201,
+    "name": "I'm Possible!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:i-m-possible"
+    }
+  },
+  {
+    "id": "spark:i-never-goof-up",
+    "gameId": 105801,
+    "name": "I Never Goof Up!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:i-never-goof-up"
+    }
+  },
+  {
+    "id": "spark:i-see-victory-in-my-future",
+    "gameId": 105601,
+    "name": "I See Victory in My Future!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:i-see-victory-in-my-future"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-guts",
+    "gameId": 21004,
+    "name": "Ignited Spirit GUTS",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-guts"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-guts-2",
+    "gameId": 21024,
+    "name": "Ignited Spirit: Guts +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-guts"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-power",
+    "gameId": 21023,
+    "name": "Ignited Spirit: Power +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-pwr"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-pwr",
+    "gameId": 21003,
+    "name": "Ignited Spirit PWR",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-pwr"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-spd",
+    "gameId": 21001,
+    "name": "Ignited Spirit SPD",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-spd"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-speed",
+    "gameId": 21021,
+    "name": "Ignited Spirit: Speed +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-spd"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-sta",
+    "gameId": 21002,
+    "name": "Ignited Spirit STA",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-sta"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-stamina",
+    "gameId": 21022,
+    "name": "Ignited Spirit: Stamina +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-sta"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-wit",
+    "gameId": 21005,
+    "name": "Ignited Spirit WIT",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-wit"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-wit-2",
+    "gameId": 21025,
+    "name": "Ignited Spirit: Wit +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ignited-spirit-wit"
+    }
+  },
+  {
+    "id": "spark:inner-post-proficiency",
+    "gameId": 20025,
+    "name": "Inner Post Proficiency ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:inner-post-proficiency-2"
+    }
+  },
+  {
+    "id": "spark:inside-scoop",
+    "gameId": 20075,
+    "name": "Inside Scoop",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:inside-scoop"
+    }
+  },
+  {
+    "id": "spark:intense-gaze",
+    "gameId": 20151,
+    "name": "Intense Gaze",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:intense-gaze"
+    }
+  },
+  {
+    "id": "spark:intimidate",
+    "gameId": 20101,
+    "name": "Intimidate",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:intimidate"
+    }
+  },
+  {
+    "id": "spark:into-high-gear",
+    "gameId": 100802,
+    "name": "Into High Gear!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:into-high-gear"
+    }
+  },
+  {
+    "id": "spark:j-d-derby",
+    "gameId": 10026,
+    "name": "J.D. Derby",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1102"
+    }
+  },
+  {
+    "id": "spark:japan-c",
+    "gameId": 10019,
+    "name": "Japan C.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1019"
+    }
+  },
+  {
+    "id": "spark:japanese-derby",
+    "gameId": 10010,
+    "name": "Japanese Derby",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1010"
+    }
+  },
+  {
+    "id": "spark:japanese-oaks",
+    "gameId": 10009,
+    "name": "Japanese Oaks",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1009"
+    }
+  },
+  {
+    "id": "spark:jbc-classic",
+    "gameId": 10029,
+    "name": "JBC Classic",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1105"
+    }
+  },
+  {
+    "id": "spark:jbc-l-classic",
+    "gameId": 10027,
+    "name": "JBC L. Classic",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1103"
+    }
+  },
+  {
+    "id": "spark:jbc-sprint",
+    "gameId": 10028,
+    "name": "JBC Sprint",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1104"
+    }
+  },
+  {
+    "id": "spark:joyful-voyage",
+    "gameId": 101002,
+    "name": "Joyful Voyage!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:joyful-voyage"
+    }
+  },
+  {
+    "id": "spark:just-a-little-farther",
+    "gameId": 106001,
+    "name": "Just a Little Farther!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:just-a-little-farther"
+    }
+  },
+  {
+    "id": "spark:kashiwa-kinen",
+    "gameId": 10032,
+    "name": "Kashiwa Kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1109"
+    }
+  },
+  {
+    "id": "spark:kawasaki-kinen",
+    "gameId": 10034,
+    "name": "Kawasaki Kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1107"
+    }
+  },
+  {
+    "id": "spark:kawasaki-racecourse",
+    "gameId": 20220,
+    "name": "Kawasaki Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:kawasaki-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:keep-it-real",
+    "gameId": 104001,
+    "name": "KEEP IT REAL.",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:keep-it-real"
+    }
+  },
+  {
+    "id": "spark:keep-pushing-ahead",
+    "gameId": 106401,
+    "name": "Keep Pushing Ahead",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:keep-pushing-ahead"
+    }
+  },
+  {
+    "id": "spark:keeping-the-lead",
+    "gameId": 20119,
+    "name": "Keeping the Lead",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:keeping-the-lead"
+    }
+  },
+  {
+    "id": "spark:kikuka-sho",
+    "gameId": 10015,
+    "name": "Kikuka Sho",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1015"
+    }
+  },
+  {
+    "id": "spark:kokura-racecourse",
+    "gameId": 20012,
+    "name": "Kokura Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:kokura-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:kyoto-racecourse",
+    "gameId": 20006,
+    "name": "Kyoto Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:kyoto-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:latch-on",
+    "gameId": 20247,
+    "name": "Latch On",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:latch-on"
+    }
+  },
+  {
+    "id": "spark:late-surger",
+    "gameId": 23,
+    "name": "Late Surger",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "late"
+    }
+  },
+  {
+    "id": "spark:late-surger-corners",
+    "gameId": 20139,
+    "name": "Late Surger Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:late-surger-corners-2"
+    }
+  },
+  {
+    "id": "spark:late-surger-savvy",
+    "gameId": 20154,
+    "name": "Late Surger Savvy ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:late-surger-savvy-2"
+    }
+  },
+  {
+    "id": "spark:late-surger-straightaways",
+    "gameId": 20138,
+    "name": "Late Surger Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:late-surger-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:laugh-at-the-odds",
+    "gameId": 104901,
+    "name": "Laugh at the Odds",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:laugh-at-the-odds"
+    }
+  },
+  {
+    "id": "spark:lay-low",
+    "gameId": 20044,
+    "name": "Lay Low",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:lay-low"
+    }
+  },
+  {
+    "id": "spark:leader-s-pride",
+    "gameId": 20127,
+    "name": "Leader's Pride",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:leader-s-pride"
+    }
+  },
+  {
+    "id": "spark:leap-forward",
+    "gameId": 20240,
+    "name": "Leap Forward",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:leap-forward"
+    }
+  },
+  {
+    "id": "spark:left-handed",
+    "gameId": 20002,
+    "name": "Left-Handed ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:left-handed-2"
+    }
+  },
+  {
+    "id": "spark:legacy-of-the-strong",
+    "gameId": 101302,
+    "name": "Legacy of the Strong",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:legacy-of-the-strong"
+    }
+  },
+  {
+    "id": "spark:let-s-pump-some-iron",
+    "gameId": 102701,
+    "name": "Let's Pump Some Iron!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:let-s-pump-some-iron"
+    }
+  },
+  {
+    "id": "spark:levelheaded",
+    "gameId": 20149,
+    "name": "Levelheaded",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:levelheaded"
+    }
+  },
+  {
+    "id": "spark:light-as-a-feather",
+    "gameId": 20204,
+    "name": "Light as a Feather",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:light-as-a-feather"
+    }
+  },
+  {
+    "id": "spark:lightning-flare",
+    "gameId": 102102,
+    "name": "Lightning Flare",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:lightning-flare"
+    }
+  },
+  {
+    "id": "spark:lights-of-vaudeville",
+    "gameId": 100501,
+    "name": "Lights of Vaudeville",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:lights-of-vaudeville"
+    }
+  },
+  {
+    "id": "spark:lone-wolf",
+    "gameId": 20164,
+    "name": "Lone Wolf",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:lone-wolf"
+    }
+  },
+  {
+    "id": "spark:long",
+    "gameId": 34,
+    "name": "Long",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "long"
+    }
+  },
+  {
+    "id": "spark:long-corners",
+    "gameId": 20118,
+    "name": "Long Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:long-corners-2"
+    }
+  },
+  {
+    "id": "spark:long-shot",
+    "gameId": 20030,
+    "name": "Long Shot ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:long-shot-2"
+    }
+  },
+  {
+    "id": "spark:long-straightaways",
+    "gameId": 20117,
+    "name": "Long Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:long-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:lookatcurren",
+    "gameId": 103801,
+    "name": "#LookatCurren",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:lookatcurren"
+    }
+  },
+  {
+    "id": "spark:louder-tracen-cheer",
+    "gameId": 106102,
+    "name": "Louder! Tracen Cheer!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:louder-tracen-cheer"
+    }
+  },
+  {
+    "id": "spark:lovely-spring-breeze",
+    "gameId": 107401,
+    "name": "Lovely Spring Breeze",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:lovely-spring-breeze"
+    }
+  },
+  {
+    "id": "spark:luck-runs-my-way",
+    "gameId": 109801,
+    "name": "Luck Runs My Way",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:luck-runs-my-way"
+    }
+  },
+  {
+    "id": "spark:lucky-seven",
+    "gameId": 20156,
+    "name": "Lucky Seven",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:lucky-seven"
+    }
+  },
+  {
+    "id": "spark:m-c-nambu-hai",
+    "gameId": 10031,
+    "name": "M.C. Nambu Hai",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1110"
+    }
+  },
+  {
+    "id": "spark:mad-dash",
+    "gameId": 20239,
+    "name": "Mad Dash",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:mad-dash"
+    }
+  },
+  {
+    "id": "spark:masterful-gambit",
+    "gameId": 20063,
+    "name": "Masterful Gambit",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:masterful-gambit"
+    }
+  },
+  {
+    "id": "spark:maverick",
+    "gameId": 20027,
+    "name": "Maverick ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:maverick-2"
+    }
+  },
+  {
+    "id": "spark:medium",
+    "gameId": 33,
+    "name": "Medium",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "medium"
+    }
+  },
+  {
+    "id": "spark:medium-corners",
+    "gameId": 20111,
+    "name": "Medium Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:medium-corners-2"
+    }
+  },
+  {
+    "id": "spark:medium-straightaways",
+    "gameId": 20110,
+    "name": "Medium Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:medium-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:meticulous-measures",
+    "gameId": 20100,
+    "name": "Meticulous Measures",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:meticulous-measures"
+    }
+  },
+  {
+    "id": "spark:mile",
+    "gameId": 32,
+    "name": "Mile",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "mile"
+    }
+  },
+  {
+    "id": "spark:mile-ch",
+    "gameId": 10018,
+    "name": "Mile Ch.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1018"
+    }
+  },
+  {
+    "id": "spark:mile-corners",
+    "gameId": 20104,
+    "name": "Mile Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:mile-corners-2"
+    }
+  },
+  {
+    "id": "spark:mile-straightaways",
+    "gameId": 20103,
+    "name": "Mile Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:mile-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:morioka-racecourse",
+    "gameId": 20222,
+    "name": "Morioka Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:morioka-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:moving-past-and-beyond",
+    "gameId": 105901,
+    "name": "Moving Past, and Beyond",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:moving-past-and-beyond"
+    }
+  },
+  {
+    "id": "spark:moxie",
+    "gameId": 20128,
+    "name": "Moxie",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:moxie"
+    }
+  },
+  {
+    "id": "spark:muddy",
+    "gameId": 20234,
+    "name": "Muddy ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:muddy-2"
+    }
+  },
+  {
+    "id": "spark:murmur",
+    "gameId": 20116,
+    "name": "Murmur",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:murmur"
+    }
+  },
+  {
+    "id": "spark:my-true-strength",
+    "gameId": 20248,
+    "name": "My True Strength",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:my-true-strength"
+    }
+  },
+  {
+    "id": "spark:nakayama-racecourse",
+    "gameId": 20004,
+    "name": "Nakayama Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:nakayama-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:nemesis",
+    "gameId": 105001,
+    "name": "Nemesis",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:nemesis"
+    }
+  },
+  {
+    "id": "spark:never-say-never",
+    "gameId": 110001,
+    "name": "Never Say Never",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:never-say-never"
+    }
+  },
+  {
+    "id": "spark:nhk-mile-c",
+    "gameId": 10007,
+    "name": "NHK Mile C.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1007"
+    }
+  },
+  {
+    "id": "spark:night-races",
+    "gameId": 20223,
+    "name": "Night Races ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:night-races-2"
+    }
+  },
+  {
+    "id": "spark:niigata-racecourse",
+    "gameId": 20011,
+    "name": "Niigata Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:niigata-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:nimble-navigator",
+    "gameId": 20049,
+    "name": "Nimble Navigator",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:nimble-navigator"
+    }
+  },
+  {
+    "id": "spark:no-looking-back",
+    "gameId": 20250,
+    "name": "No Looking Back",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:no-looking-back"
+    }
+  },
+  {
+    "id": "spark:non-standard-distance",
+    "gameId": 20014,
+    "name": "Non-Standard Distance ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:non-standard-distance-2"
+    }
+  },
+  {
+    "id": "spark:now-we-re-cruisin",
+    "gameId": 103401,
+    "name": "Now We're Cruisin'!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:now-we-re-cruisin"
+    }
+  },
+  {
+    "id": "spark:oi-racecourse",
+    "gameId": 20095,
+    "name": "Oi Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:oi-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:oka-sho",
+    "gameId": 10004,
+    "name": "Oka Sho",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1004"
+    }
+  },
+  {
+    "id": "spark:omg-the-final-sprint",
+    "gameId": 101901,
+    "name": "OMG! (ﾟ∀ﾟ)  The Final Sprint! ☆",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:omg-the-final-sprint"
+    }
+  },
+  {
+    "id": "spark:on-the-attack",
+    "gameId": 20237,
+    "name": "On the Attack",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:on-the-attack"
+    }
+  },
+  {
+    "id": "spark:on-the-way-to-our-dream",
+    "gameId": 21007,
+    "name": "On the Way to Our Dream",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:on-the-way-to-our-dream"
+    }
+  },
+  {
+    "id": "spark:one-true-color",
+    "gameId": 103802,
+    "name": "One True Color",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:one-true-color"
+    }
+  },
+  {
+    "id": "spark:opening-gambit",
+    "gameId": 20109,
+    "name": "Opening Gambit",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:opening-gambit"
+    }
+  },
+  {
+    "id": "spark:operation-cacao",
+    "gameId": 102602,
+    "name": "Operation Cacao",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:operation-cacao"
+    }
+  },
+  {
+    "id": "spark:oppression",
+    "gameId": 20236,
+    "name": "Oppression",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:oppression"
+    }
+  },
+  {
+    "id": "spark:osaka-hai",
+    "gameId": 10003,
+    "name": "Osaka Hai",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1003"
+    }
+  },
+  {
+    "id": "spark:our-grand-concert",
+    "gameId": 30004,
+    "name": "Our Grand Concert",
+    "type": "white",
+    "target": {
+      "kind": "scenario",
+      "scenarioId": "scenario:brighter-together-our-grand-concert"
+    }
+  },
+  {
+    "id": "spark:our-ticket-to-win",
+    "gameId": 103501,
+    "name": "Our Ticket to Win!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:our-ticket-to-win"
+    }
+  },
+  {
+    "id": "spark:outer-post-proficiency",
+    "gameId": 20026,
+    "name": "Outer Post Proficiency ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:outer-post-proficiency-2"
+    }
+  },
+  {
+    "id": "spark:outer-swell",
+    "gameId": 20061,
+    "name": "Outer Swell",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:outer-swell"
+    }
+  },
+  {
+    "id": "spark:pace-chaser",
+    "gameId": 22,
+    "name": "Pace Chaser",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "pace"
+    }
+  },
+  {
+    "id": "spark:pace-chaser-corners",
+    "gameId": 20132,
+    "name": "Pace Chaser Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pace-chaser-corners-2"
+    }
+  },
+  {
+    "id": "spark:pace-chaser-savvy",
+    "gameId": 20153,
+    "name": "Pace Chaser Savvy ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pace-chaser-savvy-2"
+    }
+  },
+  {
+    "id": "spark:pace-chaser-straightaways",
+    "gameId": 20131,
+    "name": "Pace Chaser Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pace-chaser-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:pace-strategy",
+    "gameId": 20047,
+    "name": "Pace Strategy",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pace-strategy"
+    }
+  },
+  {
+    "id": "spark:passing-pro",
+    "gameId": 20120,
+    "name": "Passing Pro",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:passing-pro"
+    }
+  },
+  {
+    "id": "spark:pedal-to-the-metal",
+    "gameId": 20245,
+    "name": "Pedal to the Metal",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pedal-to-the-metal"
+    }
+  },
+  {
+    "id": "spark:peerless-dance-of-flowering-flames",
+    "gameId": 107201,
+    "name": "Peerless Dance of Flowering Flames",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:peerless-dance-of-flowering-flames"
+    }
+  },
+  {
+    "id": "spark:playtime-s-over",
+    "gameId": 20166,
+    "name": "Playtime's Over!",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:playtime-s-over"
+    }
+  },
+  {
+    "id": "spark:pop-polish",
+    "gameId": 104801,
+    "name": "Pop & Polish",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pop-polish"
+    }
+  },
+  {
+    "id": "spark:position-pilfer",
+    "gameId": 20059,
+    "name": "Position Pilfer",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:position-pilfer"
+    }
+  },
+  {
+    "id": "spark:power",
+    "gameId": 3,
+    "name": "Power",
+    "type": "blue",
+    "target": {
+      "kind": "stat",
+      "stat": "pow"
+    }
+  },
+  {
+    "id": "spark:preferred-position",
+    "gameId": 20057,
+    "name": "Preferred Position",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:preferred-position"
+    }
+  },
+  {
+    "id": "spark:prepared-to-pass",
+    "gameId": 20058,
+    "name": "Prepared to Pass",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:prepared-to-pass"
+    }
+  },
+  {
+    "id": "spark:presents-from-x",
+    "gameId": 102302,
+    "name": "Presents from X",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:presents-from-x"
+    }
+  },
+  {
+    "id": "spark:pressure",
+    "gameId": 20121,
+    "name": "Pressure",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pressure"
+    }
+  },
+  {
+    "id": "spark:prideful-king",
+    "gameId": 106101,
+    "name": "Prideful King",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:prideful-king"
+    }
+  },
+  {
+    "id": "spark:productive-plan",
+    "gameId": 20068,
+    "name": "Productive Plan",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:productive-plan"
+    }
+  },
+  {
+    "id": "spark:prudent-positioning",
+    "gameId": 20045,
+    "name": "Prudent Positioning",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:prudent-positioning"
+    }
+  },
+  {
+    "id": "spark:pumped",
+    "gameId": 20211,
+    "name": "Pumped",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pumped"
+    }
+  },
+  {
+    "id": "spark:pure-heart",
+    "gameId": 104501,
+    "name": "Pure Heart",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:pure-heart"
+    }
+  },
+  {
+    "id": "spark:queen-elizabeth-ii-cup",
+    "gameId": 10017,
+    "name": "Queen Elizabeth II Cup",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1017"
+    }
+  },
+  {
+    "id": "spark:queen-s-lumination",
+    "gameId": 100902,
+    "name": "Queen's Lumination",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:queen-s-lumination"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-guts",
+    "gameId": 21011,
+    "name": "Racing Spirit: Guts",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-guts"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-guts-2",
+    "gameId": 21017,
+    "name": "Racing Spirit: Guts +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-guts"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-mood",
+    "gameId": 21013,
+    "name": "Racing Spirit: Mood",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-mood"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-mood-2",
+    "gameId": 21019,
+    "name": "Racing Spirit: Mood +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-mood"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-power",
+    "gameId": 21010,
+    "name": "Racing Spirit: Power",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-power"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-power-2",
+    "gameId": 21016,
+    "name": "Racing Spirit: Power +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-power"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-speed",
+    "gameId": 21008,
+    "name": "Racing Spirit: Speed",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-speed"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-speed-2",
+    "gameId": 21014,
+    "name": "Racing Spirit: Speed +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-speed"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-stamina",
+    "gameId": 21009,
+    "name": "Racing Spirit: Stamina",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-stamina"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-stamina-2",
+    "gameId": 21015,
+    "name": "Racing Spirit: Stamina +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-stamina"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-wit",
+    "gameId": 21012,
+    "name": "Racing Spirit: Wit",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-wit"
+    }
+  },
+  {
+    "id": "spark:racing-spirit-wit-2",
+    "gameId": 21018,
+    "name": "Racing Spirit: Wit +",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:racing-spirit-wit"
+    }
+  },
+  {
+    "id": "spark:rainy-days",
+    "gameId": 20023,
+    "name": "Rainy Days ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:rainy-days-2"
+    }
+  },
+  {
+    "id": "spark:ramp-up",
+    "gameId": 20046,
+    "name": "Ramp Up",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ramp-up"
+    }
+  },
+  {
+    "id": "spark:rapid-gain",
+    "gameId": 20232,
+    "name": "Rapid Gain",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:rapid-gain"
+    }
+  },
+  {
+    "id": "spark:rational",
+    "gameId": 20229,
+    "name": "Rational",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:rational"
+    }
+  },
+  {
+    "id": "spark:ravissant",
+    "gameId": 100502,
+    "name": "Ravissant",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ravissant"
+    }
+  },
+  {
+    "id": "spark:red-hot-discipline",
+    "gameId": 105301,
+    "name": "Red-Hot Discipline!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:red-hot-discipline"
+    }
+  },
+  {
+    "id": "spark:red-shift-lp1211-m",
+    "gameId": 100401,
+    "name": "Red Shift/LP1211-M",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:red-shift-lp1211-m"
+    }
+  },
+  {
+    "id": "spark:resplendent-red-ace",
+    "gameId": 100901,
+    "name": "Resplendent Red Ace",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:resplendent-red-ace"
+    }
+  },
+  {
+    "id": "spark:restart",
+    "gameId": 20130,
+    "name": "Restart",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:restart"
+    }
+  },
+  {
+    "id": "spark:restraint",
+    "gameId": 20216,
+    "name": "Restraint",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:restraint"
+    }
+  },
+  {
+    "id": "spark:right-handed",
+    "gameId": 20001,
+    "name": "Right-Handed ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:right-handed-2"
+    }
+  },
+  {
+    "id": "spark:risk-taker",
+    "gameId": 20244,
+    "name": "Risk-Taker",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:risk-taker"
+    }
+  },
+  {
+    "id": "spark:risky-business",
+    "gameId": 20203,
+    "name": "Risky Business",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:risky-business"
+    }
+  },
+  {
+    "id": "spark:rosy-outlook",
+    "gameId": 20071,
+    "name": "Rosy Outlook",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:rosy-outlook"
+    }
+  },
+  {
+    "id": "spark:sapporo-racecourse",
+    "gameId": 20008,
+    "name": "Sapporo Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sapporo-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:satsuki-sho",
+    "gameId": 10005,
+    "name": "Satsuki Sho",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1005"
+    }
+  },
+  {
+    "id": "spark:schwarzes-schwert",
+    "gameId": 103701,
+    "name": "Schwarzes Schwert",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:schwarzes-schwert"
+    }
+  },
+  {
+    "id": "spark:scramble",
+    "gameId": 20242,
+    "name": "Scramble",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:scramble"
+    }
+  },
+  {
+    "id": "spark:second-wind",
+    "gameId": 20129,
+    "name": "Second Wind",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:second-wind"
+    }
+  },
+  {
+    "id": "spark:shadow-break",
+    "gameId": 101601,
+    "name": "Shadow Break",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:shadow-break"
+    }
+  },
+  {
+    "id": "spark:shake-it-out",
+    "gameId": 20162,
+    "name": "Shake It Out",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:shake-it-out"
+    }
+  },
+  {
+    "id": "spark:sharp-gaze",
+    "gameId": 20144,
+    "name": "Sharp Gaze",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sharp-gaze"
+    }
+  },
+  {
+    "id": "spark:sharp-turns",
+    "gameId": 20224,
+    "name": "Sharp Turns ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sharp-turns-2"
+    }
+  },
+  {
+    "id": "spark:shifting-gears",
+    "gameId": 20105,
+    "name": "Shifting Gears",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:shifting-gears"
+    }
+  },
+  {
+    "id": "spark:shooting-for-victory",
+    "gameId": 101001,
+    "name": "Shooting for Victory!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:shooting-for-victory"
+    }
+  },
+  {
+    "id": "spark:shooting-star",
+    "gameId": 100101,
+    "name": "Shooting Star",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:shooting-star"
+    }
+  },
+  {
+    "id": "spark:shooting-star-of-dioskouroi",
+    "gameId": 103301,
+    "name": "Shooting Star of Dioskouroi",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:shooting-star-of-dioskouroi"
+    }
+  },
+  {
+    "id": "spark:shrewd-step",
+    "gameId": 20133,
+    "name": "Shrewd Step",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:shrewd-step"
+    }
+  },
+  {
+    "id": "spark:shuka-sho",
+    "gameId": 10014,
+    "name": "Shuka Sho",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1014"
+    }
+  },
+  {
+    "id": "spark:silent-letter",
+    "gameId": 108701,
+    "name": "Silent Letter",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:silent-letter"
+    }
+  },
+  {
+    "id": "spark:sky-high-teio-step",
+    "gameId": 100301,
+    "name": "Sky-High Teio Step",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sky-high-teio-step"
+    }
+  },
+  {
+    "id": "spark:slick-surge",
+    "gameId": 20060,
+    "name": "Slick Surge",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:slick-surge"
+    }
+  },
+  {
+    "id": "spark:slipstream",
+    "gameId": 20165,
+    "name": "Slipstream",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:slipstream"
+    }
+  },
+  {
+    "id": "spark:smoke-screen",
+    "gameId": 20123,
+    "name": "Smoke Screen",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:smoke-screen"
+    }
+  },
+  {
+    "id": "spark:snow-bright-snow-flight",
+    "gameId": 102901,
+    "name": "Snow Bright, Snow Flight",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:snow-bright-snow-flight"
+    }
+  },
+  {
+    "id": "spark:snowy-days",
+    "gameId": 20024,
+    "name": "Snowy Days ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:snowy-days-2"
+    }
+  },
+  {
+    "id": "spark:soft-step",
+    "gameId": 20114,
+    "name": "Soft Step",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:soft-step"
+    }
+  },
+  {
+    "id": "spark:solid-steps",
+    "gameId": 20233,
+    "name": "Solid Steps",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:solid-steps"
+    }
+  },
+  {
+    "id": "spark:sparkly-stardom",
+    "gameId": 104601,
+    "name": "SPARKLY☆STARDOM",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sparkly-stardom"
+    }
+  },
+  {
+    "id": "spark:speed",
+    "gameId": 1,
+    "name": "Speed",
+    "type": "blue",
+    "target": {
+      "kind": "stat",
+      "stat": "spd"
+    }
+  },
+  {
+    "id": "spark:speed-eater",
+    "gameId": 20108,
+    "name": "Speed Eater",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:speed-eater"
+    }
+  },
+  {
+    "id": "spark:spooky-scary-happy",
+    "gameId": 105802,
+    "name": "Spooky, Scary, Happy",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:spooky-scary-happy"
+    }
+  },
+  {
+    "id": "spark:spring-runner",
+    "gameId": 20017,
+    "name": "Spring Runner ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:spring-runner-2"
+    }
+  },
+  {
+    "id": "spark:sprint",
+    "gameId": 31,
+    "name": "Sprint",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "sprint"
+    }
+  },
+  {
+    "id": "spark:sprint-corners",
+    "gameId": 20097,
+    "name": "Sprint Corners ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sprint-corners-2"
+    }
+  },
+  {
+    "id": "spark:sprint-straightaways",
+    "gameId": 20096,
+    "name": "Sprint Straightaways ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sprint-straightaways-2"
+    }
+  },
+  {
+    "id": "spark:sprinters-s",
+    "gameId": 10013,
+    "name": "Sprinters S.",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1013"
+    }
+  },
+  {
+    "id": "spark:sprinting-gear",
+    "gameId": 20065,
+    "name": "Sprinting Gear",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sprinting-gear"
+    }
+  },
+  {
+    "id": "spark:stamina",
+    "gameId": 2,
+    "name": "Stamina",
+    "type": "blue",
+    "target": {
+      "kind": "stat",
+      "stat": "sta"
+    }
+  },
+  {
+    "id": "spark:stamina-eater",
+    "gameId": 20122,
+    "name": "Stamina Eater",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:stamina-eater"
+    }
+  },
+  {
+    "id": "spark:stamina-to-spare",
+    "gameId": 20056,
+    "name": "Stamina to Spare",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:stamina-to-spare"
+    }
+  },
+  {
+    "id": "spark:standard-distance",
+    "gameId": 20013,
+    "name": "Standard Distance ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:standard-distance-2"
+    }
+  },
+  {
+    "id": "spark:standing-by",
+    "gameId": 20062,
+    "name": "Standing By",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:standing-by"
+    }
+  },
+  {
+    "id": "spark:star",
+    "gameId": 104602,
+    "name": "α-star*",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:star"
+    }
+  },
+  {
+    "id": "spark:steadfast",
+    "gameId": 20073,
+    "name": "Steadfast",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:steadfast"
+    }
+  },
+  {
+    "id": "spark:steady-gait",
+    "gameId": 20243,
+    "name": "Steady Gait",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:steady-gait"
+    }
+  },
+  {
+    "id": "spark:stop-right-there",
+    "gameId": 20102,
+    "name": "Stop Right There!",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:stop-right-there"
+    }
+  },
+  {
+    "id": "spark:straight-descent",
+    "gameId": 20134,
+    "name": "Straight Descent",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:straight-descent"
+    }
+  },
+  {
+    "id": "spark:straightaway-acceleration",
+    "gameId": 20037,
+    "name": "Straightaway Acceleration",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:straightaway-acceleration"
+    }
+  },
+  {
+    "id": "spark:straightaway-adept",
+    "gameId": 20036,
+    "name": "Straightaway Adept",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:straightaway-adept"
+    }
+  },
+  {
+    "id": "spark:straightaway-recovery",
+    "gameId": 20038,
+    "name": "Straightaway Recovery",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:straightaway-recovery"
+    }
+  },
+  {
+    "id": "spark:straightaway-spurt",
+    "gameId": 20064,
+    "name": "Straightaway Spurt",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:straightaway-spurt"
+    }
+  },
+  {
+    "id": "spark:strategist",
+    "gameId": 20150,
+    "name": "Strategist",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:strategist"
+    }
+  },
+  {
+    "id": "spark:studious",
+    "gameId": 20143,
+    "name": "Studious",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:studious"
+    }
+  },
+  {
+    "id": "spark:subdued-end-closers",
+    "gameId": 20092,
+    "name": "Subdued End Closers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:subdued-end-closers"
+    }
+  },
+  {
+    "id": "spark:subdued-front-runners",
+    "gameId": 20083,
+    "name": "Subdued Front Runners",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:subdued-front-runners"
+    }
+  },
+  {
+    "id": "spark:subdued-late-surgers",
+    "gameId": 20089,
+    "name": "Subdued Late Surgers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:subdued-late-surgers"
+    }
+  },
+  {
+    "id": "spark:subdued-pace-chasers",
+    "gameId": 20086,
+    "name": "Subdued Pace Chasers",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:subdued-pace-chasers"
+    }
+  },
+  {
+    "id": "spark:summer-runner",
+    "gameId": 20018,
+    "name": "Summer Runner ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:summer-runner-2"
+    }
+  },
+  {
+    "id": "spark:sunny-breeze",
+    "gameId": 107801,
+    "name": "Sunny Breeze",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sunny-breeze"
+    }
+  },
+  {
+    "id": "spark:sunny-days",
+    "gameId": 20021,
+    "name": "Sunny Days ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sunny-days-2"
+    }
+  },
+  {
+    "id": "spark:sunny-sign",
+    "gameId": 20226,
+    "name": "Sunny Sign",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sunny-sign"
+    }
+  },
+  {
+    "id": "spark:super-duper-climax",
+    "gameId": 105201,
+    "name": "Super-Duper Climax",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:super-duper-climax"
+    }
+  },
+  {
+    "id": "spark:superior-heal",
+    "gameId": 101102,
+    "name": "Superior Heal",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:superior-heal"
+    }
+  },
+  {
+    "id": "spark:sympathy",
+    "gameId": 20163,
+    "name": "Sympathy",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:sympathy"
+    }
+  },
+  {
+    "id": "spark:tactical-tweak",
+    "gameId": 20136,
+    "name": "Tactical Tweak",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:tactical-tweak"
+    }
+  },
+  {
+    "id": "spark:tail-held-high",
+    "gameId": 20161,
+    "name": "Tail Held High",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:tail-held-high"
+    }
+  },
+  {
+    "id": "spark:takamatsunomiya-kinen",
+    "gameId": 10002,
+    "name": "Takamatsunomiya Kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1002"
+    }
+  },
+  {
+    "id": "spark:takarazuka-kinen",
+    "gameId": 10012,
+    "name": "Takarazuka Kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1012"
+    }
+  },
+  {
+    "id": "spark:take-the-chance",
+    "gameId": 20208,
+    "name": "Take the Chance",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:take-the-chance"
+    }
+  },
+  {
+    "id": "spark:target-in-sight",
+    "gameId": 20029,
+    "name": "Target in Sight ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:target-in-sight-2"
+    }
+  },
+  {
+    "id": "spark:teio-sho",
+    "gameId": 10025,
+    "name": "Teio Sho",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1101"
+    }
+  },
+  {
+    "id": "spark:tenno-sho-autumn",
+    "gameId": 10016,
+    "name": "Tenno Sho (Autumn)",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1016"
+    }
+  },
+  {
+    "id": "spark:tenno-sho-spring",
+    "gameId": 10006,
+    "name": "Tenno Sho (Spring)",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1006"
+    }
+  },
+  {
+    "id": "spark:tether",
+    "gameId": 20115,
+    "name": "Tether",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:tether"
+    }
+  },
+  {
+    "id": "spark:the-duty-of-dignity-calls",
+    "gameId": 101301,
+    "name": "The Duty of Dignity Calls",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:the-duty-of-dignity-calls"
+    }
+  },
+  {
+    "id": "spark:the-moe-aaaa-thanks-for-my-life",
+    "gameId": 101902,
+    "name": "THE MOE AAAA Thanks for My Life",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:the-moe-aaaa-thanks-for-my-life"
+    }
+  },
+  {
+    "id": "spark:the-view-from-the-lead-is-mine",
+    "gameId": 100201,
+    "name": "The View from the Lead Is Mine!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:the-view-from-the-lead-is-mine"
+    }
+  },
+  {
+    "id": "spark:this-dance-is-for-vittoria",
+    "gameId": 101501,
+    "name": "This Dance Is for Vittoria!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:this-dance-is-for-vittoria"
+    }
+  },
+  {
+    "id": "spark:thunderbolt-step",
+    "gameId": 20113,
+    "name": "Thunderbolt Step",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:thunderbolt-step"
+    }
+  },
+  {
+    "id": "spark:ticket-to-your-dreams",
+    "gameId": 103502,
+    "name": "Ticket to Your Dreams!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:ticket-to-your-dreams"
+    }
+  },
+  {
+    "id": "spark:tokyo-daishoten",
+    "gameId": 10030,
+    "name": "Tokyo Daishoten",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1106"
+    }
+  },
+  {
+    "id": "spark:tokyo-racecourse",
+    "gameId": 20003,
+    "name": "Tokyo Racecourse ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:tokyo-racecourse-2"
+    }
+  },
+  {
+    "id": "spark:top-pick",
+    "gameId": 20167,
+    "name": "Top Pick",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:top-pick"
+    }
+  },
+  {
+    "id": "spark:trick-front",
+    "gameId": 20077,
+    "name": "Trick (Front)",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:trick-front"
+    }
+  },
+  {
+    "id": "spark:trick-rear",
+    "gameId": 20078,
+    "name": "Trick (Rear)",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:trick-rear"
+    }
+  },
+  {
+    "id": "spark:trigger-beat",
+    "gameId": 103601,
+    "name": "trigger:BEAT",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:trigger-beat"
+    }
+  },
+  {
+    "id": "spark:triple-7s",
+    "gameId": 20157,
+    "name": "Triple 7s",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:triple-7s"
+    }
+  },
+  {
+    "id": "spark:triumphant-pulse",
+    "gameId": 100601,
+    "name": "Triumphant Pulse",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:triumphant-pulse"
+    }
+  },
+  {
+    "id": "spark:ts-climax-scenario",
+    "gameId": 30003,
+    "name": "TS Climax Scenario",
+    "type": "white",
+    "target": {
+      "kind": "scenario",
+      "scenarioId": "scenario:trackblazer"
+    }
+  },
+  {
+    "id": "spark:turf",
+    "gameId": 11,
+    "name": "Turf",
+    "type": "pink",
+    "target": {
+      "kind": "aptitude",
+      "apt": "turf"
+    }
+  },
+  {
+    "id": "spark:u-ma2",
+    "gameId": 103201,
+    "name": "U=ma2",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:u-ma2"
+    }
+  },
+  {
+    "id": "spark:uma-stan",
+    "gameId": 20159,
+    "name": "Uma Stan",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:uma-stan"
+    }
+  },
+  {
+    "id": "spark:unity-cup",
+    "gameId": 30002,
+    "name": "Unity Cup",
+    "type": "white",
+    "target": {
+      "kind": "scenario",
+      "scenarioId": "scenario:unity-cup"
+    }
+  },
+  {
+    "id": "spark:unyielding-spirit",
+    "gameId": 20107,
+    "name": "Unyielding Spirit",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:unyielding-spirit"
+    }
+  },
+  {
+    "id": "spark:up-tempo",
+    "gameId": 20072,
+    "name": "Up-Tempo",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:up-tempo"
+    }
+  },
+  {
+    "id": "spark:updrafters",
+    "gameId": 20070,
+    "name": "Updrafters",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:updrafters"
+    }
+  },
+  {
+    "id": "spark:ura-finale",
+    "gameId": 30001,
+    "name": "URA Finale",
+    "type": "white",
+    "target": {
+      "kind": "scenario",
+      "scenarioId": "scenario:ura-finale"
+    }
+  },
+  {
+    "id": "spark:victoria-mile",
+    "gameId": 10008,
+    "name": "Victoria Mile",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1008"
+    }
+  },
+  {
+    "id": "spark:victoria-por-plancha",
+    "gameId": 101401,
+    "name": "Victoria por plancha ☆",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:victoria-por-plancha"
+    }
+  },
+  {
+    "id": "spark:victory-belongs-to-me-strelitzia",
+    "gameId": 104401,
+    "name": "Victory belongs to me—Strelitzia! ☆",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:victory-belongs-to-me-strelitzia"
+    }
+  },
+  {
+    "id": "spark:victory-cheer",
+    "gameId": 106801,
+    "name": "Victory Cheer!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:victory-cheer"
+    }
+  },
+  {
+    "id": "spark:wait-and-see",
+    "gameId": 20066,
+    "name": "Wait-and-See",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:wait-and-see"
+    }
+  },
+  {
+    "id": "spark:watchful-eye",
+    "gameId": 20069,
+    "name": "Watchful Eye",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:watchful-eye"
+    }
+  },
+  {
+    "id": "spark:wet-conditions",
+    "gameId": 20016,
+    "name": "Wet Conditions ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:wet-conditions-2"
+    }
+  },
+  {
+    "id": "spark:where-there-s-a-will-there-s-a-way",
+    "gameId": 101101,
+    "name": "Where There's a Will, There's a Way",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:where-there-s-a-will-there-s-a-way"
+    }
+  },
+  {
+    "id": "spark:wherever-this-wonder-leads",
+    "gameId": 105902,
+    "name": "Wherever This Wonder Leads",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:wherever-this-wonder-leads"
+    }
+  },
+  {
+    "id": "spark:white-lightning-comin-through",
+    "gameId": 102101,
+    "name": "White Lightning Comin' Through!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:white-lightning-comin-through"
+    }
+  },
+  {
+    "id": "spark:win-q-e-d",
+    "gameId": 102301,
+    "name": "∴win Q.E.D.",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:win-q-e-d"
+    }
+  },
+  {
+    "id": "spark:winter-runner",
+    "gameId": 20020,
+    "name": "Winter Runner ◯",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:winter-runner-2"
+    }
+  },
+  {
+    "id": "spark:wit",
+    "gameId": 5,
+    "name": "Wit",
+    "type": "blue",
+    "target": {
+      "kind": "stat",
+      "stat": "wit"
+    }
+  },
+  {
+    "id": "spark:with-all-my-soul",
+    "gameId": 20213,
+    "name": "With All My Soul",
+    "type": "white",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:with-all-my-soul"
+    }
+  },
+  {
+    "id": "spark:yasuda-kinen",
+    "gameId": 10011,
+    "name": "Yasuda Kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1011"
+    }
+  },
+  {
+    "id": "spark:you-and-me-one-on-one",
+    "gameId": 101201,
+    "name": "You and Me! One-on-One!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:you-and-me-one-on-one"
+    }
+  },
+  {
+    "id": "spark:your-smile-sparkles-as-the-waves",
+    "gameId": 101303,
+    "name": "Your Smile Sparkles as the Waves",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:your-smile-sparkles-as-the-waves"
+    }
+  },
+  {
+    "id": "spark:yummy-speed",
+    "gameId": 102801,
+    "name": "YUMMY☆SPEED!",
+    "type": "green",
+    "target": {
+      "kind": "skill",
+      "skillId": "skill:yummy-speed"
+    }
+  },
+  {
+    "id": "spark:zen-nippon-junior-yushun",
+    "gameId": 10033,
+    "name": "Zen-Nippon Junior Yushun",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "1108"
+    }
+  }
+]

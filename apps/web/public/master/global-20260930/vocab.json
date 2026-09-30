@@ -1,0 +1,7897 @@
+[
+  {
+    "kind": "character",
+    "id": "character:admire-vega",
+    "text": "Admire Vega"
+  },
+  {
+    "kind": "character",
+    "id": "character:agnes-digital",
+    "text": "Agnes Digital"
+  },
+  {
+    "kind": "character",
+    "id": "character:agnes-tachyon",
+    "text": "Agnes Tachyon"
+  },
+  {
+    "kind": "character",
+    "id": "character:air-groove",
+    "text": "Air Groove"
+  },
+  {
+    "kind": "character",
+    "id": "character:air-shakur",
+    "text": "Air Shakur"
+  },
+  {
+    "kind": "character",
+    "id": "character:aston-machan",
+    "text": "Aston Machan"
+  },
+  {
+    "kind": "character",
+    "id": "character:bamboo-memory",
+    "text": "Bamboo Memory"
+  },
+  {
+    "kind": "character",
+    "id": "character:biwa-hayahide",
+    "text": "Biwa Hayahide"
+  },
+  {
+    "kind": "character",
+    "id": "character:copano-rickey",
+    "text": "Copano Rickey"
+  },
+  {
+    "kind": "character",
+    "id": "character:curren-chan",
+    "text": "Curren Chan"
+  },
+  {
+    "kind": "character",
+    "id": "character:daiwa-scarlet",
+    "text": "Daiwa Scarlet"
+  },
+  {
+    "kind": "character",
+    "id": "character:eishin-flash",
+    "text": "Eishin Flash"
+  },
+  {
+    "kind": "character",
+    "id": "character:el-condor-pasa",
+    "text": "El Condor Pasa"
+  },
+  {
+    "kind": "character",
+    "id": "character:fine-motion",
+    "text": "Fine Motion"
+  },
+  {
+    "kind": "character",
+    "id": "character:fuji-kiseki",
+    "text": "Fuji Kiseki"
+  },
+  {
+    "kind": "character",
+    "id": "character:gold-city",
+    "text": "Gold City"
+  },
+  {
+    "kind": "character",
+    "id": "character:gold-ship",
+    "text": "Gold Ship"
+  },
+  {
+    "kind": "character",
+    "id": "character:grass-wonder",
+    "text": "Grass Wonder"
+  },
+  {
+    "kind": "character",
+    "id": "character:haru-urara",
+    "text": "Haru Urara"
+  },
+  {
+    "kind": "character",
+    "id": "character:hishi-akebono",
+    "text": "Hishi Akebono"
+  },
+  {
+    "kind": "character",
+    "id": "character:hishi-amazon",
+    "text": "Hishi Amazon"
+  },
+  {
+    "kind": "character",
+    "id": "character:inari-one",
+    "text": "Inari One"
+  },
+  {
+    "kind": "character",
+    "id": "character:ines-fujin",
+    "text": "Ines Fujin"
+  },
+  {
+    "kind": "character",
+    "id": "character:kawakami-princess",
+    "text": "Kawakami Princess"
+  },
+  {
+    "kind": "character",
+    "id": "character:king-halo",
+    "text": "King Halo"
+  },
+  {
+    "kind": "character",
+    "id": "character:kitasan-black",
+    "text": "Kitasan Black"
+  },
+  {
+    "kind": "character",
+    "id": "character:manhattan-cafe",
+    "text": "Manhattan Cafe"
+  },
+  {
+    "kind": "character",
+    "id": "character:maruzensky",
+    "text": "Maruzensky"
+  },
+  {
+    "kind": "character",
+    "id": "character:matikanefukukitaru",
+    "text": "Matikanefukukitaru"
+  },
+  {
+    "kind": "character",
+    "id": "character:matikanetannhauser",
+    "text": "Matikanetannhauser"
+  },
+  {
+    "kind": "character",
+    "id": "character:mayano-top-gun",
+    "text": "Mayano Top Gun"
+  },
+  {
+    "kind": "character",
+    "id": "character:meisho-doto",
+    "text": "Meisho Doto"
+  },
+  {
+    "kind": "character",
+    "id": "character:mejiro-ardan",
+    "text": "Mejiro Ardan"
+  },
+  {
+    "kind": "character",
+    "id": "character:mejiro-bright",
+    "text": "Mejiro Bright"
+  },
+  {
+    "kind": "character",
+    "id": "character:mejiro-dober",
+    "text": "Mejiro Dober"
+  },
+  {
+    "kind": "character",
+    "id": "character:mejiro-mcqueen",
+    "text": "Mejiro McQueen"
+  },
+  {
+    "kind": "character",
+    "id": "character:mejiro-palmer",
+    "text": "Mejiro Palmer"
+  },
+  {
+    "kind": "character",
+    "id": "character:mejiro-ryan",
+    "text": "Mejiro Ryan"
+  },
+  {
+    "kind": "character",
+    "id": "character:mihono-bourbon",
+    "text": "Mihono Bourbon"
+  },
+  {
+    "kind": "character",
+    "id": "character:nakayama-festa",
+    "text": "Nakayama Festa"
+  },
+  {
+    "kind": "character",
+    "id": "character:narita-brian",
+    "text": "Narita Brian"
+  },
+  {
+    "kind": "character",
+    "id": "character:narita-taishin",
+    "text": "Narita Taishin"
+  },
+  {
+    "kind": "character",
+    "id": "character:nice-nature",
+    "text": "Nice Nature"
+  },
+  {
+    "kind": "character",
+    "id": "character:nishino-flower",
+    "text": "Nishino Flower"
+  },
+  {
+    "kind": "character",
+    "id": "character:oguri-cap",
+    "text": "Oguri Cap"
+  },
+  {
+    "kind": "character",
+    "id": "character:rice-shower",
+    "text": "Rice Shower"
+  },
+  {
+    "kind": "character",
+    "id": "character:sakura-bakushin-o",
+    "text": "Sakura Bakushin O"
+  },
+  {
+    "kind": "character",
+    "id": "character:sakura-chiyono-o",
+    "text": "Sakura Chiyono O"
+  },
+  {
+    "kind": "character",
+    "id": "character:satono-diamond",
+    "text": "Satono Diamond"
+  },
+  {
+    "kind": "character",
+    "id": "character:seeking-the-pearl",
+    "text": "Seeking the Pearl"
+  },
+  {
+    "kind": "character",
+    "id": "character:seiun-sky",
+    "text": "Seiun Sky"
+  },
+  {
+    "kind": "character",
+    "id": "character:silence-suzuka",
+    "text": "Silence Suzuka"
+  },
+  {
+    "kind": "character",
+    "id": "character:smart-falcon",
+    "text": "Smart Falcon"
+  },
+  {
+    "kind": "character",
+    "id": "character:special-week",
+    "text": "Special Week"
+  },
+  {
+    "kind": "character",
+    "id": "character:super-creek",
+    "text": "Super Creek"
+  },
+  {
+    "kind": "character",
+    "id": "character:sweep-tosho",
+    "text": "Sweep Tosho"
+  },
+  {
+    "kind": "character",
+    "id": "character:symboli-rudolf",
+    "text": "Symboli Rudolf"
+  },
+  {
+    "kind": "character",
+    "id": "character:taiki-shuttle",
+    "text": "Taiki Shuttle"
+  },
+  {
+    "kind": "character",
+    "id": "character:tamamo-cross",
+    "text": "Tamamo Cross"
+  },
+  {
+    "kind": "character",
+    "id": "character:tm-opera-o",
+    "text": "T.M. Opera O"
+  },
+  {
+    "kind": "character",
+    "id": "character:tm-opera-o",
+    "text": "TM Opera O"
+  },
+  {
+    "kind": "character",
+    "id": "character:tokai-teio",
+    "text": "Tokai Teio"
+  },
+  {
+    "kind": "character",
+    "id": "character:tosen-jordan",
+    "text": "Tosen Jordan"
+  },
+  {
+    "kind": "character",
+    "id": "character:vodka",
+    "text": "Vodka"
+  },
+  {
+    "kind": "character",
+    "id": "character:winning-ticket",
+    "text": "Winning Ticket"
+  },
+  {
+    "kind": "character",
+    "id": "character:wonder-acute",
+    "text": "Wonder Acute"
+  },
+  {
+    "kind": "character",
+    "id": "character:yaeno-muteki",
+    "text": "Yaeno Muteki"
+  },
+  {
+    "kind": "character",
+    "id": "character:yamanin-zephyr",
+    "text": "Yamanin Zephyr"
+  },
+  {
+    "kind": "character",
+    "id": "character:yukino-bijin",
+    "text": "Yukino Bijin"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:all-around-otaku",
+    "text": "All-Around Otaku"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:all-rounder",
+    "text": "All-Rounder"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:apple-far-from-the-tree",
+    "text": "Apple Far from the Tree"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:bakushin-king",
+    "text": "Bakushin King"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:barrier-breaking-genius",
+    "text": "Barrier-Breaking Genius"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:beauty-of-the-century",
+    "text": "Beauty of the Century"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:best-actress",
+    "text": "Best Actress"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:blinding-flash",
+    "text": "Blinding Flash"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:blooming-sakura",
+    "text": "Blooming Sakura"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:born-to-perform",
+    "text": "Born to Perform"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:breakneck-miler",
+    "text": "Breakneck Miler"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:brightest-star",
+    "text": "Brightest Star"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:bring-down-the-house",
+    "text": "Bring Down the House"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:bronze-collector",
+    "text": "Bronze Collector"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:capricious-clover",
+    "text": "Capricious Clover"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:centurial-overlord",
+    "text": "Centurial Overlord"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:climax-king",
+    "text": "Climax King"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:colossus",
+    "text": "Colossus"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:comeback-champion",
+    "text": "Comeback Champion"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:consistent",
+    "text": "Consistent"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:cool-and-composed",
+    "text": "Cool and Composed"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:coolheaded-beauty",
+    "text": "Coolheaded Beauty"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:crownless-monarch",
+    "text": "Crownless Monarch"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:darling-of-the-sand",
+    "text": "Darling of the Sand"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:december-domination",
+    "text": "December Domination"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:derby-dreamer",
+    "text": "Derby Dreamer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:derby-umamusume",
+    "text": "Derby Umamusume"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-dancer",
+    "text": "Dirt Dancer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-demon",
+    "text": "Dirt Demon"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-devil",
+    "text": "Dirt Devil"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-g1-achiever",
+    "text": "Dirt G1 Achiever"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-g1-dominator",
+    "text": "Dirt G1 Dominator"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-g1-powerhouse",
+    "text": "Dirt G1 Powerhouse"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-g1-star",
+    "text": "Dirt G1 Star"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-mile-hero",
+    "text": "Dirt Mile Hero"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-specialist",
+    "text": "Dirt Specialist"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirt-sprinter",
+    "text": "Dirt Sprinter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dirty-work",
+    "text": "Dirty Work"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:divergent-double-crown",
+    "text": "Divergent Double Crown"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:divine-songster",
+    "text": "Divine Songster"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:divine-speed",
+    "text": "Divine Speed"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:double-crown",
+    "text": "Double Crown"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:double-tiara",
+    "text": "Double Tiara"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dream-team",
+    "text": "Dream Team"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:dual-track-queen",
+    "text": "Dual Track Queen"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:eat-my-dust",
+    "text": "Eat My Dust"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:eccentric",
+    "text": "Eccentric"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:embodiment-of-dreams",
+    "text": "Embodiment of Dreams"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:emperor",
+    "text": "Emperor"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:empress",
+    "text": "Empress"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:enchanting-triple-crown",
+    "text": "Enchanting Triple Crown"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:epoch-pioneer",
+    "text": "Epoch Pioneer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:extraordinary-empress",
+    "text": "Extraordinary Empress"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:eye-of-the-storm",
+    "text": "Eye of the Storm"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:fall-champion",
+    "text": "Fall Champion"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:fan-favorite",
+    "text": "Fan Favorite"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:faster-than-light",
+    "text": "Faster than Light"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:fighting-spirit",
+    "text": "Fighting Spirit"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:finals-champion",
+    "text": "Finals Champion"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:first-step-to-glory",
+    "text": "First Step to Glory"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:fortune-s-smile",
+    "text": "Fortune's Smile"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:free-spirit",
+    "text": "Free Spirit"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:freestyle",
+    "text": "Freestyle"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:g1-hunter",
+    "text": "G1 Hunter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:g1-winner",
+    "text": "G1 Winner"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:g2-winner",
+    "text": "G2 Winner"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:gem-of-dreams",
+    "text": "Gem of Dreams"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:generation-king",
+    "text": "Generation King"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:globe-trotter",
+    "text": "Globe-Trotter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:god-of-wind",
+    "text": "God of Wind"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:goddess",
+    "text": "Goddess"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:gold-hunter",
+    "text": "Gold Hunter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:golden-cleat",
+    "text": "Golden Cleat"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:got-guts",
+    "text": "Got Guts"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:graded-giant",
+    "text": "Graded Giant"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:guts-of-steel",
+    "text": "Guts of Steel"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:hanshin-harmony",
+    "text": "Hanshin Harmony"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:hard-trying-haru-urara",
+    "text": "Hard-Trying Haru Urara"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:hearts-united",
+    "text": "Hearts United"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:herald-of-a-new-age",
+    "text": "Herald of a New Age"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:heroine",
+    "text": "Heroine"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:hokkaido-hotshot",
+    "text": "Hokkaido Hotshot"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:hot-rod",
+    "text": "Hot Rod"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:ideal-idol",
+    "text": "Ideal Idol"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:impeccable",
+    "text": "Impeccable"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:incline-invicta",
+    "text": "Incline Invicta"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:incredible",
+    "text": "Incredible"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:independent-learner",
+    "text": "Independent Learner"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:inspired-intellect",
+    "text": "Inspired Intellect"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:iron-uma",
+    "text": "Iron Uma"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:iwate-s-natural-beauty",
+    "text": "Iwate's Natural Beauty"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:jinx-breaker",
+    "text": "Jinx Breaker"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:junior-jewel",
+    "text": "Junior Jewel"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:kanto-conqueror",
+    "text": "Kanto Conqueror"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:kawasaki-s-iron-foot",
+    "text": "Kawasaki's Iron Foot"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:kicking-up-dust",
+    "text": "Kicking Up Dust"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:kikuka-krazy",
+    "text": "Kikuka Krazy"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:kokura-constable",
+    "text": "Kokura Constable"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:l-hater",
+    "text": "L Hater"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:lady",
+    "text": "Lady"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:late-bloomer",
+    "text": "Late Bloomer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:late-show",
+    "text": "Late Show"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:leading-the-charge",
+    "text": "Leading the Charge"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:legendary",
+    "text": "Legendary"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:legendary-diva",
+    "text": "Legendary Diva"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:legendary-reprise",
+    "text": "Legendary Reprise"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:little-miss-prodigy",
+    "text": "Little Miss Prodigy"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:local-sightseer",
+    "text": "Local Sightseer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:long-shot",
+    "text": "Long Shot"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:looming-shadow",
+    "text": "Looming Shadow"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:lossless-lineage",
+    "text": "Lossless Lineage"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:make-debut",
+    "text": "Make Debut"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:master-of-many-locales",
+    "text": "Master of Many Locales"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:mesmerizing-muscle",
+    "text": "Mesmerizing Muscle"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:mightiest-miler",
+    "text": "Mightiest Miler"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:mile-a-minute",
+    "text": "Mile a Minute"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:mile-magnet",
+    "text": "Mile Magnet"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:mile-queen",
+    "text": "Mile Queen"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:miler-in-the-making",
+    "text": "Miler in the Making"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:mismatched",
+    "text": "Mismatched"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:miss-all-dirt",
+    "text": "Miss All Dirt"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:miss-all-turf",
+    "text": "Miss All Turf"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:miss-cloudy",
+    "text": "Miss Cloudy"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:miss-dolphin",
+    "text": "Miss Dolphin"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:miss-perfect",
+    "text": "Miss Perfect"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:monarch",
+    "text": "Monarch"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:moneymaker",
+    "text": "Moneymaker"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:monster-in-the-shadows",
+    "text": "Monster in the Shadows"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:monstrous-debut",
+    "text": "Monstrous Debut"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:muscle-machine",
+    "text": "Muscle Machine"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:mutation",
+    "text": "Mutation"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:nascent-legend",
+    "text": "Nascent Legend"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:nepo-uma",
+    "text": "Nepo Uma"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:next-gen-grandmaster",
+    "text": "Next-Gen Grandmaster"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:nighttime-parade",
+    "text": "Nighttime Parade"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:non-standard-distance-leader",
+    "text": "Non-Standard Distance Leader"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:now-that-s-white-lightning",
+    "text": "Now That's White Lightning!"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:oaks-obsessed",
+    "text": "Oaks Obsessed"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:oaks-umamusume",
+    "text": "Oaks Umamusume"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:oi-overlord",
+    "text": "Oi Overlord"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:otherworldly-front-runner",
+    "text": "Otherworldly Front-Runner"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:peak-condition",
+    "text": "Peak Condition"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:perpetual-motion",
+    "text": "Perpetual Motion"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:phantom-bird",
+    "text": "Phantom Bird"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:phenomenal",
+    "text": "Phenomenal"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:phoenix",
+    "text": "Phoenix"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:place-perfect",
+    "text": "Place Perfect"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:playing-dirty",
+    "text": "Playing Dirty"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:popping-with-passion",
+    "text": "Popping with Passion"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:pouty-witch",
+    "text": "Pouty Witch"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:power-lifter",
+    "text": "Power Lifter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:power-perseverance",
+    "text": "Power & Perseverance"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:powerhouse",
+    "text": "Powerhouse"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:precocious-princess",
+    "text": "Precocious Princess"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:pro-racer",
+    "text": "Pro Racer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:product-power",
+    "text": "Product Power"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:queen-of-dance",
+    "text": "Queen of Dance"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:queen-of-the-amazons",
+    "text": "Queen of the Amazons"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:quiz-queen",
+    "text": "Quiz Queen"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:rainy-runner",
+    "text": "Rainy Runner"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:rampaging-racer",
+    "text": "Rampaging Racer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:rebellious-phase",
+    "text": "Rebellious Phase"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:record-holder",
+    "text": "Record Holder"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:regional-roundabout",
+    "text": "Regional Roundabout"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:rising-star",
+    "text": "Rising Star"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:ruler-of-japan",
+    "text": "Ruler of Japan"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sable-assassin",
+    "text": "Sable Assassin"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sakura-seeker",
+    "text": "Sakura Seeker"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sand-falcon",
+    "text": "Sand Falcon"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sand-transcender",
+    "text": "Sand Transcender"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:satsuki-spirit",
+    "text": "Satsuki Spirit"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:seeking-fame-afar",
+    "text": "Seeking Fame Afar"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:senior-autumn-triple-crown",
+    "text": "Senior Autumn Triple Crown"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:senior-spring-triple-crown",
+    "text": "Senior Spring Triple Crown"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sensation-succession",
+    "text": "Sensation Succession"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:shared-smarts",
+    "text": "Shared Smarts"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:shield-bearer",
+    "text": "Shield Bearer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:silver-collector",
+    "text": "Silver Collector"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sixth-sense",
+    "text": "Sixth Sense"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:skill-collector",
+    "text": "Skill Collector"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:skill-master",
+    "text": "Skill Master"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:skill-savant",
+    "text": "Skill Savant"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:snow-queen",
+    "text": "Snow Queen"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:speed-queen",
+    "text": "Speed Queen"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:speed-star",
+    "text": "Speed Star"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:speedster-of-the-sands",
+    "text": "Speedster of the Sands"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:speedy-stayer",
+    "text": "Speedy Stayer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:spirit-burst",
+    "text": "Spirit Burst"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:spring-champion",
+    "text": "Spring Champion"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sprint-go-getter",
+    "text": "Sprint Go-Getter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sprint-speedster",
+    "text": "Sprint Speedster"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sprint-sweetheart",
+    "text": "Sprint Sweetheart"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sprinter-stayer",
+    "text": "Sprinter Stayer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:stalwart-silver",
+    "text": "Stalwart Silver"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:stamina-stockpile",
+    "text": "Stamina Stockpile"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:standard-distance-leader",
+    "text": "Standard Distance Leader"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:steamy-solidarity",
+    "text": "Steamy Solidarity"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:steely-mentality",
+    "text": "Steely Mentality"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:stormy-front-runner",
+    "text": "Stormy Front Runner"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:straightaway-supreme",
+    "text": "Straightaway Supreme"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:stress-free-stayer",
+    "text": "Stress-Free Stayer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:stunning",
+    "text": "Stunning"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:sunset-seeker",
+    "text": "Sunset Seeker"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:super-sprinter",
+    "text": "Super Sprinter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:super-uma",
+    "text": "Super Uma"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:superb-stayer",
+    "text": "Superb Stayer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:supporting-star",
+    "text": "Supporting Star"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:talent-takes-time",
+    "text": "Talent Takes Time"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:talisman-of-victory",
+    "text": "Talisman of Victory"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:team-player",
+    "text": "Team Player"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:team-player-star-slayer",
+    "text": "Team Player Star Slayer"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:tenno-sweep",
+    "text": "Tenno Sweep"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:the-goat",
+    "text": "The GOAT"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:the-key-to-success",
+    "text": "The Key to Success"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:tohoku-top-dog",
+    "text": "Tohoku Top Dog"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:trainaholic",
+    "text": "Trainaholic"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:trickster",
+    "text": "Trickster"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:triple-crown",
+    "text": "Triple Crown"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:triple-tiara",
+    "text": "Triple Tiara"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:true-way-of-kings",
+    "text": "True Way of Kings"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:true-way-of-queens",
+    "text": "True Way of Queens"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:trueborn-gambler",
+    "text": "Trueborn Gambler"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:turf-sorceress",
+    "text": "Turf Sorceress"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:turf-terror",
+    "text": "Turf Terror"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:turf-tussler",
+    "text": "Turf Tussler"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:twilighter",
+    "text": "Twilighter"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:twinkling-pearl",
+    "text": "Twinkling Pearl"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:two-way-runner",
+    "text": "Two-Way Runner"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:umatastic",
+    "text": "Umatastic"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:unbreakable",
+    "text": "Unbreakable"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:undefeated",
+    "text": "Undefeated"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:undeniable",
+    "text": "Undeniable"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:undying-machan",
+    "text": "Undying Machan"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:unexpected",
+    "text": "Unexpected"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:unpredictable",
+    "text": "Unpredictable"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:unrelenting-challenger",
+    "text": "Unrelenting Challenger"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:unstoppable",
+    "text": "Unstoppable"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:unyielding",
+    "text": "Unyielding"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:victorious",
+    "text": "Victorious"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:victory-derived",
+    "text": "Victory Derived"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:virtuoso-vocalist",
+    "text": "Virtuoso Vocalist"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:visiting-the-greats",
+    "text": "Visiting the Greats"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:visual-kei",
+    "text": "Visual Kei"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:warlord-from-oi",
+    "text": "Warlord from Oi"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:way-of-kings",
+    "text": "Way of Kings"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:way-of-queens",
+    "text": "Way of Queens"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:well-traveled",
+    "text": "Well-Traveled"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:west-japan-whiz",
+    "text": "West Japan Whiz"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:will-of-steel",
+    "text": "Will of Steel"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:wind-incarnate",
+    "text": "Wind Incarnate"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:witness-to-legend",
+    "text": "Witness to Legend"
+  },
+  {
+    "kind": "epithet",
+    "id": "epithet:yokozuna",
+    "text": "Yokozuna"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:always-electrifying",
+    "text": "Always Electrifying"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:archer-by-moonlight",
+    "text": "Archer by Moonlight"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:ashen-miracle",
+    "text": "Ashen Miracle"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:authentic-1928",
+    "text": "Authentic / 1928"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:autumn-cosmos",
+    "text": "Autumn Cosmos"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:azure-amazon",
+    "text": "Azure Amazon"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:bestest-prize",
+    "text": "Bestest Prize ♪"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:beyond-the-horizon",
+    "text": "Beyond the Horizon"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:blazed-head-covered-fists",
+    "text": "Blazed Head, Covered Fists"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:blossom-in-learning",
+    "text": "Blossom in Learning"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:brunissage-line",
+    "text": "Brunissage Line"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:bubblegum-memories",
+    "text": "Bubblegum☆Memories"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:buono-alla-moda",
+    "text": "Buono ☆ Alla Moda"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:butterfly-sting",
+    "text": "Butterfly Sting"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:cheerleader-in-noble-white",
+    "text": "Cheerleader in Noble White"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:chiffon-wrapped-mummy",
+    "text": "Chiffon-Wrapped Mummy"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:clippety-tippety-clop",
+    "text": "Clippety-Tippety-Clop"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:code-icing",
+    "text": "CODE: ICING"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:creeping-shadow",
+    "text": "Creeping Shadow"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:crystalline",
+    "text": "Crystalline"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:darl-n-snowflake",
+    "text": "Darl'n Snowflake"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:desperate-measures",
+    "text": "Desperate Measures"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:difference-engineer",
+    "text": "Difference Engineer"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:dot-o-lantern",
+    "text": "Dot-o'-Lantern"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:down-the-line",
+    "text": "Down the Line"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:dream-deliverer",
+    "text": "Dream Deliverer"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:edomurasaki",
+    "text": "Edomurasaki"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:eightfold-fortune",
+    "text": "Eightfold☆Fortune"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:el-n-mero-1",
+    "text": "El☆Número 1"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:emperor-s-path",
+    "text": "Emperor's Path"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:empress-road",
+    "text": "Empress Road"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:end-of-the-skies",
+    "text": "End of the Skies"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:fair-lady-of-the-waves",
+    "text": "Fair Lady of the Waves"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:fanatic-jiangshi",
+    "text": "Fanatic♡Jiangshi"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:fast-as-lightning",
+    "text": "Fast as Lightning"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:fiery-aqua-vitae",
+    "text": "Fiery Aqua Vitae"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:fille-clair",
+    "text": "Fille Éclair"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:flare",
+    "text": "Flare"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:fluttertail-spirit",
+    "text": "Fluttertail Spirit"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:formula-r",
+    "text": "Formula R"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:frontline-elegance",
+    "text": "Frontline Elegance"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:full-color-fangirling",
+    "text": "Full-Color Fangirling"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:get-to-winning",
+    "text": "Get to Winning!"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:gilded-shrine-to-glory",
+    "text": "Gilded Shrine to Glory"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:golden-dream",
+    "text": "Golden Dream"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:hopp-n-happy-heart",
+    "text": "Hopp'n♪Happy Heart"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:hot-summer-night",
+    "text": "Hot☆Summer Night"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:innocent-silence",
+    "text": "Innocent Silence"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:iron-ambition",
+    "text": "Iron Ambition"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:jokester-vibes",
+    "text": "Jokester ☆ Vibes"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:king-of-emeralds",
+    "text": "King of Emeralds"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:kukulkan-warrior",
+    "text": "Kukulkan Warrior"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:layered-petals",
+    "text": "Layered Petals"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:line-breakthrough",
+    "text": "Line Breakthrough"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:love-4ever",
+    "text": "LOVE☆4EVER"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:lucky-tidings",
+    "text": "Lucky Tidings"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:ma-ch-rie-of-the-new-moon",
+    "text": "Ma Chérie of the New Moon"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:maverick",
+    "text": "Maverick"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:mb-19890425",
+    "text": "MB-19890425"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:meisterschaft",
+    "text": "Meisterschaft"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:murmuring-stream",
+    "text": "Murmuring Stream"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:natural-brilliance",
+    "text": "Natural Brilliance"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:nevertheless",
+    "text": "Nevertheless"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:new-year-new-urara",
+    "text": "New Year ♪ New Urara!"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:new-year-same-radiance",
+    "text": "New Year, Same Radiance!"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:noble-seamair",
+    "text": "Noble Seamair"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:nuit-toil-e-de-scarlet",
+    "text": "Nuit Étoilée de Scarlet"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:o-sole-suo",
+    "text": "O Sole Suo!"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:off-the-line",
+    "text": "Off the Line"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:peak-blue",
+    "text": "Peak Blue"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:peak-joy",
+    "text": "Peak Joy"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:pf-winning-equation",
+    "text": "pf. Winning Equation..."
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:platanus-witch",
+    "text": "Platanus Witch"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:poinsettia-ribbon",
+    "text": "Poinsettia Ribbon"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:precise-chocolatier",
+    "text": "Precise Chocolatier"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:princess-of-pink",
+    "text": "Princess of Pink"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:quercus-civilis",
+    "text": "Quercus Civilis"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:raging-thunder",
+    "text": "Raging Thunder"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:red-strife",
+    "text": "Red Strife"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:reeling-in-the-big-one",
+    "text": "Reeling in the Big One"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:rising-fortune",
+    "text": "Rising☆Fortune"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:rocket-star",
+    "text": "Rocket☆Star"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:rosy-dreams",
+    "text": "Rosy Dreams"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:rouge-caroler",
+    "text": "Rouge Caroler"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:ruler-of-japan",
+    "text": "Ruler of Japan"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:run-ruin-launcher",
+    "text": "RUN! RUIN! LAUNCHER!"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:run-win",
+    "text": "Run & Win"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:saintly-jade-cleric",
+    "text": "Saintly Jade Cleric"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:sapphire-sojourn",
+    "text": "Sapphire Sojourn"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:scramble-zone",
+    "text": "Scramble☆Zone"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:shooting-star-revue",
+    "text": "Shooting Star Revue"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:soir-e-des-chatons",
+    "text": "Soirée des Chatons"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:special-dreamer",
+    "text": "Special Dreamer"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:starlight-beat",
+    "text": "Starlight Beat"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:starry-nocturne",
+    "text": "Starry Nocturne"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:stone-piercing-blue",
+    "text": "Stone-Piercing Blue"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:strength-in-full-bloom",
+    "text": "Strength in Full Bloom"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:succ-s-toil",
+    "text": "Succès Étoilé"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:sunlight-bouquet",
+    "text": "Sunlight Bouquet"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:tach-nology",
+    "text": "tach-nology"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:titania",
+    "text": "Titania"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:turbulent-blue",
+    "text": "Turbulent Blue"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:twilight-triumph",
+    "text": "Twilight Triumph"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:unsigned",
+    "text": "unsigned"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:vampire-makeover",
+    "text": "Vampire Makeover!"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:wild-frontier",
+    "text": "Wild Frontier"
+  },
+  {
+    "kind": "outfit",
+    "id": "outfit:wild-top-gear",
+    "text": "Wild Top Gear"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:brighter-together-our-grand-concert",
+    "text": "Brighter Together Our Grand Concert"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:brighter-together-our-grand-concert",
+    "text": "Our Grand Concert"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:trackblazer",
+    "text": "TS Climax Scenario"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:trackblazer",
+    "text": "Trackblazer"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:trackblazer",
+    "text": "Trackblazer: Start of the Climax"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:unity-cup",
+    "text": "Unity Cup"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:unity-cup",
+    "text": "Unity Cup: Shine On, Team Spirit!"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:ura-finale",
+    "text": "The Beginning: URA Finale"
+  },
+  {
+    "kind": "scenario",
+    "id": "scenario:ura-finale",
+    "text": "URA Finale"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:1-500-000-cc",
+    "text": "1,500,000 CC"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:114th-time-s-the-charm",
+    "text": "114th Time's the Charm"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:15-000-000-cc",
+    "text": "15,000,000 CC"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:1st-place-kiss",
+    "text": "1st Place Kiss☆"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:3d-nail-art",
+    "text": "♡ 3D Nail Art"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:564-escapades",
+    "text": "564 Escapades"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:99-problems",
+    "text": "99 Problems"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:a-kiss-for-courage",
+    "text": "A Kiss for Courage"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:a-lifelong-dream-a-moment-s-flight",
+    "text": "A Lifelong Dream, A Moment's Flight"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:a-princess-must-seize-victory",
+    "text": "A Princess Must Seize Victory!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:a-small-breather",
+    "text": "A Small Breather"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:acceleration",
+    "text": "Acceleration"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:adored-by-all",
+    "text": "Adored by All"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:adrenaline-rush",
+    "text": "Adrenaline Rush"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:after-school-stroll",
+    "text": "After-School Stroll"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:all-charged-it-s-go-time",
+    "text": "All Charged! It's Go Time!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:all-i-ve-got",
+    "text": "All I've Got"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:all-seeing-eyes",
+    "text": "All-Seeing Eyes"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:all-set",
+    "text": "All Set"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ambition-to-surpass-the-sakura",
+    "text": "Ambition to Surpass the Sakura"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ambitious-breeze",
+    "text": "Ambitious Breeze"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:anchors-aweigh",
+    "text": "Anchors Aweigh!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:angling-and-scheming",
+    "text": "Angling and Scheming"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:arrows-whistle-shadows-disperse",
+    "text": "Arrows Whistle, Shadows Disperse"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:as-a-friend-and-rival",
+    "text": "As a Friend and Rival"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:aspire",
+    "text": "Aspire"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:barcarole-of-blessings",
+    "text": "Barcarole of Blessings"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:battle-formation",
+    "text": "Battle Formation"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:be-still",
+    "text": "Be Still"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:be-the-center",
+    "text": "Be the Center!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:beast-mode",
+    "text": "Beast Mode"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:beeline-burst",
+    "text": "Beeline Burst"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:behold-thine-emperor-s-divine-might",
+    "text": "Behold Thine Emperor's Divine Might"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:best-day-ever",
+    "text": "Best Day Ever"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:best-in-japan",
+    "text": "Best in Japan"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:big-sisterly",
+    "text": "Big-Sisterly"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:blast-forward",
+    "text": "Blast Forward"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:blatant-fear",
+    "text": "Blatant Fear"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:blazing-pride",
+    "text": "Blazing Pride"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:blinding-flash",
+    "text": "Blinding Flash"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:blue-rose-closer",
+    "text": "Blue Rose Closer"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:bountiful-harvest",
+    "text": "Bountiful Harvest"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:break-it-down",
+    "text": "Break It Down!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:breakin-ahead",
+    "text": "Breakin' Ahead"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:breakin-out",
+    "text": "Breakin' Out"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:breath-of-fresh-air",
+    "text": "Breath of Fresh Air"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:budding-blossom",
+    "text": "Budding Blossom"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:burning-soul",
+    "text": "Burning Soul"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:burning-spirit-guts",
+    "text": "Burning Spirit GUTS"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:burning-spirit-pwr",
+    "text": "Burning Spirit PWR"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:burning-spirit-spd",
+    "text": "Burning Spirit SPD"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:burning-spirit-sta",
+    "text": "Burning Spirit STA"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:burning-spirit-wit",
+    "text": "Burning Spirit WIT"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:call-me-king",
+    "text": "Call Me King"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:calm-and-collected",
+    "text": "Calm and Collected"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:calm-in-a-crowd",
+    "text": "Calm in a Crowd"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:can-t-even-catch-my-shadow",
+    "text": "Can't Even Catch My Shadow"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:can-t-keep-me-down",
+    "text": "Can't Keep Me Down"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:carnival-bonus",
+    "text": "Carnival Bonus"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:carnival-bonus-2",
+    "text": "Carnival Bonus"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:catch-em-off-guard",
+    "text": "Catch 'Em Off Guard"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:center-stage",
+    "text": "Center Stage"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:certain-victory",
+    "text": "Certain Victory"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:chance-of-victory",
+    "text": "Chance of Victory"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:changing-gears",
+    "text": "Changing Gears"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:chasing-after-you",
+    "text": "Chasing After You"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:cheers-of-a-fellow-dreamer",
+    "text": "Cheers of a Fellow Dreamer"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:chin-up-derby-umamusume",
+    "text": "Chin Up, Derby Umamusume!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:chukyo-racecourse",
+    "text": "Chukyo Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:chukyo-racecourse-2",
+    "text": "Chukyo Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:chukyo-racecourse-2",
+    "text": "Chukyo Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:chukyo-racecourse-3",
+    "text": "Chukyo Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:clairvoyance",
+    "text": "Clairvoyance"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:class-rep-speed-bakushin",
+    "text": "Class Rep + Speed = Bakushin"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:claw-forward",
+    "text": "Claw Forward"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:clear-heart",
+    "text": "Clear Heart"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:cloudy-days",
+    "text": "Cloudy Days ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:cloudy-days-2",
+    "text": "Cloudy Days ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:cloudy-days-2",
+    "text": "Cloudy Days ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:collaborative-graded-races",
+    "text": "Collaborative Graded Races ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:collaborative-graded-races-2",
+    "text": "Collaborative Graded Races ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:collaborative-graded-races-2",
+    "text": "Collaborative Graded Races ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:collaborative-graded-races-3",
+    "text": "Collaborative Graded Races ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:come-what-may",
+    "text": "Come What May"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:comeback",
+    "text": "Comeback"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:competitive-spirit",
+    "text": "Competitive Spirit ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:competitive-spirit-2",
+    "text": "Competitive Spirit ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:competitive-spirit-2",
+    "text": "Competitive Spirit ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:concentration",
+    "text": "Concentration"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:condor-s-fury",
+    "text": "Condor's Fury"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:cooldown",
+    "text": "Cooldown"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:coraz-n-ardiente",
+    "text": "Corazón ☆ Ardiente"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-acceleration",
+    "text": "Corner Acceleration ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-acceleration",
+    "text": "Corner Acceleration ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-acceleration-2",
+    "text": "Corner Acceleration ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-adept",
+    "text": "Corner Adept ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-adept",
+    "text": "Corner Adept ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-adept-2",
+    "text": "Corner Adept ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-connoisseur",
+    "text": "Corner Connoisseur"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-recovery",
+    "text": "Corner Recovery ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-recovery",
+    "text": "Corner Recovery ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:corner-recovery-2",
+    "text": "Corner Recovery ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:countermeasure",
+    "text": "Countermeasure"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:creeping-anxiety",
+    "text": "Creeping Anxiety"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:crusader",
+    "text": "Crusader"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:crystal-clear",
+    "text": "Crystal Clear"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:cut-and-drive",
+    "text": "Cut and Drive!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dancer-in-the-dirt",
+    "text": "Dancer in the Dirt"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dancing-in-the-leaves",
+    "text": "Dancing in the Leaves"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:daring-strike",
+    "text": "Daring Strike"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dauntless",
+    "text": "Dauntless"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dazzl-n-diver",
+    "text": "Dazzl'n ♪ Diver"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dazzling-disorientation",
+    "text": "Dazzling Disorientation"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:deep-breaths",
+    "text": "Deep Breaths"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:defeatist",
+    "text": "Defeatist"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:determined-descent",
+    "text": "Determined Descent"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dirt-race-enthusiast",
+    "text": "Dirt Race Enthusiast"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:disorient",
+    "text": "Disorient"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dodging-danger",
+    "text": "Dodging Danger"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dominator",
+    "text": "Dominator"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:down-in-the-dirt",
+    "text": "Down in the Dirt ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:down-in-the-dirt",
+    "text": "Down in the Dirt ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:down-in-the-dirt-2",
+    "text": "Down in the Dirt ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:downhill-speedster",
+    "text": "Downhill Speedster"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dream-run",
+    "text": "Dream Run"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dreams-donned-with-pride",
+    "text": "Dreams Donned with Pride!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dust-cloud",
+    "text": "Dust Cloud"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:dust-cloud-idol",
+    "text": "Dust Cloud Idol"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:eager",
+    "text": "Eager"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:early-lead",
+    "text": "Early Lead"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:early-start",
+    "text": "Early Start"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:elated",
+    "text": "Elated"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:empress-s-pride",
+    "text": "Empress's Pride"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:encroaching-shadow",
+    "text": "Encroaching Shadow"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-corners",
+    "text": "End Closer Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-corners-2",
+    "text": "End Closer Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-corners-2",
+    "text": "End Closer Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-savvy",
+    "text": "End Closer Savvy ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-savvy-2",
+    "text": "End Closer Savvy ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-savvy-2",
+    "text": "End Closer Savvy ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-straightaways",
+    "text": "End Closer Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-straightaways-2",
+    "text": "End Closer Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:end-closer-straightaways-2",
+    "text": "End Closer Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:escape-artist",
+    "text": "Escape Artist"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:eternal-encompassing-shine",
+    "text": "Eternal Encompassing Shine"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:eternal-moments",
+    "text": "Eternal Moments"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:every-rose-has-its-fangs",
+    "text": "Every Rose Has Its Fangs"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:extra-tank",
+    "text": "Extra Tank"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:eyes-on-the-goal",
+    "text": "Eyes on the Goal"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fairy-tale",
+    "text": "Fairy Tale"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fall-frenzy",
+    "text": "Fall Frenzy"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fall-runner",
+    "text": "Fall Runner ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fall-runner-2",
+    "text": "Fall Runner ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fall-runner-2",
+    "text": "Fall Runner ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fall-runner-3",
+    "text": "Fall Runner ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:familiar-ground",
+    "text": "Familiar Ground"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fast-furious",
+    "text": "Fast & Furious"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fast-paced",
+    "text": "Fast-Paced"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fearless",
+    "text": "Fearless"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:feature-act",
+    "text": "Feature Act"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:feel-the-burn",
+    "text": "Feel the Burn!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:feelin-a-bit-silly",
+    "text": "Feelin' a Bit Silly"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:festive-miracle",
+    "text": "Festive Miracle"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fighter",
+    "text": "Fighter"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fighting-spirit",
+    "text": "Fighting Spirit"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:final-push",
+    "text": "Final Push"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:firelight",
+    "text": "Firelight"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:firm-conditions",
+    "text": "Firm Conditions ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:firm-conditions-2",
+    "text": "Firm Conditions ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:firm-conditions-2",
+    "text": "Firm Conditions ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:firm-conditions-3",
+    "text": "Firm Conditions ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:firm-course-menace",
+    "text": "Firm Course Menace"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:firm-resolve",
+    "text": "Firm Resolve"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:flash-forward",
+    "text": "Flash Forward"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:flashy-landing",
+    "text": "Flashy☆Landing"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:flowery-maneuver",
+    "text": "Flowery☆Maneuver"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:flustered-end-closers",
+    "text": "Flustered End Closers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:flustered-front-runners",
+    "text": "Flustered Front Runners"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:flustered-late-surgers",
+    "text": "Flustered Late Surgers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:flustered-pace-chasers",
+    "text": "Flustered Pace Chasers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:focus",
+    "text": "Focus"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:focused-mind",
+    "text": "Focused Mind"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:for-the-team",
+    "text": "For the Team"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:forward-march",
+    "text": "Forward, March!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:free-spirited",
+    "text": "Free-Spirited"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:frenzied-end-closers",
+    "text": "Frenzied End Closers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:frenzied-front-runners",
+    "text": "Frenzied Front Runners"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:frenzied-late-surgers",
+    "text": "Frenzied Late Surgers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:frenzied-pace-chasers",
+    "text": "Frenzied Pace Chasers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:from-the-brink",
+    "text": "From the Brink"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-corners",
+    "text": "Front Runner Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-corners-2",
+    "text": "Front Runner Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-corners-2",
+    "text": "Front Runner Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-savvy",
+    "text": "Front Runner Savvy ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-savvy-2",
+    "text": "Front Runner Savvy ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-savvy-2",
+    "text": "Front Runner Savvy ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-straightaways",
+    "text": "Front Runner Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-straightaways-2",
+    "text": "Front Runner Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:front-runner-straightaways-2",
+    "text": "Front Runner Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fukushima-racecourse",
+    "text": "Fukushima Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fukushima-racecourse-2",
+    "text": "Fukushima Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fukushima-racecourse-2",
+    "text": "Fukushima Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:fukushima-racecourse-3",
+    "text": "Fukushima Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:full-of-vigor",
+    "text": "Full of Vigor"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:full-speed",
+    "text": "Full Speed!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:full-throttle",
+    "text": "Full Throttle"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:full-tilt",
+    "text": "Full Tilt"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:funabashi-racecourse",
+    "text": "Funabashi Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:funabashi-racecourse-2",
+    "text": "Funabashi Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:funabashi-racecourse-2",
+    "text": "Funabashi Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:funabashi-racecourse-3",
+    "text": "Funabashi Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:furious-feat",
+    "text": "Furious Feat"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:g00-1st-f",
+    "text": "G00 1st. F∞;"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:g1-averseness",
+    "text": "G1 Averseness"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:gap-closer",
+    "text": "Gap Closer"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:gatekept",
+    "text": "Gatekept"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:genius-x-bakushin-victory",
+    "text": "Genius x Bakushin = Victory"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:give-mummy-a-hug",
+    "text": "Give Mummy a Hug ♡"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:givin-it-1000",
+    "text": "Givin' It 1000%"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:glittering-star",
+    "text": "Glittering Star"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:go-go-goal",
+    "text": "Go☆Go☆Goal!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:go-go-mun",
+    "text": "Go, Go, Mun!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:go-home-specialist",
+    "text": "Go-Home Specialist"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:go-with-the-flow",
+    "text": "Go with the Flow"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:got-the-spirit",
+    "text": "Got the Spirit!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:gourmand",
+    "text": "Gourmand"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:greed-for-speed",
+    "text": "Greed for Speed"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:groundwork",
+    "text": "Groundwork"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:guten-appetit",
+    "text": "Guten Appetit ♪"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hakodate-racecourse",
+    "text": "Hakodate Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hakodate-racecourse-2",
+    "text": "Hakodate Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hakodate-racecourse-2",
+    "text": "Hakodate Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hakodate-racecourse-3",
+    "text": "Hakodate Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hanshin-racecourse",
+    "text": "Hanshin Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hanshin-racecourse-2",
+    "text": "Hanshin Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hanshin-racecourse-2",
+    "text": "Hanshin Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hanshin-racecourse-3",
+    "text": "Hanshin Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hard-worker",
+    "text": "Hard Worker"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hawkeye",
+    "text": "Hawkeye"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:head-on",
+    "text": "Head-On"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:headliner",
+    "text": "Headliner"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:heart-all-set",
+    "text": "Heart All Set"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hephaestus",
+    "text": "Hephaestus"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hesitant-end-closers",
+    "text": "Hesitant End Closers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hesitant-front-runners",
+    "text": "Hesitant Front Runners"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hesitant-late-surgers",
+    "text": "Hesitant Late Surgers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hesitant-pace-chasers",
+    "text": "Hesitant Pace Chasers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:highlander",
+    "text": "Highlander"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hoiya-have-a-good-run",
+    "text": "Hoiya! Have a Good Run!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:homestretch-haste",
+    "text": "Homestretch Haste"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hot-pursuit",
+    "text": "Hot Pursuit"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:huge-lead",
+    "text": "Huge Lead"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:hydrate",
+    "text": "Hydrate"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:i-can-see-right-through-you",
+    "text": "I Can See Right Through You"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:i-can-win-sometimes-right",
+    "text": "I Can Win Sometimes, Right?"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:i-m-possible",
+    "text": "I'm Possible!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:i-never-goof-up",
+    "text": "I Never Goof Up!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:i-see-victory-in-my-future",
+    "text": "I See Victory in My Future!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:i-wanna-win-with-you",
+    "text": "I Wanna Win with You"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ignited-spirit-guts",
+    "text": "Ignited Spirit GUTS"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ignited-spirit-pwr",
+    "text": "Ignited Spirit PWR"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ignited-spirit-spd",
+    "text": "Ignited Spirit SPD"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ignited-spirit-sta",
+    "text": "Ignited Spirit STA"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ignited-spirit-wit",
+    "text": "Ignited Spirit WIT"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:illusionist",
+    "text": "Illusionist"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:in-body-and-mind",
+    "text": "In Body and Mind"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:in-high-spirits",
+    "text": "In High Spirits"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:indomitable",
+    "text": "Indomitable"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:indomitable-2",
+    "text": "Indomitable"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:innate-experience",
+    "text": "Innate Experience"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:inner-post-averseness",
+    "text": "Inner Post Averseness"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:inner-post-proficiency",
+    "text": "Inner Post Proficiency ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:inner-post-proficiency-2",
+    "text": "Inner Post Proficiency ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:inner-post-proficiency-2",
+    "text": "Inner Post Proficiency ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:inside-scoop",
+    "text": "Inside Scoop"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:intense-gaze",
+    "text": "Intense Gaze"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:intimidate",
+    "text": "Intimidate"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:into-high-gear",
+    "text": "Into High Gear!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:introduction-to-physiology",
+    "text": "Introduction to Physiology"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:iron-will",
+    "text": "Iron Will"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:it-s-on",
+    "text": "It's On!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:joyful-voyage",
+    "text": "Joyful Voyage!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:just-a-little-farther",
+    "text": "Just a Little Farther!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kawasaki-racecourse",
+    "text": "Kawasaki Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kawasaki-racecourse-2",
+    "text": "Kawasaki Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kawasaki-racecourse-2",
+    "text": "Kawasaki Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kawasaki-racecourse-3",
+    "text": "Kawasaki Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:keen-eye",
+    "text": "Keen Eye"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:keep-going",
+    "text": "Keep Going!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:keep-it-real",
+    "text": "KEEP IT REAL."
+  },
+  {
+    "kind": "skill",
+    "id": "skill:keep-pushing-ahead",
+    "text": "Keep Pushing Ahead"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:keeping-the-lead",
+    "text": "Keeping the Lead"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:killer-tunes",
+    "text": "Killer Tunes"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kokura-racecourse",
+    "text": "Kokura Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kokura-racecourse-2",
+    "text": "Kokura Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kokura-racecourse-2",
+    "text": "Kokura Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kokura-racecourse-3",
+    "text": "Kokura Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kyoto-racecourse",
+    "text": "Kyoto Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kyoto-racecourse-2",
+    "text": "Kyoto Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kyoto-racecourse-2",
+    "text": "Kyoto Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:kyoto-racecourse-3",
+    "text": "Kyoto Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lane-legerdemain",
+    "text": "Lane Legerdemain"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:latch-on",
+    "text": "Latch On"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-corners",
+    "text": "Late Surger Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-corners-2",
+    "text": "Late Surger Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-corners-2",
+    "text": "Late Surger Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-savvy",
+    "text": "Late Surger Savvy ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-savvy-2",
+    "text": "Late Surger Savvy ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-savvy-2",
+    "text": "Late Surger Savvy ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-straightaways",
+    "text": "Late Surger Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-straightaways-2",
+    "text": "Late Surger Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:late-surger-straightaways-2",
+    "text": "Late Surger Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:laugh-at-the-odds",
+    "text": "Laugh at the Odds"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lay-low",
+    "text": "Lay Low"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lead-the-charge",
+    "text": "Lead the Charge!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:leader-s-pride",
+    "text": "Leader's Pride"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:leap-forward",
+    "text": "Leap Forward"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:left-handed",
+    "text": "Left-Handed ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:left-handed-2",
+    "text": "Left-Handed ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:left-handed-2",
+    "text": "Left-Handed ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:left-handed-3",
+    "text": "Left-Handed ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:legacy-of-the-strong",
+    "text": "Legacy of the Strong"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:let-s-pump-some-iron",
+    "text": "Let's Pump Some Iron!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:levelheaded",
+    "text": "Levelheaded"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lie-in-wait",
+    "text": "Lie in Wait"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:light-as-a-feather",
+    "text": "Light as a Feather"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lightning-flare",
+    "text": "Lightning Flare"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lightning-step",
+    "text": "Lightning Step"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lightning-surge",
+    "text": "Lightning Surge"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lights-of-vaudeville",
+    "text": "Lights of Vaudeville"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lone-wolf",
+    "text": "Lone Wolf"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-corners",
+    "text": "Long Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-corners-2",
+    "text": "Long Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-corners-2",
+    "text": "Long Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-race-enthusiast",
+    "text": "Long Race Enthusiast"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-shot",
+    "text": "Long Shot ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-shot-2",
+    "text": "Long Shot ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-shot-2",
+    "text": "Long Shot ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-straightaways",
+    "text": "Long Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-straightaways-2",
+    "text": "Long Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:long-straightaways-2",
+    "text": "Long Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lookatcurren",
+    "text": "#LookatCurren"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:louder-tracen-cheer",
+    "text": "Louder! Tracen Cheer!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lovely-spring-breeze",
+    "text": "Lovely Spring Breeze"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:luck-be-with-me",
+    "text": "Luck Be with Me!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:luck-runs-my-way",
+    "text": "Luck Runs My Way"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:lucky-seven",
+    "text": "Lucky Seven"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mad-dash",
+    "text": "Mad Dash"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:maestro-of-the-mud",
+    "text": "Maestro of the Mud"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:master-of-the-sands",
+    "text": "Master of the Sands"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:masterful-gambit",
+    "text": "Masterful Gambit"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:maverick",
+    "text": "Maverick ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:maverick-2",
+    "text": "Maverick ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:maverick-2",
+    "text": "Maverick ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:medium-corners",
+    "text": "Medium Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:medium-corners-2",
+    "text": "Medium Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:medium-corners-2",
+    "text": "Medium Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:medium-race-enthusiast",
+    "text": "Medium Race Enthusiast"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:medium-straightaways",
+    "text": "Medium Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:medium-straightaways-2",
+    "text": "Medium Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:medium-straightaways-2",
+    "text": "Medium Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:meticulous-measures",
+    "text": "Meticulous Measures"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-corners",
+    "text": "Mile Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-corners-2",
+    "text": "Mile Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-corners-2",
+    "text": "Mile Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-maven",
+    "text": "Mile Maven"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-race-enthusiast",
+    "text": "Mile Race Enthusiast"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-straightaways",
+    "text": "Mile Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-straightaways-2",
+    "text": "Mile Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mile-straightaways-2",
+    "text": "Mile Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:miraculous-step",
+    "text": "Miraculous Step"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:moonlit-flash",
+    "text": "Moonlit Flash"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:morioka-racecourse",
+    "text": "Morioka Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:morioka-racecourse-2",
+    "text": "Morioka Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:morioka-racecourse-2",
+    "text": "Morioka Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:morioka-racecourse-3",
+    "text": "Morioka Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:moving-past-and-beyond",
+    "text": "Moving Past, and Beyond"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:moxie",
+    "text": "Moxie"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:muddy",
+    "text": "Muddy ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:muddy-2",
+    "text": "Muddy ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:muddy-2",
+    "text": "Muddy ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:muddy-3",
+    "text": "Muddy ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:murmur",
+    "text": "Murmur"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:my-true-strength",
+    "text": "My True Strength"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:mystifying-murmur",
+    "text": "Mystifying Murmur"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:nakayama-racecourse",
+    "text": "Nakayama Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:nakayama-racecourse-2",
+    "text": "Nakayama Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:nakayama-racecourse-2",
+    "text": "Nakayama Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:nakayama-racecourse-3",
+    "text": "Nakayama Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:neck-and-neck",
+    "text": "Neck and Neck"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:nemesis",
+    "text": "Nemesis"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:never-say-never",
+    "text": "Never Say Never"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:night-races",
+    "text": "Night Races ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:night-races-2",
+    "text": "Night Races ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:night-races-2",
+    "text": "Night Races ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:night-races-3",
+    "text": "Night Races ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:niigata-racecourse",
+    "text": "Niigata Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:niigata-racecourse-2",
+    "text": "Niigata Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:niigata-racecourse-2",
+    "text": "Niigata Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:niigata-racecourse-3",
+    "text": "Niigata Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:nimble-navigator",
+    "text": "Nimble Navigator"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:no-looking-back",
+    "text": "No Looking Back"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:no-stopping-me",
+    "text": "No Stopping Me!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:non-standard-distance",
+    "text": "Non-Standard Distance ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:non-standard-distance-2",
+    "text": "Non-Standard Distance ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:non-standard-distance-2",
+    "text": "Non-Standard Distance ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:non-standard-distance-3",
+    "text": "Non-Standard Distance ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:nothing-ventured",
+    "text": "Nothing Ventured"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:now-we-re-cruisin",
+    "text": "Now We're Cruisin'!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:of-calm-mind",
+    "text": "Of Calm Mind"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:oi-racecourse",
+    "text": "Oi Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:oi-racecourse-2",
+    "text": "Oi Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:oi-racecourse-2",
+    "text": "Oi Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:oi-racecourse-3",
+    "text": "Oi Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:omg-the-final-sprint",
+    "text": "OMG! (ﾟ∀ﾟ)  The Final Sprint! ☆"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:on-the-attack",
+    "text": "On the Attack"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:on-the-way-to-our-dream",
+    "text": "On the Way to Our Dream"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:on-your-left",
+    "text": "On Your Left!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:one-true-color",
+    "text": "One True Color"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:opening-gambit",
+    "text": "Opening Gambit"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:operation-cacao",
+    "text": "Operation Cacao"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:oppression",
+    "text": "Oppression"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:our-ticket-to-win",
+    "text": "Our Ticket to Win!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:outer-post-averseness",
+    "text": "Outer Post Averseness"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:outer-post-proficiency",
+    "text": "Outer Post Proficiency ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:outer-post-proficiency-2",
+    "text": "Outer Post Proficiency ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:outer-post-proficiency-2",
+    "text": "Outer Post Proficiency ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:outer-swell",
+    "text": "Outer Swell"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:overwhelming-pressure",
+    "text": "Overwhelming Pressure"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-corners",
+    "text": "Pace Chaser Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-corners-2",
+    "text": "Pace Chaser Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-corners-2",
+    "text": "Pace Chaser Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-savvy",
+    "text": "Pace Chaser Savvy ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-savvy-2",
+    "text": "Pace Chaser Savvy ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-savvy-2",
+    "text": "Pace Chaser Savvy ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-straightaways",
+    "text": "Pace Chaser Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-straightaways-2",
+    "text": "Pace Chaser Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-chaser-straightaways-2",
+    "text": "Pace Chaser Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pace-strategy",
+    "text": "Pace Strategy"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:packphobia",
+    "text": "Packphobia"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:paddock-fright",
+    "text": "Paddock Fright"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:passing-pro",
+    "text": "Passing Pro"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:past-my-limits",
+    "text": "Past My Limits"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pedal-to-the-metal",
+    "text": "Pedal to the Metal"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:peerless-dance-of-flowering-flames",
+    "text": "Peerless Dance of Flowering Flames"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:perfect-prep",
+    "text": "Perfect Prep!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:perfect-spot",
+    "text": "Perfect Spot!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:petrifying-gaze",
+    "text": "Petrifying Gaze"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:plan-x",
+    "text": "Plan X"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:playtime-s-over",
+    "text": "Playtime's Over!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pop-polish",
+    "text": "Pop & Polish"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:position-pilfer",
+    "text": "Position Pilfer"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:preferred-position",
+    "text": "Preferred Position"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:prepared-to-pass",
+    "text": "Prepared to Pass"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:presents-from-x",
+    "text": "Presents from X"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pressure",
+    "text": "Pressure"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:prideful-king",
+    "text": "Prideful King"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:productive-plan",
+    "text": "Productive Plan"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:professor-of-curvature",
+    "text": "Professor of Curvature"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:prudent-positioning",
+    "text": "Prudent Positioning"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pumped",
+    "text": "Pumped"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:pure-heart",
+    "text": "Pure Heart"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:queen-s-lumination",
+    "text": "Queen's Lumination"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:race-planner",
+    "text": "Race Planner"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:racing-spirit-guts",
+    "text": "Racing Spirit: Guts"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:racing-spirit-mood",
+    "text": "Racing Spirit: Mood"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:racing-spirit-power",
+    "text": "Racing Spirit: Power"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:racing-spirit-speed",
+    "text": "Racing Spirit: Speed"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:racing-spirit-stamina",
+    "text": "Racing Spirit: Stamina"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:racing-spirit-wit",
+    "text": "Racing Spirit: Wit"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:radiant-star",
+    "text": "Radiant Star"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rainy-days",
+    "text": "Rainy Days ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rainy-days-2",
+    "text": "Rainy Days ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rainy-days-2",
+    "text": "Rainy Days ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rainy-days-3",
+    "text": "Rainy Days ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ramp-revulsion",
+    "text": "Ramp Revulsion"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ramp-up",
+    "text": "Ramp Up"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rapid-gain",
+    "text": "Rapid Gain"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rational",
+    "text": "Rational"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ravissant",
+    "text": "Ravissant"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ready-go",
+    "text": "Ready, Go!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:reckless",
+    "text": "Reckless"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:reckless-charge",
+    "text": "Reckless Charge"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:red-ace",
+    "text": "Red Ace"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:red-hot-discipline",
+    "text": "Red-Hot Discipline!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:red-shift-lp1211-m",
+    "text": "Red Shift/LP1211-M"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:refraction-arc",
+    "text": "Refraction Arc"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:reignition",
+    "text": "Reignition"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:relax",
+    "text": "Relax"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:resplendent-red-ace",
+    "text": "Resplendent Red Ace"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:restart",
+    "text": "Restart"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:restless",
+    "text": "Restless"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:restraint",
+    "text": "Restraint"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:right-handed",
+    "text": "Right-Handed ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:right-handed-2",
+    "text": "Right-Handed ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:right-handed-2",
+    "text": "Right-Handed ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:right-handed-3",
+    "text": "Right-Handed ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:right-handed-demon",
+    "text": "Right-Handed Demon"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rising-dragon",
+    "text": "Rising Dragon"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:risk-maker",
+    "text": "Risk-Maker"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:risk-taker",
+    "text": "Risk-Taker"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:risky-business",
+    "text": "Risky Business"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rosy-outlook",
+    "text": "Rosy Outlook"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ruler-of-japan",
+    "text": "Ruler of Japan"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:run-like-crazy",
+    "text": "Run Like Crazy!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:runaway",
+    "text": "Runaway"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:running-idle",
+    "text": "Running Idle"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:rushing-gale",
+    "text": "Rushing Gale!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sapporo-racecourse",
+    "text": "Sapporo Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sapporo-racecourse-2",
+    "text": "Sapporo Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sapporo-racecourse-2",
+    "text": "Sapporo Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sapporo-racecourse-3",
+    "text": "Sapporo Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:schwarzes-schwert",
+    "text": "Schwarzes Schwert"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:scramble",
+    "text": "Scramble"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:second-wind",
+    "text": "Second Wind"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:see-ya-later",
+    "text": "See Ya Later!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:serenity",
+    "text": "Serenity"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shadow-break",
+    "text": "Shadow Break"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shake-it-out",
+    "text": "Shake It Out"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sharp-gaze",
+    "text": "Sharp Gaze"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sharp-streak",
+    "text": "Sharp Streak"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sharp-turns",
+    "text": "Sharp Turns ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sharp-turns-2",
+    "text": "Sharp Turns ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sharp-turns-2",
+    "text": "Sharp Turns ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sharp-turns-3",
+    "text": "Sharp Turns ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shatterproof",
+    "text": "Shatterproof"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shifting-gears",
+    "text": "Shifting Gears"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shine-on-tomakomai",
+    "text": "Shine On, Tomakomai! ☆"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shocking-flash",
+    "text": "Shocking Flash"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shooting-for-victory",
+    "text": "Shooting for Victory!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shooting-star",
+    "text": "Shooting Star"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shooting-star-of-dioskouroi",
+    "text": "Shooting Star of Dioskouroi"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:show-me-what-lies-beyond",
+    "text": "Show Me What Lies Beyond!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:shrewd-step",
+    "text": "Shrewd Step"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:silent-letter",
+    "text": "Silent Letter"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sixth-sense",
+    "text": "Sixth Sense"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sky-high-teio-step",
+    "text": "Sky-High Teio Step"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sleeping-lion",
+    "text": "Sleeping Lion"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:slick-surge",
+    "text": "Slick Surge"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:slipstream",
+    "text": "Slipstream"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:smoke-screen",
+    "text": "Smoke Screen"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:snow-bright-snow-flight",
+    "text": "Snow Bright, Snow Flight"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:snowy-days",
+    "text": "Snowy Days ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:snowy-days-2",
+    "text": "Snowy Days ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:snowy-days-2",
+    "text": "Snowy Days ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:soft-step",
+    "text": "Soft Step"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:solid-steps",
+    "text": "Solid Steps"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:solid-strike",
+    "text": "Solid Strike"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sparkly-stardom",
+    "text": "SPARKLY☆STARDOM"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:speed-eater",
+    "text": "Speed Eater"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:speed-star",
+    "text": "Speed Star"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:spooky-scary-happy",
+    "text": "Spooky, Scary, Happy"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:spring-runner",
+    "text": "Spring Runner ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:spring-runner-2",
+    "text": "Spring Runner ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:spring-runner-2",
+    "text": "Spring Runner ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:spring-runner-3",
+    "text": "Spring Runner ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:spring-spectacle",
+    "text": "Spring Spectacle"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprint-corners",
+    "text": "Sprint Corners ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprint-corners-2",
+    "text": "Sprint Corners ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprint-corners-2",
+    "text": "Sprint Corners ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprint-race-enthusiast",
+    "text": "Sprint Race Enthusiast"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprint-straightaways",
+    "text": "Sprint Straightaways ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprint-straightaways-2",
+    "text": "Sprint Straightaways ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprint-straightaways-2",
+    "text": "Sprint Straightaways ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sprinting-gear",
+    "text": "Sprinting Gear"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:staggering-lead",
+    "text": "Staggering Lead"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:stamina-eater",
+    "text": "Stamina Eater"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:stamina-siphon",
+    "text": "Stamina Siphon"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:stamina-to-spare",
+    "text": "Stamina to Spare"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:standard-distance",
+    "text": "Standard Distance ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:standard-distance-2",
+    "text": "Standard Distance ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:standard-distance-2",
+    "text": "Standard Distance ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:standard-distance-3",
+    "text": "Standard Distance ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:standing-by",
+    "text": "Standing By"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:star",
+    "text": "α-star*"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:steadfast",
+    "text": "Steadfast"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:steady-gait",
+    "text": "Steady Gait"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:step-on-the-gas",
+    "text": "Step on the Gas!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:stop-right-there",
+    "text": "Stop Right There!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:straight-descent",
+    "text": "Straight Descent"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:straightaway-acceleration",
+    "text": "Straightaway Acceleration"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:straightaway-adept",
+    "text": "Straightaway Adept"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:straightaway-recovery",
+    "text": "Straightaway Recovery"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:straightaway-spurt",
+    "text": "Straightaway Spurt"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:strategist",
+    "text": "Strategist"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:strong-steps",
+    "text": "Strong Steps"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:studious",
+    "text": "Studious"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sturm-und-drang",
+    "text": "Sturm und Drang"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:subdued-end-closers",
+    "text": "Subdued End Closers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:subdued-front-runners",
+    "text": "Subdued Front Runners"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:subdued-late-surgers",
+    "text": "Subdued Late Surgers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:subdued-pace-chasers",
+    "text": "Subdued Pace Chasers"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:summer-runner",
+    "text": "Summer Runner ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:summer-runner-2",
+    "text": "Summer Runner ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:summer-runner-2",
+    "text": "Summer Runner ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:summer-runner-3",
+    "text": "Summer Runner ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sunny-breeze",
+    "text": "Sunny Breeze"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sunny-days",
+    "text": "Sunny Days ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sunny-days-2",
+    "text": "Sunny Days ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sunny-days-2",
+    "text": "Sunny Days ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sunny-sign",
+    "text": "Sunny Sign"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:super-duper-climax",
+    "text": "Super-Duper Climax"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:super-duper-stoked",
+    "text": "Super-Duper Stoked"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:super-lucky-seven",
+    "text": "Super Lucky Seven"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:superior-heal",
+    "text": "Superior Heal"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:superstan",
+    "text": "Superstan"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:swinging-maestro",
+    "text": "Swinging Maestro"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:sympathy",
+    "text": "Sympathy"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tactical-tweak",
+    "text": "Tactical Tweak"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tail-held-high",
+    "text": "Tail Held High"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tail-nine",
+    "text": "Tail Nine"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:take-the-chance",
+    "text": "Take the Chance"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:taking-the-lead",
+    "text": "Taking the Lead"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tantalizing-trick",
+    "text": "Tantalizing Trick"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:target-in-sight",
+    "text": "Target in Sight ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:target-in-sight-2",
+    "text": "Target in Sight ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:target-in-sight-2",
+    "text": "Target in Sight ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:technician",
+    "text": "Technician"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tether",
+    "text": "Tether"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:the-bigger-picture",
+    "text": "The Bigger Picture"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:the-coast-is-clear",
+    "text": "The Coast Is Clear!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:the-duty-of-dignity-calls",
+    "text": "The Duty of Dignity Calls"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:the-moe-aaaa-thanks-for-my-life",
+    "text": "THE MOE AAAA Thanks for My Life"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:the-view-from-the-lead-is-mine",
+    "text": "The View from the Lead Is Mine!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:this-dance-is-for-vittoria",
+    "text": "This Dance Is for Vittoria!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:thunderbolt-step",
+    "text": "Thunderbolt Step"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:ticket-to-your-dreams",
+    "text": "Ticket to Your Dreams!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tokyo-racecourse",
+    "text": "Tokyo Racecourse ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tokyo-racecourse-2",
+    "text": "Tokyo Racecourse ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tokyo-racecourse-2",
+    "text": "Tokyo Racecourse ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:tokyo-racecourse-3",
+    "text": "Tokyo Racecourse ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:top-gear",
+    "text": "Top Gear"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:top-pick",
+    "text": "Top Pick"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:top-runner",
+    "text": "Top Runner"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:towards-the-scenery-i-seek",
+    "text": "Towards the Scenery I Seek"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:trackblazer",
+    "text": "Trackblazer"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:trending-in-the-charts",
+    "text": "Trending in the Charts!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:trick-front",
+    "text": "Trick (Front)"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:trick-rear",
+    "text": "Trick (Rear)"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:trigger-beat",
+    "text": "trigger:BEAT"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:triple-7s",
+    "text": "Triple 7s"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:triumphant-pulse",
+    "text": "Triumphant Pulse"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:turbo-sprint",
+    "text": "Turbo Sprint"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:u-ma2",
+    "text": "U=ma2"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:uma-stan",
+    "text": "Uma Stan"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:unchanging",
+    "text": "Unchanging"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:unquenched-thirst",
+    "text": "Unquenched Thirst"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:unrestrained",
+    "text": "Unrestrained"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:unruffled",
+    "text": "Unruffled"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:unstoppable",
+    "text": "Unstoppable"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:unyielding",
+    "text": "Unyielding"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:unyielding-spirit",
+    "text": "Unyielding Spirit"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:up-tempo",
+    "text": "Up-Tempo"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:updrafters",
+    "text": "Updrafters"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:v-is-for-victory",
+    "text": "V Is for Victory!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:vanguard-spirit",
+    "text": "Vanguard Spirit"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:victoria-por-plancha",
+    "text": "Victoria por plancha ☆"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:victory-belongs-to-me-strelitzia",
+    "text": "Victory belongs to me—Strelitzia! ☆"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:victory-cheer",
+    "text": "Victory Cheer!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:vip-pass",
+    "text": "VIP Pass"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wait-and-see",
+    "text": "Wait-and-See"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wallflower",
+    "text": "Wallflower"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:warning-shot",
+    "text": "Warning Shot!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:watchful-eye",
+    "text": "Watchful Eye"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wet-conditions",
+    "text": "Wet Conditions ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wet-conditions-2",
+    "text": "Wet Conditions ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wet-conditions-2",
+    "text": "Wet Conditions ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wet-conditions-3",
+    "text": "Wet Conditions ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:where-there-s-a-will-there-s-a-way",
+    "text": "Where There's a Will, There's a Way"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wherever-this-wonder-leads",
+    "text": "Wherever This Wonder Leads"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:white-lightning-comin-through",
+    "text": "White Lightning Comin' Through!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:wild-wind",
+    "text": "Wild Wind"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:win-q-e-d",
+    "text": "∴win Q.E.D."
+  },
+  {
+    "kind": "skill",
+    "id": "skill:winter-runner",
+    "text": "Winter Runner ◎"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:winter-runner-2",
+    "text": "Winter Runner ○"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:winter-runner-2",
+    "text": "Winter Runner ◯"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:winter-runner-3",
+    "text": "Winter Runner ×"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:with-all-my-soul",
+    "text": "With All My Soul"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:xceleration",
+    "text": "Xceleration"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:yodo-invicta",
+    "text": "Yodo Invicta"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:you-and-me-one-on-one",
+    "text": "You and Me! One-on-One!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:you-re-not-the-boss-of-me",
+    "text": "You're Not the Boss of Me!"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:you-ve-got-no-shot",
+    "text": "You've Got No Shot"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:your-smile-sparkles-as-the-waves",
+    "text": "Your Smile Sparkles as the Waves"
+  },
+  {
+    "kind": "skill",
+    "id": "skill:yummy-speed",
+    "text": "YUMMY☆SPEED!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:1-500-000-cc",
+    "text": "1,500,000 CC"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:114th-time-s-the-charm",
+    "text": "114th Time's the Charm"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:564-escapades",
+    "text": "564 Escapades"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:a-kiss-for-courage",
+    "text": "A Kiss for Courage"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:a-lifelong-dream-a-moment-s-flight",
+    "text": "A Lifelong Dream, A Moment's Flight"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:a-princess-must-seize-victory",
+    "text": "A Princess Must Seize Victory!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:a-small-breather",
+    "text": "A Small Breather"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:acceleration",
+    "text": "Acceleration"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:after-school-stroll",
+    "text": "After-School Stroll"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:all-charged-it-s-go-time",
+    "text": "All Charged! It's Go Time!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:all-i-ve-got",
+    "text": "All I've Got"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:all-set",
+    "text": "All Set"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ambition-to-surpass-the-sakura",
+    "text": "Ambition to Surpass the Sakura"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:anchors-aweigh",
+    "text": "Anchors Aweigh!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:angling-and-scheming",
+    "text": "Angling and Scheming"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:arima-kinen",
+    "text": "Arima Kinen"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:arrows-whistle-shadows-disperse",
+    "text": "Arrows Whistle, Shadows Disperse"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:asahi-hai-f-s",
+    "text": "Asahi Hai F.S."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:aspire",
+    "text": "Aspire"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:barcarole-of-blessings",
+    "text": "Barcarole of Blessings"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:be-still",
+    "text": "Be Still"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:behold-thine-emperor-s-divine-might",
+    "text": "Behold Thine Emperor's Divine Might"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:best-day-ever",
+    "text": "Best day ever"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:blazing-pride",
+    "text": "Blazing Pride"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:blue-rose-closer",
+    "text": "Blue Rose Closer"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:bountiful-harvest",
+    "text": "Bountiful Harvest"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:break-it-down",
+    "text": "Break It Down!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:breakin-out",
+    "text": "Breakin' Out"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:budding-blossom",
+    "text": "Budding Blossom"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:calm-in-a-crowd",
+    "text": "Calm in a Crowd"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:certain-victory",
+    "text": "Certain Victory"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:champions-c",
+    "text": "Champions C."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:chasing-after-you",
+    "text": "Chasing after You"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:chukyo-racecourse",
+    "text": "Chukyo Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:chukyo-racecourse",
+    "text": "Chukyo Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:cloudy-days",
+    "text": "Cloudy Days ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:cloudy-days",
+    "text": "Cloudy Days ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:collaborative-graded-races",
+    "text": "Collaborative Graded Races ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:collaborative-graded-races",
+    "text": "Collaborative Graded Races ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:comeback",
+    "text": "Comeback"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:competitive-spirit",
+    "text": "Competitive Spirit ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:competitive-spirit",
+    "text": "Competitive Spirit ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:condor-s-fury",
+    "text": "Condor's Fury"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:corner-acceleration",
+    "text": "Corner Acceleration ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:corner-acceleration",
+    "text": "Corner Acceleration ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:corner-adept",
+    "text": "Corner Adept ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:corner-adept",
+    "text": "Corner Adept ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:corner-recovery",
+    "text": "Corner Recovery ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:corner-recovery",
+    "text": "Corner Recovery ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:countermeasure",
+    "text": "Countermeasure"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:cut-and-drive",
+    "text": "Cut and Drive!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:dancing-in-the-leaves",
+    "text": "Dancing in the Leaves"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:dazzl-n-diver",
+    "text": "Dazzl'n ♪ Diver"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:deep-breaths",
+    "text": "Deep Breaths"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:dirt",
+    "text": "Dirt"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:disorient",
+    "text": "Disorient"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:dodging-danger",
+    "text": "Dodging Danger"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:down-in-the-dirt",
+    "text": "Down in the Dirt ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:down-in-the-dirt",
+    "text": "Down in the Dirt ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:downhill-speedster",
+    "text": "Downhill Speedster"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:dreams-donned-with-pride",
+    "text": "Dreams Donned with Pride!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:dust-cloud",
+    "text": "Dust Cloud"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:eager",
+    "text": "Eager"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:early-lead",
+    "text": "Early Lead"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:early-start",
+    "text": "Early Start"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:end-closer",
+    "text": "End Closer"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:end-closer-corners",
+    "text": "End Closer Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:end-closer-corners",
+    "text": "End Closer Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:end-closer-savvy",
+    "text": "End Closer Savvy ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:end-closer-savvy",
+    "text": "End Closer Savvy ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:end-closer-straightaways",
+    "text": "End Closer Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:end-closer-straightaways",
+    "text": "End Closer Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:eternal-encompassing-shine",
+    "text": "Eternal Encompassing Shine"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:eternal-moments",
+    "text": "Eternal Moments"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:every-rose-has-its-fangs",
+    "text": "Every Rose Has Its Fangs"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:extra-tank",
+    "text": "Extra Tank"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:eyes-on-the-goal",
+    "text": "Eyes on the Goal"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fairy-tale",
+    "text": "Fairy Tale"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fall-runner",
+    "text": "Fall Runner ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fall-runner",
+    "text": "Fall Runner ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:familiar-ground",
+    "text": "Familiar Ground"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fast-paced",
+    "text": "Fast-Paced"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fearless",
+    "text": "Fearless"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:feature-act",
+    "text": "Feature Act"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:february-s",
+    "text": "February S."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:festive-miracle",
+    "text": "Festive Miracle"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fighter",
+    "text": "Fighter"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fighting-spirit",
+    "text": "Fighting Spirit"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:final-push",
+    "text": "Final Push"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:firelight",
+    "text": "Firelight"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:firm-conditions",
+    "text": "Firm Conditions ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:firm-conditions",
+    "text": "Firm Conditions ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:firm-resolve",
+    "text": "Firm Resolve"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:flashy-landing",
+    "text": "Flashy☆Landing"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:flowery-maneuver",
+    "text": "Flowery☆Maneuver"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:flustered-end-closers",
+    "text": "Flustered End Closers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:flustered-front-runners",
+    "text": "Flustered Front Runners"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:flustered-late-surgers",
+    "text": "Flustered Late Surgers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:flustered-pace-chasers",
+    "text": "Flustered Pace Chasers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:focus",
+    "text": "Focus"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:forward-march",
+    "text": "Forward, March!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:free-spirited",
+    "text": "Free-Spirited"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:frenzied-end-closers",
+    "text": "Frenzied End Closers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:frenzied-front-runners",
+    "text": "Frenzied Front Runners"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:frenzied-late-surgers",
+    "text": "Frenzied Late Surgers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:frenzied-pace-chasers",
+    "text": "Frenzied Pace Chasers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:front-runner",
+    "text": "Front Runner"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:front-runner-corners",
+    "text": "Front Runner Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:front-runner-corners",
+    "text": "Front Runner Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:front-runner-savvy",
+    "text": "Front Runner Savvy ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:front-runner-savvy",
+    "text": "Front Runner Savvy ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:front-runner-straightaways",
+    "text": "Front Runner Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:front-runner-straightaways",
+    "text": "Front Runner Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fukushima-racecourse",
+    "text": "Fukushima Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:fukushima-racecourse",
+    "text": "Fukushima Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:full-throttle",
+    "text": "Full Throttle"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:full-tilt",
+    "text": "Full Tilt"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:funabashi-racecourse",
+    "text": "Funabashi Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:funabashi-racecourse",
+    "text": "Funabashi Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:g00-1st-f",
+    "text": "G00 1st. F∞;"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:gap-closer",
+    "text": "Gap Closer"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:genius-x-bakushin-victory",
+    "text": "Genius x Bakushin = Victory"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:give-mummy-a-hug",
+    "text": "Give Mummy a Hug ♡"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:glittering-star",
+    "text": "Glittering Star"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:go-go-goal",
+    "text": "Go☆Go☆Goal!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:go-go-mun",
+    "text": "Go, Go, Mun!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:go-with-the-flow",
+    "text": "Go with the Flow"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:got-the-spirit",
+    "text": "Got the Spirit!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:groundwork",
+    "text": "Groundwork"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:guten-appetit",
+    "text": "Guten Appetit ♪"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:guts",
+    "text": "Guts"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hakodate-racecourse",
+    "text": "Hakodate Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hakodate-racecourse",
+    "text": "Hakodate Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hanshin-j-f",
+    "text": "Hanshin J.F."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hanshin-racecourse",
+    "text": "Hanshin Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hanshin-racecourse",
+    "text": "Hanshin Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hawkeye",
+    "text": "Hawkeye"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:head-on",
+    "text": "Head-On"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hephaestus",
+    "text": "Hephaestus"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hesitant-end-closers",
+    "text": "Hesitant End Closers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hesitant-front-runners",
+    "text": "Hesitant Front Runners"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hesitant-late-surgers",
+    "text": "Hesitant Late Surgers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hesitant-pace-chasers",
+    "text": "Hesitant Pace Chasers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:highlander",
+    "text": "Highlander"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:homestretch-haste",
+    "text": "Homestretch Haste"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hopeful-s",
+    "text": "Hopeful S."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:huge-lead",
+    "text": "Huge Lead"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:hydrate",
+    "text": "Hydrate"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:i-can-see-right-through-you",
+    "text": "I Can See Right Through You"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:i-m-possible",
+    "text": "I'm Possible!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:i-never-goof-up",
+    "text": "I Never Goof Up!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:i-see-victory-in-my-future",
+    "text": "I See Victory in My Future!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-guts",
+    "text": "Ignited Spirit GUTS"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-guts-2",
+    "text": "Ignited Spirit: Guts +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-power",
+    "text": "Ignited Spirit: Power +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-pwr",
+    "text": "Ignited Spirit PWR"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-spd",
+    "text": "Ignited Spirit SPD"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-speed",
+    "text": "Ignited Spirit: Speed +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-sta",
+    "text": "Ignited Spirit STA"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-stamina",
+    "text": "Ignited Spirit: Stamina +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-wit",
+    "text": "Ignited Spirit WIT"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ignited-spirit-wit-2",
+    "text": "Ignited Spirit: Wit +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:inner-post-proficiency",
+    "text": "Inner Post Proficiency ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:inner-post-proficiency",
+    "text": "Inner Post Proficiency ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:inside-scoop",
+    "text": "Inside Scoop"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:intense-gaze",
+    "text": "Intense Gaze"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:intimidate",
+    "text": "Intimidate"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:into-high-gear",
+    "text": "Into High Gear!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:j-d-derby",
+    "text": "J.D. Derby"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:japan-c",
+    "text": "Japan C."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:japanese-derby",
+    "text": "Japanese Derby"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:japanese-oaks",
+    "text": "Japanese Oaks"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:jbc-classic",
+    "text": "JBC Classic"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:jbc-l-classic",
+    "text": "JBC L. Classic"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:jbc-sprint",
+    "text": "JBC Sprint"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:joyful-voyage",
+    "text": "Joyful Voyage!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:just-a-little-farther",
+    "text": "Just a Little Farther!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kashiwa-kinen",
+    "text": "Kashiwa Kinen"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kawasaki-kinen",
+    "text": "Kawasaki Kinen"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kawasaki-racecourse",
+    "text": "Kawasaki Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kawasaki-racecourse",
+    "text": "Kawasaki Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:keep-it-real",
+    "text": "KEEP IT REAL."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:keep-pushing-ahead",
+    "text": "Keep Pushing Ahead"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:keeping-the-lead",
+    "text": "Keeping the Lead"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kikuka-sho",
+    "text": "Kikuka Sho"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kokura-racecourse",
+    "text": "Kokura Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kokura-racecourse",
+    "text": "Kokura Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kyoto-racecourse",
+    "text": "Kyoto Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:kyoto-racecourse",
+    "text": "Kyoto Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:latch-on",
+    "text": "Latch On"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:late-surger",
+    "text": "Late Surger"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:late-surger-corners",
+    "text": "Late Surger Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:late-surger-corners",
+    "text": "Late Surger Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:late-surger-savvy",
+    "text": "Late Surger Savvy ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:late-surger-savvy",
+    "text": "Late Surger Savvy ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:late-surger-straightaways",
+    "text": "Late Surger Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:late-surger-straightaways",
+    "text": "Late Surger Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:laugh-at-the-odds",
+    "text": "Laugh at the Odds"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:lay-low",
+    "text": "Lay Low"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:leader-s-pride",
+    "text": "Leader's Pride"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:leap-forward",
+    "text": "Leap Forward"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:left-handed",
+    "text": "Left-Handed ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:left-handed",
+    "text": "Left-Handed ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:legacy-of-the-strong",
+    "text": "Legacy of the Strong"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:let-s-pump-some-iron",
+    "text": "Let's Pump Some Iron!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:levelheaded",
+    "text": "Levelheaded"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:light-as-a-feather",
+    "text": "Light as a Feather"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:lightning-flare",
+    "text": "Lightning Flare"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:lights-of-vaudeville",
+    "text": "Lights of Vaudeville"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:lone-wolf",
+    "text": "Lone Wolf"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:long",
+    "text": "Long"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:long-corners",
+    "text": "Long Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:long-corners",
+    "text": "Long Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:long-shot",
+    "text": "Long Shot ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:long-shot",
+    "text": "Long Shot ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:long-straightaways",
+    "text": "Long Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:long-straightaways",
+    "text": "Long Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:lookatcurren",
+    "text": "#LookatCurren"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:louder-tracen-cheer",
+    "text": "Louder! Tracen Cheer!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:lovely-spring-breeze",
+    "text": "Lovely Spring Breeze"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:luck-runs-my-way",
+    "text": "Luck Runs My Way"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:lucky-seven",
+    "text": "Lucky Seven"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:m-c-nambu-hai",
+    "text": "M.C. Nambu Hai"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:mad-dash",
+    "text": "Mad Dash"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:masterful-gambit",
+    "text": "Masterful Gambit"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:maverick",
+    "text": "Maverick ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:maverick",
+    "text": "Maverick ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:medium",
+    "text": "Medium"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:medium-corners",
+    "text": "Medium Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:medium-corners",
+    "text": "Medium Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:medium-straightaways",
+    "text": "Medium Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:medium-straightaways",
+    "text": "Medium Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:meticulous-measures",
+    "text": "Meticulous Measures"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:mile",
+    "text": "Mile"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:mile-ch",
+    "text": "Mile Ch."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:mile-corners",
+    "text": "Mile Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:mile-corners",
+    "text": "Mile Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:mile-straightaways",
+    "text": "Mile Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:mile-straightaways",
+    "text": "Mile Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:morioka-racecourse",
+    "text": "Morioka Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:morioka-racecourse",
+    "text": "Morioka Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:moving-past-and-beyond",
+    "text": "Moving Past, and Beyond"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:moxie",
+    "text": "Moxie"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:muddy",
+    "text": "Muddy ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:muddy",
+    "text": "Muddy ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:murmur",
+    "text": "Murmur"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:my-true-strength",
+    "text": "My True Strength"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:nakayama-racecourse",
+    "text": "Nakayama Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:nakayama-racecourse",
+    "text": "Nakayama Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:nemesis",
+    "text": "Nemesis"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:never-say-never",
+    "text": "Never Say Never"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:nhk-mile-c",
+    "text": "NHK Mile C."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:night-races",
+    "text": "Night Races ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:night-races",
+    "text": "Night Races ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:niigata-racecourse",
+    "text": "Niigata Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:niigata-racecourse",
+    "text": "Niigata Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:nimble-navigator",
+    "text": "Nimble Navigator"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:no-looking-back",
+    "text": "No Looking Back"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:non-standard-distance",
+    "text": "Non-Standard Distance ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:non-standard-distance",
+    "text": "Non-Standard Distance ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:now-we-re-cruisin",
+    "text": "Now We're Cruisin'!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:oi-racecourse",
+    "text": "Oi Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:oi-racecourse",
+    "text": "Oi Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:oka-sho",
+    "text": "Oka Sho"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:omg-the-final-sprint",
+    "text": "OMG! (ﾟ∀ﾟ)  The Final Sprint! ☆"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:on-the-attack",
+    "text": "On the Attack"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:on-the-way-to-our-dream",
+    "text": "On the Way to Our Dream"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:one-true-color",
+    "text": "One True Color"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:opening-gambit",
+    "text": "Opening Gambit"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:operation-cacao",
+    "text": "Operation Cacao"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:oppression",
+    "text": "Oppression"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:osaka-hai",
+    "text": "Osaka Hai"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:our-grand-concert",
+    "text": "Our Grand Concert"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:our-ticket-to-win",
+    "text": "Our Ticket to Win!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:outer-post-proficiency",
+    "text": "Outer Post Proficiency ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:outer-post-proficiency",
+    "text": "Outer Post Proficiency ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:outer-swell",
+    "text": "Outer Swell"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-chaser",
+    "text": "Pace Chaser"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-chaser-corners",
+    "text": "Pace Chaser Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-chaser-corners",
+    "text": "Pace Chaser Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-chaser-savvy",
+    "text": "Pace Chaser Savvy ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-chaser-savvy",
+    "text": "Pace Chaser Savvy ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-chaser-straightaways",
+    "text": "Pace Chaser Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-chaser-straightaways",
+    "text": "Pace Chaser Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pace-strategy",
+    "text": "Pace Strategy"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:passing-pro",
+    "text": "Passing Pro"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pedal-to-the-metal",
+    "text": "Pedal to the Metal"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:peerless-dance-of-flowering-flames",
+    "text": "Peerless Dance of Flowering Flames"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:playtime-s-over",
+    "text": "Playtime's Over!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pop-polish",
+    "text": "Pop & Polish"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:position-pilfer",
+    "text": "Position Pilfer"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:power",
+    "text": "Power"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:preferred-position",
+    "text": "Preferred Position"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:prepared-to-pass",
+    "text": "Prepared to Pass"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:presents-from-x",
+    "text": "Presents from X"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pressure",
+    "text": "Pressure"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:prideful-king",
+    "text": "Prideful King"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:productive-plan",
+    "text": "Productive Plan"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:prudent-positioning",
+    "text": "Prudent Positioning"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pumped",
+    "text": "Pumped"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:pure-heart",
+    "text": "Pure Heart"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:queen-elizabeth-ii-cup",
+    "text": "Queen Elizabeth II Cup"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:queen-s-lumination",
+    "text": "Queen's Lumination"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-guts",
+    "text": "Racing Spirit: Guts"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-guts-2",
+    "text": "Racing Spirit: Guts +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-mood",
+    "text": "Racing Spirit: Mood"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-mood-2",
+    "text": "Racing Spirit: Mood +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-power",
+    "text": "Racing Spirit: Power"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-power-2",
+    "text": "Racing Spirit: Power +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-speed",
+    "text": "Racing Spirit: Speed"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-speed-2",
+    "text": "Racing Spirit: Speed +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-stamina",
+    "text": "Racing Spirit: Stamina"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-stamina-2",
+    "text": "Racing Spirit: Stamina +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-wit",
+    "text": "Racing Spirit: Wit"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:racing-spirit-wit-2",
+    "text": "Racing Spirit: Wit +"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:rainy-days",
+    "text": "Rainy Days ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:rainy-days",
+    "text": "Rainy Days ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ramp-up",
+    "text": "Ramp Up"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:rapid-gain",
+    "text": "Rapid Gain"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:rational",
+    "text": "Rational"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ravissant",
+    "text": "Ravissant"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:red-hot-discipline",
+    "text": "Red-Hot Discipline!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:red-shift-lp1211-m",
+    "text": "Red Shift/LP1211-M"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:resplendent-red-ace",
+    "text": "Resplendent Red Ace"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:restart",
+    "text": "Restart"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:restraint",
+    "text": "Restraint"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:right-handed",
+    "text": "Right-Handed ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:right-handed",
+    "text": "Right-Handed ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:risk-taker",
+    "text": "Risk-Taker"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:risky-business",
+    "text": "Risky Business"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:rosy-outlook",
+    "text": "Rosy Outlook"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sapporo-racecourse",
+    "text": "Sapporo Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sapporo-racecourse",
+    "text": "Sapporo Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:satsuki-sho",
+    "text": "Satsuki Sho"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:schwarzes-schwert",
+    "text": "Schwarzes Schwert"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:scramble",
+    "text": "Scramble"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:second-wind",
+    "text": "Second Wind"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shadow-break",
+    "text": "Shadow Break"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shake-it-out",
+    "text": "Shake It Out"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sharp-gaze",
+    "text": "Sharp Gaze"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sharp-turns",
+    "text": "Sharp Turns ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sharp-turns",
+    "text": "Sharp Turns ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shifting-gears",
+    "text": "Shifting Gears"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shooting-for-victory",
+    "text": "Shooting for Victory!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shooting-star",
+    "text": "Shooting Star"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shooting-star-of-dioskouroi",
+    "text": "Shooting Star of Dioskouroi"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shrewd-step",
+    "text": "Shrewd Step"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:shuka-sho",
+    "text": "Shuka Sho"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:silent-letter",
+    "text": "Silent Letter"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sky-high-teio-step",
+    "text": "Sky-High Teio Step"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:slick-surge",
+    "text": "Slick Surge"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:slipstream",
+    "text": "Slipstream"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:smoke-screen",
+    "text": "Smoke Screen"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:snow-bright-snow-flight",
+    "text": "Snow Bright, Snow Flight"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:snowy-days",
+    "text": "Snowy Days ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:snowy-days",
+    "text": "Snowy Days ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:soft-step",
+    "text": "Soft Step"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:solid-steps",
+    "text": "Solid Steps"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sparkly-stardom",
+    "text": "SPARKLY☆STARDOM"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:speed",
+    "text": "Speed"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:speed-eater",
+    "text": "Speed Eater"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:spooky-scary-happy",
+    "text": "Spooky, Scary, Happy"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:spring-runner",
+    "text": "Spring Runner ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:spring-runner",
+    "text": "Spring Runner ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sprint",
+    "text": "Sprint"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sprint-corners",
+    "text": "Sprint Corners ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sprint-corners",
+    "text": "Sprint Corners ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sprint-straightaways",
+    "text": "Sprint Straightaways ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sprint-straightaways",
+    "text": "Sprint Straightaways ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sprinters-s",
+    "text": "Sprinters S."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sprinting-gear",
+    "text": "Sprinting Gear"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:stamina",
+    "text": "Stamina"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:stamina-eater",
+    "text": "Stamina Eater"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:stamina-to-spare",
+    "text": "Stamina to Spare"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:standard-distance",
+    "text": "Standard Distance ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:standard-distance",
+    "text": "Standard Distance ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:standing-by",
+    "text": "Standing By"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:star",
+    "text": "α-star*"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:steadfast",
+    "text": "Steadfast"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:steady-gait",
+    "text": "Steady Gait"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:stop-right-there",
+    "text": "Stop Right There!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:straight-descent",
+    "text": "Straight Descent"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:straightaway-acceleration",
+    "text": "Straightaway Acceleration"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:straightaway-adept",
+    "text": "Straightaway Adept"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:straightaway-recovery",
+    "text": "Straightaway Recovery"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:straightaway-spurt",
+    "text": "Straightaway Spurt"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:strategist",
+    "text": "Strategist"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:studious",
+    "text": "Studious"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:subdued-end-closers",
+    "text": "Subdued End Closers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:subdued-front-runners",
+    "text": "Subdued Front Runners"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:subdued-late-surgers",
+    "text": "Subdued Late Surgers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:subdued-pace-chasers",
+    "text": "Subdued Pace Chasers"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:summer-runner",
+    "text": "Summer Runner ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:summer-runner",
+    "text": "Summer Runner ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sunny-breeze",
+    "text": "Sunny Breeze"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sunny-days",
+    "text": "Sunny Days ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sunny-days",
+    "text": "Sunny Days ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sunny-sign",
+    "text": "Sunny Sign"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:super-duper-climax",
+    "text": "Super-Duper Climax"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:superior-heal",
+    "text": "Superior Heal"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:sympathy",
+    "text": "Sympathy"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tactical-tweak",
+    "text": "Tactical Tweak"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tail-held-high",
+    "text": "Tail Held High"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:takamatsunomiya-kinen",
+    "text": "Takamatsunomiya Kinen"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:takarazuka-kinen",
+    "text": "Takarazuka Kinen"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:take-the-chance",
+    "text": "Take the Chance"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:target-in-sight",
+    "text": "Target in Sight ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:target-in-sight",
+    "text": "Target in Sight ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:teio-sho",
+    "text": "Teio Sho"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tenno-sho-autumn",
+    "text": "Tenno Sho (Autumn)"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tenno-sho-spring",
+    "text": "Tenno Sho (Spring)"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tether",
+    "text": "Tether"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:the-duty-of-dignity-calls",
+    "text": "The Duty of Dignity Calls"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:the-moe-aaaa-thanks-for-my-life",
+    "text": "THE MOE AAAA Thanks for My Life"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:the-view-from-the-lead-is-mine",
+    "text": "The View from the Lead Is Mine!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:this-dance-is-for-vittoria",
+    "text": "This Dance Is for Vittoria!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:thunderbolt-step",
+    "text": "Thunderbolt Step"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ticket-to-your-dreams",
+    "text": "Ticket to Your Dreams!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tokyo-daishoten",
+    "text": "Tokyo Daishoten"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tokyo-racecourse",
+    "text": "Tokyo Racecourse ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:tokyo-racecourse",
+    "text": "Tokyo Racecourse ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:top-pick",
+    "text": "Top Pick"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:trick-front",
+    "text": "Trick (Front)"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:trick-rear",
+    "text": "Trick (Rear)"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:trigger-beat",
+    "text": "trigger:BEAT"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:triple-7s",
+    "text": "Triple 7s"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:triumphant-pulse",
+    "text": "Triumphant Pulse"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ts-climax-scenario",
+    "text": "TS Climax Scenario"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:turf",
+    "text": "Turf"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:u-ma2",
+    "text": "U=ma2"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:uma-stan",
+    "text": "Uma Stan"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:unity-cup",
+    "text": "Unity Cup"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:unyielding-spirit",
+    "text": "Unyielding Spirit"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:up-tempo",
+    "text": "Up-Tempo"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:updrafters",
+    "text": "Updrafters"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:ura-finale",
+    "text": "URA Finale"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:victoria-mile",
+    "text": "Victoria Mile"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:victoria-por-plancha",
+    "text": "Victoria por plancha ☆"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:victory-belongs-to-me-strelitzia",
+    "text": "Victory belongs to me—Strelitzia! ☆"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:victory-cheer",
+    "text": "Victory Cheer!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:wait-and-see",
+    "text": "Wait-and-See"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:watchful-eye",
+    "text": "Watchful Eye"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:wet-conditions",
+    "text": "Wet Conditions ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:wet-conditions",
+    "text": "Wet Conditions ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:where-there-s-a-will-there-s-a-way",
+    "text": "Where There's a Will, There's a Way"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:wherever-this-wonder-leads",
+    "text": "Wherever This Wonder Leads"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:white-lightning-comin-through",
+    "text": "White Lightning Comin' Through!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:win-q-e-d",
+    "text": "∴win Q.E.D."
+  },
+  {
+    "kind": "spark",
+    "id": "spark:winter-runner",
+    "text": "Winter Runner ○"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:winter-runner",
+    "text": "Winter Runner ◯"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:wit",
+    "text": "Wit"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:with-all-my-soul",
+    "text": "With All My Soul"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:yasuda-kinen",
+    "text": "Yasuda Kinen"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:you-and-me-one-on-one",
+    "text": "You and Me! One-on-One!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:your-smile-sparkles-as-the-waves",
+    "text": "Your Smile Sparkles as the Waves"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:yummy-speed",
+    "text": "YUMMY☆SPEED!"
+  },
+  {
+    "kind": "spark",
+    "id": "spark:zen-nippon-junior-yushun",
+    "text": "Zen-Nippon Junior Yushun"
+  }
+]

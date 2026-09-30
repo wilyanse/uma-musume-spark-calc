@@ -1,0 +1,402 @@
+{
+  "version": "rules-1",
+  "activation": {
+    "blue": {
+      "1": 0.7,
+      "2": 0.8,
+      "3": 0.9,
+      "verified": false,
+      "source": "https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return\"blue\"===t?i=[.7,.8,.9]:\"red\"===t||\"aptitude\"===t?i=[.01,.03,.05]:\"green\"===t?i=[.05,.1,.15]:\"race\"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`)"
+    },
+    "pink": {
+      "1": 0.01,
+      "2": 0.03,
+      "3": 0.05,
+      "verified": false,
+      "source": "https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return\"blue\"===t?i=[.7,.8,.9]:\"red\"===t||\"aptitude\"===t?i=[.01,.03,.05]:\"green\"===t?i=[.05,.1,.15]:\"race\"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`)"
+    },
+    "green": {
+      "1": 0.05,
+      "2": 0.1,
+      "3": 0.15,
+      "verified": false,
+      "source": "https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return\"blue\"===t?i=[.7,.8,.9]:\"red\"===t||\"aptitude\"===t?i=[.01,.03,.05]:\"green\"===t?i=[.05,.1,.15]:\"race\"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`)"
+    },
+    "white": {
+      "1": 0.03,
+      "2": 0.06,
+      "3": 0.09,
+      "verified": false,
+      "source": "https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return\"blue\"===t?i=[.7,.8,.9]:\"red\"===t||\"aptitude\"===t?i=[.01,.03,.05]:\"green\"===t?i=[.05,.1,.15]:\"race\"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`); this is the skill-spark table, race sparks are in raceSparkStatGain.activation"
+    }
+  },
+  "affinityMultiplier": {
+    "formula": "1 + affinity/100",
+    "verified": false,
+    "source": "https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return\"blue\"===t?i=[.7,.8,.9]:\"red\"===t||\"aptitude\"===t?i=[.01,.03,.05]:\"green\"===t?i=[.05,.1,.15]:\"race\"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`); rate = min(base[stars] * (1 + affinity/100), 1)"
+  },
+  "grandparentWeight": {
+    "value": 1,
+    "verified": false,
+    "source": "https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return\"blue\"===t?i=[.7,.8,.9]:\"red\"===t||\"aptitude\"===t?i=[.01,.03,.05]:\"green\"===t?i=[.05,.1,.15]:\"race\"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`): each legacy and sub-legacy rolls independently with its own affinity; no extra sub-legacy factor was found in the calculator code. Assumed 1 (Q-3)"
+  },
+  "blueStatGain": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "verified": false,
+    "source": "UNKNOWN: no cited source; 0 is a placeholder to be calibrated by T15 (Q-3). Per-event blue gain is not documented in https://gametora.com/umamusume/legacies; the raw factor table https://gametora.com/data/umamusume/factors.<hash>.json (blue[].effects) has unlabeled per-star arrays"
+  },
+  "blueInitialBonus": {
+    "1": 5,
+    "2": 12,
+    "3": 21,
+    "verified": false,
+    "source": "https://gametora.com/umamusume/legacies (Blue spark section: \"1☆ +5, 2☆ +12, 3☆ +21\", additive over every legacy and sub-legacy)"
+  },
+  "pinkGradeGain": {
+    "1": 1,
+    "2": 1,
+    "3": 1,
+    "verified": false,
+    "source": "docs/specs/01-data-contracts.md §12 (contract value, not independently confirmed)"
+  },
+  "whiteHintLevels": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "verified": false,
+    "source": "UNKNOWN: no cited source; 0 is a placeholder to be calibrated by T15 (Q-3). https://gametora.com/umamusume/legacies only says the skill becomes available at a discount depending on stars"
+  },
+  "raceSparkStatGain": {
+    "verified": false,
+    "source": "https://gametora.com/data/umamusume/factors.<hash>.json race[].effects: stat-type effects carry [3,6,9] per star, type-41 effects carry a skill hint",
+    "perStar": [
+      3,
+      6,
+      9
+    ],
+    "activation": {
+      "1": 0.01,
+      "2": 0.02,
+      "3": 0.03
+    },
+    "activationSource": "https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 2026-09-30, since rotated to 404; quoted snippet `i=[.03,.06,.09];return\"blue\"===t?i=[.7,.8,.9]:\"red\"===t||\"aptitude\"===t?i=[.01,.03,.05]:\"green\"===t?i=[.05,.1,.15]:\"race\"===t&&(i=[.01,.02,.03]),Math.min(i[a-1]*l,1)`, `l=1+(Number(r)||0)/100`; spark copy-rate table spark copy-rate table `[.7,.8,.9]` blue, `[.01,.03,.05]` pink, `[.05,.1,.15]` green, `[.03,.06,.09]` skills, `[.01,.02,.03]` races; affinity factor `1 + affinity/100`)",
+    "races": {
+      "1001": {
+        "stats": [
+          "pow"
+        ],
+        "hintSkillIds": [
+          200202
+        ]
+      },
+      "1002": {
+        "stats": [
+          "spd"
+        ],
+        "hintSkillIds": [
+          200072
+        ]
+      },
+      "1003": {
+        "stats": [
+          "gut"
+        ],
+        "hintSkillIds": [
+          200132
+        ]
+      },
+      "1004": {
+        "stats": [
+          "gut"
+        ],
+        "hintSkillIds": [
+          200052
+        ]
+      },
+      "1005": {
+        "stats": [
+          "pow"
+        ],
+        "hintSkillIds": [
+          200042
+        ]
+      },
+      "1006": {
+        "stats": [
+          "sta"
+        ],
+        "hintSkillIds": [
+          200172
+        ]
+      },
+      "1007": {
+        "stats": [
+          "spd",
+          "pow"
+        ],
+        "hintSkillIds": []
+      },
+      "1008": {
+        "stats": [
+          "spd",
+          "pow"
+        ],
+        "hintSkillIds": []
+      },
+      "1009": {
+        "stats": [
+          "sta"
+        ],
+        "hintSkillIds": [
+          200032
+        ]
+      },
+      "1010": {
+        "stats": [
+          "gut"
+        ],
+        "hintSkillIds": [
+          200032
+        ]
+      },
+      "1011": {
+        "stats": [
+          "spd"
+        ],
+        "hintSkillIds": [
+          200032
+        ]
+      },
+      "1012": {
+        "stats": [
+          "gut"
+        ],
+        "hintSkillIds": [
+          200182
+        ]
+      },
+      "1013": {
+        "stats": [
+          "spd"
+        ],
+        "hintSkillIds": [
+          200132
+        ]
+      },
+      "1014": {
+        "stats": [
+          "wit"
+        ],
+        "hintSkillIds": [
+          200062
+        ]
+      },
+      "1015": {
+        "stats": [
+          "sta"
+        ],
+        "hintSkillIds": [
+          200062
+        ]
+      },
+      "1016": {
+        "stats": [
+          "spd"
+        ],
+        "hintSkillIds": [
+          200192
+        ]
+      },
+      "1017": {
+        "stats": [
+          "sta"
+        ],
+        "hintSkillIds": [
+          200142
+        ]
+      },
+      "1018": {
+        "stats": [
+          "spd"
+        ],
+        "hintSkillIds": [
+          200132
+        ]
+      },
+      "1019": {
+        "stats": [
+          "sta"
+        ],
+        "hintSkillIds": [
+          200032
+        ]
+      },
+      "1020": {
+        "stats": [
+          "pow"
+        ],
+        "hintSkillIds": [
+          200072
+        ]
+      },
+      "1021": {
+        "stats": [
+          "spd",
+          "pow"
+        ],
+        "hintSkillIds": []
+      },
+      "1022": {
+        "stats": [
+          "spd",
+          "gut"
+        ],
+        "hintSkillIds": []
+      },
+      "1023": {
+        "stats": [
+          "gut"
+        ],
+        "hintSkillIds": [
+          200042
+        ]
+      },
+      "1024": {
+        "stats": [
+          "spd",
+          "sta"
+        ],
+        "hintSkillIds": []
+      },
+      "1101": {
+        "stats": [
+          "pow"
+        ],
+        "hintSkillIds": [
+          200952
+        ]
+      },
+      "1102": {
+        "stats": [
+          "pow"
+        ],
+        "hintSkillIds": [
+          200952
+        ]
+      },
+      "1103": {
+        "stats": [
+          "spd",
+          "gut"
+        ],
+        "hintSkillIds": []
+      },
+      "1104": {
+        "stats": [
+          "pow",
+          "gut"
+        ],
+        "hintSkillIds": []
+      },
+      "1105": {
+        "stats": [
+          "sta",
+          "gut"
+        ],
+        "hintSkillIds": []
+      },
+      "1106": {
+        "stats": [
+          "pow"
+        ],
+        "hintSkillIds": [
+          200952
+        ]
+      },
+      "1107": {
+        "stats": [
+          "wit"
+        ],
+        "hintSkillIds": [
+          202202
+        ]
+      },
+      "1108": {
+        "stats": [
+          "pow"
+        ],
+        "hintSkillIds": [
+          202232
+        ]
+      },
+      "1109": {
+        "stats": [
+          "spd"
+        ],
+        "hintSkillIds": [
+          202212
+        ]
+      },
+      "1110": {
+        "stats": [
+          "wit"
+        ],
+        "hintSkillIds": [
+          202222
+        ]
+      }
+    }
+  },
+  "scenarioSparkEffects": {
+    "verified": false,
+    "source": "https://gametora.com/data/umamusume/factors.<hash>.json scenario[].effects (stat effect per star) joined to static/scenario_factors",
+    "scenarios": {
+      "scenario:ura-finale": {
+        "stats": [
+          "spd",
+          "sta"
+        ],
+        "perStar": [
+          10,
+          20,
+          30
+        ]
+      },
+      "scenario:unity-cup": {
+        "stats": [
+          "pow",
+          "wit"
+        ],
+        "perStar": [
+          10,
+          20,
+          30
+        ]
+      },
+      "scenario:trackblazer": {
+        "stats": [
+          "sta",
+          "gut"
+        ],
+        "perStar": [
+          10,
+          20,
+          30
+        ]
+      },
+      "scenario:brighter-together-our-grand-concert": {
+        "stats": [
+          "spd",
+          "gut"
+        ],
+        "perStar": [
+          10,
+          20,
+          30
+        ]
+      }
+    }
+  }
+}

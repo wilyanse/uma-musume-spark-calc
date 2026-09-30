@@ -1,0 +1,7338 @@
+{
+  "groups": [
+    {
+      "id": "relation:101",
+      "members": [
+        "character:kitasan-black",
+        "character:mayano-top-gun",
+        "character:nishino-flower",
+        "character:satono-diamond",
+        "character:sweep-tosho"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:102",
+      "members": [
+        "character:agnes-digital",
+        "character:aston-machan",
+        "character:curren-chan",
+        "character:daiwa-scarlet",
+        "character:mejiro-mcqueen",
+        "character:tokai-teio",
+        "character:vodka",
+        "character:yamanin-zephyr",
+        "character:yukino-bijin"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:103",
+      "members": [
+        "character:copano-rickey",
+        "character:el-condor-pasa",
+        "character:grass-wonder",
+        "character:haru-urara",
+        "character:hishi-akebono",
+        "character:kawakami-princess",
+        "character:king-halo",
+        "character:matikanetannhauser",
+        "character:meisho-doto",
+        "character:nice-nature",
+        "character:seiun-sky",
+        "character:special-week",
+        "character:tm-opera-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:104",
+      "members": [
+        "character:agnes-tachyon",
+        "character:air-shakur",
+        "character:fine-motion",
+        "character:gold-city",
+        "character:manhattan-cafe",
+        "character:matikanefukukitaru",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:mihono-bourbon",
+        "character:nakayama-festa",
+        "character:rice-shower",
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o",
+        "character:silence-suzuka",
+        "character:taiki-shuttle",
+        "character:tosen-jordan",
+        "character:wonder-acute"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:105",
+      "members": [
+        "character:admire-vega",
+        "character:air-groove",
+        "character:bamboo-memory",
+        "character:biwa-hayahide",
+        "character:eishin-flash",
+        "character:fuji-kiseki",
+        "character:gold-ship",
+        "character:hishi-amazon",
+        "character:ines-fujin",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:smart-falcon",
+        "character:winning-ticket",
+        "character:yaeno-muteki"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:106",
+      "members": [
+        "character:inari-one",
+        "character:maruzensky",
+        "character:mejiro-ardan",
+        "character:oguri-cap",
+        "character:seeking-the-pearl",
+        "character:super-creek",
+        "character:symboli-rudolf",
+        "character:tamamo-cross"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:2001",
+      "members": [
+        "character:agnes-tachyon",
+        "character:air-shakur",
+        "character:fuji-kiseki",
+        "character:manhattan-cafe",
+        "character:silence-suzuka",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2002",
+      "members": [
+        "character:air-groove",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2003",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2004",
+      "members": [
+        "character:mejiro-bright",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2009",
+      "members": [
+        "character:mayano-top-gun",
+        "character:narita-brian",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:201",
+      "members": [
+        "character:el-condor-pasa",
+        "character:grass-wonder",
+        "character:hishi-amazon",
+        "character:inari-one",
+        "character:ines-fujin",
+        "character:manhattan-cafe",
+        "character:mejiro-ardan",
+        "character:mejiro-dober",
+        "character:mejiro-ryan",
+        "character:nakayama-festa",
+        "character:rice-shower",
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o",
+        "character:seiun-sky",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:yamanin-zephyr",
+        "character:yukino-bijin"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:2010",
+      "members": [
+        "character:copano-rickey",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:202",
+      "members": [
+        "character:admire-vega",
+        "character:agnes-digital",
+        "character:agnes-tachyon",
+        "character:air-groove",
+        "character:air-shakur",
+        "character:aston-machan",
+        "character:bamboo-memory",
+        "character:biwa-hayahide",
+        "character:copano-rickey",
+        "character:curren-chan",
+        "character:daiwa-scarlet",
+        "character:eishin-flash",
+        "character:fine-motion",
+        "character:fuji-kiseki",
+        "character:gold-city",
+        "character:gold-ship",
+        "character:haru-urara",
+        "character:hishi-akebono",
+        "character:kawakami-princess",
+        "character:king-halo",
+        "character:kitasan-black",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-bright",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mihono-bourbon",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:nice-nature",
+        "character:nishino-flower",
+        "character:oguri-cap",
+        "character:satono-diamond",
+        "character:seeking-the-pearl",
+        "character:silence-suzuka",
+        "character:smart-falcon",
+        "character:special-week",
+        "character:super-creek",
+        "character:sweep-tosho",
+        "character:tamamo-cross",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:vodka",
+        "character:winning-ticket",
+        "character:wonder-acute",
+        "character:yaeno-muteki"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:2101",
+      "members": [
+        "character:copano-rickey",
+        "character:daiwa-scarlet",
+        "character:gold-ship",
+        "character:nakayama-festa",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2102",
+      "members": [
+        "character:special-week",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2103",
+      "members": [
+        "character:grass-wonder",
+        "character:mayano-top-gun"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2104",
+      "members": [
+        "character:mayano-top-gun",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2105",
+      "members": [
+        "character:gold-city",
+        "character:ines-fujin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2106",
+      "members": [
+        "character:air-groove",
+        "character:daiwa-scarlet",
+        "character:sakura-bakushin-o",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2107",
+      "members": [
+        "character:agnes-tachyon",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2201",
+      "members": [
+        "character:symboli-rudolf",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2202",
+      "members": [
+        "character:maruzensky",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2203",
+      "members": [
+        "character:kitasan-black",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2204",
+      "members": [
+        "character:mejiro-bright",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2205",
+      "members": [
+        "character:maruzensky",
+        "character:mejiro-bright"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2301",
+      "members": [
+        "character:maruzensky",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2302",
+      "members": [
+        "character:maruzensky",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2303",
+      "members": [
+        "character:gold-ship",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2403",
+      "members": [
+        "character:bamboo-memory",
+        "character:gold-city",
+        "character:inari-one",
+        "character:mejiro-ardan",
+        "character:oguri-cap",
+        "character:sakura-chiyono-o",
+        "character:super-creek",
+        "character:tamamo-cross",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2404",
+      "members": [
+        "character:ines-fujin",
+        "character:matikanetannhauser",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:mihono-bourbon",
+        "character:nice-nature",
+        "character:nishino-flower",
+        "character:rice-shower",
+        "character:sakura-bakushin-o",
+        "character:tokai-teio",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2405",
+      "members": [
+        "character:biwa-hayahide",
+        "character:fuji-kiseki",
+        "character:hishi-akebono",
+        "character:hishi-amazon",
+        "character:mayano-top-gun",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:winning-ticket",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2406",
+      "members": [
+        "character:air-groove",
+        "character:el-condor-pasa",
+        "character:grass-wonder",
+        "character:king-halo",
+        "character:matikanefukukitaru",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:seeking-the-pearl",
+        "character:seiun-sky",
+        "character:silence-suzuka",
+        "character:special-week",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2407",
+      "members": [
+        "character:admire-vega",
+        "character:agnes-digital",
+        "character:agnes-tachyon",
+        "character:air-shakur",
+        "character:haru-urara",
+        "character:manhattan-cafe",
+        "character:meisho-doto",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2408",
+      "members": [
+        "character:fine-motion",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2409",
+      "members": [
+        "character:aston-machan",
+        "character:daiwa-scarlet",
+        "character:kawakami-princess",
+        "character:smart-falcon",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2410",
+      "members": [
+        "character:curren-chan",
+        "character:eishin-flash",
+        "character:nakayama-festa",
+        "character:tosen-jordan",
+        "character:wonder-acute"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2501",
+      "members": [
+        "character:agnes-digital",
+        "character:copano-rickey"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2502",
+      "members": [
+        "character:curren-chan",
+        "character:king-halo"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2503",
+      "members": [
+        "character:air-groove",
+        "character:daiwa-scarlet",
+        "character:kitasan-black",
+        "character:mejiro-mcqueen",
+        "character:super-creek",
+        "character:tokai-teio",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2504",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2505",
+      "members": [
+        "character:agnes-tachyon",
+        "character:air-shakur",
+        "character:gold-ship",
+        "character:mihono-bourbon",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:seiun-sky",
+        "character:symboli-rudolf",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2506",
+      "members": [
+        "character:biwa-hayahide",
+        "character:gold-ship",
+        "character:inari-one",
+        "character:kitasan-black",
+        "character:manhattan-cafe",
+        "character:mayano-top-gun",
+        "character:mejiro-bright",
+        "character:mejiro-mcqueen",
+        "character:rice-shower",
+        "character:special-week",
+        "character:super-creek",
+        "character:symboli-rudolf",
+        "character:tamamo-cross",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2507",
+      "members": [
+        "character:el-condor-pasa",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2509",
+      "members": [
+        "character:air-groove",
+        "character:kawakami-princess",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2510",
+      "members": [
+        "character:admire-vega",
+        "character:eishin-flash",
+        "character:ines-fujin",
+        "character:mihono-bourbon",
+        "character:narita-brian",
+        "character:sakura-chiyono-o",
+        "character:special-week",
+        "character:symboli-rudolf",
+        "character:tokai-teio",
+        "character:vodka",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2511",
+      "members": [
+        "character:agnes-digital",
+        "character:bamboo-memory",
+        "character:oguri-cap",
+        "character:taiki-shuttle",
+        "character:vodka",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2512",
+      "members": [
+        "character:biwa-hayahide",
+        "character:gold-ship",
+        "character:grass-wonder",
+        "character:inari-one",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:nakayama-festa",
+        "character:silence-suzuka",
+        "character:sweep-tosho",
+        "character:tamamo-cross",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2513",
+      "members": [
+        "character:aston-machan",
+        "character:bamboo-memory",
+        "character:curren-chan",
+        "character:hishi-akebono",
+        "character:nishino-flower",
+        "character:sakura-bakushin-o",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2514",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:fine-motion",
+        "character:kawakami-princess",
+        "character:mejiro-dober",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2515",
+      "members": [
+        "character:air-shakur",
+        "character:biwa-hayahide",
+        "character:gold-ship",
+        "character:kitasan-black",
+        "character:manhattan-cafe",
+        "character:matikanefukukitaru",
+        "character:mayano-top-gun",
+        "character:mejiro-mcqueen",
+        "character:narita-brian",
+        "character:rice-shower",
+        "character:satono-diamond",
+        "character:seiun-sky",
+        "character:super-creek",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2516",
+      "members": [
+        "character:agnes-digital",
+        "character:air-groove",
+        "character:eishin-flash",
+        "character:kitasan-black",
+        "character:special-week",
+        "character:super-creek",
+        "character:tamamo-cross",
+        "character:tm-opera-o",
+        "character:tosen-jordan",
+        "character:vodka",
+        "character:yaeno-muteki",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2517",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:fine-motion",
+        "character:hishi-amazon",
+        "character:mejiro-dober",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2518",
+      "members": [
+        "character:agnes-digital",
+        "character:oguri-cap",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2519",
+      "members": [
+        "character:el-condor-pasa",
+        "character:kitasan-black",
+        "character:special-week",
+        "character:symboli-rudolf",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2521",
+      "members": [
+        "character:gold-city",
+        "character:hishi-amazon",
+        "character:mejiro-dober",
+        "character:nishino-flower",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2522",
+      "members": [
+        "character:fuji-kiseki",
+        "character:grass-wonder",
+        "character:ines-fujin",
+        "character:maruzensky",
+        "character:mihono-bourbon",
+        "character:narita-brian",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2523",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:gold-ship",
+        "character:grass-wonder",
+        "character:inari-one",
+        "character:kitasan-black",
+        "character:manhattan-cafe",
+        "character:mayano-top-gun",
+        "character:mejiro-palmer",
+        "character:narita-brian",
+        "character:oguri-cap",
+        "character:satono-diamond",
+        "character:symboli-rudolf",
+        "character:tm-opera-o",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2524",
+      "members": [
+        "character:admire-vega",
+        "character:agnes-tachyon",
+        "character:mejiro-bright",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2525",
+      "members": [
+        "character:copano-rickey",
+        "character:smart-falcon",
+        "character:wonder-acute"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2529",
+      "members": [
+        "character:copano-rickey",
+        "character:smart-falcon",
+        "character:wonder-acute"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2530",
+      "members": [
+        "character:copano-rickey",
+        "character:inari-one",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2532",
+      "members": [
+        "character:agnes-digital",
+        "character:copano-rickey"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2533",
+      "members": [
+        "character:copano-rickey",
+        "character:wonder-acute"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2601",
+      "members": [
+        "character:admire-vega",
+        "character:agnes-digital",
+        "character:agnes-tachyon",
+        "character:air-shakur",
+        "character:bamboo-memory",
+        "character:biwa-hayahide",
+        "character:copano-rickey",
+        "character:eishin-flash",
+        "character:el-condor-pasa",
+        "character:fuji-kiseki",
+        "character:gold-city",
+        "character:gold-ship",
+        "character:grass-wonder",
+        "character:hishi-akebono",
+        "character:inari-one",
+        "character:ines-fujin",
+        "character:king-halo",
+        "character:kitasan-black",
+        "character:manhattan-cafe",
+        "character:maruzensky",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-ardan",
+        "character:mejiro-bright",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:mihono-bourbon",
+        "character:nakayama-festa",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:nice-nature",
+        "character:oguri-cap",
+        "character:rice-shower",
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o",
+        "character:satono-diamond",
+        "character:seiun-sky",
+        "character:silence-suzuka",
+        "character:smart-falcon",
+        "character:special-week",
+        "character:super-creek",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:tamamo-cross",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:winning-ticket",
+        "character:wonder-acute",
+        "character:yaeno-muteki",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2602",
+      "members": [
+        "character:air-groove",
+        "character:aston-machan",
+        "character:curren-chan",
+        "character:daiwa-scarlet",
+        "character:fine-motion",
+        "character:haru-urara",
+        "character:hishi-amazon",
+        "character:kawakami-princess",
+        "character:mejiro-dober",
+        "character:nishino-flower",
+        "character:seeking-the-pearl",
+        "character:sweep-tosho",
+        "character:vodka",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2603",
+      "members": [
+        "character:admire-vega",
+        "character:air-shakur",
+        "character:biwa-hayahide",
+        "character:curren-chan",
+        "character:eishin-flash",
+        "character:gold-city",
+        "character:gold-ship",
+        "character:haru-urara",
+        "character:hishi-akebono",
+        "character:hishi-amazon",
+        "character:ines-fujin",
+        "character:manhattan-cafe",
+        "character:matikanefukukitaru",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-ardan",
+        "character:mejiro-bright",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:narita-taishin",
+        "character:nice-nature",
+        "character:oguri-cap",
+        "character:sakura-bakushin-o",
+        "character:satono-diamond",
+        "character:seiun-sky",
+        "character:silence-suzuka",
+        "character:special-week",
+        "character:super-creek",
+        "character:sweep-tosho",
+        "character:tm-opera-o",
+        "character:winning-ticket",
+        "character:wonder-acute",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2604",
+      "members": [
+        "character:agnes-digital",
+        "character:agnes-tachyon",
+        "character:air-groove",
+        "character:aston-machan",
+        "character:bamboo-memory",
+        "character:copano-rickey",
+        "character:daiwa-scarlet",
+        "character:el-condor-pasa",
+        "character:fine-motion",
+        "character:fuji-kiseki",
+        "character:grass-wonder",
+        "character:inari-one",
+        "character:kawakami-princess",
+        "character:king-halo",
+        "character:kitasan-black",
+        "character:maruzensky",
+        "character:matikanetannhauser",
+        "character:mejiro-dober",
+        "character:mihono-bourbon",
+        "character:nakayama-festa",
+        "character:narita-brian",
+        "character:nishino-flower",
+        "character:rice-shower",
+        "character:sakura-chiyono-o",
+        "character:seeking-the-pearl",
+        "character:smart-falcon",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:tamamo-cross",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:vodka",
+        "character:yaeno-muteki",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2701",
+      "members": [
+        "character:eishin-flash",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2702",
+      "members": [
+        "character:symboli-rudolf",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2703",
+      "members": [
+        "character:biwa-hayahide",
+        "character:kitasan-black",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2704",
+      "members": [
+        "character:aston-machan",
+        "character:manhattan-cafe",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2705",
+      "members": [
+        "character:smart-falcon",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2706",
+      "members": [
+        "character:gold-city",
+        "character:nice-nature",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2707",
+      "members": [
+        "character:haru-urara",
+        "character:hishi-akebono"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2710",
+      "members": [
+        "character:mejiro-palmer",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2711",
+      "members": [
+        "character:copano-rickey",
+        "character:mayano-top-gun"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2717",
+      "members": [
+        "character:mejiro-ryan",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2722",
+      "members": [
+        "character:mejiro-bright",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2726",
+      "members": [
+        "character:inari-one",
+        "character:matikanetannhauser"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2727",
+      "members": [
+        "character:super-creek",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2801",
+      "members": [
+        "character:gold-city",
+        "character:inari-one",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2802",
+      "members": [
+        "character:bamboo-memory",
+        "character:mejiro-ardan",
+        "character:oguri-cap",
+        "character:sakura-chiyono-o",
+        "character:super-creek",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2803",
+      "members": [
+        "character:ines-fujin",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2804",
+      "members": [
+        "character:nice-nature",
+        "character:tokai-teio",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2805",
+      "members": [
+        "character:matikanetannhauser",
+        "character:mihono-bourbon",
+        "character:nishino-flower",
+        "character:rice-shower",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2806",
+      "members": [
+        "character:biwa-hayahide",
+        "character:narita-taishin",
+        "character:winning-ticket",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2807",
+      "members": [
+        "character:hishi-amazon",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2808",
+      "members": [
+        "character:fuji-kiseki",
+        "character:hishi-akebono",
+        "character:mayano-top-gun"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2810",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:seeking-the-pearl",
+        "character:silence-suzuka",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2811",
+      "members": [
+        "character:el-condor-pasa",
+        "character:grass-wonder",
+        "character:king-halo",
+        "character:seiun-sky",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2812",
+      "members": [
+        "character:admire-vega",
+        "character:haru-urara",
+        "character:meisho-doto",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2813",
+      "members": [
+        "character:agnes-digital",
+        "character:air-shakur"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2814",
+      "members": [
+        "character:agnes-tachyon",
+        "character:manhattan-cafe"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2815",
+      "members": [
+        "character:aston-machan",
+        "character:daiwa-scarlet",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2816",
+      "members": [
+        "character:nakayama-festa",
+        "character:tosen-jordan",
+        "character:wonder-acute"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2817",
+      "members": [
+        "character:curren-chan",
+        "character:eishin-flash"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:2901",
+      "members": [
+        "character:aston-machan",
+        "character:copano-rickey",
+        "character:ines-fujin",
+        "character:kitasan-black",
+        "character:maruzensky",
+        "character:mayano-top-gun",
+        "character:mejiro-palmer",
+        "character:mihono-bourbon",
+        "character:seiun-sky",
+        "character:silence-suzuka",
+        "character:smart-falcon"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:2902",
+      "members": [
+        "character:agnes-digital",
+        "character:air-groove",
+        "character:biwa-hayahide",
+        "character:curren-chan",
+        "character:daiwa-scarlet",
+        "character:el-condor-pasa",
+        "character:fine-motion",
+        "character:fuji-kiseki",
+        "character:gold-city",
+        "character:hishi-akebono",
+        "character:meisho-doto",
+        "character:mejiro-ardan",
+        "character:mejiro-mcqueen",
+        "character:nishino-flower",
+        "character:rice-shower",
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o",
+        "character:super-creek",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:wonder-acute",
+        "character:yaeno-muteki",
+        "character:yamanin-zephyr",
+        "character:yukino-bijin"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:2903",
+      "members": [
+        "character:agnes-tachyon",
+        "character:bamboo-memory",
+        "character:eishin-flash",
+        "character:grass-wonder",
+        "character:kawakami-princess",
+        "character:king-halo",
+        "character:manhattan-cafe",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:mejiro-ryan",
+        "character:nakayama-festa",
+        "character:narita-brian",
+        "character:nice-nature",
+        "character:oguri-cap",
+        "character:satono-diamond",
+        "character:seeking-the-pearl",
+        "character:special-week",
+        "character:vodka",
+        "character:winning-ticket"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:2904",
+      "members": [
+        "character:admire-vega",
+        "character:air-shakur",
+        "character:gold-ship",
+        "character:haru-urara",
+        "character:hishi-amazon",
+        "character:inari-one",
+        "character:narita-taishin",
+        "character:sweep-tosho",
+        "character:tamamo-cross"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:3001",
+      "members": [
+        "character:aston-machan",
+        "character:bamboo-memory",
+        "character:curren-chan",
+        "character:haru-urara",
+        "character:hishi-akebono",
+        "character:king-halo",
+        "character:maruzensky",
+        "character:mihono-bourbon",
+        "character:nishino-flower",
+        "character:sakura-bakushin-o",
+        "character:seeking-the-pearl",
+        "character:taiki-shuttle",
+        "character:yamanin-zephyr"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:3002",
+      "members": [
+        "character:agnes-digital",
+        "character:bamboo-memory",
+        "character:copano-rickey",
+        "character:daiwa-scarlet",
+        "character:el-condor-pasa",
+        "character:fuji-kiseki",
+        "character:gold-city",
+        "character:grass-wonder",
+        "character:ines-fujin",
+        "character:kawakami-princess",
+        "character:maruzensky",
+        "character:mejiro-dober",
+        "character:mihono-bourbon",
+        "character:nishino-flower",
+        "character:oguri-cap",
+        "character:sakura-chiyono-o",
+        "character:seeking-the-pearl",
+        "character:smart-falcon",
+        "character:taiki-shuttle",
+        "character:vodka",
+        "character:wonder-acute",
+        "character:yamanin-zephyr",
+        "character:yukino-bijin"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:3003",
+      "members": [
+        "character:admire-vega",
+        "character:agnes-digital",
+        "character:agnes-tachyon",
+        "character:air-groove",
+        "character:air-shakur",
+        "character:biwa-hayahide",
+        "character:copano-rickey",
+        "character:daiwa-scarlet",
+        "character:eishin-flash",
+        "character:el-condor-pasa",
+        "character:fine-motion",
+        "character:gold-ship",
+        "character:grass-wonder",
+        "character:hishi-amazon",
+        "character:inari-one",
+        "character:ines-fujin",
+        "character:kawakami-princess",
+        "character:kitasan-black",
+        "character:matikanefukukitaru",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-ardan",
+        "character:mejiro-dober",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:mihono-bourbon",
+        "character:nakayama-festa",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:nice-nature",
+        "character:oguri-cap",
+        "character:rice-shower",
+        "character:sakura-chiyono-o",
+        "character:seiun-sky",
+        "character:silence-suzuka",
+        "character:smart-falcon",
+        "character:special-week",
+        "character:super-creek",
+        "character:sweep-tosho",
+        "character:symboli-rudolf",
+        "character:tamamo-cross",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:vodka",
+        "character:winning-ticket",
+        "character:wonder-acute",
+        "character:yaeno-muteki",
+        "character:yukino-bijin"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:3004",
+      "members": [
+        "character:biwa-hayahide",
+        "character:gold-ship",
+        "character:inari-one",
+        "character:kitasan-black",
+        "character:manhattan-cafe",
+        "character:matikanetannhauser",
+        "character:mayano-top-gun",
+        "character:mejiro-bright",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:narita-brian",
+        "character:nice-nature",
+        "character:rice-shower",
+        "character:satono-diamond",
+        "character:seiun-sky",
+        "character:special-week",
+        "character:super-creek",
+        "character:symboli-rudolf",
+        "character:tamamo-cross",
+        "character:tm-opera-o"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:301",
+      "members": [
+        "character:silence-suzuka",
+        "character:special-week"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:302",
+      "members": [
+        "character:oguri-cap",
+        "character:tamamo-cross"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:303",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:vodka"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:304",
+      "members": [
+        "character:mejiro-dober",
+        "character:taiki-shuttle"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:305",
+      "members": [
+        "character:el-condor-pasa",
+        "character:grass-wonder"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:306",
+      "members": [
+        "character:biwa-hayahide",
+        "character:tm-opera-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:307",
+      "members": [
+        "character:air-groove",
+        "character:fine-motion"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:308",
+      "members": [
+        "character:mayano-top-gun",
+        "character:tokai-teio"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:309",
+      "members": [
+        "character:manhattan-cafe",
+        "character:yukino-bijin"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:310",
+      "members": [
+        "character:mihono-bourbon",
+        "character:nishino-flower"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:3101",
+      "members": [
+        "character:admire-vega",
+        "character:agnes-digital",
+        "character:agnes-tachyon",
+        "character:air-groove",
+        "character:air-shakur",
+        "character:aston-machan",
+        "character:bamboo-memory",
+        "character:biwa-hayahide",
+        "character:curren-chan",
+        "character:daiwa-scarlet",
+        "character:eishin-flash",
+        "character:el-condor-pasa",
+        "character:fine-motion",
+        "character:fuji-kiseki",
+        "character:gold-city",
+        "character:gold-ship",
+        "character:grass-wonder",
+        "character:hishi-akebono",
+        "character:hishi-amazon",
+        "character:inari-one",
+        "character:ines-fujin",
+        "character:kawakami-princess",
+        "character:king-halo",
+        "character:kitasan-black",
+        "character:manhattan-cafe",
+        "character:maruzensky",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-ardan",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:mihono-bourbon",
+        "character:nakayama-festa",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:nice-nature",
+        "character:nishino-flower",
+        "character:oguri-cap",
+        "character:rice-shower",
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o",
+        "character:satono-diamond",
+        "character:seeking-the-pearl",
+        "character:seiun-sky",
+        "character:silence-suzuka",
+        "character:special-week",
+        "character:super-creek",
+        "character:sweep-tosho",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:tamamo-cross",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:vodka",
+        "character:winning-ticket",
+        "character:yaeno-muteki",
+        "character:yamanin-zephyr",
+        "character:yukino-bijin"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:3102",
+      "members": [
+        "character:agnes-digital",
+        "character:copano-rickey",
+        "character:haru-urara",
+        "character:inari-one",
+        "character:smart-falcon",
+        "character:wonder-acute"
+      ],
+      "points": 7
+    },
+    {
+      "id": "relation:311",
+      "members": [
+        "character:ines-fujin",
+        "character:mejiro-ryan"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:314",
+      "members": [
+        "character:agnes-digital",
+        "character:agnes-tachyon"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:315",
+      "members": [
+        "character:admire-vega",
+        "character:curren-chan"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:316",
+      "members": [
+        "character:tosen-jordan",
+        "character:winning-ticket"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:317",
+      "members": [
+        "character:air-shakur",
+        "character:meisho-doto"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:318",
+      "members": [
+        "character:eishin-flash",
+        "character:smart-falcon"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:319",
+      "members": [
+        "character:kawakami-princess",
+        "character:seeking-the-pearl"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:320",
+      "members": [
+        "character:bamboo-memory",
+        "character:gold-city"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:3201",
+      "members": [
+        "character:fine-motion",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3202",
+      "members": [
+        "character:air-shakur",
+        "character:grass-wonder",
+        "character:haru-urara",
+        "character:hishi-akebono",
+        "character:sakura-chiyono-o",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3203",
+      "members": [
+        "character:admire-vega",
+        "character:aston-machan",
+        "character:biwa-hayahide",
+        "character:copano-rickey",
+        "character:curren-chan",
+        "character:eishin-flash",
+        "character:el-condor-pasa",
+        "character:gold-ship",
+        "character:hishi-amazon",
+        "character:kitasan-black",
+        "character:manhattan-cafe",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-ardan",
+        "character:mejiro-palmer",
+        "character:oguri-cap",
+        "character:rice-shower",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:tm-opera-o",
+        "character:winning-ticket",
+        "character:wonder-acute",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3204",
+      "members": [
+        "character:agnes-tachyon",
+        "character:air-groove",
+        "character:fuji-kiseki",
+        "character:gold-city",
+        "character:ines-fujin",
+        "character:king-halo",
+        "character:mejiro-bright",
+        "character:mejiro-mcqueen",
+        "character:mejiro-ryan",
+        "character:mihono-bourbon",
+        "character:nakayama-festa",
+        "character:nice-nature",
+        "character:nishino-flower",
+        "character:sakura-bakushin-o",
+        "character:seeking-the-pearl",
+        "character:seiun-sky",
+        "character:smart-falcon",
+        "character:tokai-teio",
+        "character:vodka",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3205",
+      "members": [
+        "character:agnes-digital",
+        "character:bamboo-memory",
+        "character:daiwa-scarlet",
+        "character:inari-one",
+        "character:maruzensky",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mejiro-dober",
+        "character:narita-brian",
+        "character:silence-suzuka",
+        "character:special-week",
+        "character:super-creek",
+        "character:sweep-tosho",
+        "character:tamamo-cross",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3206",
+      "members": [
+        "character:kawakami-princess",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:321",
+      "members": [
+        "character:narita-taishin",
+        "character:super-creek"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:322",
+      "members": [
+        "character:haru-urara",
+        "character:king-halo"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:324",
+      "members": [
+        "character:mejiro-ardan",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:327",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:3301",
+      "members": [
+        "character:haru-urara",
+        "character:matikanetannhauser",
+        "character:mejiro-ardan",
+        "character:nice-nature",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:332",
+      "members": [
+        "character:kitasan-black",
+        "character:satono-diamond"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:3401",
+      "members": [
+        "character:agnes-digital",
+        "character:bamboo-memory",
+        "character:copano-rickey",
+        "character:eishin-flash",
+        "character:gold-ship",
+        "character:haru-urara",
+        "character:inari-one",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mejiro-bright",
+        "character:mejiro-palmer",
+        "character:nice-nature",
+        "character:rice-shower",
+        "character:smart-falcon",
+        "character:sweep-tosho",
+        "character:tosen-jordan",
+        "character:vodka",
+        "character:wonder-acute"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3501",
+      "members": [
+        "character:admire-vega",
+        "character:air-shakur",
+        "character:biwa-hayahide",
+        "character:eishin-flash",
+        "character:gold-city",
+        "character:gold-ship",
+        "character:ines-fujin",
+        "character:king-halo",
+        "character:kitasan-black",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mejiro-bright",
+        "character:mejiro-ryan",
+        "character:mihono-bourbon",
+        "character:nakayama-festa",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:rice-shower",
+        "character:sakura-chiyono-o",
+        "character:satono-diamond",
+        "character:seiun-sky",
+        "character:special-week",
+        "character:symboli-rudolf",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:winning-ticket",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3502",
+      "members": [
+        "character:air-groove",
+        "character:daiwa-scarlet",
+        "character:kawakami-princess",
+        "character:mejiro-dober",
+        "character:nishino-flower",
+        "character:sweep-tosho",
+        "character:vodka",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3503",
+      "members": [
+        "character:air-groove",
+        "character:air-shakur",
+        "character:biwa-hayahide",
+        "character:eishin-flash",
+        "character:gold-city",
+        "character:gold-ship",
+        "character:inari-one",
+        "character:kitasan-black",
+        "character:matikanefukukitaru",
+        "character:matikanetannhauser",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan",
+        "character:narita-taishin",
+        "character:nice-nature",
+        "character:rice-shower",
+        "character:satono-diamond",
+        "character:special-week",
+        "character:super-creek",
+        "character:symboli-rudolf",
+        "character:tamamo-cross",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3504",
+      "members": [
+        "character:agnes-digital",
+        "character:air-groove",
+        "character:air-shakur",
+        "character:bamboo-memory",
+        "character:biwa-hayahide",
+        "character:daiwa-scarlet",
+        "character:eishin-flash",
+        "character:gold-ship",
+        "character:hishi-amazon",
+        "character:inari-one",
+        "character:king-halo",
+        "character:kitasan-black",
+        "character:matikanetannhauser",
+        "character:mayano-top-gun",
+        "character:meisho-doto",
+        "character:mejiro-ardan",
+        "character:mejiro-bright",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:narita-brian",
+        "character:nice-nature",
+        "character:oguri-cap",
+        "character:rice-shower",
+        "character:satono-diamond",
+        "character:seiun-sky",
+        "character:special-week",
+        "character:super-creek",
+        "character:sweep-tosho",
+        "character:symboli-rudolf",
+        "character:tamamo-cross",
+        "character:tm-opera-o",
+        "character:tokai-teio",
+        "character:tosen-jordan",
+        "character:vodka",
+        "character:winning-ticket",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3505",
+      "members": [
+        "character:agnes-digital",
+        "character:copano-rickey",
+        "character:haru-urara",
+        "character:hishi-akebono",
+        "character:inari-one",
+        "character:oguri-cap",
+        "character:smart-falcon",
+        "character:wonder-acute",
+        "character:yukino-bijin"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:3506",
+      "members": [
+        "character:agnes-digital",
+        "character:air-shakur",
+        "character:curren-chan",
+        "character:eishin-flash",
+        "character:el-condor-pasa",
+        "character:gold-ship",
+        "character:manhattan-cafe",
+        "character:nakayama-festa",
+        "character:satono-diamond",
+        "character:seeking-the-pearl",
+        "character:silence-suzuka",
+        "character:smart-falcon",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:vodka"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:3507",
+      "members": [
+        "character:admire-vega",
+        "character:agnes-digital",
+        "character:agnes-tachyon",
+        "character:fuji-kiseki",
+        "character:gold-city",
+        "character:grass-wonder",
+        "character:hishi-amazon",
+        "character:ines-fujin",
+        "character:maruzensky",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:mihono-bourbon",
+        "character:narita-brian",
+        "character:narita-taishin",
+        "character:nishino-flower",
+        "character:sakura-chiyono-o",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:3508",
+      "members": [
+        "character:aston-machan",
+        "character:bamboo-memory",
+        "character:curren-chan",
+        "character:haru-urara",
+        "character:hishi-akebono",
+        "character:king-halo",
+        "character:nishino-flower",
+        "character:sakura-bakushin-o",
+        "character:seeking-the-pearl",
+        "character:smart-falcon",
+        "character:taiki-shuttle",
+        "character:yamanin-zephyr"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:3509",
+      "members": [
+        "character:agnes-digital",
+        "character:bamboo-memory",
+        "character:copano-rickey",
+        "character:daiwa-scarlet",
+        "character:el-condor-pasa",
+        "character:fine-motion",
+        "character:fuji-kiseki",
+        "character:grass-wonder",
+        "character:hishi-amazon",
+        "character:king-halo",
+        "character:maruzensky",
+        "character:matikanetannhauser",
+        "character:mejiro-dober",
+        "character:narita-brian",
+        "character:nishino-flower",
+        "character:oguri-cap",
+        "character:sakura-chiyono-o",
+        "character:seeking-the-pearl",
+        "character:silence-suzuka",
+        "character:smart-falcon",
+        "character:sweep-tosho",
+        "character:taiki-shuttle",
+        "character:vodka",
+        "character:wonder-acute",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:401",
+      "members": [
+        "character:el-condor-pasa",
+        "character:grass-wonder",
+        "character:king-halo",
+        "character:seiun-sky",
+        "character:special-week"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:402",
+      "members": [
+        "character:fine-motion",
+        "character:matikanefukukitaru",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:silence-suzuka",
+        "character:taiki-shuttle"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:403",
+      "members": [
+        "character:aston-machan",
+        "character:daiwa-scarlet",
+        "character:mejiro-mcqueen",
+        "character:tokai-teio",
+        "character:vodka"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:404",
+      "members": [
+        "character:admire-vega",
+        "character:air-groove",
+        "character:biwa-hayahide",
+        "character:narita-taishin",
+        "character:winning-ticket"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:405",
+      "members": [
+        "character:inari-one",
+        "character:mejiro-ardan",
+        "character:oguri-cap",
+        "character:super-creek",
+        "character:tamamo-cross"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:406",
+      "members": [
+        "character:maruzensky",
+        "character:symboli-rudolf"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:407",
+      "members": [
+        "character:eishin-flash",
+        "character:fuji-kiseki",
+        "character:gold-ship",
+        "character:hishi-amazon",
+        "character:narita-brian",
+        "character:smart-falcon"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:408",
+      "members": [
+        "character:ines-fujin",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:409",
+      "members": [
+        "character:bamboo-memory",
+        "character:yaeno-muteki"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:410",
+      "members": [
+        "character:agnes-tachyon",
+        "character:air-shakur",
+        "character:manhattan-cafe"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:411",
+      "members": [
+        "character:mihono-bourbon",
+        "character:rice-shower",
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:412",
+      "members": [
+        "character:gold-city",
+        "character:nakayama-festa",
+        "character:tosen-jordan",
+        "character:wonder-acute"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:413",
+      "members": [
+        "character:copano-rickey",
+        "character:hishi-akebono",
+        "character:kawakami-princess"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:414",
+      "members": [
+        "character:haru-urara",
+        "character:meisho-doto",
+        "character:tm-opera-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:415",
+      "members": [
+        "character:matikanetannhauser",
+        "character:nice-nature"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:416",
+      "members": [
+        "character:curren-chan",
+        "character:yamanin-zephyr",
+        "character:yukino-bijin"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:419",
+      "members": [
+        "character:mayano-top-gun",
+        "character:nishino-flower",
+        "character:sweep-tosho"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:420",
+      "members": [
+        "character:kitasan-black",
+        "character:satono-diamond"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:501",
+      "members": [
+        "character:air-groove",
+        "character:narita-brian",
+        "character:symboli-rudolf"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:502",
+      "members": [
+        "character:el-condor-pasa",
+        "character:grass-wonder",
+        "character:seiun-sky",
+        "character:special-week"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:503",
+      "members": [
+        "character:mejiro-ardan",
+        "character:mejiro-bright",
+        "character:mejiro-dober",
+        "character:mejiro-mcqueen",
+        "character:mejiro-palmer",
+        "character:mejiro-ryan"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:504",
+      "members": [
+        "character:fine-motion",
+        "character:king-halo",
+        "character:mejiro-ardan",
+        "character:mejiro-mcqueen",
+        "character:satono-diamond"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:505",
+      "members": [
+        "character:fuji-kiseki",
+        "character:hishi-amazon"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:506",
+      "members": [
+        "character:inari-one",
+        "character:oguri-cap",
+        "character:super-creek",
+        "character:tamamo-cross"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:507",
+      "members": [
+        "character:biwa-hayahide",
+        "character:narita-taishin",
+        "character:winning-ticket"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:508",
+      "members": [
+        "character:haru-urara",
+        "character:rice-shower"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:509",
+      "members": [
+        "character:haru-urara",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:510",
+      "members": [
+        "character:haru-urara",
+        "character:special-week"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:511",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:512",
+      "members": [
+        "character:hishi-akebono",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:513",
+      "members": [
+        "character:matikanetannhauser",
+        "character:nice-nature"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:515",
+      "members": [
+        "character:kitasan-black",
+        "character:satono-diamond"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:516",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:satono-diamond"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:517",
+      "members": [
+        "character:kitasan-black",
+        "character:tokai-teio"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:518",
+      "members": [
+        "character:ines-fujin",
+        "character:maruzensky",
+        "character:mihono-bourbon",
+        "character:silence-suzuka",
+        "character:smart-falcon"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:519",
+      "members": [
+        "character:agnes-tachyon",
+        "character:kitasan-black",
+        "character:satono-diamond",
+        "character:sweep-tosho"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:520",
+      "members": [
+        "character:copano-rickey",
+        "character:smart-falcon",
+        "character:wonder-acute"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:523",
+      "members": [
+        "character:gold-ship",
+        "character:mejiro-mcqueen",
+        "character:narita-brian",
+        "character:oguri-cap",
+        "character:rice-shower",
+        "character:silence-suzuka",
+        "character:special-week",
+        "character:winning-ticket"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:524",
+      "members": [
+        "character:air-groove",
+        "character:el-condor-pasa",
+        "character:fuji-kiseki",
+        "character:grass-wonder",
+        "character:hishi-amazon",
+        "character:maruzensky",
+        "character:narita-brian",
+        "character:symboli-rudolf",
+        "character:taiki-shuttle",
+        "character:tm-opera-o"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:525",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:gold-ship",
+        "character:mejiro-mcqueen",
+        "character:silence-suzuka",
+        "character:special-week",
+        "character:tokai-teio",
+        "character:vodka"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:526",
+      "members": [
+        "character:mejiro-palmer",
+        "character:silence-suzuka"
+      ],
+      "points": 2
+    },
+    {
+      "id": "relation:527",
+      "members": [
+        "character:agnes-digital",
+        "character:haru-urara"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:528",
+      "members": [
+        "character:gold-ship",
+        "character:haru-urara"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:529",
+      "members": [
+        "character:air-shakur",
+        "character:haru-urara"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:530",
+      "members": [
+        "character:haru-urara",
+        "character:smart-falcon"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:531",
+      "members": [
+        "character:haru-urara",
+        "character:mayano-top-gun"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:532",
+      "members": [
+        "character:haru-urara",
+        "character:mejiro-dober"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:533",
+      "members": [
+        "character:haru-urara",
+        "character:nice-nature"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:534",
+      "members": [
+        "character:haru-urara",
+        "character:taiki-shuttle"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:535",
+      "members": [
+        "character:haru-urara",
+        "character:seiun-sky"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:536",
+      "members": [
+        "character:grass-wonder",
+        "character:haru-urara"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:537",
+      "members": [
+        "character:haru-urara",
+        "character:tm-opera-o"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:538",
+      "members": [
+        "character:admire-vega",
+        "character:haru-urara"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:539",
+      "members": [
+        "character:haru-urara",
+        "character:matikanefukukitaru"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:540",
+      "members": [
+        "character:haru-urara",
+        "character:meisho-doto"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:541",
+      "members": [
+        "character:haru-urara",
+        "character:king-halo"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:542",
+      "members": [
+        "character:fine-motion",
+        "character:haru-urara"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:543",
+      "members": [
+        "character:curren-chan",
+        "character:haru-urara"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:545",
+      "members": [
+        "character:haru-urara",
+        "character:oguri-cap"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:546",
+      "members": [
+        "character:haru-urara",
+        "character:kawakami-princess"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:547",
+      "members": [
+        "character:haru-urara",
+        "character:wonder-acute"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:551",
+      "members": [
+        "character:haru-urara",
+        "character:tamamo-cross"
+      ],
+      "points": 8
+    },
+    {
+      "id": "relation:7000",
+      "members": [
+        "character:el-condor-pasa",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7001",
+      "members": [
+        "character:air-groove",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7002",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7003",
+      "members": [
+        "character:grass-wonder",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7004",
+      "members": [
+        "character:el-condor-pasa",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7005",
+      "members": [
+        "character:special-week",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7006",
+      "members": [
+        "character:seiun-sky",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7007",
+      "members": [
+        "character:king-halo",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7008",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7009",
+      "members": [
+        "character:oguri-cap",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7010",
+      "members": [
+        "character:mejiro-ryan",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7011",
+      "members": [
+        "character:oguri-cap",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7012",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:vodka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7013",
+      "members": [
+        "character:grass-wonder",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7015",
+      "members": [
+        "character:hishi-amazon",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7016",
+      "members": [
+        "character:gold-ship",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7017",
+      "members": [
+        "character:super-creek",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7018",
+      "members": [
+        "character:biwa-hayahide",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7019",
+      "members": [
+        "character:biwa-hayahide",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7020",
+      "members": [
+        "character:ines-fujin",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7021",
+      "members": [
+        "character:narita-taishin",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7022",
+      "members": [
+        "character:nice-nature",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7023",
+      "members": [
+        "character:grass-wonder",
+        "character:king-halo"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7024",
+      "members": [
+        "character:king-halo",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7025",
+      "members": [
+        "character:mejiro-ardan",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7026",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7027",
+      "members": [
+        "character:mejiro-ardan",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7029",
+      "members": [
+        "character:kitasan-black",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7030",
+      "members": [
+        "character:mejiro-bright",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:7032",
+      "members": [
+        "character:copano-rickey",
+        "character:wonder-acute"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8001",
+      "members": [
+        "character:special-week",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8002",
+      "members": [
+        "character:maruzensky",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8003",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8004",
+      "members": [
+        "character:special-week",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8005",
+      "members": [
+        "character:special-week",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8006",
+      "members": [
+        "character:fine-motion",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8007",
+      "members": [
+        "character:mejiro-ryan",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8008",
+      "members": [
+        "character:curren-chan",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8009",
+      "members": [
+        "character:gold-city",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8011",
+      "members": [
+        "character:special-week",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8013",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8014",
+      "members": [
+        "character:meisho-doto",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8015",
+      "members": [
+        "character:mejiro-dober",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8016",
+      "members": [
+        "character:nice-nature",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8017",
+      "members": [
+        "character:silence-suzuka",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8018",
+      "members": [
+        "character:maruzensky",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8019",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8020",
+      "members": [
+        "character:silence-suzuka",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8021",
+      "members": [
+        "character:silence-suzuka",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8022",
+      "members": [
+        "character:fine-motion",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8023",
+      "members": [
+        "character:mejiro-ryan",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8024",
+      "members": [
+        "character:curren-chan",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8025",
+      "members": [
+        "character:gold-city",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8027",
+      "members": [
+        "character:silence-suzuka",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8029",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8030",
+      "members": [
+        "character:meisho-doto",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8031",
+      "members": [
+        "character:mejiro-dober",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8032",
+      "members": [
+        "character:nice-nature",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8033",
+      "members": [
+        "character:gold-ship",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8034",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8035",
+      "members": [
+        "character:air-groove",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8036",
+      "members": [
+        "character:tamamo-cross",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8037",
+      "members": [
+        "character:biwa-hayahide",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8038",
+      "members": [
+        "character:tokai-teio",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8039",
+      "members": [
+        "character:smart-falcon",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8040",
+      "members": [
+        "character:tokai-teio",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8041",
+      "members": [
+        "character:nakayama-festa",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8042",
+      "members": [
+        "character:narita-taishin",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8043",
+      "members": [
+        "character:gold-ship",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8044",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8045",
+      "members": [
+        "character:air-groove",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8046",
+      "members": [
+        "character:maruzensky",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8047",
+      "members": [
+        "character:biwa-hayahide",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8048",
+      "members": [
+        "character:maruzensky",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8049",
+      "members": [
+        "character:maruzensky",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8050",
+      "members": [
+        "character:maruzensky",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8051",
+      "members": [
+        "character:maruzensky",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8052",
+      "members": [
+        "character:fuji-kiseki",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8053",
+      "members": [
+        "character:fuji-kiseki",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8054",
+      "members": [
+        "character:fuji-kiseki",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8055",
+      "members": [
+        "character:fuji-kiseki",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8056",
+      "members": [
+        "character:fuji-kiseki",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8057",
+      "members": [
+        "character:fine-motion",
+        "character:fuji-kiseki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8058",
+      "members": [
+        "character:fuji-kiseki",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8059",
+      "members": [
+        "character:curren-chan",
+        "character:fuji-kiseki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8060",
+      "members": [
+        "character:fuji-kiseki",
+        "character:gold-city"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8062",
+      "members": [
+        "character:fuji-kiseki",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8064",
+      "members": [
+        "character:fuji-kiseki",
+        "character:matikanefukukitaru"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8065",
+      "members": [
+        "character:fuji-kiseki",
+        "character:meisho-doto"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8066",
+      "members": [
+        "character:fuji-kiseki",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8067",
+      "members": [
+        "character:fuji-kiseki",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8068",
+      "members": [
+        "character:maruzensky",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8069",
+      "members": [
+        "character:fine-motion",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8070",
+      "members": [
+        "character:oguri-cap",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8072",
+      "members": [
+        "character:air-groove",
+        "character:gold-ship"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8073",
+      "members": [
+        "character:gold-ship",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8074",
+      "members": [
+        "character:biwa-hayahide",
+        "character:gold-ship"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8075",
+      "members": [
+        "character:gold-ship",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8076",
+      "members": [
+        "character:gold-ship",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8077",
+      "members": [
+        "character:air-groove",
+        "character:daiwa-scarlet"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8078",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8079",
+      "members": [
+        "character:biwa-hayahide",
+        "character:daiwa-scarlet"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8080",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8081",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8082",
+      "members": [
+        "character:taiki-shuttle",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8083",
+      "members": [
+        "character:maruzensky",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8084",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8085",
+      "members": [
+        "character:taiki-shuttle",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8086",
+      "members": [
+        "character:symboli-rudolf",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8087",
+      "members": [
+        "character:fine-motion",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8088",
+      "members": [
+        "character:mejiro-ryan",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8089",
+      "members": [
+        "character:curren-chan",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8090",
+      "members": [
+        "character:gold-city",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8092",
+      "members": [
+        "character:super-creek",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8094",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8095",
+      "members": [
+        "character:meisho-doto",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8096",
+      "members": [
+        "character:mejiro-dober",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8097",
+      "members": [
+        "character:nice-nature",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8098",
+      "members": [
+        "character:gold-ship",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8099",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8100",
+      "members": [
+        "character:air-groove",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8101",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8102",
+      "members": [
+        "character:biwa-hayahide",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8103",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8104",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8105",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8106",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8107",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8108",
+      "members": [
+        "character:el-condor-pasa",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8109",
+      "members": [
+        "character:el-condor-pasa",
+        "character:gold-ship"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8110",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:el-condor-pasa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8111",
+      "members": [
+        "character:el-condor-pasa",
+        "character:fine-motion"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8112",
+      "members": [
+        "character:el-condor-pasa",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8113",
+      "members": [
+        "character:el-condor-pasa",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8114",
+      "members": [
+        "character:el-condor-pasa",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8116",
+      "members": [
+        "character:oguri-cap",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8117",
+      "members": [
+        "character:narita-taishin",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8118",
+      "members": [
+        "character:narita-brian",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8119",
+      "members": [
+        "character:maruzensky",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8120",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8121",
+      "members": [
+        "character:narita-brian",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8122",
+      "members": [
+        "character:narita-brian",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8123",
+      "members": [
+        "character:fine-motion",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8124",
+      "members": [
+        "character:mejiro-ryan",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8125",
+      "members": [
+        "character:curren-chan",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8126",
+      "members": [
+        "character:gold-city",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8128",
+      "members": [
+        "character:narita-brian",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8130",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8131",
+      "members": [
+        "character:meisho-doto",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8132",
+      "members": [
+        "character:mejiro-dober",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8133",
+      "members": [
+        "character:narita-brian",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8134",
+      "members": [
+        "character:gold-ship",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8135",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8136",
+      "members": [
+        "character:air-groove",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8137",
+      "members": [
+        "character:symboli-rudolf",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8138",
+      "members": [
+        "character:biwa-hayahide",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8139",
+      "members": [
+        "character:symboli-rudolf",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8140",
+      "members": [
+        "character:smart-falcon",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8141",
+      "members": [
+        "character:symboli-rudolf",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8142",
+      "members": [
+        "character:nakayama-festa",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8143",
+      "members": [
+        "character:narita-taishin",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8144",
+      "members": [
+        "character:agnes-digital",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8145",
+      "members": [
+        "character:agnes-digital",
+        "character:gold-ship"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8146",
+      "members": [
+        "character:agnes-digital",
+        "character:daiwa-scarlet"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8147",
+      "members": [
+        "character:agnes-digital",
+        "character:fine-motion"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8148",
+      "members": [
+        "character:agnes-digital",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8149",
+      "members": [
+        "character:agnes-digital",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8150",
+      "members": [
+        "character:agnes-digital",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8152",
+      "members": [
+        "character:maruzensky",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8153",
+      "members": [
+        "character:seiun-sky",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8154",
+      "members": [
+        "character:mejiro-ryan",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8155",
+      "members": [
+        "character:curren-chan",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8156",
+      "members": [
+        "character:gold-city",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8158",
+      "members": [
+        "character:seiun-sky",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8159",
+      "members": [
+        "character:meisho-doto",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8160",
+      "members": [
+        "character:mejiro-dober",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8161",
+      "members": [
+        "character:nice-nature",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8162",
+      "members": [
+        "character:manhattan-cafe",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8163",
+      "members": [
+        "character:manhattan-cafe",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8164",
+      "members": [
+        "character:manhattan-cafe",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8165",
+      "members": [
+        "character:manhattan-cafe",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8166",
+      "members": [
+        "character:manhattan-cafe",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8167",
+      "members": [
+        "character:fine-motion",
+        "character:manhattan-cafe"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8168",
+      "members": [
+        "character:manhattan-cafe",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8169",
+      "members": [
+        "character:curren-chan",
+        "character:manhattan-cafe"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8170",
+      "members": [
+        "character:gold-city",
+        "character:manhattan-cafe"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8172",
+      "members": [
+        "character:manhattan-cafe",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8174",
+      "members": [
+        "character:manhattan-cafe",
+        "character:matikanefukukitaru"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8175",
+      "members": [
+        "character:manhattan-cafe",
+        "character:meisho-doto"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8176",
+      "members": [
+        "character:manhattan-cafe",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8177",
+      "members": [
+        "character:manhattan-cafe",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8178",
+      "members": [
+        "character:mejiro-ryan",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8179",
+      "members": [
+        "character:mejiro-ryan",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8180",
+      "members": [
+        "character:hishi-akebono",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8181",
+      "members": [
+        "character:gold-ship",
+        "character:hishi-akebono"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8182",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:hishi-akebono"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8183",
+      "members": [
+        "character:fine-motion",
+        "character:hishi-akebono"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8184",
+      "members": [
+        "character:hishi-akebono",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8185",
+      "members": [
+        "character:hishi-akebono",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8186",
+      "members": [
+        "character:hishi-akebono",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8188",
+      "members": [
+        "character:maruzensky",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8189",
+      "members": [
+        "character:tm-opera-o",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8190",
+      "members": [
+        "character:air-groove",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8191",
+      "members": [
+        "character:tamamo-cross",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8192",
+      "members": [
+        "character:biwa-hayahide",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8193",
+      "members": [
+        "character:mejiro-ryan",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8194",
+      "members": [
+        "character:winning-ticket",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8195",
+      "members": [
+        "character:curren-chan",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8196",
+      "members": [
+        "character:gold-city",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8198",
+      "members": [
+        "character:super-creek",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8199",
+      "members": [
+        "character:tosen-jordan",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8200",
+      "members": [
+        "character:meisho-doto",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8201",
+      "members": [
+        "character:mejiro-dober",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8202",
+      "members": [
+        "character:nice-nature",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8203",
+      "members": [
+        "character:rice-shower",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8204",
+      "members": [
+        "character:maruzensky",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8205",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8206",
+      "members": [
+        "character:rice-shower",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8207",
+      "members": [
+        "character:rice-shower",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8208",
+      "members": [
+        "character:fine-motion",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8209",
+      "members": [
+        "character:mejiro-ryan",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8210",
+      "members": [
+        "character:curren-chan",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8211",
+      "members": [
+        "character:gold-city",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8213",
+      "members": [
+        "character:rice-shower",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8215",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8216",
+      "members": [
+        "character:meisho-doto",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8217",
+      "members": [
+        "character:mejiro-dober",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8218",
+      "members": [
+        "character:nice-nature",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8219",
+      "members": [
+        "character:agnes-tachyon",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8220",
+      "members": [
+        "character:agnes-tachyon",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8221",
+      "members": [
+        "character:agnes-tachyon",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8222",
+      "members": [
+        "character:agnes-tachyon",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8223",
+      "members": [
+        "character:agnes-tachyon",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8224",
+      "members": [
+        "character:agnes-tachyon",
+        "character:fine-motion"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8225",
+      "members": [
+        "character:agnes-tachyon",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8226",
+      "members": [
+        "character:agnes-tachyon",
+        "character:curren-chan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8227",
+      "members": [
+        "character:agnes-tachyon",
+        "character:gold-city"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8229",
+      "members": [
+        "character:agnes-tachyon",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8231",
+      "members": [
+        "character:agnes-tachyon",
+        "character:matikanefukukitaru"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8232",
+      "members": [
+        "character:agnes-tachyon",
+        "character:meisho-doto"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8233",
+      "members": [
+        "character:agnes-tachyon",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8234",
+      "members": [
+        "character:agnes-tachyon",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8235",
+      "members": [
+        "character:admire-vega",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8236",
+      "members": [
+        "character:admire-vega",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8237",
+      "members": [
+        "character:admire-vega",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8238",
+      "members": [
+        "character:admire-vega",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8239",
+      "members": [
+        "character:admire-vega",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8240",
+      "members": [
+        "character:admire-vega",
+        "character:fine-motion"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8241",
+      "members": [
+        "character:admire-vega",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8242",
+      "members": [
+        "character:admire-vega",
+        "character:curren-chan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8243",
+      "members": [
+        "character:admire-vega",
+        "character:gold-city"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8245",
+      "members": [
+        "character:admire-vega",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8247",
+      "members": [
+        "character:admire-vega",
+        "character:matikanefukukitaru"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8248",
+      "members": [
+        "character:admire-vega",
+        "character:meisho-doto"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8249",
+      "members": [
+        "character:admire-vega",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8250",
+      "members": [
+        "character:admire-vega",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8251",
+      "members": [
+        "character:air-shakur",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8252",
+      "members": [
+        "character:air-shakur",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8253",
+      "members": [
+        "character:air-shakur",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8254",
+      "members": [
+        "character:air-shakur",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8255",
+      "members": [
+        "character:air-shakur",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8256",
+      "members": [
+        "character:air-shakur",
+        "character:fine-motion"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8257",
+      "members": [
+        "character:air-shakur",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8258",
+      "members": [
+        "character:air-shakur",
+        "character:curren-chan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8259",
+      "members": [
+        "character:air-shakur",
+        "character:gold-city"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8261",
+      "members": [
+        "character:air-shakur",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8263",
+      "members": [
+        "character:air-shakur",
+        "character:matikanefukukitaru"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8264",
+      "members": [
+        "character:air-shakur",
+        "character:meisho-doto"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8265",
+      "members": [
+        "character:air-shakur",
+        "character:mejiro-dober"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8266",
+      "members": [
+        "character:air-shakur",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8267",
+      "members": [
+        "character:eishin-flash",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8268",
+      "members": [
+        "character:eishin-flash",
+        "character:gold-ship"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8269",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:eishin-flash"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8270",
+      "members": [
+        "character:eishin-flash",
+        "character:fine-motion"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8271",
+      "members": [
+        "character:eishin-flash",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8272",
+      "members": [
+        "character:eishin-flash",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8273",
+      "members": [
+        "character:eishin-flash",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8275",
+      "members": [
+        "character:curren-chan",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8276",
+      "members": [
+        "character:curren-chan",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8277",
+      "members": [
+        "character:kawakami-princess",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8278",
+      "members": [
+        "character:gold-ship",
+        "character:kawakami-princess"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8279",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:kawakami-princess"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8280",
+      "members": [
+        "character:kawakami-princess",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8281",
+      "members": [
+        "character:kawakami-princess",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8282",
+      "members": [
+        "character:kawakami-princess",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8283",
+      "members": [
+        "character:kawakami-princess",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8284",
+      "members": [
+        "character:kawakami-princess",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8285",
+      "members": [
+        "character:gold-city",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8286",
+      "members": [
+        "character:gold-city",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8287",
+      "members": [
+        "character:maruzensky",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8288",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8289",
+      "members": [
+        "character:air-groove",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8290",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8291",
+      "members": [
+        "character:biwa-hayahide",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8292",
+      "members": [
+        "character:mejiro-ryan",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8293",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8294",
+      "members": [
+        "character:curren-chan",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8295",
+      "members": [
+        "character:gold-city",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8297",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8298",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8299",
+      "members": [
+        "character:meisho-doto",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8300",
+      "members": [
+        "character:mejiro-dober",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8301",
+      "members": [
+        "character:nice-nature",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8302",
+      "members": [
+        "character:maruzensky",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8303",
+      "members": [
+        "character:gold-ship",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8304",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8305",
+      "members": [
+        "character:fine-motion",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8306",
+      "members": [
+        "character:seeking-the-pearl",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8307",
+      "members": [
+        "character:seeking-the-pearl",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8308",
+      "members": [
+        "character:nakayama-festa",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8312",
+      "members": [
+        "character:maruzensky",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8313",
+      "members": [
+        "character:gold-ship",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8314",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8315",
+      "members": [
+        "character:fine-motion",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8316",
+      "members": [
+        "character:super-creek",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8317",
+      "members": [
+        "character:smart-falcon",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8318",
+      "members": [
+        "character:nakayama-festa",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8320",
+      "members": [
+        "character:gold-ship",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8321",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8322",
+      "members": [
+        "character:air-groove",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8323",
+      "members": [
+        "character:super-creek",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8324",
+      "members": [
+        "character:biwa-hayahide",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8325",
+      "members": [
+        "character:super-creek",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8326",
+      "members": [
+        "character:smart-falcon",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8327",
+      "members": [
+        "character:super-creek",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8328",
+      "members": [
+        "character:nakayama-festa",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8329",
+      "members": [
+        "character:air-groove",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8330",
+      "members": [
+        "character:smart-falcon",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8331",
+      "members": [
+        "character:biwa-hayahide",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8332",
+      "members": [
+        "character:smart-falcon",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8333",
+      "members": [
+        "character:smart-falcon",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8350",
+      "members": [
+        "character:air-groove",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8351",
+      "members": [
+        "character:nakayama-festa",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8352",
+      "members": [
+        "character:biwa-hayahide",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8353",
+      "members": [
+        "character:nakayama-festa",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8354",
+      "members": [
+        "character:nakayama-festa",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8355",
+      "members": [
+        "character:maruzensky",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8356",
+      "members": [
+        "character:narita-taishin",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8357",
+      "members": [
+        "character:hishi-amazon",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8358",
+      "members": [
+        "character:nishino-flower",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8359",
+      "members": [
+        "character:mejiro-ryan",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8360",
+      "members": [
+        "character:ines-fujin",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8361",
+      "members": [
+        "character:curren-chan",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8362",
+      "members": [
+        "character:kawakami-princess",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8363",
+      "members": [
+        "character:gold-city",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8365",
+      "members": [
+        "character:narita-taishin",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8366",
+      "members": [
+        "character:haru-urara",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8367",
+      "members": [
+        "character:bamboo-memory",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8368",
+      "members": [
+        "character:meisho-doto",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8369",
+      "members": [
+        "character:mejiro-dober",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8370",
+      "members": [
+        "character:nice-nature",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8371",
+      "members": [
+        "character:king-halo",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8372",
+      "members": [
+        "character:haru-urara",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8373",
+      "members": [
+        "character:gold-ship",
+        "character:haru-urara"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8374",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:haru-urara"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8375",
+      "members": [
+        "character:haru-urara",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8376",
+      "members": [
+        "character:haru-urara",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8377",
+      "members": [
+        "character:haru-urara",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8378",
+      "members": [
+        "character:haru-urara",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8379",
+      "members": [
+        "character:haru-urara",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8396",
+      "members": [
+        "character:maruzensky",
+        "character:matikanefukukitaru"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8397",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8413",
+      "members": [
+        "character:meisho-doto",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8414",
+      "members": [
+        "character:meisho-doto",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8415",
+      "members": [
+        "character:mejiro-dober",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8416",
+      "members": [
+        "character:mejiro-dober",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8417",
+      "members": [
+        "character:nice-nature",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8418",
+      "members": [
+        "character:narita-taishin",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8419",
+      "members": [
+        "character:king-halo",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8420",
+      "members": [
+        "character:gold-ship",
+        "character:king-halo"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8421",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:king-halo"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8422",
+      "members": [
+        "character:king-halo",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8423",
+      "members": [
+        "character:king-halo",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8424",
+      "members": [
+        "character:king-halo",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8425",
+      "members": [
+        "character:king-halo",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8426",
+      "members": [
+        "character:king-halo",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8427",
+      "members": [
+        "character:air-groove",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8428",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8429",
+      "members": [
+        "character:biwa-hayahide",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8430",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8431",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8432",
+      "members": [
+        "character:gold-ship",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8433",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8434",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8435",
+      "members": [
+        "character:nakayama-festa",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8436",
+      "members": [
+        "character:oguri-cap",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8437",
+      "members": [
+        "character:narita-taishin",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8438",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8439",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8440",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8441",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8443",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8444",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8445",
+      "members": [
+        "character:fuji-kiseki",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8446",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8447",
+      "members": [
+        "character:narita-brian",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8448",
+      "members": [
+        "character:manhattan-cafe",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8449",
+      "members": [
+        "character:rice-shower",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8450",
+      "members": [
+        "character:agnes-tachyon",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8451",
+      "members": [
+        "character:admire-vega",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8452",
+      "members": [
+        "character:air-shakur",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8455",
+      "members": [
+        "character:el-condor-pasa",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8456",
+      "members": [
+        "character:agnes-digital",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8457",
+      "members": [
+        "character:hishi-akebono",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8458",
+      "members": [
+        "character:eishin-flash",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8459",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8460",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8472",
+      "members": [
+        "character:mejiro-ardan",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8473",
+      "members": [
+        "character:mejiro-ardan",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8474",
+      "members": [
+        "character:mejiro-ardan",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8475",
+      "members": [
+        "character:mejiro-ardan",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8476",
+      "members": [
+        "character:mejiro-ardan",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8478",
+      "members": [
+        "character:mejiro-ardan",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8479",
+      "members": [
+        "character:mejiro-ardan",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8480",
+      "members": [
+        "character:mejiro-ardan",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8481",
+      "members": [
+        "character:fuji-kiseki",
+        "character:mejiro-ardan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8482",
+      "members": [
+        "character:mejiro-ardan",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8483",
+      "members": [
+        "character:mejiro-ardan",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8484",
+      "members": [
+        "character:manhattan-cafe",
+        "character:mejiro-ardan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8485",
+      "members": [
+        "character:mejiro-ardan",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8486",
+      "members": [
+        "character:agnes-tachyon",
+        "character:mejiro-ardan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8487",
+      "members": [
+        "character:admire-vega",
+        "character:mejiro-ardan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8488",
+      "members": [
+        "character:air-shakur",
+        "character:mejiro-ardan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8491",
+      "members": [
+        "character:mejiro-ardan",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8492",
+      "members": [
+        "character:air-groove",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8493",
+      "members": [
+        "character:tamamo-cross",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8494",
+      "members": [
+        "character:biwa-hayahide",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8495",
+      "members": [
+        "character:winning-ticket",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8496",
+      "members": [
+        "character:tosen-jordan",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8497",
+      "members": [
+        "character:gold-ship",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8498",
+      "members": [
+        "character:daiwa-scarlet",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8499",
+      "members": [
+        "character:smart-falcon",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8500",
+      "members": [
+        "character:nakayama-festa",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8501",
+      "members": [
+        "character:satono-diamond",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8502",
+      "members": [
+        "character:kitasan-black",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8503",
+      "members": [
+        "character:oguri-cap",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8504",
+      "members": [
+        "character:narita-taishin",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8505",
+      "members": [
+        "character:seiun-sky",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8506",
+      "members": [
+        "character:matikanefukukitaru",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8507",
+      "members": [
+        "character:yaeno-muteki",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8508",
+      "members": [
+        "character:sakura-bakushin-o",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8510",
+      "members": [
+        "character:mejiro-palmer",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8511",
+      "members": [
+        "character:special-week",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8512",
+      "members": [
+        "character:silence-suzuka",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8513",
+      "members": [
+        "character:fuji-kiseki",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8514",
+      "members": [
+        "character:taiki-shuttle",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8515",
+      "members": [
+        "character:narita-brian",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8516",
+      "members": [
+        "character:manhattan-cafe",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8517",
+      "members": [
+        "character:rice-shower",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8518",
+      "members": [
+        "character:agnes-tachyon",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8519",
+      "members": [
+        "character:admire-vega",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8520",
+      "members": [
+        "character:air-shakur",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8523",
+      "members": [
+        "character:el-condor-pasa",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8524",
+      "members": [
+        "character:agnes-digital",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8525",
+      "members": [
+        "character:hishi-akebono",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8526",
+      "members": [
+        "character:eishin-flash",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8527",
+      "members": [
+        "character:seeking-the-pearl",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8528",
+      "members": [
+        "character:sweep-tosho",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8529",
+      "members": [
+        "character:matikanetannhauser",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8530",
+      "members": [
+        "character:matikanetannhauser",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8531",
+      "members": [
+        "character:matikanetannhauser",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8532",
+      "members": [
+        "character:matikanetannhauser",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8533",
+      "members": [
+        "character:matikanetannhauser",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8535",
+      "members": [
+        "character:matikanetannhauser",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8536",
+      "members": [
+        "character:matikanetannhauser",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8537",
+      "members": [
+        "character:matikanetannhauser",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8538",
+      "members": [
+        "character:fuji-kiseki",
+        "character:matikanetannhauser"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8539",
+      "members": [
+        "character:matikanetannhauser",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8540",
+      "members": [
+        "character:matikanetannhauser",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8541",
+      "members": [
+        "character:manhattan-cafe",
+        "character:matikanetannhauser"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8542",
+      "members": [
+        "character:matikanetannhauser",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8543",
+      "members": [
+        "character:agnes-tachyon",
+        "character:matikanetannhauser"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8544",
+      "members": [
+        "character:admire-vega",
+        "character:matikanetannhauser"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8545",
+      "members": [
+        "character:air-shakur",
+        "character:matikanetannhauser"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8548",
+      "members": [
+        "character:matikanetannhauser",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8555",
+      "members": [
+        "character:maruzensky",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8556",
+      "members": [
+        "character:mejiro-palmer",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8557",
+      "members": [
+        "character:mejiro-palmer",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8559",
+      "members": [
+        "character:mejiro-palmer",
+        "character:tm-opera-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8560",
+      "members": [
+        "character:curren-chan",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8561",
+      "members": [
+        "character:gold-city",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8563",
+      "members": [
+        "character:meisho-doto",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8564",
+      "members": [
+        "character:mejiro-palmer",
+        "character:nice-nature"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8565",
+      "members": [
+        "character:mejiro-palmer",
+        "character:mejiro-ryan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8566",
+      "members": [
+        "character:mejiro-dober",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8569",
+      "members": [
+        "character:mejiro-palmer",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8570",
+      "members": [
+        "character:mejiro-palmer",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8587",
+      "members": [
+        "character:air-groove",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8588",
+      "members": [
+        "character:kitasan-black",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8589",
+      "members": [
+        "character:biwa-hayahide",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8590",
+      "members": [
+        "character:kitasan-black",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8591",
+      "members": [
+        "character:kitasan-black",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8592",
+      "members": [
+        "character:kitasan-black",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8593",
+      "members": [
+        "character:kitasan-black",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8594",
+      "members": [
+        "character:kitasan-black",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8596",
+      "members": [
+        "character:kitasan-black",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8597",
+      "members": [
+        "character:kitasan-black",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8598",
+      "members": [
+        "character:kitasan-black",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8599",
+      "members": [
+        "character:el-condor-pasa",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8600",
+      "members": [
+        "character:agnes-digital",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8601",
+      "members": [
+        "character:hishi-akebono",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8602",
+      "members": [
+        "character:eishin-flash",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8603",
+      "members": [
+        "character:kitasan-black",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8604",
+      "members": [
+        "character:kitasan-black",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8605",
+      "members": [
+        "character:kawakami-princess",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8606",
+      "members": [
+        "character:haru-urara",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8607",
+      "members": [
+        "character:king-halo",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8610",
+      "members": [
+        "character:air-groove",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8611",
+      "members": [
+        "character:satono-diamond",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8612",
+      "members": [
+        "character:biwa-hayahide",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8613",
+      "members": [
+        "character:satono-diamond",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8614",
+      "members": [
+        "character:satono-diamond",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8615",
+      "members": [
+        "character:maruzensky",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8616",
+      "members": [
+        "character:satono-diamond",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8617",
+      "members": [
+        "character:sakura-chiyono-o",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8619",
+      "members": [
+        "character:satono-diamond",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8620",
+      "members": [
+        "character:mejiro-mcqueen",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8621",
+      "members": [
+        "character:satono-diamond",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8622",
+      "members": [
+        "character:el-condor-pasa",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8623",
+      "members": [
+        "character:agnes-digital",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8624",
+      "members": [
+        "character:hishi-akebono",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8625",
+      "members": [
+        "character:eishin-flash",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8626",
+      "members": [
+        "character:satono-diamond",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8627",
+      "members": [
+        "character:satono-diamond",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8628",
+      "members": [
+        "character:kawakami-princess",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8629",
+      "members": [
+        "character:haru-urara",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8630",
+      "members": [
+        "character:king-halo",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8633",
+      "members": [
+        "character:mejiro-bright",
+        "character:oguri-cap"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8634",
+      "members": [
+        "character:mejiro-bright",
+        "character:narita-taishin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8635",
+      "members": [
+        "character:mejiro-bright",
+        "character:seiun-sky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8636",
+      "members": [
+        "character:mejiro-bright",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8637",
+      "members": [
+        "character:mejiro-bright",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8639",
+      "members": [
+        "character:mejiro-bright",
+        "character:mejiro-palmer"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8640",
+      "members": [
+        "character:mejiro-bright",
+        "character:special-week"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8641",
+      "members": [
+        "character:mejiro-bright",
+        "character:silence-suzuka"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8642",
+      "members": [
+        "character:fuji-kiseki",
+        "character:mejiro-bright"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8643",
+      "members": [
+        "character:mejiro-bright",
+        "character:taiki-shuttle"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8644",
+      "members": [
+        "character:mejiro-bright",
+        "character:narita-brian"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8645",
+      "members": [
+        "character:manhattan-cafe",
+        "character:mejiro-bright"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8646",
+      "members": [
+        "character:mejiro-bright",
+        "character:rice-shower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8647",
+      "members": [
+        "character:agnes-tachyon",
+        "character:mejiro-bright"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8648",
+      "members": [
+        "character:admire-vega",
+        "character:mejiro-bright"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8649",
+      "members": [
+        "character:air-shakur",
+        "character:mejiro-bright"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8652",
+      "members": [
+        "character:mejiro-bright",
+        "character:nishino-flower"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8723",
+      "members": [
+        "character:fine-motion",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8725",
+      "members": [
+        "character:seiun-sky",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8726",
+      "members": [
+        "character:kawakami-princess",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8727",
+      "members": [
+        "character:haru-urara",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8728",
+      "members": [
+        "character:king-halo",
+        "character:yamanin-zephyr"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8838",
+      "members": [
+        "character:aston-machan",
+        "character:gold-ship"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8839",
+      "members": [
+        "character:aston-machan",
+        "character:daiwa-scarlet"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8840",
+      "members": [
+        "character:aston-machan",
+        "character:smart-falcon"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8841",
+      "members": [
+        "character:aston-machan",
+        "character:nakayama-festa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8842",
+      "members": [
+        "character:aston-machan",
+        "character:satono-diamond"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8843",
+      "members": [
+        "character:aston-machan",
+        "character:kitasan-black"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8848",
+      "members": [
+        "character:aston-machan",
+        "character:copano-rickey"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8850",
+      "members": [
+        "character:aston-machan",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8851",
+      "members": [
+        "character:aston-machan",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8852",
+      "members": [
+        "character:aston-machan",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8853",
+      "members": [
+        "character:aston-machan",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8854",
+      "members": [
+        "character:aston-machan",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8855",
+      "members": [
+        "character:aston-machan",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8856",
+      "members": [
+        "character:aston-machan",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8861",
+      "members": [
+        "character:aston-machan",
+        "character:yukino-bijin"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:8862",
+      "members": [
+        "character:aston-machan",
+        "character:sakura-bakushin-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9079",
+      "members": [
+        "character:air-groove",
+        "character:copano-rickey"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9080",
+      "members": [
+        "character:copano-rickey",
+        "character:tamamo-cross"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9081",
+      "members": [
+        "character:biwa-hayahide",
+        "character:copano-rickey"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9082",
+      "members": [
+        "character:copano-rickey",
+        "character:winning-ticket"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9083",
+      "members": [
+        "character:copano-rickey",
+        "character:tosen-jordan"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9088",
+      "members": [
+        "character:copano-rickey",
+        "character:maruzensky"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9089",
+      "members": [
+        "character:copano-rickey",
+        "character:super-creek"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9090",
+      "members": [
+        "character:copano-rickey",
+        "character:sakura-chiyono-o"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9091",
+      "members": [
+        "character:copano-rickey",
+        "character:yaeno-muteki"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9092",
+      "members": [
+        "character:copano-rickey",
+        "character:tokai-teio"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9093",
+      "members": [
+        "character:copano-rickey",
+        "character:mejiro-mcqueen"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9094",
+      "members": [
+        "character:copano-rickey",
+        "character:symboli-rudolf"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9097",
+      "members": [
+        "character:copano-rickey",
+        "character:el-condor-pasa"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9098",
+      "members": [
+        "character:agnes-digital",
+        "character:copano-rickey"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9099",
+      "members": [
+        "character:copano-rickey",
+        "character:hishi-akebono"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9100",
+      "members": [
+        "character:copano-rickey",
+        "character:eishin-flash"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9101",
+      "members": [
+        "character:copano-rickey",
+        "character:seeking-the-pearl"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9102",
+      "members": [
+        "character:copano-rickey",
+        "character:sweep-tosho"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9105",
+      "members": [
+        "character:copano-rickey",
+        "character:kawakami-princess"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9106",
+      "members": [
+        "character:copano-rickey",
+        "character:haru-urara"
+      ],
+      "points": 1
+    },
+    {
+      "id": "relation:9107",
+      "members": [
+        "character:copano-rickey",
+        "character:king-halo"
+      ],
+      "points": 1
+    }
+  ]
+}

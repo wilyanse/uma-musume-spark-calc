@@ -25,6 +25,21 @@ Assumption taken: the API returns the full roster as specified (ETag/304 keeps r
 Also: the 10 ms Worker CPU budget (40 §4) is very likely exceeded by a full-roster read at 2,000 veterans (wall-clock in miniflare: ~230 ms; 260 veterans: ~30 ms; not a CPU measurement). Free-tier CPU can't be measured locally; confirm on the first real deploy (H2). Mitigation available: the 304 path is ~1-2 ms and the web should cache by ETag.
 Blocking: no
 
+## Q-5 (T03) Missing master-data facts: inheritance turns, card vocab kind
+Context: (a) 01 §11 `scenarios.inheritanceTurns` needs the Global turn numbers of the two inspiration events; GameTora only says "first half of April, years 2 and 3". (b) `vocab.json` kinds don't include `card`, but 20 §5 wants "The Brightest Star in Japan!" (a support-card title) to resolve.
+Assumption taken: (a) `inheritanceTurns: []` with `extra.inheritanceTurnsVerified:false`. (b) card names/titles go to `vocab-cards.json` (same entry shape, `kind:'card'`), listed in `latest.json`; the schema enum is untouched.
+Blocking: no (orchestrator: decide whether to add `card` to the VocabEntry kind enum in `@uma/schema`)
+
+## Q-6 (T03) Card art hash framing
+Context: card art hashes are computed from GameTora's full portrait `tex_support_card_<id>.png` (450×600), using one crop box (`art-crop.ts`). Round-1 review showed the earlier 128×128 `support_card_s` thumbnail was a face close-up that did not match tiles. With the portrait, the first tile of screenshot 13 is Hamming 7 from its own card and the nearest of 255. The Hamming distance to accept as a match is still unknown (real captures are scaled/lossy). Round-2 review found that shifting the first tile crop 3 px left selected the wrong card; 5 of 20 tiles had a nearest-neighbor margin of at most 3 bits. T09 must align crop positions precisely and validate on more tiles before relying on automatic matching.
+Assumption taken: match by nearest hash with a margin; T09/T15 calibrate the threshold on real captures across more than one tile.
+Blocking: no
+
+## Q-7 (T03) Rank names and the ◯ glyph
+Context: GameTora's rank table has numeric ids only; badge names are assumed to follow G…SS+, UG…US9. GameTora writes skill circles as U+25CB while the game and spec use U+25EF.
+Assumption taken: assumed ladder (checked only at A+ = 13,471 from screenshot 02); skill names use U+25EF and vocab includes both glyphs.
+Blocking: no (verify UG/UF… names against a real veteran screenshot)
+
 ## Q-70 (T07) No endpoint to dismiss a review item
 Context: S03 has a "Dismiss" action (spec 10 §3). 01 §9 only defines `POST /review-items/:id/resolve`; the D1 `review_items.status` CHECK allows `dismissed`.
 Assumption taken: the design keeps the action and expects `POST /api/v1/review-items/:id/dismiss` (no body) → `204`, or a `status` field on the resolve call. Needs a 01 §9 decision (T01/T04).
@@ -69,7 +84,6 @@ Blocking: no
 Context: S07 "not enough held-out data" and S06 "import veterans" empty states need minimum counts. No spec gives them.
 Assumption taken: held-out check needs at least 10 held-out veterans (reuses the 10 §2 "low data" n < 10 threshold); the planner needs at least 2 veterans (two distinct parents). Both are UI assumptions, not model rules. T13/T06 should replace them with the real minimums (e.g. from the 80/20 split).
 Blocking: no
-
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)
