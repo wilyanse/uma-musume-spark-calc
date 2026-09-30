@@ -163,15 +163,15 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T02 | Merged | task/T02-app-skeletons | T02-app-skeletons.md | PASS r1 |
 | T03 | Merged locally | task/T03-master-data | T03-master-data.md | PASS r2 |
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
-| T04b | Fixing review r1 (Opus medium) | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1 |
-| T05 | Independent review r2 (Opus medium) | task/T05-inheritance | T05-inheritance.md | Fix verification passed; review running |
+| T04b | Resumed review fixes (Sol medium fallback after Opus 429) | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1 |
+| T05 | Review passed; awaiting local integration | task/T05-inheritance | T05-inheritance.md | PASS r2; plugin validation and per-pair RulesError follow-ups |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Not started | | | |
-| T09 | Resumed; partial work preserved (Opus medium, pinned) | task/T09-agent-core | T09-agent-core.md | Pending |
+| T09 | Resumed; partial work preserved (Sol medium fallback after Opus 429) | task/T09-agent-core | T09-agent-core.md | Pending |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
-| T12 | Fixing review r1 (Opus medium); deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 |
+| T12 | Resumed review fixes (Sol medium fallback after Opus 429); deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 |
 | T13 | Not started | | | |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
