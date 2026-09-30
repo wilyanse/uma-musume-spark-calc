@@ -45,6 +45,12 @@ Context: S03 has a "Dismiss" action (spec 10 §3). 01 §9 only defines `POST /re
 Assumption taken: the design keeps the action and expects `POST /api/v1/review-items/:id/dismiss` (no body) → `204`, or a `status` field on the resolve call. Needs a 01 §9 decision (T01/T04).
 Blocking: no (for S03 only; T13 waits on this)
 
+## Q-81 (T05) Exact affinity decomposition for inheritance
+Context: 50 §3 names `aff(T,P1) + aff(T,P2) + aff(T,P1,GP)…`, while the cited calculator also reports a parent-pair term and race/epithet bonuses. RosterVeteran has no complete legacy race-win or epithet relation data.
+Assumption taken: use shared affinity groups (and optional pairwise table) for T–P, P1–P2, and T–P–GP relations; include the P1–P2 term in each parent spark's multiplier; omit unavailable race-win and epithet terms and expose them in `AffinityResult.unsupportedTerms`.
+Blocking: no
+Blocking: no (for S03 only; T13 waits on this)
+
 ## Q-71 (T07) Response shape of `GET /api/v1/owned-cards`
 Context: S04 shows the last sync time and "Held n / 255". 01 §4 defines the PUT body only; the GET response isn't specified.
 Assumption taken: GET returns `{ syncedAt, heldCount, cards: [{cardId, lb, level, confidence}] }`.
