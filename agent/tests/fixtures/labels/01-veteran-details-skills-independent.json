@@ -1,0 +1,35 @@
+{
+  "fixture": "01-veteran-details-skills-independent",
+  "screen": "details.skills",
+  "characterId": "character:mejiro-mcqueen",
+  "outfitId": "outfit:frontline-elegance",
+  "epithet": "Independent Learner",
+  "trainMode": "independent",
+  "stats": {
+    "spd": 894,
+    "sta": 938,
+    "pow": 740,
+    "gut": 559,
+    "wit": 635
+  },
+  "rank": "A+",
+  "rating": 13471,
+  "aptitudes": {"turf":"A","dirt":"E","sprint":"G","mile":"D","medium":"A","long":"S","front":"B","pace":"A","late":"D","end":"F"},
+  "visibleSkills": [
+    {"name":"The Duty of Dignity Calls","level":5},
+    {"name":"Corner Recovery ◯","level":null},
+    {"name":"Straightaway Adept","level":null},
+    {"name":"Ramp Up","level":null},
+    {"name":"Nimble Navigator","level":null},
+    {"name":"Prepared to Pass","level":null},
+    {"name":"Medium Corners ◯","level":null},
+    {"name":"Long Corners ◎","level":null},
+    {"name":"Vanguard Spirit","level":null},
+    {"name":"Pace Chaser Straightaways ◎","level":null},
+    {"name":"Hydrate","level":null},
+    {"name":"Front Runner Savvy ◎","level":null},
+    {"name":"Uma Stan","level":null},
+    {"name":"Groundwork","level":null}
+  ],
+  "source": "Read directly from screenshot 01 (visible panel only); skills below scroll not labelled. H4 human verification pending."
+}

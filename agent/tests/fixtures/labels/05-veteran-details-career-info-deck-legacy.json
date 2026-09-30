@@ -1,0 +1,10 @@
+{
+  "fixture": "05-veteran-details-career-info-deck-legacy",
+  "screen": "details.career",
+  "characterId": "character:mejiro-mcqueen",
+  "deckObserved": 6,
+  "parentsObserved": 2,
+  "races": 22,
+  "wins": 22,
+  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+}

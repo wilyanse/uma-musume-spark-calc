@@ -1,0 +1,9 @@
+{
+  "fixture": "10-sparks-popup-guest-parent",
+  "screen": "sparks.popup.guest",
+  "characterId": "character:tm-opera-o",
+  "outfitId": "outfit:new-year-same-radiance",
+  "isGuest": true,
+  "guestTrainer": "Yuuki",
+  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+}

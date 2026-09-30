@@ -1,0 +1,16 @@
+{
+  "fixture": "15-veteran-details-skills-manual",
+  "screen": "details.skills",
+  "characterId": "character:tokai-teio",
+  "outfitId": "outfit:beyond-the-horizon",
+  "epithet": "Monarch",
+  "trainMode": "manual",
+  "stats": {
+    "spd": 1557,
+    "sta": 821,
+    "pow": 929,
+    "gut": 634,
+    "wit": 830
+  },
+  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+}

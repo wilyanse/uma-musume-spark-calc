@@ -1,0 +1,16 @@
+{
+  "version": "global-2026-09",
+  "reference": [1920, 1080],
+  "cardArtCrop": {"x0":100,"y0":340,"x1":900,"y1":780,"unit":"permille"},
+  "charIconCrop": {"x0":180,"y0":150,"x1":820,"y1":750,"unit":"permille"},
+  "veteranIconCrop": {"x0":220,"y0":150,"x1":780,"y1":700,"unit":"permille"},
+  "screens": {
+    "details.skills": {"rois":{"header":[540,90,300,150],"stats":[280,250,560,80],"skills":[270,500,560,450]}},
+    "details.inspiration": {"rois":{"header":[540,90,300,150],"sparks":[270,480,560,450]}},
+    "details.career": {"rois":{"header":[540,90,300,150],"deck":[270,510,560,140],"parents":[270,670,560,220],"career":[270,890,560,80]}},
+    "sparks.popup": {"rois":{"title":[500,30,200,70],"sparks":[270,250,560,650]}},
+    "sparks.popup.guest": {"rois":{"title":[500,30,300,240],"sparks":[270,420,560,450]}},
+    "cards.list": {"rois":{"title":[100,0,300,60],"grid":[270,90,600,730]}},
+    "cards.detail": {"rois":{"title":[450,30,350,150],"effects":[270,360,550,550]}}
+  }
+}

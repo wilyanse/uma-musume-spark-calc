@@ -1,0 +1,12 @@
+{
+  "fixture": "06-veteran-details-career-info-record",
+  "screen": "details.career",
+  "career": {
+    "races": 22,
+    "wins": 22,
+    "fans": 649560,
+    "scenarioId": "scenario:ura-finale",
+    "dateAcquired": "2026-09-29"
+  },
+  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+}
