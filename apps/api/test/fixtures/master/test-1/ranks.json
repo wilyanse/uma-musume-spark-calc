@@ -1,0 +1,14 @@
+[
+  {
+    "id": "A",
+    "minRating": 10000
+  },
+  {
+    "id": "A+",
+    "minRating": 13000
+  },
+  {
+    "id": "S",
+    "minRating": 14500
+  }
+]

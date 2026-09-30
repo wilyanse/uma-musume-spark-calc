@@ -1,0 +1,450 @@
+{
+  "schemaVersion": 1,
+  "captureId": "01J8Z3K4M5N6P7Q8R9S0T1V2W3",
+  "capturedAt": "2026-09-29T08:00:00Z",
+  "agentVersion": "0.0.0-fixture",
+  "layoutVersion": "global-2026-09",
+  "masterVersion": "test-1",
+  "fingerprint": "53d102dede51127aef0524847d288ccf961f720e71c9c53b840e4450813de0ae",
+  "veteran": {
+    "characterId": "character:mejiro-mcqueen",
+    "outfitId": "outfit:frontline-elegance",
+    "rank": "A+",
+    "rating": 13471,
+    "epithet": "Independent Learner",
+    "trainMode": "independent",
+    "stats": {
+      "spd": 894,
+      "sta": 938,
+      "pow": 740,
+      "gut": 559,
+      "wit": 635
+    },
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "E",
+      "sprint": "G",
+      "mile": "D",
+      "medium": "A",
+      "long": "S",
+      "front": "B",
+      "pace": "A",
+      "late": "D",
+      "end": "F"
+    },
+    "skills": [
+      {
+        "skillId": "skill:the-duty-of-dignity-calls",
+        "level": 5
+      },
+      {
+        "skillId": "skill:corner-recovery",
+        "level": null
+      },
+      {
+        "skillId": "skill:straightaway-adept",
+        "level": null
+      },
+      {
+        "skillId": "skill:ramp-up",
+        "level": null
+      },
+      {
+        "skillId": "skill:nimble-navigator",
+        "level": null
+      },
+      {
+        "skillId": "skill:prepared-to-pass",
+        "level": null
+      },
+      {
+        "skillId": "skill:medium-corners",
+        "level": null
+      },
+      {
+        "skillId": "skill:long-corners",
+        "level": null
+      },
+      {
+        "skillId": "skill:vanguard-spirit",
+        "level": null
+      },
+      {
+        "skillId": "skill:pace-chaser-straightaways",
+        "level": null
+      },
+      {
+        "skillId": "skill:hydrate",
+        "level": null
+      },
+      {
+        "skillId": "skill:front-runner-savvy",
+        "level": null
+      },
+      {
+        "skillId": "skill:uma-stan",
+        "level": null
+      },
+      {
+        "skillId": "skill:groundwork",
+        "level": null
+      }
+    ],
+    "sparks": [
+      {
+        "owner": "self",
+        "sparkId": "spark:guts",
+        "type": "blue",
+        "stars": 3
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:medium",
+        "type": "pink",
+        "stars": 3
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:the-duty-of-dignity-calls",
+        "type": "green",
+        "stars": 3
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:kawasaki-kinen",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:nimble-navigator",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:medium-corners",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:keeping-the-lead",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:uma-stan",
+        "type": "white",
+        "stars": 3
+      },
+      {
+        "owner": "self",
+        "sparkId": "spark:my-true-strength",
+        "type": "white",
+        "stars": 3
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:power",
+        "type": "blue",
+        "stars": 2
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:medium",
+        "type": "pink",
+        "stars": 2
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:shooting-star",
+        "type": "green",
+        "stars": 3
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:nhk-mile-c",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:arima-kinen",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:hanshin-racecourse",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:uma-stan",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:head-on",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:my-true-strength",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent1",
+        "sparkId": "spark:our-grand-concert",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:stamina",
+        "type": "blue",
+        "stars": 3
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:long",
+        "type": "pink",
+        "stars": 3
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:barcarole-of-blessings",
+        "type": "green",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:osaka-hai",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:hanshin-j-f",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:m-c-nambu-hai",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:standard-distance",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:firm-conditions",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:corner-recovery",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:nimble-navigator",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:uma-stan",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:my-true-strength",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:ignited-spirit-wit",
+        "type": "white",
+        "stars": 1
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:ignited-spirit-stamina",
+        "type": "white",
+        "stars": 2
+      },
+      {
+        "owner": "parent2",
+        "sparkId": "spark:unity-cup",
+        "type": "white",
+        "stars": 3
+      }
+    ],
+    "deck": [
+      {
+        "slot": 1,
+        "cardId": "card:fixture-card-1",
+        "lb": 4,
+        "level": 50,
+        "borrowed": false
+      },
+      {
+        "slot": 2,
+        "cardId": "card:fixture-card-2",
+        "lb": 4,
+        "level": 50,
+        "borrowed": false
+      },
+      {
+        "slot": 3,
+        "cardId": "card:fixture-card-3",
+        "lb": 3,
+        "level": 50,
+        "borrowed": false
+      },
+      {
+        "slot": 4,
+        "cardId": "card:fixture-card-4",
+        "lb": 2,
+        "level": 50,
+        "borrowed": false
+      },
+      {
+        "slot": 5,
+        "cardId": "card:fixture-card-5",
+        "lb": 4,
+        "level": 50,
+        "borrowed": false
+      },
+      {
+        "slot": 6,
+        "cardId": "card:fixture-card-6",
+        "lb": 0,
+        "level": 50,
+        "borrowed": true
+      }
+    ],
+    "parents": [
+      {
+        "slot": 1,
+        "characterId": "character:special-week",
+        "outfitId": "outfit:special-week-base",
+        "isGuest": false,
+        "guestTrainer": null
+      },
+      {
+        "slot": 2,
+        "characterId": "character:tm-opera-o",
+        "outfitId": "outfit:new-year-same-radiance",
+        "isGuest": true,
+        "guestTrainer": "Yuuki"
+      }
+    ],
+    "scenarioId": "scenario:ura-finale",
+    "career": {
+      "races": 22,
+      "wins": 22,
+      "fans": 649560,
+      "dateAcquired": "2026-09-29"
+    }
+  },
+  "fields": [
+    {
+      "path": "/stats/spd",
+      "rawText": "894",
+      "value": 894,
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/stats/sta",
+      "rawText": "938",
+      "value": 938,
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/stats/pow",
+      "rawText": "740",
+      "value": 740,
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/stats/gut",
+      "rawText": "559",
+      "value": 559,
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/stats/wit",
+      "rawText": "635",
+      "value": 635,
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/rank",
+      "rawText": "A+",
+      "value": "A+",
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/rating",
+      "rawText": "13,471",
+      "value": 13471,
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/career/fans",
+      "rawText": "649,560",
+      "value": 649560,
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    },
+    {
+      "path": "/career/dateAcquired",
+      "rawText": "Sep 29, 2026",
+      "value": "2026-09-29",
+      "confidence": 0.99,
+      "status": "ok",
+      "candidates": [],
+      "cropKey": null
+    }
+  ]
+}

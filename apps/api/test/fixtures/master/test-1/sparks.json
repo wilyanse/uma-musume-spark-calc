@@ -1,0 +1,254 @@
+[
+  {
+    "id": "spark:arima-kinen",
+    "name": "arima-kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:barcarole-of-blessings",
+    "name": "barcarole-of-blessings",
+    "type": "green",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:corner-recovery",
+    "name": "corner-recovery",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:firm-conditions",
+    "name": "firm-conditions",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:guts",
+    "name": "guts",
+    "type": "blue",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:hanshin-j-f",
+    "name": "hanshin-j-f",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:hanshin-racecourse",
+    "name": "hanshin-racecourse",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:head-on",
+    "name": "head-on",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-stamina",
+    "name": "ignited-spirit-stamina",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:ignited-spirit-wit",
+    "name": "ignited-spirit-wit",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:kawasaki-kinen",
+    "name": "kawasaki-kinen",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:keeping-the-lead",
+    "name": "keeping-the-lead",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:long",
+    "name": "long",
+    "type": "pink",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:m-c-nambu-hai",
+    "name": "m-c-nambu-hai",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:medium",
+    "name": "medium",
+    "type": "pink",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:medium-corners",
+    "name": "medium-corners",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:my-true-strength",
+    "name": "my-true-strength",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:nhk-mile-c",
+    "name": "nhk-mile-c",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:nimble-navigator",
+    "name": "nimble-navigator",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:osaka-hai",
+    "name": "osaka-hai",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:our-grand-concert",
+    "name": "our-grand-concert",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:power",
+    "name": "power",
+    "type": "blue",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:shooting-star",
+    "name": "shooting-star",
+    "type": "green",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:stamina",
+    "name": "stamina",
+    "type": "blue",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:standard-distance",
+    "name": "standard-distance",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:the-duty-of-dignity-calls",
+    "name": "the-duty-of-dignity-calls",
+    "type": "green",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:uma-stan",
+    "name": "uma-stan",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  },
+  {
+    "id": "spark:unity-cup",
+    "name": "unity-cup",
+    "type": "white",
+    "target": {
+      "kind": "race",
+      "raceId": "fixture"
+    }
+  }
+]

@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@uma/schema": "workspace:*",
-    "hono": "4.13.11"
+    "hono": "4.13.11",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.22.0",

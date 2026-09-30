@@ -1,0 +1,8 @@
+[
+  {
+    "id": "scenario:ura-finale",
+    "name": "The Beginning: URA Finale",
+    "statCap": 1200,
+    "inheritanceTurns": [1]
+  }
+]

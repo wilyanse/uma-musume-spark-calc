@@ -1,4 +1,6 @@
-import { app } from './app.ts';
+import { createApp } from './app.ts';
+
+const app = createApp();
 
 export default {
   fetch(request: Request, env: Env, ctx: ExecutionContext): Response | Promise<Response> {

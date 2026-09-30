@@ -1,0 +1,80 @@
+[
+  {
+    "id": "outfit:frontline-elegance",
+    "characterId": "character:mejiro-mcqueen",
+    "title": "Frontline Elegance",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "A",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "A",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:the-duty-of-dignity-calls",
+    "innateSkillIds": []
+  },
+  {
+    "id": "outfit:special-week-base",
+    "characterId": "character:special-week",
+    "title": "Special Week",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "A",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "A",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:the-duty-of-dignity-calls",
+    "innateSkillIds": []
+  },
+  {
+    "id": "outfit:new-year-same-radiance",
+    "characterId": "character:tm-opera-o",
+    "title": "New Year, Same Radiance!",
+    "aptitudes": {
+      "turf": "A",
+      "dirt": "A",
+      "sprint": "A",
+      "mile": "A",
+      "medium": "A",
+      "long": "A",
+      "front": "A",
+      "pace": "A",
+      "late": "A",
+      "end": "A"
+    },
+    "growth": {
+      "spd": 0,
+      "sta": 0,
+      "pow": 0,
+      "gut": 0,
+      "wit": 0
+    },
+    "uniqueSkillId": "skill:the-duty-of-dignity-calls",
+    "innateSkillIds": []
+  }
+]
