@@ -2,15 +2,15 @@
 
 ## 1. How orchestration works
 - **Orchestrator:** Hermes in the main checkout `~/Projects/personal/uma-musume-spark-calc`, on `main`. It creates worktrees, dispatches workers, reviews diffs, runs the verification commands itself, merges into local `main` and adds one line to `CHANGELOG.md`. **Pushing** to `origin main` happens at the end of each wave, after the user has reviewed the wave summary (the user reviews before anything is published).
-- **Workers:** Claude **Opus 5.5**, reasoning **medium**, first; **GPT-6 Sol**, reasoning **medium** via `openai-codex`, fallback if Opus is unavailable or provider-blocked (user direction). Preserve partial work when switching; record the reason and actual model. Each task runs in its own git worktree at `../uma-musume-spark-calc.worktrees/Txx-<slug>` on branch `task/Txx-<slug>`, created from the current `main`. Launch:
+- **Workers:** Claude **Opus 5.5**, reasoning **medium**, first; **GPT-6.1 Sol**, reasoning **medium** via `openai-codex`, fallback if Opus is unavailable or provider-blocked (user direction). Preserve partial work when switching; record the reason and actual model. Each task runs in its own git worktree at `../uma-musume-spark-calc.worktrees/Txx-<slug>` on branch `task/Txx-<slug>`, created from the current `main`. Launch:
   ```
   hermes chat --oneshot -Q --provider anthropic -m claude-opus-5-5 --reasoning medium \
     --query-file docs/tasks/Txx.prompt.md        # run with workdir = the task worktree
   ```
   The prompt file contains the task card from §4 plus: "Read AGENTS.md first. Write docs/changelog/Txx-<slug>.md. Commit on your branch. Don't push."
 - **Parallelism:** at most **4** workers at a time. Tasks in the same wave with no `Needs` between them run in parallel.
-- **Review gate per task:** orchestrator gate A (changelog, scope, re-run verification), then an **independent reviewer** (Opus 5.5 medium first, GPT-6 Sol medium fallback, fresh read-only session) per `85-implementation-review.md`. A task merges (`--no-ff`) only on reviewer `PASS` + a green re-run. `CHANGES_REQUESTED` goes back to the worker, for at most 2 rounds; after that the orchestrator fixes it or escalates.
-- **Pinned launch policy:** `scripts/orch.sh` uses `--ignore-user-config` with explicit provider/model/medium effort so the profile's unrelated fallback cannot run. On failure, preserve logs and partial work, probe Opus first, then explicitly retry with `ORCH_PROVIDER=openai-codex ORCH_MODEL=gpt-6-sol` if needed. Never infer actual model from initial session metadata alone after fallback.
+- **Review gate per task:** orchestrator gate A (changelog, scope, re-run verification), then an **independent reviewer** (Opus 5.5 medium first, GPT-6.1 Sol medium fallback, fresh read-only session) per `85-implementation-review.md`. A task merges (`--no-ff`) only on reviewer `PASS` + a green re-run. `CHANGES_REQUESTED` goes back to the worker, for at most 2 rounds; after that the orchestrator fixes it or escalates.
+- **Pinned launch policy:** `scripts/orch.sh` uses `--ignore-user-config` with explicit provider/model/medium effort so the profile's unrelated fallback cannot run. On failure, preserve logs and partial work, probe Opus first, then explicitly retry with `ORCH_PROVIDER=openai-codex ORCH_MODEL=gpt-6.1-sol` if needed. Never infer actual model from initial session metadata alone after fallback.
 - **Status:** tracked in §5 of this file and updated by the orchestrator only.
 
 ## 2. Waves

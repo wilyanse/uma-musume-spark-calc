@@ -5,8 +5,8 @@ Every task gets an **independent code review** before merge, separate from the o
 ## 1. Roles
 | Role | Model | Access | Output |
 |---|---|---|---|
-| Worker | Opus 5.5 medium first; GPT-6 Sol medium fallback | its task worktree, read/write | code + `docs/changelog/Txx-*.md` |
-| **Reviewer** | Opus 5.5 medium first; GPT-6 Sol medium fallback, fresh session with no worker context | the task worktree, **read-only** (may run tests/builds, must not edit tracked files or commit) | `docs/reviews/Txx-review-<round>.md`, written by the orchestrator from the reviewer's final message |
+| Worker | Opus 5.5 medium first; GPT-6.1 Sol medium fallback | its task worktree, read/write | code + `docs/changelog/Txx-*.md` |
+| **Reviewer** | Opus 5.5 medium first; GPT-6.1 Sol medium fallback, fresh session with no worker context | the task worktree, **read-only** (may run tests/builds, must not edit tracked files or commit) | `docs/reviews/Txx-review-<round>.md`, written by the orchestrator from the reviewer's final message |
 | Orchestrator | Hermes | everything | re-runs verification, merges, pushes after user review |
 
 ## 2. Per-task flow
