@@ -90,6 +90,14 @@ Numbering: the orchestrator reserved Q-80–Q-89 for questions raised by the par
 Context: 50 §3 names `aff(T,P1) + aff(T,P2) + aff(T,P1,GP)…`, while the cited calculator also reports a parent-pair term and race/epithet bonuses. RosterVeteran has no complete legacy race-win or epithet relation data.
 Assumption taken: use shared affinity groups (and optional pairwise table) for T–P, P1–P2, and T–P–GP relations; include the P1–P2 term in each parent spark's multiplier; omit unavailable race-win and epithet terms and expose them in `AffinityResult.unsupportedTerms`.
 Blocking: no
+## Q-120 (T08) Synthetic inheritance inputs in the golden dataset
+Context: published Global `rules.json` has `blueStatGain` = 0/0/0 (UNKNOWN placeholder, Q-3) and every scenario has `inheritanceTurns: []` (Q-5). With those values the golden data would have no event-driven inheritance and the 70 §2 ×1.3 calibration variant would equal the base roster.
+Assumption taken: the golden generator injects, for the golden data only, synthetic `blueStatGain` 10/20/30 per activation (`verified:false`, source SYNTHETIC) and two synthetic inheritance events `[31, 55]` per scenario through a scenario plugin (`loadGoldenContext`). Both are labelled SYNTHETIC in `truth.json` and are not game facts; every other rule is used verbatim from `rules.json`. When Q-3/Q-5 are answered, regenerate the dataset.
+Blocking: no
+## Q-121 (T08) CmTarget id vs the `golden-cm-1` key
+Context: 70 §2 calls the target `golden-cm-1`, but 01 §10/§1 make `CmTarget.id` a ULID (user data).
+Assumption taken: `targets.json[0].id` is the fixed ULID `01KGQZ0000G01DENCM00000001`, `name` is `golden-cm-1`, and `truth.json.golden.{targetId,targetName}` link the two. Consumers should look the target up by name.
+Blocking: no
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

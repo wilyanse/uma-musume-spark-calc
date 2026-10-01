@@ -13,11 +13,15 @@
     "lint": "eslint src test scripts vitest.config.ts",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "smoke": "node scripts/smoke.ts"
+    "smoke": "node scripts/smoke.ts",
+    "golden": "node scripts/golden.ts"
   },
   "dependencies": {
     "@uma/master-data": "workspace:*",
     "@uma/schema": "workspace:*",
     "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "prettier": "3.9.9"
   }
 }

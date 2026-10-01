@@ -1,0 +1,16 @@
+[
+  {
+    "course": {
+      "distance": "medium",
+      "notes": "Synthetic golden target (T08, 70 §2): Medium / Turf / Pace.",
+      "surface": "turf"
+    },
+    "id": "01KGQZ0000G01DENCM00000001",
+    "minAptitudes": { "medium": "A", "pace": "A", "turf": "A" },
+    "minStats": { "spd": 1100, "sta": 800 },
+    "name": "golden-cm-1",
+    "optionalSkills": [],
+    "requiredSkills": ["skill:restraint"],
+    "style": "pace"
+  }
+]
