@@ -18,9 +18,10 @@
  * goes through T05's public API (`loadContext` + `planInheritance` + `sampleInheritance`).
  *
  * Design rule: the generator first builds the `truth` parameters, then generates the roster only
- * from `truth` + the seed. `loadGoldenContext(master, truth, multiplier)` is the single place the
- * engine context is built, so consumers (T06/T15 tests) can rebuild exactly the same context from
- * truth.json.
+ * from `truth` + the seed. `loadGoldenContext(master, truth, multiplier)` (in the browser-safe
+ * `golden-context.ts`, together with the `GoldenTruth` types) is the single place the engine
+ * context is built, so consumers (T06/T15 tests, a T13 fixture planner) rebuild exactly the same
+ * context from truth.json without importing this Node-only file.
  */
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -28,29 +29,29 @@ import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { format, resolveConfig } from 'prettier';
 import { APT_KEYS, CmTarget, fingerprint, GRADES, RosterVeteran, STAT_KEYS } from '@uma/schema';
-import type {
-  AptKey,
-  Grade,
-  Outfit,
-  Rules,
-  Scenario,
-  Spark,
-  StatKey,
-  SupportCard,
-  TrainMode,
-} from '@uma/schema';
+import type { AptKey, Grade, Outfit, Spark, StatKey, SupportCard, TrainMode } from '@uma/schema';
 import type { MasterBundle } from '@uma/master-data';
 import {
   affinity2,
-  defaultScenario,
-  loadContext,
   mulberry32,
   planInheritance,
   sampleInheritance,
   seedFromString,
 } from '../src/index.ts';
-import type { EngineContext, Legacy, Rng, SparkRef, Stars } from '../src/index.ts';
+import type { Legacy, Rng, SparkRef, Stars } from '../src/index.ts';
+import { loadGoldenContext } from './golden-context.ts';
+import type { GoldenLatent, GoldenTruth, PlantedCard } from './golden-context.ts';
 import { loadPublishedBundle } from './published-bundle.ts';
+import {
+  buildDesign,
+  chooseLambda,
+  effectiveSampleSize,
+  holdoutCoverage,
+  recencyWeights,
+} from '../test/golden/t06-diagnostic.ts';
+
+export { loadGoldenContext } from './golden-context.ts';
+export type { GoldenTruth, PlantedCard } from './golden-context.ts';
 
 // ---------------------------------------------------------------------------------------------
 // Fixed inputs (seed, injected time, sizes)
@@ -108,88 +109,26 @@ const obj = (v: readonly number[]): Record<StatKey, number> =>
 // Truth: the planted parameters
 // ---------------------------------------------------------------------------------------------
 
-export interface PlantedCard {
-  cardId: string;
-  type: string;
-  /** Per-stat effect at LB4 (= 2 × perUnit). */
-  atLb4: Record<StatKey, number>;
-  /** Per-stat effect per unit of the 50 §4 card feature `1 + lb/4` (LB0 = 1 unit, LB4 = 2). */
-  perUnit: Record<StatKey, number>;
-}
-
-export interface GoldenTruth {
-  meta: Record<string, unknown>;
-  syntheticInheritance: {
-    note: string;
-    inheritanceTurns: Record<string, { turns: number[]; synthetic: true; note: string }>;
-    rulesOverrides: {
-      blueStatGain: { '1': number; '2': number; '3': number; verified: false; source: string };
-    };
-    rulesUsedVerbatim: string[];
-    /** Multiplier applied to blueStatGain for roster.json (1.0). */
-    blueStatGainMultiplier: number;
-    guestsHaveNoLineage: string;
-  };
-  trainingModel: {
-    formula: string;
-    baseline: Record<StatKey, number>;
-    modeIntercept: Record<TrainMode, Record<StatKey, number>>;
-    modeInterceptTotal: Record<TrainMode, number>;
-    scenarioIntercept: Record<string, Record<StatKey, number>>;
-    growthCoefficient: Record<StatKey, number>;
-    growthNote: string;
-    cardFeature: string;
-    plantedCards: PlantedCard[];
-    zeroEffectCards: string[];
-    residualNoise: {
-      distribution: string;
-      sd: Record<StatKey, number>;
-      correlation: number[][];
-      covariance: number[][];
-      order: readonly StatKey[];
-    };
-    rounding: string;
-    statCap: Record<string, number>;
-    timeTrend: string;
-  };
-  skills: {
-    hintedDefinition: string;
-    acquisition: string;
-    priors: Record<TrainMode, { a: number; b: number }>;
-    rates: Record<TrainMode, Record<string, number>>;
-    uniqueSkill: string;
-  };
-  sparks: Record<string, unknown>;
-  deckModel: Record<string, unknown>;
-  roster: Record<string, unknown>;
-  golden: Record<string, unknown>;
-  holdout: Record<string, unknown>;
-  calibration: Record<string, unknown>;
-  latent: Record<
-    string,
-    { inheritance: number[]; training: number[]; noise: number[]; inheritanceHints: string[] }
-  >;
-  files: Record<string, string>;
-}
-
 /**
  * The planted card effects (LB4 values). Index = position in the sorted SSR list of that type
- * (gameId ascending, excluding the plan trainee's own character). Chosen so the smallest planted
- * coefficient (20 per unit) is ≳4 standard errors from 0 at the planted noise and roster size.
+ * (gameId ascending, excluding the plan trainee's own character). Review round 1 (B1): raised so
+ * the smallest planted coefficient is 40 per unit (80 at LB4); with the 90-day date span, the
+ * LB timeline below and the noise sd, a 50 §4 fit (train split, E[inheritance] from the recorded
+ * lineage, recency weights, id + type pooling, ridge) recovers every effect with margin.
  */
 const PLANTED_EFFECTS: { type: SupportCard['type']; atLb4: Partial<Record<StatKey, number>> }[] = [
-  { type: 'speed', atLb4: { spd: 80, pow: 40 } },
-  { type: 'speed', atLb4: { spd: 64 } },
-  { type: 'speed', atLb4: { spd: 56, wit: 40 } },
-  { type: 'stamina', atLb4: { sta: 72, gut: 40 } },
-  { type: 'stamina', atLb4: { sta: 60 } },
-  { type: 'power', atLb4: { pow: 70, sta: 40 } },
-  { type: 'power', atLb4: { pow: 56 } },
-  { type: 'guts', atLb4: { gut: 64, pow: 40 } },
-  { type: 'guts', atLb4: { gut: 50 } },
-  { type: 'wit', atLb4: { wit: 64, spd: 40 } },
-  { type: 'wit', atLb4: { wit: 50 } },
-  { type: 'friend', atLb4: { spd: 40, sta: 40, pow: 40, gut: 40, wit: 40 } },
+  { type: 'speed', atLb4: { spd: 110, pow: 80 } },
+  { type: 'speed', atLb4: { spd: 96 } },
+  { type: 'speed', atLb4: { spd: 90, wit: 80 } },
+  { type: 'stamina', atLb4: { sta: 100, gut: 80 } },
+  { type: 'stamina', atLb4: { sta: 90 } },
+  { type: 'power', atLb4: { pow: 100, sta: 80 } },
+  { type: 'power', atLb4: { pow: 90 } },
+  { type: 'guts', atLb4: { gut: 96, pow: 80 } },
+  { type: 'guts', atLb4: { gut: 90 } },
+  { type: 'wit', atLb4: { wit: 96, spd: 80 } },
+  { type: 'wit', atLb4: { wit: 90 } },
+  { type: 'friend', atLb4: { spd: 80, sta: 80, pow: 80, gut: 80, wit: 80 } },
 ];
 /** Zero-effect pool cards per type (taken after the planted ones in the same sorted list). */
 const ZERO_PER_TYPE: Partial<Record<SupportCard['type'], number>> = {
@@ -198,11 +137,14 @@ const ZERO_PER_TYPE: Partial<Record<SupportCard['type'], number>> = {
   power: 2,
   guts: 2,
   wit: 2,
-  friend: 1,
-  group: 1,
+  friend: 2,
+  group: 2,
 };
 
-const NOISE_SD: Vec5 = [9, 8, 9, 7, 8];
+const NOISE_SD: Vec5 = [10, 9, 10, 9, 9];
+/** dateAcquired span in days (B1: a 60-day recency half-life over 90 days keeps ESS ≈ 176/192). */
+const DATE0 = '2026-06-25';
+const SPAN = 90;
 const NOISE_CORR: number[][] = [
   [1, 0.2, 0.3, 0.1, 0.1],
   [0.2, 1, 0.1, 0.25, 0],
@@ -300,10 +242,13 @@ export function cholesky(a: number[][]): number[][] {
 const r6 = (x: number) => Math.round(x * 1e6) / 1e6;
 
 /** The parameter part of truth.json, fixed before any veteran is generated. */
-export type TruthParams = Omit<
-  GoldenTruth,
-  'roster' | 'golden' | 'holdout' | 'latent' | 'files' | 'calibration'
-> & { golden: Record<string, unknown> };
+export type TruthParams = Pick<GoldenTruth, 'meta' | 'syntheticInheritance' | 'skills'> & {
+  trainingModel: Omit<GoldenTruth['trainingModel'], 'clipping'>;
+  golden: Pick<
+    GoldenTruth['golden'],
+    'skillX' | 'traineeOutfitId' | 'traineeCharacterId' | 'scenarioId' | 'trainMode'
+  >;
+};
 
 export function buildTruthParameters(master: MasterBundle): TruthParams {
   const trainee = master.outfits.find((o) => o.id === TRAINEE_OUTFIT);
@@ -384,7 +329,7 @@ export function buildTruthParameters(master: MasterBundle): TruthParams {
     trainingModel: {
       formula:
         'stat_k = round(clip(baseline_k + modeIntercept[mode]_k + scenarioIntercept[scenario]_k + growthCoefficient_k * growth%_k(outfit, own stat k only) + Σ_deck perUnit[card]_k * (1 + lb/4) + noise_k + inheritanceSample_k, 1, statCap[scenario]))',
-      baseline: obj([760, 560, 700, 380, 520]),
+      baseline: obj([618, 452, 590, 300, 448]),
       modeIntercept: {
         independent: obj([-30, -20, -30, -15, -25]),
         manual: obj([0, 0, 0, 0, 0]),
@@ -419,19 +364,31 @@ export function buildTruthParameters(master: MasterBundle): TruthParams {
       ),
       timeTrend:
         'None: no planted drift over dateAcquired (recency weights must not change the truth).',
+      cardEffectEstimand:
+        'Q-122. 50 §4 pools each card by id AND by type: the type feature is the sum of the id features of that type, so β_id[card] and β_type[type] are not separately identified (only their split is set by the ridge penalties). The identified, comparable quantity is the effective contribution per unit of (1 + lb/4): β_id[card] + β_type[type(card)]. "Recovers the planted card effects within ±15%" is read as: for every planted card and every stat with perUnit ≠ 0, |(β_id + β_type) − perUnit| / perUnit < 0.15. The planted generator has no type effect (every non-planted card is 0), so perUnit is also the true effective contribution. No oracle adjustment is applied.',
+      synthetic: {
+        effects:
+          'Review round 1 (B1): per-unit effects raised to ≥ 40 (≥ 80 at LB4) from ≥ 20; baseline lowered so the totals stay in a similar range. Synthetic.',
+        dates:
+          'dateAcquired spans 90 days (was 360) so the 60-day recency half-life keeps an effective sample of ≈ 176 of the 192 train rows. Synthetic.',
+        ownedLb:
+          'every pool card starts at LB0 or LB1 and reaches LB4 within the 90 days (was: 0–2 start, 0..(4−start) upgrades over 360 days), so (1 + lb/4) varies within each card id and separates id effects from the pooled type and intercept directions. Synthetic.',
+        pool: 'friend and group types each have 2 zero-effect cards (was 1), so no type-pool feature equals a single card id (Tazuna is still the only planted friend card). Synthetic.',
+        noise: 'residual noise sd [10, 9, 10, 9, 9] (was [9, 8, 9, 7, 8]). Synthetic.',
+      },
     },
     skills: {
       hintedDefinition:
-        "hinted = deck cards' hintSkillIds ∪ eventSkillIds ∪ the outfit's innateSkillIds ∪ skills hinted by the sparks that actually activated in the veteran's own inheritance sample (green/white skill sparks and race sparks with hint skills).",
+        "LATENT (generator) definition: hinted = deck cards' hintSkillIds ∪ eventSkillIds ∪ the outfit's innateSkillIds ∪ skills hinted by the sparks that actually activated in the veteran's own inheritance sample (green/white skill sparks and race sparks with hint skills). The activation outcome is not observable in the roster.",
       acquisition:
         "Each hinted skill (except the outfit's unique skill) is acquired independently with probability rates[trainMode][skillId]. Nothing that was not hinted is ever acquired.",
+      observableEstimand:
+        "S2. `rates[mode][skill]` is the CONDITIONAL rate P(acquired | the skill was actually hinted). 50 §4 makes T06 call a skill hinted when it is in the deck hints/events, innate, or in any parent/grandparent white/green spark (observable), regardless of whether that spark activated. For a (veteran, skill) whose only possible source is the lineage, the observable acquisition probability is rates[mode][skill] × P(some lineage spark hinting it activated) = rates × skillHintProb (T05 closed form on the recorded lineage), which is strictly below rates. T06's per-mode Beta posterior means therefore estimate a mixture of rates (deck/innate-hinted rows) and rates × skillHintProb (lineage-only rows); they must NOT be compared with `rates` directly. Compare instead with the expected acquisitions Σ rates × P(hinted | observable lineage), as planted.test.ts does.",
       priors,
       rates,
       uniqueSkill:
         "The outfit's uniqueSkillId is always acquired, with a synthetic level uniform in 1..6.",
     },
-    sparks: {},
-    deckModel: {},
     golden: {
       skillX: SKILL_X,
       traineeOutfitId: TRAINEE_OUTFIT,
@@ -440,44 +397,6 @@ export function buildTruthParameters(master: MasterBundle): TruthParams {
       trainMode: PLAN_MODE,
     },
   };
-}
-
-/**
- * The engine context for the golden data: `rules.json` verbatim except the documented synthetic
- * `blueStatGain` (× `multiplier`), and a scenario plugin per scenario that returns the synthetic
- * inheritance turns from truth.json. Consumers rebuild the generator's exact context from
- * truth.json with this function.
- */
-export function loadGoldenContext(
-  master: MasterBundle,
-  truth: {
-    syntheticInheritance: {
-      inheritanceTurns: Readonly<Record<string, { turns: readonly number[] }>>;
-      rulesOverrides: {
-        blueStatGain: { '1': number; '2': number; '3': number; source: string };
-      };
-    };
-  },
-  multiplier = 1,
-): EngineContext {
-  const si = truth.syntheticInheritance;
-  const g = si.rulesOverrides.blueStatGain;
-  const rules: Rules = {
-    ...master.rules,
-    blueStatGain: {
-      ...master.rules.blueStatGain,
-      '1': r6(g['1'] * multiplier),
-      '2': r6(g['2'] * multiplier),
-      '3': r6(g['3'] * multiplier),
-      verified: false,
-      source: g.source,
-    },
-  };
-  const plugins: Record<string, (row: Scenario) => ReturnType<typeof defaultScenario>> = {};
-  for (const [id, t] of Object.entries(si.inheritanceTurns)) {
-    plugins[id] = (row) => ({ ...defaultScenario(row), inheritanceTurns: () => [...t.turns] });
-  }
-  return loadContext(master, rules, { plugins });
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -568,11 +487,14 @@ interface TrueVet {
 
 interface GenResult {
   roster: RosterVeteran[];
-  latent: GoldenTruth['latent'];
-  rosterInfo: Record<string, unknown>;
-  goldenInfo: Record<string, unknown>;
-  sparkInfo: Record<string, unknown>;
-  deckInfo: Record<string, unknown>;
+  latent: Record<string, GoldenLatent>;
+  rosterInfo: GoldenTruth['roster'];
+  goldenInfo: { roles: Partial<Record<Role, string>> };
+  sparkInfo: GoldenTruth['sparks'];
+  deckInfo: GoldenTruth['deckModel'];
+  /** N2: min/max of the unclipped stat sums, and whether any was clipped. */
+  rawRange: [number, number];
+  clipped: number;
 }
 
 async function generateRoster(
@@ -582,7 +504,7 @@ async function generateRoster(
 ): Promise<GenResult> {
   const ctx = loadGoldenContext(master, truth, multiplier);
   const tm = truth.trainingModel;
-  const traineeChar = truth.golden.traineeCharacterId as string;
+  const traineeChar = truth.golden.traineeCharacterId;
 
   // --- vocab -----------------------------------------------------------------------------------
   const sparkOfSkill = new Map<string, Spark>();
@@ -637,16 +559,12 @@ async function generateRoster(
   const ranks = [...master.ranks].sort((a, b) => b.minRating - a.minRating);
 
   // --- owned card LB timeline (synthetic) -------------------------------------------------------
-  const DATE0 = '2025-10-01';
-  const SPAN = 360; // days: dateAcquired in [DATE0, DATE0 + SPAN]
   const owned = new Map<string, { lb0: number; ups: number[] }>();
   {
     const rng = rngFor('owned-cards');
     for (const id of pool) {
-      const lb0 = int(rng, 0, 2);
-      const ups = Array.from({ length: int(rng, 0, 4 - lb0) }, () => int(rng, 1, SPAN)).sort(
-        (a, b) => a - b,
-      );
+      const lb0 = int(rng, 0, 1);
+      const ups = Array.from({ length: 4 - lb0 }, () => int(rng, 1, SPAN)).sort((a, b) => a - b);
       owned.set(id, { lb0, ups });
     }
   }
@@ -668,9 +586,12 @@ async function generateRoster(
   );
   const vets: TrueVet[] = [];
   const roster: RosterVeteran[] = [];
-  const latent: GoldenTruth['latent'] = {};
+  const latent: Record<string, GoldenLatent> = {};
+  let rawMin = Infinity;
+  let rawMax = -Infinity;
+  let clipped = 0;
   const lowConfidence: string[] = [];
-  const unreadParentSparks: { id: string; owner: string }[] = [];
+  const unreadParentSparks: { id: string; owner: 'parent1' | 'parent2' }[] = [];
   const overrides: string[] = [];
   const guestParents: string[] = [];
   const unmatchedParents: string[] = [];
@@ -837,11 +758,13 @@ async function generateRoster(
       for (const d of deck) t += (perUnit.get(d.cardId)?.[k] ?? 0) * (1 + d.lb / 4);
       return t;
     });
-    const statsVec = STAT_ORDER.map((_, k) =>
-      Math.round(
-        Math.min(tm.statCap[scenarioId]!, Math.max(1, training[k]! + noise[k]! + inh.statGain[k]!)),
-      ),
-    );
+    const statsVec = STAT_ORDER.map((_, k) => {
+      const raw = training[k]! + noise[k]! + inh.statGain[k]!;
+      rawMin = Math.min(rawMin, raw);
+      rawMax = Math.max(rawMax, raw);
+      if (raw < 1 || raw > tm.statCap[scenarioId]!) clipped++;
+      return Math.round(Math.min(tm.statCap[scenarioId]!, Math.max(1, raw)));
+    });
     latent[id] = {
       inheritance: inh.statGain.map(r6),
       training: training.map(r6),
@@ -897,7 +820,7 @@ async function generateRoster(
       lowConfidence.push(id);
       if (cRng() < 0.5) {
         unread = cRng() < 0.5 ? 1 : 2;
-        unreadParentSparks.push({ id, owner: `parent${unread}` });
+        unreadParentSparks.push({ id, owner: unread === 1 ? 'parent1' : 'parent2' });
       }
     }
     v.unread = unread !== 0;
@@ -1059,6 +982,8 @@ async function generateRoster(
   const deckInfo = {
     pool: 'the 12 planted + 12 zero-effect SSR cards (truth.trainingModel); 6 distinct cards per deck with distinct characters, never the veteran’s own character; each deck takes a uniform 2–5 planted cards (seeded order), then zero-effect cards; a card whose character is already used is skipped and the next card is taken (the other list fills any gap).',
     borrowed: '70% of decks have one borrowed slot (LB4, max level).',
+    ownedLbRule:
+      'each pool card: lbAtStart uniform 0..1, then exactly (4 − lbAtStart) upgrades on uniform days 1..90 (sorted); owned LB on day d = min(4, lbAtStart + #upgrades ≤ d). Synthetic.',
     ownedLb: Object.fromEntries(
       [...owned]
         .sort((a, b) => a[0].localeCompare(b[0]))
@@ -1075,7 +1000,11 @@ async function generateRoster(
       rule: 'exactly 60% independent / 40% manual over all 260 rows: the 4 planted veterans are manual, round(0.6 × 260) = 156 general veterans chosen by a Fisher–Yates permutation with mulberry32(seedFromString("20260929:modes")) are independent, the rest manual',
     },
     scenarios: Object.fromEntries(scenarios.map((s) => [s, count((v) => v.scenarioId === s)])),
-    dateAcquiredRange: [roster[0]!.career.dateAcquired, roster.at(-1)!.career.dateAcquired],
+    dateAcquiredRange: [roster[0]!.career.dateAcquired, roster.at(-1)!.career.dateAcquired] as [
+      string,
+      string,
+    ],
+    dateAcquiredRule: `day uniform 0..${SPAN} after ${DATE0} per veteran, sorted (veteran index order = date order)`,
     capturedAt:
       'dateAcquired + 0..20 days at 12:00Z (+37 s per index), all before meta.generatedAt',
     ids: 'ULID: 48-bit time = capturedAt, 80 random bits from mulberry32(seedFromString(`20260929:vet:<index>`))',
@@ -1097,7 +1026,16 @@ async function generateRoster(
       'per veteran: deck hint/event skills ∪ outfit innate skills ∪ latent[id].inheritanceHints (skills hinted by the sparks that activated in its sampled inheritance), minus the outfit unique skill',
   };
   const goldenInfo = { roles };
-  return { roster, latent, rosterInfo, goldenInfo, sparkInfo, deckInfo };
+  return {
+    roster,
+    latent,
+    rosterInfo,
+    goldenInfo,
+    sparkInfo,
+    deckInfo,
+    rawRange: [r6(rawMin), r6(rawMax)],
+    clipped,
+  };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -1128,7 +1066,7 @@ const PLAN_DECK_PLANTED = [0, 1, 3, 5, 9, 11];
 
 function buildPlanDeck(master: MasterBundle, params: TruthParams): RosterVeteran['deck'] {
   const cards = new Map(master.cards.map((c) => [c.id, c]));
-  const chars = new Set<string>([params.golden.traineeCharacterId as string]);
+  const chars = new Set<string>([params.golden.traineeCharacterId]);
   return PLAN_DECK_PLANTED.map((idx, i) => {
     const pc = params.trainingModel.plantedCards[idx]!;
     const c = cards.get(pc.cardId)!;
@@ -1145,6 +1083,40 @@ function holdoutSplit(eligibleIds: string[]) {
   shuffle(mulberry32(HOLDOUT_SEED), ids);
   const n = Math.ceil(ids.length * HOLDOUT_FRACTION);
   return { holdoutIds: ids.slice(0, n).sort(), trainIds: ids.slice(n).sort() };
+}
+
+/** Coverage band of 50 §9 / 70 §3 F08. */
+const COVERAGE_BAND: [number, number] = [0.72, 0.88];
+
+/**
+ * S3: 80% holdout interval coverage of the test-only 50 §4 diagnostic fit
+ * (test/golden/t06-diagnostic.ts) on the stored split. Uses only T06-available data (no latent).
+ */
+function coverageDiagnostic(
+  master: MasterBundle,
+  params: TruthParams,
+  roster: RosterVeteran[],
+  trainIds: string[],
+  holdoutIds: string[],
+): GoldenTruth['holdout']['coverageDiagnostic'] {
+  const ctx = loadGoldenContext(master, params);
+  const d = buildDesign(ctx, master, roster, trainIds, holdoutIds);
+  const train = d.rows.slice(0, trainIds.length);
+  const hold = d.rows.slice(trainIds.length);
+  const lambdas = STAT_ORDER.map((_, k) => chooseLambda(d, train, k));
+  const c = holdoutCoverage(d, train, hold, lambdas);
+  const ess = effectiveSampleSize(recencyWeights(train));
+  const pooled = r6(c.pooled);
+  return {
+    definition: `Pooled over the 5 stats: the share of the ${c.cells} (holdout row, stat) cells whose y = finalStat − E[inheritance | recorded lineage] lies inside prediction ± z0.9 · sqrt(σ̂²_k (1 + v)), from a per-stat weighted ridge fit on the ${trainIds.length} train rows with 50 §4 features (scenario×mode, growth, card id and type × (1 + lb/4)), recency weights 0.5^(age/60) (ESS ${ess.toFixed(1)}), λ (id/base) chosen per stat by seeded 5-fold CV on {0.1,1,10,100}×{0.1,1,10}: ${lambdas.map((l) => `${l.lambdaId}/${l.lambdaBase}`).join(', ')}. σ̂²_k = Σw r²/Σw(1−h) on train residuals; v = the sandwich variance factor of the prediction. Code: packages/engine/test/golden/t06-diagnostic.ts (test-only, not T06).`,
+    pooled,
+    perStat: obj(c.perStat.map(r6)),
+    cells: c.cells,
+    band: COVERAGE_BAND,
+    margin: `pooled ${pooled.toFixed(3)}: ${(pooled - COVERAGE_BAND[0]).toFixed(3)} above 0.72 and ${(COVERAGE_BAND[1] - pooled).toFixed(3)} below 0.88; binomial sd at n=${c.cells} cells ≈ ${Math.sqrt((0.8 * 0.2) / c.cells).toFixed(3)} (larger in practice: the 5 stats of a row are correlated), per stat at n=${hold.length} ≈ ${Math.sqrt((0.8 * 0.2) / hold.length).toFixed(3)}.`,
+    limitations:
+      'Per-stat coverage at n=48 has a sampling sd ≈ 0.058, so a per-stat 0.72–0.88 check is not robust; T06 should report the pooled figure. The interval uses one homoscedastic σ̂² per stat (noise + inheritance-sampling deviation together) from the train residuals. 50 §4 defines residualCov from the holdout residuals and 50 §7 adds Var[inh] on top; that would double count the inheritance variance and use the holdout to calibrate itself, so T06 coverage may differ from this diagnostic. The planted MVN covariance is not used.',
+  };
 }
 
 function sortKeys(x: unknown): unknown {
@@ -1180,10 +1152,11 @@ export async function generateGolden(master: MasterBundle): Promise<Record<strin
 
   const roles = base.goldenInfo.roles as Record<Role, string>;
   const byId = new Map(base.roster.map((v) => [v.id, v]));
-  const best = [roles.best1, roles.best2];
-  const trap = [roles.trap1, roles.trap2];
+  const best: [string, string] = [roles.best1, roles.best2];
+  const trap: [string, string] = [roles.trap1, roles.trap2];
   const planDeck = buildPlanDeck(master, params);
-  const { holdoutIds, trainIds } = holdoutSplit(base.rosterInfo.trainingEligibleIds as string[]);
+  const { holdoutIds, trainIds } = holdoutSplit(base.rosterInfo.trainingEligibleIds);
+  const coverage = coverageDiagnostic(master, params, base.roster, trainIds, holdoutIds);
 
   const files: Record<string, string> = {};
   const p = (name: string) => join(GOLDEN_DIR, name);
@@ -1191,8 +1164,17 @@ export async function generateGolden(master: MasterBundle): Promise<Record<strin
   files[FILES.calibration] = await serialize(calib.roster, p(FILES.calibration));
   files[FILES.targets] = await serialize(targets, p(FILES.targets));
 
+  const statValues = base.roster.flatMap((v) => STAT_ORDER.map((k) => v.stats[k]));
   const truth: GoldenTruth = {
     ...params,
+    trainingModel: {
+      ...params.trainingModel,
+      clipping: {
+        exercised: base.clipped + calib.clipped > 0,
+        observedStatRange: [Math.min(...statValues), Math.max(...statValues)],
+        note: `N2: unclipped sums range ${base.rawRange[0]}..${base.rawRange[1]} (roster.json; ${base.clipped} clipped cells, ${calib.clipped} in the ×1.3 variant) against statCap ${[...new Set(Object.values(params.trainingModel.statCap))].join('/')}, so the clip to [1, statCap] is documented but NOT exercised by the golden data. Clipping must be tested separately (70 §3 F09, T06).`,
+      },
+    },
     sparks: base.sparkInfo,
     deckModel: base.deckInfo,
     roster: base.rosterInfo,
@@ -1206,12 +1188,12 @@ export async function generateGolden(master: MasterBundle): Promise<Record<strin
         'skill:restraint (normal, gameId 202161) has exactly one spark (spark:restraint), is not in any card hint/event list, not innate or unique for any outfit, and not hinted by any race spark in rules.json. In the roster its only sources are the planted best parent 1 (self 3★) and that veteran’s guest parent 1 (2★).',
       bestPair: {
         parents: best,
-        characters: best.map((id) => byId.get(id)!.characterId),
+        characters: [byId.get(best[0])!.characterId, byId.get(best[1])!.characterId],
         why: 'best1: self 2★ blue speed, 2★ pink turf, 3★ white X; guest parent 1 with 2★ white X. best2: self 3★ blue stamina, 3★ pink medium; both guest parents 2★ blue stamina + 3★ pink medium. They are the two characters with the highest affinity2 with the trainee character. Only pairs containing best1 can hint X; only best2 brings 3★ medium pinks (every other medium pink is 1★).',
       },
       trapPair: {
         parents: trap,
-        characters: trap.map((id) => byId.get(id)!.characterId),
+        characters: [byId.get(trap[0])!.characterId, byId.get(trap[1])!.characterId],
         why: 'each trap veteran: self 3★ blue speed and both guest parents 3★ blue speed → 18 combined blue stars over the pair lineage, the unique maximum (every general veteran has ≤ 6: general blue sparks are never 3★; best1/best2 have 6/7). No source of skill X, no medium pink.',
       },
       roles,
@@ -1223,6 +1205,7 @@ export async function generateGolden(master: MasterBundle): Promise<Record<strin
         'trainingEligibleIds sorted ascending, Fisher–Yates shuffle with mulberry32(seed) (engine src/rng.ts), first ceil(20%) = holdout; both lists stored sorted.',
       holdoutIds,
       trainIds,
+      coverageDiagnostic: coverage,
     },
     calibration: {
       file: FILES.calibration,
@@ -1243,6 +1226,9 @@ export async function generateGolden(master: MasterBundle): Promise<Record<strin
       latent: calib.latent,
     },
     latent: base.latent,
+    webFixtures: {
+      note: 'S4/N3. apps/web/fixtures/{roster,cm-targets,golden-truth}.json are byte-identical copies named for the web fixture URL mapping (/api/v1/<x> -> /fixtures/<x>.json). golden-truth.json is intended metadata for a future fixture-mode planner (it carries the synthetic inheritance inputs that loadGoldenContext needs) and is NOT consumed by the web client today. apps/web/fixtures/ is currently outside Vite publicDir and is not served (T13/T02 follow-up). A fixture-mode planner must build its context with loadGoldenContext(master, truth) from packages/engine/scripts/golden-context.ts: the published rules (blueStatGain 0, inheritanceTurns []) do not reproduce the golden best pair.',
+    },
     files: {
       [FILES.roster]: sha256(files[FILES.roster]!),
       [FILES.targets]: sha256(files[FILES.targets]!),

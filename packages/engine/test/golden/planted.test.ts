@@ -10,9 +10,21 @@ import { describe, expect, it } from 'vitest';
 import { APT_KEYS, GRADES, STAT_KEYS } from '@uma/schema';
 import type { Grade, RosterVeteran, StatKey } from '@uma/schema';
 import { expectationFromPlan, legacyFromVeteran, planInheritance } from '../../src/index.ts';
-import type { InheritanceResult, Legacy } from '../../src/index.ts';
-import { loadGoldenContext } from '../../scripts/golden.ts';
+import type { InheritanceResult } from '../../src/index.ts';
+import { loadGoldenContext } from '../../scripts/golden-context.ts';
 import { calibrationRoster, master, roster, targets, truth } from './load.ts';
+import {
+  buildDesign,
+  chooseLambda,
+  effectiveCardEffect,
+  effectiveSampleSize,
+  holdoutCoverage,
+  LAMBDA_BASE_GRID,
+  LAMBDA_ID_GRID,
+  recencyWeights,
+  recordedLegacy as recordedLineage,
+  ridge,
+} from './t06-diagnostic.ts';
 
 const tm = truth.trainingModel;
 const g = truth.golden;
@@ -23,19 +35,7 @@ const unread = new Map(truth.roster.unreadParentSparks.map((u) => [u.id, u.owner
 const statIdx = (k: StatKey) => STAT_KEYS.indexOf(k);
 
 /** The lineage recorded on a veteran, as the engine consumes it (matched -> roster record). */
-function recordedLegacy(v: RosterVeteran, slot: 1 | 2): Legacy {
-  const p = v.parents.find((x) => x.slot === slot)!;
-  if (p.matchedVeteranId) return legacyFromVeteran(byId.get(p.matchedVeteranId)!);
-  const owner = slot === 1 ? 'parent1' : 'parent2';
-  return {
-    veteranId: null,
-    characterId: p.characterId,
-    sparks: v.sparks
-      .filter((s) => s.owner === owner)
-      .map((s) => ({ sparkId: s.sparkId, type: s.type, stars: s.stars })),
-    grandparents: [null, null],
-  };
-}
+const recordedLegacy = (v: RosterVeteran, slot: 1 | 2) => recordedLineage(v, slot, byId);
 
 const pairExpectation = (a: RosterVeteran, b: RosterVeteran): InheritanceResult =>
   expectationFromPlan(
@@ -342,43 +342,6 @@ describe('training model: truth.json explains every roster stat', () => {
     expect([...lbs].sort()).toEqual([0, 1, 2, 3, 4]);
   });
 
-  it('OLS on the roster recovers every planted card effect within ±15% (identifiable)', () => {
-    // Independent re-fit: y = stat − true latent inheritance; features = intercept, scenario and
-    // mode dummies, own-stat growth %, and one (1 + lb/4) unit feature per pool card.
-    const pool = [...tm.plantedCards.map((c) => c.cardId), ...tm.zeroEffectCards];
-    const scenarios = Object.keys(tm.scenarioIntercept).sort();
-    for (const k of STAT_KEYS) {
-      const i = statIdx(k);
-      const X: number[][] = [];
-      const y: number[] = [];
-      for (const v of roster) {
-        const outfit = master.outfits.find((o) => o.id === v.outfitId)!;
-        const units = pool.map((id) => {
-          const d = v.deck.find((s) => s.cardId === id);
-          return d ? 1 + d.lb / 4 : 0;
-        });
-        X.push([
-          1,
-          ...scenarios.slice(1).map((s) => (v.scenarioId === s ? 1 : 0)),
-          v.trainMode === 'independent' ? 1 : 0,
-          outfit.growth[k],
-          ...units,
-        ]);
-        y.push(v.stats[k] - truth.latent[v.id]!.inheritance[i]!);
-      }
-      const beta = ols(X, y);
-      const off = 1 + (scenarios.length - 1) + 1 + 1;
-      tm.plantedCards.forEach((c, j) => {
-        const want = c.perUnit[k];
-        const got = beta[off + j]!;
-        if (want !== 0) expect(Math.abs(got - want) / want).toBeLessThan(0.15);
-        else expect(Math.abs(got)).toBeLessThan(4);
-      });
-      tm.zeroEffectCards.forEach((_, j) => expect(Math.abs(beta[off + 12 + j]!)).toBeLessThan(4));
-      expect(beta[off - 2]).toBeCloseTo(tm.modeIntercept.independent[k], -1);
-    }
-  });
-
   it('residual noise sample covariance matches the planted MVN covariance', () => {
     const n = roster.length;
     const z = roster.map((v) => truth.latent[v.id]!.noise);
@@ -583,7 +546,10 @@ describe('training-row realism (50 §4 inputs)', () => {
     expect(new Set([...h.holdoutIds, ...h.trainIds]).size).toBe(eligible.length);
     const dates = roster.map((v) => v.career.dateAcquired).sort();
     const spanDays = (Date.parse(dates.at(-1)!) - Date.parse(dates[0]!)) / 86_400_000;
-    expect(spanDays).toBeGreaterThan(300);
+    // B1: 60–90 days, so the 60-day recency half-life keeps most of the train rows' weight.
+    expect(spanDays).toBeGreaterThanOrEqual(60);
+    expect(spanDays).toBeLessThanOrEqual(90);
+    expect(truth.roster.dateAcquiredRange).toEqual([dates[0], dates.at(-1)]);
     for (const v of roster) {
       expect(v.capturedAt.slice(0, 10) >= v.career.dateAcquired).toBe(true);
       expect(v.capturedAt < truth.meta.generatedAt).toBe(true);
@@ -592,28 +558,183 @@ describe('training-row realism (50 §4 inputs)', () => {
   });
 });
 
-/** Ordinary least squares via the normal equations and Gauss–Jordan with partial pivoting. */
-function ols(X: number[][], y: number[]): number[] {
-  const p = X[0]!.length;
-  const A = Array.from({ length: p }, () => new Array<number>(p + 1).fill(0));
-  X.forEach((row, n) => {
-    for (let i = 0; i < p; i++) {
-      for (let j = 0; j < p; j++) A[i]![j]! += row[i]! * row[j]!;
-      A[i]![p]! += row[i]! * y[n]!;
-    }
+// ------------------------------------------------------------------------------------------------
+// B1 / S3: what T06 can recover with ONLY the data it will have (no truth.latent, no holdout).
+// ------------------------------------------------------------------------------------------------
+describe('50 §4 recoverability with T06-available data only (test-only diagnostic fit)', () => {
+  // The context is rebuilt from the synthetic inheritance inputs alone: no latent field reaches
+  // the design (y = finalStat − E[inheritance | recorded lineage]).
+  const ctxNoLatent = loadGoldenContext(master, {
+    syntheticInheritance: structuredClone(truth.syntheticInheritance),
   });
-  for (let c = 0; c < p; c++) {
-    let piv = c;
-    for (let r = c + 1; r < p; r++) if (Math.abs(A[r]![c]!) > Math.abs(A[piv]![c]!)) piv = r;
-    [A[c], A[piv]] = [A[piv]!, A[c]!];
-    const d = A[c]![c]!;
-    if (Math.abs(d) < 1e-9) throw new Error('ols: singular design');
-    for (let j = c; j <= p; j++) A[c]![j]! /= d;
-    for (let r = 0; r < p; r++) {
-      if (r === c) continue;
-      const f = A[r]![c]!;
-      for (let j = c; j <= p; j++) A[r]![j]! -= f * A[c]![j]!;
-    }
+  const h = truth.holdout;
+  const design = buildDesign(ctxNoLatent, master, roster, h.trainIds, h.holdoutIds);
+  const train = design.rows.slice(0, h.trainIds.length);
+  const hold = design.rows.slice(h.trainIds.length);
+  const w = recencyWeights(train);
+  const cardType = new Map(master.cards.map((c) => [c.id, c.type]));
+
+  /** Worst relative error of β_id + β_type over every planted (card, stat ≠ 0). */
+  function recovery(lambdas: readonly { lambdaId: number; lambdaBase: number }[]) {
+    let worst = 0;
+    let worstZero = 0;
+    const fails: string[] = [];
+    STAT_KEYS.forEach((k, s) => {
+      const fit = ridge(design, train, w, s, lambdas[s]!.lambdaId, lambdas[s]!.lambdaBase);
+      for (const c of tm.plantedCards) {
+        const want = c.perUnit[k];
+        if (want === 0) continue;
+        const got = effectiveCardEffect(design, fit.beta, c.cardId, c.type);
+        const err = Math.abs(got - want) / want;
+        worst = Math.max(worst, err);
+        if (err >= 0.15) fails.push(`${c.cardId}.${k} ${want} -> ${got.toFixed(2)}`);
+      }
+      for (const id of tm.zeroEffectCards)
+        worstZero = Math.max(
+          worstZero,
+          Math.abs(effectiveCardEffect(design, fit.beta, id, cardType.get(id)!)),
+        );
+    });
+    return { worst, worstZero, fails };
   }
-  return A.map((row) => row[p]!);
-}
+
+  it('uses only eligible train rows; the stored split is disjoint from the fit', () => {
+    expect(train).toHaveLength(192);
+    expect(hold).toHaveLength(48);
+    const eligible = new Set(truth.roster.trainingEligibleIds);
+    for (const r of train) expect(eligible.has(r.id)).toBe(true);
+    const low = new Set(truth.roster.lowConfidenceIds);
+    for (const r of design.rows) expect(low.has(r.id)).toBe(false);
+    expect(new Set(h.holdoutIds).has(train[0]!.id)).toBe(false);
+    // Recency (50 §4, half-life 60 days): the dataset keeps an effective sample of most rows.
+    expect(effectiveSampleSize(w)).toBeGreaterThan(160);
+  });
+
+  it('the type feature is the sum of its id features: only β_id + β_type is identified (Q-122)', () => {
+    const typeCol = (t: string) => design.names.indexOf(`type:${t}`);
+    for (const r of train) {
+      const sums = new Map<string, number>();
+      design.names.forEach((n, i) => {
+        if (!n.startsWith('card:')) return;
+        const t = cardType.get(n.slice('card:'.length))!;
+        sums.set(t, (sums.get(t) ?? 0) + r.x[i]!);
+      });
+      for (const [t, v] of sums) expect(r.x[typeCol(t)]).toBeCloseTo(v, 12);
+    }
+    // Every type has ≥ 2 cards in the pool, so no type feature equals a single card id.
+    const perType = new Map<string, number>();
+    for (const id of [...tm.plantedCards.map((c) => c.cardId), ...tm.zeroEffectCards])
+      perType.set(cardType.get(id)!, (perType.get(cardType.get(id)!) ?? 0) + 1);
+    for (const n of perType.values()) expect(n).toBeGreaterThanOrEqual(2);
+  });
+
+  it.each([
+    [0.1, 0.1],
+    [0.1, 1],
+    [1, 0.1],
+    [1, 1],
+  ])('λ_id=%s λ_base=%s recovers all 12 planted effects within ±15% with margin', (li, lb) => {
+    const r = recovery(STAT_KEYS.map(() => ({ lambdaId: li, lambdaBase: lb })));
+    expect(r.fails).toEqual([]);
+    // Margin: the worst relative error stays well inside the ±15% acceptance.
+    expect(r.worst).toBeLessThan(0.1);
+    // Zero-effect cards stay near 0 (smallest planted effect is 40 per unit).
+    expect(r.worstZero).toBeLessThan(8);
+  });
+
+  it('the 5-fold CV grid {0.1,1,10,100}×{0.1,1,10} picks λ that recovers every effect', () => {
+    const chosen = STAT_KEYS.map((_, s) => chooseLambda(design, train, s));
+    for (const c of chosen) {
+      expect(Object.keys(c.grid)).toHaveLength(LAMBDA_ID_GRID.length * LAMBDA_BASE_GRID.length);
+      expect(c.lambdaId).toBeLessThanOrEqual(1);
+    }
+    const r = recovery(chosen);
+    expect(r.fails).toEqual([]);
+    expect(r.worst).toBeLessThan(0.1);
+  });
+
+  it('S3: holdout 80% interval coverage (pooled) is inside 0.72–0.88 and matches truth.json', () => {
+    const lambdas = STAT_KEYS.map((_, s) => chooseLambda(design, train, s));
+    const c = holdoutCoverage(design, train, hold, lambdas);
+    const rec = truth.holdout.coverageDiagnostic;
+    expect(c.cells).toBe(240);
+    expect(c.pooled).toBeCloseTo(rec.pooled, 6);
+    STAT_KEYS.forEach((k, s) => expect(c.perStat[s]).toBeCloseTo(rec.perStat[k], 6));
+    expect(c.pooled).toBeGreaterThanOrEqual(0.72);
+    expect(c.pooled).toBeLessThanOrEqual(0.88);
+    expect(rec.band).toEqual([0.72, 0.88]);
+  });
+});
+
+// ------------------------------------------------------------------------------------------------
+// S2: the observable hinted-skill estimand differs from the latent conditional rates.
+// ------------------------------------------------------------------------------------------------
+describe('skill estimand: observable (50 §4) hinted vs latent activation-conditional rates', () => {
+  it('lineage-hinted rows are acquired at rates × P(hint), not at rates', () => {
+    const cards = new Map(master.cards.map((c) => [c.id, c]));
+    const eligible = roster.filter((v) => v.minConfidence >= 0.9);
+    let observableHinted = 0;
+    let latentHinted = 0;
+    const exp = { got: 0, mixture: 0, varMixture: 0, naive: 0 };
+    for (const v of eligible) {
+      const outfit = master.outfits.find((o) => o.id === v.outfitId)!;
+      const sure = new Set(outfit.innateSkillIds);
+      for (const d of v.deck)
+        for (const s of [
+          ...cards.get(d.cardId)!.hintSkillIds,
+          ...cards.get(d.cardId)!.eventSkillIds,
+        ])
+          sure.add(s);
+      sure.delete(outfit.uniqueSkillId);
+      const e = expectationFromPlan(
+        planInheritance(
+          ctx,
+          v.outfitId,
+          [recordedLegacy(v, 1), recordedLegacy(v, 2)],
+          v.scenarioId,
+        ),
+      );
+      const observable = new Set([...sure, ...Object.keys(e.skillHintProb)]);
+      observable.delete(outfit.uniqueSkillId);
+      const latent = new Set([...sure, ...truth.latent[v.id]!.inheritanceHints]);
+      latent.delete(outfit.uniqueSkillId);
+      for (const s of latent) expect(observable.has(s)).toBe(true);
+      observableHinted += observable.size;
+      latentHinted += latent.size;
+      const acquired = new Set(v.skills.filter((s) => s.level === null).map((s) => s.skillId));
+      for (const s of observable) {
+        const rate = truth.skills.rates[v.trainMode][s]!;
+        const pHint = sure.has(s) ? 1 : (e.skillHintProb[s] ?? 0);
+        const p = rate * pHint;
+        exp.mixture += p;
+        exp.varMixture += p * (1 - p);
+        exp.naive += rate;
+        if (acquired.has(s)) exp.got++;
+      }
+    }
+    // The observable hinted set strictly contains the latent one.
+    expect(observableHinted).toBeGreaterThan(latentHinted);
+    // Observed acquisitions match the documented estimand rates × P(hint | recorded lineage)...
+    const sd = Math.sqrt(exp.varMixture);
+    expect(Math.abs(exp.got - exp.mixture)).toBeLessThan(4 * sd);
+    // ...and are clearly below Σ rates over the observable hinted set, so Beta means ≠ rates.
+    expect(exp.naive - exp.got).toBeGreaterThan(6 * sd);
+    expect(truth.skills.observableEstimand).toMatch(/must NOT be compared with `rates`/);
+  });
+});
+
+describe('documentation fields (N2, S4/N3)', () => {
+  it('clipping is recorded as not exercised, consistent with the roster', () => {
+    const vals = roster.flatMap((v) => STAT_KEYS.map((k) => v.stats[k]));
+    const cap = Math.min(...Object.values(tm.statCap));
+    expect(tm.clipping.exercised).toBe(false);
+    expect(tm.clipping.observedStatRange).toEqual([Math.min(...vals), Math.max(...vals)]);
+    expect(Math.max(...vals)).toBeLessThan(cap);
+    expect(Math.min(...vals)).toBeGreaterThan(1);
+  });
+
+  it('web fixture copies are documented as future fixture-planner metadata', () => {
+    expect(truth.webFixtures.note).toMatch(/NOT consumed by the web client/);
+    expect(truth.webFixtures.note).toMatch(/loadGoldenContext/);
+  });
+});

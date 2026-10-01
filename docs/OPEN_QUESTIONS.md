@@ -98,6 +98,10 @@ Blocking: no
 Context: 70 §2 calls the target `golden-cm-1`, but 01 §10/§1 make `CmTarget.id` a ULID (user data).
 Assumption taken: `targets.json[0].id` is the fixed ULID `01KGQZ0000G01DENCM00000001`, `name` is `golden-cm-1`, and `truth.json.golden.{targetId,targetName}` link the two. Consumers should look the target up by name.
 Blocking: no
+## Q-122 (T08) What "recovers the planted card effects within ±15%" means under card id + type pooling
+Context: 50 §4 gives every deck card an id feature and a type-pool feature, both `(1 + lb/4)`. Each type feature is exactly the sum of the id features of that type, so the design is rank-deficient: β_id[card] and β_type[type] are not separately identified, and only the ridge penalties decide how a card's effect is split between them. 50 §9 does not say which coefficient must be within ±15% of the planted effect.
+Assumption taken: the estimand is the card's effective contribution per unit of `(1 + lb/4)`, which is β_id[card] + β_type[type(card)] (the quantity that enters every prediction). It must be within ±15% of the planted `perUnit` for every planted card and every stat with a non-zero effect. The golden data plants no type-level effect, so `perUnit` is also the true effective contribution. No oracle adjustment is applied. `truth.trainingModel.cardEffectEstimand` records this, and `packages/engine/test/golden/planted.test.ts` checks it with a test-only 50 §4 fit (train split only, E[inheritance] from the recorded lineage, recency weights, grouped ridge). The data contracts are unchanged.
+Blocking: no
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

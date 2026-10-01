@@ -2,8 +2,8 @@
  * T08 golden dataset: schema validity, determinism, byte-identical web fixture copies, sizes.
  */
 import { createHash } from 'node:crypto';
-import { lstatSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { lstatSync, readFileSync, statSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { checkMasterIds, fingerprint, RosterVeteran } from '@uma/schema';
 import { FILES, FIXTURE_FILES, generateGolden } from '../../scripts/golden.ts';
@@ -122,5 +122,47 @@ describe('apps/web/fixtures copies', () => {
     for (const copy of Object.values(FIXTURE_FILES))
       total += statSync(join(WEB_FIXTURES_DIR, copy)).size;
     expect(total).toBeLessThan(5 * 1024 * 1024);
+  });
+});
+
+describe('golden-context.ts is browser-safe (S1)', () => {
+  /** Runtime (non-type) import specifiers of a TS file; `import type` / `export type` are erased. */
+  function runtimeImports(file: string): string[] {
+    const src = readFileSync(file, 'utf8');
+    const out: string[] = [];
+    const re = /^\s*(import|export)\s+(?!type\b)[^;]*?from\s+'([^']+)'/gms;
+    for (const m of src.matchAll(re)) out.push(m[2]!);
+    for (const m of src.matchAll(/^\s*import\s+'([^']+)'/gm)) out.push(m[1]!);
+    for (const m of src.matchAll(/\bimport\(\s*'([^']+)'\s*\)/g)) out.push(m[1]!);
+    return out;
+  }
+  const workspace: Record<string, string> = {
+    '@uma/schema': join(import.meta.dirname, '../../../schema/src/index.ts'),
+  };
+
+  it('its runtime import graph has no node:*, prettier, published-bundle or generator I/O', () => {
+    const start = resolve(import.meta.dirname, '../../scripts/golden-context.ts');
+    const seen = new Set<string>();
+    const bare = new Set<string>();
+    const stack = [start];
+    while (stack.length > 0) {
+      const f = stack.pop()!;
+      if (seen.has(f)) continue;
+      seen.add(f);
+      for (const spec of runtimeImports(f)) {
+        if (spec.startsWith('.')) stack.push(resolve(dirname(f), spec));
+        else if (workspace[spec]) stack.push(workspace[spec]);
+        else bare.add(spec);
+      }
+    }
+    const files = [...seen].map((f) => f.replace(/\\/g, '/'));
+    expect(files.some((f) => f.endsWith('/engine/src/index.ts'))).toBe(true);
+    for (const f of files) {
+      expect(f).not.toMatch(/scripts\/(golden|published-bundle|smoke)\.ts$/);
+      expect(f).not.toMatch(/\/test\//);
+    }
+    expect([...bare].sort()).toEqual(['zod']);
+    for (const f of seen)
+      expect(readFileSync(f, 'utf8')).not.toMatch(/from 'node:|from 'prettier'/);
   });
 });
