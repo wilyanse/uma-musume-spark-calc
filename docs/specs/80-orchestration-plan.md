@@ -167,7 +167,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T08 | In progress (Opus medium) | task/T08-golden-dataset | T08-golden-dataset.md | Pending |
+| T08 | Gate A passed; independent review r1 (Opus medium) | task/T08-golden-dataset | T08-golden-dataset.md | Pending; reviewed candidate 84c64be |
 | T09 | Continuing incomplete implementation (Opus medium); partial work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: 11 helper tests pass with runtime roll-forward; parser/assembly/fixture acceptance missing |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
