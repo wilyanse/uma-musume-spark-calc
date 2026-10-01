@@ -4,6 +4,7 @@
 - **Branch:** task/T04b-api-consistency
 - **Initial implementation attribution:** recorded as `gpt-5.6-luna-900k` in the prior changelog; the initial requested model and whether fallback selected it are not independently verified here. The preceding Opus retry exhausted HTTP 429 retries without completing this fix.
 - **Review round 1 fix launch:** requested `gpt-6-sol` / `openai-codex`, medium reasoning, profile fallback disabled (explicit orchestrator retry). This is separate from the initial implementation attribution.
+- **Review round 2 fixes:** made directly by the orchestrator (Hermes) after the second independent review, per 85 §2 after two rounds.
 - **Date:** 2026-09-30
 
 ## Summary
@@ -13,7 +14,12 @@ Resolve now rewrites fields consistently, remaps index-based spark review paths 
 
 ## Files
 Created:
-- `apps/api/migrations/0003_write_guard.sql` — transactional optimistic-write guard view/trigger.
+- `apps/api/migrations/0003_write_guard.sql` — transactional optimistic-write guard view/trigger and internal `review_items.retired` marker.
+- `apps/api/test/review-races.test.ts` — controlled D1 batch race matrix.
+- `apps/api/test/review-remap.test.ts` — owner-block shrink/grow, remap SQL and reorder coverage.
+- `apps/api/test/review-identity.test.ts` — spark-label correction and duplicate rejection.
+- `apps/api/test/slot-order.test.ts` — deck/parent slot-order validation.
+- `apps/api/test/skill-reorder.test.ts` — skill reorder history retirement.
 
 Modified:
 - `apps/api/src/app.ts` — schema version 3.
@@ -22,6 +28,7 @@ Modified:
 - `apps/api/src/routes/reviews.ts` — guarded resolve, stale 409 handling, field/path consistency and spark-index remapping.
 - `apps/api/src/routes/veterans.ts` — accurate statement-budget comment, monotonic PATCH timestamps, upsert mode naming.
 - `apps/api/test/ingest.test.ts` — non-tautological concurrent response assertions.
+- `apps/api/test/helpers/harness.ts` — `barrierEnv` for deterministic batch-level races.
 - `apps/api/test/review.test.ts` — coordinated resolve race, provenance-path coverage, and corrected spark-owner assertions.
 - `docs/OPEN_QUESTIONS.md` — Q-110 API/schema validation parity gap for T09.
 
@@ -35,6 +42,8 @@ Modified:
 
 ## Deviations from spec
 - 01 §3's shared pointer schema remains syntactic; API correctability is intentionally enforced at ingest only for low-confidence fields, as required by the review finding and recorded in Q-110.
+- 01 §3 does not require `deck`/`parents` array order. The API now requires `slot == index + 1`, because index-based review paths and slot-ordered D1 reloads must address the same element (Q-110).
+- 01 §9 lists review items joined with current fields. Retired items whose target spark/skill was removed or replaced remain in D1 but are omitted from every GET, including `?status=resolved` and `?status=dismissed`; there is no historical field snapshot to join safely. T13 cannot show a complete audit history.
 
 ## Cross-task edits
 - None.
@@ -124,4 +133,34 @@ $ git diff --check
 $ cd apps/api && npx wrangler d1 migrations apply uma-spark-calc --local --persist-to /Users/willjose/.hermes/cache/scratch/t04b-r1-d1
 0001_init.sql ✅ (19 commands); 0002_roster_revision.sql ✅ (8 commands); 0003_write_guard.sql ✅ (4 commands)
 ```
-A broad Prettier check including the existing Markdown documents reports style warnings on `docs/OPEN_QUESTIONS.md` and this changelog; the API source/test formatting check is recorded separately below. No workspace build/master-data refresh, push or deploy was run. A second independent review is required before merge.
+No workspace build/master-data refresh, push or deploy was run.
+
+## Review round 2
+Review: `docs/reviews/T04b-review-2.md` (CHANGES_REQUESTED). Fixed directly by the orchestrator.
+- **B1 — fixed.** Only `/sparks/<n>/owner` remains rejected among spark identity leaves. `/sparks/<n>/sparkId` is accepted at ingest and resolve. `review-identity.test.ts` first failed with the reviewer's 422, then passed: a duplicate label gives 422 without changes, a valid correction recomputes the fingerprint, and sibling items stay on spark 25/26. Q-110 is updated for T09.
+- **S1 — fixed.** Ingest and resolve require deck and parents in slot order. `slot-order.test.ts` failed with 201 before the check and passes with 422 now.
+- **S2 — fixed.** The re-ingest identity comparison now covers skill IDs too. `skill-reorder.test.ts` failed with `retired: 0` before the fix and now retires the closed skill item.
+- **S3 — documented** under Deviations.
+- **S4 — fixed.** A stale 409 owner resolve is counted through a real batch barrier. The re-ingest window subqueries run inside D1, not in Worker JavaScript; no Worker CPU measurement is claimed.
+- **N1–N4 — fixed.** Files list updated, the dangling formatting sentence replaced by the verification below, the index SQL shared as `ARRAY_INDEX_SQL`, and the leftover loop variable removed.
+
+Verification (real output, trimmed):
+```
+$ pnpm install --frozen-lockfile && pnpm -r lint && pnpm -r typecheck && pnpm -r test
+packages/schema test: Tests 146 passed (146)
+packages/master-data test: Tests 82 passed (82)
+apps/web test: Tests 5 passed (5)
+apps/api test: Test Files 13 passed (13); Tests 108 passed (108)
+
+$ pnpm --filter api exec vitest run test/ingest.test.ts --reporter=verbose
+statements: create=15 re-ingest=15 roster=6
+statements: resolve(owner+remap)=24 patch=7
+statements: stale resolve=24
+Tests 20 passed (20)
+
+$ pnpm exec prettier --check apps/api && git diff --check
+All matched files use Prettier code style!
+
+$ pnpm --filter api exec wrangler d1 migrations apply uma-spark-calc --local --persist-to <scratch>
+19 / 8 / 4 commands executed successfully; 0001, 0002, 0003 ✅
+```

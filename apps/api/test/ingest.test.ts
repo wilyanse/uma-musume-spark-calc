@@ -8,7 +8,14 @@ import {
   type VeteranCapture,
 } from '@uma/schema';
 import mcqueen from './fixtures/mcqueen.json' with { type: 'json' };
-import { countingEnv, makeCapture, makeHarness, problem, resetDb } from './helpers/harness.ts';
+import {
+  barrierEnv,
+  countingEnv,
+  makeCapture,
+  makeHarness,
+  problem,
+  resetDb,
+} from './helpers/harness.ts';
 
 beforeEach(resetDb);
 
@@ -455,5 +462,47 @@ describe('D1 statement budget (40 §4)', () => {
     expect(resolve).toBeLessThanOrEqual(50);
     expect(patch).toBeGreaterThan(1);
     expect(patch).toBeLessThanOrEqual(50);
+  });
+
+  it('a stale owner resolve that returns 409 also stays ≤ 50 statements (T04b r2 S4)', async () => {
+    const counted = countingEnv(env);
+    const barrier = barrierEnv(counted.env);
+    const h = makeHarness({}, barrier.env);
+    const competitor = makeHarness();
+    const capture = await makeCapture((c) =>
+      c.fields.push({
+        path: '/sparks/parent1',
+        rawText: null,
+        value: null,
+        confidence: 0.2,
+        status: 'low_confidence',
+        candidates: [],
+        cropKey: null,
+      }),
+    );
+    const ingested = IngestResponse.parse(
+      await (await competitor.call('POST', '/veterans', capture)).json(),
+    );
+    barrier.on('before', 'review_items', async () => {
+      expect(
+        (await competitor.call('PATCH', `/veterans/${ingested.veteranId}`, { trainMode: 'manual' }))
+          .status,
+      ).toBe(200);
+    });
+    counted.reset();
+    await problem(
+      await h.call('POST', `/review-items/${ingested.reviewItemIds![0]}/resolve`, {
+        value: [
+          { sparkId: 'spark:power', type: 'blue', stars: 1 },
+          { sparkId: 'spark:medium', type: 'pink', stars: 1 },
+        ],
+      }),
+      409,
+    );
+    const stale = counted.count();
+    console.log(`statements: stale resolve=${stale}`);
+    expect(barrier.fired()).toBe(1);
+    expect(stale).toBeGreaterThan(15);
+    expect(stale).toBeLessThanOrEqual(50);
   });
 });

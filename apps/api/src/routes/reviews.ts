@@ -11,7 +11,7 @@ import {
   type ReviewItem,
 } from '@uma/schema';
 import { ApiError, validationError, zodProblems } from '../problem.ts';
-import { OWNER_PSEUDO, correctionTarget, extraVeteranChecks } from '../checks.ts';
+import { ARRAY_INDEX_SQL, OWNER_PSEUDO, correctionTarget, extraVeteranChecks } from '../checks.ts';
 import { nowIso, parseBody, parseQuery, type AppEnv } from '../http.ts';
 import {
   deriveTrainMode,
@@ -98,8 +98,7 @@ function remapSparkPath(path: string, map: number[]): string | null | undefined 
  *   the owner's whole list was just corrected, which supersedes it.
  * ?1 veteran id, ?2 JSON index map (old index → new index or -1), ?3 now.
  */
-const idx = `(CASE WHEN instr(substr(path, 9), '/') > 0
-                THEN substr(path, 9, instr(substr(path, 9), '/') - 1) ELSE substr(path, 9) END)`;
+const idx = ARRAY_INDEX_SQL;
 const to = `COALESCE(json_extract(?2, '$[' || CAST(${idx} AS INTEGER) || ']'), -1)`;
 export const REMAP_REVIEW_PATHS_SQL = `UPDATE review_items SET
     path = CASE WHEN ${to} < 0 THEN path ELSE '/sparks/' || ${to} || substr(path, 9 + length(${idx})) END,

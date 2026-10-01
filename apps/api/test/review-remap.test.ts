@@ -148,10 +148,9 @@ describe('/sparks/<owner> corrections remap index-based review paths (B2)', () =
       });
       // After the block: moved by `delta`, still open and still the same parent2 spark.
       for (const old of [19, 25, 33]) {
-        const leaf = 'stars';
-        const row = rows[byPath[`/sparks/${old}/${leaf}`]!.id]!;
+        const row = rows[byPath[`/sparks/${old}/stars`]!.id]!;
         expect(row).toMatchObject({
-          path: `/sparks/${old + delta}/${leaf}`,
+          path: `/sparks/${old + delta}/stars`,
           status: 'open',
           retired: 0,
         });
@@ -474,7 +473,7 @@ describe('array-restructuring corrections are refused (S2)', () => {
     '/sparks/3',
     '/sparks/25',
     '/sparks/25/owner',
-    '/sparks/25/sparkId',
+
     '/skills',
     '/skills/2',
     '/deck/0',
@@ -539,7 +538,7 @@ describe('array-restructuring corrections are refused (S2)', () => {
     const { veteranId } = await ingest(h, capture);
     const target = (await listItems(h, 'open'))[0]!;
     // Legacy rows as a pre-rule ingest could have stored them.
-    const legacy = ['/sparks', '/sparks/3', '/sparks/9/owner', '/sparks/9/sparkId', '/skills/2'];
+    const legacy = ['/sparks', '/sparks/3', '/sparks/9/owner', '/skills/2'];
     await env.DB.batch(
       legacy.flatMap((path, i) => [
         env.DB.prepare(
@@ -557,7 +556,7 @@ describe('array-restructuring corrections are refused (S2)', () => {
       '/sparks': capture.veteran.sparks.slice(0, 20),
       '/sparks/3': capture.veteran.sparks[4],
       '/sparks/9/owner': 'parent2',
-      '/sparks/9/sparkId': 'spark:medium',
+
       '/skills/2': capture.veteran.skills[5],
     };
     for (const [i, path] of legacy.entries()) {

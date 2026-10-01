@@ -8,7 +8,7 @@ import {
   type IngestResponse,
 } from '@uma/schema';
 import { ApiError, validationError } from '../problem.ts';
-import { captureFieldChecks, extraVeteranChecks } from '../checks.ts';
+import { ARRAY_INDEX_SQL, captureFieldChecks, extraVeteranChecks } from '../checks.ts';
 import { nowIso, parseBody, type AppEnv } from '../http.ts';
 import {
   ID_BY_FINGERPRINT,
@@ -94,19 +94,24 @@ veterans.post('/veterans', async (c) => {
   // fingerprint inside the same D1 transaction: two identical POSTs racing each other end with one
   // veteran, one set of child rows and one set of review items (T04 review B1).
   const fp = capture.fingerprint; // === the verified fingerprint above
-  // A same-fingerprint re-ingest can reorder sparks (the fingerprint sorts them). Before replacing
-  // the old spark rows, retire index-based review items whose owner/ID at that index changes. The
-  // new low-confidence field gets a new item below; a closed audit item must not join a different
-  // spark's current field. This reuses the existing stale-item UPDATE, preserving 15 statements.
-  const idx = `(CASE WHEN instr(substr(path, 9), '/') > 0
-    THEN substr(path, 9, instr(substr(path, 9), '/') - 1) ELSE substr(path, 9) END)`;
+  // A same-fingerprint re-ingest can reorder sparks (the fingerprint sorts them) or skills (not
+  // fingerprinted). Before replacing child rows, retire index-based review items whose element
+  // identity at that index changes. New low-confidence fields get new items below; closed audit
+  // items must not join another element's current field. This preserves 15 statements.
+  const idx = ARRAY_INDEX_SQL;
   const oldSpark = `(SELECT owner || '|' || spark_id FROM
     (SELECT owner, spark_id, row_number() OVER (ORDER BY rowid) - 1 AS n
      FROM veteran_sparks WHERE veteran_id = ${ID_BY_FINGERPRINT})
     WHERE n = CAST(${idx} AS INTEGER))`;
   const newSpark = `json_extract(?4, '$[' || CAST(${idx} AS INTEGER) || ']')`;
-  const changed = `(path LIKE '/sparks/%' AND ${idx} <> '' AND ${idx} NOT GLOB '*[^0-9]*'
-    AND ${oldSpark} IS NOT ${newSpark})`;
+  const oldSkill = `(SELECT skill_id FROM
+    (SELECT skill_id, row_number() OVER (ORDER BY rowid) - 1 AS n
+     FROM veteran_skills WHERE veteran_id = ${ID_BY_FINGERPRINT})
+    WHERE n = CAST(${idx} AS INTEGER))`;
+  const newSkill = `json_extract(?5, '$[' || CAST(${idx} AS INTEGER) || ']')`;
+  const indexed = `${idx} <> '' AND ${idx} NOT GLOB '*[^0-9]*'`;
+  const changed = `((path LIKE '/sparks/%' AND ${indexed} AND ${oldSpark} IS NOT ${newSpark})
+    OR (path LIKE '/skills/%' AND ${indexed} AND ${oldSkill} IS NOT ${newSkill}))`;
   const stale = `(path NOT IN (SELECT value FROM json_each(?2)) OR ${changed})`;
   const dismissStale = db
     .prepare(
@@ -121,6 +126,7 @@ veterans.post('/veterans', async (c) => {
       JSON.stringify(lowPaths),
       now,
       JSON.stringify(veteran.sparks.map((s) => `${s.owner}|${s.sparkId}`)),
+      JSON.stringify(veteran.skills.map((s) => s.skillId)),
     );
   const writes = writeVeteranStatements(
     db,
