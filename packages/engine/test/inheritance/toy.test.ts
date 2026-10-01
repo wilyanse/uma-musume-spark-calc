@@ -88,8 +88,13 @@ describe('T05 synthetic inheritance mechanics (hand-computed)', () => {
   });
 
   it('a grandparent blue spark rolls but gets no initial bonus', () => {
-    const gp = { characterId: c('d'), sparks: [{ sparkId: 'spark:spd', type: 'blue' as const, stars: 3 as const }] };
-    const r = expectationFromPlan(planInheritance(ctx, TRAINEE, [legacy('b', [], [gp, null]), legacy('c')], SCENARIO));
+    const gp = {
+      characterId: c('d'),
+      sparks: [{ sparkId: 'spark:spd', type: 'blue' as const, stars: 3 as const }],
+    };
+    const r = expectationFromPlan(
+      planInheritance(ctx, TRAINEE, [legacy('b', [], [gp, null]), legacy('c')], SCENARIO),
+    );
     // aff(a,b,d) = g2 = 3; p = 0.7 × 0.8 × 1.03 = 0.5768; 2 × 0.5768 × 12 = 13.8432
     expect(r.initialStatBonus).toEqual([0, 0, 0, 0, 0]);
     expectVectorClose(r.expectedStatGain, [13.8432, 0, 0, 0, 0]);
@@ -97,7 +102,11 @@ describe('T05 synthetic inheritance mechanics (hand-computed)', () => {
   });
 
   it('rejects illegal pairs before scoring', () => {
-    expect(checkLegality(c('a'), { characterId: c('a') }, { characterId: c('b') }).legal).toBe(false);
-    expect(() => planInheritance(ctx, TRAINEE, [legacy('b'), legacy('b')], SCENARIO)).toThrow(IllegalPairError);
+    expect(checkLegality(c('a'), { characterId: c('a') }, { characterId: c('b') }).legal).toBe(
+      false,
+    );
+    expect(() => planInheritance(ctx, TRAINEE, [legacy('b'), legacy('b')], SCENARIO)).toThrow(
+      IllegalPairError,
+    );
   });
 });

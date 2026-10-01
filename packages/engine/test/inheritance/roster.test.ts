@@ -22,7 +22,11 @@ const master = loadPublishedBundle();
 const ctx = loadContext(master, master.rules);
 const URA = 'scenario:ura-finale';
 const TRAINEE = 'outfit:frontline-elegance'; // Mejiro McQueen
-const IDS = ['01J8Z3K4M5N6P7Q8R9S0T1V2W3', '01J8Z3K4M5N6P7Q8R9S0T1V2W4', '01J8Z3K4M5N6P7Q8R9S0T1V2W5'];
+const IDS = [
+  '01J8Z3K4M5N6P7Q8R9S0T1V2W3',
+  '01J8Z3K4M5N6P7Q8R9S0T1V2W4',
+  '01J8Z3K4M5N6P7Q8R9S0T1V2W5',
+];
 const cardId = master.cards[0]!.id;
 
 type S = { sparkId: string; type: 'blue' | 'pink' | 'green' | 'white'; stars: 1 | 2 | 3 };
@@ -81,9 +85,19 @@ describe('legacyFromVeteran (S1)', () => {
     const l = legacyFromVeteran(specialWeek());
     expect(l.veteranId).toBe(IDS[0]);
     expect(l.characterId).toBe('character:special-week');
-    expect(l.sparks.map((s) => s.sparkId)).toEqual(['spark:speed', 'spark:turf', 'spark:arima-kinen']);
-    expect(l.grandparents[0]).toEqual({ characterId: 'character:tokai-teio', sparks: [b('spark:stamina', 2), pk('spark:mile', 1)] });
-    expect(l.grandparents[1]).toEqual({ characterId: 'character:gold-ship', sparks: [b('spark:wit', 3), pk('spark:long', 1)] });
+    expect(l.sparks.map((s) => s.sparkId)).toEqual([
+      'spark:speed',
+      'spark:turf',
+      'spark:arima-kinen',
+    ]);
+    expect(l.grandparents[0]).toEqual({
+      characterId: 'character:tokai-teio',
+      sparks: [b('spark:stamina', 2), pk('spark:mile', 1)],
+    });
+    expect(l.grandparents[1]).toEqual({
+      characterId: 'character:gold-ship',
+      sparks: [b('spark:wit', 3), pk('spark:long', 1)],
+    });
   });
 
   it('uses parents[].slot, not array order', () => {
@@ -104,39 +118,65 @@ describe('inheritanceExpectation with RosterVeterans (S1, B1)', () => {
   it('attributes self -> P, parent1 -> GPxa, parent2 -> GPxb', () => {
     const r = inheritanceExpectation(ctx, TRAINEE, [specialWeek(), suzuka()], URA);
     expect(r.contributions.map((x) => `${x.from}:${x.sparkId}`)).toEqual([
-      'P1:spark:speed', 'P1:spark:turf', 'P1:spark:arima-kinen',
-      'P2:spark:power', 'P2:spark:medium',
-      'GP1a:spark:stamina', 'GP1a:spark:mile',
-      'GP1b:spark:wit', 'GP1b:spark:long',
-      'GP2b:spark:guts', 'GP2b:spark:dirt',
+      'P1:spark:speed',
+      'P1:spark:turf',
+      'P1:spark:arima-kinen',
+      'P2:spark:power',
+      'P2:spark:medium',
+      'GP1a:spark:stamina',
+      'GP1a:spark:mile',
+      'GP1b:spark:wit',
+      'GP1b:spark:long',
+      'GP2b:spark:guts',
+      'GP2b:spark:dirt',
     ]);
     // Grandparent affinity uses the slot's character, including the guest.
     const labels = Object.fromEntries(r.affinity.breakdown.map((x) => [x.label, x.members]));
-    expect(labels['T-P1-GP1a']).toEqual(['character:mejiro-mcqueen', 'character:special-week', 'character:tokai-teio']);
-    expect(labels['T-P1-GP1b']).toEqual(['character:mejiro-mcqueen', 'character:special-week', 'character:gold-ship']);
+    expect(labels['T-P1-GP1a']).toEqual([
+      'character:mejiro-mcqueen',
+      'character:special-week',
+      'character:tokai-teio',
+    ]);
+    expect(labels['T-P1-GP1b']).toEqual([
+      'character:mejiro-mcqueen',
+      'character:special-week',
+      'character:gold-ship',
+    ]);
   });
 
-  it('published data, zero events: only the parents\' initial blue bonus, attributed per spark', () => {
+  it("published data, zero events: only the parents' initial blue bonus, attributed per spark", () => {
     const r = inheritanceExpectation(ctx, TRAINEE, [specialWeek(), suzuka()], URA);
     const bonus = master.rules.blueInitialBonus;
     // P1 speed 3★ and P2 power 1★ from the published table; grandparent blue sparks add nothing.
     expect(r.expectedStatGain).toEqual([bonus['3'], 0, bonus['1'], 0, 0]);
     expect(r.expectedStatGain).toEqual([21, 0, 5, 0, 0]);
     expectContributionsSumToExpected(r);
-    expect(r.contributions.find((x) => x.from === 'GP1b' && x.type === 'blue')?.expectedEffect.stats).toEqual([0, 0, 0, 0, 0]);
+    expect(
+      r.contributions.find((x) => x.from === 'GP1b' && x.type === 'blue')?.expectedEffect.stats,
+    ).toEqual([0, 0, 0, 0, 0]);
     expect(r.events).toEqual([]);
-    expect(r.provenance).toMatchObject({ masterVersion: master.version, rulesVersion: 'rules-1', eventsKnown: false, validated: false });
+    expect(r.provenance).toMatchObject({
+      masterVersion: master.version,
+      rulesVersion: 'rules-1',
+      eventsKnown: false,
+      validated: false,
+    });
     expect(r.provenance.unverifiedRules).toHaveLength(12);
     expect(r.provenance.placeholderRules).toEqual(['blueStatGain', 'whiteHintLevels']);
     expect(r.provenance.warnings.some((w) => w.includes('has no inheritanceTurns'))).toBe(true);
-    for (const apt of Object.values(r.aptitudeDist)) expect(Object.values(apt).reduce((a, x) => a + x, 0)).toBeCloseTo(1, 12);
-    expect(r.skillHintProb).toEqual(Object.fromEntries(Object.keys(r.skillHintProb).map((k) => [k, 0])));
+    for (const apt of Object.values(r.aptitudeDist))
+      expect(Object.values(apt).reduce((a, x) => a + x, 0)).toBeCloseTo(1, 12);
+    expect(r.skillHintProb).toEqual(
+      Object.fromEntries(Object.keys(r.skillHintProb).map((k) => [k, 0])),
+    );
   });
 
   it('published data + synthetic injected turns: race spark stats roll, sum invariant holds', () => {
     const synthetic = {
       ...master,
-      scenarios: master.scenarios.map((s) => (s.id === URA ? { ...s, inheritanceTurns: [30, 54] } : s)),
+      scenarios: master.scenarios.map((s) =>
+        s.id === URA ? { ...s, inheritanceTurns: [30, 54] } : s,
+      ),
     };
     const ctx2 = loadContext(synthetic, master.rules);
     const r = inheritanceExpectation(ctx2, TRAINEE, [specialWeek(), suzuka()], URA);
@@ -161,7 +201,7 @@ describe('inheritanceExpectation with RosterVeterans (S1, B1)', () => {
     }
   });
 
-  it('rejects a parent of the trainee\'s character in either slot', () => {
+  it("rejects a parent of the trainee's character in either slot", () => {
     const reasons = (pair: [RosterVeteran, RosterVeteran]) => {
       try {
         inheritanceExpectation(ctx, TRAINEE, pair, URA);
@@ -178,7 +218,9 @@ describe('inheritanceExpectation with RosterVeterans (S1, B1)', () => {
 
   it('equals planInheritance over legacyFromVeteran', () => {
     const pair: [RosterVeteran, RosterVeteran] = [specialWeek(), suzuka()];
-    const viaPlan = expectationFromPlan(planInheritance(ctx, TRAINEE, [legacyFromVeteran(pair[0]), legacyFromVeteran(pair[1])], URA));
+    const viaPlan = expectationFromPlan(
+      planInheritance(ctx, TRAINEE, [legacyFromVeteran(pair[0]), legacyFromVeteran(pair[1])], URA),
+    );
     expect(inheritanceExpectation(ctx, TRAINEE, pair, URA)).toEqual(viaPlan);
   });
 });

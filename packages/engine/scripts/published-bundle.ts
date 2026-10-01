@@ -82,8 +82,16 @@ export function makeRosterVeteran(input: {
     trainMode: 'independent',
     stats: { spd: 1000, sta: 800, pow: 900, gut: 400, wit: 600 },
     aptitudes: {
-      turf: 'A', dirt: 'G', sprint: 'G', mile: 'A', medium: 'A',
-      long: 'C', front: 'G', pace: 'A', late: 'B', end: 'G',
+      turf: 'A',
+      dirt: 'G',
+      sprint: 'G',
+      mile: 'A',
+      medium: 'A',
+      long: 'C',
+      front: 'G',
+      pace: 'A',
+      late: 'B',
+      end: 'G',
     },
     skills: [],
     sparks: [
@@ -91,7 +99,13 @@ export function makeRosterVeteran(input: {
       ...input.parent1.map((s) => ({ owner: 'parent1', ...s })),
       ...input.parent2.map((s) => ({ owner: 'parent2', ...s })),
     ],
-    deck: [1, 2, 3, 4, 5, 6].map((slot) => ({ slot, cardId: input.cardId, lb: 4, level: 50, borrowed: false })),
+    deck: [1, 2, 3, 4, 5, 6].map((slot) => ({
+      slot,
+      cardId: input.cardId,
+      lb: 4,
+      level: 50,
+      borrowed: false,
+    })),
     parents: input.parents.map((p, i) => ({
       slot: slots[i],
       characterId: p.characterId,

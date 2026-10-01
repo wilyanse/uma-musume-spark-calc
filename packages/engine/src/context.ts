@@ -26,7 +26,10 @@ const RaceTable = z.looseObject({
   races: z
     .record(
       z.string(),
-      z.looseObject({ stats: z.array(StatKey), hintSkillIds: z.array(z.number().int()).default([]) }),
+      z.looseObject({
+        stats: z.array(StatKey),
+        hintSkillIds: z.array(z.number().int()).default([]),
+      }),
     )
     .optional(),
 });
@@ -67,7 +70,14 @@ export interface EngineContext {
   affinityMultiplier: (affinity: number) => number;
   /** Resolved rule tables. */
   tables: {
-    activation: { blue: PerStar; pink: PerStar; green: PerStar; white: PerStar; race: PerStar; scenario: PerStar };
+    activation: {
+      blue: PerStar;
+      pink: PerStar;
+      green: PerStar;
+      white: PerStar;
+      race: PerStar;
+      scenario: PerStar;
+    };
     grandparentWeight: number;
     blueStatGain: PerStar;
     blueInitialBonus: PerStar;
@@ -107,7 +117,11 @@ export interface LoadContextOptions {
  * Throws `RulesError` for rules the engine cannot use (schema-invalid, non-finite, fractional
  * grade gains, unparseable formula or a formula invalid at affinity 0).
  */
-export function loadContext(master: MasterBundle, rulesInput: Rules, options: LoadContextOptions = {}): EngineContext {
+export function loadContext(
+  master: MasterBundle,
+  rulesInput: Rules,
+  options: LoadContextOptions = {},
+): EngineContext {
   const parsed = Rules.safeParse(rulesInput);
   if (!parsed.success) throw new RulesError(`invalid rules: ${parsed.error.message}`);
   const rules = parsed.data;
@@ -119,10 +133,16 @@ export function loadContext(master: MasterBundle, rulesInput: Rules, options: Lo
 
   // Open tables.
   const race = RaceTable.safeParse(rules.raceSparkStatGain);
-  if (!race.success) warnings.push(`rules.raceSparkStatGain unreadable, race sparks have no effect: ${race.error.message}`);
+  if (!race.success)
+    warnings.push(
+      `rules.raceSparkStatGain unreadable, race sparks have no effect: ${race.error.message}`,
+    );
   const raceT = race.success ? race.data : {};
   const scen = ScenarioTable.safeParse(rules.scenarioSparkEffects);
-  if (!scen.success) warnings.push(`rules.scenarioSparkEffects unreadable, scenario sparks have no effect: ${scen.error.message}`);
+  if (!scen.success)
+    warnings.push(
+      `rules.scenarioSparkEffects unreadable, scenario sparks have no effect: ${scen.error.message}`,
+    );
   const scenT = scen.success ? scen.data : {};
 
   const races = new Map<string, RaceEffectRow>();
@@ -131,7 +151,10 @@ export function loadContext(master: MasterBundle, rulesInput: Rules, options: Lo
     for (const gid of row.hintSkillIds) {
       const id = skillByGameId.get(gid);
       if (id) hintSkillIds.push(id);
-      else warnings.push(`rules.raceSparkStatGain.races.${raceId}: hint skill gameId ${gid} not in master skills`);
+      else
+        warnings.push(
+          `rules.raceSparkStatGain.races.${raceId}: hint skill gameId ${gid} not in master skills`,
+        );
     }
     races.set(raceId, { stats: row.stats, hintSkillIds });
   }
@@ -140,11 +163,15 @@ export function loadContext(master: MasterBundle, rulesInput: Rules, options: Lo
     scenarioSparks.set(id, { stats: row.stats, perStar: row.perStar });
   }
 
-  if (!raceT.perStar) warnings.push('rules.raceSparkStatGain.perStar missing: race sparks add no stats');
-  if (!raceT.activation) warnings.push('rules.raceSparkStatGain.activation missing: race sparks use activation.white');
+  if (!raceT.perStar)
+    warnings.push('rules.raceSparkStatGain.perStar missing: race sparks add no stats');
+  if (!raceT.activation)
+    warnings.push('rules.raceSparkStatGain.activation missing: race sparks use activation.white');
   if (!scenT.activation) {
     // Not a problem per se: the cited calculator gives scenario sparks the skill table.
-    warnings.push('rules.scenarioSparkEffects.activation missing: scenario sparks use activation.white');
+    warnings.push(
+      'rules.scenarioSparkEffects.activation missing: scenario sparks use activation.white',
+    );
   }
 
   const tables: EngineContext['tables'] = {
@@ -166,7 +193,13 @@ export function loadContext(master: MasterBundle, rulesInput: Rules, options: Lo
     scenarioSparks,
   };
   for (const [k, v] of Object.entries(tables.activation)) assertFinite(`activation.${k}`, v);
-  for (const k of ['grandparentWeight', 'blueStatGain', 'blueInitialBonus', 'whiteHintLevels', 'raceStatGain'] as const) {
+  for (const k of [
+    'grandparentWeight',
+    'blueStatGain',
+    'blueInitialBonus',
+    'whiteHintLevels',
+    'raceStatGain',
+  ] as const) {
     assertFinite(k, tables[k]);
   }
   // Grades are ordinal (01 §1), so a grade gain must be a whole number of steps.

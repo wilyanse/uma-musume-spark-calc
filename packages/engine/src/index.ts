@@ -11,7 +11,12 @@ export { defaultScenario, pluginFor, SCENARIO_PLUGINS } from './scenarios/index.
 export type { ScenarioPlugin, ScenarioPluginFactory } from './scenarios/index.ts';
 export { affinity2, affinity3, computeAffinity } from './inheritance/affinity.ts';
 export type { AffinityRelation, AffinityResult } from './inheritance/affinity.ts';
-export { checkLegality, IllegalPairError, traineeCharacter, UnknownIdError } from './inheritance/legality.ts';
+export {
+  checkLegality,
+  IllegalPairError,
+  traineeCharacter,
+  UnknownIdError,
+} from './inheritance/legality.ts';
 export type { IllegalReason, Legality } from './inheritance/legality.ts';
 export {
   expectationFromPlan,

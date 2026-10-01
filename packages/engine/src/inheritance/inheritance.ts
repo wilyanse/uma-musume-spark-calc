@@ -10,7 +10,8 @@ import { checkLegality, IllegalPairError, traineeCharacter, UnknownIdError } fro
 const MAX_GRADE = GRADES.length - 1; // S
 
 /** Which activation table a spark rolls on. */
-export type ActivationKind = 'blue' | 'pink' | 'green' | 'white-skill' | 'white-race' | 'white-scenario';
+export type ActivationKind =
+  'blue' | 'pink' | 'green' | 'white-skill' | 'white-race' | 'white-scenario';
 
 /** One spark that can activate at each inheritance event. */
 export interface Activation {
@@ -132,12 +133,19 @@ const addAt = (v: number[], k: number, x: number): void => {
 /** A roster veteran as a legacy: own sparks + its parents' sparks as the grandparents. */
 export function legacyFromVeteran(v: Veteran): Legacy {
   const own = (owner: 'self' | 'parent1' | 'parent2') =>
-    v.sparks.filter((s) => s.owner === owner).map((s) => ({ sparkId: s.sparkId, type: s.type, stars: s.stars }));
+    v.sparks
+      .filter((s) => s.owner === owner)
+      .map((s) => ({ sparkId: s.sparkId, type: s.type, stars: s.stars }));
   const gp = (slot: 1 | 2) => {
     const p = v.parents.find((x) => x.slot === slot);
     return { characterId: p?.characterId ?? null, sparks: own(slot === 1 ? 'parent1' : 'parent2') };
   };
-  return { veteranId: v.id, characterId: v.characterId, sparks: own('self'), grandparents: [gp(1), gp(2)] };
+  return {
+    veteranId: v.id,
+    characterId: v.characterId,
+    sparks: own('self'),
+    grandparents: [gp(1), gp(2)],
+  };
 }
 
 function starValue(t: PerStar, stars: Stars): number {
@@ -169,7 +177,12 @@ function baseRate(ctx: EngineContext, kind: ActivationKind, stars: Stars): numbe
 }
 
 /** The rules-driven effect of one activation (50 §3 "Effects of one activation"). */
-function defaultEffect(ctx: EngineContext, spark: Spark, stars: Stars, warn: (m: string) => void): Effect {
+function defaultEffect(
+  ctx: EngineContext,
+  spark: Spark,
+  stars: Stars,
+  warn: (m: string) => void,
+): Effect {
   const t = ctx.tables;
   const effect: Effect = { stats: zeros(), aptitudeGrades: {}, hints: [] };
   const hintLevel = starValue(t.whiteHintLevels, stars);
@@ -190,14 +203,17 @@ function defaultEffect(ctx: EngineContext, spark: Spark, stars: Stars, warn: (m:
         warn(`${spark.id}: race ${target.raceId} not in rules.raceSparkStatGain.races; no effect`);
         break;
       }
-      for (const s of row.stats) addAt(effect.stats, STAT_INDEX[s], starValue(t.raceStatGain, stars));
+      for (const s of row.stats)
+        addAt(effect.stats, STAT_INDEX[s], starValue(t.raceStatGain, stars));
       for (const skillId of row.hintSkillIds) effect.hints.push({ skillId, level: hintLevel });
       break;
     }
     case 'scenario': {
       const row = t.scenarioSparks.get(target.scenarioId);
       if (!row) {
-        warn(`${spark.id}: ${target.scenarioId} not in rules.scenarioSparkEffects.scenarios; no effect`);
+        warn(
+          `${spark.id}: ${target.scenarioId} not in rules.scenarioSparkEffects.scenarios; no effect`,
+        );
         break;
       }
       for (const s of row.stats) addAt(effect.stats, STAT_INDEX[s], starValue(row.perStar, stars));
@@ -250,7 +266,9 @@ export function planInheritance(
   const warn = (m: string) => warnings.push(m);
   const events = plugin.inheritanceTurns(ctx);
   if (events.length === 0) {
-    warn(`${scenarioId} has no inheritanceTurns in master data: event rolls contribute nothing; only the career-start blue bonus applies`);
+    warn(
+      `${scenarioId} has no inheritanceTurns in master data: event rolls contribute nothing; only the career-start blue bonus applies`,
+    );
   }
 
   const affinity = computeAffinity(ctx, T, parents);
@@ -275,7 +293,9 @@ export function planInheritance(
         continue;
       }
       if (spark.type !== ref.type) {
-        warn(`${ref.sparkId} (${from}) recorded as ${ref.type}, master says ${spark.type}; using master`);
+        warn(
+          `${ref.sparkId} (${from}) recorded as ${ref.type}, master says ${spark.type}; using master`,
+        );
       }
       const kind = kindOf(spark);
       const p = Math.min(1, Math.max(0, baseRate(ctx, kind, ref.stars) * weight * mult));
@@ -287,7 +307,11 @@ export function planInheritance(
       // 50 §3: parents' blue sparks only. rules.json's cited source says the bonus is additive
       // over every legacy *and sub-legacy*; the spec wins here (see Q-3 / T15 in the changelog).
       const initialBonus = zeros();
-      if (spark.type === 'blue' && spark.target.kind === 'stat' && (from === 'P1' || from === 'P2')) {
+      if (
+        spark.type === 'blue' &&
+        spark.target.kind === 'stat' &&
+        (from === 'P1' || from === 'P2')
+      ) {
         const k = STAT_INDEX[spark.target.stat];
         const bonus = starValue(ctx.tables.blueInitialBonus, ref.stars);
         addAt(initialBonus, k, bonus);
@@ -295,11 +319,22 @@ export function planInheritance(
       }
       for (const [apt, g] of Object.entries(effect.aptitudeGrades)) {
         if (!Number.isInteger(g) || g < 0) {
-          throw new RangeError(`${spark.id}: aptitude gain for ${apt} must be a non-negative integer, got ${g}`);
+          throw new RangeError(
+            `${spark.id}: aptitude gain for ${apt} must be a non-negative integer, got ${g}`,
+          );
         }
       }
       effect = { ...effect, hints: dedupeHints(effect.hints) };
-      activations.push({ sparkId: spark.id, from, type: spark.type, kind, stars: ref.stars, p, effect, initialBonus });
+      activations.push({
+        sparkId: spark.id,
+        from,
+        type: spark.type,
+        kind,
+        stars: ref.stars,
+        p,
+        effect,
+        initialBonus,
+      });
     }
   }
   for (const s of skipped) warn(`skipped ${s.sparkId} (${s.from}): ${s.reason}`);
@@ -321,7 +356,8 @@ export function planInheritance(
       eventsKnown,
       unverifiedRules: [...ctx.unverifiedRules],
       placeholderRules: [...ctx.placeholderRules],
-      validated: eventsKnown && ctx.unverifiedRules.length === 0 && ctx.placeholderRules.length === 0,
+      validated:
+        eventsKnown && ctx.unverifiedRules.length === 0 && ctx.placeholderRules.length === 0,
       warnings,
     },
   };
@@ -363,7 +399,8 @@ export function expectationFromPlan(plan: InheritancePlan): InheritanceResult {
       addAt(stats, k, mean);
       addAt(expected, k, mean);
       const row = cov[k] as number[];
-      for (let j = 0; j < 5; j++) addAt(row, j, n * a.p * (1 - a.p) * g * (a.effect.stats[j] as number));
+      for (let j = 0; j < 5; j++)
+        addAt(row, j, n * a.p * (1 - a.p) * g * (a.effect.stats[j] as number));
     }
     const aptitudeGrades: Partial<Record<AptKey, number>> = {};
     for (const [apt, g] of Object.entries(a.effect.aptitudeGrades) as [AptKey, number][]) {
@@ -430,7 +467,12 @@ export function inheritanceExpectation(
   parents: readonly [Veteran, Veteran],
   scenarioId: string,
 ): InheritanceResult {
-  const plan = planInheritance(ctx, traineeOutfitId, [legacyFromVeteran(parents[0]), legacyFromVeteran(parents[1])], scenarioId);
+  const plan = planInheritance(
+    ctx,
+    traineeOutfitId,
+    [legacyFromVeteran(parents[0]), legacyFromVeteran(parents[1])],
+    scenarioId,
+  );
   return expectationFromPlan(plan);
 }
 
@@ -446,13 +488,16 @@ export function sampleInheritance(plan: InheritancePlan, rng: Rng): InheritanceS
     for (const a of plan.activations) {
       if (!(rng() < a.p)) continue;
       for (let k = 0; k < 5; k++) addAt(statGain, k, a.effect.stats[k] as number);
-      for (const [apt, g] of Object.entries(a.effect.aptitudeGrades) as [AptKey, number][]) pinkGain[apt] += g;
+      for (const [apt, g] of Object.entries(a.effect.aptitudeGrades) as [AptKey, number][])
+        pinkGain[apt] += g;
       for (const h of a.effect.hints) hints[h.skillId] = (hints[h.skillId] ?? 0) + 1;
     }
   }
   const aptitudes = {} as Record<AptKey, Grade>;
   for (const apt of APT_KEYS) {
-    aptitudes[apt] = GRADES[Math.min(MAX_GRADE, GRADES.indexOf(plan.baseAptitudes[apt]) + pinkGain[apt])] as Grade;
+    aptitudes[apt] = GRADES[
+      Math.min(MAX_GRADE, GRADES.indexOf(plan.baseAptitudes[apt]) + pinkGain[apt])
+    ] as Grade;
   }
   return { statGain, pinkGain, aptitudes, hints };
 }

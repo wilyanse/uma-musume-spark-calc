@@ -18,7 +18,10 @@ export interface ScenarioPlugin {
    * returning an object replaces it (missing fields mean "no effect"). Duplicate hint skill ids in
    * the result are merged (see `Effect.hints`).
    */
-  sparkEffects?(spark: { spark: Spark; stars: Stars }, ctx: EngineContext): Partial<Effect> | undefined;
+  sparkEffects?(
+    spark: { spark: Spark; stars: Stars },
+    ctx: EngineContext,
+  ): Partial<Effect> | undefined;
 }
 
 /** `DefaultScenario`: reads everything from the master-data row. */
@@ -41,7 +44,10 @@ export type ScenarioPluginFactory = (row: Scenario) => ScenarioPlugin;
 export const SCENARIO_PLUGINS: Readonly<Record<string, ScenarioPluginFactory>> = {};
 
 /** The plugin for a scenario row: `extra[id]`, else the registered one, else `DefaultScenario`. */
-export function pluginFor(row: Scenario, extra?: Readonly<Record<string, ScenarioPluginFactory>>): ScenarioPlugin {
+export function pluginFor(
+  row: Scenario,
+  extra?: Readonly<Record<string, ScenarioPluginFactory>>,
+): ScenarioPlugin {
   const make = extra?.[row.id] ?? SCENARIO_PLUGINS[row.id];
   return make ? make(row) : defaultScenario(row);
 }

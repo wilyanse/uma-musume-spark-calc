@@ -54,55 +54,114 @@ describe('zero events and provenance (S4)', () => {
     expect(Object.values(r.skillHintProb).every((p) => p === 0)).toBe(true);
     expect(r.aptitudeDist.turf.C).toBe(1);
     expect(r.contributions.every((x) => x.pAny === 0)).toBe(true);
-    expect(r.provenance).toMatchObject({ eventsKnown: false, validated: false, unverifiedRules: [], placeholderRules: [] });
+    expect(r.provenance).toMatchObject({
+      eventsKnown: false,
+      validated: false,
+      unverifiedRules: [],
+      placeholderRules: [],
+    });
     expect(r.provenance.warnings).toContain(
       `${ZERO_EVENT_SCENARIO} has no inheritanceTurns in master data: event rolls contribute nothing; only the career-start blue bonus applies`,
     );
     // Sampling agrees: every draw is exactly the initial bonus.
     const rng = mulberry32(7);
-    for (let i = 0; i < 100; i++) expect(sampleInheritance(plan, rng).statGain).toEqual(r.initialStatBonus);
+    for (let i = 0; i < 100; i++)
+      expect(sampleInheritance(plan, rng).statGain).toEqual(r.initialStatBonus);
   });
 
   it('validated only with events, all rules verified and no placeholders', () => {
-    expect(expectationFromPlan(planInheritance(ctx, TRAINEE, lineage9(), SCENARIO)).provenance.validated).toBe(true);
+    expect(
+      expectationFromPlan(planInheritance(ctx, TRAINEE, lineage9(), SCENARIO)).provenance.validated,
+    ).toBe(true);
     const unverified = mutate((r) => (r.blueStatGain.verified = false));
-    const p1 = planInheritance(loadContext(toyMaster(unverified), unverified), TRAINEE, lineage9(), SCENARIO).provenance;
-    expect(p1).toMatchObject({ validated: false, unverifiedRules: ['blueStatGain'], placeholderRules: [] });
+    const p1 = planInheritance(
+      loadContext(toyMaster(unverified), unverified),
+      TRAINEE,
+      lineage9(),
+      SCENARIO,
+    ).provenance;
+    expect(p1).toMatchObject({
+      validated: false,
+      unverifiedRules: ['blueStatGain'],
+      placeholderRules: [],
+    });
     const placeholder = mutate((r) => (r.whiteHintLevels.source = 'UNKNOWN: placeholder'));
-    const p2 = planInheritance(loadContext(toyMaster(placeholder), placeholder), TRAINEE, lineage9(), SCENARIO).provenance;
-    expect(p2).toMatchObject({ validated: false, unverifiedRules: [], placeholderRules: ['whiteHintLevels'] });
+    const p2 = planInheritance(
+      loadContext(toyMaster(placeholder), placeholder),
+      TRAINEE,
+      lineage9(),
+      SCENARIO,
+    ).provenance;
+    expect(p2).toMatchObject({
+      validated: false,
+      unverifiedRules: [],
+      placeholderRules: ['whiteHintLevels'],
+    });
   });
 });
 
 describe('unknown and mismatched sparks (S4)', () => {
   it('skips unknown spark ids with a warning, and never guesses an effect', () => {
-    const plan = planInheritance(ctx, TRAINEE, [
-      legacy('b', [blue('spd', 3), { sparkId: sp('does-not-exist'), type: 'blue', stars: 3 }]),
-      legacy('c', [], [null, { characterId: null, sparks: [{ sparkId: sp('also-missing'), type: 'white', stars: 1 }] }]),
-    ], SCENARIO);
+    const plan = planInheritance(
+      ctx,
+      TRAINEE,
+      [
+        legacy('b', [blue('spd', 3), { sparkId: sp('does-not-exist'), type: 'blue', stars: 3 }]),
+        legacy(
+          'c',
+          [],
+          [
+            null,
+            {
+              characterId: null,
+              sparks: [{ sparkId: sp('also-missing'), type: 'white', stars: 1 }],
+            },
+          ],
+        ),
+      ],
+      SCENARIO,
+    );
     expect(plan.skipped).toEqual([
       { sparkId: sp('does-not-exist'), from: 'P1', reason: 'not in master sparks' },
       { sparkId: sp('also-missing'), from: 'GP2b', reason: 'not in master sparks' },
     ]);
     expect(plan.activations.map((a) => a.sparkId)).toEqual([sp('spd')]);
-    expect(plan.provenance.warnings).toContain(`skipped ${sp('does-not-exist')} (P1): not in master sparks`);
+    expect(plan.provenance.warnings).toContain(
+      `skipped ${sp('does-not-exist')} (P1): not in master sparks`,
+    );
     const r = expectationFromPlan(plan);
     expect(r.initialStatBonus).toEqual([30, 0, 0, 0, 0]); // the unknown 3★ blue adds no bonus
     expectContributionsSumToExpected(r);
   });
 
   it('uses the master spark type when the recorded type disagrees, with a warning', () => {
-    const plan = planInheritance(ctx, TRAINEE, [legacy('b', [{ sparkId: sp('spd'), type: 'pink', stars: 3 }]), legacy('c')], SCENARIO);
+    const plan = planInheritance(
+      ctx,
+      TRAINEE,
+      [legacy('b', [{ sparkId: sp('spd'), type: 'pink', stars: 3 }]), legacy('c')],
+      SCENARIO,
+    );
     expect(plan.activations[0]).toMatchObject({ type: 'blue', kind: 'blue' });
     expect(plan.initialStatBonus).toEqual([30, 0, 0, 0, 0]);
-    expect(plan.provenance.warnings).toContain(`${sp('spd')} (P1) recorded as pink, master says blue; using master`);
+    expect(plan.provenance.warnings).toContain(
+      `${sp('spd')} (P1) recorded as pink, master says blue; using master`,
+    );
   });
 });
 
 describe('missing optional rule rows (S4)', () => {
   it('race / scenario sparks without a rules row warn and have no effect', () => {
-    const plan = planInheritance(ctx, TRAINEE, [legacy('b', [white('race-missing', 3)]), legacy('c', [white('scenario-other', 3)])], SCENARIO);
-    expect(plan.activations.every((a) => a.effect.stats.every((x) => x === 0) && a.effect.hints.length === 0)).toBe(true);
+    const plan = planInheritance(
+      ctx,
+      TRAINEE,
+      [legacy('b', [white('race-missing', 3)]), legacy('c', [white('scenario-other', 3)])],
+      SCENARIO,
+    );
+    expect(
+      plan.activations.every(
+        (a) => a.effect.stats.every((x) => x === 0) && a.effect.hints.length === 0,
+      ),
+    ).toBe(true);
     expect(plan.activations.every((a) => a.p > 0)).toBe(true); // they still roll
     expect(plan.provenance.warnings).toEqual(
       expect.arrayContaining([
@@ -115,7 +174,11 @@ describe('missing optional rule rows (S4)', () => {
 
   it('missing race perStar/activation and scenario activation tables fall back with warnings', () => {
     const rules = mutate((r) => {
-      r.raceSparkStatGain = { verified: true, source: 'synthetic fixture', races: { 'race-1': { stats: ['pow'], hintSkillIds: [9001, 424242] } } };
+      r.raceSparkStatGain = {
+        verified: true,
+        source: 'synthetic fixture',
+        races: { 'race-1': { stats: ['pow'], hintSkillIds: [9001, 424242] } },
+      };
       r.scenarioSparkEffects = { verified: true, source: 'synthetic fixture' };
     });
     const ctx2 = loadContext(toyMaster(rules), rules);
@@ -125,19 +188,37 @@ describe('missing optional rule rows (S4)', () => {
       'rules.raceSparkStatGain.activation missing: race sparks use activation.white',
       'rules.scenarioSparkEffects.activation missing: scenario sparks use activation.white',
     ]);
-    const plan = planInheritance(ctx2, TRAINEE, [legacy('b', [white('race-1', 3)]), legacy('c', [white('scenario', 3)])], SCENARIO);
+    const plan = planInheritance(
+      ctx2,
+      TRAINEE,
+      [legacy('b', [white('race-1', 3)]), legacy('c', [white('scenario', 3)])],
+      SCENARIO,
+    );
     // Race falls back to activation.white[3] = 0.4 (× affinity multiplier), with no stats, but hints.
-    const whiteP = planInheritance(ctx2, TRAINEE, [legacy('b', [white('white-x', 3)]), legacy('c')], SCENARIO).activations[0]!.p;
+    const whiteP = planInheritance(
+      ctx2,
+      TRAINEE,
+      [legacy('b', [white('white-x', 3)]), legacy('c')],
+      SCENARIO,
+    ).activations[0]!.p;
     expect(plan.activations[0]!.p).toBeCloseTo(whiteP, 12);
-    expect(plan.activations[0]!.effect).toEqual({ stats: [0, 0, 0, 0, 0], aptitudeGrades: {}, hints: [{ skillId: skill('race'), level: 3 }] });
+    expect(plan.activations[0]!.effect).toEqual({
+      stats: [0, 0, 0, 0, 0],
+      aptitudeGrades: {},
+      hints: [{ skillId: skill('race'), level: 3 }],
+    });
     expect(plan.activations[1]!.effect.stats).toEqual([0, 0, 0, 0, 0]);
   });
 
   it('a non-finite number in an open table makes it unreadable: warning and no effect, never NaN', () => {
     const rules = mutate((r) => (r.raceSparkStatGain.perStar = [1, Number.NaN, 3]));
     const ctx2 = loadContext(toyMaster(rules), rules);
-    expect(ctx2.warnings.some((w) => w.startsWith('rules.raceSparkStatGain unreadable'))).toBe(true);
-    const r = expectationFromPlan(planInheritance(ctx2, TRAINEE, [legacy('b', [white('race-1', 2)]), legacy('c')], SCENARIO));
+    expect(ctx2.warnings.some((w) => w.startsWith('rules.raceSparkStatGain unreadable'))).toBe(
+      true,
+    );
+    const r = expectationFromPlan(
+      planInheritance(ctx2, TRAINEE, [legacy('b', [white('race-1', 2)]), legacy('c')], SCENARIO),
+    );
     expect(r.expectedStatGain).toEqual([0, 0, 0, 0, 0]);
   });
 
@@ -146,7 +227,11 @@ describe('missing optional rule rows (S4)', () => {
       r.raceSparkStatGain = { verified: true, source: 's', perStar: 'lots' };
     });
     const ctx2 = loadContext(toyMaster(rules), rules);
-    expect(ctx2.warnings.some((w) => w.startsWith('rules.raceSparkStatGain unreadable, race sparks have no effect'))).toBe(true);
+    expect(
+      ctx2.warnings.some((w) =>
+        w.startsWith('rules.raceSparkStatGain unreadable, race sparks have no effect'),
+      ),
+    ).toBe(true);
     expect(ctx2.tables.raceStatGain).toEqual([0, 0, 0]);
   });
 });
@@ -170,7 +255,13 @@ describe('scenario plugins (S4, N5)', () => {
         deckFeatures: (deck) => ({ deckSize: deck.length }),
         sparkEffects: ({ spark, stars }) =>
           spark.id === sp('white-x')
-            ? { stats: [0, stars, 0, 0, 0], hints: [{ skillId: skill('y'), level: 9 }, { skillId: skill('y'), level: 4 }] }
+            ? {
+                stats: [0, stars, 0, 0, 0],
+                hints: [
+                  { skillId: skill('y'), level: 9 },
+                  { skillId: skill('y'), level: 4 },
+                ],
+              }
             : undefined,
       }),
     };
@@ -178,10 +269,19 @@ describe('scenario plugins (S4, N5)', () => {
     const plugin = pctx.scenarios.get(SCENARIO)!;
     expect(plugin.statCap(pctx)).toBe(1800);
     expect(plugin.deckFeatures([], pctx)).toEqual({ deckSize: 0 });
-    const plan = planInheritance(pctx, TRAINEE, [legacy('b', [white('white-x', 2), white('race-1', 1)]), legacy('c')], SCENARIO);
+    const plan = planInheritance(
+      pctx,
+      TRAINEE,
+      [legacy('b', [white('white-x', 2), white('race-1', 1)]), legacy('c')],
+      SCENARIO,
+    );
     expect(plan.events).toEqual([5, 10, 15]);
     // Replaced effect for white-x (duplicate hint merged, highest level); race-1 keeps the default.
-    expect(plan.activations[0]!.effect).toEqual({ stats: [0, 2, 0, 0, 0], aptitudeGrades: {}, hints: [{ skillId: skill('y'), level: 9 }] });
+    expect(plan.activations[0]!.effect).toEqual({
+      stats: [0, 2, 0, 0, 0],
+      aptitudeGrades: {},
+      hints: [{ skillId: skill('y'), level: 9 }],
+    });
     expect(plan.activations[1]!.effect.stats).toEqual([0, 0, 5, 0, 0]);
     const r = expectationFromPlan(plan);
     const pw = plan.activations[0]!.p;
@@ -202,7 +302,9 @@ describe('scenario plugins (S4, N5)', () => {
       }),
     };
     const pctx = loadContext(toyMaster(), R, { plugins });
-    expect(() => planInheritance(pctx, TRAINEE, [legacy('b', [white('white-x', 1)]), legacy('c')], SCENARIO)).toThrow(RangeError);
+    expect(() =>
+      planInheritance(pctx, TRAINEE, [legacy('b', [white('white-x', 1)]), legacy('c')], SCENARIO),
+    ).toThrow(RangeError);
   });
 });
 
@@ -210,22 +312,50 @@ describe('malformed rules (S4) and the affinity formula (S5)', () => {
   const load = (rules: Rules) => () => loadContext(toyMaster(rules), rules);
 
   it.each([
-    ['fractional pinkGradeGain', mutate((r) => (r.pinkGradeGain['2'] = 0.5)), /pinkGradeGain must be non-negative integers/],
-    ['negative pinkGradeGain', mutate((r) => (r.pinkGradeGain['1'] = -1)), /pinkGradeGain must be non-negative integers/],
-    ['NaN grandparentWeight', mutate((r) => (r.grandparentWeight.value = Number.NaN)), /invalid rules|grandparentWeight must be finite/],
-    ['Infinity blueStatGain', mutate((r) => (r.blueStatGain['3'] = Number.POSITIVE_INFINITY)), /invalid rules|blueStatGain must be finite/],
-    ['schema-invalid rules (missing table)', mutate((r) => delete (r as Partial<Rules>).blueStatGain), /invalid rules/],
+    [
+      'fractional pinkGradeGain',
+      mutate((r) => (r.pinkGradeGain['2'] = 0.5)),
+      /pinkGradeGain must be non-negative integers/,
+    ],
+    [
+      'negative pinkGradeGain',
+      mutate((r) => (r.pinkGradeGain['1'] = -1)),
+      /pinkGradeGain must be non-negative integers/,
+    ],
+    [
+      'NaN grandparentWeight',
+      mutate((r) => (r.grandparentWeight.value = Number.NaN)),
+      /invalid rules|grandparentWeight must be finite/,
+    ],
+    [
+      'Infinity blueStatGain',
+      mutate((r) => (r.blueStatGain['3'] = Number.POSITIVE_INFINITY)),
+      /invalid rules|blueStatGain must be finite/,
+    ],
+    [
+      'schema-invalid rules (missing table)',
+      mutate((r) => delete (r as Partial<Rules>).blueStatGain),
+      /invalid rules/,
+    ],
   ])('%s -> RulesError', (_name, rules, message) => {
     expect(load(rules)).toThrow(RulesError);
     expect(load(rules)).toThrow(message);
   });
 
-  it.each(['affinity +', 'eval(1)', 'Math.max(1,2)', '2*(affinity', 'affinity)', '1 +* 2', 'affinity affinity', '1..2', '"1"', 'x'])(
-    'malformed formula %j -> RulesError at load',
-    (formula) => {
-      expect(load(mutate((r) => (r.affinityMultiplier.formula = formula)))).toThrow(RulesError);
-    },
-  );
+  it.each([
+    'affinity +',
+    'eval(1)',
+    'Math.max(1,2)',
+    '2*(affinity',
+    'affinity)',
+    '1 +* 2',
+    'affinity affinity',
+    '1..2',
+    '"1"',
+    'x',
+  ])('malformed formula %j -> RulesError at load', (formula) => {
+    expect(load(mutate((r) => (r.affinityMultiplier.formula = formula)))).toThrow(RulesError);
+  });
 
   it('an empty formula is rejected by the shared schema', () => {
     expect(load(mutate((r) => (r.affinityMultiplier.formula = '')))).toThrow(/invalid rules/);
@@ -241,13 +371,16 @@ describe('malformed rules (S4) and the affinity formula (S5)', () => {
     expect(load(mutate((r) => (r.affinityMultiplier.formula = '1/affinity')))).toThrow(RulesError);
   });
 
-  it('a pole at the pair\'s actual affinity is a RulesError from planInheritance, not a FormulaError', () => {
+  it("a pole at the pair's actual affinity is a RulesError from planInheritance, not a FormulaError", () => {
     // lineage 1: perSource P1 = 16, P2 = 10, total 19 (see toy.test.ts). A pole at 16 loads fine.
     const rules = mutate((r) => (r.affinityMultiplier.formula = '1/(16-affinity)'));
     const pctx = loadContext(toyMaster(rules), rules);
-    const pair = () => planInheritance(pctx, TRAINEE, [legacy('b', [blue('spd', 3)]), legacy('c')], SCENARIO);
+    const pair = () =>
+      planInheritance(pctx, TRAINEE, [legacy('b', [blue('spd', 3)]), legacy('c')], SCENARIO);
     expect(pair).toThrow(RulesError);
-    expect(pair).toThrow('rules.affinityMultiplier.formula: formula "1/(16-affinity)" is not finite at affinity=16');
+    expect(pair).toThrow(
+      'rules.affinityMultiplier.formula: formula "1/(16-affinity)" is not finite at affinity=16',
+    );
     let caught: unknown;
     try {
       pair();
@@ -260,16 +393,20 @@ describe('malformed rules (S4) and the affinity formula (S5)', () => {
     expect(pctx.affinityMultiplier(15)).toBe(1);
   });
 
-  it('a negative multiplier at the pair\'s actual affinity is rejected, not clamped to p = 0', () => {
+  it("a negative multiplier at the pair's actual affinity is rejected, not clamped to p = 0", () => {
     // Positive at 0 (loads), negative from affinity 11: P1 (16) is negative.
     const rules = mutate((r) => (r.affinityMultiplier.formula = '1 - affinity/10'));
     const pctx = loadContext(toyMaster(rules), rules);
     expect(pctx.affinityMultiplier(10)).toBe(0); // zero is allowed (p = 0), negative isn't
-    expect(() => planInheritance(pctx, TRAINEE, [legacy('b', [blue('spd', 3)]), legacy('c')], SCENARIO)).toThrow(
+    expect(() =>
+      planInheritance(pctx, TRAINEE, [legacy('b', [blue('spd', 3)]), legacy('c')], SCENARIO),
+    ).toThrow(
       'rules.affinityMultiplier.formula "1 - affinity/10" is negative (-0.6000000000000001) at affinity=16',
     );
     // Negative at 0: rejected at load.
-    expect(load(mutate((r) => (r.affinityMultiplier.formula = '0 - affinity - 1')))).toThrow(RulesError);
+    expect(load(mutate((r) => (r.affinityMultiplier.formula = '0 - affinity - 1')))).toThrow(
+      RulesError,
+    );
   });
 });
 
@@ -283,7 +420,8 @@ describe('aptitude distribution: S cap and normalisation (S4)', () => {
     expect(r.aptitudeDist.turf.A).toBeCloseTo(gain[0]!, 12);
     expect(r.aptitudeDist.turf.S).toBeCloseTo(1 - gain[0]!, 12); // every step past A lands on S
     for (const g of GRADES.slice(0, 6)) expect(r.aptitudeDist.turf[g]).toBe(0);
-    for (const apt of Object.values(r.aptitudeDist)) expect(Object.values(apt).reduce((a, x) => a + x, 0)).toBeCloseTo(1, 12);
+    for (const apt of Object.values(r.aptitudeDist))
+      expect(Object.values(apt).reduce((a, x) => a + x, 0)).toBeCloseTo(1, 12);
     // Sampling also caps.
     const plan = planInheritance(ctx, TRAINEE_A, lineage9(), SCENARIO);
     const rng = mulberry32(3);
@@ -304,7 +442,12 @@ describe('aptitude distribution: S cap and normalisation (S4)', () => {
 
 describe('duplicate hints within one activation (N1)', () => {
   it('a race row listing the same skill twice gives one hint chance per activation', () => {
-    const plan = planInheritance(ctx, TRAINEE, [legacy('b', [white('race-dup', 2)]), legacy('c')], SCENARIO);
+    const plan = planInheritance(
+      ctx,
+      TRAINEE,
+      [legacy('b', [white('race-dup', 2)]), legacy('c')],
+      SCENARIO,
+    );
     const a = plan.activations[0]!;
     expect(a.effect.hints).toEqual([{ skillId: skill('race'), level: 2 }]);
     const r = expectationFromPlan(plan);
@@ -325,17 +468,33 @@ describe('duplicate hints within one activation (N1)', () => {
   });
 
   it('distinct activations of the same skill still combine as 1 − Π(1 − p)', () => {
-    const plan = planInheritance(ctx, TRAINEE, [legacy('b', [white('white-x', 1)]), legacy('c', [white('white-x', 3)])], SCENARIO);
+    const plan = planInheritance(
+      ctx,
+      TRAINEE,
+      [legacy('b', [white('white-x', 1)]), legacy('c', [white('white-x', 3)])],
+      SCENARIO,
+    );
     const [a, b] = plan.activations;
-    expect(expectationFromPlan(plan).skillHintProb[skill('x')]).toBeCloseTo(1 - ((1 - a!.p) * (1 - b!.p)) ** 2, 12);
+    expect(expectationFromPlan(plan).skillHintProb[skill('x')]).toBeCloseTo(
+      1 - ((1 - a!.p) * (1 - b!.p)) ** 2,
+      12,
+    );
   });
 });
 
 describe('legacy with unknown grandparent character', () => {
-  it('rolls the grandparent\'s sparks with affinity 0', () => {
-    const plan = planInheritance(ctx, TRAINEE, [legacy('b', [], [{ characterId: null, sparks: [pink(3)] }, null]), legacy('c')], SCENARIO);
+  it("rolls the grandparent's sparks with affinity 0", () => {
+    const plan = planInheritance(
+      ctx,
+      TRAINEE,
+      [legacy('b', [], [{ characterId: null, sparks: [pink(3)] }, null]), legacy('c')],
+      SCENARIO,
+    );
     expect(plan.affinity.perSource.GP1a).toBe(0);
     expect(plan.activations[0]!.p).toBeCloseTo(0.4 * 0.8, 12);
-    expect(plan.affinity.breakdown.find((x) => x.label === 'T-P1-GP1a')?.members).toEqual([c('a'), c('b')]);
+    expect(plan.affinity.breakdown.find((x) => x.label === 'T-P1-GP1a')?.members).toEqual([
+      c('a'),
+      c('b'),
+    ]);
   });
 });

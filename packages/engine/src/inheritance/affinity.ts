@@ -72,11 +72,19 @@ export function computeAffinity(
   };
   const tp1 = add('T-P1', [T, p1.characterId], affinity2(ctx, T, p1.characterId));
   const tp2 = add('T-P2', [T, p2.characterId], affinity2(ctx, T, p2.characterId));
-  const pp = add('P1-P2', [p1.characterId, p2.characterId], affinity2(ctx, p1.characterId, p2.characterId));
+  const pp = add(
+    'P1-P2',
+    [p1.characterId, p2.characterId],
+    affinity2(ctx, p1.characterId, p2.characterId),
+  );
   const gpAff = (p: Legacy, idx: 0 | 1, label: string): number => {
     const gp = p.grandparents[idx];
     const id = gp?.characterId ?? null;
-    return add(`T-${label}`, id ? [T, p.characterId, id] : [T, p.characterId], id ? affinity3(ctx, T, p.characterId, id) : 0);
+    return add(
+      `T-${label}`,
+      id ? [T, p.characterId, id] : [T, p.characterId],
+      id ? affinity3(ctx, T, p.characterId, id) : 0,
+    );
   };
   const g1a = gpAff(p1, 0, 'P1-GP1a');
   const g1b = gpAff(p1, 1, 'P1-GP1b');

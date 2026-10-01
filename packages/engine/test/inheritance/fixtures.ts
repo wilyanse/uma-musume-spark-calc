@@ -61,8 +61,17 @@ export function toyRules(): Rules {
 }
 
 const aptitudes = (over: Record<string, string> = {}) => ({
-  turf: 'C', dirt: 'C', sprint: 'C', mile: 'C', medium: 'C', long: 'C',
-  front: 'C', pace: 'C', late: 'C', end: 'C', ...over,
+  turf: 'C',
+  dirt: 'C',
+  sprint: 'C',
+  mile: 'C',
+  medium: 'C',
+  long: 'C',
+  front: 'C',
+  pace: 'C',
+  late: 'C',
+  end: 'C',
+  ...over,
 });
 const growth = { spd: 0, sta: 0, pow: 0, gut: 0, wit: 0 };
 
@@ -82,7 +91,13 @@ export function toyMaster(rules: Rules = toyRules(), turns: number[] = [1, 2]): 
     iconHashes: [],
   }));
   const outfit = (id: string, characterId: string, apt: Record<string, string> = {}) => ({
-    id, characterId, title: id, aptitudes: aptitudes(apt), growth, uniqueSkillId: skill('x'), innateSkillIds: [],
+    id,
+    characterId,
+    title: id,
+    aptitudes: aptitudes(apt),
+    growth,
+    uniqueSkillId: skill('x'),
+    innateSkillIds: [],
   });
   const sparks = [
     ['spd', 'blue', { kind: 'stat', stat: 'spd' }],
@@ -126,13 +141,33 @@ export function toyMaster(rules: Rules = toyRules(), turns: number[] = [1, 2]): 
   };
 }
 
-export function legacy(characterId: string, sparks: SparkRef[] = [], grandparents: Legacy['grandparents'] = [null, null]): Legacy {
+export function legacy(
+  characterId: string,
+  sparks: SparkRef[] = [],
+  grandparents: Legacy['grandparents'] = [null, null],
+): Legacy {
   return { veteranId: null, characterId: c(characterId), sparks, grandparents };
 }
-export const blue = (stat: 'spd' | 'sta' | 'pow' | 'gut' | 'wit', stars: 1 | 2 | 3): SparkRef => ({ sparkId: sp(stat), type: 'blue', stars });
-export const pink = (stars: 1 | 2 | 3, apt: 'turf' | 'dirt' = 'turf'): SparkRef => ({ sparkId: sp(`pink-${apt}`), type: 'pink', stars });
-export const green = (stars: 1 | 2 | 3): SparkRef => ({ sparkId: sp('green-y'), type: 'green', stars });
-export const white = (id: string, stars: 1 | 2 | 3): SparkRef => ({ sparkId: sp(id), type: 'white', stars });
+export const blue = (stat: 'spd' | 'sta' | 'pow' | 'gut' | 'wit', stars: 1 | 2 | 3): SparkRef => ({
+  sparkId: sp(stat),
+  type: 'blue',
+  stars,
+});
+export const pink = (stars: 1 | 2 | 3, apt: 'turf' | 'dirt' = 'turf'): SparkRef => ({
+  sparkId: sp(`pink-${apt}`),
+  type: 'pink',
+  stars,
+});
+export const green = (stars: 1 | 2 | 3): SparkRef => ({
+  sparkId: sp('green-y'),
+  type: 'green',
+  stars,
+});
+export const white = (id: string, stars: 1 | 2 | 3): SparkRef => ({
+  sparkId: sp(id),
+  type: 'white',
+  stars,
+});
 
 /** The review's lineages (hand-computed in toy.test.ts). */
 export const lineage1 = (): [Legacy, Legacy] => [legacy('b', [blue('spd', 3)]), legacy('c')];
@@ -141,14 +176,22 @@ export const lineage3 = (): [Legacy, Legacy] => [
   legacy('d', [white('white-x', 1)]),
 ];
 export const lineage9 = (): [Legacy, Legacy] => [
-  legacy('b', [blue('spd', 2), pink(1), white('white-x', 2)], [
-    { characterId: c('d'), sparks: [white('race-1', 3)] },
-    { characterId: c('e'), sparks: [white('scenario', 2)] },
-  ]),
-  legacy('c', [blue('gut', 1), pink(3), green(1)], [
-    { characterId: c('f'), sparks: [white('white-x', 3)] },
-    { characterId: c('g'), sparks: [] },
-  ]),
+  legacy(
+    'b',
+    [blue('spd', 2), pink(1), white('white-x', 2)],
+    [
+      { characterId: c('d'), sparks: [white('race-1', 3)] },
+      { characterId: c('e'), sparks: [white('scenario', 2)] },
+    ],
+  ),
+  legacy(
+    'c',
+    [blue('gut', 1), pink(3), green(1)],
+    [
+      { characterId: c('f'), sparks: [white('white-x', 3)] },
+      { characterId: c('g'), sparks: [] },
+    ],
+  ),
 ];
 /**
  * A richer lineage for Monte Carlo / mutation tests: all five stats move through events, two
@@ -156,27 +199,41 @@ export const lineage9 = (): [Legacy, Legacy] => [
  * race row.
  */
 export const richLineage = (): [Legacy, Legacy] => [
-  legacy('b', [blue('spd', 3), pink(2), green(2), white('white-x', 1)], [
-    { characterId: c('d'), sparks: [blue('sta', 3), pink(3, 'dirt'), white('race-1', 2)] },
-    { characterId: c('e'), sparks: [blue('wit', 1), white('scenario', 3)] },
-  ]),
-  legacy('c', [blue('pow', 2), pink(3), white('race-dup', 3)], [
-    { characterId: c('f'), sparks: [blue('gut', 2), pink(1, 'dirt'), white('white-x', 3)] },
-    { characterId: null, sparks: [blue('spd', 1), green(1)] },
-  ]),
+  legacy(
+    'b',
+    [blue('spd', 3), pink(2), green(2), white('white-x', 1)],
+    [
+      { characterId: c('d'), sparks: [blue('sta', 3), pink(3, 'dirt'), white('race-1', 2)] },
+      { characterId: c('e'), sparks: [blue('wit', 1), white('scenario', 3)] },
+    ],
+  ),
+  legacy(
+    'c',
+    [blue('pow', 2), pink(3), white('race-dup', 3)],
+    [
+      { characterId: c('f'), sparks: [blue('gut', 2), pink(1, 'dirt'), white('white-x', 3)] },
+      { characterId: null, sparks: [blue('spd', 1), green(1)] },
+    ],
+  ),
 ];
 
 /** Component-wise: Σ contributions.expectedEffect.stats == expectedStatGain (review B1). */
 export function expectContributionsSumToExpected(r: InheritanceResult): void {
   const sum = [0, 0, 0, 0, 0];
-  for (const x of r.contributions) x.expectedEffect.stats.forEach((v, k) => (sum[k] = (sum[k] ?? 0) + v));
+  for (const x of r.contributions)
+    x.expectedEffect.stats.forEach((v, k) => (sum[k] = (sum[k] ?? 0) + v));
   r.expectedStatGain.forEach((v, k) => expect(sum[k]).toBeCloseTo(v, 9));
   const bonus = [0, 0, 0, 0, 0];
-  for (const x of r.contributions) x.initialBonus.forEach((v, k) => (bonus[k] = (bonus[k] ?? 0) + v));
+  for (const x of r.contributions)
+    x.initialBonus.forEach((v, k) => (bonus[k] = (bonus[k] ?? 0) + v));
   expect(bonus).toEqual(r.initialStatBonus);
 }
 
-export function expectVectorClose(actual: readonly number[], expected: readonly number[], digits = 9): void {
+export function expectVectorClose(
+  actual: readonly number[],
+  expected: readonly number[],
+  digits = 9,
+): void {
   expect(actual).toHaveLength(expected.length);
   expected.forEach((v, k) => expect(actual[k]).toBeCloseTo(v, digits));
 }
