@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Superseded PR runs are cancelled. Every main push gets its own group (never cancelled or
+  # replaced), because deploy.yml consumes each successful main push run.
+  group: ci-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  typescript:
+    name: TS workspace (all packages)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # pnpm version comes from package.json "packageManager" (single source of truth).
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Every workspace package defines lint, typecheck and test
+        run: node .github/scripts/check-workspace-coverage.mjs .
+      - name: Wrangler production config and MASTER_VERSION alignment
+        run: node .github/scripts/check-config.mjs .
+      # Recursive: every current and future workspace package (e.g. @uma/engine) is covered.
+      - run: pnpm -r lint
+      - run: pnpm -r typecheck
+      - run: pnpm -r test
+      # Only the web app is built, from committed apps/web/public/master data. Never `pnpm -r build`:
+      # the master-data build fetches upstream game data and can create a new version.
+      - name: Build web from committed master data + bundle budget (60-web, <= 250 kB gzip)
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm --filter web build
+          mapfile -t mains < <(find apps/web/dist/assets -maxdepth 1 -type f -name 'index-*.js')
+          test "${#mains[@]}" -eq 1
+          bytes=$(gzip -9 -c "${mains[0]}" | wc -c | tr -d ' ')
+          echo "main gzip bytes: $bytes (limit 250000)"
+          test "$bytes" -le 250000
+      - name: Production dependency audit (report only, 65 §6)
+        continue-on-error: true
+        run: pnpm audit --prod
+
+  workflow-checks:
+    name: Workflow lint + regression checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.14.0
+      - name: Install pinned, digest-verified age and actionlint
+        run: |
+          bash .github/scripts/install-tool.sh age "$RUNNER_TEMP/tools"
+          bash .github/scripts/install-tool.sh actionlint "$RUNNER_TEMP/tools"
+      - name: Deploy gating, backup encryption, config and coverage regression tests
+        env:
+          TOOLS_DIR: ${{ runner.temp }}/tools
+        run: bash .github/tests/run.sh
+
+  dotnet:
+    name: Agent .NET gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # net8.0 projects need the 8.x runtime; agent/global.json asks for SDK 9.0.100 (latestMajor).
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+      - name: Require the .NET 8 runtime and the global.json SDK
+        run: bash .github/scripts/agent-gates.sh runtime
+      - name: dotnet test agent/tests/Uma.Agent.Core.Tests (NOT RUN until T09 lands)
+        run: bash .github/scripts/agent-gates.sh core-tests
+      - name: dotnet build agent/src/Uma.Agent.Windows (NOT RUN until T10 lands)
+        run: bash .github/scripts/agent-gates.sh windows-build

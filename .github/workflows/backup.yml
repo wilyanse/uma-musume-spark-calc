@@ -1,0 +1,50 @@
+name: Weekly D1 backup
+
+on:
+  schedule:
+    - cron: '17 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: d1-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    # Scheduled runs use the default branch; a manual dispatch from another branch never exports.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Holds the backup-only Cloudflare token (deployment branch rule: main). backup.md §1.
+    environment: backup
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.14.0
+      - run: pnpm install --frozen-lockfile
+      - name: Install pinned, digest-verified age
+        run: bash .github/scripts/install-tool.sh age "$RUNNER_TEMP/tools"
+      # Fails closed BEFORE exporting when BACKUP_AGE_RECIPIENT is missing/invalid. Plaintext SQL
+      # exists only in a private temp dir that is removed on success and on failure.
+      - name: Export, validate and encrypt (age, public recipient only)
+        id: backup
+        env:
+          AGE_BIN: ${{ runner.temp }}/tools/age
+          AGE_RECIPIENT: ${{ vars.BACKUP_AGE_RECIPIENT }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: bash .github/scripts/backup-d1.sh "$RUNNER_TEMP/backup-out"
+      # Exactly one file: the age ciphertext. Never plaintext SQL, keys or directories.
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: d1-backup-${{ github.run_id }}
+          path: ${{ steps.backup.outputs.file }}
+          if-no-files-found: error
+          retention-days: 90
