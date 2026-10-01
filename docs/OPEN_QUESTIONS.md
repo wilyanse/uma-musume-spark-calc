@@ -84,6 +84,12 @@ Blocking: no
 Context: S07 "not enough held-out data" and S06 "import veterans" empty states need minimum counts. No spec gives them.
 Assumption taken: held-out check needs at least 10 held-out veterans (reuses the 10 §2 "low data" n < 10 threshold); the planner needs at least 2 veterans (two distinct parents). Both are UI assumptions, not model rules. T13/T06 should replace them with the real minimums (e.g. from the 80/20 split).
 Blocking: no
+
+## Q-81 (T05) Exact affinity decomposition for inheritance
+Numbering: the orchestrator reserved Q-80–Q-89 for questions raised by the parallel wave's tasks (T05 prompt: "New questions reserve Q-80 through Q-89"), so this ID is intentionally not Q-79.
+Context: 50 §3 names `aff(T,P1) + aff(T,P2) + aff(T,P1,GP)…`, while the cited calculator also reports a parent-pair term and race/epithet bonuses. RosterVeteran has no complete legacy race-win or epithet relation data.
+Assumption taken: use shared affinity groups (and optional pairwise table) for T–P, P1–P2, and T–P–GP relations; include the P1–P2 term in each parent spark's multiplier; omit unavailable race-win and epithet terms and expose them in `AffinityResult.unsupportedTerms`.
+Blocking: no
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)
