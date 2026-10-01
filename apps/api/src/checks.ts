@@ -75,8 +75,11 @@ export function extraVeteranChecks(veteran: Veteran, prefix: string): Problem[] 
   return out;
 }
 
-/** Moving a spark between owner blocks requires the owner-block correction/remapping path. */
-const SPARK_OWNER_LEAF = /^\/sparks\/\d+\/owner$/;
+/**
+ * Moving a spark between owner blocks requires the owner-block correction/remapping path, and a
+ * deck/parent slot must equal its index + 1, so neither leaf can be corrected by a review item.
+ */
+const FIXED_LEAF = /^\/(sparks\/\d+\/owner|deck\/\d+\/slot|parents\/\d+\/slot)$/;
 
 /**
  * Where a review correction at `path` would be written inside `root`, or null when `path` is not
@@ -99,7 +102,7 @@ export function correctionTarget(
   root: Record<string, unknown>,
   path: string,
 ): { node: Record<string, unknown>; key: string } | null {
-  if (path === '/trainMode' || SPARK_OWNER_LEAF.test(path)) return null;
+  if (path === '/trainMode' || FIXED_LEAF.test(path)) return null;
   const at = locate(root, path);
   if (!at || Array.isArray(at.node) || Array.isArray(at.node[at.key])) return null;
   return at;

@@ -164,3 +164,10 @@ All matched files use Prettier code style!
 $ pnpm --filter api exec wrangler d1 migrations apply uma-spark-calc --local --persist-to <scratch>
 19 / 8 / 4 commands executed successfully; 0001, 0002, 0003 ✅
 ```
+
+## Review round 3
+Review: `docs/reviews/T04b-review-3.md` (PASS). Nits fixed by the orchestrator before merge:
+- **N1:** the resolve comment now says only spark owner and deck/parent slot leaves are refused.
+- **N2:** `/deck/<n>/slot` and `/parents/<n>/slot` are refused by `correctionTarget`, so they can no longer open dead review items. The S2 matrix test covers both.
+- **S1 (follow-up for T09):** T09 validation must require `slot == index + 1` for deck and parents, not only a sorted set. Tracked in Q-110 and the T09 task prompt.
+- **N3 (follow-up):** a corrected `sparkId` is not checked against the element's `type`. Left for a cross-task master-type check or a T13 UI hint.

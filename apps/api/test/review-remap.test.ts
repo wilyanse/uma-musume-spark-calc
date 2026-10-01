@@ -473,10 +473,11 @@ describe('array-restructuring corrections are refused (S2)', () => {
     '/sparks/3',
     '/sparks/25',
     '/sparks/25/owner',
-
     '/skills',
     '/skills/2',
     '/deck/0',
+    '/deck/0/slot',
+    '/parents/0/slot',
     '/parents/1',
     '/parents',
   ];
@@ -556,7 +557,6 @@ describe('array-restructuring corrections are refused (S2)', () => {
       '/sparks': capture.veteran.sparks.slice(0, 20),
       '/sparks/3': capture.veteran.sparks[4],
       '/sparks/9/owner': 'parent2',
-
       '/skills/2': capture.veteran.skills[5],
     };
     for (const [i, path] of legacy.entries()) {

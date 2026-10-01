@@ -163,8 +163,8 @@ reviews.post('/review-items/:id/resolve', async (c) => {
       return next;
     });
   } else {
-    // Leaf values only: whole arrays/elements and spark owner/ID leaves are refused, because
-    // they could move or replace sparks under sibling index-based items (review r1 S2; Q-110).
+    // Leaf values only: whole arrays/elements, spark owner leaves and deck/parent slot leaves
+    // are refused, because they could move elements under sibling index-based items (Q-110).
     const at = correctionTarget(draft, item.path);
     if (at) at.node[at.key] = value;
     else
