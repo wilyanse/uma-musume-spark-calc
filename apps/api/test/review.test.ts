@@ -249,7 +249,31 @@ describe('review queue', () => {
     expect(detail.skills).toHaveLength(capture.veteran.skills.length);
   });
 
-  it('N4: resolving /sparks/<owner> keeps the owner block in place', async () => {
+  // Resolve races (resolve vs delete/PATCH/ingest/another item/the same item) are in
+  // review-races.test.ts, with the winner chosen by an injected D1 barrier (T04b review r1 B1/N3).
+
+  it('accepts an ok provenance field for /trainMode but rejects it when low-confidence', async () => {
+    const h = makeHarness();
+    const capture = await makeCapture((c) => {
+      c.fields.push({
+        path: '/trainMode',
+        rawText: 'Independent Learner',
+        value: 'independent',
+        confidence: 1,
+        status: 'ok',
+        candidates: [],
+        cropKey: null,
+      });
+    });
+    expect((await h.call('POST', '/veterans', capture)).status).toBe(201);
+    const rejected = await makeCapture((c) => {
+      c.fields.push(low('/trainMode', 'independent', 'x'));
+    });
+    await problem(await h.call('POST', '/veterans', rejected), 422);
+  });
+
+  // Owner blocks that already exist (shrink/grow, index remapping) are in review-remap.test.ts.
+  it('N4: resolving /sparks/<owner> for an absent owner appends its block', async () => {
     const h = makeHarness();
     const capture = await makeCapture((c) => {
       c.veteran.sparks = c.veteran.sparks.filter((s) => s.owner !== 'parent1');
@@ -258,17 +282,24 @@ describe('review queue', () => {
     const { veteranId } = await ingest(h, capture);
     const [item] = await openItems(h);
     const before = capture.veteran.sparks.map((s) => s.owner);
-    await h.call('POST', `/review-items/${item!.id}/resolve`, {
+    const resolvedResponse = await h.call('POST', `/review-items/${item!.id}/resolve`, {
       value: [
-        { sparkId: 'spark:speed', type: 'blue', stars: 1 },
-        { sparkId: 'spark:turf', type: 'pink', stars: 1 },
+        { sparkId: capture.veteran.sparks[0]!.sparkId, type: 'blue', stars: 1 },
+        { sparkId: capture.veteran.sparks[1]!.sparkId, type: 'pink', stars: 1 },
       ],
     });
+    expect(resolvedResponse.status, await resolvedResponse.clone().text()).toBe(200);
     const detail = RosterVeteranDetail.parse(
       await (await h.call('GET', `/veterans/${veteranId}`)).json(),
     );
-    // Untouched owners keep their relative order, and the (previously absent) block is appended.
-    expect(detail.sparks.filter((s) => s.owner !== 'parent1').map((s) => s.owner)).toEqual(before);
+    // Untouched owners keep their relative order; the absent owner's replacement is appended.
+    expect(detail.sparks.filter((s) => s.owner !== 'parent1').map((s) => s.owner)).toEqual(
+      before.filter((owner) => owner !== 'parent1'),
+    );
+    expect(detail.sparks.filter((s) => s.owner === 'parent1')).toHaveLength(2);
+    expect(detail.sparks.findIndex((s) => s.owner === 'parent1')).toBeGreaterThan(
+      detail.sparks.findIndex((s) => s.owner === 'parent2'),
+    );
   });
 
   it('404s for an unknown item and 422s for a missing value', async () => {

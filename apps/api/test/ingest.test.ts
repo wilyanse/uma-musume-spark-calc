@@ -8,7 +8,14 @@ import {
   type VeteranCapture,
 } from '@uma/schema';
 import mcqueen from './fixtures/mcqueen.json' with { type: 'json' };
-import { countingEnv, makeCapture, makeHarness, problem, resetDb } from './helpers/harness.ts';
+import {
+  barrierEnv,
+  countingEnv,
+  makeCapture,
+  makeHarness,
+  problem,
+  resetDb,
+} from './helpers/harness.ts';
 
 beforeEach(resetDb);
 
@@ -365,8 +372,9 @@ describe('concurrent identical ingests (B1)', () => {
       responses.map((r) => r.json().then((b) => IngestResponse.parse(b))),
     );
     expect(bodies.filter((b) => b.created).length).toBeLessThanOrEqual(1);
-    expect(responses.map((r) => r.status).sort()).toEqual(
-      responses.map((r) => (r.status === 201 ? 201 : 200)).sort(),
+    expect(responses.every((r) => r.status === 200 || r.status === 201)).toBe(true);
+    expect(responses.filter((r) => r.status === 201).length).toBe(
+      bodies.filter((b) => b.created).length,
     );
     const stored = await env.DB.prepare('SELECT id FROM veterans').all<{ id: string }>();
     expect(stored.results).toHaveLength(1);
@@ -404,5 +412,97 @@ describe('D1 statement budget (40 §4)', () => {
     expect(rosterRead).toBeLessThanOrEqual(6);
     expect(create).toBeGreaterThan(5);
     expect(create).toBeLessThanOrEqual(15); // guards against the counter silently counting nothing
+  });
+
+  it('worst-case resolve (owner replacement with remap) and PATCH stay ≤ 50 statements (T04b r1 S3)', async () => {
+    const counted = countingEnv(env);
+    const h = makeHarness({}, counted.env);
+    // Every child table non-empty, a shrinking parent1 block (10 → 3) so the remap statement runs,
+    // plus an index-based item after the block that it moves.
+    const capture = await makeCapture((c) => {
+      for (const path of ['/sparks/parent1', '/sparks/25/stars']) {
+        c.fields.push({
+          path,
+          rawText: null,
+          value: null,
+          confidence: 0.2,
+          status: 'low_confidence',
+          candidates: [],
+          cropKey: null,
+        });
+      }
+    });
+    const ingested = IngestResponse.parse(
+      await (await h.call('POST', '/veterans', capture)).json(),
+    );
+    const [ownerItem, movedItem] = ingested.reviewItemIds!;
+    counted.reset();
+    const res = await h.call('POST', `/review-items/${ownerItem}/resolve`, {
+      value: [
+        { sparkId: 'spark:power', type: 'blue', stars: 1 },
+        { sparkId: 'spark:medium', type: 'pink', stars: 1 },
+        { sparkId: 'spark:arima-kinen', type: 'white', stars: 1 },
+      ],
+    });
+    expect(res.status, await res.clone().text()).toBe(200);
+    const resolve = counted.count();
+    // The remap really ran: the later item moved by -7.
+    const moved = await env.DB.prepare('SELECT path FROM review_items WHERE id = ?')
+      .bind(movedItem)
+      .first<{ path: string }>();
+    expect(moved!.path).toBe('/sparks/18/stars');
+    counted.reset();
+    const patched = await h.call('PATCH', `/veterans/${ingested.veteranId}`, {
+      trainMode: 'manual',
+    });
+    expect(patched.status).toBe(200);
+    const patch = counted.count();
+    console.log(`statements: resolve(owner+remap)=${resolve} patch=${patch}`);
+    expect(resolve).toBeGreaterThan(15); // the counter saw the whole batch
+    expect(resolve).toBeLessThanOrEqual(50);
+    expect(patch).toBeGreaterThan(1);
+    expect(patch).toBeLessThanOrEqual(50);
+  });
+
+  it('a stale owner resolve that returns 409 also stays ≤ 50 statements (T04b r2 S4)', async () => {
+    const counted = countingEnv(env);
+    const barrier = barrierEnv(counted.env);
+    const h = makeHarness({}, barrier.env);
+    const competitor = makeHarness();
+    const capture = await makeCapture((c) =>
+      c.fields.push({
+        path: '/sparks/parent1',
+        rawText: null,
+        value: null,
+        confidence: 0.2,
+        status: 'low_confidence',
+        candidates: [],
+        cropKey: null,
+      }),
+    );
+    const ingested = IngestResponse.parse(
+      await (await competitor.call('POST', '/veterans', capture)).json(),
+    );
+    barrier.on('before', 'review_items', async () => {
+      expect(
+        (await competitor.call('PATCH', `/veterans/${ingested.veteranId}`, { trainMode: 'manual' }))
+          .status,
+      ).toBe(200);
+    });
+    counted.reset();
+    await problem(
+      await h.call('POST', `/review-items/${ingested.reviewItemIds![0]}/resolve`, {
+        value: [
+          { sparkId: 'spark:power', type: 'blue', stars: 1 },
+          { sparkId: 'spark:medium', type: 'pink', stars: 1 },
+        ],
+      }),
+      409,
+    );
+    const stale = counted.count();
+    console.log(`statements: stale resolve=${stale}`);
+    expect(barrier.fired()).toBe(1);
+    expect(stale).toBeGreaterThan(15);
+    expect(stale).toBeLessThanOrEqual(50);
   });
 });

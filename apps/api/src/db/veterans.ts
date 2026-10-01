@@ -56,21 +56,58 @@ const VETERAN_COLUMNS = [
 
 const UPDATABLE = VETERAN_COLUMNS.filter((c) => c !== 'id' && c !== 'created_at');
 
-/** `override` rows keep their train_mode (01 §6): later captures never overwrite an override. */
-const upsertSql = (conflict: 'id' | 'fingerprint') =>
-  `INSERT INTO veterans (${VETERAN_COLUMNS.join(', ')}) VALUES (${VETERAN_COLUMNS.map(() => '?').join(', ')})
-   ON CONFLICT(${conflict}) DO UPDATE SET ${UPDATABLE.map((c) =>
-     c === 'train_mode'
-       ? `train_mode = CASE WHEN veterans.mode_source = 'override' THEN veterans.train_mode ELSE excluded.train_mode END`
-       : c === 'mode_source'
-         ? `mode_source = veterans.mode_source`
-         : c === 'updated_at'
-           ? // Always strictly after created_at, so `created_at = updated_at` means "inserted just now".
-             `updated_at = CASE WHEN excluded.updated_at > veterans.created_at THEN excluded.updated_at
-                ELSE strftime('%Y-%m-%dT%H:%M:%fZ', veterans.created_at, '+0.001 seconds') END`
-           : `${c} = excluded.${c}`,
-   ).join(', ')}
+/**
+ * The `updated_at` a write to an existing row stores: `now`, or 1 ms after the stored value when
+ * the clock hasn't moved past it. It is therefore strictly increasing per row (and always after
+ * `created_at`), which is what the optimistic write guard of migration 0003 relies on: a resolve
+ * that still sees the `updated_at` it loaded knows no other write landed in between (T04b).
+ */
+export const bumpUpdatedAt = (now: string, old = 'veterans.updated_at') =>
+  `CASE WHEN ${now} > ${old} THEN ${now}
+     ELSE strftime('%Y-%m-%dT%H:%M:%fZ', ${old}, '+0.001 seconds') END`;
+
+/** SET list shared by the ingest upsert and the resolve update; `val(c)` is the new value of `c`. */
+const setList = (val: (c: string) => string) =>
+  UPDATABLE.map((c) =>
+    c === 'train_mode'
+      ? // `override` rows keep their train_mode (01 §6): later writes never overwrite an override.
+        `train_mode = CASE WHEN veterans.mode_source = 'override' THEN veterans.train_mode ELSE ${val(c)} END`
+      : c === 'mode_source'
+        ? `mode_source = veterans.mode_source`
+        : c === 'updated_at'
+          ? `updated_at = ${bumpUpdatedAt(val(c))}`
+          : `${c} = ${val(c)}`,
+  ).join(', ');
+
+/** Ingest: insert, or update the row with the same fingerprint. `created_at = updated_at` ⇔ inserted. */
+const UPSERT_SQL = `INSERT INTO veterans (${VETERAN_COLUMNS.join(', ')}) VALUES (${VETERAN_COLUMNS.map(() => '?').join(', ')})
+   ON CONFLICT(fingerprint) DO UPDATE SET ${setList((c) => `excluded.${c}`)}
    RETURNING id, created_at = updated_at AS created`;
+
+/** Resolve: update the existing row by id; never inserts, so a deleted veteran stays deleted. */
+const UPDATE_SQL = `UPDATE veterans SET ${setList((c) => `?${VETERAN_COLUMNS.indexOf(c as (typeof VETERAN_COLUMNS)[number]) + 1}`)}
+   WHERE id = ?1`;
+
+/**
+ * First statement of a guarded read-modify-write batch (migration 0003): the whole D1 batch aborts
+ * with `stale_veteran_write` unless veteran `id` still has the loaded `updatedAt` and, when given,
+ * review item `reviewItemId` is still open on it.
+ */
+export function writeGuardStatement(
+  db: D1Database,
+  id: string,
+  updatedAt: string,
+  reviewItemId: string | null = null,
+): D1PreparedStatement {
+  return db
+    .prepare(
+      'INSERT INTO veteran_write_guard (veteran_id, updated_at, review_item_id) VALUES (?, ?, ?)',
+    )
+    .bind(id, updatedAt, reviewItemId);
+}
+
+/** True when a D1 error is the write guard refusing a stale batch. */
+export const isStaleWrite = (e: unknown): boolean => String(e).includes('stale_veteran_write');
 
 /** The persisted id of a veteran, resolved inside the transaction (never a JS-side guess; B1). */
 export const ID_BY_FINGERPRINT = '(SELECT id FROM veterans WHERE fingerprint = ?1)';
@@ -82,30 +119,35 @@ const CHILD_TABLES = [
   'veteran_parents',
 ] as const;
 
-/**
- * Statements that (re)write one veteran and its child rows: upsert, delete the child rows, then
- * one multi-row insert per table. Rows travel as one JSON parameter each and are expanded with
- * `json_each`, so a statement never exceeds D1's 100 bound parameters however many rows it has.
- * Insertion order is preserved in rowid: it is the only record of the capture's array order,
- * which review-item paths such as `/sparks/3/stars` index into.
- */
+/** RETURNING row of the ingest upsert (statement 0 of `writeVeteranStatements` in upsert mode). */
 export interface UpsertResult {
   id: string;
   created: number;
 }
 
-/** Statement 0 of the returned list is the upsert; its single RETURNING row is the persisted id. */
+/**
+ * Statements that (re)write one veteran and its child rows: write the `veterans` row, delete the
+ * child rows, then one multi-row insert per table. Rows travel as one JSON parameter each and are
+ * expanded with `json_each`, so a statement never exceeds D1's 100 bound parameters however many
+ * rows it has. Insertion order is preserved in rowid: it is the only record of the capture's
+ * array order, which review-item paths such as `/sparks/3/stars` index into.
+ *
+ * Statement 0 writes the `veterans` row. In `upsert` mode (ingest) its single RETURNING row is the
+ * persisted id. In `update` mode (resolve) it updates the row `meta.id` only and never inserts;
+ * callers put the write guard before it so the batch aborts if the row changed or vanished.
+ * Child rows are keyed by `meta.fingerprint`, i.e. by the row that exists after statement 0.
+ */
 export function writeVeteranStatements(
   db: D1Database,
   v: Veteran,
   meta: VeteranMeta,
-  conflict: 'id' | 'fingerprint',
+  mode: 'upsert' | 'update',
 ): D1PreparedStatement[] {
   const s = v.stats;
   const a = v.aptitudes;
   const stmts: D1PreparedStatement[] = [
     db
-      .prepare(upsertSql(conflict))
+      .prepare(mode === 'upsert' ? UPSERT_SQL : UPDATE_SQL)
       .bind(
         meta.id,
         meta.fingerprint,
@@ -263,7 +305,9 @@ interface VeteranRow {
   date_acquired: string;
   master_version: string;
   captured_at: string;
+  capture_id: string;
   min_confidence: number;
+  updated_at: string;
   spd: number;
   sta: number;
   pow: number;
@@ -413,11 +457,19 @@ export async function loadRoster(db: D1Database): Promise<RosterVeteran[]> {
   return (vets as D1Result<VeteranRow>).results.map((r) => assemble(r, ch));
 }
 
-/** One veteran with its capture fields, or null. 6 queries in one batch. */
+/** Stored columns a read-modify-write needs besides the API shape; never sent to clients. */
+export interface VeteranRowMeta {
+  masterVersion: string;
+  captureId: string;
+  /** The optimistic-concurrency token (migration 0003). */
+  updatedAt: string;
+}
+
+/** One veteran with its capture fields, or null. 6 queries in one batch (one snapshot). */
 export async function loadVeteranDetail(
   db: D1Database,
   id: string,
-): Promise<(RosterVeteranDetail & { masterVersion: string }) | null> {
+): Promise<(RosterVeteranDetail & { internal: VeteranRowMeta }) | null> {
   const [vets, skills, sparks, deck, parents, fields] = await db.batch([
     db.prepare('SELECT * FROM veterans WHERE id = ?').bind(id),
     db.prepare('SELECT * FROM veteran_skills WHERE veteran_id = ? ORDER BY rowid').bind(id),
@@ -437,7 +489,11 @@ export async function loadVeteranDetail(
   return {
     ...assemble(row, ch),
     fields: (fields as D1Result<FieldRow>).results.map(fieldFromRow),
-    masterVersion: row.master_version,
+    internal: {
+      masterVersion: row.master_version,
+      captureId: row.capture_id,
+      updatedAt: row.updated_at,
+    },
   };
 }
 

@@ -8,11 +8,12 @@ import {
   type IngestResponse,
 } from '@uma/schema';
 import { ApiError, validationError } from '../problem.ts';
-import { captureFieldChecks, extraVeteranChecks } from '../checks.ts';
+import { ARRAY_INDEX_SQL, captureFieldChecks, extraVeteranChecks } from '../checks.ts';
 import { nowIso, parseBody, type AppEnv } from '../http.ts';
 import {
   ID_BY_FINGERPRINT,
   type UpsertResult,
+  bumpUpdatedAt,
   deriveTrainMode,
   insertFieldsStatement,
   loadRoster,
@@ -22,18 +23,19 @@ import {
   writeVeteranStatements,
 } from '../db/veterans.ts';
 
-const withoutMasterVersion = <T extends { masterVersion: string }>(
-  d: T,
-): Omit<T, 'masterVersion'> => {
-  const { masterVersion, ...rest } = d;
-  void masterVersion;
+/** Drops the stored-only columns `loadVeteranDetail` carries for read-modify-write callers. */
+const withoutInternal = <T extends { internal: unknown }>(d: T): Omit<T, 'internal'> => {
+  const { internal, ...rest } = d;
+  void internal;
   return rest;
 };
 
 export const veterans = new Hono<AppEnv>();
 
-// 40 §4 ingest. Statement budget (≤ 15): 1 lookup + 1 open-review lookup + batch of
-// upsert, 4 deletes, ≤ 4 child inserts, fields delete + insert, review insert, parent match = ≤ 15.
+// 40 §4 ingest. Statement budget (≤ 15, asserted in test/ingest.test.ts), all in one batch:
+// upsert + 4 child deletes + ≤ 4 child inserts + fields delete + fields insert + stale-item dismiss
+// + review insert + parent match + final open-item SELECT = 15 with a review item (13 without).
+// There is no headroom: any new ingest statement must replace one of these.
 veterans.post('/veterans', async (c) => {
   const capture = await parseBody(c, VeteranCapture);
   const { veteran } = capture;
@@ -92,33 +94,62 @@ veterans.post('/veterans', async (c) => {
   // fingerprint inside the same D1 transaction: two identical POSTs racing each other end with one
   // veteran, one set of child rows and one set of review items (T04 review B1).
   const fp = capture.fingerprint; // === the verified fingerprint above
+  // A same-fingerprint re-ingest can reorder sparks (the fingerprint sorts them) or skills (not
+  // fingerprinted). Before replacing child rows, retire index-based review items whose element
+  // identity at that index changes. New low-confidence fields get new items below; closed audit
+  // items must not join another element's current field. This preserves 15 statements.
+  const idx = ARRAY_INDEX_SQL;
+  const oldSpark = `(SELECT owner || '|' || spark_id FROM
+    (SELECT owner, spark_id, row_number() OVER (ORDER BY rowid) - 1 AS n
+     FROM veteran_sparks WHERE veteran_id = ${ID_BY_FINGERPRINT})
+    WHERE n = CAST(${idx} AS INTEGER))`;
+  const newSpark = `json_extract(?4, '$[' || CAST(${idx} AS INTEGER) || ']')`;
+  const oldSkill = `(SELECT skill_id FROM
+    (SELECT skill_id, row_number() OVER (ORDER BY rowid) - 1 AS n
+     FROM veteran_skills WHERE veteran_id = ${ID_BY_FINGERPRINT})
+    WHERE n = CAST(${idx} AS INTEGER))`;
+  const newSkill = `json_extract(?5, '$[' || CAST(${idx} AS INTEGER) || ']')`;
+  const indexed = `${idx} <> '' AND ${idx} NOT GLOB '*[^0-9]*'`;
+  const changed = `((path LIKE '/sparks/%' AND ${indexed} AND ${oldSpark} IS NOT ${newSpark})
+    OR (path LIKE '/skills/%' AND ${indexed} AND ${oldSkill} IS NOT ${newSkill}))`;
+  const stale = `(path NOT IN (SELECT value FROM json_each(?2)) OR ${changed})`;
+  const dismissStale = db
+    .prepare(
+      `UPDATE review_items SET
+       status = CASE WHEN status = 'open' AND ${stale} THEN 'dismissed' ELSE status END,
+       resolved_at = CASE WHEN status = 'open' AND ${stale} THEN ?3 ELSE resolved_at END,
+       retired = CASE WHEN ${changed} THEN 1 ELSE retired END
+     WHERE veteran_id = ${ID_BY_FINGERPRINT} AND retired = 0`,
+    )
+    .bind(
+      fp,
+      JSON.stringify(lowPaths),
+      now,
+      JSON.stringify(veteran.sparks.map((s) => `${s.owner}|${s.sparkId}`)),
+      JSON.stringify(veteran.skills.map((s) => s.skillId)),
+    );
+  const writes = writeVeteranStatements(
+    db,
+    { ...veteran, trainMode },
+    {
+      id: c.var.deps.newId(c.var.deps.now().getTime()),
+      fingerprint: fp,
+      masterVersion: capture.masterVersion,
+      captureId: capture.captureId,
+      capturedAt: capture.capturedAt,
+      minConfidence,
+      trainMode,
+      modeSource: 'epithet',
+      now,
+    },
+    'upsert',
+  );
   const stmts = [
-    ...writeVeteranStatements(
-      db,
-      { ...veteran, trainMode },
-      {
-        id: c.var.deps.newId(c.var.deps.now().getTime()),
-        fingerprint: fp,
-        masterVersion: capture.masterVersion,
-        captureId: capture.captureId,
-        capturedAt: capture.capturedAt,
-        minConfidence,
-        trainMode,
-        modeSource: 'epithet',
-        now,
-      },
-      'fingerprint',
-    ),
+    writes[0]!,
+    dismissStale, // must read the OLD ordered spark rows before the child-table deletes
+    ...writes.slice(1),
     db.prepare(`DELETE FROM capture_fields WHERE veteran_id = ${ID_BY_FINGERPRINT}`).bind(fp),
     ...insertFieldsStatement(db, fp, capture.fields),
-    // Open items whose field is no longer low-confidence in this capture are closed (S3a/b).
-    db
-      .prepare(
-        `UPDATE review_items SET status = 'dismissed', resolved_at = ?3
-         WHERE veteran_id = ${ID_BY_FINGERPRINT} AND status = 'open'
-           AND path NOT IN (SELECT value FROM json_each(?2))`,
-      )
-      .bind(fp, JSON.stringify(lowPaths), now),
   ];
   if (newReviews.length > 0) {
     stmts.push(
@@ -184,15 +215,18 @@ veterans.get('/roster', async (c) => {
 veterans.get('/veterans/:id', async (c) => {
   const detail = await loadVeteranDetail(c.env.DB, c.req.param('id'));
   if (!detail) throw new ApiError(404, 'Not Found', 'No such veteran');
-  return c.json(withoutMasterVersion(detail));
+  return c.json(withoutInternal(detail));
 });
 
 veterans.patch('/veterans/:id', async (c) => {
   const patch = await parseBody(c, VeteranPatch);
   const id = c.req.param('id');
   if (patch.trainMode !== undefined) {
+    // `updated_at` moves strictly forward, so a review resolve that loaded the row before this
+    // PATCH fails its write guard instead of silently writing over it (T04b).
     const res = await c.env.DB.prepare(
-      `UPDATE veterans SET train_mode = ?, mode_source = 'override', updated_at = ? WHERE id = ?`,
+      `UPDATE veterans SET train_mode = ?1, mode_source = 'override', updated_at = ${bumpUpdatedAt('?2')}
+       WHERE id = ?3`,
     )
       .bind(patch.trainMode, nowIso(c), id)
       .run();
@@ -200,7 +234,7 @@ veterans.patch('/veterans/:id', async (c) => {
   }
   const detail = await loadVeteranDetail(c.env.DB, id);
   if (!detail) throw new ApiError(404, 'Not Found', 'No such veteran');
-  return c.json(withoutMasterVersion(detail));
+  return c.json(withoutInternal(detail));
 });
 
 veterans.delete('/veterans/:id', async (c) => {

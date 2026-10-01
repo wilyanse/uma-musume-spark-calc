@@ -12,3 +12,4 @@ The orchestrator adds one line per merged task. Details are in `docs/changelog/T
 - T03: Global master-data bundle, stable IDs, card-art hashes and deterministic offline build; review CHANGES_REQUESTED r1 → PASS r2. Crop-alignment calibration remains.
 - T05: inheritance engine, scenario plugins, affinity/legality, exact expectations and seeded sampling; review CHANGES_REQUESTED r1 → PASS r2. Engine outputs remain validated:false until Global inheritance turns and rules are verified.
 - T12: CI, trusted serialized deploy, encrypted D1 backups, agent release and Cloudflare runbooks; review CHANGES_REQUESTED r1 → PASS r2. Real deployment, backup restore and Worker CPU remain H2 checks.
+- T04b: guarded concurrent review corrections, owner-block/skill index remapping and retirement, slot-order and correctable-path rules; review CHANGES_REQUESTED r1, r2 → PASS r3 (r2/r3 fixes by orchestrator). Retired audit rows are hidden from GET.

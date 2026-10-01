@@ -163,7 +163,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T02 | Merged | task/T02-app-skeletons | T02-app-skeletons.md | PASS r1 |
 | T03 | Merged locally | task/T03-master-data | T03-master-data.md | PASS r2 |
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
-| T04b | Independent review r3 (Opus medium) after orchestrator fixes | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r2; fixes verified: 108 API tests |
+| T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
