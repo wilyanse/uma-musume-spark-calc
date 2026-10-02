@@ -167,7 +167,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T08 | Retrying fix round 2 on Opus medium after both providers rate-limited; uncommitted work preserved | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r2: recovery fixed; calibration minimum outside acceptance band |
+| T08 | Gate A passed; independent review r3 (Opus medium) | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → fixes 01612d7; r3 pending |
 | T09 | Retrying on Opus medium after both providers rate-limited; uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
