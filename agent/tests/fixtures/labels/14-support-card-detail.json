@@ -3,5 +3,11 @@
   "screen": "cards.detail",
   "cardId": "card:the-brightest-star-in-japan-special-week",
   "cardLevel": 40,
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "character": "Special Week",
+  "title": "The Brightest Star in Japan!",
+  "level": 40,
+  "maxLevel": 40,
+  "rarity": "SSR",
+  "type": "guts"
 }

@@ -2,5 +2,36 @@
   "fixture": "07-veteran-details-career-info-races",
   "screen": "details.career",
   "careerRacesObserved": true,
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "characterId": "character:mejiro-mcqueen",
+  "outfitId": "outfit:frontline-elegance",
+  "epithet": "Independent Learner",
+  "trainMode": "independent",
+  "stats": {
+    "spd": 894,
+    "sta": 938,
+    "pow": 740,
+    "gut": 559,
+    "wit": 635
+  },
+  "rank": "A+",
+  "rating": 13471,
+  "aptitudes": {
+    "turf": "A",
+    "dirt": "E",
+    "sprint": "G",
+    "mile": "D",
+    "medium": "A",
+    "long": "S",
+    "front": "B",
+    "pace": "A",
+    "late": "D",
+    "end": "F"
+  },
+  "visibleRaces": [
+    "URA Finale Qualifier",
+    "Arima Kinen",
+    "Japan Cup",
+    "JBC Classic"
+  ]
 }

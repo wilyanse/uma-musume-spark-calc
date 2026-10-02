@@ -6,5 +6,145 @@
   "parentsObserved": 2,
   "races": 22,
   "wins": 22,
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "outfitId": "outfit:frontline-elegance",
+  "epithet": "Independent Learner",
+  "trainMode": "independent",
+  "stats": {
+    "spd": 894,
+    "sta": 938,
+    "pow": 740,
+    "gut": 559,
+    "wit": 635
+  },
+  "rank": "A+",
+  "rating": 13471,
+  "aptitudes": {
+    "turf": "A",
+    "dirt": "E",
+    "sprint": "G",
+    "mile": "D",
+    "medium": "A",
+    "long": "S",
+    "front": "B",
+    "pace": "A",
+    "late": "D",
+    "end": "F"
+  },
+  "deck": [
+    {
+      "slot": 1,
+      "lb": 4,
+      "level": 50,
+      "borrowed": false
+    },
+    {
+      "slot": 2,
+      "lb": 4,
+      "level": 50,
+      "borrowed": false
+    },
+    {
+      "slot": 3,
+      "lb": 4,
+      "level": 50,
+      "borrowed": false
+    },
+    {
+      "slot": 4,
+      "lb": 4,
+      "level": 50,
+      "borrowed": false
+    },
+    {
+      "slot": 5,
+      "lb": 4,
+      "level": 50,
+      "borrowed": false
+    },
+    {
+      "slot": 6,
+      "lb": 4,
+      "level": 50,
+      "borrowed": true
+    }
+  ],
+  "parents": [
+    {
+      "slot": 1,
+      "characterId": "character:special-week",
+      "isGuest": false
+    },
+    {
+      "slot": 2,
+      "characterId": "character:tm-opera-o",
+      "isGuest": true
+    }
+  ],
+  "career": {
+    "races": 22,
+    "wins": 22
+  },
+  "unresolved": [
+    {
+      "field": "/deck/0/cardId",
+      "crop": [
+        280,
+        520,
+        85,
+        110
+      ],
+      "reason": "Art-only identity: no visible card title; preserve runtime best/runner-up uncertainty."
+    },
+    {
+      "field": "/deck/1/cardId",
+      "crop": [
+        373,
+        520,
+        85,
+        110
+      ],
+      "reason": "Art-only identity: no visible card title; preserve runtime best/runner-up uncertainty."
+    },
+    {
+      "field": "/deck/2/cardId",
+      "crop": [
+        466,
+        520,
+        85,
+        110
+      ],
+      "reason": "Art-only identity: no visible card title; preserve runtime best/runner-up uncertainty."
+    },
+    {
+      "field": "/deck/3/cardId",
+      "crop": [
+        559,
+        520,
+        85,
+        110
+      ],
+      "reason": "Art-only identity: no visible card title; preserve runtime best/runner-up uncertainty."
+    },
+    {
+      "field": "/deck/4/cardId",
+      "crop": [
+        652,
+        520,
+        85,
+        110
+      ],
+      "reason": "Art-only identity: no visible card title; preserve runtime best/runner-up uncertainty."
+    },
+    {
+      "field": "/deck/5/cardId",
+      "crop": [
+        745,
+        520,
+        85,
+        110
+      ],
+      "reason": "Art-only identity: no visible card title; preserve runtime best/runner-up uncertainty."
+    }
+  ]
 }

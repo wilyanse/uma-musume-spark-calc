@@ -9,9 +9,7 @@ public class ContractParityTests
 
     private static Veteran ParseVeteran(JsonElement input, JsonSerializerOptions options)
     {
-        var baseVeteran = JsonSerializer.Deserialize<Veteran>(input.GetRawText(), options)!;
-        var aptitudes = input.GetProperty("aptitudes").EnumerateObject().ToDictionary(p => p.Name, p => p.Value.GetString()!);
-        return baseVeteran with { Aptitudes = new Aptitudes(aptitudes) };
+        return JsonSerializer.Deserialize<Veteran>(input.GetRawText(), options)!;
     }
 
     [Fact]

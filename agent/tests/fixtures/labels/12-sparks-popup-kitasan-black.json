@@ -3,5 +3,117 @@
   "screen": "sparks.popup",
   "characterId": "character:kitasan-black",
   "outfitId": "outfit:gilded-shrine-to-glory",
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "character": "Kitasan Black",
+  "outfit": "Gilded Shrine to Glory",
+  "visibleSparks": [
+    {
+      "owner": "self",
+      "name": "Stamina",
+      "type": "blue",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Long",
+      "type": "pink",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Victory Cheer!",
+      "type": "green",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "February S.",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Japanese Derby",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Kikuka Sho",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Tenno Sho (Autumn)",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Hanshin J.F.",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "M.C. Nambu Hai",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Right-Handed ◯",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Nakayama Racecourse ◯",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Medium Corners ◯",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Long Straightaways ◯",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Pace Chaser Savvy ◯",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Groundwork",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Head-On",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "My True Strength",
+      "type": "white",
+      "stars": 3
+    },
+    {
+      "owner": "self",
+      "name": "On the Way to Our Dream",
+      "type": "white",
+      "stars": 2
+    }
+  ]
 }

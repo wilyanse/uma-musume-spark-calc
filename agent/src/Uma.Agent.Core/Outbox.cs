@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.Data.Sqlite;
 
 namespace Uma.Agent.Core;
@@ -25,6 +27,10 @@ public sealed class UploadOutbox
               next_attempt_at TEXT NOT NULL, last_error TEXT
             );
             CREATE INDEX IF NOT EXISTS outbox_capture ON outbox(capture_id, kind);
+            CREATE TABLE IF NOT EXISTS crop_results (
+              capture_id TEXT NOT NULL, path TEXT NOT NULL, crop_key TEXT NOT NULL,
+              PRIMARY KEY(capture_id, path)
+            );
             """;
         command.ExecuteNonQuery();
     }
@@ -54,6 +60,33 @@ public sealed class UploadOutbox
         using var reader = command.ExecuteReader();
         return reader.Read() ? new PendingUpload(reader.GetInt64(0), reader.GetString(1), reader.GetString(2), reader.IsDBNull(3) ? null : reader.GetString(3), (byte[])reader[4], reader.GetInt32(5)) : null;
     }
+    public void CompleteCrop(PendingUpload item, string cropKey)
+    {
+        var expected = $"crops/{item.CaptureId}/{Uri.EscapeDataString(item.Path!)}.png";
+        if (!string.Equals(cropKey, expected, StringComparison.Ordinal)) throw new InvalidDataException("Crop response key does not match capture and path");
+        using var connection = Open(); using var transaction = connection.BeginTransaction();
+        using var save = connection.CreateCommand(); save.Transaction = transaction;
+        save.CommandText = "INSERT INTO crop_results(capture_id,path,crop_key) VALUES ($capture,$path,$key) ON CONFLICT(capture_id,path) DO UPDATE SET crop_key=excluded.crop_key";
+        save.Parameters.AddWithValue("$capture", item.CaptureId); save.Parameters.AddWithValue("$path", item.Path!); save.Parameters.AddWithValue("$key", cropKey); save.ExecuteNonQuery();
+        using var remove = connection.CreateCommand(); remove.Transaction = transaction;
+        remove.CommandText = "DELETE FROM outbox WHERE id=$id"; remove.Parameters.AddWithValue("$id", item.Id); remove.ExecuteNonQuery();
+        transaction.Commit();
+    }
+    public byte[] AttachCropKeys(PendingUpload item)
+    {
+        var capture = CaptureJson.Deserialize(Encoding.UTF8.GetString(item.Payload));
+        if (capture.CaptureId != item.CaptureId) throw new InvalidDataException("Queued capture identity mismatch");
+        using var connection = Open(); using var command = connection.CreateCommand();
+        command.CommandText = "SELECT path,crop_key FROM crop_results WHERE capture_id=$capture"; command.Parameters.AddWithValue("$capture", item.CaptureId);
+        using var reader = command.ExecuteReader();
+        var keys = new Dictionary<string,string>(StringComparer.Ordinal);
+        while (reader.Read()) keys.Add(reader.GetString(0), reader.GetString(1));
+        if (keys.Keys.Any(path => !capture.Fields.Any(f => f.Path == path))) throw new InvalidDataException("Uploaded crop has no matching capture field");
+        capture = capture with { Fields = capture.Fields.Select(f => keys.TryGetValue(f.Path, out var key) ? f with { CropKey = key } : f).ToList() };
+        var errors = CaptureValidation.Validate(capture);
+        if (errors.Count > 0) throw new InvalidDataException("Invalid queued capture: " + string.Join("; ", errors));
+        return Encoding.UTF8.GetBytes(CaptureJson.Serialize(capture));
+    }
     public void Complete(long id) { using var c = Open(); using var q = c.CreateCommand(); q.CommandText = "DELETE FROM outbox WHERE id=$id"; q.Parameters.AddWithValue("$id", id); q.ExecuteNonQuery(); }
     public void Fail(PendingUpload item, string error)
     {
@@ -77,14 +110,27 @@ public sealed class UploadClient(HttpClient http, Uri baseUri, IServiceToken tok
         using var request = new HttpRequestMessage(item.Kind == "crop" ? HttpMethod.Put : HttpMethod.Post, new Uri(baseUri, endpoint));
         var (id, secret) = token.Read();
         request.Headers.Add("CF-Access-Client-Id", id); request.Headers.Add("CF-Access-Client-Secret", secret);
-        request.Content = item.Kind == "crop" ? new ByteArrayContent(item.Payload) : new StringContent(Encoding.UTF8.GetString(item.Payload), Encoding.UTF8, "application/json");
-        if (item.Kind == "crop") request.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
         try
         {
+            var payload = item.Kind == "crop" ? item.Payload : outbox.AttachCropKeys(item);
+            request.Content = new ByteArrayContent(payload);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue(item.Kind == "crop" ? "image/png" : "application/json");
             using var response = await http.SendAsync(request, ct);
             if (!response.IsSuccessStatusCode) { outbox.Fail(item, $"HTTP {(int)response.StatusCode}"); return true; }
-            outbox.Complete(item.Id); return true;
+            if (item.Kind == "crop")
+            {
+                using var result = JsonDocument.Parse(await response.Content.ReadAsStringAsync(ct));
+                var key = result.RootElement.GetProperty("cropKey").GetString() ?? throw new InvalidDataException("Missing cropKey");
+                outbox.CompleteCrop(item, key);
+            }
+            else outbox.Complete(item.Id);
+            return true;
         }
-        catch (HttpRequestException e) { outbox.Fail(item, e.Message); return true; }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested) { throw; }
+        catch (Exception e) when (e is HttpRequestException or OperationCanceledException or JsonException or InvalidDataException or KeyNotFoundException or InvalidOperationException)
+        {
+            // Persist an error category only: exception messages can contain sensitive HTTP details.
+            outbox.Fail(item, e.GetType().Name); return true;
+        }
     }
 }

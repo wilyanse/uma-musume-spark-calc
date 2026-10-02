@@ -3,5 +3,135 @@
   "screen": "sparks.popup",
   "characterId": "character:gold-city",
   "outfitId": "outfit:authentic-1928",
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "character": "Gold City",
+  "outfit": "Authentic / 1928",
+  "visibleSparks": [
+    {
+      "owner": "self",
+      "name": "Guts",
+      "type": "blue",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Mile",
+      "type": "pink",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "KEEP IT REAL.",
+      "type": "green",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "NHK Mile C.",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Hopeful S.",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "M.C. Nambu Hai",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Kawasaki Kinen",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Outer Post Proficiency ◯",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Corner Recovery ◯",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Straightaway Adept",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Straightaway Acceleration",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Ramp Up",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Nimble Navigator",
+      "type": "white",
+      "stars": 3
+    },
+    {
+      "owner": "self",
+      "name": "Up-Tempo",
+      "type": "white",
+      "stars": 3
+    },
+    {
+      "owner": "self",
+      "name": "Uma Stan",
+      "type": "white",
+      "stars": 3
+    },
+    {
+      "owner": "self",
+      "name": "Tail Held High",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Slipstream",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Mad Dash",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Ignited Spirit PWR",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Ignited Spirit: Speed +",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Unity Cup",
+      "type": "white",
+      "stars": 2
+    }
+  ]
 }

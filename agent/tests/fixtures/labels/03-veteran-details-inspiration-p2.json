@@ -3,5 +3,119 @@
   "screen": "details.inspiration",
   "characterId": "character:mejiro-mcqueen",
   "sparkOwner": "parent1",
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "outfitId": "outfit:frontline-elegance",
+  "epithet": "Independent Learner",
+  "trainMode": "independent",
+  "stats": {
+    "spd": 894,
+    "sta": 938,
+    "pow": 740,
+    "gut": 559,
+    "wit": 635
+  },
+  "rank": "A+",
+  "rating": 13471,
+  "aptitudes": {
+    "turf": "A",
+    "dirt": "E",
+    "sprint": "G",
+    "mile": "D",
+    "medium": "A",
+    "long": "S",
+    "front": "B",
+    "pace": "A",
+    "late": "D",
+    "end": "F"
+  },
+  "visibleSparks": [
+    {
+      "owner": "self",
+      "name": "Uma Stan",
+      "type": "white",
+      "stars": 3
+    },
+    {
+      "owner": "self",
+      "name": "My True Strength",
+      "type": "white",
+      "stars": 3
+    },
+    {
+      "owner": "parent1",
+      "name": "Power",
+      "type": "blue",
+      "stars": 2
+    },
+    {
+      "owner": "parent1",
+      "name": "Medium",
+      "type": "pink",
+      "stars": 2
+    },
+    {
+      "owner": "parent1",
+      "name": "Shooting Star",
+      "type": "green",
+      "stars": 3
+    },
+    {
+      "owner": "parent1",
+      "name": "NHK Mile C.",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "parent1",
+      "name": "Arima Kinen",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "parent1",
+      "name": "Hanshin Racecourse ◯",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "parent1",
+      "name": "Uma Stan",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "parent1",
+      "name": "Head-On",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "parent1",
+      "name": "My True Strength",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "parent1",
+      "name": "Our Grand Concert",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "parent2",
+      "name": "Stamina",
+      "type": "blue",
+      "stars": 3
+    },
+    {
+      "owner": "parent2",
+      "name": "Long",
+      "type": "pink",
+      "stars": 3
+    }
+  ],
+  "clippedSparks": [
+    "Barcarole of Blessings",
+    "Osaka Hai"
+  ]
 }

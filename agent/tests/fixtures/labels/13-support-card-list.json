@@ -3,5 +3,139 @@
   "screen": "cards.list",
   "heldCount": 208,
   "cardRows": 5,
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "visibleCards": [
+    {
+      "index": 0,
+      "lb": 2,
+      "level": 40,
+      "rarity": "SSR"
+    },
+    {
+      "index": 1,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 2,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 3,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 4,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 5,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    },
+    {
+      "index": 6,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    },
+    {
+      "index": 7,
+      "lb": 1,
+      "level": 35,
+      "rarity": "SSR"
+    },
+    {
+      "index": 8,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    },
+    {
+      "index": 9,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 10,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    },
+    {
+      "index": 11,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 12,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    },
+    {
+      "index": 13,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 14,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 15,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    },
+    {
+      "index": 16,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    },
+    {
+      "index": 17,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 18,
+      "lb": 4,
+      "level": 50,
+      "rarity": "SSR"
+    },
+    {
+      "index": 19,
+      "lb": 0,
+      "level": 30,
+      "rarity": "SSR"
+    }
+  ],
+  "unresolved": [
+    {
+      "field": "/cards/20..24",
+      "crop": [
+        270,
+        700,
+        570,
+        155
+      ],
+      "reason": "Fifth row partially covered by Held/filter overlay; exclude occluded levels/LB from exact primitive denominator."
+    }
+  ]
 }

@@ -22,12 +22,14 @@ public static class CaptureValidation
     public static IReadOnlyList<string> Validate(VeteranCapture capture, IReadOnlyDictionary<string, IReadOnlySet<string>>? master = null)
     {
         var errors = new List<string>();
+        try { errors.AddRange(CaptureSchema.Validate(CaptureJson.Serialize(capture))); }
+        catch (ArgumentException) { errors.Add("non-finite or unserializable capture value"); }
         var v = capture.Veteran;
         if (capture.SchemaVersion != 1) errors.Add("schemaVersion");
         if (v.Stats is { Spd: < 1 or > 2000 } or { Sta: < 1 or > 2000 } or { Pow: < 1 or > 2000 } or { Gut: < 1 or > 2000 } or { Wit: < 1 or > 2000 }) errors.Add("stats");
         if (v.Aptitudes.Values.Count != 10 || !v.Aptitudes.Values.Keys.Order(StringComparer.Ordinal).SequenceEqual(AptKeys.Order(StringComparer.Ordinal)) || v.Aptitudes.Values.Values.Any(g => !"GFEDCBAS".Contains(g) || g.Length != 1)) errors.Add("aptitudes");
-        if (!v.Deck.Select(d => d.Slot).Order().SequenceEqual(new[] { 1, 2, 3, 4, 5, 6 })) errors.Add("deck slots must be exactly 1..6, each once");
-        if (!v.Parents.Select(p => p.Slot).Order().SequenceEqual(new[] { 1, 2 })) errors.Add("parent slots must be exactly 1 and 2, each once");
+        if (!v.Deck.Select(d => d.Slot).SequenceEqual(new[] { 1, 2, 3, 4, 5, 6 })) errors.Add("deck slots must be exactly 1..6, each once");
+        if (!v.Parents.Select(p => p.Slot).SequenceEqual(new[] { 1, 2 })) errors.Add("parent slots must be exactly 1 and 2, each once");
         if (v.Parents.Count == 2 && v.Parents[0].CharacterId == v.Parents[1].CharacterId) errors.Add("the two parents must be different characters");
         foreach (var p in v.Parents)
         {
@@ -51,12 +53,15 @@ public static class CaptureValidation
             }
             if (own.Count(s => s.Type == "blue") != 1 || own.Count(s => s.Type == "pink") != 1 || own.Count(s => s.Type == "green") > 1) errors.Add($"spark shape violated: exactly one blue, one pink and at most one green per owner (owner {owner})");
         }
+        if (v.Skills.Select(s => s.SkillId).Distinct(StringComparer.Ordinal).Count() != v.Skills.Count) errors.Add("the same skill appears twice");
         if (v.Deck.Any(d => d.Lb is < 0 or > 4 || d.Level < 1)) errors.Add("deck value invalid");
         if (v.Skills.Any(s => s.Level is < 1) || v.Rating < 0 || v.Career.Races < 0 || v.Career.Wins < 0 || v.Career.Fans is < 0) errors.Add("numeric value invalid");
         if (TrainModeDetector.Detect(v.Epithet) != v.TrainMode) errors.Add("trainMode must be derived from epithet");
         foreach (var f in capture.Fields)
         {
-            if (f.Confidence is < 0 or > 1 || f.Candidates.Count > 3 || f.Candidates.Any(c => c.Score is < 0 or > 1)) errors.Add("field confidence invalid");
+            if (!double.IsFinite(f.Confidence) || f.Confidence is < 0 or > 1 || f.Candidates.Count > 3 || f.Candidates.Any(c => !double.IsFinite(c.Score))) errors.Add("field confidence invalid");
+            if (capture.Fields.Count(x => x.Path == f.Path) > 1) errors.Add("duplicate field path");
+            if (f.CropKey is not null && !System.Text.RegularExpressions.Regex.IsMatch(f.CropKey, @"^crops/[0-7][0-9A-HJKMNP-TV-Z]{25}/[^/]+\.png$")) errors.Add("invalid cropKey");
             // Q-110: provenance may include /trainMode; corrections must target real, safe paths.
             if (f.Status == FieldStatus.low_confidence && !CorrectablePath(f.Path, v)) errors.Add("low_confidence path is not correctable: " + f.Path);
         }
@@ -67,21 +72,27 @@ public static class CaptureValidation
     private static bool CorrectablePath(string path, Veteran v)
     {
         if (path is "/sparks/parent1" or "/sparks/parent2") return true;
-        if (!path.StartsWith('/') || path.Split('/').Any(x => x is ".." or "__proto__" or "constructor" or "prototype")) return false;
-        var parts = path.Split('/').Skip(1).ToArray();
-        if (parts.Length == 1) return new[] { "characterId", "outfitId", "rank", "rating", "epithet", "scenarioId" }.Contains(parts[0]);
-        if (parts.Length == 2 && parts[0] == "stats") return new[] { "spd", "sta", "pow", "gut", "wit" }.Contains(parts[1]);
-        if (parts.Length == 2 && parts[0] == "aptitudes") return AptKeys.Contains(parts[1]);
-        if (parts.Length == 2 && parts[0] == "career") return new[] { "races", "wins", "fans", "dateAcquired" }.Contains(parts[1]);
-        if (parts.Length != 3 || !int.TryParse(parts[1], out var index) || index < 0 || index.ToString() != parts[1]) return false;
-        return parts[0] switch
+        if (path == "/trainMode" || System.Text.RegularExpressions.Regex.IsMatch(path, @"^/(sparks/\d+/owner|deck/\d+/slot|parents/\d+/slot)$")) return false;
+        if (!System.Text.RegularExpressions.Regex.IsMatch(path, @"^(/[^/]+)+$")) return false;
+        var parts = path.Split('/').Skip(1).Select(s => s.Replace("~1", "/").Replace("~0", "~")).ToArray();
+        if (parts.Any(s => s is "__proto__" or "constructor" or "prototype")) return false;
+        using var document = JsonDocument.Parse(JsonSerializer.Serialize(v, CaptureJson.Options));
+        var node = document.RootElement;
+        for (var i = 0; i < parts.Length; i++)
         {
-            "skills" => index < v.Skills.Count && new[] { "skillId", "level" }.Contains(parts[2]),
-            "sparks" => index < v.Sparks.Count && new[] { "sparkId", "type", "stars" }.Contains(parts[2]),
-            "deck" => index < v.Deck.Count && new[] { "cardId", "lb", "level", "borrowed" }.Contains(parts[2]),
-            "parents" => index < v.Parents.Count && new[] { "characterId", "outfitId", "isGuest", "guestTrainer" }.Contains(parts[2]),
-            _ => false
-        };
+            if (node.ValueKind == JsonValueKind.Object)
+            {
+                if (!node.TryGetProperty(parts[i], out node)) return false;
+            }
+            else if (node.ValueKind == JsonValueKind.Array)
+            {
+                // JS array properties are canonical indices; "00" is not array[0].
+                if (i == parts.Length - 1 || !int.TryParse(parts[i], out var index) || index < 0 || index.ToString() != parts[i] || index >= node.GetArrayLength()) return false;
+                node = node[index];
+            }
+            else return false;
+        }
+        return node.ValueKind != JsonValueKind.Array;
     }
 
     public static IReadOnlyList<string> ValidateOwnedCards(int heldCount, IReadOnlyList<string> cardIds, bool partial = false)

@@ -18,6 +18,7 @@ public sealed record Spark(string Owner,string SparkId,string Type,int Stars);
 public sealed record Skill(string SkillId,int? Level);
 public sealed record Deck(int Slot,string CardId,int Lb,int Level,bool Borrowed);
 public sealed record Parent(int Slot,string CharacterId,string? OutfitId,bool IsGuest,string? GuestTrainer);
+[System.Text.Json.Serialization.JsonConverter(typeof(AptitudesJsonConverter))]
 public sealed record Aptitudes(Dictionary<string,string> Values);
 public sealed record Career(int Races,int Wins,int? Fans,string DateAcquired);
 public sealed record Veteran(string CharacterId,string OutfitId,string Rank,int Rating,string Epithet,TrainMode TrainMode,Stats Stats,Aptitudes Aptitudes,List<Skill> Skills,List<Spark> Sparks,List<Deck> Deck,List<Parent> Parents,string ScenarioId,Career Career);

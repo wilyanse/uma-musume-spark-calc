@@ -5,5 +5,99 @@
   "outfitId": "outfit:new-year-same-radiance",
   "isGuest": true,
   "guestTrainer": "Yuuki",
-  "source": "Vision-authored from committed screenshot; H4 human verification pending."
+  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+  "character": "T.M. Opera O",
+  "outfit": "New Year, Same Radiance!",
+  "visibleSparks": [
+    {
+      "owner": "self",
+      "name": "Stamina",
+      "type": "blue",
+      "stars": 3
+    },
+    {
+      "owner": "self",
+      "name": "Long",
+      "type": "pink",
+      "stars": 3
+    },
+    {
+      "owner": "self",
+      "name": "Barcarole of Blessings",
+      "type": "green",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Osaka Hai",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Hanshin J.F.",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "M.C. Nambu Hai",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Standard Distance ◯",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Firm Conditions ◯",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Corner Recovery ◯",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Nimble Navigator",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Uma Stan",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "My True Strength",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Ignited Spirit WIT",
+      "type": "white",
+      "stars": 1
+    },
+    {
+      "owner": "self",
+      "name": "Ignited Spirit: Stamina +",
+      "type": "white",
+      "stars": 2
+    },
+    {
+      "owner": "self",
+      "name": "Unity Cup",
+      "type": "white",
+      "stars": 3
+    }
+  ]
 }
