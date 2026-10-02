@@ -92,7 +92,7 @@ Assumption taken: use shared affinity groups (and optional pairwise table) for T
 Blocking: no
 ## Q-120 (T08) Synthetic inheritance inputs in the golden dataset
 Context: published Global `rules.json` has `blueStatGain` = 0/0/0 (UNKNOWN placeholder, Q-3) and every scenario has `inheritanceTurns: []` (Q-5). With those values the golden data would have no event-driven inheritance and the 70 §2 ×1.3 calibration variant would equal the base roster.
-Assumption taken: the golden generator injects, for the golden data only, synthetic `blueStatGain` 10/20/30 per activation (`verified:false`, source SYNTHETIC) and two synthetic inheritance events `[31, 55]` per scenario through a scenario plugin (`loadGoldenContext`). Both are labelled SYNTHETIC in `truth.json` and are not game facts; every other rule is used verbatim from `rules.json`. When Q-3/Q-5 are answered, regenerate the dataset.
+Assumption taken: the golden generator injects, for the golden data only, synthetic `blueStatGain` 10/20/30 per activation (`verified:false`, source SYNTHETIC) and four synthetic inheritance events `[19, 31, 43, 55]` per scenario through a scenario plugin (`loadGoldenContext`), increased from two during review round 2. Both are labelled SYNTHETIC in `truth.json` and are not game facts; every other rule is used verbatim from `rules.json`. When Q-3/Q-5 are answered, regenerate the dataset.
 Blocking: no
 ## Q-121 (T08) CmTarget id vs the `golden-cm-1` key
 Context: 70 §2 calls the target `golden-cm-1`, but 01 §10/§1 make `CmTarget.id` a ULID (user data).
@@ -105,8 +105,8 @@ Update (T08 review round 2, N3): the β_id/β_type split is penalty-determined, 
 Blocking: no
 ## Q-123 (T08) Which variance definition T06 uses for the 80% holdout interval
 Context: 50 §4 defines `residualCov` as the weighted covariance of the holdout residuals, and 50 §5/§7 add Var[inh] for prediction. Read literally, adding Var[inh] counts the inheritance-sampling variance twice, because the holdout residuals of y = stat − E[inh] already contain it. On the golden data the pooled 80% coverage depends on the definition: train sandwich 0.8417, literal holdout residualCov 0.7917, residualCov + Var[inh] 0.9000 (outside 0.72–0.88), residualCov − mean Var[inh] + per-row Var[inh] 0.7292, train plug-in without leverage 0.7208 (`truth.holdout.coverageDiagnostic.variants`).
-Assumption taken: the golden data is checked with the train-residual sandwich interval and with the literal holdout residualCov, both inside the band. T06 should not add Var[inh] on top of a residualCov that already contains it, and should not use an uncorrected train plug-in variance (its margin is 0.0008). T08 changes no spec.
-Blocking: no
+Assumption taken: the golden data is checked with the train-residual sandwich interval and with the literal holdout residualCov, both inside the band. T06 should not add Var[inh] on top of a residualCov that already contains it, and should not use an uncorrected train plug-in variance (its margin is 0.0008). T08 changes no spec. The retune exposed the existing variance double-count by moving residualCov + Var[inh] coverage from 0.8292 to 0.9000. The orchestrator must decide covariance semantics and record explicit spec errata before dispatching T06.
+Blocking: yes for T06 dispatch; no for T08 merge
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

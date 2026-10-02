@@ -534,10 +534,10 @@ Conclusions, each backed by evidence:
 - **Regularisation, recency weights and the estimator are not the cause.**
   - With the nuisance removed, the scan is unbiased.
   - With the nuisance present, the argmin is the same with recency weights or uniform weights, and at λ 0.1 or 1e-6.
-- **The cause is finite-sample correlation between the nuisance draws and the blue-inheritance signal on the 48-row holdout.**
+- **The observed shift is consistent with a finite-sample tail plus a small systematic MAE-criterion bias (review r3).**
   - MVN noise alone shifted the dae3cc5 argmin by +0.06, and activation sampling deviation alone by +0.03 to +0.04. Together they gave +0.09 to +0.11.
   - On the dae3cc5 holdout, the per-stat sample correlations of the noise with the blue signal E[inh|m] − E[inh|0] are spd 0.203, sta 0.290, pow 0.102, gut 0.031, wit 0.185. Activation correlations reach 0.370 (gut), and 0.568 on the 39-row 50 §8 subset (sta).
-  - These are independent in expectation (train rows: |corr| ≤ 0.18). It is a finite-sample effect of n = 48 / 39, not a generator bug.
+  - These realised correlations are diagnostics, not proof of the causal mechanism. Review r3's independent 300-redraw Monte Carlo found a small activation-only argmin bias of about +0.005, with multiplier standard deviation about 0.035 under the earlier design and 0.017 under the retune. The expectation/lineage checks rule out the tested missing-grandparent mismatch, not every possible estimator bias.
   - Holdout MAE is a 48-row statistic. Its argmin moves with these correlations in proportion to nuisance sd ÷ blue-signal size.
 
 **Retune.** Synthetic, deterministic, same seed. It is documented in `truth.trainingModel.synthetic.noise` and `truth.syntheticInheritance.inheritanceTurns.*.note`.
@@ -557,7 +557,7 @@ Alternatives probed with temporary scripts, deleted afterwards. These numbers do
 - Noise ×0.8 with 4 events: 1.36 / 1.37 / 1.34.
 - Noise ×0.5 with 4 events: the same argmins as ×0.6.
 
-×0.6 with 4 events was kept. It is the partial run's choice and meets every check.
+×0.6 with 4 events was kept. It is the partial run's choice and meets every check. Selection used the stored-split argmins, so this has a design-selection effect; it is not an untouched statistical validation set. Review r3 separately tested fresh redraws and alternative splits and found the calibration band robust in those probes.
 
 **Feasibility check (TEST-ONLY): `packages/engine/test/golden/calibration.test.ts`**, with helpers in `test/golden/calibration-diagnostic.ts`.
 
@@ -808,9 +808,21 @@ $ git status --short apps/web/public packages/engine/src docs/specs packages/sch
 ### Remaining gaps (round 2)
 
 - **Holdout-MAE flatness.** On the ×1.3 stored split, MAE at 1.30 and at 1.40 differ by only 0.02, although the argmin (1.34) is 0.06 inside the edge. T15 should report the curve and its margin, not only the argmin.
-- **Base-roster bias.** It is +0.03 to +0.05 on the stored split, and +0.01 to +0.06 over 40 alternative splits. It comes from finite-sample nuisance correlation at n = 48 / 39. It is reduced, not removed.
+- **Base-roster bias.** It is +0.03 to +0.05 on the stored split, and +0.01 to +0.06 over 40 alternative splits. Review r3 finds evidence consistent with a finite-sample tail plus a small systematic MAE-criterion bias. It is reduced, not removed.
 - **Best-pair runner-up ratio.** It is now 10.76× against the ">10×" assertion (about 8% margin; it was about 34×). More than 4 synthetic events break it, which is why 4 were chosen.
 - **λ 0.1/10.** Recovery passes ±15% with about 1.2 points of margin (13.78%). λ_id ≥ 10 still fails; recovery is only proven for λ_id ≤ 1.
 - **Coverage depends on T06's variance definition (Q-123).** residualCov + Var[inh] gives 0.900, outside the band. The train plug-in is 0.0008 above the floor.
 - **Not production code.** The calibration check is TEST-ONLY. It is not the production T15 and does not cover the aptitude and skill checks of 50 §8.
 - **Unchanged follow-ups from round 1.** Clipping is not exercised (N2). S4 fixture serving remains a T13/T02 follow-up.
+
+## Review round 3
+
+Independent verdict: **PASS** on 01612d7; report in `docs/reviews/T08-review-3.md` (recorded by orchestrator). No blocking implementation findings. Subsequent orchestrator changes are documentation only.
+
+- **S1:** Q-123 now blocks T06 dispatch until an explicit covariance decision/spec errata is recorded. The retune moved the double-counted predictive coverage from 0.8292 to 0.9000; both the existing spec defect and this regression are disclosed. T08's literal fit-time coverage remains 0.7917, which the reviewer independently reproduced; this is not a claim that the future predictive path is already correct.
+- **S2:** causal language was narrowed: lineage equivalence and zero-noise ablations rule out tested mismatches, but realised correlations do not prove a unique mechanism. The review's Monte Carlo also found a small systematic MAE-criterion bias.
+- **N1:** disclosed that stored-split performance informed the synthetic design choice; fresh-redraw/alternative-split review probes provide separate robustness evidence.
+- **N2/N3:** retained the stricter >10× pair test and base-bias tolerance; their narrow margins remain disclosed above rather than weakening tests after observing results.
+- Q-120's event list was updated to the four explicitly synthetic events actually used by the final dataset.
+
+Parent verification before the review: frozen install, recursive lint/typecheck/test (schema 146, master-data 82, web 5, API 86, engine 135), generator twice (all seven hashes identical), touched-file Prettier and `git diff --check` passed. Exact generation hashes remain those in round 2. The independent review contains its own commands and output; no production code or fixtures changed after it.
