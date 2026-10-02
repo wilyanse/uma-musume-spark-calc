@@ -176,11 +176,11 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T05b | In progress (Opus medium): executable model-semantics errata and v2 snapshot compatibility | task/T05b-model-semantics | T05b-model-semantics.md | Pending |
+| T05b | Retrying on Opus medium after HTTP 429; partial statistical probes preserved | task/T05b-model-semantics | T05b-model-semantics.md | Pending |
 | T06 | Awaiting T05b; Q-123/Q-124 semantics gate | | | T08 merged |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
-| T09 | Continuing on GPT-6.1 Sol medium after Opus HTTP 429; fe534dd and new uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
+| T09 | Retrying on Opus medium after both providers HTTP 429; fe534dd and uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
