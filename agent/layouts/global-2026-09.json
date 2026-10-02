@@ -1,16 +1,54 @@
 {
   "version": "global-2026-09",
   "reference": [1920, 1080],
-  "cardArtCrop": {"x0":100,"y0":340,"x1":900,"y1":780,"unit":"permille"},
-  "charIconCrop": {"x0":180,"y0":150,"x1":820,"y1":750,"unit":"permille"},
-  "veteranIconCrop": {"x0":220,"y0":150,"x1":780,"y1":700,"unit":"permille"},
-  "screens": {
-    "details.skills": {"rois":{"header":[540,90,300,150],"stats":[280,250,560,80],"skills":[270,500,560,450]}},
-    "details.inspiration": {"rois":{"header":[540,90,300,150],"sparks":[270,480,560,450]}},
-    "details.career": {"rois":{"header":[540,90,300,150],"deck":[270,510,560,140],"parents":[270,670,560,220],"career":[270,890,560,80]}},
-    "sparks.popup": {"rois":{"title":[500,30,200,70],"sparks":[270,250,560,650]}},
-    "sparks.popup.guest": {"rois":{"title":[500,30,300,240],"sparks":[270,420,560,450]}},
-    "cards.list": {"rois":{"title":[100,0,300,60],"grid":[270,90,600,730]}},
-    "cards.detail": {"rois":{"title":[450,30,350,150],"effects":[270,360,550,550]}}
-  }
+  "calibration": "Measured on docs/reference/screenshots/*.png (1920x1080) with the scratch scripts described in docs/changelog/T09-agent-core.md. Anchor dhash = shared integer dHash of the whole ROI. Re-calibrate on Windows captures at H4.",
+  "cardArtCrop": {"x0": 100, "y0": 340, "x1": 900, "y1": 780, "unit": "permille"},
+  "charIconCrop": {"x0": 180, "y0": 150, "x1": 820, "y1": 750, "unit": "permille"},
+  "veteranIconCrop": {"x0": 220, "y0": 150, "x1": 780, "y1": 700, "unit": "permille"},
+  "families": [
+    {"id": "details", "anchor": {"roi": [262, 28, 592, 44], "dhash": "003234241616061a", "maxDistance": 8}, "titleRoi": [420, 30, 260, 50], "title": "Umamusume Details"},
+    {"id": "sparks", "anchor": {"roi": [262, 28, 592, 44], "dhash": "00322c0c08080c0a", "maxDistance": 8}, "titleRoi": [420, 30, 260, 50], "title": "Sparks"},
+    {"id": "cards.detail", "anchor": {"roi": [262, 28, 592, 44], "dhash": "00322c0c1c0c0c1a", "maxDistance": 8}, "titleRoi": [420, 30, 260, 50], "title": "Featured Cards"},
+    {"id": "cards.list", "anchor": {"roi": [256, 990, 604, 90], "dhash": "1a55555515151554", "maxDistance": 8}, "titleRoi": [100, 0, 300, 45], "title": "Support Card List"}
+  ],
+  "tabs": {
+    "segments": {"details.skills": [280, 455, 170, 20], "details.inspiration": [470, 455, 170, 20], "details.career": [660, 455, 170, 20]},
+    "activeRgb": [148, 215, 8], "maxColorDistance": 40
+  },
+  "guestTrainerRoi": [270, 255, 300, 30],
+  "header": {
+    "outfit": [540, 90, 300, 36], "name": [540, 120, 300, 40], "rank": [436, 80, 100, 72],
+    "epithet": [520, 168, 210, 30], "rating": [320, 218, 110, 32],
+    "stats": {"spd": [300, 285, 80, 36], "sta": [420, 285, 80, 36], "pow": [520, 285, 80, 36], "gut": [640, 285, 80, 36], "wit": [750, 285, 80, 36]},
+    "aptitudeCells": {
+      "turf": [466, 341, 22, 22], "dirt": [573, 341, 22, 22],
+      "sprint": [466, 375, 22, 22], "mile": [573, 375, 22, 22], "medium": [680, 375, 22, 22], "long": [787, 375, 22, 22],
+      "front": [466, 409, 22, 22], "pace": [573, 409, 22, 22], "late": [680, 409, 22, 22], "end": [787, 409, 22, 22]
+    }
+  },
+  "popupHeader": {"outfit": [400, 130, 520, 40], "name": [400, 165, 520, 45], "trainer": [360, 295, 240, 40], "guestBadge": [300, 215, 120, 25]},
+  "scrollbar": {"x": 835, "trackTop": 514, "trackBottom": 924, "edgeTolerance": 3, "darkLuma": 150},
+  "list": {"roi": [270, 500, 560, 435], "columnSplitX": 550, "lineGap": 12},
+  "sparks": {
+    "details.inspiration": {"viewportTop": 505, "viewportBottom": 935, "columns": [{"left": 366, "right": 593, "stars": 453}, {"left": 600, "right": 827, "stars": 686}],
+                            "sectionHeaderRoi": [270, 505, 200, 30], "headingText": "Legacy Origin", "portraitBand": [280, 350]},
+    "sparks.popup": {"viewportTop": 300, "viewportBottom": 935, "columns": [{"left": 279, "right": 547, "stars": 387}, {"left": 558, "right": 826, "stars": 666}]},
+    "sparks.popup.guest": {"viewportTop": 450, "viewportBottom": 935, "columns": [{"left": 279, "right": 547, "stars": 387}, {"left": 558, "right": 826, "stars": 666}]},
+    "pillTopOffset": -33, "bgSampleRows": [-31, -27], "bgSampleX": [60, 160], "labelWindow": [-42, -2],
+    "palette": {"blue": [55, 185, 244], "pink": [255, 120, 178], "green": [145, 208, 46], "white": [225, 226, 225]}, "paletteMaxDistance": 60,
+    "stars": {"cellWidth": 15, "cellPitch": 19.5, "bandWidth": 54, "minRowPixels": 6, "minHeight": 10, "fillRatio": 0.15}
+  },
+  "career": {
+    "deckHeaderRoi": [270, 495, 200, 35], "deckHeaderText": "Support Cards",
+    "deck": {"tileX": 281, "tilePitch": 93, "tileY": 528, "tileW": 81, "tileH": 108, "tiles": 6,
+             "lbFirstX": 287, "lbPitch": 9.6, "lbY": 625, "lbYLast": 610,
+             "levelRoi": [28, 598, 56, 34], "friendsBand": [10, 626, 60, 5], "friendsRgb": [255, 102, 159], "friendsMaxDistance": 45},
+    "parentsHeaderRoi": [270, 640, 250, 40], "parentsHeaderText": "Legacy Umamusume",
+    "parents": {"centers": [[352, 780], [632, 780]], "radius": 52, "guestRoi": [-46, 815, 120, 25]},
+    "keys": {"Career Record": "record", "Fans Earned": "fans", "Career Scenario": "scenario", "Rating": "rating", "Date Acquired": "date"}
+  },
+  "cardsList": {"heldRoi": [270, 805, 400, 35], "tileX": 273, "tilePitch": 114.25, "columns": 5, "lbFirstX": 283, "lbPitch": 12.0,
+                "diamondRows": [215, 369, 524, 679], "artOffsetY": -122, "artW": 101, "artH": 134, "levelRoi": [40, -14, 62, 26], "visibleBottom": 800},
+  "cardsDetail": {"title": [460, 90, 360, 40], "name": [460, 122, 300, 40], "level": [470, 156, 140, 32]},
+  "templates": "templates/global-2026-09.json"
 }

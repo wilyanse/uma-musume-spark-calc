@@ -1,20 +1,6 @@
 using System.Text.Json;
 
 namespace Uma.Agent.Core;
-public sealed class FixtureOcrEngine : IOcrEngine
-{
-    private sealed record JsonLine(string text,double confidence,int[] box);
-    private sealed record Fixture(string engine,int[] reference,List<JsonLine> lines);
-    private readonly Fixture _fixture;
-    public FixtureOcrEngine(string path)=>_fixture=JsonSerializer.Deserialize<Fixture>(File.ReadAllText(path),new JsonSerializerOptions{PropertyNameCaseInsensitive=true})??throw new InvalidDataException(path);
-    public Task<IReadOnlyList<OcrLine>> ReadAsync(Frame frame,Rect roi,OcrMode mode){var result=_fixture.lines.Where(l=>l.box.Length==4 && l.box[0]+l.box[2]/2>=roi.X&&l.box[1]+l.box[3]/2>=roi.Y&&l.box[0]+l.box[2]/2<roi.X+roi.Width&&l.box[1]+l.box[3]/2<roi.Y+roi.Height).Select(l=>new OcrLine(l.text,l.confidence,new Rect(l.box[0],l.box[1],l.box[2],l.box[3]))).ToArray();return Task.FromResult<IReadOnlyList<OcrLine>>(result);}
-}
-public enum ScreenId { Unknown,DetailsSkills,DetailsInspiration,DetailsCareer,SparksPopup,SparksPopupGuest,CardsList,CardsDetail }
-public sealed record ScreenClassification(ScreenId Id,double Confidence);
-public sealed class ScreenClassifier
-{
- public ScreenClassification Classify(IEnumerable<OcrLine> lines){var t=string.Join(' ',lines.Select(x=>x.Text));if(t.Contains("Support Card List",StringComparison.OrdinalIgnoreCase))return new(ScreenId.CardsList,1);if(t.Contains("Featured Cards",StringComparison.OrdinalIgnoreCase))return new(ScreenId.CardsDetail,1);if(t.Contains("Guest's Trainer",StringComparison.OrdinalIgnoreCase))return new(ScreenId.SparksPopupGuest,1);if(t.Contains("Sparks",StringComparison.OrdinalIgnoreCase))return new(ScreenId.SparksPopup,1);if(t.Contains("Umamusume Details",StringComparison.OrdinalIgnoreCase)){if(t.Contains("Skills",StringComparison.OrdinalIgnoreCase))return new(ScreenId.DetailsSkills,1);if(t.Contains("Inspiration",StringComparison.OrdinalIgnoreCase))return new(ScreenId.DetailsInspiration,1);if(t.Contains("Career Info",StringComparison.OrdinalIgnoreCase))return new(ScreenId.DetailsCareer,1);}return new(ScreenId.Unknown,0);}
-}
 public static class CaptureValidation
 {
     private static readonly string[] Owners = ["self", "parent1", "parent2"];
@@ -28,8 +14,11 @@ public static class CaptureValidation
         if (capture.SchemaVersion != 1) errors.Add("schemaVersion");
         if (v.Stats is { Spd: < 1 or > 2000 } or { Sta: < 1 or > 2000 } or { Pow: < 1 or > 2000 } or { Gut: < 1 or > 2000 } or { Wit: < 1 or > 2000 }) errors.Add("stats");
         if (v.Aptitudes.Values.Count != 10 || !v.Aptitudes.Values.Keys.Order(StringComparer.Ordinal).SequenceEqual(AptKeys.Order(StringComparer.Ordinal)) || v.Aptitudes.Values.Values.Any(g => !"GFEDCBAS".Contains(g) || g.Length != 1)) errors.Add("aptitudes");
-        if (!v.Deck.Select(d => d.Slot).SequenceEqual(new[] { 1, 2, 3, 4, 5, 6 })) errors.Add("deck slots must be exactly 1..6, each once");
-        if (!v.Parents.Select(p => p.Slot).SequenceEqual(new[] { 1, 2 })) errors.Add("parent slots must be exactly 1 and 2, each once");
+        // Shared rule (sorted set) plus the merged API's index rule (Q-110): slot must equal index + 1.
+        if (!v.Deck.Select(d => d.Slot).Order().SequenceEqual(new[] { 1, 2, 3, 4, 5, 6 })) errors.Add("deck slots must be exactly 1..6, each once");
+        if (!v.Parents.Select(p => p.Slot).Order().SequenceEqual(new[] { 1, 2 })) errors.Add("parent slots must be exactly 1 and 2, each once");
+        for (var i = 0; i < v.Deck.Count; i++) if (v.Deck[i].Slot != i + 1) errors.Add($"deck entries must be in slot order (/deck/{i}/slot)");
+        for (var i = 0; i < v.Parents.Count; i++) if (v.Parents[i].Slot != i + 1) errors.Add($"parent entries must be in slot order (/parents/{i}/slot)");
         if (v.Parents.Count == 2 && v.Parents[0].CharacterId == v.Parents[1].CharacterId) errors.Add("the two parents must be different characters");
         foreach (var p in v.Parents)
         {

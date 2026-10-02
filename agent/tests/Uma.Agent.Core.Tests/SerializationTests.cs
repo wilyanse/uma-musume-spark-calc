@@ -29,8 +29,8 @@ public class SerializationTests
     public void Reversed_deck_and_parents_are_rejected_without_sorting()
     {
         var capture = Capture();
-        Assert.Contains(CaptureValidation.Validate(capture with { Veteran = capture.Veteran with { Deck = capture.Veteran.Deck.AsEnumerable().Reverse().ToList() } }), s => s.Contains("deck slots"));
-        Assert.Contains(CaptureValidation.Validate(capture with { Veteran = capture.Veteran with { Parents = capture.Veteran.Parents.AsEnumerable().Reverse().ToList() } }), s => s.Contains("parent slots"));
+        Assert.Contains(CaptureValidation.Validate(capture with { Veteran = capture.Veteran with { Deck = capture.Veteran.Deck.AsEnumerable().Reverse().ToList() } }), s => s.Contains("deck entries must be in slot order"));
+        Assert.Contains(CaptureValidation.Validate(capture with { Veteran = capture.Veteran with { Parents = capture.Veteran.Parents.AsEnumerable().Reverse().ToList() } }), s => s.Contains("parent entries must be in slot order"));
     }
     [Theory]
     [InlineData("/stats", true)]
