@@ -273,3 +273,15 @@ The engine golden tests pass unchanged (135 of 135 above).
   - Fold reuse for λ and OOF is mildly optimistic and not quantified.
   - The golden best/trap test does not discriminate between skill estimators.
   - The global prior's single-Beta-population assumption is unverified.
+
+## Review round 1
+
+Independent verdict: **PASS** on candidate `5d21673`, with no blocking findings. Reviewer session `20261003_040858_7fa6a0` began on Opus 5.5 medium and completed on the approved GPT-6.1 Sol medium fallback after lifecycle interruption and unavailable Anthropic credentials. Full report is preserved by the orchestrator as `docs/reviews/T05b-review-1.md`. This entry records review completion, not merge or Q-123/Q-124 acceptance.
+
+Nonblocking follow-ups to carry into T06/reference maintenance:
+- **S1:** Strengthen the RNG test by varying inheritance draw consumption and asserting training draws remain unchanged, and vice versa; the existing test demonstrates repeatability only.
+- **S2:** Rename the synthetic population test to describe its modular/uniform sequence, or generate a genuinely seeded Beta(3,7) population.
+- **S3:** Use the specified unrounded clipped stats for T06; remove the reference ranking probe's continuity correction/rounding or explicitly label it as a golden-observation approximation. The reviewer's unrounded challenge retained best rank 1 and trap pMeet 0.
+- **N1:** Correct the absolute Jacobian formula for theta = logistic(pi sinh t) to pi cosh(t) theta(1-theta). The constant cancels in the current normalized posterior moments; do not propagate the inaccurate absolute-integral formula to T06.
+
+Parent Gate A (before review) independently ran `pnpm install --frozen-lockfile`, `pnpm --filter @uma/schema build`, `pnpm -r lint`, `pnpm -r typecheck`, `pnpm -r test`, evidence `tsc`/`eslint`, `node --test 'docs/reference/model-semantics/test/*.test.ts'`, both README probes twice with `--write`, scoped Prettier and `git diff --check`. All exited 0. Actual test output: schema 149 passed; API 111 passed; web 5 passed; master-data 82 passed; engine 135 passed; evidence 22 pass / 0 fail. Both probe hashes matched the committed hashes listed above on both runs; final task status was clean. The independent reviewer separately reran checks and retained additional numerical/calibration challenges; their exact commands/output are in the review report.
