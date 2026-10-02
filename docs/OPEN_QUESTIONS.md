@@ -116,6 +116,11 @@ Context: 50 §4 defines `residualCov` as the weighted covariance of the holdout 
 Assumption taken: the golden data is checked with the train-residual sandwich interval and with the literal holdout residualCov, both inside the band. T06 should not add Var[inh] on top of a residualCov that already contains it, and should not use an uncorrected train plug-in variance (its margin is 0.0008). T08 changes no spec. The retune exposed the existing variance double-count by moving residualCov + Var[inh] coverage from 0.8292 to 0.9000. The orchestrator must decide covariance semantics and record explicit spec errata before dispatching T06.
 Blocking: yes for T06 dispatch; no for T08 merge
 
+## Q-124 (T06) Latent skill-hint activation counted twice
+Context: 50 §4 treats a skill as hinted whenever a parent/grandparent spark could provide it. For lineage-only opportunities, the resulting acquired/eligible rate already includes hint activation probability. 50 §5 then multiplies by (or samples) that probability again. Q-123's adviser identified this contradiction; see `docs/reviews/Q123-variance-advice.md` §7.
+Assumption taken: T05b must specify and probe a coherent observable-data estimator before T06. Do not treat potential hints as observed activations or compare marginal rates to conditional acquisition probabilities. Keep the original golden data and acceptance thresholds unchanged; record the decision in ADR-0002.
+Blocking: yes for T06 dispatch
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

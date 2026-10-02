@@ -100,8 +100,19 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 ### T06 — Engine: training model, prediction, scoring, ranking
 - Spec: 50 §4–7, §9 (T06), 01 §10, §13.
 - Owns: `packages/engine/src/{model,predict,rank,linalg.ts}/**`, `packages/engine/test/{model,predict,rank}/**`, `packages/engine/bench/**`.
-- Needs: T05, T08.
+- Needs: T05, T08, T05b (model semantics errata).
 - Done when: 50 §9 T06 on the golden dataset; the bench result is in the changelog.
+
+### T05b — Model semantics and snapshot compatibility
+- Spec: authoritative 01 §13; 50 §4–9; 70 §2–3; Q-123/Q-124; `docs/reviews/Q123-variance-advice.md` (advice, not independently reproduced evidence).
+- Owns: `docs/adr/0002-model-statistical-semantics.md`; 01 §13 and 50 §4–9 errata only; 70 acceptance clarifications without relaxing thresholds; `docs/reference/model-semantics/**` executable evidence; `packages/schema/src/model-snapshot.ts`, relevant schema tests and generated model-snapshot JSON Schema; `apps/api/src/routes/model-snapshots.ts` and snapshot tests only; `docs/OPEN_QUESTIONS.md`; its task changelog. Minimal export/test plumbing is allowed if declared.
+- Needs: T05, T08, T04b.
+- Done when:
+  - ADR + explicit errata define non-inheritance covariance from out-of-fold training residuals, same-weighted inheritance covariance subtraction and deterministic PSD handling; untouched holdout and single-count prediction are demonstrated by retained runnable probes. No golden-data retune or threshold relaxation.
+  - Resolve the latent skill-hint/acquisition probability double-count with a mathematically explicit, testable decision; include sparse/prior-only behavior. No claim that an unobserved activation was observed.
+  - Snapshots accept both legacy `training-v1` and new `training-v2` in schema/storage without relabelling old records; new semantics belong only to v2. T06 must emit v2 and reject v1 for prediction with a refit-required error. API kind filtering/pruning stays isolated per kind; JSON Schema export and round trips verified.
+  - Frozen install, schema-only build/export, recursive lint/typecheck/tests pass; retained statistical probes verify unchanged golden recovery/coverage/calibration feasibility. Independent review required before merge and T06 dispatch.
+  - Do not implement production T06/T15 or alter T08 fixtures, master data, capture contracts, web configuration or D1 migrations.
 
 ### T07 — Design
 - Spec: 10 (all).
@@ -165,7 +176,8 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T06 | Awaiting Q-123 covariance decision; focused design review running | | | T08 merged; avoid inheritance variance double-count |
+| T05b | In progress (Opus medium): executable model-semantics errata and v2 snapshot compatibility | task/T05b-model-semantics | T05b-model-semantics.md | Pending |
+| T06 | Awaiting T05b; Q-123/Q-124 semantics gate | | | T08 merged |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Retrying on Opus medium after both providers rate-limited; uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
