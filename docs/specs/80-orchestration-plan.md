@@ -167,8 +167,8 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T06 | Not started | | | |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T08 | Fix round 2 on GPT-6.1 Sol medium after Opus HTTP 429 | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r2: recovery fixed; calibration minimum outside acceptance band |
-| T09 | Continuing on GPT-6.1 Sol medium after Opus HTTP 429; partial work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
+| T08 | Retrying fix round 2 on Opus medium after both providers rate-limited; uncommitted work preserved | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r2: recovery fixed; calibration minimum outside acceptance band |
+| T09 | Retrying on Opus medium after both providers rate-limited; uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
