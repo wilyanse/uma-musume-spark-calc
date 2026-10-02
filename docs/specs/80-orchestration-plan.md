@@ -176,7 +176,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T05b | Retrying on Opus medium after HTTP 429; partial statistical probes preserved | task/T05b-model-semantics | T05b-model-semantics.md | Pending |
+| T05b | Candidate 5d21673; parent gate passed; independent review r1 dispatched | task/T05b-model-semantics | T05b-model-semantics.md | Pending r1; T06 remains gated |
 | T06 | Awaiting T05b; Q-123/Q-124 semantics gate | | | T08 merged |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
