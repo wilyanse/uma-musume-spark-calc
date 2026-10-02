@@ -152,6 +152,14 @@ export interface GoldenInfo {
   roles: Record<GoldenRole, string>;
 }
 
+export interface GoldenCoverageVariant {
+  pooled: number;
+  perStat: number[];
+  cells: number;
+  marginLower: number;
+  marginUpper: number;
+}
+
 export interface GoldenHoldout {
   seed: number;
   fraction: number;
@@ -160,6 +168,17 @@ export interface GoldenHoldout {
   trainIds: string[];
   /** S3: the measured coverage of a 50 §4-style diagnostic fit on this split, and its limits. */
   coverageDiagnostic: {
+    status: 'DERIVED self-consistency metadata, not independent proof';
+    variants: {
+      definition: string;
+      residualCov: number[][];
+      trainVariance: number[];
+      meanHoldoutInheritanceVariance: number[];
+      literal: GoldenCoverageVariant;
+      plusInheritance: GoldenCoverageVariant;
+      plusInheritanceNet: GoldenCoverageVariant;
+      trainPlugin: GoldenCoverageVariant;
+    };
     definition: string;
     pooled: number;
     perStat: PerStat;

@@ -33,6 +33,7 @@ import type { AptKey, Grade, Outfit, Spark, StatKey, SupportCard, TrainMode } fr
 import type { MasterBundle } from '@uma/master-data';
 import {
   affinity2,
+  expectationFromPlan,
   mulberry32,
   planInheritance,
   sampleInheritance,
@@ -45,10 +46,11 @@ import { loadPublishedBundle } from './published-bundle.ts';
 import {
   buildDesign,
   chooseLambda,
+  coverageVariants,
   effectiveSampleSize,
   holdoutCoverage,
   recencyWeights,
-} from '../test/golden/t06-diagnostic.ts';
+} from './golden-diagnostic.ts';
 
 export { loadGoldenContext } from './golden-context.ts';
 export type { GoldenTruth, PlantedCard } from './golden-context.ts';
@@ -141,7 +143,7 @@ const ZERO_PER_TYPE: Partial<Record<SupportCard['type'], number>> = {
   group: 2,
 };
 
-const NOISE_SD: Vec5 = [10, 9, 10, 9, 9];
+const NOISE_SD: Vec5 = [6, 5.4, 6, 5.4, 5.4];
 /** dateAcquired span in days (B1: a 60-day recency half-life over 90 days keeps ESS ≈ 176/192). */
 const DATE0 = '2026-06-25';
 const SPAN = 90;
@@ -275,11 +277,12 @@ export function buildTruthParameters(master: MasterBundle): TruthParams {
   rates.manual[SKILL_X] = 0.75;
 
   const turnsNote =
-    'SYNTHETIC (T08): published Global inheritanceTurns are [] (Q-5). Two events are injected for the golden data only; ' +
-    'the count follows the GameTora note "years 2 and 3", the turn numbers themselves are arbitrary labels. Not a game fact.';
+    'SYNTHETIC (T08 review round 2 B1): published Global inheritanceTurns are [] (Q-5). Four invented events [19,31,43,55] are injected for the golden data only (round 1 used two, [31,55]). ' +
+    'More events raise the expected blue gain linearly but its activation sampling sd only with the square root, so each row carries more identifiable blue-inheritance signal relative to activation noise; this is what makes the blueStatGain multiplier identifiable on a 48-row holdout. ' +
+    'Five or six events were probed and rejected: they let other best1 pairs reach medium A often enough to break the best-pair margin. Neither the count nor the turn numbers are game facts. The same engine sampling and published activation rules are used.';
   const inheritanceTurns: GoldenTruth['syntheticInheritance']['inheritanceTurns'] = {};
   for (const s of [...master.scenarios].sort((a, b) => a.id.localeCompare(b.id))) {
-    inheritanceTurns[s.id] = { turns: [31, 55], synthetic: true, note: turnsNote };
+    inheritanceTurns[s.id] = { turns: [19, 31, 43, 55], synthetic: true, note: turnsNote };
   }
 
   return {
@@ -374,7 +377,8 @@ export function buildTruthParameters(master: MasterBundle): TruthParams {
         ownedLb:
           'every pool card starts at LB0 or LB1 and reaches LB4 within the 90 days (was: 0–2 start, 0..(4−start) upgrades over 360 days), so (1 + lb/4) varies within each card id and separates id effects from the pooled type and intercept directions. Synthetic.',
         pool: 'friend and group types each have 2 zero-effect cards (was 1), so no type-pool feature equals a single card id (Tazuna is still the only planted friend card). Synthetic.',
-        noise: 'residual noise sd [10, 9, 10, 9, 9] (was [9, 8, 9, 7, 8]). Synthetic.',
+        noise:
+          'Review round 2 B1: residual noise sd [6, 5.4, 6, 5.4, 5.4], a uniform 0.6 scaling of round-1 [10, 9, 10, 9, 9]. Same MVN correlation, seed and per-row stream labels; the standard-normal draws are unchanged, so the noise covariance scales by exactly 0.36. Together with four synthetic inheritance events (was two) this raises the identifiable blue-inheritance signal relative to finite-sample nuisance (root cause of the round-2 calibration bias: see changelog Review round 2). The extra events consume more of each inh:<i> stream, so activation realisations differ from round 1 although no seed or label changed. No latent subtraction, no population or split change. Synthetic.',
       },
     },
     skills: {
@@ -587,6 +591,7 @@ async function generateRoster(
   const vets: TrueVet[] = [];
   const roster: RosterVeteran[] = [];
   const latent: Record<string, GoldenLatent> = {};
+  const generatedExpectations = new Map<string, number[]>();
   let rawMin = Infinity;
   let rawMax = -Infinity;
   let clipped = 0;
@@ -741,6 +746,7 @@ async function generateRoster(
       scenarioId,
     );
     const inh = sampleInheritance(plan, rngFor(`inh:${i}`));
+    generatedExpectations.set(id, expectationFromPlan(plan).expectedStatGain);
 
     // Training model.
     const nRng = rngFor(`noise:${i}`);
@@ -969,6 +975,18 @@ async function generateRoster(
   }
 
   // --- reported composition ----------------------------------------------------------------------
+  // Root-cause guard: compare the actual generator plans with independently reconstructed recorded
+  // lineage on ALL eligible rows. Missing grandparents must never create an expectation mismatch.
+  const eligibleAudit = roster.filter((v) => v.minConfidence >= 0.9).map((v) => v.id);
+  const recorded = buildDesign(ctx, master, roster, eligibleAudit);
+  for (const row of recorded.rows) {
+    const veteran = roster.find((v) => v.id === row.id)!;
+    const actual = generatedExpectations.get(row.id)!;
+    STAT_ORDER.forEach((k, s) => {
+      if (Math.abs(veteran.stats[k] - row.y[s]! - actual[s]!) > 1e-9)
+        throw new Error(`golden: actual/recorded inheritance expectation mismatch ${row.id}.${k}`);
+    });
+  }
   const count = (pred: (v: RosterVeteran) => boolean) => roster.filter(pred).length;
   const sparkInfo = {
     selfSparks:
@@ -1090,7 +1108,9 @@ const COVERAGE_BAND: [number, number] = [0.72, 0.88];
 
 /**
  * S3: 80% holdout interval coverage of the test-only 50 §4 diagnostic fit
- * (test/golden/t06-diagnostic.ts) on the stored split. Uses only T06-available data (no latent).
+ * (scripts/golden-diagnostic.ts) on the stored split. Uses only T06-available data (no latent).
+ * DERIVED self-consistency metadata: the test recomputes it with the same code; only the band
+ * assertion carries weight.
  */
 function coverageDiagnostic(
   master: MasterBundle,
@@ -1107,16 +1127,32 @@ function coverageDiagnostic(
   const c = holdoutCoverage(d, train, hold, lambdas);
   const ess = effectiveSampleSize(recencyWeights(train));
   const pooled = r6(c.pooled);
+  const variants = coverageVariants(d, train, hold, lambdas);
+  const vm = (name: string, v: { pooled: number }) =>
+    `${name} ${v.pooled.toFixed(4)} (${(v.pooled - COVERAGE_BAND[0]).toFixed(4)} above 0.72, ${(COVERAGE_BAND[1] - v.pooled).toFixed(4)} below 0.88)`;
   return {
-    definition: `Pooled over the 5 stats: the share of the ${c.cells} (holdout row, stat) cells whose y = finalStat − E[inheritance | recorded lineage] lies inside prediction ± z0.9 · sqrt(σ̂²_k (1 + v)), from a per-stat weighted ridge fit on the ${trainIds.length} train rows with 50 §4 features (scenario×mode, growth, card id and type × (1 + lb/4)), recency weights 0.5^(age/60) (ESS ${ess.toFixed(1)}), λ (id/base) chosen per stat by seeded 5-fold CV on {0.1,1,10,100}×{0.1,1,10}: ${lambdas.map((l) => `${l.lambdaId}/${l.lambdaBase}`).join(', ')}. σ̂²_k = Σw r²/Σw(1−h) on train residuals; v = the sandwich variance factor of the prediction. Code: packages/engine/test/golden/t06-diagnostic.ts (test-only, not T06).`,
+    status: 'DERIVED self-consistency metadata, not independent proof',
+    variants: roundDeep(variants),
+    definition: `Pooled over the 5 stats: the share of the ${c.cells} (holdout row, stat) cells whose y = finalStat − E[inheritance | recorded lineage] lies inside prediction ± z0.9 · sqrt(σ̂²_k (1 + v)), from a per-stat weighted ridge fit on the ${trainIds.length} train rows with 50 §4 features (scenario×mode, growth, card id and type × (1 + lb/4)), recency weights 0.5^(age/60) (ESS ${ess.toFixed(1)}), λ (id/base) chosen per stat by seeded 5-fold CV on {0.1,1,10,100}×{0.1,1,10}: ${lambdas.map((l) => `${l.lambdaId}/${l.lambdaBase}`).join(', ')}. σ̂²_k = Σw r²/Σw(1−h) on train residuals; v = the sandwich variance factor of the prediction. Code: packages/engine/scripts/golden-diagnostic.ts (TEST-ONLY diagnostic, not T06). DERIVED self-consistency metadata, not independent proof.`,
     pooled,
     perStat: obj(c.perStat.map(r6)),
     cells: c.cells,
     band: COVERAGE_BAND,
     margin: `pooled ${pooled.toFixed(3)}: ${(pooled - COVERAGE_BAND[0]).toFixed(3)} above 0.72 and ${(COVERAGE_BAND[1] - pooled).toFixed(3)} below 0.88; binomial sd at n=${c.cells} cells ≈ ${Math.sqrt((0.8 * 0.2) / c.cells).toFixed(3)} (larger in practice: the 5 stats of a row are correlated), per stat at n=${hold.length} ≈ ${Math.sqrt((0.8 * 0.2) / hold.length).toFixed(3)}.`,
     limitations:
-      'Per-stat coverage at n=48 has a sampling sd ≈ 0.058, so a per-stat 0.72–0.88 check is not robust; T06 should report the pooled figure. The interval uses one homoscedastic σ̂² per stat (noise + inheritance-sampling deviation together) from the train residuals. 50 §4 defines residualCov from the holdout residuals and 50 §7 adds Var[inh] on top; that would double count the inheritance variance and use the holdout to calibrate itself, so T06 coverage may differ from this diagnostic. The planted MVN covariance is not used.',
+      'Per-stat coverage at n=48 has sampling sd ≈ 0.058; report the pooled figure. All values here are DERIVED self-consistency metadata from the TEST-ONLY scripts/golden-diagnostic.ts (the test recomputes them with the same code; only the band assertion carries weight), not independent proof. ' +
+      `S3 variance definitions on the final data (definitions in variants.definition): ${vm('stored sandwich', c)}; ${vm('literal 50 §4 holdout residualCov', variants.literal)}; ${vm('residualCov + Var[inh]', variants.plusInheritance)}; ${vm('residualCov − mean Var[inh] + Var[inh]', variants.plusInheritanceNet)}; ${vm('train plug-in', variants.trainPlugin)}. ` +
+      'residualCov + Var[inh] counts the inheritance-sampling variance twice (residualCov already contains it) and over-covers; the train plug-in has no leverage correction and under-covers. T06 coverage therefore depends on its variance definition (Q-123). No planted MVN covariance is used.',
   };
+}
+
+/** Round every number to 6 decimals (stable, readable derived metadata). */
+function roundDeep<T>(x: T): T {
+  if (typeof x === 'number') return r6(x) as T;
+  if (Array.isArray(x)) return x.map(roundDeep) as T;
+  if (x && typeof x === 'object')
+    return Object.fromEntries(Object.entries(x).map(([k, v]) => [k, roundDeep(v)])) as T;
+  return x;
 }
 
 function sortKeys(x: unknown): unknown {
@@ -1221,7 +1257,7 @@ export async function generateGolden(master: MasterBundle): Promise<Record<strin
           params.syntheticInheritance.rulesOverrides.blueStatGain['3'] * CALIBRATION_MULTIPLIER,
         ),
       },
-      note: 'Same seed and streams: ids, decks, sparks, skills, aptitudes, noise and the activation draws are identical; only blue activation gains (and so stats, rating, rank and fingerprint) differ. 70 §3 F12: calibration should suggest ×1.2–1.4.',
+      note: 'Same seed and streams: ids, decks, sparks, skills, aptitudes, noise and activation draws are identical; only blue activation gains (and so stats, rating, rank and fingerprint) differ. This is not a promise about production T15. test/golden/calibration.test.ts runs a TEST-ONLY holdout-MAE scan (0.01 grid over [0.5, 2.0], 50 §4 design, λ 0.1/0.1) on the stored split and on the 50 §8 matched-or-guest populations and asserts the measured argmin; the numbers and the reproducing command are in the changelog (Review round 2).',
       sha256: sha256(files[FILES.calibration]!),
       latent: calib.latent,
     },

@@ -30,8 +30,8 @@ import {
   mulberry32,
   planInheritance,
   seedFromString,
-} from '../../src/index.ts';
-import type { EngineContext, Legacy } from '../../src/index.ts';
+} from '../src/index.ts';
+import type { EngineContext, Legacy } from '../src/index.ts';
 
 export const RECENCY_HALF_LIFE_DAYS = 60;
 export const LAMBDA_ID_GRID = [0.1, 1, 10, 100] as const;
@@ -257,6 +257,19 @@ export interface CvChoice {
 /** 5-fold CV over the 50 §4 grid for one stat (weighted squared error on the left-out fold). */
 export function chooseLambda(d: Design, rows: readonly DesignRow[], stat: number): CvChoice {
   const folds = cvFolds(rows.map((r) => r.id));
+  // N1: the recency clock (newest row of the fit set; train-only, no holdout date enters it) and
+  // the fold partitions are computed once, outside the λ grid and fold loops. Weights are the same
+  // values as before, so the CV choice is unchanged.
+  const wAll = recencyWeights(rows);
+  const wOf = new Map(rows.map((r, i) => [r.id, wAll[i]!]));
+  const partitions = Array.from({ length: CV_FOLDS }, (_, f) => {
+    const tr = rows.filter((r) => folds.get(r.id) !== f);
+    return {
+      tr,
+      wTr: tr.map((r) => wOf.get(r.id)!),
+      te: rows.filter((r) => folds.get(r.id) === f),
+    };
+  });
   const grid: Record<string, number> = {};
   let best: CvChoice | null = null;
   let bestMse = Infinity;
@@ -264,20 +277,8 @@ export function chooseLambda(d: Design, rows: readonly DesignRow[], stat: number
     for (const lambdaBase of LAMBDA_BASE_GRID) {
       let se = 0;
       let ws = 0;
-      for (let f = 0; f < CV_FOLDS; f++) {
-        const tr = rows.filter((r) => folds.get(r.id) !== f);
-        const te = rows.filter((r) => folds.get(r.id) === f);
-        // Recency weights are relative to the newest row of the whole fit set (one clock).
-        const wAll = recencyWeights(rows);
-        const wOf = new Map(rows.map((r, i) => [r.id, wAll[i]!]));
-        const fit = ridge(
-          d,
-          tr,
-          tr.map((r) => wOf.get(r.id)!),
-          stat,
-          lambdaId,
-          lambdaBase,
-        );
+      for (const { tr, wTr, te } of partitions) {
+        const fit = ridge(d, tr, wTr, stat, lambdaId, lambdaBase);
         for (const r of te) {
           const e = r.y[stat]! - predict(fit.beta, r.x);
           se += wOf.get(r.id)! * e * e;
@@ -317,6 +318,83 @@ export interface CoverageResult {
   cells: number;
   /** Residual sd used per stat (weighted train residuals, leverage-corrected). */
   sd: number[];
+}
+
+export interface CoverageVariant {
+  pooled: number;
+  perStat: number[];
+  cells: number;
+  /** pooled − 0.72 and 0.88 − pooled (negative = outside the 50 §9 band). */
+  marginLower: number;
+  marginUpper: number;
+}
+
+export const COVERAGE_VARIANTS_DEFINITION =
+  'All variants: 80% normal interval prediction ± z0.9·sqrt(var) around the per-stat weighted ridge prediction (train rows only, CV λ), on the 48 holdout rows × 5 stats; e = y − prediction with y = finalStat − E[inh | recorded lineage]. ' +
+  'literal (50 §4): var_k = residualCov[k][k], the recency-weighted (holdout weights 0.5^(age/60), newest holdout row as clock) centred covariance Σw(e−ē)(e−ē)ᵀ/Σw of the HOLDOUT residuals; it reuses the holdout to set its own width. ' +
+  'plusInheritance (50 §4 + 50 §5/§7 literally): var = residualCov[k][k] + Var[inh_k | row lineage] from the engine; double counts inheritance-sampling variance, which residualCov already contains. ' +
+  'plusInheritanceNet: var = residualCov[k][k] − holdout-weighted mean Var[inh_k] + Var[inh_k | row]: the same predictive form without the double count. ' +
+  'trainPlugin: var_k = uncentred Σw e²/Σw over the TRAIN residuals, no leverage or sandwich correction. ' +
+  'No latent or planted covariance is used.';
+
+/**
+ * S3 (review round 2): coverage under the alternative variance definitions T06 might use. DERIVED
+ * diagnostics, not independent proof; every variance comes from observable fit residuals and the
+ * engine's Var[inh] on the recorded lineage.
+ */
+export function coverageVariants(
+  d: Design,
+  train: readonly DesignRow[],
+  holdout: readonly DesignRow[],
+  lambdas: readonly { lambdaId: number; lambdaBase: number }[],
+) {
+  const w = recencyWeights(train);
+  const wh = recencyWeights(holdout);
+  const sum = (a: readonly number[]) => a.reduce((s, x) => s + x, 0);
+  const wsum = sum(wh);
+  const fits = STAT_KEYS.map((_, k) =>
+    ridge(d, train, w, k, lambdas[k]!.lambdaId, lambdas[k]!.lambdaBase),
+  );
+  const residual = (r: DesignRow) => fits.map((f, k) => r.y[k]! - predict(f.beta, r.x));
+  const tr = train.map(residual);
+  const ho = holdout.map(residual);
+  const means = STAT_KEYS.map((_, k) => sum(ho.map((r, i) => wh[i]! * r[k]!)) / wsum);
+  const residualCov = STAT_KEYS.map((_, k) =>
+    STAT_KEYS.map(
+      (_, j) => sum(ho.map((r, i) => wh[i]! * (r[k]! - means[k]!) * (r[j]! - means[j]!))) / wsum,
+    ),
+  );
+  const trainVariance = STAT_KEYS.map((_, k) => sum(tr.map((r, i) => w[i]! * r[k]! ** 2)) / sum(w));
+  const meanInhVar = STAT_KEYS.map(
+    (_, k) => sum(holdout.map((r, i) => wh[i]! * r.inhVar[k]!)) / wsum,
+  );
+  const coverage = (variance: (r: DesignRow, k: number) => number): CoverageVariant => {
+    const perStat = STAT_KEYS.map(
+      (_, k) =>
+        holdout.filter((r, i) => Math.abs(ho[i]![k]!) <= Z80 * Math.sqrt(variance(r, k))).length /
+        holdout.length,
+    );
+    const pooled = sum(perStat) / STAT_KEYS.length;
+    return {
+      pooled,
+      perStat,
+      cells: holdout.length * STAT_KEYS.length,
+      marginLower: pooled - 0.72,
+      marginUpper: 0.88 - pooled,
+    };
+  };
+  return {
+    definition: COVERAGE_VARIANTS_DEFINITION,
+    residualCov,
+    trainVariance,
+    meanHoldoutInheritanceVariance: meanInhVar,
+    literal: coverage((_, k) => residualCov[k]![k]!),
+    plusInheritance: coverage((r, k) => residualCov[k]![k]! + r.inhVar[k]!),
+    plusInheritanceNet: coverage((r, k) =>
+      Math.max(1e-9, residualCov[k]![k]! - meanInhVar[k]! + r.inhVar[k]!),
+    ),
+    trainPlugin: coverage((_, k) => trainVariance[k]!),
+  };
 }
 
 /**

@@ -24,7 +24,8 @@ import {
   recencyWeights,
   recordedLegacy as recordedLineage,
   ridge,
-} from './t06-diagnostic.ts';
+  coverageVariants,
+} from '../../scripts/golden-diagnostic.ts';
 
 const tm = truth.trainingModel;
 const g = truth.golden;
@@ -633,6 +634,7 @@ describe('50 §4 recoverability with T06-available data only (test-only diagnost
     [0.1, 1],
     [1, 0.1],
     [1, 1],
+    [1, 10],
   ])('λ_id=%s λ_base=%s recovers all 12 planted effects within ±15% with margin', (li, lb) => {
     const r = recovery(STAT_KEYS.map(() => ({ lambdaId: li, lambdaBase: lb })));
     expect(r.fails).toEqual([]);
@@ -642,10 +644,26 @@ describe('50 §4 recoverability with T06-available data only (test-only diagnost
     expect(r.worstZero).toBeLessThan(8);
   });
 
+  // S1 (review round 2): λ 0.1/10 is a valid 50 §4 grid point with a THIN margin. A heavy base
+  // penalty shrinks the intercept/scenario columns, and the friend card (Tazuna, +40 on all five
+  // stats) absorbs part of it. Measured worst 13.78% (tazuna pow 40 -> 45.51) on the final data
+  // (`node packages/engine/test/golden/diagnostics.ts`): it passes ±15% with only ~1.2 points of
+  // margin, so it is asserted against the acceptance bound itself, not the 10% margin bound.
+  it('λ_id=0.1 λ_base=10 (thin-margin grid point) still recovers every effect within ±15%', () => {
+    const r = recovery(STAT_KEYS.map(() => ({ lambdaId: 0.1, lambdaBase: 10 })));
+    expect(r.fails).toEqual([]);
+    expect(r.worst).toBeLessThan(0.15);
+    expect(r.worstZero).toBeLessThan(8);
+  });
+
   it('the 5-fold CV grid {0.1,1,10,100}×{0.1,1,10} picks λ that recovers every effect', () => {
     const chosen = STAT_KEYS.map((_, s) => chooseLambda(design, train, s));
     for (const c of chosen) {
       expect(Object.keys(c.grid)).toHaveLength(LAMBDA_ID_GRID.length * LAMBDA_BASE_GRID.length);
+      // N2: λ_id ≤ 1 is the tested recoverable region of THIS synthetic dataset (λ_id ≥ 10
+      // over-shrinks the card ids: worst 17–58% in diagnostics.ts), not a universal rule for a
+      // 50 §4 estimator. A different CV loss, fold seed or weighting may legitimately pick another
+      // λ; this assertion only pins that the seeded CV here lands where recovery is proven.
       expect(c.lambdaId).toBeLessThanOrEqual(1);
     }
     const r = recovery(chosen);
@@ -653,16 +671,47 @@ describe('50 §4 recoverability with T06-available data only (test-only diagnost
     expect(r.worst).toBeLessThan(0.1);
   });
 
-  it('S3: holdout 80% interval coverage (pooled) is inside 0.72–0.88 and matches truth.json', () => {
+  it('S3: holdout 80% interval coverage (pooled) is inside 0.72–0.88', () => {
     const lambdas = STAT_KEYS.map((_, s) => chooseLambda(design, train, s));
     const c = holdoutCoverage(design, train, hold, lambdas);
-    const rec = truth.holdout.coverageDiagnostic;
     expect(c.cells).toBe(240);
-    expect(c.pooled).toBeCloseTo(rec.pooled, 6);
-    STAT_KEYS.forEach((k, s) => expect(c.perStat[s]).toBeCloseTo(rec.perStat[k], 6));
+    // The band assertion is the evidence; it is computed here from the data, not read back.
     expect(c.pooled).toBeGreaterThanOrEqual(0.72);
     expect(c.pooled).toBeLessThanOrEqual(0.88);
+    // DERIVED self-consistency only (review round 2 S2): truth.json stores what the same
+    // scripts/golden-diagnostic.ts code computed at generation time. Matching it proves the
+    // committed metadata is current, not that the diagnostic is correct.
+    const rec = truth.holdout.coverageDiagnostic;
+    expect(rec.status).toBe('DERIVED self-consistency metadata, not independent proof');
+    expect(c.pooled).toBeCloseTo(rec.pooled, 6);
+    STAT_KEYS.forEach((k, s) => expect(c.perStat[s]).toBeCloseTo(rec.perStat[k], 6));
     expect(rec.band).toEqual([0.72, 0.88]);
+  });
+
+  it('S3: alternative variance definitions are recorded for the final data (margins documented)', () => {
+    const lambdas = STAT_KEYS.map((_, s) => chooseLambda(design, train, s));
+    const v = coverageVariants(design, train, hold, lambdas);
+    const rec = truth.holdout.coverageDiagnostic.variants;
+    for (const key of [
+      'literal',
+      'plusInheritance',
+      'plusInheritanceNet',
+      'trainPlugin',
+    ] as const) {
+      expect(v[key].pooled).toBeCloseTo(rec[key].pooled, 6);
+      expect(v[key].cells).toBe(240);
+    }
+    // literal 50 §4 holdout residualCov sits inside the band.
+    expect(v.literal.pooled).toBeGreaterThanOrEqual(0.72);
+    expect(v.literal.pooled).toBeLessThanOrEqual(0.88);
+    // Adding Var[inh] on top of residualCov double counts the inheritance-sampling variance, so it
+    // can only widen the interval relative to `literal`.
+    expect(v.plusInheritance.pooled).toBeGreaterThanOrEqual(v.literal.pooled);
+    // residualCov is a holdout statistic; the per-row engine variance is ≥ 0 and non-trivial.
+    for (const r of hold) for (const x of r.inhVar) expect(x).toBeGreaterThanOrEqual(0);
+    expect(truth.holdout.coverageDiagnostic.limitations).toMatch(
+      /literal 50 §4 holdout residualCov/,
+    );
   });
 });
 

@@ -23,7 +23,7 @@ Created:
 
 - `packages/engine/scripts/golden.ts`: the generator (Node only). It exports `generateGolden` and `writeGolden`, and re-exports `loadGoldenContext` and the truth types.
 - `packages/engine/scripts/golden-context.ts` (review round 1): a browser-safe module holding `loadGoldenContext(master, truth, multiplier)` and the complete `GoldenTruth` types. Its only runtime import is `../src/index.ts`. It is the single way T06/T15/T13 should rebuild the generator's engine context from `truth.json`.
-- `packages/engine/test/golden/t06-diagnostic.ts` (review round 1): a test-only 50 §4-style weighted grouped ridge with 5-fold CV and an 80% interval. It is not the T06 implementation.
+- `packages/engine/test/golden/t06-diagnostic.ts` (review round 1): a test-only 50 §4-style weighted grouped ridge with 5-fold CV and an 80% interval. It is not the T06 implementation. _(Superseded in round 2: moved to `packages/engine/scripts/golden-diagnostic.ts`, the test file was deleted.)_
 - `packages/engine/test/golden/roster.json`: 260 `RosterVeteran`s (1.29 MB).
 - `packages/engine/test/golden/roster.calibration-x1.3.json`: the same roster with `blueStatGain` × 1.3.
 - `packages/engine/test/golden/truth.json`: the planted parameters, roster composition, best/trap pair, holdout split and latent components (241 KB).
@@ -44,7 +44,7 @@ Modified:
 
 - **Seed and time.** `GOLDEN_SEED = 20260929`. Every random stream is `mulberry32(seedFromString("20260929:<label>"))` from the engine's `src/rng.ts`, with one label per purpose (`vet:i`, `deck:i`, `inh:i`, `noise:i`, `skills:i`, `sparks:i`, `confidence:i`, `structure`, `modes`, `owned-cards`, `skill-rates:<mode>`). The injected "now" is `2026-09-29T00:00:00.000Z`. There is no `Date.now()`. Serialisation sorts keys recursively and then runs prettier with the repo config, so committed files are already prettier-clean.
 - **Master-data IDs are real; every number is synthetic.** The synthetic values are the card effects, intercepts, noise, skill rates, turns, blueStatGain, card level caps and guest trainer names. `truth.meta.notice` and every relevant field say so.
-- **Synthetic inheritance inputs (Q-120).** Published `blueStatGain` is 0/0/0 (UNKNOWN), which would make the ×1.3 variant identical to the base roster. The golden data therefore overrides it to 10/20/30 (`verified:false`, `source: SYNTHETIC …`). Published `inheritanceTurns` are `[]`, so `loadGoldenContext` registers a scenario plugin per scenario that returns the synthetic turns `[31, 55]` (two events, labelled synthetic). All other rules are used verbatim; the list is in `truth.syntheticInheritance.rulesUsedVerbatim` and checked by a test.
+- **Synthetic inheritance inputs (Q-120).** Published `blueStatGain` is 0/0/0 (UNKNOWN), which would make the ×1.3 variant identical to the base roster. The golden data therefore overrides it to 10/20/30 (`verified:false`, `source: SYNTHETIC …`). Published `inheritanceTurns` are `[]`, so `loadGoldenContext` registers a scenario plugin per scenario that returns the synthetic turns `[31, 55]` (two events, labelled synthetic). _(Superseded in round 2: four events `[19, 31, 43, 55]`.)_ All other rules are used verbatim; the list is in `truth.syntheticInheritance.rulesUsedVerbatim` and checked by a test.
 - **Target id (Q-121).** `CmTarget.id` must be a ULID (01 is authoritative), so it is `01KGQZ0000G01DENCM00000001` and `name` is `golden-cm-1`. `truth.golden.{targetId,targetName}` link them. The first run's id contained `L`, which is not Crockford base32, so the generator crashed; that is fixed here.
 - **Plan.** The trainee is `outfit:stone-piercing-blue` (Grass Wonder: turf A, medium B, pace A). The plan is URA Finale, manual mode, and `truth.golden.planDeck`: six planted cards at LB4. The target is Medium/Turf/Pace with min spd 1100 and sta 800, minimum aptitudes turf/medium/pace A, and required skill X.
 - **Skill X = `skill:restraint`** (normal, gameId 202161). It has exactly one spark (`spark:restraint`, white). No card hint/event list, outfit innate/unique skill or race-spark hint includes it, which a test checks against master data. In the roster only best1 carries it: self 3★ and guest parent 1 at 2★. Rates are manual 0.75 and independent 0.40.
@@ -73,7 +73,7 @@ Modified:
 
   There are also 14 zero-effect SSR cards: 2 per type, including 2 friend and 2 group cards (round 1). Each deck takes a uniform 2–5 planted cards, then zero-effect cards. Characters in a deck are distinct and never the veteran's own. 70% of decks have one borrowed slot (LB4). Owned LB follows a seeded timeline: each card starts at LB0 or LB1 and reaches LB4 within the 90 days (round 1), so a card's LB rises over dateAcquired.
 
-- **Noise.** MVN with sd [10, 9, 10, 9, 9] (round 1; it was [9, 8, 9, 7, 8]) and the correlation matrix in truth.json. The covariance is stored as corr·sd·sd and is checked positive-definite through Cholesky. Each draw is `L·z` from Box–Muller normals.
+- **Noise.** _(Superseded in round 2: sd [6, 5.4, 6, 5.4, 5.4].)_ MVN with sd [10, 9, 10, 9, 9] (round 1; it was [9, 8, 9, 7, 8]) and the correlation matrix in truth.json. The covariance is stored as corr·sd·sd and is checked positive-definite through Cholesky. Each draw is `L·z` from Box–Muller normals.
 - **Skills.** `hinted` = deck hint/event skills ∪ outfit innate skills ∪ the veteran's sampled inheritance hints (`latent[id].inheritanceHints`), minus the unique skill. Each hinted skill is acquired with `rates[mode][skill]`. The rates are Beta draws per mode (independent Beta(3,7), manual Beta(5,5)) over all master skills and are listed exactly in truth.json. The unique skill is always acquired, with a synthetic level from 1 to 6.
 - **Modes.** Exactly 156 independent and 104 manual (60/40). The 4 planted veterans are manual. Which general veterans are independent is decided by a seeded permutation. The epithet follows 01 §6, except for 9 rows with `modeSource:'override'`, which are listed in truth.json.
 - **Realism for T06.**
@@ -278,6 +278,8 @@ Retune (all values synthetic; recorded in `truth.trainingModel.synthetic`). In a
 
 Unchanged: 260 rows, exactly 156/104 modes, independent intercept −120, the 12 planted cards (same cards, same `perUnit = atLb4/2` feature), the MVN covariance (corr·sd·sd, positive-definite) and the other acceptance tests.
 
+> **SUPERSEDED (review round 2 S1).** The table below does not reproduce from the committed dae3cc5 code (the reviewer measured e.g. λ 0.1/10 at 12.53%, not 7.5%). It came from an earlier iteration. The final λ table, captured from the frozen round-2 data and code, is in Review round 2.
+
 Actual output (temporary report test, since deleted; the CV λ is identical in truth.json):
 
 ```
@@ -320,6 +322,8 @@ trap 01M0J80G30D9VJ3GCNECRKJFXV (nakayama-festa) + 01M2N9GT1GDCSBPD81KNCE4PPW (s
 ```
 
 The IDs changed because capturedAt moved with the new date span; the characters are the same.
+
+> **SUPERSEDED (review round 2 B1).** The block below came from a 0.05-step grid on the round-1 data. On a 0.01 grid the round-1 ×1.3 argmin was 1.41, outside the band, so "argmin 1.40" was a grid artefact and not a finding. Final numbers are in Review round 2. Kept for history only.
 
 T15 feasibility re-check (temporary probe, not committed). Holdout-MAE grid of the same diagnostic fit on `roster.calibration-x1.3.json`, sum over the 5 stats:
 
@@ -485,6 +489,328 @@ $ git status --short apps/web/public packages/engine/src docs/specs
 
 - Recovery holds for λ_id ≤ 1. With λ_id ≥ 10, the shrinkage puts the worst error above 15%. The stated 5-fold CV picks λ_id = 0.1 for every stat.
 - The S3 coverage margin to the 0.88 upper bound is 0.038 (pooled), and the per-stat check is noisy at n = 48. T06's own residualCov definition may give different coverage.
-- T15: the holdout-MAE multiplier grid reaches its minimum at 1.40, the band edge; train-CV gives 1.30. T15 should use a robust criterion.
+- ~~T15: the holdout-MAE multiplier grid reaches its minimum at 1.40, the band edge; train-CV gives 1.30. T15 should use a robust criterion.~~ _Superseded (round 2 B1): this came from a coarse grid and was wrong (the 0.01-grid argmin was 1.41). After the round-2 retune the holdout-MAE argmin is 1.34 / 1.34 / 1.33; see Review round 2._
 - S4: fixture serving (Vite) and a fixture-mode planner wired to `loadGoldenContext` are T13/T02 follow-ups.
 - The golden data never exercises clipping (N2). T06 must test it separately.
+
+## Review round 2
+
+This round answers `docs/reviews/T08-review-2.md` (reviewed commit dae3cc5). Requested model: claude-opus-5-5 (anthropic), medium effort, with profile fallback disabled.
+
+Two earlier attempts at this round stopped on HTTP 429: Opus session 20261002_074934_f73ab6, and the GPT-6.1 Sol fallback session 20261002_081134_24bcf0. They left uncommitted partial work, all inspected before any edit:
+
+- the noise and turn retune in `golden.ts`;
+- the extraction of the diagnostic to `scripts/golden-diagnostic.ts`;
+- coverage variants;
+- an actual-vs-recorded inheritance guard;
+- draft files `calibration-diagnostic.ts`, `diagnostics.ts` and `root-cause.ts`;
+- regenerated data.
+
+That work was kept and finished, not restarted. The roster hashes this run generates are byte-identical to the partial run's roster files. Only `truth.json` changed, because its metadata is new. Round-1 B1 card recovery is kept: the same estimator and tests pass on the final data.
+
+### B1 (blocking): fixed. Root cause measured first, then a synthetic retune
+
+**Root-cause investigation.** Command: `node packages/engine/test/golden/root-cause.ts [--baseline] [--calibration]`.
+
+- **Diagnosis-only tool.** It reads `truth.latent` / `truth.calibration.latent` to split the bias into its sources. No acceptance fit uses it.
+- **Ablations.** Each ablation rebuilds every eligible row's stats from its latent parts and re-runs the same holdout-MAE scan used by the feasibility test.
+- **`--baseline`** reads the immutable dae3cc5 git objects.
+
+Results, as holdout-MAE argmin on the stored 50 §4 split at λ 0.1/0.1 (real output below):
+
+| data                 | clean | + noise only | + activation only | combined | weighted vs unweighted | λ≈0 (1e-6)  |
+| -------------------- | ----- | ------------ | ----------------- | -------- | ---------------------- | ----------- |
+| dae3cc5 base (m=1.0) | 1.00  | 1.06         | 1.03              | 1.09     | 1.10 / 1.09            | 1.10 / 1.09 |
+| dae3cc5 ×1.3 (m=1.3) | 1.30  | 1.36         | 1.34              | 1.41     | 1.41 / 1.41            | 1.41 / 1.41 |
+| final base (m=1.0)   | 1.00  | 1.02         | 1.01              | 1.04     | 1.04 / 1.04            | 1.04 / 1.04 |
+| final ×1.3 (m=1.3)   | 1.30  | 1.32         | 1.32              | 1.34     | 1.34 / 1.34            | 1.34 / 1.34 |
+
+Conclusions, each backed by evidence:
+
+- **Lineage completeness and actual-vs-expected inheritance are not the cause.**
+  - `golden.ts` now asserts on every one of the 240 eligible rows that the generator's own plan expectation (`expectationFromPlan(plan)`, recorded while generating) equals the recorded-lineage expectation that `buildDesign` rebuilds from the roster. A mismatch makes generation throw.
+  - Guest and unmatched parents carry null grandparents in both the generator plan and the design.
+  - The reviewer's hypothesis (missing grandparents in E[inh]) is ruled out: the "clean" ablation, with no nuisance terms, gives exactly the planted 1.00 and 1.30.
+- **Regularisation, recency weights and the estimator are not the cause.**
+  - With the nuisance removed, the scan is unbiased.
+  - With the nuisance present, the argmin is the same with recency weights or uniform weights, and at λ 0.1 or 1e-6.
+- **The cause is finite-sample correlation between the nuisance draws and the blue-inheritance signal on the 48-row holdout.**
+  - MVN noise alone shifted the dae3cc5 argmin by +0.06, and activation sampling deviation alone by +0.03 to +0.04. Together they gave +0.09 to +0.11.
+  - On the dae3cc5 holdout, the per-stat sample correlations of the noise with the blue signal E[inh|m] − E[inh|0] are spd 0.203, sta 0.290, pow 0.102, gut 0.031, wit 0.185. Activation correlations reach 0.370 (gut), and 0.568 on the 39-row 50 §8 subset (sta).
+  - These are independent in expectation (train rows: |corr| ≤ 0.18). It is a finite-sample effect of n = 48 / 39, not a generator bug.
+  - Holdout MAE is a 48-row statistic. Its argmin moves with these correlations in proportion to nuisance sd ÷ blue-signal size.
+
+**Retune.** Synthetic, deterministic, same seed. It is documented in `truth.trainingModel.synthetic.noise` and `truth.syntheticInheritance.inheritanceTurns.*.note`.
+
+1. **Noise sd** went from [10, 9, 10, 9, 9] to [6, 5.4, 6, 5.4, 5.4]: a uniform ×0.6, with the same correlation matrix, seed and stream labels. The standard-normal draws are unchanged, so the covariance is exactly 0.36× the round-1 covariance. It is still a known MVN, stored and Cholesky-checked as before.
+2. **Synthetic inheritance events** went from 2 (`[31, 55]`) to 4 (`[19, 31, 43, 55]`).
+   - The expected blue gain grows linearly with the number of events, but the activation sampling sd grows only with its square root. So each row carries about √2× more identifiable blue signal relative to activation noise.
+   - Activation rates and every other rule are the published rules, unchanged.
+   - The extra events consume more of each `inh:<i>` stream, so activation realisations differ from round 1 even though no seed or label changed.
+
+Not changed: seeds, holdout seed and split, eligibility, the 50 §8 population rule, the scan bounds, tolerances, the 12 planted cards, 260 rows, the 156/104 modes, the −120 intercept, and the best/trap pair veterans (same ids and characters as dae3cc5).
+
+Alternatives probed with temporary scripts, deleted afterwards. These numbers do not reproduce from the committed code:
+
+- 5 and 6 events at noise ×0.6, and 6 events at noise ×0.8: calibration was also inside the band, but the extra events let other best1 pairs reach medium A often enough to break the best-pair margin (`expected 0.37 > 0.48` and `0.44 > 0.72` in the ">10× runner-up" assertion).
+- Noise ×1.0 with 4 events: ×1.3 argmin 1.37 / 1.38 / 1.35, too close to the edge.
+- Noise ×0.8 with 4 events: 1.36 / 1.37 / 1.34.
+- Noise ×0.5 with 4 events: the same argmins as ×0.6.
+
+×0.6 with 4 events was kept. It is the partial run's choice and meets every check.
+
+**Feasibility check (TEST-ONLY): `packages/engine/test/golden/calibration.test.ts`**, with helpers in `test/golden/calibration-diagnostic.ts`.
+
+- **Criterion.** For each m on a 0.01 grid over [0.50, 2.00] (151 points; it contains the requested [1.0, 2.0]):
+  - y_m = finalStat − E[inh | recorded lineage, blueStatGain × m];
+  - fit the 50 §4 design (recency weights from the newest train row) with a per-stat weighted ridge at λ 0.1/0.1, the CV choice for 4 of the 5 stats;
+  - criterion = Σ_k holdout MAE (50 §8 holdout MAE).
+  - Inputs are roster rows, the stored split ids and `loadGoldenContext` from `truth.syntheticInheritance` only. No latent value, truth multiplier or planted parameter is used.
+- **Exact fast path.**
+  - E[inh] is affine in m: `blueStatGain` scales event gains, and `blueInitialBonus` is unchanged.
+  - Ridge predictions are linear in y.
+  - So two solves (m = 0, 1) give every grid point exactly. The test proves this against direct refits at m ∈ {0.5, 1, 1.2, 1.3, 1.34, 1.4, 2}, with |Δ| < 1e-8.
+- **Documented populations** (asserted):
+  - 50 §4 stored split: train 192 / holdout 48 (eligible, min confidence ≥ 0.9).
+  - 50 §4 train / 50 §8 holdout: 192 / 39. Holdout rows whose two parents are each a guest or a matched roster veteran.
+  - 50 §8 on both sides: 157 / 39.
+  - The filter drops exactly the rows with an unmatched non-guest parent. It gives the same row set on both rosters.
+- **Assertions on the ×1.3 roster:**
+  - In each population the argmin lies in [1.23, 1.37], i.e. at least 0.03 inside both band edges.
+  - MAE at 1.2 and at 1.4 is greater than at the argmin.
+  - MAE at 1.0 is greater than at 1.2, and MAE at 2.0 is greater than at 1.4, so the minimum is interior.
+  - The [1.0, 2.0] grid gives the same argmin.
+  - The band also holds at fixed λ 0.1/1, 1/0.1 and 1/1.
+- **Assertions on the base roster:** in each population |argmin − 1| ≤ 0.06, and the argmin is below 1.17.
+- **Result.** ×1.3 argmin **1.34 / 1.34 / 1.33**: 0.06 to 0.07 inside the upper edge and 0.13 to 0.14 above the lower edge.
+- **Measured base-roster bias** (source: the finite-sample nuisance correlation above): **+0.04 / +0.05 / +0.03** (argmin 1.04 / 1.05 / 1.03). On dae3cc5 it was +0.10.
+- **Robustness** (`--splits`): over 40 alternative seeded 80/20 splits (not the stored split; informational, not tuned against):
+  - ×1.3 argmin 1.31–1.38 (median 1.32), 40/40 in the band;
+  - ×1.3 with the 50 §8 population on both sides: 1.29–1.36, 40/40;
+  - base: 1.01–1.06 (median 1.02).
+- The future T15 criterion is holdout MAE as 50 §8 says. Train CV is no longer offered as the evidence.
+
+**Documentation corrected.**
+
+- `truth.calibration.note` no longer says "calibration should suggest ×1.2–1.4". It states that the note is not a promise about production T15, and points to `calibration.test.ts` and this section. A test asserts that.
+- The round-1 "argmin 1.40" block and the round-1 remaining-gap line are marked SUPERSEDED in place, with the reason. The history is kept.
+
+### S1: fixed. λ table re-captured from the frozen final data and code
+
+The round-1 table is marked SUPERSEDED in place. Exact output of `node packages/engine/test/golden/diagnostics.ts`, run after the last data/code change (the RECOVERY block):
+
+```
+CV λ per stat: spd 0.1/0.1, sta 0.1/0.1, pow 0.1/0.1, gut 0.1/0.1, wit 0.1/1
+λ 0.1/0.1: worst 5.05% (run-my-way-gold-city.wit 40->37.98); fails(≥15%) 0; max |zero-card| 2.50
+λ 0.1/1: worst 5.61% (tracen-reception-tazuna-hayakawa.pow 40->42.24); fails(≥15%) 0; max |zero-card| 2.69
+λ 0.1/10: worst 13.78% (tracen-reception-tazuna-hayakawa.pow 40->45.51); fails(≥15%) 0; max |zero-card| 6.04
+λ 1/0.1: worst 6.16% (run-my-way-gold-city.wit 40->37.53); fails(≥15%) 0; max |zero-card| 2.32
+λ 1/1: worst 5.62% (run-my-way-gold-city.wit 40->37.75); fails(≥15%) 0; max |zero-card| 2.32
+λ 1/10: worst 8.98% (tracen-reception-tazuna-hayakawa.pow 40->43.59); fails(≥15%) 0; max |zero-card| 5.09
+λ 10/0.1: worst 16.96% (beyond-this-shining-moment-silence-suzuka.pow 40->33.22); fails(≥15%) 2; max |zero-card| 6.18
+λ 10/1: worst 17.11% (beyond-this-shining-moment-silence-suzuka.pow 40->33.16); fails(≥15%) 1; max |zero-card| 5.89
+λ 10/10: worst 17.70% (beyond-this-shining-moment-silence-suzuka.pow 40->32.92); fails(≥15%) 1; max |zero-card| 5.52
+λ 100/0.1: worst 56.51% (beyond-this-shining-moment-silence-suzuka.pow 40->17.40); fails(≥15%) 21; max |zero-card| 21.99
+λ 100/1: worst 56.62% (beyond-this-shining-moment-silence-suzuka.pow 40->17.35); fails(≥15%) 21; max |zero-card| 21.67
+λ 100/10: worst 58.35% (beyond-this-shining-moment-silence-suzuka.pow 40->16.66); fails(≥15%) 22; max |zero-card| 19.43
+λ CV: worst 4.65% (tracen-reception-tazuna-hayakawa.pow 40->41.86); fails(≥15%) 0; max |zero-card| 2.50
+```
+
+- The it.each margin test (worst < 10%, zero-card < 8) now covers λ 0.1/0.1, 0.1/1, 1/0.1, 1/1 and 1/10.
+- **λ 0.1/10 is the documented thin-margin grid point:** worst 13.78%, about 1.2 points inside ±15%. A heavy base penalty shrinks the intercept and scenario columns, and the friend card Tazuna (+40 on all stats) absorbs part of that. Its own test asserts every effect within ±15% and zero-cards < 8, not the 10% margin bound.
+- λ_id ≥ 10 fails, as in round 1.
+
+### S2: fixed. No generator → test-code dependency; derived values labelled
+
+- The diagnostic moved to `packages/engine/scripts/golden-diagnostic.ts`. Its runtime imports are `../src/index.ts` and `@uma/schema`.
+- `test/golden/t06-diagnostic.ts` (the round-1 file) was deleted, after confirming nothing imports it.
+- `golden.ts` and the tests import the scripts copy.
+- New test `files.test.ts > review round 2 S2`:
+  - no `scripts/golden*.ts` imports anything under `test/`;
+  - `golden-diagnostic.ts`'s relative imports are exactly `['../src/index.ts']`;
+  - its bare imports are exactly `['@uma/schema']`.
+- The browser-safety walk of `golden-context.ts` now also asserts that `golden-diagnostic.ts` is not in its graph. There is no cycle: `golden-diagnostic.ts` imports neither `golden.ts` nor `golden-context.ts`.
+- `truth.holdout.coverageDiagnostic.status` = `"DERIVED self-consistency metadata, not independent proof"`. Its definition and limitations say so too.
+- In `planted.test.ts`, the S3 test asserts the band from its own recomputation first. A separate, commented block then checks that truth.json matches, as self-consistency only.
+
+### S3: fixed. Coverage under every variance definition, recorded from the final data
+
+Definitions are in `truth.holdout.coverageDiagnostic.variants.definition` and `scripts/golden-diagnostic.ts`:
+
+- All variants: 80% normal interval around the train-only ridge prediction (CV λ), on 48 holdout rows × 5 stats = 240 cells.
+- **sandwich (stored, unchanged):** σ̂² = Σw r² / Σw(1−h) from the train residuals, × (1 + sandwich factor).
+- **literal 50 §4:** var_k = residualCov[k][k], where residualCov is the recency-weighted (holdout weights), centred covariance of the holdout residuals.
+- **+Var[inh]:** residualCov[k][k] + the engine's Var[inh_k | row lineage]. This is 50 §4 + §5/§7 read literally, and it double counts.
+- **+Var[inh] net:** residualCov[k][k] − holdout-weighted mean Var[inh_k] + the row's Var[inh_k].
+- **train plug-in:** uncentred Σw e²/Σw over the train residuals, with no leverage or sandwich correction.
+
+Exact output (COVERAGE block of `diagnostics.ts`; the same values are stored in truth.json and re-checked by the test):
+
+```
+sandwich (stored)  pooled 0.8417 (margins 0.1217 / 0.0383) per-stat 0.7917,0.8333,0.8542,0.8333,0.8958
+literal 50§4       pooled 0.7917 (margins 0.0717 / 0.0883) per-stat 0.7708,0.7917,0.7917,0.8125,0.7917
++Var[inh]          pooled 0.9000 (margins 0.1800 / -0.0200) per-stat 0.8958,0.8958,0.8750,0.9375,0.8958
++Var[inh] net      pooled 0.7292 (margins 0.0092 / 0.1508) per-stat 0.7500,0.7292,0.7500,0.7708,0.6458
+train plug-in      pooled 0.7208 (margins 0.0008 / 0.1592) per-stat 0.6875,0.6875,0.7292,0.7083,0.7917
+residualCov diag 71.00,59.80,58.96,84.94,66.94; train plug-in var 48.22,43.64,50.34,56.11,67.46; mean holdout Var[inh] 32.32,39.02,35.65,67.00,47.29; sandwich sd 7.85,7.47,8.02,8.47,9.26
+```
+
+Margins are "above 0.72 / below 0.88". The sandwich and literal definitions are inside the band. The other three are not safely inside:
+
+- residualCov + Var[inh] over-covers at 0.900, outside the band, because it double counts.
+- The net variant sits 0.009 above the floor.
+- The train plug-in sits 0.0008 above the floor.
+
+Recorded as **Q-123** (T06 must choose its definition). Tests assert:
+
+- the recorded variants equal the recomputation;
+- literal is inside the band;
+- +Var[inh] ≥ literal.
+
+### N1: fixed
+
+In `chooseLambda`, the recency weights (one train-only clock, the newest row of the fit set) and the 5 fold partitions with their weight vectors are now computed once, outside the λ grid and the fold loop. The values are identical, so the CV choice is unchanged: spd/sta/pow/gut 0.1/0.1, wit 0.1/1. No holdout row enters the clock.
+
+### N2: fixed
+
+A comment on `expect(c.lambdaId).toBeLessThanOrEqual(1)` says it encodes this synthetic dataset's tested recoverable region: λ_id ≥ 10 gives a worst error of 16.96–58.35% in the table above. It is not a universal rule for a 50 §4 estimator.
+
+### N3: fixed
+
+Q-122 has an update. The zero-effect cards' effective contribution β_id + β_type is the independent check on pooling bleed. Current output: max |zero-card| is 2.50 at the CV λ, 2.32–2.69 at 0.1/1, 1/0.1 and 1/1, 5.09 at 1/10 and 6.04 at 0.1/10, against a smallest planted effect of 40. The test asserts < 8.
+
+### Best/trap pair after the retune
+
+From a temporary `process.stderr.write` in the existing pMeet test, removed afterwards (`cmp` against the saved copy confirmed the restore):
+
+```
+BESTDBG 0.29329563730426295 0.027261076800623726 0.023445457918496913 ratio 10.758769341699386 trapRank 25724 blue 18 16 pairs 32667
+```
+
+- The best pair is #1 (pMeet 0.293).
+- The trap ranks 25724 (0-based) and has the unique maximum of 18 blue stars against 16 for the next pair.
+- **Thin margin:** the runner-up ratio is 10.76×, against the existing ">10×" assertion (it was about 34× at dae3cc5). Four events raise every best1 pair's medium-A probability. The assertion is unchanged and passes, but the margin is about 8%.
+
+### Round 2 files
+
+- Created:
+  - `packages/engine/scripts/golden-diagnostic.ts` (moved from the test directory; plus coverage variants and the N1 hoist);
+  - `packages/engine/test/golden/calibration.test.ts`;
+  - `packages/engine/test/golden/calibration-diagnostic.ts`;
+  - `packages/engine/test/golden/diagnostics.ts` (executable);
+  - `packages/engine/test/golden/root-cause.ts` (executable, diagnosis only).
+- Deleted: `packages/engine/test/golden/t06-diagnostic.ts`.
+- Modified:
+  - `packages/engine/scripts/golden.ts`;
+  - `packages/engine/scripts/golden-context.ts` (types only);
+  - `packages/engine/test/golden/{planted,files}.test.ts`;
+  - the regenerated golden JSON files and the `apps/web/fixtures/*.json` copies;
+  - `docs/OPEN_QUESTIONS.md` (Q-122 update, Q-123);
+  - this changelog.
+- Not touched: engine `src/`, specs, `packages/schema`, `apps/web` runtime/config, the published master bundle, `package.json`, the lockfile.
+
+### Round 2 verification
+
+Node v25.9.0, pnpm 11.22.0, run from the worktree root after the final data and code freeze.
+
+Reproduce every feasibility claim in this section:
+
+```
+node packages/engine/test/golden/diagnostics.ts --splits     # calibration, λ table, coverage, alt splits
+node packages/engine/test/golden/root-cause.ts               # base-roster attribution (final data)
+node packages/engine/test/golden/root-cause.ts --calibration # ×1.3 attribution (final data)
+node packages/engine/test/golden/root-cause.ts --baseline [--calibration]   # dae3cc5 attribution
+```
+
+CALIBRATION block (exact):
+
+```
+base | 50§4 split (train 192 / holdout 48 eligible rows) | n 192/48 | argmin 1.04 MAE 31.99 | MAE@1.0 33.30 @1.2 47.27 @1.3 65.28 @1.4 85.36 @2.0 215.90 | per-stat argmin 1.09,1.05,1.05,1.03,1.03
+base | 50§4 train / 50§8 holdout (matched-or-guest holdout rows only) | n 192/39 | argmin 1.05 MAE 32.95 | MAE@1.0 34.37 @1.2 48.00 @1.3 66.47 @1.4 87.17 @2.0 221.87 | per-stat argmin 1.09,1.06,1.04,1.07,1.03
+base | 50§8 train / 50§8 holdout (matched-or-guest rows on both sides) | n 157/39 | argmin 1.03 MAE 35.73 | MAE@1.0 36.24 @1.2 52.48 @1.3 72.55 @1.4 94.42 @2.0 236.82 | per-stat argmin 1.00,1.02,1.04,1.07,1.00
+x1.3 | 50§4 split (train 192 / holdout 48 eligible rows) | n 192/48 | argmin 1.34 MAE 36.31 | MAE@1.0 81.93 @1.2 47.18 @1.3 37.85 @1.4 37.87 @2.0 149.09 | per-stat argmin 1.36,1.37,1.35,1.34,1.34
+x1.3 | 50§4 train / 50§8 holdout (matched-or-guest holdout rows only) | n 192/39 | argmin 1.34 MAE 37.76 | MAE@1.0 85.02 @1.2 48.85 @1.3 39.38 @1.4 38.98 @2.0 152.82 | per-stat argmin 1.35,1.38,1.35,1.38,1.34
+x1.3 | 50§8 train / 50§8 holdout (matched-or-guest rows on both sides) | n 157/39 | argmin 1.33 MAE 41.04 | MAE@1.0 89.03 @1.2 51.17 @1.3 41.64 @1.4 43.20 @2.0 164.58 | per-stat argmin 1.31,1.32,1.34,1.38,1.30
+== CALIBRATION argmin vs fixed λ (stored split / 50§8 both sides)
+λ 0.1/0.1: base 1.04 | base§8 1.03 | x1.3 1.34 | x1.3§8 1.33
+λ 0.1/1: base 1.04 | base§8 1.03 | x1.3 1.35 | x1.3§8 1.33
+λ 0.1/10: base 1.02 | base§8 1.03 | x1.3 1.32 | x1.3§8 1.32
+λ 1/0.1: base 1.04 | base§8 1.02 | x1.3 1.34 | x1.3§8 1.32
+λ 1/1: base 1.03 | base§8 1.02 | x1.3 1.34 | x1.3§8 1.33
+λ 1/10: base 1.02 | base§8 1.02 | x1.3 1.32 | x1.3§8 1.31
+λ 10/1: base 1.02 | base§8 0.99 | x1.3 1.33 | x1.3§8 1.29
+== ROBUSTNESS: 40 alternative seeded 80/20 splits of the 240 eligible rows (not the stored split)
+base   argmin min 1.01 median 1.02 max 1.06 mean 1.0203 in[1.2,1.4] 0/40
+x13    argmin min 1.31 median 1.32 max 1.38 mean 1.3240 in[1.2,1.4] 40/40
+base8  argmin min 1.00 median 1.02 max 1.05 mean 1.0173 in[1.2,1.4] 0/40
+x138   argmin min 1.29 median 1.32 max 1.36 mean 1.3198 in[1.2,1.4] 40/40
+```
+
+Note on the ×1.3 50 §4 split: MAE at 1.40 (37.87) is only 0.02 above MAE at 1.30 (37.85). The minimum is at 1.34, but the criterion is flat between about 1.30 and 1.40.
+
+ROOT-CAUSE (ablation lines; the CORR lines are quoted above; full output from the commands):
+
+```
+== root-cause                 ABLATION clean 1 / noise 1.02 / activation 1.01 / combined 1.04 ; WEIGHT/PENALTY 1.04 1.04 1.04 1.04
+== root-cause --calibration   ABLATION clean 1.3 / noise 1.32 / activation 1.32 / combined 1.34 ; WEIGHT/PENALTY 1.34 1.34 1.34 1.34
+== root-cause --baseline      ABLATION clean 1 / noise 1.06 / activation 1.03 / combined 1.09 ; WEIGHT/PENALTY 1.1 1.09 1.1 1.09
+== root-cause --baseline --calibration  ABLATION clean 1.3 / noise 1.36 / activation 1.34 / combined 1.41 ; WEIGHT/PENALTY 1.41 1.41 1.41 1.41
+```
+
+Workspace and determinism (real output, trimmed):
+
+```
+$ pnpm install --frozen-lockfile
+Scope: all 6 workspace projects
+Already up to date
+Done in 306ms using pnpm v11.22.0
+
+$ pnpm --filter @uma/engine golden            # run 1
+6a02f36050f92899f55ffc2a78ab355d12b545c0b41888e6b7e110619c707911  packages/engine/test/golden/roster.json  (1299631 bytes)
+8982ab4aba43c4c770fc41260361a29255e2cccd57a5b3db70075c23f94f5434  packages/engine/test/golden/roster.calibration-x1.3.json  (1299636 bytes)
+3e3f864406d69474f1df622cb690c1b7d995e940adcaf4b772d003e9e1a60bcf  packages/engine/test/golden/targets.json  (432 bytes)
+1ccf0d5a9c2b1fb6d9626126c22a0a2c4d9eb634af79457097a6dc68eceed0b2  packages/engine/test/golden/truth.json  (279858 bytes)
+6a02f36050f92899f55ffc2a78ab355d12b545c0b41888e6b7e110619c707911  apps/web/fixtures/roster.json  (1299631 bytes)
+3e3f864406d69474f1df622cb690c1b7d995e940adcaf4b772d003e9e1a60bcf  apps/web/fixtures/cm-targets.json  (432 bytes)
+1ccf0d5a9c2b1fb6d9626126c22a0a2c4d9eb634af79457097a6dc68eceed0b2  apps/web/fixtures/golden-truth.json  (279858 bytes)
+$ shasum -a 256 packages/engine/test/golden/*.json apps/web/fixtures/*.json > run1.sha
+$ pnpm --filter @uma/engine golden >/dev/null  # run 2
+$ shasum -a 256 packages/engine/test/golden/*.json apps/web/fixtures/*.json > run2.sha
+$ diff run1.sha run2.sha && echo IDENTICAL
+IDENTICAL
+
+$ pnpm -r lint
+packages/schema lint: Done / apps/web lint: Done / packages/master-data lint: Done / apps/api lint: Done / packages/engine lint: Done
+$ pnpm -r typecheck
+packages/schema typecheck: Done / packages/master-data typecheck: Done / apps/web typecheck: Done / apps/api typecheck: Done / packages/engine typecheck: Done
+$ pnpm -r test
+packages/schema test:       Tests  146 passed (146)
+packages/master-data test:  Tests  82 passed (82)
+apps/web test:              Tests  5 passed (5)
+apps/api test:              Tests  86 passed (86)
+packages/engine test:  Test Files  8 passed (8)
+packages/engine test:       Tests  135 passed (135)
+
+$ cd packages/engine && npx vitest run test/golden
+ Test Files  3 passed (3)
+      Tests  61 passed (61)
+
+$ npx prettier --check packages/engine/scripts packages/engine/test/golden apps/web/fixtures packages/engine/package.json docs/changelog/T08-golden-dataset.md
+All matched files use Prettier code style!
+$ npx prettier --check docs/OPEN_QUESTIONS.md
+[warn] docs/OPEN_QUESTIONS.md        # pre-existing: `git show dae3cc5:docs/OPEN_QUESTIONS.md` warns identically
+$ git diff --check && echo diffcheck-ok
+diffcheck-ok
+$ git status --short apps/web/public packages/engine/src docs/specs packages/schema
+(empty)
+```
+
+### Remaining gaps (round 2)
+
+- **Holdout-MAE flatness.** On the ×1.3 stored split, MAE at 1.30 and at 1.40 differ by only 0.02, although the argmin (1.34) is 0.06 inside the edge. T15 should report the curve and its margin, not only the argmin.
+- **Base-roster bias.** It is +0.03 to +0.05 on the stored split, and +0.01 to +0.06 over 40 alternative splits. It comes from finite-sample nuisance correlation at n = 48 / 39. It is reduced, not removed.
+- **Best-pair runner-up ratio.** It is now 10.76× against the ">10×" assertion (about 8% margin; it was about 34×). More than 4 synthetic events break it, which is why 4 were chosen.
+- **λ 0.1/10.** Recovery passes ±15% with about 1.2 points of margin (13.78%). λ_id ≥ 10 still fails; recovery is only proven for λ_id ≤ 1.
+- **Coverage depends on T06's variance definition (Q-123).** residualCov + Var[inh] gives 0.900, outside the band. The train plug-in is 0.0008 above the floor.
+- **Not production code.** The calibration check is TEST-ONLY. It is not the production T15 and does not cover the aptitude and skill checks of 50 §8.
+- **Unchanged follow-ups from round 1.** Clipping is not exercised (N2). S4 fixture serving remains a T13/T02 follow-up.

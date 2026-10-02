@@ -164,5 +164,18 @@ describe('golden-context.ts is browser-safe (S1)', () => {
     expect([...bare].sort()).toEqual(['zod']);
     for (const f of seen)
       expect(readFileSync(f, 'utf8')).not.toMatch(/from 'node:|from 'prettier'/);
+    // Review round 2 S2: the diagnostic lives in scripts/ but is not part of the browser graph.
+    for (const f of files) expect(f).not.toMatch(/golden-diagnostic\.ts$/);
+  });
+
+  it('review round 2 S2: no scripts/ file imports test code; golden-diagnostic.ts imports src only', () => {
+    const scriptsDir = resolve(import.meta.dirname, '../../scripts');
+    for (const name of ['golden.ts', 'golden-context.ts', 'golden-diagnostic.ts']) {
+      const all = [...readFileSync(join(scriptsDir, name), 'utf8').matchAll(/from\s+'([^']+)'/g)];
+      for (const m of all) expect(m[1]).not.toMatch(/(^|\/)test\//);
+    }
+    const diag = runtimeImports(join(scriptsDir, 'golden-diagnostic.ts'));
+    expect(diag.filter((s) => s.startsWith('.'))).toEqual(['../src/index.ts']);
+    expect(diag.filter((s) => !s.startsWith('.')).sort()).toEqual(['@uma/schema']);
   });
 });
