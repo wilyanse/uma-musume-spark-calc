@@ -8,7 +8,10 @@
     },
     "kind": {
       "type": "string",
-      "const": "training-v1"
+      "enum": [
+        "training-v1",
+        "training-v2"
+      ]
     },
     "masterVersion": {
       "type": "string",

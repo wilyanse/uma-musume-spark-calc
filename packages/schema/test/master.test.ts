@@ -4,6 +4,7 @@ import {
   CharactersFile,
   CmTarget,
   MasterLatest,
+  MODEL_SNAPSHOT_KINDS,
   ModelSnapshot,
   OutfitsFile,
   OwnedCardsSync,
@@ -241,6 +242,17 @@ describe('ModelSnapshot (01 §13)', () => {
     },
   });
   it('parses', () => ok(ModelSnapshot, snap()));
+  it('accepts legacy training-v1 and training-v2 (ADR-0002), unchanged on round trip', () => {
+    for (const kind of MODEL_SNAPSHOT_KINDS) {
+      const s = { ...snap(), kind };
+      expect(ModelSnapshot.parse(JSON.parse(JSON.stringify(s)))).toEqual(s);
+    }
+    expect(MODEL_SNAPSHOT_KINDS).toEqual(['training-v1', 'training-v2']);
+  });
+  it('rejects an unknown kind', () => {
+    bad(ModelSnapshot, { ...snap(), kind: 'training-v3' });
+    bad(ModelSnapshot, { ...snap(), kind: 'training' });
+  });
   it('rejects a non-ULID id', () => bad(ModelSnapshot, { ...snap(), id: 'snap1' }));
   it('rejects a 4x5 residualCov', () => {
     const s = snap();

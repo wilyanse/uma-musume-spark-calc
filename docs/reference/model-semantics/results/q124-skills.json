@@ -1,0 +1,360 @@
+{
+  "command": "node docs/reference/model-semantics/probes/q124-skills.ts --write",
+  "synthetic": {
+    "note": "SYNTHETIC parameters (prior Beta(2,2), θ=0.6, q~U(0.1,0.9), n=400, child q=0.5); not game facts",
+    "lineageOnly": {
+      "seed": "t05b-q124-syn:lineage",
+      "successes": 126,
+      "exposure": 202.8398,
+      "exposureAware": {
+        "mean": 0.6208,
+        "sd": 0.0422,
+        "stored": { "a": 81.3247, "b": 49.6785 },
+        "quadratureRelErr": 2.8421709430403604e-14
+      },
+      "naiveConjugate": { "mean": 0.3168, "a": 128, "b": 276 },
+      "childAcquireProb": {
+        "truth": 0.3,
+        "exposureAwareOnce": 0.3104,
+        "naiveTimesHintAgain_doubleCount": 0.1584,
+        "naiveWithoutHint_dropActivation": 0.3168
+      }
+    },
+    "guaranteedOnly_qEquals1": {
+      "seed": "t05b-q124-syn:sure",
+      "exposureAware": { "a": 239, "b": 165, "method": "conjugate" },
+      "conjugate": { "a": 239, "b": 165 },
+      "identical": true
+    },
+    "noOpportunities": { "method": "prior", "beta": { "a": 2, "b": 2 }, "used": 0 },
+    "rareSkill_oneLineageSuccess": {
+      "method": "conjugate",
+      "beta": { "a": 3, "b": 2 },
+      "mean": 0.6,
+      "note": "q<1 success: A += 1 (the q factor cancels)"
+    },
+    "rareSkill_oneLineageFailure": {
+      "method": "quadrature",
+      "mean": 0.4889,
+      "priorMean": 0.5,
+      "stored": { "a": 1.9604, "b": 2.0495 }
+    },
+    "contradiction": {
+      "contradictions": 1,
+      "used": 1,
+      "beta": { "a": 3, "b": 2 },
+      "note": "q=0,y=1 excluded and reported"
+    },
+    "repeatedSampling": {
+      "note": "SYNTHETIC: 200 seeded datasets each, θ=0.6, prior Beta(2,2); share with |θ̂−θ| ≤ z0.9·sd",
+      "lineage_n400": {
+        "exposure": { "meanBias": -0.003481557678786818, "within80": 0.81 },
+        "naive": { "meanBias": -0.2995049504950493, "within80": 0 }
+      },
+      "lineage_n40": {
+        "exposure": { "meanBias": -0.004228624393933094, "within80": 0.84 },
+        "naive": { "meanBias": -0.27693181818181795, "within80": 0 }
+      },
+      "sure_n40": {
+        "exposure": { "meanBias": -0.015568181818181792, "within80": 0.835 },
+        "naive": { "meanBias": -0.015568181818181792, "within80": 0.835 }
+      }
+    }
+  },
+  "golden": {
+    "split": "stored truth.holdout: fit on 192 train rows, evaluate on 48 holdout rows",
+    "cellCounts": {
+      "train": {
+        "total": 11663,
+        "guaranteed": 9796,
+        "lineageOnly": 1867,
+        "lineageOnlyMeanQ": 0.263,
+        "contradictions_q0_acquired": 0,
+        "lineageOnlySkills": {
+          "independent": { "skillsWithLineageEvidence": 268, "skillsWithOnlyLineageEvidence": 142 },
+          "manual": { "skillsWithLineageEvidence": 237, "skillsWithOnlyLineageEvidence": 124 }
+        }
+      },
+      "holdout": {
+        "total": 2847,
+        "guaranteed": 2415,
+        "lineageOnly": 432,
+        "contradictions_q0_acquired": 0
+      }
+    },
+    "priors": {
+      "exposure": {
+        "independent": "mom (skills 238, mean 0.2617, ν 12.8491)",
+        "manual": "mom (skills 208, mean 0.4996, ν 9.7931)"
+      },
+      "naiveDoubleCount": {
+        "independent": "mom (skills 322, mean 0.2317, ν 15.2408)",
+        "manual": "mom (skills 294, mean 0.4391, ν 9.0916)"
+      },
+      "naiveDropActivation": {
+        "independent": "mom (skills 322, mean 0.2317, ν 15.2408)",
+        "manual": "mom (skills 294, mean 0.4391, ν 9.0916)"
+      },
+      "conservativeSureOnly": {
+        "independent": "mom (skills 180, mean 0.2615, ν 12.9796)",
+        "manual": "mom (skills 170, mean 0.5026, ν 9.7845)"
+      }
+    },
+    "holdoutReliability": {
+      "exposure": {
+        "all": {
+          "cells": 2847,
+          "expected": 940.8606,
+          "observed": 990,
+          "oracleExpected_plantedRatesTimesQ": 935.1913,
+          "zObservedMinusExpected": 2.1266,
+          "brier": 0.193,
+          "logLoss": 0.5674,
+          "bins": [
+            { "n": 838, "meanPred": 0.1215, "obsRate": 0.136 },
+            { "n": 961, "meanPred": 0.2949, "obsRate": 0.3111 },
+            { "n": 782, "meanPred": 0.4799, "obsRate": 0.4949 },
+            { "n": 258, "meanPred": 0.6739, "obsRate": 0.7093 },
+            { "n": 8, "meanPred": 0.8039, "obsRate": 0.875 }
+          ]
+        },
+        "guaranteed": {
+          "cells": 2415,
+          "expected": 898.8625,
+          "observed": 933,
+          "oracleExpected_plantedRatesTimesQ": 892.311,
+          "zObservedMinusExpected": 1.5303,
+          "brier": 0.2077,
+          "logLoss": 0.6023,
+          "bins": [
+            { "n": 445, "meanPred": 0.1553, "obsRate": 0.1461 },
+            { "n": 922, "meanPred": 0.2974, "obsRate": 0.3156 },
+            { "n": 782, "meanPred": 0.4799, "obsRate": 0.4949 },
+            { "n": 258, "meanPred": 0.6739, "obsRate": 0.7093 },
+            { "n": 8, "meanPred": 0.8039, "obsRate": 0.875 }
+          ]
+        },
+        "lineageOnly": {
+          "cells": 432,
+          "expected": 41.9981,
+          "observed": 57,
+          "oracleExpected_plantedRatesTimesQ": 42.8803,
+          "zObservedMinusExpected": 2.4901,
+          "brier": 0.1109,
+          "logLoss": 0.3725,
+          "bins": [
+            { "n": 393, "meanPred": 0.0833, "obsRate": 0.1247 },
+            { "n": 39, "meanPred": 0.2375, "obsRate": 0.2051 }
+          ]
+        }
+      },
+      "naiveDoubleCount": {
+        "all": {
+          "cells": 2847,
+          "expected": 860.9496,
+          "observed": 990,
+          "oracleExpected_plantedRatesTimesQ": 935.1913,
+          "zObservedMinusExpected": 5.685,
+          "brier": 0.1956,
+          "logLoss": 0.5743,
+          "bins": [
+            { "n": 939, "meanPred": 0.1167, "obsRate": 0.1395 },
+            { "n": 1078, "meanPred": 0.2964, "obsRate": 0.346 },
+            { "n": 654, "meanPred": 0.4802, "obsRate": 0.5428 },
+            { "n": 176, "meanPred": 0.669, "obsRate": 0.7443 }
+          ]
+        },
+        "guaranteed": {
+          "cells": 2415,
+          "expected": 827.6634,
+          "observed": 933,
+          "oracleExpected_plantedRatesTimesQ": 892.311,
+          "zObservedMinusExpected": 4.7804,
+          "brier": 0.2102,
+          "logLoss": 0.6079,
+          "bins": [
+            { "n": 514, "meanPred": 0.1516, "obsRate": 0.1479 },
+            { "n": 1071, "meanPred": 0.2969, "obsRate": 0.3464 },
+            { "n": 654, "meanPred": 0.4802, "obsRate": 0.5428 },
+            { "n": 176, "meanPred": 0.669, "obsRate": 0.7443 }
+          ]
+        },
+        "lineageOnly": {
+          "cells": 432,
+          "expected": 33.2863,
+          "observed": 57,
+          "oracleExpected_plantedRatesTimesQ": 42.8803,
+          "zObservedMinusExpected": 4.3477,
+          "brier": 0.1136,
+          "logLoss": 0.3863,
+          "bins": [
+            { "n": 425, "meanPred": 0.0746, "obsRate": 0.1294 },
+            { "n": 7, "meanPred": 0.228, "obsRate": 0.2857 }
+          ]
+        }
+      },
+      "naiveDropActivation": {
+        "all": {
+          "cells": 2847,
+          "expected": 956.5352,
+          "observed": 990,
+          "oracleExpected_plantedRatesTimesQ": 935.1913,
+          "zObservedMinusExpected": 1.4014,
+          "brier": 0.2018,
+          "logLoss": 0.5894,
+          "bins": [
+            { "n": 613, "meanPred": 0.1541, "obsRate": 0.1419 },
+            { "n": 1328, "meanPred": 0.2962, "obsRate": 0.3072 },
+            { "n": 724, "meanPred": 0.4794, "obsRate": 0.5014 },
+            { "n": 182, "meanPred": 0.6686, "obsRate": 0.7253 }
+          ]
+        },
+        "guaranteed": {
+          "cells": 2415,
+          "expected": 827.6634,
+          "observed": 933,
+          "oracleExpected_plantedRatesTimesQ": 892.311,
+          "zObservedMinusExpected": 4.7804,
+          "brier": 0.2102,
+          "logLoss": 0.6079,
+          "bins": [
+            { "n": 514, "meanPred": 0.1516, "obsRate": 0.1479 },
+            { "n": 1071, "meanPred": 0.2969, "obsRate": 0.3464 },
+            { "n": 654, "meanPred": 0.4802, "obsRate": 0.5428 },
+            { "n": 176, "meanPred": 0.669, "obsRate": 0.7443 }
+          ]
+        },
+        "lineageOnly": {
+          "cells": 432,
+          "expected": 128.8718,
+          "observed": 57,
+          "oracleExpected_plantedRatesTimesQ": 42.8803,
+          "zObservedMinusExpected": -7.8112,
+          "brier": 0.1545,
+          "logLoss": 0.4859,
+          "bins": [
+            { "n": 99, "meanPred": 0.167, "obsRate": 0.1111 },
+            { "n": 257, "meanPred": 0.2933, "obsRate": 0.144 },
+            { "n": 70, "meanPred": 0.4716, "obsRate": 0.1143 },
+            { "n": 6, "meanPred": 0.6576, "obsRate": 0.1667 }
+          ]
+        }
+      },
+      "conservativeSureOnly": {
+        "all": {
+          "cells": 2847,
+          "expected": 941.1756,
+          "observed": 990,
+          "oracleExpected_plantedRatesTimesQ": 935.1913,
+          "zObservedMinusExpected": 2.113,
+          "brier": 0.1931,
+          "logLoss": 0.5677,
+          "bins": [
+            { "n": 863, "meanPred": 0.1239, "obsRate": 0.1356 },
+            { "n": 922, "meanPred": 0.2958, "obsRate": 0.3156 },
+            { "n": 796, "meanPred": 0.4783, "obsRate": 0.4962 },
+            { "n": 258, "meanPred": 0.6757, "obsRate": 0.6977 },
+            { "n": 8, "meanPred": 0.8063, "obsRate": 0.875 }
+          ]
+        },
+        "guaranteed": {
+          "cells": 2415,
+          "expected": 898.6212,
+          "observed": 933,
+          "oracleExpected_plantedRatesTimesQ": 892.311,
+          "zObservedMinusExpected": 1.5416,
+          "brier": 0.2077,
+          "logLoss": 0.6024,
+          "bins": [
+            { "n": 467, "meanPred": 0.1575, "obsRate": 0.1478 },
+            { "n": 886, "meanPred": 0.2975, "obsRate": 0.3183 },
+            { "n": 796, "meanPred": 0.4783, "obsRate": 0.4962 },
+            { "n": 258, "meanPred": 0.6757, "obsRate": 0.6977 },
+            { "n": 8, "meanPred": 0.8063, "obsRate": 0.875 }
+          ]
+        },
+        "lineageOnly": {
+          "cells": 432,
+          "expected": 42.5545,
+          "observed": 57,
+          "oracleExpected_plantedRatesTimesQ": 42.8803,
+          "zObservedMinusExpected": 2.3887,
+          "brier": 0.1117,
+          "logLoss": 0.3742,
+          "bins": [
+            { "n": 396, "meanPred": 0.0843, "obsRate": 0.1212 },
+            { "n": 36, "meanPred": 0.2543, "obsRate": 0.25 }
+          ]
+        }
+      }
+    },
+    "skillXTrainCells": [
+      { "row": "01M379DKQ86T9BGV6696R6DWN2", "mode": "manual", "q": 0.3143, "sure": false, "y": 1 }
+    ],
+    "feasibility": {
+      "exposure": {
+        "pairs": 32667,
+        "fastBestRank": 1,
+        "fastTrapRank": 24178,
+        "fastTrapPMeet": 0,
+        "fastBestPMeet": 0.2135,
+        "fastSecondPMeet": 0.0213,
+        "mcTop12BestRank": 1,
+        "mcBestPMeet": 0.2115,
+        "bestPairXHintProb": 0.6573,
+        "thetaX": 0.546,
+        "fastPAcquireX": 0.3589,
+        "mcPAcquireX": 0.3395
+      },
+      "naiveDoubleCount": {
+        "pairs": 32667,
+        "fastBestRank": 1,
+        "fastTrapRank": 24178,
+        "fastTrapPMeet": 0,
+        "fastBestPMeet": 0.1935,
+        "fastSecondPMeet": 0.0193,
+        "mcTop12BestRank": 1,
+        "mcBestPMeet": 0.1885,
+        "bestPairXHintProb": 0.6573,
+        "thetaX": 0.4947,
+        "fastPAcquireX": 0.3252,
+        "mcPAcquireX": 0.3065
+      },
+      "naiveDropActivation": {
+        "pairs": 32667,
+        "fastBestRank": 1,
+        "fastTrapRank": 24178,
+        "fastTrapPMeet": 0,
+        "fastBestPMeet": 0.2943,
+        "fastSecondPMeet": 0.0294,
+        "mcTop12BestRank": 1,
+        "mcBestPMeet": 0.29,
+        "bestPairXHintProb": 0.6573,
+        "thetaX": 0.4947,
+        "fastPAcquireX": 0.4947,
+        "mcPAcquireX": 0.4735
+      },
+      "conservativeSureOnly": {
+        "pairs": 32667,
+        "fastBestRank": 1,
+        "fastTrapRank": 24178,
+        "fastTrapPMeet": 0,
+        "fastBestPMeet": 0.1966,
+        "fastSecondPMeet": 0.0196,
+        "mcTop12BestRank": 1,
+        "mcBestPMeet": 0.191,
+        "bestPairXHintProb": 0.6573,
+        "thetaX": 0.5026,
+        "fastPAcquireX": 0.3304,
+        "mcPAcquireX": 0.311
+      }
+    },
+    "oracle": {
+      "note": "ORACLE diagnostic only: exposure-weighted mean |posterior mean − planted conditional rate| over train candidate cells; planted rates never feed an estimator",
+      "exposure": { "independent": 0.0519, "manual": 0.0612 },
+      "naiveDoubleCount": { "independent": 0.0556, "manual": 0.0714 },
+      "naiveDropActivation": { "independent": 0.0556, "manual": 0.0714 },
+      "conservativeSureOnly": { "independent": 0.0527, "manual": 0.0617 }
+    }
+  }
+}

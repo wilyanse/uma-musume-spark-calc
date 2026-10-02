@@ -193,8 +193,16 @@ Every number an agent can't verify from a cited source stays `verified:false`. T
 
 ## 13. Model snapshot (engine output, stored via the API)
 ```ts
-ModelSnapshot = { id, kind: 'training-v1', masterVersion, trainedAt, nSamples,
-  params: { features: string[], perStat: Record<StatKey, { coef: number[], intercept: number, sigma: number }>,
-            residualCov: number[][] /*5x5*/, skillAcquire: Record<TrainMode, Record<string /*skillId|'*'*/, {a:number,b:number}>> /*Beta*/ ,
-            holdout: { mae: Record<StatKey, number>, coverage80: number } } }
+ModelSnapshot = { id, kind: 'training-v1' | 'training-v2' /*ADR-0002*/, masterVersion, trainedAt, nSamples,
+  params: { features: string[], perStat: Record<StatKey, { coef: number[], intercept: number,
+              sigma: number /*v2: √residualCov[k][k], training σ excluding inheritance*/ }>,
+            residualCov: number[][] /*5x5; v2: NON-inheritance training covariance, symmetric PSD (50 §4, ADR-0002)*/,
+            skillAcquire: Record<TrainMode, Record<string /*skillId|'*'*/, {a:number,b:number}>>
+              /*v2: moment-matched Beta posterior of P(acquired | actually hinted), exposure-aware (50 §4, ADR-0002); '*' = global prior*/,
+            holdout: { mae: Record<StatKey, number>, coverage80: number /*v2: untouched holdout, 50 §4 predictive form*/ } } }
 ```
+**Erratum (ADR-0002, T05b).** The JSON shape is unchanged; `kind` fixes the statistical meaning.
+- `training-v2`: the meanings in the comments above. Its covariance meaning and its skill meaning are versioned together.
+- `training-v1` (legacy): accepted, stored and returned unchanged by the API and never relabelled. Its numeric meaning is unknown (pre-ADR) and must never be reinterpreted as v2. The engine emits only `training-v2`, and prediction rejects `training-v1` with a typed refit-required error (T06).
+- `GET ?kind=` filters and the per-kind prune (newest 20) are isolated per kind.
+- The D1 `model_snapshots.kind` column is plain TEXT, so no migration is needed.

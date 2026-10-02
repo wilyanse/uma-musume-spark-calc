@@ -1,17 +1,21 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
-import { ModelSnapshot } from '@uma/schema';
+import { ModelSnapshot, type ModelSnapshotKind } from '@uma/schema';
 import { ApiError } from '../problem.ts';
 import { parseBody, parseQuery, type AppEnv } from '../http.ts';
 
 export const modelSnapshots = new Hono<AppEnv>();
 
-/** Snapshots kept per kind; older ones are pruned on insert to bound D1 storage. */
+/** Snapshots kept per kind; older ones of the SAME kind are pruned on insert to bound D1 storage. */
 const KEEP_PER_KIND = 20;
 
+/**
+ * A stored row. `kind` is derived from the schema enum (ADR-0002: legacy `training-v1` and
+ * `training-v2`); rows are stored and returned verbatim, never relabelled.
+ */
 interface Row {
   id: string;
-  kind: 'training-v1';
+  kind: ModelSnapshotKind;
   master_version: string;
   trained_at: string;
   n_samples: number;
