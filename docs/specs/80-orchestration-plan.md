@@ -165,9 +165,9 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T06 | Not started | | | |
+| T06 | Awaiting Q-123 covariance decision; focused design review running | | | T08 merged; avoid inheritance variance double-count |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T08 | Gate A passed; independent review r3 (Opus medium) | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → fixes 01612d7; r3 pending |
+| T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Retrying on Opus medium after both providers rate-limited; uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
