@@ -180,7 +180,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T06 | Awaiting T05b; Q-123/Q-124 semantics gate | | | T08 merged |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
-| T09 | Retrying on Opus medium after both providers rate-limited; uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
+| T09 | Continuing on GPT-6.1 Sol medium after Opus HTTP 429; fe534dd and new uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
