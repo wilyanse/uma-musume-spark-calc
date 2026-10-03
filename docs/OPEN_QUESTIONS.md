@@ -115,11 +115,37 @@ Blocking: no
 Context: 50 §4 defines `residualCov` as the weighted covariance of the holdout residuals, and 50 §5/§7 add Var[inh] for prediction. Read literally, adding Var[inh] counts the inheritance-sampling variance twice, because the holdout residuals of y = stat − E[inh] already contain it. On the golden data the pooled 80% coverage depends on the definition: train sandwich 0.8417, literal holdout residualCov 0.7917, residualCov + Var[inh] 0.9000 (outside 0.72–0.88), residualCov − mean Var[inh] + per-row Var[inh] 0.7292, train plug-in without leverage 0.7208 (`truth.holdout.coverageDiagnostic.variants`).
 Assumption taken: the golden data is checked with the train-residual sandwich interval and with the literal holdout residualCov, both inside the band. T06 should not add Var[inh] on top of a residualCov that already contains it, and should not use an uncorrected train plug-in variance (its margin is 0.0008). T08 changes no spec. The retune exposed the existing variance double-count by moving residualCov + Var[inh] coverage from 0.8292 to 0.9000. The orchestrator must decide covariance semantics and record explicit spec errata before dispatching T06.
 Blocking: yes for T06 dispatch; no for T08 merge
+Proposed resolution (T05b, pending independent review and orchestrator transition): ADR-0002 §2, reproduced with retained code in `docs/reference/model-semantics/` (the adviser's deleted-probe numbers are not relied on).
+- `residualCov` becomes the non-inheritance Σ_N:
+  - computed from recency-weighted, uncentred 5-fold OOF train residuals, minus the same-weighted mean engine `statGainCov`;
+  - symmetrised and floored to PSD by deterministic Jacobi.
+- Inheritance is added once at prediction.
+- `training-v2` carries the meaning; `training-v1` is legacy.
+- Stored split: Gaussian 0.8292, seeded MC 0.8292–0.8417, card recovery worst 4.65%.
+- Robustness (40 splits, diagnostic): mean 0.7885, p5 0.745, 39/40 in band.
+- The holdout perturbation leaves λ, β and Σ_N bit-identical.
 
 ## Q-124 (T06) Latent skill-hint activation counted twice
 Context: 50 §4 treats a skill as hinted whenever a parent/grandparent spark could provide it. For lineage-only opportunities, the resulting acquired/eligible rate already includes hint activation probability. 50 §5 then multiplies by (or samples) that probability again. Q-123's adviser identified this contradiction; see `docs/reviews/Q123-variance-advice.md` §7.
 Assumption taken: T05b must specify and probe a coherent observable-data estimator before T06. Do not treat potential hints as observed activations or compare marginal rates to conditional acquisition probabilities. Keep the original golden data and acceptance thresholds unchanged; record the decision in ADR-0002.
 Blocking: yes for T06 dispatch
+Proposed resolution (T05b, pending independent review and orchestrator transition): ADR-0002 §3, the exposure-aware likelihood.
+- For each row and candidate skill: q = 1 for deck hint/event or innate, otherwise the recorded-lineage `skillHintProb`; then y ~ Bernoulli(q·θ) with θ = P(acquired | actually hinted).
+- Beta prior; the non-conjugate posterior is computed by deterministic tanh-sinh quadrature and stored as a moment-matched Beta {a, b}.
+- Prediction multiplies availability exactly once.
+- On synthetic data with known θ it is unbiased (the naive rate is biased by about −0.29).
+- On the golden holdout it is as reliable as the conservative q = 1-only alternative and better than the literal double count. The golden best pair ranks #1 and the trap has pMeet 0 under all variants, so the golden test does not discriminate between them.
+- Dropping the extra activation draw was rejected: on lineage-only holdout cells it predicts 128.9 acquisitions against 57 observed.
+
+## Q-130 (T05b) Is a deck hint/event or innate skill certainly available?
+Context: ADR-0002 §3 sets the availability q = 1 when a skill is in a deck card's `hintSkillIds`/`eventSkillIds` or the outfit's `innateSkillIds` (the existing 50 §4 approximation). In game a card's hint may never trigger in a career, so the fitted θ for those skills is a per-deck-exposure rate, not a per-actual-hint rate. No cited source gives per-card hint probabilities.
+Assumption taken: q = 1 for these sources (unverified). If master data later provides hint probabilities, they replace q in the same likelihood without a contract change beyond a snapshot refit.
+Blocking: no
+
+## Q-131 (T05b) Acquired skills with no observable source
+Context: under ADR-0002 §3 a non-unique acquired skill with no deck/innate/lineage source has q = 0, which is a contradiction. The golden data has none (0 train and 0 holdout cells). Real rosters may have some, from master-data gaps (e.g. scenario or race-reward skills, unknown event skills), OCR errors or unmatched parents with unread sparks.
+Assumption taken: such cells are excluded from the likelihood and counted per (mode, skill) in T06 fit diagnostics. They are never treated as observed hints. Review the counts on the real roster (T15/H4) before adding a source class.
+Blocking: no
 
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)

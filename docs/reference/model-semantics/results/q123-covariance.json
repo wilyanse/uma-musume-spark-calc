@@ -1,0 +1,154 @@
+{
+  "command": "node docs/reference/model-semantics/probes/q123-covariance.ts --splits 40 --write",
+  "stored": {
+    "split": "truth.holdout (stored, seed 20260930): 192 train / 48 holdout",
+    "lambdas": ["0.1/0.1", "0.1/0.1", "0.1/0.1", "0.1/0.1", "0.1/1"],
+    "recovery": { "worstRelErr": 0.0465, "failsAt15pct": 0, "maxAbsZeroCard": 2.5 },
+    "baselineT08Anchors": {
+      "note": "recomputed with packages/engine/scripts/golden-diagnostic.ts coverageVariants (cf. truth.holdout.coverageDiagnostic)",
+      "literalHoldoutCov": 0.7917,
+      "literalPlusVarInh_doubleCount": 0.9,
+      "literalNet": 0.7292,
+      "trainPlugin": 0.7208
+    },
+    "optionA_rejected": {
+      "note": "PSD(centred holdout cov − holdout-weighted C̄) + C_i: sets its width from the holdout it is scored on",
+      "rawEigenvalues": [-5.46, 11.48, 14.06, 41.52, 58.77],
+      "flooredCount": 1,
+      "gaussian": 0.7333,
+      "monteCarloSeed0": 0.7167
+    },
+    "chosenB": {
+      "trainEss": 176.32,
+      "oofMean": [0.42, -0.32, 0.19, -0.02, 0.1],
+      "totalSecondMomentDiag": [89.16, 79.26, 87.04, 95, 110.85],
+      "meanInheritanceCovDiag": [31.57, 41.05, 44.69, 63.84, 55.81],
+      "rawEigenvalues": [18.24, 23.68, 38.78, 67.14, 76.48],
+      "epsilon": 0.00009226044393417318,
+      "flooredCount": 0,
+      "jacobiSweeps": 4,
+      "warnings": [],
+      "residualCov": [
+        [57.58, 8.56, 22.6, -3.6, -2.2],
+        [8.56, 38.21, 5.27, 5.13, -14.95],
+        [22.6, 5.27, 42.34, 1.4, 11.03],
+        [-3.6, 5.13, 1.4, 31.16, 9.5],
+        [-2.2, -14.95, 11.03, 9.5, 55.04]
+      ],
+      "sigma": [7.588, 6.181, 6.507, 5.582, 7.419],
+      "sigmaEqualsSqrtDiag": true,
+      "symmetric": true,
+      "minEigenvalue": 18.2441,
+      "coverageGaussian": { "pooled": 0.8292, "perStat": [0.8542, 0.8333, 0.8125, 0.7917, 0.8542] },
+      "coverageGaussianWithoutInheritance": 0.6958,
+      "coverageMonteCarlo": {
+        "samples": 2000,
+        "seeds": [
+          "t05b-q123-mc:0",
+          "t05b-q123-mc:1",
+          "t05b-q123-mc:2",
+          "t05b-q123-mc:3",
+          "t05b-q123-mc:4"
+        ],
+        "pooled": [0.8375, 0.8417, 0.8417, 0.8292, 0.8375],
+        "min": 0.8292,
+        "max": 0.8417
+      }
+    },
+    "holdoutBias": {
+      "weightedMean": [-0.83, 0.19, 2.08, 2.67, -2.18],
+      "se": [1.28, 1.17, 1.16, 1.4, 1.24],
+      "hotellingT2": 8.43,
+      "chi2_5_95": 11.07,
+      "note": "diagnostic only; never subtracted or fed back"
+    },
+    "noLeakage": {
+      "note": "holdout y perturbed by 1000·sin(i+k)+37; train untouched",
+      "lambdasIdentical": true,
+      "betaBitIdentical": true,
+      "residualCovBitIdentical": true,
+      "coverageChanged": true
+    },
+    "foldSensitivity": {
+      "note": "DIAGNOSTIC: 10 alternative seeded OOF fold partitions (labels t05b-q123-fold:<i>), λ fixed at the CV choice; explains why per-stat S differs from the adviser self-report (its fold partition differed)",
+      "gaussianMin": 0.8208,
+      "gaussianMax": 0.8375,
+      "totalSecondMomentDiagMin": [76.53, 67.91, 83.92, 84.27, 103.51],
+      "totalSecondMomentDiagMax": [94.16, 82.44, 96.98, 95.64, 124.14]
+    },
+    "varianceConsistency": {
+      "note": "12 holdout rows × 5 stats, 20000 seeded draws each (labels t05b-q123-var:<id>:inh|train); ratio = empirical MC variance / (Σ_N,kk + Var[inh_k])",
+      "minRatio": 0.9727,
+      "maxRatio": 1.0188,
+      "meanRatio": 0.9998
+    },
+    "smallSample": [
+      {
+        "n": 20,
+        "reps": 10,
+        "fitsWithFlooring": 0,
+        "fitsWithWarnings": 0,
+        "minEigenvalue": 226.959,
+        "finite": true
+      },
+      {
+        "n": 30,
+        "reps": 10,
+        "fitsWithFlooring": 0,
+        "fitsWithWarnings": 0,
+        "minEigenvalue": 248.9156,
+        "finite": true
+      },
+      {
+        "n": 40,
+        "reps": 10,
+        "fitsWithFlooring": 0,
+        "fitsWithWarnings": 0,
+        "minEigenvalue": 106.3221,
+        "finite": true
+      },
+      {
+        "n": 60,
+        "reps": 10,
+        "fitsWithFlooring": 0,
+        "fitsWithWarnings": 0,
+        "minEigenvalue": 5.5072,
+        "finite": true
+      },
+      {
+        "n": 100,
+        "reps": 10,
+        "fitsWithFlooring": 0,
+        "fitsWithWarnings": 0,
+        "minEigenvalue": 8.5088,
+        "finite": true
+      }
+    ],
+    "oracle": {
+      "note": "ORACLE diagnostic only (planted noise covariance from truth.json; never an estimator input)",
+      "plantedNoiseSd": [6, 5.4, 6, 5.4, 5.4]
+    }
+  },
+  "robustness": {
+    "note": "ROBUSTNESS DIAGNOSTIC, not a gate: seeded alternative 192/48 splits (labels t05b-q123-split:<rep>), λ re-chosen by CV per split; MC uses 1000 samples",
+    "splits": 40,
+    "gaussian": {
+      "mean": 0.7885,
+      "sd": 0.0302,
+      "p5": 0.7454,
+      "min": 0.7042,
+      "max": 0.8458,
+      "inBand": "39/40"
+    },
+    "monteCarlo": {
+      "mean": 0.7821,
+      "sd": 0.0318,
+      "p5": 0.7373,
+      "min": 0.6958,
+      "max": 0.85,
+      "inBand": "39/40"
+    },
+    "splitsWithFlooring": 0,
+    "splitsWithRecoveryFailure": 0
+  }
+}

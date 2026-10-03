@@ -195,12 +195,17 @@ describe('cm-targets (01 §10)', () => {
   });
 });
 
-const snapshot = (id: string, trainedAt: string, nSamples = 100): ModelSnapshot => {
+const snapshot = (
+  id: string,
+  trainedAt: string,
+  nSamples = 100,
+  kind: ModelSnapshot['kind'] = 'training-v1',
+): ModelSnapshot => {
   const stat = { coef: [0.1], intercept: 1, sigma: 2 };
   const beta = { '*': { a: 1, b: 1 } };
   return {
     id,
-    kind: 'training-v1',
+    kind,
     masterVersion: 'test-1',
     trainedAt,
     nSamples,
@@ -246,5 +251,69 @@ describe('model-snapshots (01 §13)', () => {
     expect(n!.n).toBe(20);
     const latest = ModelSnapshot.parse(await (await h.call('GET', '/model-snapshots')).json());
     expect(latest.trainedAt).toBe('2026-08-22T00:00:00Z');
+  });
+
+  // ADR-0002: legacy training-v1 rows stay readable and are never relabelled; v2 is a separate kind.
+  it('stores and returns training-v1 and training-v2 verbatim; kind filter isolates them', async () => {
+    const h = makeHarness();
+    const v1 = snapshot('01J8Z3K4M5N6P7Q8R9S0T1V2X1', '2026-09-03T00:00:00Z', 7, 'training-v1');
+    const v2 = snapshot('01J8Z3K4M5N6P7Q8R9S0T1V2X2', '2026-09-01T00:00:00Z', 9, 'training-v2');
+    expect((await h.call('POST', '/model-snapshots', v1)).status).toBe(201);
+    const posted = await h.call('POST', '/model-snapshots', v2);
+    expect(posted.status).toBe(201);
+    expect(await posted.json()).toEqual(v2);
+    const get = async (q: string) =>
+      ModelSnapshot.parse(await (await h.call('GET', `/model-snapshots${q}`)).json());
+    // Unfiltered: latest by trainedAt regardless of kind (the newer row is the legacy v1 one).
+    expect(await get('')).toEqual(v1);
+    expect(await get('?kind=training-v1')).toEqual(v1);
+    expect(await get('?kind=training-v2')).toEqual(v2);
+    const rows = await env.DB.prepare('SELECT id, kind FROM model_snapshots ORDER BY id').all<{
+      id: string;
+      kind: string;
+    }>();
+    expect(rows.results).toEqual([
+      { id: v1.id, kind: 'training-v1' },
+      { id: v2.id, kind: 'training-v2' },
+    ]);
+  });
+
+  it('404s for a kind with no rows even when the other kind exists', async () => {
+    const h = makeHarness();
+    const res = await h.call(
+      'POST',
+      '/model-snapshots',
+      snapshot('01J8Z3K4M5N6P7Q8R9S0T1V2Y1', '2026-09-01T00:00:00Z', 1, 'training-v1'),
+    );
+    expect(res.status).toBe(201);
+    await problem(await h.call('GET', '/model-snapshots?kind=training-v2'), 404);
+  });
+
+  it('prunes per kind: 22 v2 inserts never delete legacy v1 rows', async () => {
+    const h = makeHarness();
+    const legacy = ['01J8Z3K4M5N6P7Q8R9S0T1VA01', '01J8Z3K4M5N6P7Q8R9S0T1VA02'];
+    for (const [i, id] of legacy.entries())
+      expect(
+        (await h.call('POST', '/model-snapshots', snapshot(id, `2026-07-0${i + 1}T00:00:00Z`)))
+          .status,
+      ).toBe(201);
+    for (let i = 0; i < 22; i++) {
+      const id = `01J8Z3K4M5N6P7Q8R9S0T1W${String(i).padStart(3, '0')}`;
+      const day = String(i + 1).padStart(2, '0');
+      const res = await h.call(
+        'POST',
+        '/model-snapshots',
+        snapshot(id, `2026-08-${day}T00:00:00Z`, 100, 'training-v2'),
+      );
+      expect(res.status).toBe(201);
+    }
+    const count = async (kind: string) =>
+      (await env.DB.prepare('SELECT COUNT(*) n FROM model_snapshots WHERE kind = ?')
+        .bind(kind)
+        .first<{ n: number }>())!.n;
+    expect(await count('training-v2')).toBe(20);
+    expect(await count('training-v1')).toBe(2);
+    const v1 = await (await h.call('GET', '/model-snapshots?kind=training-v1')).json();
+    expect(ModelSnapshot.parse(v1).id).toBe(legacy[1]);
   });
 });

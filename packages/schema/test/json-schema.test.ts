@@ -2,7 +2,14 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { Ajv2020 } from 'ajv/dist/2020.js';
 import { describe, expect, it } from 'vitest';
-import { APT_KEYS, CONTRACTS, contractJsonSchema, type ContractName } from '../src/index.ts';
+import {
+  APT_KEYS,
+  CONTRACTS,
+  contractJsonSchema,
+  MODEL_SNAPSHOT_KINDS,
+  ModelSnapshot,
+  type ContractName,
+} from '../src/index.ts';
 import vectorFile from './fingerprint.vectors.json' with { type: 'json' };
 import { baseCapture } from './fixtures.ts';
 
@@ -39,6 +46,35 @@ describe('JSON Schema export', () => {
     const path = fileURLToPath(new URL(`../json/${n}.schema.json`, import.meta.url));
     expect(existsSync(path), `${path} missing, run pnpm --filter @uma/schema build`).toBe(true);
     expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(contractJsonSchema(n));
+  });
+
+  it('ModelSnapshot kind: JSON Schema enum equals the zod enum; Ajv agrees with zod (ADR-0002)', () => {
+    const s = contractJsonSchema('ModelSnapshot') as {
+      properties: { kind: { enum?: string[]; type?: string } };
+    };
+    expect(s.properties.kind).toEqual({ type: 'string', enum: [...MODEL_SNAPSHOT_KINDS] });
+    const validate = new Ajv2020({ strict: true, validateFormats: false }).compile(s);
+    const per = { coef: [0.1], intercept: 1, sigma: 2 };
+    const base = {
+      id: '01J8Z3K4M5N6P7Q8R9S0T1V2W3',
+      masterVersion: 'v1',
+      trainedAt: '2026-09-29T08:00:00Z',
+      nSamples: 10,
+      params: {
+        features: ['f'],
+        perStat: { spd: per, sta: per, pow: per, gut: per, wit: per },
+        residualCov: Array.from({ length: 5 }, () => [0, 0, 0, 0, 0]),
+        skillAcquire: { independent: { '*': { a: 1, b: 1 } }, manual: {} },
+        holdout: { mae: { spd: 1, sta: 1, pow: 1, gut: 1, wit: 1 }, coverage80: 0.8 },
+      },
+    };
+    for (const kind of [...MODEL_SNAPSHOT_KINDS, 'training-v3', 'other']) {
+      const v = { ...base, kind };
+      expect(validate(v), kind).toBe(ModelSnapshot.safeParse(v).success);
+    }
+    expect(validate({ ...base, kind: 'training-v1' })).toBe(true);
+    expect(validate({ ...base, kind: 'training-v2' })).toBe(true);
+    expect(validate({ ...base, kind: 'training-v3' })).toBe(false);
   });
 
   it('VeteranCapture schema snapshot (structure only)', () => {
