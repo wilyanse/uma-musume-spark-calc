@@ -177,7 +177,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T05b | Merged locally (3f64d39); ADR-0002 accepted; Q-123/Q-124 resolved | task/T05b-model-semantics | T05b-model-semantics.md | PASS r1 (Opus → Sol continuation); S1–S3/N1 in T06 handoff |
-| T06 | Fix candidate aa4a47d; parent checks and Node22 benchmark passed; review r2 | task/T06-training-prediction | T06-training-prediction.md | CHANGES_REQUESTED r1 → pending r2; T13 remains gated |
+| T06 | Independent r2 PASS; parent checks and Node22 benchmark passed; ready for local merge | task/T06-training-prediction | T06-training-prediction.md | CHANGES_REQUESTED r1 → PASS r2; consumer follow-ups recorded |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Candidate 28c2fff; parent build and 83 tests passed; H4 pending after T10 | task/T09-agent-core | T09-agent-core.md | Independent r1 pending; completeness and label coverage require scrutiny |
