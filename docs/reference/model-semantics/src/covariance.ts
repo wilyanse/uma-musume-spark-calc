@@ -4,6 +4,7 @@
  * forms (Gaussian fast pass and seeded Monte Carlo). Pure functions over plain rows; the golden
  * adapter lives in `golden.ts`. This is the executable reference for the spec errata, not T06.
  */
+import { mulberry32, seedFromString } from '../../../../packages/engine/src/index.ts';
 import { floorPsd, NumericError, symmetrize, trace, zeros } from './linalg.ts';
 import type { Matrix, PsdFloor } from './linalg.ts';
 
@@ -185,6 +186,29 @@ export function boxMuller(rng: () => number): number {
 export function mvnDraw(factor: Matrix, rng: () => number): number[] {
   const z = Array.from({ length: N_STATS }, () => boxMuller(rng));
   return factor.map((row) => row.reduce((s, x, k) => s + x * z[k]!, 0));
+}
+
+/**
+ * 50 §5 / ADR-0002 §2.10 stream layout: `samples` predictive draws where inheritance consumes ONLY
+ * `mulberry32(seedFromString(`${seed}:inh`))` and training consumes ONLY `${seed}:train`. Draws are
+ * interleaved per sample, but because the streams are separate, changing how many uniforms one
+ * side consumes never changes the other side's draws (tested in covariance.test.ts, T05b S1).
+ */
+export function predictiveDraws<I, T>(
+  seed: string,
+  samples: number,
+  drawInh: (rng: () => number) => I,
+  drawTrain: (rng: () => number) => T,
+): { inh: I[]; train: T[] } {
+  const inhRng = mulberry32(seedFromString(`${seed}:inh`));
+  const trainRng = mulberry32(seedFromString(`${seed}:train`));
+  const inh: I[] = [];
+  const train: T[] = [];
+  for (let s = 0; s < samples; s++) {
+    inh.push(drawInh(inhRng));
+    train.push(drawTrain(trainRng));
+  }
+  return { inh, train };
 }
 
 /** Type-7 (linear interpolation) sample quantile of a sorted array. */

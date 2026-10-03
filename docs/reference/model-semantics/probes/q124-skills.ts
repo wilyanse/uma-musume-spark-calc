@@ -337,6 +337,7 @@ const x = planFeatures(g, fit.design, {
   scenarioId: gold.scenarioId,
 });
 const mu = fit.beta.map((b) => predict(b, x));
+const statCap = g.master.scenarios.find((sc) => sc.id === gold.scenarioId)!.statCap;
 const cards = new Map(g.master.cards.map((c) => [c.id, c]));
 const traineeOutfit = g.master.outfits.find((o) => o.id === gold.traineeOutfitId)!;
 const planSure = new Set(traineeOutfit.innateSkillIds);
@@ -370,7 +371,10 @@ function fastPMeet(e: InheritanceResult, f: Fitted): number {
   for (const [k, min] of Object.entries(target.minStats) as [StatKey, number][]) {
     const i = STAT_KEYS.indexOf(k);
     const sd = Math.sqrt(fit.cov.residualCov[i]![i]! + e.statGainCov[i]![i]!);
-    p *= upper((min - 0.5 - (mu[i]! + e.expectedStatGain[i]!)) / sd);
+    // 50 §5/§7: stats are clipped train + inheritance WITHOUT rounding, so no continuity
+    // correction (T05b review S3). P(stat ≥ min) for the unclipped Gaussian; the golden data never
+    // reaches the clip bounds [1, statCap].
+    p *= upper((min - (mu[i]! + e.expectedStatGain[i]!)) / sd);
   }
   return p;
 }
@@ -411,7 +415,9 @@ function mcPMeet(pr: (typeof pairs)[number], f: Fitted, samples = 2000) {
     let ok = true;
     for (const [k, min] of Object.entries(target.minStats) as [StatKey, number][]) {
       const i = STAT_KEYS.indexOf(k);
-      if (Math.round(mu[i]! + t[i]! + inh.statGain[i]!) < min) ok = false;
+      // Unrounded (T05b review S3); clip to [1, statCap] as 50 §5 step 3 (never binds here).
+      const stat = Math.min(statCap, Math.max(1, mu[i]! + t[i]! + inh.statGain[i]!));
+      if (stat < min) ok = false;
     }
     for (const [apt, min] of Object.entries(target.minAptitudes))
       if (GRADES.indexOf(inh.aptitudes[apt as (typeof APT_KEYS)[number]]) < GRADES.indexOf(min))

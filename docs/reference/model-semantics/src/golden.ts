@@ -38,7 +38,13 @@ import type {
   Veteran,
 } from '../../../../packages/engine/src/index.ts';
 import type { Matrix } from './linalg.ts';
-import { estimateNonInheritanceCov, mvnDraw, N_STATS, quantileSorted } from './covariance.ts';
+import {
+  estimateNonInheritanceCov,
+  mvnDraw,
+  N_STATS,
+  predictiveDraws,
+  quantileSorted,
+} from './covariance.ts';
 import type { CovarianceFit, HoldoutCell, WeightedResidual } from './covariance.ts';
 
 export type MasterBundle = ReturnType<typeof loadPublishedBundle>;
@@ -262,14 +268,16 @@ export function mcCoverage(
   const perStat = new Array<number>(N_STATS).fill(0);
   for (const r of holdout) {
     const { plan, exp } = g.lineage.get(r.id)!;
-    const inhRng = mulberry32(seedFromString(`${seed}:${r.id}:inh`));
-    const trainRng = mulberry32(seedFromString(`${seed}:${r.id}:train`));
+    const d = predictiveDraws(
+      `${seed}:${r.id}`,
+      samples,
+      (rng) => sampleInheritance(plan, rng).statGain,
+      (rng) => mvnDraw(cov.factor, rng),
+    );
     const draws: number[][] = Array.from({ length: N_STATS }, () => []);
-    for (let s = 0; s < samples; s++) {
-      const inh = sampleInheritance(plan, inhRng).statGain;
-      const t = mvnDraw(cov.factor, trainRng);
-      for (let k = 0; k < N_STATS; k++) draws[k]!.push(t[k]! + inh[k]! - exp.expectedStatGain[k]!);
-    }
+    for (let s = 0; s < samples; s++)
+      for (let k = 0; k < N_STATS; k++)
+        draws[k]!.push(d.train[s]![k]! + d.inh[s]![k]! - exp.expectedStatGain[k]!);
     for (let k = 0; k < N_STATS; k++) {
       const d = draws[k]!.sort((a, b) => a - b);
       if (r.e[k]! >= quantileSorted(d, 0.1) && r.e[k]! <= quantileSorted(d, 0.9)) perStat[k]!++;

@@ -13,6 +13,7 @@ import {
   estimateNonInheritanceCov,
   gaussianCoverage,
   mvnDraw,
+  predictiveDraws,
 } from '../src/covariance.ts';
 import type { WeightedResidual } from '../src/covariance.ts';
 import { floorPsd, jacobiEigen, minEigenvalue, NumericError, zeros } from '../src/linalg.ts';
@@ -172,10 +173,35 @@ describe('single-count prediction', () => {
     assert.ok(twice > 0.85);
   });
 
-  it('MC draws are deterministic per seed and the training stream is independent of inheritance', () => {
+  it('MC draws are deterministic per seed', () => {
     const f = floorPsd(NOISE, 1e-9).factor;
     const a = mvnDraw(f, mulberry32(seedFromString('s:train')));
     const b = mvnDraw(f, mulberry32(seedFromString('s:train')));
     assert.deepEqual(a, b);
+  });
+
+  it('inheritance and training streams are independent in both directions (T05b S1)', () => {
+    const f = floorPsd(NOISE, 1e-9).factor;
+    // Inheritance stand-ins that consume different numbers of uniforms per sample.
+    const inhOne = (rng: () => number) => [rng()];
+    const inhNine = (rng: () => number) => Array.from({ length: 9 }, () => rng());
+    const trainOnce = (rng: () => number) => mvnDraw(f, rng);
+    const trainTwice = (rng: () => number) => (mvnDraw(f, rng), mvnDraw(f, rng));
+    const base = predictiveDraws('s1', 200, inhOne, trainOnce);
+    // (a) more inheritance consumption leaves every training draw unchanged ...
+    const moreInh = predictiveDraws('s1', 200, inhNine, trainOnce);
+    assert.deepEqual(moreInh.train, base.train);
+    assert.equal(moreInh.inh[0]![0], base.inh[0]![0]); // same stream start, different consumption
+    assert.notEqual(moreInh.inh[1]![0], base.inh[1]![0]);
+    // ... (b) and more training consumption leaves every inheritance draw unchanged.
+    const moreTrain = predictiveDraws('s1', 200, inhOne, trainTwice);
+    assert.deepEqual(moreTrain.inh, base.inh);
+    assert.notDeepEqual(moreTrain.train, base.train);
+    // Negative control: one SHARED stream couples them, so the check above can fail.
+    const shared = (inh: (r: () => number) => number[]) => {
+      const rng = mulberry32(seedFromString('s1:shared'));
+      return Array.from({ length: 200 }, () => (inh(rng), trainOnce(rng)));
+    };
+    assert.notDeepEqual(shared(inhNine), shared(inhOne));
   });
 });
