@@ -84,6 +84,21 @@ Blocking: no
 Context: S07 "not enough held-out data" and S06 "import veterans" empty states need minimum counts. No spec gives them.
 Assumption taken: held-out check needs at least 10 held-out veterans (reuses the 10 §2 "low data" n < 10 threshold); the planner needs at least 2 veterans (two distinct parents). Both are UI assumptions, not model rules. T13/T06 should replace them with the real minimums (e.g. from the 80/20 split).
 Blocking: no
+## Q-90 (T09) Single vs double circle skill suffix is not readable by OCR
+Context: Apple Vision reads both `◯` and `◎` skill suffixes as `O`/`®`, but they are different skills (e.g. `skill:long-corners` ◎ vs `skill:long-corners-2` ◯). On fixtures 01 and 15 the glyph centre luma separates them (double ≤ 207, single ≥ 214).
+Assumption taken: Core classifies the glyph from pixels (`circleGlyph` in the layout); an in-between centre is `Unknown`, which keeps both IDs as candidates and the field `low_confidence`. Windows OCR may behave differently; re-check at H4.
+Blocking: no
+
+## Q-91 (T09) Per-ROI OCR recordings for deck and card-list levels
+Context: the full-frame Apple Vision recording (30 Appendix A) merges the `Lvl N` text of the Career Info deck and card list with neighbouring art (`X0 Lvl 50`, `566 Lvl 50`) or misses tiles. 30 §7 says the Windows adapter OCRs ROI crops upscaled ×2.
+Assumption taken: `agent/tests/fixtures/ocr-roi/{05,13}*.json` hold per-ROI recordings made the way the adapter reads (`agent/tests/tools/record_roi_ocr.py`); `FixtureOcrEngine` uses an exact ROI recording when present, else the full-frame one. With full-frame only, 3 of 711 labelled fields are unread (flagged, never wrong-and-confident). T10's `--record-ocr` should also record per-ROI output.
+Blocking: no
+
+## Q-92 (T09) Rank badge templates exist only for A+ and UG3
+Context: rank badges are template-matched (30 §4); the fixtures only show A+ (01–07) and UG3 (15). Q-7: the rank ladder is unverified.
+Assumption taken: an accepted template must also agree with the master `ranks.json` rating band, else `low_confidence`. An unseen badge is never labelled by template: the rating band is proposed as a `low_confidence` value with a crop. Add badge crops from H4 captures to `agent/layouts/templates/global-2026-09.json`.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

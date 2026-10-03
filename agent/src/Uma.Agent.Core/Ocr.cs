@@ -55,7 +55,7 @@ public static partial class Ocr
         return (string.Join(' ', ordered.Select(l => l.Text.Trim())), ordered.Min(l => l.Confidence));
     }
 
-    /// <summary>Integer from digit OCR ("13,471" → 13471). Null when no digits or the commas are malformed.</summary>
+    /// <summary>Integer from digit OCR ("1,234" → 1234). Null when no digits or the commas are malformed.</summary>
     public static int? ParseInt(string text)
     {
         var digits = DigitsOnly(text).Trim(',');
