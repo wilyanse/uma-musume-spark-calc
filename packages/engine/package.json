@@ -10,9 +10,10 @@
     }
   },
   "scripts": {
-    "lint": "eslint src test scripts vitest.config.ts",
+    "lint": "eslint src test scripts bench vitest.config.ts",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
+    "bench": "vitest bench --run",
     "smoke": "node scripts/smoke.ts",
     "golden": "node scripts/golden.ts"
   },

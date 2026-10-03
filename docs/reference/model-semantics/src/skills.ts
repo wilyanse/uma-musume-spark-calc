@@ -164,8 +164,10 @@ export function tanhSinhMoments(A: number, B: number, failQ: readonly number[]) 
       // θ = (1 + tanh u)/2 = 1/(1 + e^{−2u}); 1 − θ = 1/(1 + e^{2u}); exact in log space.
       const logTh = -log1pExp(-2 * u);
       const log1mTh = -log1pExp(2 * u);
-      // dθ/dt = (π/2) cosh t · sech²u / 2 = (π/2) cosh t · θ (1 − θ)
-      const logJac = Math.log((Math.PI / 2) * Math.cosh(t)) + logTh + log1mTh;
+      // θ = logistic(2u) = logistic(π sinh t), so dθ/dt = 2θ(1 − θ) · du/dt
+      //   = 2θ(1 − θ) · (π/2) cosh t = π cosh t · θ (1 − θ)   (T05b review N1: absolute Jacobian;
+      // the constant cancels in the normalised moments and in the level-agreement check).
+      const logJac = Math.log(Math.PI * Math.cosh(t)) + logTh + log1mTh;
       const th = Math.exp(logTh);
       const one = Math.exp(log1mTh);
       let logG = 0;

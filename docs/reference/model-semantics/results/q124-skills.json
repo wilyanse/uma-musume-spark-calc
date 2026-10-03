@@ -48,11 +48,11 @@
     "repeatedSampling": {
       "note": "SYNTHETIC: 200 seeded datasets each, θ=0.6, prior Beta(2,2); share with |θ̂−θ| ≤ z0.9·sd",
       "lineage_n400": {
-        "exposure": { "meanBias": -0.003481557678786818, "within80": 0.81 },
+        "exposure": { "meanBias": -0.0034815576787868003, "within80": 0.81 },
         "naive": { "meanBias": -0.2995049504950493, "within80": 0 }
       },
       "lineage_n40": {
-        "exposure": { "meanBias": -0.004228624393933094, "within80": 0.84 },
+        "exposure": { "meanBias": -0.004228624393933074, "within80": 0.84 },
         "naive": { "meanBias": -0.27693181818181795, "within80": 0 }
       },
       "sure_n40": {
@@ -298,7 +298,7 @@
         "fastTrapRank": 24178,
         "fastTrapPMeet": 0,
         "fastBestPMeet": 0.2135,
-        "fastSecondPMeet": 0.0213,
+        "fastSecondPMeet": 0.0209,
         "mcTop12BestRank": 1,
         "mcBestPMeet": 0.2115,
         "bestPairXHintProb": 0.6573,
@@ -312,7 +312,7 @@
         "fastTrapRank": 24178,
         "fastTrapPMeet": 0,
         "fastBestPMeet": 0.1935,
-        "fastSecondPMeet": 0.0193,
+        "fastSecondPMeet": 0.0189,
         "mcTop12BestRank": 1,
         "mcBestPMeet": 0.1885,
         "bestPairXHintProb": 0.6573,
@@ -326,7 +326,7 @@
         "fastTrapRank": 24178,
         "fastTrapPMeet": 0,
         "fastBestPMeet": 0.2943,
-        "fastSecondPMeet": 0.0294,
+        "fastSecondPMeet": 0.0288,
         "mcTop12BestRank": 1,
         "mcBestPMeet": 0.29,
         "bestPairXHintProb": 0.6573,
@@ -340,7 +340,7 @@
         "fastTrapRank": 24178,
         "fastTrapPMeet": 0,
         "fastBestPMeet": 0.1966,
-        "fastSecondPMeet": 0.0196,
+        "fastSecondPMeet": 0.0192,
         "mcTop12BestRank": 1,
         "mcBestPMeet": 0.191,
         "bestPairXHintProb": 0.6573,

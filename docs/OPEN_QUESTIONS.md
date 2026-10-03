@@ -147,6 +147,21 @@ Context: under ADR-0002 §3 a non-unique acquired skill with no deck/innate/line
 Assumption taken: such cells are excluded from the likelihood and counted per (mode, skill) in T06 fit diagnostics. They are never treated as observed hints. Review the counts on the real roster (T15/H4) before adding a source class.
 Blocking: no
 
+## Q-140 (T06) Is a non-matched parent with no recorded sparks "known"?
+Context: 50 §4 trains on rows with "both parents known (a guest counts as known because its sparks are on the child)". 01 §3 allows a `parent*` owner block to be empty when the tab couldn't be read (then flagged `low_confidence`). A guest or unmatched parent with an empty block has an unknown lineage, so E[inh] and Var[inh] for the row would silently omit that parent. On the golden data such rows are all low-confidence and already excluded.
+Assumption taken: a guest/unmatched parent (or a `matchedVeteranId` absent from the supplied roster) with zero recorded sparks makes the row ineligible (`parent-sparks-unread` in the fit report). A matched parent always uses the matched roster record. A missing matched record falls back to the recorded sparks (`matched-missing`).
+Blocking: no
+
+## Q-141 (T06) A snapshot cannot tell which rules it was fitted with
+Context: ADR-0002 §2.11 requires a refit after any `rules.json` change (including applied T15 multipliers) or master-data change. 01 §13 stores `masterVersion` but no rules version or hash, so `predictChild`/`rankPairs` can detect a master change but not a rules change.
+Assumption taken: prediction throws `RefitRequiredError` (`master-version-mismatch`) when `snapshot.masterVersion` differs from the context; rules changes cannot be detected from the snapshot. The caller (T13/T15) must refit after applying rule overrides. A contract change (e.g. a `rulesVersion` field) would need an ADR.
+Blocking: no
+
+## Q-142 (T06) The trainee's own unique skill as a target or prediction skill
+Context: ADR-0002 §3 and 50 §4 exclude the trainee outfit's own `uniqueSkillId` from the skill fit, because there is no acquisition decision to learn for it. The model therefore has no estimate for it. Before T06 review round 1, a `CmTarget` that required (or weighted as optional) that skill, or an explicit `PredictOptions.skills` list naming it, silently got pHinted = 0, P(acquire) = 0 and pMeet = 0, so ranking fell back to surplus order without any signal. The golden roster happens to record the own unique skill on all 260 veterans, but that is SYNTHETIC data (Q-120) and no cited source in the repo states a real-game possession rule; promoting it to "acquired with certainty" would invent a game rule.
+Assumption taken: such a request is unsupported. `predictChild` (target or `PredictOptions.skills`), `rankPairs`/`rankPairsDetailed` (including an empty roster or a lock with no legal partner) and the advanced helpers `skillClosedForm`/`simulate`/`gaussianScore` throw `ModelInputError` with `code: 'own-unique-skill'`. This does not claim the skill is impossible to own. Another outfit's unique skill (e.g. an inherited unique hint) is an ordinary candidate and is not rejected for its rarity. Default predictions never select the own unique skill. T13 (S05 target form) should drop the trainee's own unique skill from the selectable target skills for that trainee, or show the error reason ("not modelled for this trainee") rather than a 0% result. Changing this needs a cited game rule and a model decision.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

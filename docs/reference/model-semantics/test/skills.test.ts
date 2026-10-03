@@ -122,8 +122,10 @@ describe('exposure-aware posterior', () => {
 });
 
 describe('global prior (method of moments, exposure-aware)', () => {
-  it('recovers a SYNTHETIC Beta(3, 7) population of θ_s from lineage-only data', () => {
-    // θ_s drawn deterministically from quantiles of Beta(3,7)-like spread (SYNTHETIC).
+  it('recovers the moments of a SYNTHETIC deterministic θ_s spread from lineage-only data', () => {
+    // θ_s is NOT a Beta draw (T05b review S2): a golden-ratio modular sequence, approximately
+    // uniform on [0.05, 0.55). The test checks recovery of that sequence's empirical mean and
+    // variance by the exposure-aware method of moments (SYNTHETIC).
     const m = new Map<string, Exposure[]>();
     const thetas = Array.from({ length: 300 }, (_, s) => 0.05 + 0.5 * ((s * 0.61803) % 1));
     thetas.forEach((th, s) =>

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Rules, StatKey, STAT_KEYS } from '@uma/schema';
-import type { Character, Outfit, Skill, Spark } from '@uma/schema';
+import type { Character, Outfit, Skill, Spark, SupportCard } from '@uma/schema';
 import type { MasterBundle } from '@uma/master-data';
 import { compileAffinityFormula } from './formula.ts';
 import { pluginFor, type ScenarioPlugin, type ScenarioPluginFactory } from './scenarios/index.ts';
@@ -57,6 +57,8 @@ export interface EngineContext {
   outfits: ReadonlyMap<string, Outfit>;
   skills: ReadonlyMap<string, Skill>;
   sparks: ReadonlyMap<string, Spark>;
+  /** Support cards by id (T06: card type pooling and deck hint/event skills, 50 §4). */
+  cards: ReadonlyMap<string, SupportCard>;
   scenarios: ReadonlyMap<string, ScenarioPlugin>;
   /** characterId -> (affinity group id -> points). */
   affinityGroupsOf: ReadonlyMap<string, ReadonlyMap<string, number>>;
@@ -274,6 +276,7 @@ export function loadContext(
     outfits: new Map(master.outfits.map((o) => [o.id, o])),
     skills,
     sparks: new Map(master.sparks.map((s) => [s.id, s])),
+    cards: new Map(master.cards.map((c) => [c.id, c])),
     scenarios,
     affinityGroupsOf,
     affinityPairs,
