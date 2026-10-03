@@ -177,7 +177,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T05b | Merged locally (3f64d39); ADR-0002 accepted; Q-123/Q-124 resolved | task/T05b-model-semantics | T05b-model-semantics.md | PASS r1 (Opus → Sol continuation); S1–S3/N1 in T06 handoff |
-| T06 | Ready for dispatch; T05b semantics gate cleared | task/T06-training-prediction | T06-training-prediction.md | Pending |
+| T06 | In progress (Opus 5.5 medium); T05b semantics gate cleared | task/T06-training-prediction | T06-training-prediction.md | Pending |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Retrying on Opus medium after both providers HTTP 429; fe534dd and uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
