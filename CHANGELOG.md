@@ -3,6 +3,7 @@
 The orchestrator adds one line per merged task. Details are in `docs/changelog/Txx-*.md`.
 
 ## Unreleased
+- T06: training-v2 model fitting, child prediction, target scoring and legal-pair ranking; review CHANGES_REQUESTED r1 → PASS r2, merged checks green. Node22 benchmark passes; browser timing and retained-sample re-score validation follow-ups remain.
 - T05b: accepted model-statistical semantics, reproducible covariance/skill evidence and legacy-compatible training-v2 snapshots; independent review PASS r1. Q-123/Q-124 resolved, unblocking T06; nonblocking reference follow-ups carried into T06.
 - Specs, architecture and OCR feasibility spike (initial commit).
 - T01: pnpm monorepo, `@uma/schema` zod contracts + JSON Schema export, fingerprint + 7 cross-language vectors, empty .NET solution. Review PASS r1.

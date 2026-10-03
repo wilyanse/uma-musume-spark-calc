@@ -488,6 +488,19 @@ $ git status --porcelain=v1 -uall
 (empty)
 ```
 
+## Local merge verification
+
+Merged as `5e0afea`; no push or deployment. Parent reran on merged main:
+
+```text
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test && pnpm --filter web build
+All five package lint/typecheck commands Done.
+schema 149 passed; master-data 82 passed; web 5 passed; API 111 passed; engine 240 passed.
+Vite build: 146 modules transformed; built in 108ms.
+$ pnpm exec tsc -p docs/reference/model-semantics/tsconfig.json && pnpm exec eslint docs/reference/model-semantics && node --test 'docs/reference/model-semantics/test/*.test.ts'
+23 tests; 23 pass; 0 fail; exit 0.
+```
+
 ## Open questions / follow-ups
 
 - **Q-140 (new):** a guest or unmatched parent with no recorded sparks is treated as unknown lineage, and the row is excluded.
