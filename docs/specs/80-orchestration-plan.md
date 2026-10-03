@@ -177,7 +177,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T05b | Merged locally (3f64d39); ADR-0002 accepted; Q-123/Q-124 resolved | task/T05b-model-semantics | T05b-model-semantics.md | PASS r1 (Opus → Sol continuation); S1–S3/N1 in T06 handoff |
-| T06 | Candidate 8e0a27a; parent gate passed including Node 22 benchmark; independent review r1 | task/T06-training-prediction | T06-training-prediction.md | Pending r1; T13 remains gated |
+| T06 | Fix round 1: unique-skill request handling and model/input validation | task/T06-training-prediction | T06-training-prediction.md | CHANGES_REQUESTED r1; T13 remains gated |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Paused after agent_close; 0dee2e7 and newer uncommitted parser/fixture work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete; resume required |
