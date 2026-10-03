@@ -71,6 +71,14 @@ public static class FixtureComparer
 
         Add("screen", "screen", label["screen"]!.GetValue<string>(), p.Screen.Name, true);
 
+        // Unlabelled parts must be absent (review r1 S6): no header on popups/card screens.
+        if (label["header"] is null) Add("header/absent", "absence", "absent", p.Header is null ? "absent" : "present", true);
+        if (label["scroll"] is JsonObject scroll)
+        {
+            Add("scroll/atTop", "scroll", scroll["atTop"]!.GetValue<bool>(), Vision.AtTop(p.Thumb, env.Layout), p.Thumb is not null);
+            Add("scroll/atEnd", "scroll", scroll["atEnd"]!.GetValue<bool>(), Vision.AtEnd(p.Thumb, env.Layout), p.Thumb is not null);
+        }
+
         if (label["header"] is JsonObject h)
         {
             var hd = p.Header;
@@ -123,6 +131,9 @@ public static class FixtureComparer
                 var card = t?.Card.Value as string;
                 var info = card is null ? null : CardInfo(env, card);
                 Add($"deck/{i}/cardTypeRarity", "cardVisible", $"{d["type"]}/{d["rarity"]}", info is null ? null : $"{info.Value.Type}/{info.Value.Rarity}", t?.Card.Ok ?? false);
+                // S4: where one main character is clearly visible on the art, the matched card must feature them.
+                if (d["visibleCharacter"] is JsonValue vc)
+                    Add($"deck/{i}/visibleCharacter", "cardVisible", env.IdOf("character", vc.GetValue<string>()), card is null ? null : CardCharacter(env, card), t?.Card.Ok ?? false);
             }
         }
 
@@ -135,12 +146,20 @@ public static class FixtureComparer
             }
 
         if (label["career"] is JsonObject career)
+        {
+            // Rows not visible in the screenshot must not be read (S6), e.g. 05 shows only the record, 07 none.
+            foreach (var k in new[] { "races", "wins", "fans", "scenario", "dateAcquired" }.Where(k => !career.ContainsKey(k)))
+            {
+                var reading = k switch { "races" => p.Career?.Races, "wins" => p.Career?.Wins, "fans" => p.Career?.Fans, "scenario" => p.Career?.Scenario, _ => p.Career?.Date };
+                Add("career/" + k + "/absent", "absence", "absent", reading is null ? "absent" : $"read {reading.Value}", true);
+            }
             foreach (var (k, v) in career)
             {
                 var reading = k switch { "races" => p.Career?.Races, "wins" => p.Career?.Wins, "fans" => p.Career?.Fans, "scenario" => p.Career?.Scenario, "dateAcquired" => p.Career?.Date, _ => null };
                 object? expected = k switch { "scenario" => env.IdOf("scenario", v!.GetValue<string>()), "dateAcquired" => v!.GetValue<string>(), _ => v!.GetValue<int>() };
                 AddR("career/" + k, "career", expected, reading);
             }
+        }
 
         if (label["popup"] is JsonObject popup)
         {
@@ -157,6 +176,9 @@ public static class FixtureComparer
                 var c = cards[i]!; var t = p.ListTiles.FirstOrDefault(x => x.Index == c["index"]!.GetValue<int>());
                 AddR($"cards/{i}/lb", "lb", c["lb"]!.GetValue<int>(), t?.Lb);
                 AddR($"cards/{i}/level", "cardLevel", c["level"]!.GetValue<int>(), t?.Level);
+                var listCard = t?.Card.Value as string;
+                if (c["type"] is JsonValue ct) Add($"cards/{i}/type", "cardVisible", ct.GetValue<string>(), listCard is null ? null : CardInfo(env, listCard)?.Type, t?.Card.Ok ?? false);
+                if (c["visibleCharacter"] is JsonValue cc) Add($"cards/{i}/visibleCharacter", "cardVisible", env.IdOf("character", cc.GetValue<string>()), listCard is null ? null : CardCharacter(env, listCard), t?.Card.Ok ?? false);
             }
 
         if (label["detail"] is JsonObject detail)

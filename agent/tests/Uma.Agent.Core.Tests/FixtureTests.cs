@@ -36,6 +36,23 @@ public class FixtureTests(ITestOutputHelper output)
     }
 
     [Fact]
+    public void Comparer_detects_wrong_scroll_flags_unlabelled_rows_headers_and_deck_characters()
+    {
+        // S4/S6: the new comparisons must fail on a wrong parse, not just pass on the right one.
+        static IEnumerable<string> Wrong(string name, ParsedFrame p) => FixtureComparer.Compare(name, p, Env).Where(r => !r.Correct).Select(r => r.Field);
+        var p01 = Env.Parsed("01-veteran-details-skills-independent");
+        Assert.Contains("scroll/atEnd", Wrong("01-veteran-details-skills-independent", p01 with { Thumb = new ScrollThumb(p01.Thumb!.Top, Env.Layout.Int("scrollbar", "trackBottom")) }));
+        var p07 = Env.Parsed("07-veteran-details-career-info-races");
+        var fake = new Reading(1, "1", 1, true, [], null);
+        Assert.Contains("career/races/absent", Wrong("07-veteran-details-career-info-races", p07 with { Career = new CareerRows(fake, null, null, null, null) }));
+        var p08 = Env.Parsed("08-sparks-popup-oguri-cap");
+        Assert.Contains("header/absent", Wrong("08-sparks-popup-oguri-cap", p08 with { Header = p01.Header }));
+        var p05 = Env.Parsed("05-veteran-details-career-info-deck-legacy");
+        var swapped = p05.Deck.Select((t, i) => i == 0 ? t with { Card = p05.Deck[3].Card } : t).ToArray();   // Agnes Tachyon card on Fukukitaru's tile (both speed SSR)
+        Assert.Contains("deck/0/visibleCharacter", Wrong("05-veteran-details-career-info-deck-legacy", p05 with { Deck = swapped }));
+    }
+
+    [Fact]
     public void Accuracy_report_meets_acceptance()
     {
         var all = Env.Names.SelectMany(n => FixtureComparer.Compare(n, Env.Parsed(n), Env)).ToList();

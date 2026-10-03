@@ -128,6 +128,19 @@ public class ClassifierAndPrimitiveTests
     }
 
     [Fact]
+    public void Card_list_tile_0_is_the_card_resolved_by_its_detail_screen()
+    {
+        // S4: fixture 14 is tile 0 of fixture 13 opened (same art, guts icon, SSR, Lvl 40; label sameCardAs). The art
+        // match of the list tile and the exact title+name resolution of the detail screen must agree, independently.
+        var detail = Env.Parsed("14-support-card-detail").DetailCard!;
+        var tile = Env.Parsed("13-support-card-list").ListTiles[0].Card;
+        Assert.True(detail.Ok);
+        Assert.True(tile.Ok);
+        Assert.Equal(detail.Value, tile.Value);
+        Assert.Equal("14-support-card-detail", Env.Label("13-support-card-list")["cards"]![0]!["sameCardAs"]!.GetValue<string>());
+    }
+
+    [Fact]
     public void Vocab_matching_follows_30_section_4()
     {
         var v = new VocabIndex(Env.Master.Vocab);

@@ -38,7 +38,9 @@
    "level": 50,
    "borrowed": false,
    "type": "speed",
-   "rarity": "SSR"
+   "rarity": "SSR",
+   "visibleCharacter": "Matikanefukukitaru",
+   "visibleArt": "single figure: short orange hair with ear ornament, green festive robe"
   },
   {
    "slot": 2,
@@ -46,7 +48,9 @@
    "level": 50,
    "borrowed": false,
    "type": "stamina",
-   "rarity": "SSR"
+   "rarity": "SSR",
+   "visibleCharacter": "Super Creek",
+   "visibleArt": "single figure: long brown hair with a blue ribbon, white knit top"
   },
   {
    "slot": 3,
@@ -54,7 +58,9 @@
    "level": 50,
    "borrowed": false,
    "type": "stamina",
-   "rarity": "SSR"
+   "rarity": "SSR",
+   "visibleCharacter": null,
+   "visibleArt": "group art, three figures in blue idol outfits (orange-haired, brown twin-tail, and centre brown hair with a white forelock); the card's featured character is not identifiable from the art alone"
   },
   {
    "slot": 4,
@@ -62,7 +68,9 @@
    "level": 50,
    "borrowed": false,
    "type": "speed",
-   "rarity": "SSR"
+   "rarity": "SSR",
+   "visibleCharacter": "Agnes Tachyon",
+   "visibleArt": "single figure: messy brown hair, oversized light coat sleeves, rainbow light trails"
   },
   {
    "slot": 5,
@@ -70,7 +78,9 @@
    "level": 50,
    "borrowed": false,
    "type": "power",
-   "rarity": "SSR"
+   "rarity": "SSR",
+   "visibleCharacter": null,
+   "visibleArt": "main figure: black hair with a red bow, red scarf, winking; a second orange-haired figure behind. Not confidently identified"
   },
   {
    "slot": 6,
@@ -78,7 +88,9 @@
    "level": 50,
    "borrowed": true,
    "type": "group",
-   "rarity": "SSR"
+   "rarity": "SSR",
+   "visibleCharacter": null,
+   "visibleArt": "group art: centre figure with long brown hair and a white crescent streak in a green uniform on a throne, two figures beside; the featured character is not asserted"
   }
  ],
  "parents": [
@@ -106,7 +118,7 @@
     81,
     108
    ],
-   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (listed in deck[].type) and the character; the exact card is not asserted as a label. Tests require the matched card to agree with the visible rarity and type."
+   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (deck[].type), and for tiles 1, 2 and 4 the main character (deck[].visibleCharacter). The exact card is not asserted as a label; H4 step 2 asks the user to confirm all six cardIds."
   },
   {
    "field": "/deck/1/cardId",
@@ -116,7 +128,7 @@
     81,
     108
    ],
-   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (listed in deck[].type) and the character; the exact card is not asserted as a label. Tests require the matched card to agree with the visible rarity and type."
+   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (deck[].type), and for tiles 1, 2 and 4 the main character (deck[].visibleCharacter). The exact card is not asserted as a label; H4 step 2 asks the user to confirm all six cardIds."
   },
   {
    "field": "/deck/2/cardId",
@@ -126,7 +138,7 @@
     81,
     108
    ],
-   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (listed in deck[].type) and the character; the exact card is not asserted as a label. Tests require the matched card to agree with the visible rarity and type."
+   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (deck[].type), and for tiles 1, 2 and 4 the main character (deck[].visibleCharacter). The exact card is not asserted as a label; H4 step 2 asks the user to confirm all six cardIds."
   },
   {
    "field": "/deck/3/cardId",
@@ -136,7 +148,7 @@
     81,
     108
    ],
-   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (listed in deck[].type) and the character; the exact card is not asserted as a label. Tests require the matched card to agree with the visible rarity and type."
+   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (deck[].type), and for tiles 1, 2 and 4 the main character (deck[].visibleCharacter). The exact card is not asserted as a label; H4 step 2 asks the user to confirm all six cardIds."
   },
   {
    "field": "/deck/4/cardId",
@@ -146,7 +158,7 @@
     81,
     108
    ],
-   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (listed in deck[].type) and the character; the exact card is not asserted as a label. Tests require the matched card to agree with the visible rarity and type."
+   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (deck[].type), and for tiles 1, 2 and 4 the main character (deck[].visibleCharacter). The exact card is not asserted as a label; H4 step 2 asks the user to confirm all six cardIds."
   },
   {
    "field": "/deck/5/cardId",
@@ -156,9 +168,9 @@
     81,
     108
    ],
-   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (listed in deck[].type) and the character; the exact card is not asserted as a label. Tests require the matched card to agree with the visible rarity and type."
+   "reason": "Card identity is art-only (no title on the tile). Visible ground truth is the SSR badge, the type icon (deck[].type), and for tiles 1, 2 and 4 the main character (deck[].visibleCharacter). The exact card is not asserted as a label; H4 step 2 asks the user to confirm all six cardIds."
   }
  ],
- "notes": "Parent identity is visible from the portraits and confirmed by the Sparks popups of the same parents (fixtures 09 and 10, whose spark lists equal the parent1/parent2 blocks in 02-04). Slot 6 shows the pink 'Friends' band (borrowed).",
+ "notes": "Parent identity is visible from the portraits and confirmed by the Sparks popups of the same parents (fixtures 09 and 10, whose spark lists equal the parent1/parent2 blocks in 02-04). Slot 6 shows the pink 'Friends' band (borrowed). deck[].visibleCharacter is set only where the tile shows one clearly identifiable main figure (vision inspection of the PNG, zoomed per tile); group art and unrecognised figures are null with a description in visibleArt. Card titles are not visible on the tiles and are not labelled.",
  "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
 }

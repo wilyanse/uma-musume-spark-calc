@@ -8,6 +8,12 @@ namespace Uma.Agent.Core;
 
 public static class TrainModeDetector { public static TrainMode Detect(string epithet)=>epithet.Trim().Equals("independent learner",StringComparison.OrdinalIgnoreCase)?TrainMode.independent:TrainMode.manual; }
 
+/// <summary>01 §5 fingerprint. `Canonical` serialises with the default System.Text.Json encoder, which escapes `+`, `&lt;`,
+/// `&gt;`, `&amp;`, `'` and every non-ASCII character as \uXXXX, unlike JS `JSON.stringify`. That is safe only because
+/// every value it sees is a lower-kebab master ID (`^[a-z]+:[a-z0-9]+(-[a-z0-9]+)*$`), a grade letter, an owner name,
+/// an integer or a `YYYY-MM-DD` date, all plain ASCII with no such characters (asserted by
+/// `ContractParityTests.Canonical_inputs_need_no_escaping`). If free text ever enters the fingerprint, switch to an
+/// encoder that matches JSON.stringify and add a shared vector.</summary>
 public static class Fingerprint
 {
     private static readonly string[] AptKeys={"turf","dirt","sprint","mile","medium","long","front","pace","late","end"};

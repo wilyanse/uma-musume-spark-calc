@@ -58,4 +58,20 @@ public class ContractParityTests
         Assert.Empty(CaptureValidation.ValidateOwnedCards(3, ["card:a", "card:b"], partial: true));
         Assert.Contains(CaptureValidation.ValidateOwnedCards(2, ["card:a", "card:a"], partial: true), x => x.Contains("duplicate"));
     }
+
+    [Fact]
+    public void Canonical_inputs_need_no_escaping()
+    {
+        // N1: the default encoder escapes '+' and non-ASCII (JS JSON.stringify doesn't). Every master ID that can reach
+        // the fingerprint, and the McQueen capture's canonical string, must therefore be plain ASCII without escapes.
+        var master = FixtureEnv.Instance.Master;
+        var ids = new[] { "characters", "outfits", "sparks", "scenarios" }.SelectMany(k => master.Ids[k]).ToArray();
+        Assert.NotEmpty(ids);
+        Assert.All(ids, id => Assert.Matches("^[a-z]+:[a-z0-9]+(?:-[a-z0-9]+)*$", id));
+        Assert.Equal("\"a\\u002Bb\"", System.Text.Json.JsonSerializer.Serialize("a+b"));   // documents the encoder behaviour
+        var (_, r) = Collect.Assemble(Collect.Complete());
+        var canonical = Fingerprint.Canonical(r.Capture!.Veteran);
+        Assert.DoesNotContain("\\u", canonical);
+        Assert.True(canonical.All(c => c < 128));
+    }
 }

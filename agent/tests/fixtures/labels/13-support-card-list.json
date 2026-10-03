@@ -7,7 +7,10 @@
    "index": 0,
    "lb": 2,
    "level": 40,
-   "rarity": "SSR"
+   "rarity": "SSR",
+   "type": "guts",
+   "visibleCharacter": "Special Week",
+   "sameCardAs": "14-support-card-detail"
   },
   {
    "index": 1,
@@ -143,7 +146,7 @@
     571,
     700
    ],
-   "reason": "Card identity is art-only; full support-card identification is T11 scope. Tile 0 is the card shown in fixture 14 (The Brightest Star in Japan!, Special Week, Lvl 40, guts icon)."
+   "reason": "Card identity is art-only; full support-card identification is T11 scope. Tile 0 shows the same art, guts icon, SSR badge and Lvl 40 as the card opened in fixture 14 (title '[The Brightest Star in Japan!]', name 'Special Week'), so cards[0].sameCardAs records that equality; the other tiles' identities are not labelled."
   }
  ],
  "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
