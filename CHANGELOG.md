@@ -3,6 +3,7 @@
 The orchestrator adds one line per merged task. Details are in `docs/changelog/Txx-*.md`.
 
 ## Unreleased
+- T05b: accepted model-statistical semantics, reproducible covariance/skill evidence and legacy-compatible training-v2 snapshots; independent review PASS r1. Q-123/Q-124 resolved, unblocking T06; nonblocking reference follow-ups carried into T06.
 - Specs, architecture and OCR feasibility spike (initial commit).
 - T01: pnpm monorepo, `@uma/schema` zod contracts + JSON Schema export, fingerprint + 7 cross-language vectors, empty .NET solution. Review PASS r1.
 - T02: Hono Worker skeleton (health, D1/R2/assets bindings) + React/Vite SPA skeleton (routes, Comlink engine worker stub, fixture switch). Review PASS r1.

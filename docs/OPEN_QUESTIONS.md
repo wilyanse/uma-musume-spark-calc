@@ -114,8 +114,8 @@ Blocking: no
 ## Q-123 (T08) Which variance definition T06 uses for the 80% holdout interval
 Context: 50 §4 defines `residualCov` as the weighted covariance of the holdout residuals, and 50 §5/§7 add Var[inh] for prediction. Read literally, adding Var[inh] counts the inheritance-sampling variance twice, because the holdout residuals of y = stat − E[inh] already contain it. On the golden data the pooled 80% coverage depends on the definition: train sandwich 0.8417, literal holdout residualCov 0.7917, residualCov + Var[inh] 0.9000 (outside 0.72–0.88), residualCov − mean Var[inh] + per-row Var[inh] 0.7292, train plug-in without leverage 0.7208 (`truth.holdout.coverageDiagnostic.variants`).
 Assumption taken: the golden data is checked with the train-residual sandwich interval and with the literal holdout residualCov, both inside the band. T06 should not add Var[inh] on top of a residualCov that already contains it, and should not use an uncorrected train plug-in variance (its margin is 0.0008). T08 changes no spec. The retune exposed the existing variance double-count by moving residualCov + Var[inh] coverage from 0.8292 to 0.9000. The orchestrator must decide covariance semantics and record explicit spec errata before dispatching T06.
-Blocking: yes for T06 dispatch; no for T08 merge
-Proposed resolution (T05b, pending independent review and orchestrator transition): ADR-0002 §2, reproduced with retained code in `docs/reference/model-semantics/` (the adviser's deleted-probe numbers are not relied on).
+Blocking: no — resolved by accepted ADR-0002 after T05b review PASS and verified local merge `3f64d39`.
+Accepted resolution (T05b): ADR-0002 §2, reproduced with retained code in `docs/reference/model-semantics/` (the adviser's deleted-probe numbers are not relied on).
 - `residualCov` becomes the non-inheritance Σ_N:
   - computed from recency-weighted, uncentred 5-fold OOF train residuals, minus the same-weighted mean engine `statGainCov`;
   - symmetrised and floored to PSD by deterministic Jacobi.
@@ -128,8 +128,8 @@ Proposed resolution (T05b, pending independent review and orchestrator transitio
 ## Q-124 (T06) Latent skill-hint activation counted twice
 Context: 50 §4 treats a skill as hinted whenever a parent/grandparent spark could provide it. For lineage-only opportunities, the resulting acquired/eligible rate already includes hint activation probability. 50 §5 then multiplies by (or samples) that probability again. Q-123's adviser identified this contradiction; see `docs/reviews/Q123-variance-advice.md` §7.
 Assumption taken: T05b must specify and probe a coherent observable-data estimator before T06. Do not treat potential hints as observed activations or compare marginal rates to conditional acquisition probabilities. Keep the original golden data and acceptance thresholds unchanged; record the decision in ADR-0002.
-Blocking: yes for T06 dispatch
-Proposed resolution (T05b, pending independent review and orchestrator transition): ADR-0002 §3, the exposure-aware likelihood.
+Blocking: no — resolved by accepted ADR-0002 after T05b review PASS and verified local merge `3f64d39`.
+Accepted resolution (T05b): ADR-0002 §3, the exposure-aware likelihood.
 - For each row and candidate skill: q = 1 for deck hint/event or innate, otherwise the recorded-lineage `skillHintProb`; then y ~ Bernoulli(q·θ) with θ = P(acquired | actually hinted).
 - Beta prior; the non-conjugate posterior is computed by deterministic tanh-sinh quadrature and stored as a moment-matched Beta {a, b}.
 - Prediction multiplies availability exactly once.

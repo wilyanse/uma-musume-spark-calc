@@ -1,7 +1,7 @@
 # ADR-0002: Statistical semantics of the training model (residual covariance, skill acquisition) and `training-v2`
 
-- Status: Proposed (T05b, 2026-10-03). Pending independent review and orchestrator acceptance.
-- Resolves (proposed): Q-123 (variance double count), Q-124 (skill-hint double count).
+- Status: Accepted by the orchestrator after independent T05b review PASS and verified local merge `3f64d39`. See `docs/reviews/T05b-review-1.md`; nonblocking reference-code follow-ups are recorded in the T05b changelog and T06 handoff.
+- Resolves: Q-123 (variance double count), Q-124 (skill-hint double count).
 - Amends: 01 §13 (snapshot kind and field meanings), 50 §4–§9 (errata), 70 §3 (acceptance clarifications). The numeric thresholds are unchanged.
 - Evidence: `docs/reference/model-semantics/` (code, seeded probes, `results/*.json`, diagnostic tests). Reproduce with the commands in its README. The Q-123 adviser's numbers (`docs/reviews/Q123-variance-advice.md`) are self-reports from deleted probes. Every number in this ADR comes from the retained T05b code instead.
 

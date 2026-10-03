@@ -1,6 +1,6 @@
 # T05b — Model semantics and snapshot compatibility
 
-- **Status:** Done (pending independent review; Q-123/Q-124 are *proposed* resolutions, and the orchestrator makes the final transition)
+- **Status:** Merged locally (`3f64d39`); independent review PASS r1; ADR-0002 accepted and Q-123/Q-124 resolved by the orchestrator. Nonblocking follow-ups remain below.
 - **Branch:** task/T05b-model-semantics
 - **Agent / model:** Claude Opus 5.5, medium. This is a continuation of session 20261003_004224_f93c1e, which stopped on HTTP 429.
 - **Date:** 2026-10-03
@@ -256,7 +256,7 @@ The engine golden tests pass unchanged (135 of 135 above).
 
 ## Open questions / follow-ups
 
-- **Q-123, Q-124:** proposed resolutions recorded. Pending independent review; the orchestrator transitions them.
+- **Q-123, Q-124:** accepted by the orchestrator after review PASS and verified local merge; the T06 semantics gate is cleared.
 - **Q-130 (new):** q = 1 for deck hint/event or innate skills is an unverified approximation.
 - **Q-131 (new):** acquired skills with no observable source (q = 0) are excluded and reported. The golden data has none; the real roster may.
 - **T06 handoff:**
@@ -285,3 +285,35 @@ Nonblocking follow-ups to carry into T06/reference maintenance:
 - **N1:** Correct the absolute Jacobian formula for theta = logistic(pi sinh t) to pi cosh(t) theta(1-theta). The constant cancels in the current normalized posterior moments; do not propagate the inaccurate absolute-integral formula to T06.
 
 Parent Gate A (before review) independently ran `pnpm install --frozen-lockfile`, `pnpm --filter @uma/schema build`, `pnpm -r lint`, `pnpm -r typecheck`, `pnpm -r test`, evidence `tsc`/`eslint`, `node --test 'docs/reference/model-semantics/test/*.test.ts'`, both README probes twice with `--write`, scoped Prettier and `git diff --check`. All exited 0. Actual test output: schema 149 passed; API 111 passed; web 5 passed; master-data 82 passed; engine 135 passed; evidence 22 pass / 0 fail. Both probe hashes matched the committed hashes listed above on both runs; final task status was clean. The independent reviewer separately reran checks and retained additional numerical/calibration challenges; their exact commands/output are in the review report.
+
+## Orchestrator integration verification
+
+Local merge: `3f64d39`. ADR-0002 accepted; Q-123/Q-124 now resolved. Reviewed implementation remains `5d21673`; its only pre-merge successor was the review-record changelog commit `7cfbc52`.
+
+Commands run on merged main (all exit 0):
+```
+pnpm install --frozen-lockfile
+pnpm -r lint
+pnpm -r typecheck
+pnpm -r test
+pnpm --filter web build
+pnpm exec tsc -p docs/reference/model-semantics/tsconfig.json
+node --test 'docs/reference/model-semantics/test/*.test.ts'
+git status --short
+```
+Trimmed real output:
+```
+Already up to date
+Done in 353ms using pnpm v11.22.0
+packages/schema test: Tests 149 passed (149)
+packages/master-data test: Tests 82 passed (82)
+apps/web test: Tests 5 passed (5)
+apps/api test: Tests 111 passed (111)
+packages/engine test: Tests 135 passed (135)
+✓ 146 modules transformed.
+✓ built in 111ms
+ℹ tests 22
+ℹ pass 22
+ℹ fail 0
+```
+All five workspace lint/typecheck jobs reported Done; evidence typecheck and final git status produced no output. No recursive build, master-data refresh, push or deployment was performed.

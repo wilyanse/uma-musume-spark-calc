@@ -99,7 +99,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 
 ### T06 — Engine: training model, prediction, scoring, ranking
 - Spec: 50 §4–7, §9 (T06), 01 §10, §13.
-- Owns: `packages/engine/src/{model,predict,rank,linalg.ts}/**`, `packages/engine/test/{model,predict,rank}/**`, `packages/engine/bench/**`.
+- Owns: `packages/engine/src/{model,predict,rank,linalg.ts}/**`, `packages/engine/test/{model,predict,rank}/**`, `packages/engine/bench/**`. Minimal public export/type and package/test/bench wiring are allowed if declared. Also owns the narrowly scoped T05b review S1–S3/N1 fixes in `docs/reference/model-semantics/**`, with regenerated evidence if affected; no golden fixture or threshold changes.
 - Needs: T05, T08, T05b (model semantics errata).
 - Done when: 50 §9 T06 on the golden dataset; the bench result is in the changelog.
 
@@ -176,8 +176,8 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T04 | Merged locally | task/T04-api-core | T04-api-core.md | PASS r2; follow-ups in T04b |
 | T04b | Merged locally | task/T04b-api-consistency | T04b-api-consistency.md | CHANGES_REQUESTED r1, r2 → PASS r3 |
 | T05 | Merged locally | task/T05-inheritance | T05-inheritance.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T05b | Candidate 5d21673; parent gate passed; review PASS; awaiting local merge | task/T05b-model-semantics | T05b-model-semantics.md | PASS r1 (Opus → Sol continuation); S1–S3/N1 nonblocking follow-ups |
-| T06 | Awaiting T05b; Q-123/Q-124 semantics gate | | | T08 merged |
+| T05b | Merged locally (3f64d39); ADR-0002 accepted; Q-123/Q-124 resolved | task/T05b-model-semantics | T05b-model-semantics.md | PASS r1 (Opus → Sol continuation); S1–S3/N1 in T06 handoff |
+| T06 | Ready for dispatch; T05b semantics gate cleared | task/T06-training-prediction | T06-training-prediction.md | Pending |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Retrying on Opus medium after both providers HTTP 429; fe534dd and uncommitted work preserved | task/T09-agent-core | T09-agent-core.md | Gate A incomplete: parser/assembly/fixture acceptance still required |
