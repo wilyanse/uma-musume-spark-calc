@@ -26,7 +26,7 @@ public sealed class ContentMap<T>(Func<T, int> column, Func<T, int> y, Func<T, s
     /// <summary>Content-space positions of non-row markers (the "Legacy Origin" heading).</summary>
     public IReadOnlyList<int> Extra => _extra.Distinct().Order().ToArray();
 
-    public void Add(IReadOnlyList<T> rows, Frame frame, bool atTop, bool atEnd, double estimate, IReadOnlyList<int>? extra = null)
+    internal void Add(IReadOnlyList<T> rows, Frame frame, bool atTop, bool atEnd, double estimate, IReadOnlyList<int>? extra = null)
     {
         _pending.Add((rows, frame, atTop, atEnd, estimate, extra ?? []));
         bool progress;
@@ -75,7 +75,10 @@ public sealed record SectionStatus(string Section, bool Complete, string Detail)
 /// <summary>Assembler output. <see cref="Capture"/> may be present while the 30 §5 checklist is incomplete: that is a
 /// diagnostic capture (it satisfies the 30 §10 "01–07 assembles a valid VeteranCapture" check) and is never uploadable,
 /// because 01 §3 has no way to say "skills list incomplete" (Q-93). Only a result sealed by the assembler for a complete
-/// checklist with no errors is <see cref="Uploadable"/>; editing the capture or crops afterwards breaks the seal.</summary>
+/// checklist with no errors is <see cref="Uploadable"/>; editing the capture or crops afterwards breaks the seal.
+/// The seal is an integrity guard, not cryptographic trust against hostile same-process code. ParsedFrame is public
+/// and can be synthetically edited; callers must supply parser evidence, not fabricated coverage. Cosmetic checklist
+/// Detail text is intentionally not sealed.</summary>
 public sealed record CaptureResult(VeteranCapture? Capture, IReadOnlyList<(string Path, byte[] Png)> Crops, IReadOnlyList<SectionStatus> Checklist, IReadOnlyList<string> Errors)
 {
     internal string? Seal { get; init; }

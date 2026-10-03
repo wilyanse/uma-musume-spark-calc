@@ -46,7 +46,10 @@ public sealed record ParsedFrame(ScreenClassification Screen, Frame Frame, Scrol
 }
 
 /// <summary>All screen parsers (30 §4). Inputs: a frame, recorded or live OCR, the layout profile, the master bundle and
-/// templates cut from fixture crops. Nothing here knows fixture names or expected values.</summary>
+/// templates cut from fixture crops. Nothing here knows fixture names or expected values. ParseAsync normalizes
+/// supported raw client sizes; every other public frame-taking primitive requires exactly 1920x1080 and throws
+/// NonReferenceFrameException before reading otherwise. T11 may use primitives on ParseAsync.Frame or on
+/// Frames.Normalize output with reference-space OCR boxes/ROIs. No primitive silently rescales pixels or OCR.</summary>
 public sealed partial class FrameParser
 {
     private readonly LayoutProfile _layout;
@@ -123,6 +126,7 @@ public sealed partial class FrameParser
     // ---------- header ----------
     public async Task<HeaderReading> HeaderAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var (character, outfit) = await IdentityAsync(f, _layout.Rect("header", "name"), _layout.Rect("header", "outfit"));
         var rating = await DigitsAsync(f, _layout.Rect("header", "rating"), 0, 1_000_000);
         var rank = Rank(f, rating);
@@ -203,6 +207,7 @@ public sealed partial class FrameParser
     // ---------- skills ----------
     public async Task<IReadOnlyList<SkillRow>> SkillsAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var rows = new List<SkillRow>();
         var cols = _layout.At("skills", "columns");
         int h = _layout.Int("skills", "pillHeight"), labelLeft = _layout.Int("skills", "labelLeft");
@@ -265,6 +270,7 @@ public sealed partial class FrameParser
 
     public async Task<IReadOnlyList<SparkRow>> SparksAsync(Frame f, string screen, bool atTop, int? headingY, bool popup = false)
     {
+        Frames.RequireReference(f);
         var strips = Vision.SparkStrips(f, _layout, screen);
         var view = _layout.Sparks(screen);
         var window = _layout.Ints("sparks", "labelWindow");
@@ -328,6 +334,7 @@ public sealed partial class FrameParser
     // ---------- career ----------
     public async Task<IReadOnlyList<DeckTile>> DeckAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var d = _layout.At("career", "deck");
         int tiles = d.GetProperty("tiles").GetInt32(), tileY = d.GetProperty("tileY").GetInt32(), tileW = d.GetProperty("tileW").GetInt32(), tileH = d.GetProperty("tileH").GetInt32();
         double pitch = d.GetProperty("tilePitch").GetDouble(), lbPitch = d.GetProperty("lbPitch").GetDouble();
@@ -362,6 +369,7 @@ public sealed partial class FrameParser
 
     public async Task<IReadOnlyList<ParentPortrait>> ParentsAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var p = _layout.At("career", "parents");
         int r = p.GetProperty("radius").GetInt32();
         var guestRoi = LayoutProfile.R(p.GetProperty("guestRoi")); var guestText = p.GetProperty("guestText").GetString()!;
@@ -383,6 +391,7 @@ public sealed partial class FrameParser
 
     public async Task<CareerRows> CareerAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var roi = _layout.Rect("career", "rows", "roi");
         int keyMaxX = _layout.Int("career", "rows", "keyMaxX"), tol = _layout.Int("career", "rows", "rowTolerance");
         var lines = await _ocr.ReadAsync(f, roi, OcrMode.Text);
@@ -434,6 +443,7 @@ public sealed partial class FrameParser
     // ---------- support cards (primitives for T11) ----------
     public async Task<Reading> HeldAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var roi = _layout.Rect("cardsList", "heldRoi");
         var (text, conf) = await Ocr.TextAsync(_ocr, f, roi);
         var m = Held().Match(text);
@@ -442,6 +452,7 @@ public sealed partial class FrameParser
 
     public async Task<IReadOnlyList<ListTile>> ListTilesAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var l = _layout.At("cardsList");
         int cols = l.GetProperty("columns").GetInt32(), tileX = l.GetProperty("tileX").GetInt32(), artOff = l.GetProperty("artOffsetY").GetInt32();
         int artW = l.GetProperty("artW").GetInt32(), artH = l.GetProperty("artH").GetInt32(), bottom = l.GetProperty("visibleBottom").GetInt32();
@@ -469,6 +480,7 @@ public sealed partial class FrameParser
 
     public async Task<(Reading Card, Reading Level)> DetailAsync(Frame f)
     {
+        Frames.RequireReference(f);
         var titleRoi = _layout.Rect("cardsDetail", "title"); var nameRoi = _layout.Rect("cardsDetail", "name"); var levelRoi = _layout.Rect("cardsDetail", "level");
         var (title, tConf) = await Ocr.TextAsync(_ocr, f, titleRoi);
         var (name, nConf) = await Ocr.TextAsync(_ocr, f, nameRoi);
@@ -486,6 +498,7 @@ public sealed partial class FrameParser
     /// best/runner-up margin ≥ minMargin; otherwise the best guess is kept as an uncertain candidate.</summary>
     public static Reading HashMatch(Frame f, Rect box, IReadOnlyDictionary<string, IReadOnlyList<string>> hashes, LayoutCrop crop, int search, int maxDistance, int minMargin)
     {
+        Frames.RequireReference(f);
         var best = new Dictionary<string, int>(StringComparer.Ordinal);
         for (var dy = -search; dy <= search; dy++)
         for (var dx = -search; dx <= search; dx++)

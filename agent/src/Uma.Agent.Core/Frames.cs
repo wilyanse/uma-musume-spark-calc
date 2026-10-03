@@ -19,6 +19,10 @@ public sealed class UnsupportedAspectRatioException(int width, int height)
 public sealed class UnsupportedResolutionException(int width, int height)
     : UnsupportedFrameException(width, height, $"game client area {width}x{height} is below 1920x1080: make the game window at least 1920x1080 (16:9) and try again");
 
+/// <summary>Public parser primitives accept only an already-normalized reference frame (SF3).</summary>
+public sealed class NonReferenceFrameException(int width, int height)
+    : UnsupportedFrameException(width, height, $"parser primitive requires exactly 1920x1080, received {width}x{height}: use FrameParser.ParseAsync for arbitrary supported client sizes, or normalize first with Frames.Normalize and use reference-space OCR coordinates");
+
 /// <summary>BGRA frame helpers. Every parser works in the 1920x1080 reference space (30 §2).</summary>
 public static class Frames
 {
@@ -75,6 +79,14 @@ public static class Frames
         using var image = ToImage(frame);
         image.Mutate(c => c.Resize(LayoutProfiles.ReferenceWidth, LayoutProfiles.ReferenceHeight, KnownResamplers.Bicubic));
         return FromImage(image);
+    }
+
+    /// <summary>Refuses raw client-sized frames at calibrated parser entry, before any OCR or pixel reading.
+    /// Crops and OCR boxes passed to primitives must also be expressed in reference space.</summary>
+    internal static void RequireReference(Frame frame)
+    {
+        if (frame.Width != LayoutProfiles.ReferenceWidth || frame.Height != LayoutProfiles.ReferenceHeight)
+            throw new NonReferenceFrameException(frame.Width, frame.Height);
     }
 
     public static Frame Crop(Frame frame, Rect r)

@@ -154,7 +154,7 @@ $ grep -rnwiE "mcqueen|special week|special-week|opera|teio|oguri|13471|13,471|6
 ## Open questions / follow-ups
 - Q-90 (◯/◎ by pixels), Q-91 (per-ROI OCR recordings), Q-92 (rank templates only A+/UG3). Existing: Q-5, Q-6 (art hash threshold now calibrated on 6 deck tiles + 20 list tiles at Mac capture scale), Q-7, Q-110.
 - T10: implement `IFrameSource`/`IOcrEngine` on Windows, record OCR in both formats (full frame + per-ROI), drive `CaptureCoordinator.Feed` and show `CaptureSession.Checklist()`; enqueue only when `CaptureResult.Uploadable` (otherwise show `Blockers`); call `UploadClient.SendAsync` in a loop and map `UploadOutcome`/`UploadOutbox.Health()` to the tray states (AuthRequired → Error + Settings; Rejected/dead → list with Requeue/Discard); build the HttpClient with `UploadClient.CreateHandler()` (no auto-redirect) and call `RetryAuthNow()` after the token is saved; catch `UnsupportedFrameException` and show its message; provide `IServiceToken` from DPAPI.
-- T11: reuse `FrameParser.HeldAsync`, `ListTilesAsync`, `DetailAsync` and `HashMatch`; full sync and dedup are T11's.
+- T11: reuse `FrameParser.HeldAsync`, `ListTilesAsync`, `DetailAsync` and `HashMatch` **only with an already-normalized exactly 1920×1080 frame and reference-space OCR coordinates**. Use `ParseAsync` for arbitrary supported client sizes (or `Frames.Normalize` before a primitive); raw smaller/larger dimensions throw `NonReferenceFrameException` at primitive entry. Full sync and dedup are T11's.
 - Skills incompleteness: the checklist reports it and the outbox refuses the capture (Q-93); a contract flag needs an ADR.
 - Q-93 (01–07 diagnostic vs §5 completeness, no skills-incomplete flag), Q-94 (sub-1080 refusal, future calibration) added in review round 1.
 
@@ -283,3 +283,97 @@ Not ordinary coding gaps; they need Windows or the user:
 - User check of all 15 labels, including the new `visibleCharacter`/`sameCardAs` entries, and confirmation of the six deck cardIds listed in H4 step 2.
 - Real-game capture of 3 veterans through T10, with complete checklists and acknowledged uploads (step 4). This also exercises the real Access redirect/401 behaviour against `CreateHandler()`.
 - Real captures below 1920×1080 if smaller windows should ever be supported (Q-94), and a contract decision on a skills-incomplete flag (Q-93).
+
+## Review round2
+
+### Verdict and model provenance
+Independent review `docs/reviews/T09-review-2.md` returned **PASS** on `22a72a6f7ed2a088ad1122a8bade91baf8b848f2` for the ordinary pipeline. The coordinator nevertheless **held merge pending SF1–SF4**: published T11 primitive reuse was unsafe (SF3), and post-upload identity reuse contradicted the enqueue contract (SF2). All four are resolved in this bounded fix round; this worker has not merged or pushed.
+
+The original Opus 5.5 / medium launch failed HTTP 429 before edits. Continuation used the explicitly approved **GPT-6.1 Sol / medium fallback (openai-codex)** on the existing branch and clean candidate, not a restarted/recreated worktree. No fallback was chosen autonomously. The fresh read-only independent verifier also reported model `gpt-6.1-sol` and PASS (report below).
+
+### Tests first: actual red → green
+`ReviewRound2Tests.cs` was added before production changes. Against the unchanged candidate it compiled with zero warnings/errors, then produced **38 cases: 2 passed, 36 failed** (assertion failures, not compile stubs). SF1 public-Add reflection assertion failed; SF2 uploaded changed-content assertion failed; all 30 parser size/method refusal assertions and all 3 ActiveTabs assertions failed; SF4 legacy-conflict assertion failed. The pending SF2 case and native/upscale regression already passed. Retained evidence: `/Users/willjose/.hermes/cache/scratch/t09fix-r2/{build-red.txt,red.txt}`.
+
+```text
+$ cd agent
+$ dotnet build Uma.Agent.sln
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+$ dotnet test Uma.Agent.sln --no-build --filter FullyQualifiedName~ReviewRound2Tests --logger 'console;verbosity=normal' -- RunConfiguration.DotNetHostPath=/private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet
+Total tests: 38
+     Passed: 2
+     Failed: 36
+SF1: Assert.Null() Failure: Value is not null (public Add method)
+SF2 uploaded: Assert.Throws() Failure: No exception was thrown
+SF3: Assert.IsAssignableFrom() Failure: Value is null / incompatible IndexOutOfRangeException
+SF4: Assert.Throws() Failure: No exception was thrown
+```
+After fixes the full suite passed 165/165. One additional retained-seal mutation regression (no production change) brought the final suite to **166/166**, round2 class **39/39**. It tests in-place field/crop/list/checklist edits and explicitly permits cosmetic Detail edits.
+
+### Responses to every new finding
+- **SF1 — fixed.** `ContentMap<T>.Add` is internal. Public Skills/Sparks still expose diagnostic properties, with no public setters or public map mutation; Rows/Extra are snapshots rather than the backing collections. Traced all repository callers: the production map writes are exclusively inside `CaptureSession.Add(ParsedFrame)`; existing tests already use session/coordinator APIs, so no broad friend-assembly or mutable-state exposure was added. Regression checks both generic maps' public surface, real Skills top-only evidence, and the clearly named SYNTHETIC whole-track frame through session Add. Public ParsedFrame edits are intentionally not a security boundary. The seal is an integrity guard, not cryptographic trust against hostile code in the same process; this limit and the cosmetic Detail exclusion are now documented in CaptureResult.
+- **SF2 — fixed.** The saved payload/crop hash is compared **before** AlreadyUploaded and AlreadyQueued. A different sealed capture under a saved captureId throws InvalidDataException for both pending and acknowledged states; an independently reassembled exact duplicate returns the corresponding duplicate result without new rows. Tests use an assembler-sealed SYNTHETIC wit change, not a broken seal, and verify unchanged rows plus restart behavior.
+- **SF3 — fixed together across the public parser surface.** Exactly 1920×1080 is required at entry to HeaderAsync, SkillsAsync, SparksAsync, DeckAsync, ParentsAsync, CareerAsync, HeldAsync, ListTilesAsync, DetailAsync, and static HashMatch. Same-class classifier ActiveTabs is also guarded. `NonReferenceFrameException : UnsupportedFrameException` includes dimensions and directs the caller to ParseAsync or prior normalization; no OCR/pixel access happens first. Reflection enumerates every public FrameParser frame-taking method other than ParseAsync, testing raw 1280×720, 1600×900, 2560×1440 (30 cases) and zero OCR calls. Native deck/list/detail inputs retain correct values, and ParseAsync resampling of synthetic 2560×1440 remains supported (including cards and LB); existing tests still exercise sub-1080 refusal and aspect-ratio refusal. Methods without a frame (AssignOwners, Blocks, OutfitTitles, Vocab) do not need a dimension check; frame utility/template/hash algorithms accepting explicit crops are not calibrated screen-parser entrypoints. ParseAsync/ClassifyAsync already normalize. T11 reuse guidance above now explicitly requires normalized frames and reference-space OCR boxes/ROIs; no silent primitive scaling and no calibration threshold changes.
+- **SF4 — fixed, fail closed.** Within the same BEGIN IMMEDIATE enqueue transaction, if no captures identity exists but any outbox row does, InvalidDataException is raised **before** inserting a captures hash or any crop. No legacy identity/hash is guessed or backfilled. Regression seeds an old valid veteran payload with attempts=3 and a different new sealed crop-bearing capture; both different and identical new submissions refuse, preserving old payload bytes, row identity, retries/error/due time, and zero added captures/crop_results. Existing duplicate migration (oldest row retained), retry, concurrency and rollback tests still pass. Independent probes combine legacy duplicates with the refusal and additionally exercise finish-existing recovery.
+
+### Explicit legacy recovery (preserve user data)
+Pause the uploader and back up the complete SQLite database (with its WAL/SHM if present) before operator-directed recovery. Do not edit/replace the legacy payload or automatically add new crops. Either resume uploading the **existing** pending group unchanged, or explicitly mark a chosen pending item dead (`Dead(item, category)`) and use `Discard(id)` to remove its **whole capture group**, then recapture. The discard regression verifies a new complete group queues only after that explicit removal. Finishing a legacy upload stores veteranId but has no verified payload/crop hash; that old captureId remains fail-closed for enqueue even after acknowledgement. A new capture must use a fresh captureId. No automatic overwrite or data deletion was introduced; duplicate cleanup retains the already-existing round1 migration semantics.
+
+### Nits and limits retained
+- Omitted Content-Type HTML remains the **nonblocking** `Retrying / unexpected-response` category rather than `AuthRequired / auth-login-page`. It never completes/deletes the queued veteran, persists no body, and remains retryable. Kept unchanged to avoid expanding bounded production behavior. The retained replay confirms this. Real Access behavior remains H4.
+- `text/plain` or `application/problem+json` acknowledgements remain harmless if they satisfy the exact strict veteran acknowledgement schema, ULID, and status/created agreement. No relaxed acknowledgement shape was added.
+- The mutable-list seal regression and replay confirm crop-byte, crop-list, field-list, section-name and Complete edits invalidate Uploadable; cosmetic Detail alone does not. No claim of a hostile-same-process trust boundary.
+- **H4: all six art-only deck cardIds remain unverified**, prominently retained in H4 step 2 (including tiles 3, 5, 6). No titles or screenshot labels were invented/changed in this round. Windows OCR, actual game rendering, real Access and real veteran imports still need the existing H4 steps after T10.
+
+### Final real verification
+Logs, new/adapted probe sources and output are retained under `/Users/willjose/.hermes/cache/scratch/t09fix-r2/`. No original `t09r2/probe/` source/project/output was modified (SHA-256 preservation checked against `original-probe-hashes.json`). Build uses the installed SDK; tests use the explicit isolated native .NET 8 runtime (not roll-forward).
+
+```text
+$ /private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet --list-runtimes
+Microsoft.NETCore.App 8.0.31 [/private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/shared/Microsoft.NETCore.App]
+$ TMPDIR=/Users/willjose/.hermes/cache/scratch/t09fix-r2 dotnet build Uma.Agent.sln
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+$ TMPDIR=/Users/willjose/.hermes/cache/scratch/t09fix-r2 dotnet test Uma.Agent.sln --no-build --logger 'console;verbosity=normal' -- RunConfiguration.DotNetHostPath=/private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet
+[xUnit.net] ... (64-bit .NET 8.0.31)
+Test Run Successful.
+Total tests: 166
+     Passed: 166
+```
+Focused commands were the same native test command with `--filter FullyQualifiedName~Tests.<Class>.` (without the verbose logger). Every command exited 0 with Failed=0, Skipped=0: ReviewRound2Tests 39, CompletenessTests 19, UploadRobustnessTests 22, UploadPipelineTests 3, OutboxTests 4, ContractParityTests 4, SchemaTests 12, SerializationTests 17. This covers the shared fingerprint vectors, JSON Schema/CAPTURE_RULES, upload acknowledgements/crop attachment/auth, migration and completeness; unchanged classes also ran in the full suite.
+
+Accuracy remains **747/747 = 100.00%**, confident-wrong=0, correct-but-low-confidence=3; stats 40/40, stars 120/120, LB 26/26. Full-frame fallback, from the explicit command below, remains **744/747 = 99.60%**, confident-wrong=0, with exactly the same three flagged misses (05 deck/3/level, 13 cards/1/level, 13 cards/6/level).
+```text
+$ TMPDIR=/Users/willjose/.hermes/cache/scratch/t09fix-r2 dotnet test Uma.Agent.sln --no-build --filter FullyQualifiedName~Full_frame_replay_accuracy --logger 'console;verbosity=detailed' -- RunConfiguration.DotNetHostPath=/private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet
+overall: 744/747 = 99.60%
+wrong but confident (silent errors): 0; correct but flagged low_confidence: 5
+Passed! (1 test)
+```
+Adapted retained reviewer replay (only unavailable Add replaced by reflection, raw primitive calls wrapped to show refusal so execution continues; original files read-only):
+```text
+$ cd /Users/willjose/.hermes/cache/scratch/t09fix-r2/reviewer-replay
+$ dotnet build Probe.csproj -o out
+Build succeeded. 0 Warning(s), 0 Error(s)
+$ TMPDIR=/Users/willjose/.hermes/cache/scratch/t09fix-r2/reviewer-replay /private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet out/Probe.dll
+R1 public Skills.Add available=False
+R1 real 01-07: uploadable before=False; after public-mutator absence check uploadable=False skills=14
+R3 crop byte -> False; Fields[0] -> False; cosmetic Detail -> True; restored -> True
+R4 changed sealed content after upload -> InvalidDataException
+   legacy pending + new sealed content -> InvalidDataException; rows=veteran:3
+R7 raw ListTilesAsync / DeckAsync / HeldAsync 1280 -> NonReferenceFrameException
+   2560 ParseAsync screen=CardsList lb-equal=True card-equal=True
+```
+Full R1–R9 output, including the late-crop/discard race and acknowledgement matrix, is `reviewer-replay/replay-final.txt`; exact refusal messages include actionable normalized-frame or legacy-recovery guidance.
+
+### Fresh focused independent verification before coordinator merge
+Read-only separate verifier verdict **PASS**, no blocking findings: `/Users/willjose/.hermes/cache/scratch/t09fix-r2/independent/report.md`. Its scratch-only build had 0 warnings/errors; native suite passed 165/165, all then-existing 38 round2 cases, accuracy 747/747 and fallback 744/747. Independent empty-buffer probes verify all 30 raw primitives refuse before pixel/OCR access, uploaded/pending changed sealed content refuses, and legacy rows/hash/crops remain unchanged (plus finish-existing recovery). The extra retained-seal test added afterwards does not change production code and passes in the worker's final 166/166 run. Final independent delta verification also passed **166/166** on native .NET 8.0.31 (`independent/final-delta.md`), with no product blockers; it caught an added blank line at this changelog's EOF (diff-check exit 2), which the worker removed before rerunning the clean whitespace gate. No merger action has been taken; coordinator retains that decision.
+
+### Scope / deviations / remaining work
+Modified only `agent/src/Uma.Agent.Core/{Frames,Outbox,Parsers,Screens,Session}.cs`, added `agent/tests/Uma.Agent.Core.Tests/ReviewRound2Tests.cs`, and updated this changelog. No new functionality, dependencies, calibration, shared contracts/specs, master bundle, labels/OCR/templates/golden evidence, sibling worktrees, global configuration or credentials changed. No master refresh, pnpm build, deploy, push, history rewrite or main merge. Q-93 and Q-94 remain the existing documented deviations; no new Q or spec edit. H4 is unchanged and is not claimed complete.
+
+```text
+$ git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check
+(no output; exit 0)
+```

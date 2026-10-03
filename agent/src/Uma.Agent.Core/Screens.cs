@@ -58,9 +58,11 @@ public sealed class ScreenClassifier(LayoutProfile layout, IOcrEngine ocr)
         }
     }
 
-    /// <summary>Tab segments whose mean per-pixel colour distance to the active green is within the threshold.</summary>
+    /// <summary>Tab segments whose mean per-pixel colour distance to the active green is within the threshold.
+    /// Requires exactly 1920x1080; use ClassifyAsync for supported raw client sizes.</summary>
     public List<string> ActiveTabs(Frame f)
     {
+        Frames.RequireReference(f);
         var target = layout.Ints("tabs", "activeRgb"); var max = layout.Num("tabs", "maxColorDistance");
         var result = new List<string>();
         foreach (var seg in layout.At("tabs", "segments").EnumerateObject())

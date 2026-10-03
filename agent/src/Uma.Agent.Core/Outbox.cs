@@ -181,7 +181,10 @@ public sealed class UploadOutbox
     /// incomplete checklist, errors, or not sealed by the assembler for this content (B1).</item>
     /// <item>Validates the capture and refuses crops that don't belong to a low_confidence field (<see cref="InvalidDataException"/>).</item>
     /// <item>The same capture again returns AlreadyQueued / AlreadyUploaded and leaves retry state alone; a different
-    /// payload under the same captureId is refused (<see cref="InvalidDataException"/>).</item>
+    /// payload under the same captureId is refused (<see cref="InvalidDataException"/>), even after acknowledgement.</item>
+    /// <item>Legacy pending rows without a captures record are refused without modification. Back up the database,
+    /// then finish the existing upload, or explicitly mark an item dead and Discard its entire group before recapturing.
+    /// No hash is guessed/backfilled and no user payload is automatically overwritten.</item>
     /// </list></summary>
     public EnqueueResult EnqueueCapture(CaptureResult result)
     {
@@ -205,10 +208,19 @@ public sealed class UploadOutbox
             using var r = check.ExecuteReader();
             if (r.Read())
             {
+                if (r.GetString(0) != sha) throw new InvalidDataException("a different capture with this captureId is already recorded");
                 if (!r.IsDBNull(1)) return EnqueueResult.AlreadyUploaded;
-                if (r.GetString(0) != sha) throw new InvalidDataException("a different capture with this captureId is already queued");
                 return EnqueueResult.AlreadyQueued;
             }
+        }
+        // Legacy pending rows have no verified capture/crop hash. Never combine their old payload with new crops.
+        using (var legacy = connection.CreateCommand())
+        {
+            legacy.Transaction = tx;
+            legacy.CommandText = "SELECT EXISTS (SELECT 1 FROM outbox WHERE capture_id=$capture)";
+            legacy.Parameters.AddWithValue("$capture", capture.CaptureId);
+            if ((long)legacy.ExecuteScalar()! != 0)
+                throw new InvalidDataException("legacy queued capture has no verified payload hash; preserve the database and finish its existing upload or explicitly discard its whole group before recapturing");
         }
         using (var add = connection.CreateCommand())
         {
