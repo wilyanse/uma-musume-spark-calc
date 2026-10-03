@@ -1,6 +1,7 @@
 /**
- * @uma/engine public API (50 §1). T05: context, scenarios, inheritance. T06 adds model/predict/rank
- * (`fitTrainingModel`, `predictChild`, `scoreTarget`, `rankPairs`); they are not exported yet.
+ * @uma/engine public API (50 §1). T05: context, scenarios, inheritance. T06: training model,
+ * prediction, target scoring and ranking (`fitTrainingModel`, `predictChild`, `scoreTarget`,
+ * `rankPairs`) plus their engine-local types (not shared contracts: they never cross the API).
  */
 export { loadContext, RulesError, STAT_INDEX } from './context.ts';
 export type { EngineContext, LoadContextOptions, PerStar, RaceEffectRow } from './context.ts';
@@ -48,3 +49,84 @@ export type {
   StatVector,
   Veteran,
 } from './types.ts';
+
+// T06 (50 §4–§7, ADR-0002).
+export {
+  choleskyFactor,
+  choleskySolve,
+  eigenFactor,
+  floorPsd,
+  jacobiEigen,
+  NumericError,
+  symmetrize,
+} from './linalg.ts';
+export type { Eigen, Matrix, NumericErrorCode, PsdFloor } from './linalg.ts';
+export {
+  InsufficientDataError,
+  ModelInputError,
+  RefitRequiredError,
+  ScoreRequiresSamplesError,
+  SkillPosteriorError,
+} from './model/errors.ts';
+export {
+  DEFAULT_CV_SEED,
+  DEFAULT_SPLIT_SEED,
+  effectiveCardEffect,
+  fitTrainingModel,
+  fitTrainingModelDetailed,
+  MIN_CONFIDENCE,
+  MODEL_KIND,
+  RECENCY_HALF_LIFE_DAYS,
+} from './model/fit.ts';
+export type {
+  ExclusionReason,
+  FitOptions,
+  FitReport,
+  RowLineage,
+  SkillDiagnostics,
+  TrainingFit,
+} from './model/fit.ts';
+export { estimateNonInheritanceCov, gaussianCoverage, Z80 } from './model/covariance.ts';
+export type {
+  CovarianceDiagnostics,
+  CovarianceFit,
+  Coverage,
+  HoldoutBias,
+  HoldoutCell,
+  WeightedResidual,
+} from './model/covariance.ts';
+export { fitGlobalPrior, skillPosterior, tanhSinhMoments } from './model/skills.ts';
+export type { BetaParams, Exposure, PriorFit, SkillPosterior } from './model/skills.ts';
+export { LAMBDA_BASE_GRID, LAMBDA_ID_GRID } from './model/ridge.ts';
+export { recordedParent } from './model/lineage.ts';
+export type { ParentKind, RecordedParent } from './model/lineage.ts';
+export { prepareModel } from './model/prepared.ts';
+export type { PreparedModel } from './model/prepared.ts';
+export type { FeatureWarnings } from './model/features.ts';
+export {
+  DEFAULT_SAMPLES,
+  normalizeTarget,
+  predictChild,
+  scoreTarget,
+  targetKey,
+} from './predict/index.ts';
+export type {
+  ChildPrediction,
+  GaussianSummary,
+  NormalizedTarget,
+  PredictionSamples,
+  PredictOptions,
+  Requirement,
+  SkillPrediction,
+  StatSummary,
+  TargetScore,
+} from './predict/index.ts';
+export {
+  DEFAULT_RANK_SEED,
+  DEFAULT_TOP_K,
+  DEFAULT_TOP_N,
+  PROGRESS_EVERY,
+  rankPairs,
+  rankPairsDetailed,
+} from './rank/index.ts';
+export type { RankedPair, RankOptions, RankProgress, RankResult } from './rank/index.ts';
