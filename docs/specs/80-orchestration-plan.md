@@ -180,7 +180,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T06 | Merged locally (5e0afea); merged workspace/reference checks passed; T13 dependency cleared | task/T06-training-prediction | T06-training-prediction.md | CHANGES_REQUESTED r1 → PASS r2; consumer follow-ups recorded |
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
-| T09 | Candidate 28c2fff; parent build and 83 tests passed; H4 pending after T10 | task/T09-agent-core | T09-agent-core.md | Independent r1 pending; completeness and label coverage require scrutiny |
+| T09 | Independent r1 changes requested; implementing upload/completeness/scaling fixes | task/T09-agent-core | T09-agent-core.md | CHANGES_REQUESTED r1; H4 remains after T10, not current coding blocker |
 | T10 | Not started | | | |
 | T11 | Not started | | | |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
