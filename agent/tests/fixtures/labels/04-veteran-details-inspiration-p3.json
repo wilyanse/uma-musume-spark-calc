@@ -1,0 +1,130 @@
+{
+ "fixture": "04-veteran-details-inspiration-p3",
+ "screen": "details.inspiration",
+ "header": {
+  "character": "Mejiro McQueen",
+  "outfit": "Frontline Elegance",
+  "rank": "A+",
+  "rating": 13471,
+  "epithet": "Independent Learner",
+  "stats": {
+   "spd": 894,
+   "sta": 938,
+   "pow": 740,
+   "gut": 559,
+   "wit": 635
+  },
+  "aptitudes": {
+   "turf": "A",
+   "dirt": "E",
+   "sprint": "G",
+   "mile": "D",
+   "medium": "A",
+   "long": "S",
+   "front": "B",
+   "pace": "A",
+   "late": "D",
+   "end": "F"
+  }
+ },
+ "scroll": {
+  "atTop": false,
+  "atEnd": true
+ },
+ "ownerFromFrame": false,
+ "sparks": [
+  {
+   "owner": "parent2",
+   "name": "Stamina",
+   "type": "blue",
+   "stars": 3
+  },
+  {
+   "owner": "parent2",
+   "name": "Long",
+   "type": "pink",
+   "stars": 3
+  },
+  {
+   "owner": "parent2",
+   "name": "Barcarole of Blessings",
+   "type": "green",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "Osaka Hai",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "Hanshin J.F.",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "M.C. Nambu Hai",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent2",
+   "name": "Standard Distance ◯",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent2",
+   "name": "Firm Conditions ◯",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "Corner Recovery ◯",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "Nimble Navigator",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "Uma Stan",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "My True Strength",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "Ignited Spirit WIT",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent2",
+   "name": "Ignited Spirit: Stamina +",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent2",
+   "name": "Unity Cup",
+   "type": "white",
+   "stars": 3
+  }
+ ],
+ "clippedSparks": [],
+ "notes": "Whole parent2 block. Owner is parent2 (portrait = T.M. Opera O, as in fixture 03), but a single frame without the heading or the tab top cannot prove it: owners are only checked after session alignment.",
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
+}

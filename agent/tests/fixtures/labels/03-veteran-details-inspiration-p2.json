@@ -1,0 +1,132 @@
+{
+ "fixture": "03-veteran-details-inspiration-p2",
+ "screen": "details.inspiration",
+ "header": {
+  "character": "Mejiro McQueen",
+  "outfit": "Frontline Elegance",
+  "rank": "A+",
+  "rating": 13471,
+  "epithet": "Independent Learner",
+  "stats": {
+   "spd": 894,
+   "sta": 938,
+   "pow": 740,
+   "gut": 559,
+   "wit": 635
+  },
+  "aptitudes": {
+   "turf": "A",
+   "dirt": "E",
+   "sprint": "G",
+   "mile": "D",
+   "medium": "A",
+   "long": "S",
+   "front": "B",
+   "pace": "A",
+   "late": "D",
+   "end": "F"
+  }
+ },
+ "scroll": {
+  "atTop": false,
+  "atEnd": false
+ },
+ "sparks": [
+  {
+   "owner": "parent1",
+   "name": "Power",
+   "type": "blue",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Medium",
+   "type": "pink",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Shooting Star",
+   "type": "green",
+   "stars": 3
+  },
+  {
+   "owner": "parent1",
+   "name": "NHK Mile C.",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Arima Kinen",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "parent1",
+   "name": "Hanshin Racecourse ◯",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Uma Stan",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Head-On",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "My True Strength",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Our Grand Concert",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "parent2",
+   "name": "Stamina",
+   "type": "blue",
+   "stars": 3
+  },
+  {
+   "owner": "parent2",
+   "name": "Long",
+   "type": "pink",
+   "stars": 3
+  }
+ ],
+ "clippedSparks": [
+  {
+   "name": "Uma Stan",
+   "owner": "self",
+   "where": "top"
+  },
+  {
+   "name": "My True Strength",
+   "owner": "self",
+   "where": "top"
+  },
+  {
+   "name": "Barcarole of Blessings",
+   "owner": "parent2",
+   "where": "bottom"
+  },
+  {
+   "name": "Osaka Hai",
+   "owner": "parent2",
+   "where": "bottom"
+  }
+ ],
+ "notes": "Top row clipped by the viewport (only its stars are visible); heading 'Legacy Origin' visible, parent1 block complete, parent2 (T.M. Opera O portrait) starts.",
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
+}

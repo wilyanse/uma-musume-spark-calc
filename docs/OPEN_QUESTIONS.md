@@ -162,6 +162,31 @@ Context: ADR-0002 §3 and 50 §4 exclude the trainee outfit's own `uniqueSkillId
 Assumption taken: such a request is unsupported. `predictChild` (target or `PredictOptions.skills`), `rankPairs`/`rankPairsDetailed` (including an empty roster or a lock with no legal partner) and the advanced helpers `skillClosedForm`/`simulate`/`gaussianScore` throw `ModelInputError` with `code: 'own-unique-skill'`. This does not claim the skill is impossible to own. Another outfit's unique skill (e.g. an inherited unique hint) is an ordinary candidate and is not rejected for its rarity. Default predictions never select the own unique skill. T13 (S05 target form) should drop the trainee's own unique skill from the selectable target skills for that trainee, or show the error reason ("not modelled for this trainee") rather than a 0% result. Changing this needs a cited game rule and a model decision.
 Blocking: no
 
+## Q-90 (T09) Single vs double circle skill suffix is not readable by OCR
+Context: Apple Vision reads both `◯` and `◎` skill suffixes as `O`/`®`, but they are different skills (e.g. `skill:long-corners` ◎ vs `skill:long-corners-2` ◯). On fixtures 01 and 15 the glyph centre luma separates them (double ≤ 207, single ≥ 214).
+Assumption taken: Core classifies the glyph from pixels (`circleGlyph` in the layout); an in-between centre is `Unknown`, which keeps both IDs as candidates and the field `low_confidence`. Windows OCR may behave differently; re-check at H4.
+Blocking: no
+
+## Q-91 (T09) Per-ROI OCR recordings for deck and card-list levels
+Context: the full-frame Apple Vision recording (30 Appendix A) merges the `Lvl N` text of the Career Info deck and card list with neighbouring art (`X0 Lvl 50`, `566 Lvl 50`) or misses tiles. 30 §7 says the Windows adapter OCRs ROI crops upscaled ×2.
+Assumption taken: `agent/tests/fixtures/ocr-roi/{05,13}*.json` hold per-ROI recordings made the way the adapter reads (`agent/tests/tools/record_roi_ocr.py`); `FixtureOcrEngine` uses an exact ROI recording when present, else the full-frame one. With full-frame only, 3 of 711 labelled fields are unread (flagged, never wrong-and-confident). T10's `--record-ocr` should also record per-ROI output.
+Blocking: no
+
+## Q-92 (T09) Rank badge templates exist only for A+ and UG3
+Context: rank badges are template-matched (30 §4); the fixtures only show A+ (01–07) and UG3 (15). Q-7: the rank ladder is unverified.
+Assumption taken: an accepted template must also agree with the master `ranks.json` rating band, else `low_confidence`. An unseen badge is never labelled by template: the rating band is proposed as a `low_confidence` value with a crop. Add badge crops from H4 captures to `agent/layouts/templates/global-2026-09.json`.
+Blocking: no
+
+## Q-93 (T09) "01–07 assembles a valid capture" vs the §5 completeness rule; no "skills incomplete" flag
+Context: 30 §10 says fixtures 01–07 assemble a valid `VeteranCapture`. 30 §5 says a session is complete only when Skills, Inspiration (all 3 blocks) and Career Info are captured, and only then is the capture written to the outbox. Fixture 01 shows only the top of the Skills list (its scroll thumb is not at the end) and no fixture shows the end, so 01–07 is not complete under §5. 01 §3 has a `/sparks/<owner>` flag for a missing parent block but nothing for a truncated skills list: a partial list would be stored as ordinary `ok` data. Skills aren't fingerprinted, so a later complete re-capture would silently update them, but until then the roster and model would see a wrong list. A related gap: with a missing scroll thumb Core cannot tell "content fits, no scrollbar" from "thumb not detected", so it treats both as unknown position.
+Assumption taken: the assembler still produces the 01–07 capture (it validates against the schema, CAPTURE_RULES and master IDs, satisfying §10), but marks it diagnostic: `CaptureResult.Uploadable` is false and `UploadOutbox.EnqueueCapture` throws `IncompleteCaptureException`. Only a sealed result with every checklist section complete (top and end seen with a detected thumb, no unaligned frames, 3 spark blocks, 6 deck tiles, 2 parents, career rows) and no errors is queued. A parent block that is unreadable after a full top-to-end scroll is still uploadable with its `/sparks/<owner>` flag (01 §3). No short list without a scrollbar is accepted until a fixture shows one. Adding a "skills incomplete" flag needs an ADR and a contract change (01 §3, schema, API); it is not done here.
+Blocking: no
+
+## Q-94 (T09) 16:9 sizes below 1920×1080 are refused, not scaled
+Context: 30 §2 says the agent scales other 16:9 sizes linearly. Bicubic downsampling of the real fixtures to 1600×900 and 1280×720 (a probe only: resampling is not how the game renders at those sizes) gave confident-wrong values: the ◯/◎ glyph centre luma crossed its thresholds (`skill:corner-recovery-2` instead of `skill:corner-recovery`, `skill:medium-corners` instead of `-2`), and deck slot 6 lost its borrowed band and LB. The thresholds were calibrated on 1920×1080 captures only and have no real lower-resolution evidence to recalibrate against.
+Assumption taken: Core refuses 16:9 frames below 1920×1080 with `UnsupportedResolutionException` (an `UnsupportedFrameException`, like `UnsupportedAspectRatioException`), before any reading; T10 shows "make the game window at least 1920×1080". Larger 16:9 sizes are still downscaled to reference space (2560×1440 tested), and non-16:9 sizes are still rejected. Supporting smaller windows needs real captures at those sizes, scale-aware thresholds with an uncertainty band, and fixture tests; thresholds are not retuned on synthetic resampling.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

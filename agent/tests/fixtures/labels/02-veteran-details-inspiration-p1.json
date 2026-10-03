@@ -1,0 +1,123 @@
+{
+ "fixture": "02-veteran-details-inspiration-p1",
+ "screen": "details.inspiration",
+ "header": {
+  "character": "Mejiro McQueen",
+  "outfit": "Frontline Elegance",
+  "rank": "A+",
+  "rating": 13471,
+  "epithet": "Independent Learner",
+  "stats": {
+   "spd": 894,
+   "sta": 938,
+   "pow": 740,
+   "gut": 559,
+   "wit": 635
+  },
+  "aptitudes": {
+   "turf": "A",
+   "dirt": "E",
+   "sprint": "G",
+   "mile": "D",
+   "medium": "A",
+   "long": "S",
+   "front": "B",
+   "pace": "A",
+   "late": "D",
+   "end": "F"
+  }
+ },
+ "scroll": {
+  "atTop": true,
+  "atEnd": false
+ },
+ "sparks": [
+  {
+   "owner": "self",
+   "name": "Guts",
+   "type": "blue",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Medium",
+   "type": "pink",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "The Duty of Dignity Calls",
+   "type": "green",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "JBC Classic",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Kawasaki Kinen",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Nimble Navigator",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Medium Corners ◯",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Keeping the Lead",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Uma Stan",
+   "type": "white",
+   "stars": 3
+  },
+  {
+   "owner": "self",
+   "name": "My True Strength",
+   "type": "white",
+   "stars": 3
+  },
+  {
+   "owner": "parent1",
+   "name": "Power",
+   "type": "blue",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Medium",
+   "type": "pink",
+   "stars": 2
+  },
+  {
+   "owner": "parent1",
+   "name": "Shooting Star",
+   "type": "green",
+   "stars": 3
+  },
+  {
+   "owner": "parent1",
+   "name": "NHK Mile C.",
+   "type": "white",
+   "stars": 2
+  }
+ ],
+ "clippedSparks": [],
+ "notes": "Rows: self block (10), 'Legacy Origin' heading, first 4 sparks of parent1 (Special Week portrait). Pills below y=935 are cut off by the viewport.",
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
+}

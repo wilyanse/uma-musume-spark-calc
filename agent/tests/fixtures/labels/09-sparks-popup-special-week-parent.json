@@ -1,0 +1,73 @@
+{
+ "fixture": "09-sparks-popup-special-week-parent",
+ "screen": "sparks.popup",
+ "popup": {
+  "character": "Special Week",
+  "outfit": "Special Dreamer",
+  "isGuest": false,
+  "guestTrainer": null
+ },
+ "sparks": [
+  {
+   "owner": "self",
+   "name": "Power",
+   "type": "blue",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Medium",
+   "type": "pink",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Shooting Star",
+   "type": "green",
+   "stars": 3
+  },
+  {
+   "owner": "self",
+   "name": "NHK Mile C.",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Arima Kinen",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Hanshin Racecourse ◯",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Uma Stan",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Head-On",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "My True Strength",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Our Grand Concert",
+   "type": "white",
+   "stars": 2
+  }
+ ],
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
+}

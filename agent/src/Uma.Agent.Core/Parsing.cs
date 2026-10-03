@@ -1,0 +1,112 @@
+using System.Text.Json;
+
+namespace Uma.Agent.Core;
+public static class CaptureValidation
+{
+    private static readonly string[] Owners = ["self", "parent1", "parent2"];
+    private static readonly string[] AptKeys = ["turf", "dirt", "sprint", "mile", "medium", "long", "front", "pace", "late", "end"];
+    public static IReadOnlyList<string> Validate(VeteranCapture capture, IReadOnlyDictionary<string, IReadOnlySet<string>>? master = null)
+    {
+        var errors = new List<string>();
+        try { errors.AddRange(CaptureSchema.Validate(CaptureJson.Serialize(capture))); }
+        catch (ArgumentException) { errors.Add("non-finite or unserializable capture value"); }
+        var v = capture.Veteran;
+        if (capture.SchemaVersion != 1) errors.Add("schemaVersion");
+        if (v.Stats is { Spd: < 1 or > 2000 } or { Sta: < 1 or > 2000 } or { Pow: < 1 or > 2000 } or { Gut: < 1 or > 2000 } or { Wit: < 1 or > 2000 }) errors.Add("stats");
+        if (v.Aptitudes.Values.Count != 10 || !v.Aptitudes.Values.Keys.Order(StringComparer.Ordinal).SequenceEqual(AptKeys.Order(StringComparer.Ordinal)) || v.Aptitudes.Values.Values.Any(g => !"GFEDCBAS".Contains(g) || g.Length != 1)) errors.Add("aptitudes");
+        // Shared rule (sorted set) plus the merged API's index rule (Q-110): slot must equal index + 1.
+        if (!v.Deck.Select(d => d.Slot).Order().SequenceEqual(new[] { 1, 2, 3, 4, 5, 6 })) errors.Add("deck slots must be exactly 1..6, each once");
+        if (!v.Parents.Select(p => p.Slot).Order().SequenceEqual(new[] { 1, 2 })) errors.Add("parent slots must be exactly 1 and 2, each once");
+        for (var i = 0; i < v.Deck.Count; i++) if (v.Deck[i].Slot != i + 1) errors.Add($"deck entries must be in slot order (/deck/{i}/slot)");
+        for (var i = 0; i < v.Parents.Count; i++) if (v.Parents[i].Slot != i + 1) errors.Add($"parent entries must be in slot order (/parents/{i}/slot)");
+        if (v.Parents.Count == 2 && v.Parents[0].CharacterId == v.Parents[1].CharacterId) errors.Add("the two parents must be different characters");
+        foreach (var p in v.Parents)
+        {
+            if (p.CharacterId == v.CharacterId) errors.Add("a parent must not be the same character as the veteran");
+            if (!p.IsGuest && p.GuestTrainer is not null) errors.Add("a non-guest parent must not have a guestTrainer");
+        }
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var s in v.Sparks)
+        {
+            if (!seen.Add(s.Owner + "|" + s.SparkId)) errors.Add("the same spark appears twice for one owner");
+            if (!Owners.Contains(s.Owner) || !new[] { "blue", "pink", "green", "white" }.Contains(s.Type) || s.Stars is < 1 or > 3) errors.Add("spark value invalid");
+        }
+        foreach (var owner in Owners)
+        {
+            var own = v.Sparks.Where(s => s.Owner == owner).ToArray();
+            if (own.Length == 0)
+            {
+                if (owner == "self") errors.Add("self sparks are required: exactly one blue and one pink");
+                else if (!capture.Fields.Any(f => f.Path == "/sparks/" + owner && f.Status == FieldStatus.low_confidence)) errors.Add($"a parent owner with no sparks needs a low_confidence field whose path is exactly \"/sparks/<owner>\" (owner {owner})");
+                continue;
+            }
+            if (own.Count(s => s.Type == "blue") != 1 || own.Count(s => s.Type == "pink") != 1 || own.Count(s => s.Type == "green") > 1) errors.Add($"spark shape violated: exactly one blue, one pink and at most one green per owner (owner {owner})");
+        }
+        if (v.Skills.Select(s => s.SkillId).Distinct(StringComparer.Ordinal).Count() != v.Skills.Count) errors.Add("the same skill appears twice");
+        if (v.Deck.Any(d => d.Lb is < 0 or > 4 || d.Level < 1)) errors.Add("deck value invalid");
+        if (v.Skills.Any(s => s.Level is < 1) || v.Rating < 0 || v.Career.Races < 0 || v.Career.Wins < 0 || v.Career.Fans is < 0) errors.Add("numeric value invalid");
+        if (TrainModeDetector.Detect(v.Epithet) != v.TrainMode) errors.Add("trainMode must be derived from epithet");
+        foreach (var f in capture.Fields)
+        {
+            if (!double.IsFinite(f.Confidence) || f.Confidence is < 0 or > 1 || f.Candidates.Count > 3 || f.Candidates.Any(c => !double.IsFinite(c.Score))) errors.Add("field confidence invalid");
+            if (capture.Fields.Count(x => x.Path == f.Path) > 1) errors.Add("duplicate field path");
+            if (f.CropKey is not null && !System.Text.RegularExpressions.Regex.IsMatch(f.CropKey, @"^crops/[0-7][0-9A-HJKMNP-TV-Z]{25}/[^/]+\.png$")) errors.Add("invalid cropKey");
+            // Q-110: provenance may include /trainMode; corrections must target real, safe paths.
+            if (f.Status == FieldStatus.low_confidence && !CorrectablePath(f.Path, v)) errors.Add("low_confidence path is not correctable: " + f.Path);
+        }
+        if (master is not null) errors.AddRange(UnknownMasterIds(v, master));
+        return errors;
+    }
+
+    private static bool CorrectablePath(string path, Veteran v)
+    {
+        if (path is "/sparks/parent1" or "/sparks/parent2") return true;
+        if (path == "/trainMode" || System.Text.RegularExpressions.Regex.IsMatch(path, @"^/(sparks/\d+/owner|deck/\d+/slot|parents/\d+/slot)$")) return false;
+        if (!System.Text.RegularExpressions.Regex.IsMatch(path, @"^(/[^/]+)+$")) return false;
+        var parts = path.Split('/').Skip(1).Select(s => s.Replace("~1", "/").Replace("~0", "~")).ToArray();
+        if (parts.Any(s => s is "__proto__" or "constructor" or "prototype")) return false;
+        using var document = JsonDocument.Parse(JsonSerializer.Serialize(v, CaptureJson.Options));
+        var node = document.RootElement;
+        for (var i = 0; i < parts.Length; i++)
+        {
+            if (node.ValueKind == JsonValueKind.Object)
+            {
+                if (!node.TryGetProperty(parts[i], out node)) return false;
+            }
+            else if (node.ValueKind == JsonValueKind.Array)
+            {
+                // JS array properties are canonical indices; "00" is not array[0].
+                if (i == parts.Length - 1 || !int.TryParse(parts[i], out var index) || index < 0 || index.ToString() != parts[i] || index >= node.GetArrayLength()) return false;
+                node = node[index];
+            }
+            else return false;
+        }
+        return node.ValueKind != JsonValueKind.Array;
+    }
+
+    public static IReadOnlyList<string> ValidateOwnedCards(int heldCount, IReadOnlyList<string> cardIds, bool partial = false)
+    {
+        var errors = new List<string>();
+        if (cardIds.Distinct(StringComparer.Ordinal).Count() != cardIds.Count) errors.Add("duplicate cardId (owned_cards.card_id is the primary key)");
+        if (!partial && heldCount != cardIds.Count) errors.Add("cards.length must equal heldCount unless the request has ?partial=1");
+        return errors;
+    }
+
+    public static IReadOnlyList<string> UnknownMasterIds(Veteran v, IReadOnlyDictionary<string, IReadOnlySet<string>> master)
+    {
+        var errors = new List<string>(); var seen = new HashSet<string>();
+        void Check(string kind, string path, string? id)
+        {
+            if (id is null) return;
+            if (!master.TryGetValue(kind, out var known)) { errors.Add("missing master index: " + kind); return; }
+            if (!known.Contains(id) && seen.Add(kind + "|" + id)) errors.Add($"unknown {kind} {id} at {path}");
+        }
+        Check("characters", "/characterId", v.CharacterId); Check("outfits", "/outfitId", v.OutfitId); Check("ranks", "/rank", v.Rank);
+        for (var i = 0; i < v.Skills.Count; i++) Check("skills", $"/skills/{i}/skillId", v.Skills[i].SkillId);
+        for (var i = 0; i < v.Sparks.Count; i++) Check("sparks", $"/sparks/{i}/sparkId", v.Sparks[i].SparkId);
+        for (var i = 0; i < v.Deck.Count; i++) Check("cards", $"/deck/{i}/cardId", v.Deck[i].CardId);
+        for (var i = 0; i < v.Parents.Count; i++) { Check("characters", $"/parents/{i}/characterId", v.Parents[i].CharacterId); Check("outfits", $"/parents/{i}/outfitId", v.Parents[i].OutfitId); }
+        Check("scenarios", "/scenarioId", v.ScenarioId);
+        return errors;
+    }
+}

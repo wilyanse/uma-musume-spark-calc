@@ -1,0 +1,94 @@
+{
+ "fixture": "01-veteran-details-skills-independent",
+ "screen": "details.skills",
+ "header": {
+  "character": "Mejiro McQueen",
+  "outfit": "Frontline Elegance",
+  "rank": "A+",
+  "rating": 13471,
+  "epithet": "Independent Learner",
+  "stats": {
+   "spd": 894,
+   "sta": 938,
+   "pow": 740,
+   "gut": 559,
+   "wit": 635
+  },
+  "aptitudes": {
+   "turf": "A",
+   "dirt": "E",
+   "sprint": "G",
+   "mile": "D",
+   "medium": "A",
+   "long": "S",
+   "front": "B",
+   "pace": "A",
+   "late": "D",
+   "end": "F"
+  }
+ },
+ "scroll": {
+  "atTop": true,
+  "atEnd": false
+ },
+ "skills": [
+  {
+   "name": "The Duty of Dignity Calls",
+   "level": 5
+  },
+  {
+   "name": "Corner Recovery ◯",
+   "level": null
+  },
+  {
+   "name": "Straightaway Adept",
+   "level": null
+  },
+  {
+   "name": "Ramp Up",
+   "level": null
+  },
+  {
+   "name": "Nimble Navigator",
+   "level": null
+  },
+  {
+   "name": "Prepared to Pass",
+   "level": null
+  },
+  {
+   "name": "Medium Corners ◯",
+   "level": null
+  },
+  {
+   "name": "Long Corners ◎",
+   "level": null
+  },
+  {
+   "name": "Vanguard Spirit",
+   "level": null
+  },
+  {
+   "name": "Pace Chaser Straightaways ◎",
+   "level": null
+  },
+  {
+   "name": "Hydrate",
+   "level": null
+  },
+  {
+   "name": "Front Runner Savvy ◎",
+   "level": null
+  },
+  {
+   "name": "Uma Stan",
+   "level": null
+  },
+  {
+   "name": "Groundwork",
+   "level": null
+  }
+ ],
+ "notes": "The scroll thumb is at the top and not at the end: more skills exist below; only fully visible pills are labelled.",
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
+}
