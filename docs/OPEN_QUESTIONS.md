@@ -147,6 +147,16 @@ Context: under ADR-0002 §3 a non-unique acquired skill with no deck/innate/line
 Assumption taken: such cells are excluded from the likelihood and counted per (mode, skill) in T06 fit diagnostics. They are never treated as observed hints. Review the counts on the real roster (T15/H4) before adding a source class.
 Blocking: no
 
+## Q-140 (T06) Is a non-matched parent with no recorded sparks "known"?
+Context: 50 §4 trains on rows with "both parents known (a guest counts as known because its sparks are on the child)". 01 §3 allows a `parent*` owner block to be empty when the tab couldn't be read (then flagged `low_confidence`). A guest or unmatched parent with an empty block has an unknown lineage, so E[inh] and Var[inh] for the row would silently omit that parent. On the golden data such rows are all low-confidence and already excluded.
+Assumption taken: a guest/unmatched parent (or a `matchedVeteranId` absent from the supplied roster) with zero recorded sparks makes the row ineligible (`parent-sparks-unread` in the fit report). A matched parent always uses the matched roster record. A missing matched record falls back to the recorded sparks (`matched-missing`).
+Blocking: no
+
+## Q-141 (T06) A snapshot cannot tell which rules it was fitted with
+Context: ADR-0002 §2.11 requires a refit after any `rules.json` change (including applied T15 multipliers) or master-data change. 01 §13 stores `masterVersion` but no rules version or hash, so `predictChild`/`rankPairs` can detect a master change but not a rules change.
+Assumption taken: prediction throws `RefitRequiredError` (`master-version-mismatch`) when `snapshot.masterVersion` differs from the context; rules changes cannot be detected from the snapshot. The caller (T13/T15) must refit after applying rule overrides. A contract change (e.g. a `rulesVersion` field) would need an ADR.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)
