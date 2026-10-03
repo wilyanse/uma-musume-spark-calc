@@ -1,0 +1,136 @@
+{
+ "engine": "apple-vision-accurate-roi-x2",
+ "fixture": "05-veteran-details-career-info-deck-legacy",
+ "roiLines": [
+  {
+   "lines": [
+    {
+     "box": [
+      322,
+      621,
+      35,
+      9
+     ],
+     "confidence": 1,
+     "text": "Lv| 50"
+    }
+   ],
+   "roi": [
+    287,
+    598,
+    76,
+    34
+   ]
+  },
+  {
+   "lines": [
+    {
+     "box": [
+      416,
+      621,
+      34,
+      9
+     ],
+     "confidence": 1,
+     "text": "Lv| 50"
+    }
+   ],
+   "roi": [
+    380,
+    598,
+    76,
+    34
+   ]
+  },
+  {
+   "lines": [
+    {
+     "box": [
+      508,
+      621,
+      36,
+      9
+     ],
+     "confidence": 1,
+     "text": "Lvl 50"
+    }
+   ],
+   "roi": [
+    473,
+    598,
+    76,
+    34
+   ]
+  },
+  {
+   "lines": [
+    {
+     "box": [
+      607,
+      622,
+      27,
+      8
+     ],
+     "confidence": 1,
+     "text": "v| 50"
+    }
+   ],
+   "roi": [
+    566,
+    598,
+    76,
+    34
+   ]
+  },
+  {
+   "lines": [
+    {
+     "box": [
+      695,
+      622,
+      33,
+      8
+     ],
+     "confidence": 1,
+     "text": "Lv| 50"
+    }
+   ],
+   "roi": [
+    659,
+    598,
+    76,
+    34
+   ]
+  },
+  {
+   "lines": [
+    {
+     "box": [
+      788,
+      606,
+      36,
+      11
+     ],
+     "confidence": 1,
+     "text": "Lvl 50"
+    },
+    {
+     "box": [
+      765,
+      622,
+      40,
+      8
+     ],
+     "confidence": 1,
+     "text": "Friends"
+    }
+   ],
+   "roi": [
+    752,
+    598,
+    76,
+    34
+   ]
+  }
+ ]
+}

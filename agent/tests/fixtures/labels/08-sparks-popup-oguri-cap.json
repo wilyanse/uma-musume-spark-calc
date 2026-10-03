@@ -1,101 +1,103 @@
 {
-  "fixture": "08-sparks-popup-oguri-cap",
-  "screen": "sparks.popup",
-  "characterId": "character:oguri-cap",
-  "outfitId": "outfit:starlight-beat",
-  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+ "fixture": "08-sparks-popup-oguri-cap",
+ "screen": "sparks.popup",
+ "popup": {
   "character": "Oguri Cap",
   "outfit": "Starlight Beat",
-  "visibleSparks": [
-    {
-      "owner": "self",
-      "name": "Stamina",
-      "type": "blue",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "Mile",
-      "type": "pink",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "Triumphant Pulse",
-      "type": "green",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "NHK Mile C.",
-      "type": "white",
-      "stars": 1
-    },
-    {
-      "owner": "self",
-      "name": "Victoria Mile",
-      "type": "white",
-      "stars": 1
-    },
-    {
-      "owner": "self",
-      "name": "Japanese Derby",
-      "type": "white",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "Queen Elizabeth II Cup",
-      "type": "white",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "Mile Ch.",
-      "type": "white",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "Updrafters",
-      "type": "white",
-      "stars": 1
-    },
-    {
-      "owner": "self",
-      "name": "Medium Straightaways ◯",
-      "type": "white",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "Uma Stan",
-      "type": "white",
-      "stars": 1
-    },
-    {
-      "owner": "self",
-      "name": "All I've Got",
-      "type": "white",
-      "stars": 2
-    },
-    {
-      "owner": "self",
-      "name": "Head-On",
-      "type": "white",
-      "stars": 1
-    },
-    {
-      "owner": "self",
-      "name": "On the Way to Our Dream",
-      "type": "white",
-      "stars": 1
-    },
-    {
-      "owner": "self",
-      "name": "Our Grand Concert",
-      "type": "white",
-      "stars": 1
-    }
-  ]
+  "isGuest": false,
+  "guestTrainer": null
+ },
+ "sparks": [
+  {
+   "owner": "self",
+   "name": "Stamina",
+   "type": "blue",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Mile",
+   "type": "pink",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Triumphant Pulse",
+   "type": "green",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "NHK Mile C.",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Victoria Mile",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Japanese Derby",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Queen Elizabeth II Cup",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Mile Ch.",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Updrafters",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Medium Straightaways ◯",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Uma Stan",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "All I've Got",
+   "type": "white",
+   "stars": 2
+  },
+  {
+   "owner": "self",
+   "name": "Head-On",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "On the Way to Our Dream",
+   "type": "white",
+   "stars": 1
+  },
+  {
+   "owner": "self",
+   "name": "Our Grand Concert",
+   "type": "white",
+   "stars": 1
+  }
+ ],
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
 }

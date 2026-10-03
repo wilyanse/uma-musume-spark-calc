@@ -1,43 +1,43 @@
 {
-  "fixture": "06-veteran-details-career-info-record",
-  "screen": "details.career",
-  "career": {
-    "races": 22,
-    "wins": 22,
-    "fans": 649560,
-    "dateAcquired": "2026-09-29"
-  },
-  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
-  "characterId": "character:mejiro-mcqueen",
-  "outfitId": "outfit:frontline-elegance",
-  "epithet": "Independent Learner",
-  "trainMode": "independent",
-  "stats": {
-    "spd": 894,
-    "sta": 938,
-    "pow": 740,
-    "gut": 559,
-    "wit": 635
-  },
+ "fixture": "06-veteran-details-career-info-record",
+ "screen": "details.career",
+ "header": {
+  "character": "Mejiro McQueen",
+  "outfit": "Frontline Elegance",
   "rank": "A+",
   "rating": 13471,
-  "aptitudes": {
-    "turf": "A",
-    "dirt": "E",
-    "sprint": "G",
-    "mile": "D",
-    "medium": "A",
-    "long": "S",
-    "front": "B",
-    "pace": "A",
-    "late": "D",
-    "end": "F"
+  "epithet": "Independent Learner",
+  "stats": {
+   "spd": 894,
+   "sta": 938,
+   "pow": 740,
+   "gut": 559,
+   "wit": 635
   },
+  "aptitudes": {
+   "turf": "A",
+   "dirt": "E",
+   "sprint": "G",
+   "mile": "D",
+   "medium": "A",
+   "long": "S",
+   "front": "B",
+   "pace": "A",
+   "late": "D",
+   "end": "F"
+  }
+ },
+ "scroll": {
+  "atTop": false,
+  "atEnd": false
+ },
+ "career": {
+  "races": 22,
+  "wins": 22,
+  "fans": 649560,
   "scenario": "The Beginning: URA Finale",
-  "scenarioId": "scenario:ura-finale",
-  "majorWins": "Classic Triple Crown",
-  "visibleRaces": [
-    "URA Finale Finals",
-    "URA Finale Semifinal"
-  ]
+  "dateAcquired": "2026-09-29"
+ },
+ "notes": "Major Wins (Classic Triple Crown), Rating (13,471) and the race history are visible but not part of VeteranCapture.",
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
 }

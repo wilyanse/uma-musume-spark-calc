@@ -1,88 +1,93 @@
 {
-  "fixture": "15-veteran-details-skills-manual",
-  "screen": "details.skills",
-  "characterId": "character:tokai-teio",
-  "outfitId": "outfit:beyond-the-horizon",
-  "epithet": "Monarch",
-  "trainMode": "manual",
-  "stats": {
-    "spd": 1557,
-    "sta": 821,
-    "pow": 929,
-    "gut": 634,
-    "wit": 830
-  },
-  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
+ "fixture": "15-veteran-details-skills-manual",
+ "screen": "details.skills",
+ "scroll": {
+  "atTop": true,
+  "atEnd": false
+ },
+ "header": {
+  "character": "Tokai Teio",
+  "outfit": "Beyond the Horizon",
   "rank": "UG3",
   "rating": 21156,
-  "aptitudes": {
-    "turf": "A",
-    "dirt": "G",
-    "sprint": "F",
-    "mile": "E",
-    "medium": "S",
-    "long": "B",
-    "front": "D",
-    "pace": "A",
-    "late": "C",
-    "end": "E"
+  "epithet": "Monarch",
+  "stats": {
+   "spd": 1557,
+   "sta": 821,
+   "pow": 929,
+   "gut": 634,
+   "wit": 830
   },
-  "visibleSkills": [
-    {
-      "name": "Certain Victory",
-      "level": 5
-    },
-    {
-      "name": "Standard Distance ◯",
-      "level": null
-    },
-    {
-      "name": "Professor of Curvature",
-      "level": null
-    },
-    {
-      "name": "Straightaway Adept",
-      "level": null
-    },
-    {
-      "name": "Nimble Navigator",
-      "level": null
-    },
-    {
-      "name": "Race Planner",
-      "level": null
-    },
-    {
-      "name": "Up-Tempo",
-      "level": null
-    },
-    {
-      "name": "Medium Straightaways ◯",
-      "level": null
-    },
-    {
-      "name": "Medium Corners ◯",
-      "level": null
-    },
-    {
-      "name": "Pace Chaser Straightaways ◯",
-      "level": null
-    },
-    {
-      "name": "Pace Chaser Corners ◯",
-      "level": null
-    },
-    {
-      "name": "Determined Descent",
-      "level": null
-    },
-    {
-      "name": "Uma Stan",
-      "level": null
-    },
-    {
-      "name": "Tail Held High",
-      "level": null
-    }
-  ]
+  "aptitudes": {
+   "turf": "A",
+   "dirt": "G",
+   "sprint": "F",
+   "mile": "E",
+   "medium": "S",
+   "long": "B",
+   "front": "D",
+   "pace": "A",
+   "late": "C",
+   "end": "E"
+  }
+ },
+ "skills": [
+  {
+   "name": "Certain Victory",
+   "level": 5
+  },
+  {
+   "name": "Standard Distance ◯",
+   "level": null
+  },
+  {
+   "name": "Professor of Curvature",
+   "level": null
+  },
+  {
+   "name": "Straightaway Adept",
+   "level": null
+  },
+  {
+   "name": "Nimble Navigator",
+   "level": null
+  },
+  {
+   "name": "Race Planner",
+   "level": null
+  },
+  {
+   "name": "Up-Tempo",
+   "level": null
+  },
+  {
+   "name": "Medium Straightaways ◯",
+   "level": null
+  },
+  {
+   "name": "Medium Corners ◯",
+   "level": null
+  },
+  {
+   "name": "Pace Chaser Straightaways ◯",
+   "level": null
+  },
+  {
+   "name": "Pace Chaser Corners ◯",
+   "level": null
+  },
+  {
+   "name": "Determined Descent",
+   "level": null
+  },
+  {
+   "name": "Uma Stan",
+   "level": null
+  },
+  {
+   "name": "Tail Held High",
+   "level": null
+  }
+ ],
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
 }

@@ -1,13 +1,13 @@
 {
-  "fixture": "14-support-card-detail",
-  "screen": "cards.detail",
-  "cardId": "card:the-brightest-star-in-japan-special-week",
-  "cardLevel": 40,
-  "source": "Direct visual transcription of committed PNG (not OCR); H4 verification pending.",
-  "character": "Special Week",
+ "fixture": "14-support-card-detail",
+ "screen": "cards.detail",
+ "detail": {
   "title": "The Brightest Star in Japan!",
+  "character": "Special Week",
   "level": 40,
   "maxLevel": 40,
   "rarity": "SSR",
   "type": "guts"
+ },
+ "source": "Visual transcription of the committed PNG by the T09 agent (vision inspection, crops zoomed where needed); recorded OCR was not used as ground truth. H4: user verification pending."
 }
