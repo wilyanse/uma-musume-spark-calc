@@ -315,7 +315,7 @@ Scoring:
 
 That is one complete run. Two earlier runs gave rankPairs means of 2958.6 ms and 2975.9 ms (max 2998.8 ms), and fit+rank means of 3207.5 ms (max 3312.3 ms). Vitest warns that module export getters add overhead inside the benchmark runner, so the in-Vitest times are, if anything, pessimistic. I did no optimisation work after the correctness tests: the first measured implementation already met the budget.
 
-The runtime is Node v25.9.0 (the active `node`), not Node 22. The repo requires Node ≥ 22.18, and no Node 22 install is present on this Mac (nvm has 18 and 24).
+Original submission used Node v25.9.0. Subsequent parent gates and both independent reviews ran the engine tests and benchmarks on an isolated Node 22.18.0 runtime; see Review round 1 and Review round 2.
 
 **Reference evidence**
 
@@ -461,6 +461,33 @@ Every acceptance number (card recovery, both coverages, legal pairs, #1 pair and
 - Benchmark margin under Node 22 is as low as ~430 ms (reviewer max); browser timing is unverified.
 - The golden data remain synthetic (Q-120); nothing here validates real game constants.
 
+## Review round 2
+
+Independent reviewer session `20261003_222555_1b9811`, Opus 5.5 medium, returned **PASS** on `aa4a47d1ccc5a167818d56ec76c37748b7f3b2ff`; no blockers. Full report: `docs/reviews/T06-review-2.md` on coordinator main. Parent workspace checks and Node 22 engine tests/benchmarks were green before this review.
+
+Follow-up responses (no production changes in this documentation commit):
+
+- **S1-r2:** re-scoring retained samples through `scoreTarget` rejects own-unique/unknown skills with `ScoreRequiresSamplesError`, not the more specific input errors. T13 must not interpret this as proof that merely enabling `keepSamples` will solve it; validate edited target skills against the trainee/master before re-scoring, or regenerate via `predictChild` to get actionable validation. Engine context propagation remains a follow-up.
+- **N1-r2:** extreme external covariance values can overflow the Frobenius norm, and tiny indefinite matrices may fit the absolute tolerance floor. Neither comes from the current fit. Finite-norm rejection and scale-aware tolerance hardening remain follow-ups; do not claim arbitrary persisted numeric inputs are fully hardened.
+- **N2-r2:** invalid string LB is rejected correctly but the message does not quote its type; message clarity remains a follow-up.
+- **N3-r2:** the retained red run contains 24 tests; final green contains 25. The additional test was added afterward. Exact test identity is not established here, so no unsupported claim about which case was red-tested is made.
+- **N4-r2:** original Node 25 verification sections are historical evidence, not the current gate; stale no-Node-22 statements are corrected. Review PASS is distinct from merge and consumer dispatch.
+
+Reviewer commands (real output, full details in report):
+
+```text
+$ node ../../node_modules/typescript/bin/tsc -p tsconfig.json
+TSC_OK
+$ node ../../node_modules/vitest/vitest.mjs run --reporter verbose
+Test Files 16 passed (16); Tests 240 passed (240)
+$ node ../../node_modules/vitest/vitest.mjs bench --run --reporter verbose
+rankPairs mean 3745.5 ms, max 3786.4 ms
+fit+rank mean 3928.2 ms, max 4056.9 ms
+Tests 2 passed (2)
+$ git status --porcelain=v1 -uall
+(empty)
+```
+
 ## Open questions / follow-ups
 
 - **Q-140 (new):** a guest or unmatched parent with no recorded sparks is treated as unknown lineage, and the row is excluded.
@@ -474,6 +501,6 @@ Limitations:
 - The ADR-0002 limitations still apply: additivity, unverified rules, fold reuse, population-average parameter uncertainty and missing grandparents.
   - Across seeded alternative splits the coverage varies (default seed 0.7750, 'other' 0.8208); these are diagnostics, not gates.
   - No inflation is applied.
-- The benchmark ran under Node 25.9, not Node 22 (none is installed).
+- Original-submission benchmarks used Node 25.9. Subsequent Node 22.18.0 benchmarks passed; browser timing remains unverified.
 - `apps/web` does not import the engine yet (T13). Browser safety is shown by the esbuild browser bundle and the import-graph test, not by the web build itself.
 - For T13: `ChildPrediction` contains typed arrays only when `keepSamples` is set. Comlink structured clone handles them.
