@@ -191,7 +191,8 @@ export function tanhSinhMoments(A: number, B: number, failQ: readonly number[]) 
       Math.abs(cur.m2 - prev.m2) / Math.max(cur.m2, 1e-300),
     );
     if (relErr < QUAD_REL_TOL && lv >= QUAD_MIN_LEVELS) {
-      return { m1: cur.m1, m2: cur.m2, relErr, levels: lv, T };
+      // logZ = ln ∫ θ^(A−1)(1−θ)^(B−1) Π(1 − qθ) dθ (absolute: uses the exact Jacobian).
+      return { m1: cur.m1, m2: cur.m2, logZ: cur.logZ, relErr, levels: lv, T };
     }
     prev = cur;
   }
