@@ -198,7 +198,11 @@ export function floorPsd(r: Matrix, epsilon: number, maxSweeps = JACOBI_MAX_SWEE
  * at prediction so MC draws use the same factorisation family as the fit (ADR-0002 §2.10).
  */
 export function eigenFactor(a: Matrix): Matrix {
-  const { values, vectors } = jacobiEigen(a);
+  return factorFromEigen(jacobiEigen(a));
+}
+
+/** L = V diag(√max(λ, 0)) from an already computed eigendecomposition (same arithmetic). */
+export function factorFromEigen({ values, vectors }: Eigen): Matrix {
   const n = values.length;
   const f = zeros(n);
   for (let i = 0; i < n; i++)

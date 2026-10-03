@@ -108,6 +108,7 @@ No split needed flooring, and none failed card recovery.
 - **Fold reuse.** Reusing the CV folds for both λ selection and OOF residuals is mildly optimistic. Nested λ re-selection is not quantified in the retained probes.
 - **Missing grandparents.** Unmatched parents have no grandparents in the recorded lineage. Their missing inheritance variance lands in Σ_N, while child predictions use full lineages, so those rows contribute a slight double count.
 - **Rounding and clipping** are not modelled. The golden data never clips.
+- **Related-record lineage coupling (T06 review N3).** A holdout veteran can be the recorded, matched parent of a train row. Its own sparks and recorded parents then legitimately enter that train row's inheritance expectation and covariance (its lineage), while its own stats, skills, deck, train mode and date never enter the fit. This is lineage coupling, not target leakage: on the stored golden split there are 52 train→holdout matched-parent references from 50 train rows to 25 distinct holdout veterans (of 48), and perturbing every non-lineage holdout field leaves λ, β, Σ_N and θ bit-identical (T06 test). The holdout is therefore not fully independent of the train rows' lineage inputs. T15 should keep this in mind when reading holdout coverage on a real roster; no change to the estimator is made.
 
 ## 3. Decision B: skill acquisition (Q-124), exposure-aware likelihood
 

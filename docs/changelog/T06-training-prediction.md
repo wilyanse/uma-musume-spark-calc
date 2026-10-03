@@ -1,6 +1,6 @@
 # T06 — Engine: training model, prediction, scoring and ranking
 
-- **Status:** Done (pending independent review)
+- **Status:** Review round 1 fixes applied (pending independent re-review, round 2)
 - **Branch:** task/T06-training-prediction
 - **Agent / model:** Claude Opus 5.5 (anthropic), medium
 - **Date:** 2026-10-03
@@ -344,9 +344,127 @@ $ shasum -a 256 packages/engine/test/golden/*.json   (unchanged from main)
 
 I did not run `pnpm -r build`, the master-data build/refresh or golden generation.
 
+## Review round 1
+
+Response to `docs/reviews/T06-review-1.md` (CHANGES_REQUESTED on `8e0a27a`), worker fix round 1, Claude Opus 5.5 (anthropic), medium. Regressions were written first: the new `test/predict/validation.test.ts` failed 17 of 24 before the fix (log `~/.hermes/cache/scratch/t06-fix1-red.txt`; the 7 passing were fixture sanity, valid-input and schema-rejected cases) and passes 25/25 after.
+
+**Files changed in this round**
+
+- `packages/engine/src/predict/index.ts`: deck validation in `preparePlan`; `validateSkillRequest` (exported from the module, not from `src/index.ts`); `skillClosedForm`/`simulate` reject the own unique skill instead of returning 0; `predictPlanned` validates `PredictOptions.skills` and target skills; `PlanContext.ctx` added.
+- `packages/engine/src/rank/index.ts`: validates target skills right after `normalizeTarget`, before any roster/lock handling.
+- `packages/engine/src/model/prepared.ts`: the v2 residualCov contract check (`checkedFactor`, `SIGMA_REL_TOL`, `EIGEN_REL_TOL`).
+- `packages/engine/src/linalg.ts`: `factorFromEigen` split out of `eigenFactor` (same arithmetic), so the check reuses the one eigendecomposition.
+- `packages/engine/test/predict/validation.test.ts` (new, 25 tests); `test/predict/predict.test.ts` (two fixtures made contract-valid, see S1/S2); `test/model/fit.test.ts` (holdout-isolation test extended, N3).
+- `docs/OPEN_QUESTIONS.md`: Q-142 appended. `docs/adr/0002-model-statistical-semantics.md`: one §2 limitations bullet (N3), as explicitly authorised.
+
+**B1 — trainee's own unique skill (fixed: reject, Q-142).**
+
+- Chose the reviewer's conservative option: a request naming the trainee outfit's own `uniqueSkillId` throws `ModelInputError` with `code: 'own-unique-skill'` and a message saying the model has no acquisition estimate for it (excluded from the fit, ADR-0002 §3) and pointing to Q-142. It does not claim the skill cannot be owned. "Acquired with certainty" was not chosen: the 260/260 possession in the golden roster is synthetic and would become an unverified game rule.
+- Covered paths (each tested): a required target skill and an optional target skill in `predictChild` and `rankPairs`; `rankPairs` with an empty roster, with a lock on a trainee-character veteran (no legal pair), and with an ordinary lock; explicit `PredictOptions.skills` (alone and mixed with another skill); the exported advanced helpers `skillClosedForm`, `simulate` and `gaussianScore`.
+- Default behaviour: without a target/skills list the candidate set still excludes the own unique skill (unchanged); default predictions and rankings still run (tested). The golden ranking numbers are unchanged.
+- Another outfit's unique skill (a `rarity: 'unique'` skill of a different outfit, e.g. inherited as a hint) is accepted as required, optional and explicit skill in predict and rank (tested). The rejection is by identity with the trainee outfit's `uniqueSkillId`, never by rarity.
+- Fit-side exclusion is unchanged. T13 handling is recorded in Q-142 (drop it from selectable target skills for that trainee or show the error reason, never a 0% result).
+
+**S1 — contract-invalid persisted v2 covariance (fixed).**
+
+`prepareModel` (used first by `predictChild`, `rankPairs` and `rankPairsDetailed`, before any Gaussian or MC scoring) now throws `RefitRequiredError` `reason: 'malformed'` when residualCov:
+
+- is not exactly symmetric (`c[i][j] !== c[j][i]`; no tolerance, since the fit writes both halves from one float and JSON round-trips floats exactly);
+- has a diagonal entry ≤ 0 (or NaN);
+- has `perStat.<k>.sigma` differing from `√diag` by more than `SIGMA_REL_TOL·√diag`, `SIGMA_REL_TOL = 4·Number.EPSILON` (a few ulps: the fit stores `Math.sqrt(diag)` exactly; the tolerance only absorbs re-serialisation by another producer);
+- has a smallest eigenvalue below `−EIGEN_REL_TOL·max(1, ‖Σ‖_F)`, `EIGEN_REL_TOL = 1e-9`. Rationale: Jacobi stops at off(A) ≤ 1e-12·max(1, ‖A‖_F), which bounds the eigenvalue error (Weyl), so 1e-9 is 1000× roundoff headroom; a materially indefinite matrix is rejected. Eigenvalues in [−tol, 0) are treated as roundoff of a PSD matrix and factored as 0, exactly as before. The fit's S-based ε is not recomputed (it is not in the snapshot) and the fit's covariance guarantees are unchanged.
+- Jacobi non-convergence on a stored matrix is also reported as `malformed`.
+
+Cost: the check reuses the single Jacobi decomposition `prepareModel` already performed for the MC factor (`factorFromEigen`), once per call, not per pair. Valid snapshots give a bit-identical factor (`toEqual(eigenFactor(...))` test) and identical predictions after a JSON round-trip.
+
+Tests: asymmetric off-diagonal, negative diagonal (the reviewer's −50), zero diagonal, a positive-diagonal non-PSD matrix (|ρ| = 2), sigma ×1.01, NaN sigma (already schema-rejected), each through `prepareModel`, `predictChild`, `rankPairs` and `rankPairsDetailed` (empty roster). Acceptance side: floored PSD matrices (rank-1 input floored at ε = 1e-6 and 1e-3, the all-zero input → εI, and the fitted Σ_N re-floored) are accepted with the unchanged eigen factor, and a 1-ulp sigma change is accepted while a 1e-6 relative change is rejected.
+
+Existing test adjusted: "changing training draws leaves inheritance and skill draws unchanged" scaled residualCov ×4 but left sigma, which is now (correctly) a malformed snapshot. The fixture now also doubles sigma (√(4d) = 2√d exactly in binary floating point); the assertion is unchanged.
+
+**S2 — input validation (fixed).**
+
+- Skill ids: every target required/optional skill and every `PredictOptions.skills` id must be in `ctx.skills`, else `UnknownIdError` (the same type used for unknown outfits/scenarios), in `predictChild` and in `rankPairs`/`rankPairsDetailed` (also with an empty roster). Previously an unknown id silently used the prior θ and scored 0 (probe P5).
+- Plan deck, checked in `preparePlan` before `featureVector`, so predict and rank share it: every slot needs a string `cardId` present in `ctx.cards` (`unknown-card`), `lb` must be an integer 0..4 (`deck-slot`; tested 9, −1, 2.5, NaN, the string "4", and all valid 0..4), and a card id may appear only once (`duplicate-card`). All are `ModelInputError`.
+- Contracts inspected: `@uma/schema` `DeckSlot.lb` is `z.number().int().min(0).max(4)` and 01 §3 says `lb: 0..4`, so the lb rule is the shared contract. For duplicates, no shared contract explicitly permits or forbids a repeated `cardId` in a deck (`checkVeteran` only requires slots 1..6 once each; the only uniqueness rule is `OwnedCardsSync.cardIdUnique`, which is the owned-cards table). I found no contract that permits duplicates, so there is no conflict to report; the planner rejects them because the card-id feature aggregates by id and a duplicate would silently double the card's contribution. Every golden roster deck has 6 distinct cards. Fit-side handling of recorded decks is unchanged; slot-number rules were not added to the planner input (not used by the model).
+- Existing test adjusted: "changing skill-stream consumption…" used fabricated ids `skill:aaa-extra`/`skill:zzz-extra`, now rejected as unknown. It now uses the first and last real master skill ids that sort before/after X (excluding X and the own unique), keeping the same stream-shift intent.
+
+**S3 — benchmark variability (recorded, no tweak).**
+
+- Reviewer (Node 22.18, solo): rankPairs mean 3896.2 ms, min 3673.7 ms, max 4568.5 ms; fit+rank mean 4080.4 ms, max 4399.6 ms. Parent Gate A max was 3433.0 ms. My original Node 25.9 runs were 2.88–3.00 s (rankPairs) and ≤ 3.33 s (fit+rank).
+- This round (Node 22.18.0, run alone after the test suite had finished, no other heavy job): rankPairs mean 3628.9 ms, min 3459.7 ms, max 3806.3 ms; fit+rank mean 3779.5 ms, min 3698.8 ms, max 3931.6 ms. Both pass `max < 5000 ms`. The bench file, pair count (32667), topK 100, 2000 samples, 1 warmup + 5 iterations and the threshold are unchanged; nothing is cached across iterations.
+- So Node 22 is ~0.6–1.5 s slower than Node 25 here and the worst observed max is 4568.5 ms (~430 ms margin). Browser/Web Worker timing is NOT measured; T13 must not assume the Node headroom.
+
+**N1 — public surface (documented).** Stable consumer API for T13: `loadContext`, `fitTrainingModel`, `fitTrainingModelDetailed`, `predictChild`, `scoreTarget`, `rankPairs`, `rankPairsDetailed`, `targetKey`, the typed errors (`RefitRequiredError`, `ModelInputError`, `UnknownIdError`, `InsufficientDataError`, `ScoreRequiresSamplesError`, `SkillPosteriorError`, `NumericError`, `RulesError`, `IllegalPairError`), the defaults (`DEFAULT_SAMPLES`, `DEFAULT_TOP_K`, `DEFAULT_TOP_N`, `PROGRESS_EVERY`, `DEFAULT_RANK_SEED`, `MODEL_KIND`) and their option/result types. Advanced/internal (exported for tests, the reference evidence and diagnostics; may change without notice, not for UI code): the linalg helpers (`jacobiEigen`, `floorPsd`, `eigenFactor`, `symmetrize`, Cholesky), `estimateNonInheritanceCov`, `gaussianCoverage`, `Z80`, `fitGlobalPrior`, `skillPosterior`, `tanhSinhMoments`, `LAMBDA_*_GRID`, `recordedParent`, `prepareModel`/`PreparedModel`, `normalizeTarget`, `effectiveCardEffect`, the T05 inheritance internals, and everything imported directly from `src/predict/index.ts` (`preparePlan`, `simulate`, `skillClosedForm`, `gaussianScore`, `validateSkillRequest`). No exports were refactored.
+
+**N2 — RefitRequiredError reasons for T13 (documented).** S07/T13 should branch on `err.reason`:
+
+- `legacy-kind` (`training-v1`): a legacy row; show "legacy, refit required" (ADR-0002 §4).
+- `master-version-mismatch`: valid v2 fitted on another master version; "refit required (master data changed)". Rules changes are not detectable (Q-141).
+- `unknown-kind`: a kind this engine does not know (newer/foreign producer or a non-object); "unsupported model kind".
+- `malformed`: claims to be v2 but is schema-invalid or violates the v2 contract (shape, non-finite, missing prior, invalid Beta, the S1 covariance/σ checks); treat as corrupt: "snapshot is corrupt, refit", and do not offer it as a legacy row.
+
+`err.kind` carries the stated kind and the message carries the detail.
+
+**N3 — lineage coupling (documented and tested; not leakage).** Counted independently on the stored split (48 holdout, 192 train): 52 train→holdout matched-parent references, from 50 train rows, to 25 distinct holdout veterans. The reviewer's "52 holdout rows" is the reference count, not a row count (there are only 48 holdout rows). These holdout veterans' own sparks and recorded parents legitimately enter those train rows' lineage. The existing isolation test now perturbs holdout stats, dates, train mode, skills (cleared) and deck (cards permuted, lb changed) while leaving recorded lineage (sparks, parents) intact, and asserts λ, β, Σ_N and skillAcquire stay bit-identical while holdout metrics change; it also logs and asserts the coupling count. Recorded lineage is deliberately not perturbed: it must affect inheritance. ADR-0002 §2 limitations now carry a one-bullet note for T15.
+
+**Reviewer probes reproduced (scratch, Node 22.18; not the regression tests).**
+
+```
+$ node t06-review/probe-edges.ts            # exit 0
+P1 negative-diag / asymmetric / non-psd-offdiag: prep, pred, rank all threw RefitRequiredError (malformed)
+P4: identicalModel true, holdoutRowsThatAreMatchedParentsOfTrainRows 52 (references), coverage 0.8125 → 0
+P5 unknown required skill: threw UnknownIdError
+P6 inputs unmutated: true
+$ node t06-review/probe-edges2.ts           # exit 1: U1 now throws ModelInputError own-unique-skill (unguarded script)
+$ node t06-fix1/probe-edges2-guarded.ts     # same probe with try/catch per block
+U1 required trainee unique skill: threw ModelInputError:own-unique-skill
+N1 negative diag: threw RefitRequiredError:malformed
+L1 lb=9: threw ModelInputError:deck-slot
+```
+
+**Verification (review round 1)**
+
+Dev Mac (Apple M1 Max, macOS 26.5). Node 22.18.0 = the reviewer's re-extracted scratch runtime `~/.hermes/cache/scratch/t06-review/node-v22.18.0-darwin-arm64/bin/node` (`node -v` v22.18.0); its source archive `~/.hermes/cache/scratch/node-v22.18.0-darwin-arm64.tar.gz` re-hashed to `2c12913cba67af77ded8a399df3fd91c2e7f8628c7079da40bb9ff33bf00dfc0`, matching the official SHASUMS256 line. Workspace-wide `pnpm -r` commands ran on the active Node v25.9.0 with pnpm 11.22.0, as in the original verification.
+
+```
+$ pnpm install --frozen-lockfile                    → Already up to date (exit 0)
+$ pnpm -r lint                                      → exit 0 (all 5 packages Done)
+$ pnpm -r typecheck                                 → exit 0
+$ pnpm -r test                                      → exit 0
+  schema 149/149, master-data 82/82, web 5/5, api 111/111, engine 16 files 240/240 (was 215; +25 validation)
+$ pnpm --filter web build                           → exit 0, built in 113ms
+# Node 22.18.0, packages/engine:
+$ node ../../node_modules/typescript/bin/tsc -p tsconfig.json   → TSC_OK
+$ node ../../node_modules/vitest/vitest.mjs run --reporter verbose   → Test Files 16 passed, Tests 240 passed
+  [T06] card recovery: worst 5.05% over 22; max |zero card| 2.50
+  [T06] stored split Gaussian coverage80 0.8125 …; without inheritance 0.6833
+  [T06] stored split MC p10–p90 coverage: 0.8125, 0.8208
+  [T06] lineage coupling: 52 train→holdout matched-parent references to 25 distinct holdout veterans (of 48)
+  [T06] golden legal pairs evaluated: 32667
+  [T06] golden #1 01M1RX152GP86FAQ1WPY0MX60J|01M379DKQ86T9BGV6696R6DWN2 pMeet MC 0.218 (fast 0.2135), #2 MC 0.0225; trap in top 50: no
+$ node ../../node_modules/vitest/vitest.mjs bench --run --reporter verbose   [run alone] → exit 0, 2/2 passed
+  rankPairs legal pairs 32667; samples 5, mean 3628.9 ms, min 3459.7 ms, max 3806.3 ms; node v22.18.0 darwin/arm64
+  fit+rank  legal pairs 32667; samples 5, mean 3779.5 ms, min 3698.8 ms, max 3931.6 ms
+$ prettier --check packages/engine/{src,test/model,test/predict,test/rank,bench} docs/changelog/T06-training-prediction.md docs/adr/0002-model-statistical-semantics.md → clean
+# docs/OPEN_QUESTIONS.md: pre-existing --check failure on main; Q-142 appended only.
+$ git diff --check                                  → exit 0
+$ git diff --exit-code main -- packages/engine/test/golden apps packages/master-data packages/schema → exit 0
+$ git diff --exit-code HEAD -- docs/reference       → exit 0 (reference evidence not touched this round, so its tests/probes were not rerun)
+```
+
+Every acceptance number (card recovery, both coverages, legal pairs, #1 pair and pMeet, trap) is identical to the pre-fix run. I did not run `pnpm -r build`, a master-data build/refresh or golden generation.
+
+**Remaining limitations after this round**
+
+- B1 is resolved by rejection, not by a model of unique-skill possession; a real rule needs a cited source (Q-142).
+- The S1 tolerances are documented roundoff bounds, not derived from the unavailable S-based ε; a third-party producer that writes σ with more than a few ulps of error is rejected as malformed by design.
+- Benchmark margin under Node 22 is as low as ~430 ms (reviewer max); browser timing is unverified.
+- The golden data remain synthetic (Q-120); nothing here validates real game constants.
+
 ## Open questions / follow-ups
 
 - **Q-140 (new):** a guest or unmatched parent with no recorded sparks is treated as unknown lineage, and the row is excluded.
+- **Q-142 (new, review round 1):** the trainee's own unique skill as a target/prediction skill is rejected (`own-unique-skill`); T13 handling recorded there.
 - **Q-141 (new):** the snapshot has no rules version, so only master-version changes are detected at prediction. The caller must refit after rules overrides (ADR-0002 §2.11).
 - **Q-130/Q-131 (unchanged):** both assumptions are kept visible in `FitReport.skills.assumptions`. Contradictions are counted (0 on the golden data).
 

@@ -221,6 +221,8 @@ export function normalizeTarget(t: CmTarget): NormalizedTarget {
 
 /** Everything about a plan that does not depend on the parent pair. */
 export interface PlanContext {
+  /** The engine context the plan was prepared with (skill ids are validated against it). */
+  ctx: EngineContext;
   model: PreparedModel;
   input: PlanInput;
   traineeCharacterId: string;
@@ -241,6 +243,7 @@ export function preparePlan(
   if (!Array.isArray(input.deck) || input.deck.length !== 6) {
     throw new ModelInputError('deck-size', `PlanInput.deck must have 6 slots`);
   }
+  validatePlanDeck(ctx, input.deck);
   if (input.trainMode !== 'independent' && input.trainMode !== 'manual') {
     throw new ModelInputError('train-mode', String(input.trainMode));
   }
@@ -265,6 +268,7 @@ export function preparePlan(
   }
   sure.delete(outfit.uniqueSkillId);
   return {
+    ctx,
     model,
     input,
     traineeCharacterId: outfit.characterId,
@@ -276,19 +280,82 @@ export function preparePlan(
   };
 }
 
+/**
+ * T06 review S2: the plan deck is checked BEFORE feature computation. `lb` follows the shared
+ * `DeckSlot` contract (01 §3, `@uma/schema` `DeckSlot.lb`: integer 0..4); an out-of-range `lb`
+ * would otherwise inflate the card units `1 + lb/4`. Card ids must be master cards, and a card id
+ * may appear only once in a plan deck: the plan feature aggregates by card id, so a duplicate
+ * would silently double that card's contribution. The shared `DeckSlot`/veteran schema neither
+ * permits nor forbids a repeated `cardId` (it only requires slots 1..6 once each); this check is
+ * a planner-input guard, not a new game rule, and the fit-side handling of recorded decks is
+ * unchanged.
+ */
+function validatePlanDeck(ctx: EngineContext, deck: readonly unknown[]): void {
+  const seen = new Set<string>();
+  deck.forEach((raw, i) => {
+    const d = raw as { cardId?: unknown; lb?: unknown } | null;
+    if (typeof d !== 'object' || d === null || typeof d.cardId !== 'string') {
+      throw new ModelInputError('deck-slot', `deck[${i}] needs a string cardId`);
+    }
+    if (!ctx.cards.has(d.cardId)) throw new ModelInputError('unknown-card', d.cardId);
+    const lb = d.lb;
+    if (typeof lb !== 'number' || !Number.isInteger(lb) || lb < 0 || lb > 4) {
+      throw new ModelInputError(
+        'deck-slot',
+        `deck[${i}].lb must be an integer 0..4, got ${String(lb)}`,
+      );
+    }
+    if (seen.has(d.cardId)) {
+      throw new ModelInputError('duplicate-card', `deck card ${d.cardId} appears more than once`);
+    }
+    seen.add(d.cardId);
+  });
+}
+
+/**
+ * Validates skill ids a caller asks to predict or score (target required/optional skills and
+ * `PredictOptions.skills`), in prediction and ranking alike (T06 review B1/S2):
+ *
+ * - an id that is not in `ctx.skills` is an `UnknownIdError` (it would otherwise silently use the
+ *   global prior θ and score 0);
+ * - the trainee's OWN unique skill is a `ModelInputError` `own-unique-skill` (Q-142). The fit
+ *   excludes it (ADR-0002 §3: no acquisition decision to learn), so the model has no estimate
+ *   for it. This is an unsupported request, not a claim that the skill cannot be owned. Another
+ *   outfit's unique skill (e.g. an inherited unique hint) is an ordinary candidate.
+ */
+export function validateSkillRequest(
+  pc: Pick<PlanContext, 'ctx' | 'uniqueSkillId' | 'input'>,
+  skillIds: Iterable<string>,
+  source: string,
+): void {
+  for (const s of skillIds) {
+    if (s === pc.uniqueSkillId) throw ownUniqueError(pc, s, source);
+    if (!pc.ctx.skills.has(s)) throw new UnknownIdError(`unknown skill ${s} in ${source}`);
+  }
+}
+
+function ownUniqueError(
+  pc: Pick<PlanContext, 'input'>,
+  skillId: string,
+  source: string,
+): ModelInputError {
+  return new ModelInputError(
+    'own-unique-skill',
+    `${source} requests ${skillId}, the unique skill of trainee outfit ${pc.input.traineeOutfitId}; ` +
+      'the training model has no acquisition estimate for it (excluded from the fit, ADR-0002 §3), ' +
+      'so it is not a supported prediction or target skill (Q-142)',
+  );
+}
+
 /** Closed-form availability and acquisition of one skill for a pair (50 §7 erratum). */
 export function skillClosedForm(
   pc: PlanContext,
   exp: InheritanceResult,
   skillId: string,
 ): SkillPrediction {
+  if (skillId === pc.uniqueSkillId) throw ownUniqueError(pc, skillId, 'skillClosedForm');
   const guaranteed = pc.sure.has(skillId);
-  const pHinted =
-    skillId === pc.uniqueSkillId
-      ? 0
-      : guaranteed
-        ? 1
-        : Math.min(1, Math.max(0, exp.skillHintProb[skillId] ?? 0));
+  const pHinted = guaranteed ? 1 : Math.min(1, Math.max(0, exp.skillHintProb[skillId] ?? 0));
   const th = pc.model.theta(pc.input.trainMode, skillId);
   return {
     pHinted,
@@ -354,12 +421,14 @@ export function simulate(
   const baseOrd = APT_KEYS.map((k) => GRADES.indexOf(plan.baseAptitudes[k]));
   const skillOut: Record<string, Uint8Array> = {};
   const skillList = [...new Set(skills)];
+  if (skillList.includes(pc.uniqueSkillId)) {
+    throw ownUniqueError(pc, pc.uniqueSkillId, 'simulate');
+  }
   const skillArr = skillList.map((s) => (skillOut[s] = new Uint8Array(samples)));
   const skillUniforms: Record<string, Float64Array> = {};
   const uArr = skillList.map((s) => (skillUniforms[s] = new Float64Array(samples)));
   const theta = skillList.map((s) => pc.model.theta(pc.input.trainMode, s).mean);
-  const sure = skillList.map((s) => s !== pc.uniqueSkillId && pc.sure.has(s));
-  const never = skillList.map((s) => s === pc.uniqueSkillId);
+  const sure = skillList.map((s) => pc.sure.has(s));
   const z = new Float64Array(5);
   for (let s = 0; s < samples; s++) {
     const inh = sampleInheritance(plan, inhRng);
@@ -380,7 +449,7 @@ export function simulate(
     for (let i = 0; i < skillList.length; i++) {
       const u = skillRng(); // always consumed: skill stream independent of the other draws
       uArr[i]![s] = u;
-      const hinted = !never[i] && (sure[i] || (inh.hints[skillList[i]!] ?? 0) > 0);
+      const hinted = sure[i] || (inh.hints[skillList[i]!] ?? 0) > 0;
       skillArr[i]![s] = hinted && u < theta[i]! ? 1 : 0;
     }
   }
@@ -501,6 +570,8 @@ export function predictPlanned(
 ): ChildPrediction {
   const n = validateSamples(opts.samples ?? DEFAULT_SAMPLES);
   const seed = String(opts.seed);
+  if (opts.skills) validateSkillRequest(pc, opts.skills, 'PredictOptions.skills');
+  if (opts.target) validateSkillRequest(pc, targetSkills(opts.target), 'target');
   const skillIds = [
     ...new Set([
       ...(opts.skills ??

@@ -157,6 +157,11 @@ Context: ADR-0002 §2.11 requires a refit after any `rules.json` change (includi
 Assumption taken: prediction throws `RefitRequiredError` (`master-version-mismatch`) when `snapshot.masterVersion` differs from the context; rules changes cannot be detected from the snapshot. The caller (T13/T15) must refit after applying rule overrides. A contract change (e.g. a `rulesVersion` field) would need an ADR.
 Blocking: no
 
+## Q-142 (T06) The trainee's own unique skill as a target or prediction skill
+Context: ADR-0002 §3 and 50 §4 exclude the trainee outfit's own `uniqueSkillId` from the skill fit, because there is no acquisition decision to learn for it. The model therefore has no estimate for it. Before T06 review round 1, a `CmTarget` that required (or weighted as optional) that skill, or an explicit `PredictOptions.skills` list naming it, silently got pHinted = 0, P(acquire) = 0 and pMeet = 0, so ranking fell back to surplus order without any signal. The golden roster happens to record the own unique skill on all 260 veterans, but that is SYNTHETIC data (Q-120) and no cited source in the repo states a real-game possession rule; promoting it to "acquired with certainty" would invent a game rule.
+Assumption taken: such a request is unsupported. `predictChild` (target or `PredictOptions.skills`), `rankPairs`/`rankPairsDetailed` (including an empty roster or a lock with no legal partner) and the advanced helpers `skillClosedForm`/`simulate`/`gaussianScore` throw `ModelInputError` with `code: 'own-unique-skill'`. This does not claim the skill is impossible to own. Another outfit's unique skill (e.g. an inherited unique hint) is an ordinary candidate and is not rejected for its rarity. Default predictions never select the own unique skill. T13 (S05 target form) should drop the trainee's own unique skill from the selectable target skills for that trainee, or show the error reason ("not modelled for this trainee") rather than a 0% result. Changing this needs a cited game rule and a model decision.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

@@ -138,17 +138,40 @@ describe('golden fit on the stored split (training-v2)', () => {
 });
 
 describe('the holdout is evaluation only', () => {
-  it('perturbing holdout y (and dates) leaves λ, β and residualCov bit-identical', () => {
+  it('perturbing holdout y, dates, train mode, skills and deck leaves λ, β, Σ_N and θ bit-identical', () => {
     const base = goldenFit();
     const hold = new Set(storedSplit.holdoutIds);
+    // Holdout rows' RECORDED LINEAGE (their own sparks and parents) is deliberately left intact:
+    // a holdout veteran recorded as a train row's matched parent legitimately feeds that train
+    // row's inheritance (review N3: lineage coupling, not target leakage). Everything else a
+    // holdout row carries is perturbed, and none of it may reach the fitted parameters.
     const perturbed: RosterVeteran[] = roster.map((v, i) => {
       if (!hold.has(v.id)) return v;
       const stats = { ...v.stats };
       STAT_KEYS.forEach((k, j) => {
         stats[k] = Math.max(1, Math.min(2000, Math.round(stats[k] + 1000 * Math.sin(i + j) + 37)));
       });
-      return { ...v, stats, career: { ...v.career, dateAcquired: '2027-01-01' } };
+      const cards = v.deck.map((d) => d.cardId).reverse();
+      return {
+        ...v,
+        stats,
+        trainMode: v.trainMode === 'manual' ? 'independent' : 'manual',
+        skills: [],
+        deck: v.deck.map((d, j) => ({ ...d, cardId: cards[j]!, lb: (d.lb + 2) % 5 })),
+        career: { ...v.career, dateAcquired: '2027-01-01' },
+      };
     });
+    // The coupling is real on the stored split (so the intact lineage is exercised): count train
+    // rows' matched-parent references that point at holdout veterans.
+    const train = new Set(storedSplit.trainIds);
+    const refs = roster
+      .filter((v) => train.has(v.id))
+      .flatMap((v) => v.parents.map((p) => p.matchedVeteranId))
+      .filter((id): id is string => !!id && hold.has(id));
+    console.info(
+      `[T06] lineage coupling: ${refs.length} train→holdout matched-parent references to ${new Set(refs).size} distinct holdout veterans (of ${hold.size})`,
+    );
+    expect(refs.length).toBeGreaterThan(0);
     const p = fitTrainingModelDetailed(ctx, perturbed, fitOpts());
     expect(p.report.lambdas).toEqual(base.report.lambdas);
     for (const k of STAT_KEYS) {

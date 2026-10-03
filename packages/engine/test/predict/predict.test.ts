@@ -187,6 +187,8 @@ describe('determinism and independent streams', () => {
   it('changing training draws leaves inheritance and skill draws unchanged', () => {
     const scaled = structuredClone(snapshot);
     scaled.params.residualCov = scaled.params.residualCov.map((r) => r.map((x) => 4 * x));
+    // Keep the v2 contract (σ = √diag): √(4d) = 2√d exactly in binary floating point.
+    for (const k of STAT_KEYS) scaled.params.perStat[k].sigma *= 2;
     const a = run('s', snapshot).rawSamples!;
     const b = run('s', scaled).rawSamples!;
     for (const k of STAT_KEYS) {
@@ -198,7 +200,12 @@ describe('determinism and independent streams', () => {
 
   it('changing skill-stream consumption leaves inheritance and training unchanged', () => {
     const a = run('s', snapshot, best, [X]).rawSamples!;
-    const b = run('s', snapshot, best, ['skill:aaa-extra', X, 'skill:zzz-extra']).rawSamples!;
+    // Real master skills sorting before and after X, so X's skill-stream position shifts.
+    const unique = ctx.outfits.get(planInput.traineeOutfitId)!.uniqueSkillId;
+    const ids = [...ctx.skills.keys()].filter((s) => s !== X && s !== unique).sort();
+    const before = ids.filter((s) => s < X)[0]!;
+    const after = ids.filter((s) => s > X).at(-1)!;
+    const b = run('s', snapshot, best, [before, X, after]).rawSamples!;
     for (const k of STAT_KEYS) {
       expect(b.training[k]).toEqual(a.training[k]);
       expect(b.inheritance[k]).toEqual(a.inheritance[k]);

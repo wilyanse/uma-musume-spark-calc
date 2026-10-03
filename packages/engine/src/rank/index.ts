@@ -29,6 +29,8 @@ import {
   predictPlanned,
   preparePlan,
   targetKey,
+  targetSkills,
+  validateSkillRequest,
 } from '../predict/index.ts';
 import type { ChildPrediction, Requirement, TargetScore } from '../predict/index.ts';
 
@@ -115,6 +117,9 @@ export function rankPairsDetailed(
   const prepared = prepareModel(ctx, model); // RefitRequiredError for training-v1
   const pc = preparePlan(ctx, prepared, input);
   const nt = normalizeTarget(target);
+  // B1/S2: reject unknown and own-unique target skills up front, so empty rosters and locks with
+  // no legal partner report them too instead of silently returning [].
+  validateSkillRequest(pc, targetSkills(target), 'target');
   const topK = positiveInt('topK', opts.topK, DEFAULT_TOP_K);
   const topN = Math.min(topK, positiveInt('topN', opts.topN, DEFAULT_TOP_N));
   const samples = positiveInt('samples', opts.samples, DEFAULT_SAMPLES);
