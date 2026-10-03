@@ -24,4 +24,3 @@ public sealed record Career(int Races,int Wins,int? Fans,string DateAcquired);
 public sealed record Veteran(string CharacterId,string OutfitId,string Rank,int Rating,string Epithet,TrainMode TrainMode,Stats Stats,Aptitudes Aptitudes,List<Skill> Skills,List<Spark> Sparks,List<Deck> Deck,List<Parent> Parents,string ScenarioId,Career Career);
 public sealed record VeteranCapture(int SchemaVersion,string CaptureId,DateTimeOffset CapturedAt,string AgentVersion,string LayoutVersion,string MasterVersion,string Fingerprint,Veteran Veteran,List<CaptureField> Fields);
 public sealed record VocabEntry(string Kind,string Id,string Text);
-public sealed record Match<T>(T? Value,double Score,IReadOnlyList<Candidate> Candidates,bool Accepted);

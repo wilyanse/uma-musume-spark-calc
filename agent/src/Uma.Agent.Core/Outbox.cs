@@ -24,7 +24,8 @@ public sealed class UploadOutbox
             CREATE TABLE IF NOT EXISTS outbox (
               id INTEGER PRIMARY KEY, capture_id TEXT NOT NULL, kind TEXT NOT NULL,
               path TEXT, payload BLOB NOT NULL, attempts INTEGER NOT NULL DEFAULT 0,
-              next_attempt_at TEXT NOT NULL, last_error TEXT
+              next_attempt_at TEXT NOT NULL, last_error TEXT,
+              dead INTEGER NOT NULL DEFAULT 0
             );
             CREATE INDEX IF NOT EXISTS outbox_capture ON outbox(capture_id, kind);
             CREATE TABLE IF NOT EXISTS crop_results (
@@ -51,7 +52,7 @@ public sealed class UploadOutbox
         using var connection = Open(); using var command = connection.CreateCommand();
         command.CommandText = """
             SELECT id,capture_id,kind,path,payload,attempts FROM outbox o
-            WHERE next_attempt_at <= $now
+            WHERE next_attempt_at <= $now AND dead = 0
               AND (kind = 'crop' OR NOT EXISTS
                 (SELECT 1 FROM outbox c WHERE c.capture_id = o.capture_id AND c.kind = 'crop'))
             ORDER BY CASE WHEN kind = 'crop' THEN 0 ELSE 1 END, id LIMIT 1
@@ -88,6 +89,37 @@ public sealed class UploadOutbox
         return Encoding.UTF8.GetBytes(CaptureJson.Serialize(capture));
     }
     public void Complete(long id) { using var c = Open(); using var q = c.CreateCommand(); q.CommandText = "DELETE FROM outbox WHERE id=$id"; q.Parameters.AddWithValue("$id", id); q.ExecuteNonQuery(); }
+    /// <summary>Queues an assembled capture: its crops (one per low-confidence field) and then the veteran. Validates first,
+    /// and refuses crops that don't belong to a low_confidence field of this capture.</summary>
+    public void EnqueueCapture(CaptureResult result)
+    {
+        var capture = result.Capture ?? throw new InvalidOperationException("nothing to upload: " + string.Join("; ", result.Errors));
+        var errors = CaptureValidation.Validate(capture);
+        if (errors.Count > 0) throw new InvalidDataException("invalid capture: " + string.Join("; ", errors));
+        foreach (var (path, _) in result.Crops)
+            if (!capture.Fields.Any(f => f.Path == path && f.Status == FieldStatus.low_confidence)) throw new InvalidDataException("crop for a field that is not low_confidence: " + path);
+        foreach (var (path, png) in result.Crops) Enqueue(capture.CaptureId, "crop", png, path);
+        Enqueue(capture.CaptureId, "veteran", Encoding.UTF8.GetBytes(CaptureJson.Serialize(capture)));
+    }
+
+    /// <summary>A rejected request (4xx other than 408/429) is kept for inspection but never retried, and a dead crop
+    /// keeps its veteran waiting (the veteran must not be sent without the review crop).</summary>
+    public void Dead(PendingUpload item, string error)
+    {
+        using var c = Open(); using var q = c.CreateCommand();
+        q.CommandText = "UPDATE outbox SET attempts=attempts+1,dead=1,last_error=$error WHERE id=$id";
+        q.Parameters.AddWithValue("$error", error); q.Parameters.AddWithValue("$id", item.Id); q.ExecuteNonQuery();
+    }
+
+    public IReadOnlyList<(string Kind, string? Path, int Attempts, bool Dead, string? LastError)> Snapshot()
+    {
+        using var c = Open(); using var q = c.CreateCommand();
+        q.CommandText = "SELECT kind,path,attempts,dead,last_error FROM outbox ORDER BY id";
+        using var r = q.ExecuteReader(); var list = new List<(string, string?, int, bool, string?)>();
+        while (r.Read()) list.Add((r.GetString(0), r.IsDBNull(1) ? null : r.GetString(1), r.GetInt32(2), r.GetInt32(3) == 1, r.IsDBNull(4) ? null : r.GetString(4)));
+        return list;
+    }
+
     public void Fail(PendingUpload item, string error)
     {
         var attempts = item.Attempts + 1;
@@ -116,7 +148,13 @@ public sealed class UploadClient(HttpClient http, Uri baseUri, IServiceToken tok
             request.Content = new ByteArrayContent(payload);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue(item.Kind == "crop" ? "image/png" : "application/json");
             using var response = await http.SendAsync(request, ct);
-            if (!response.IsSuccessStatusCode) { outbox.Fail(item, $"HTTP {(int)response.StatusCode}"); return true; }
+            if (!response.IsSuccessStatusCode)
+            {
+                var code = (int)response.StatusCode;
+                if (code is >= 400 and < 500 and not 408 and not 429) outbox.Dead(item, $"HTTP {code}");
+                else outbox.Fail(item, $"HTTP {code}");
+                return true;
+            }
             if (item.Kind == "crop")
             {
                 using var result = JsonDocument.Parse(await response.Content.ReadAsStringAsync(ct));

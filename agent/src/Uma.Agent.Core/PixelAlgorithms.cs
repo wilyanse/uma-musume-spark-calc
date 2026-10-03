@@ -12,8 +12,6 @@ public static class PixelAlgorithms
     }
     private static int Flat(int c,int a)=>(c*a+255*(255-a)+127)/255;
     public static int Hamming(string a,string b){if(a.Length!=b.Length)throw new ArgumentException();uint d=0;for(int i=0;i<a.Length;i++)d+=(uint)System.Numerics.BitOperations.PopCount((uint)(Convert.ToInt32(a[i].ToString(),16)^Convert.ToInt32(b[i].ToString(),16)));return (int)d;}
-    public static int CountSparkStars(Frame image,int x,int y,int width=60,int height=18){var filled=0;for(int cell=0;cell<3;cell++){int gold=0; int total=0;for(int yy=y;yy<y+height;yy++)for(int xx=x+cell*width/3;xx<x+(cell+1)*width/3;xx++){int p=(yy*image.Width+xx)*4; int b=image.Bgra[p]; int g=image.Bgra[p+1]; int r=image.Bgra[p+2];gold+=r>200&&g>150&&b<90&&r-b>130?1:0;total++;}if((double)gold/total>.15)filled++;}return filled;}
-    public static bool IsLimitBreakFilled(Frame image,int cx,int cy){var yes=0;for(int y=cy-2;y<=cy+2;y++)for(int x=cx-2;x<=cx+2;x++){int p=(y*image.Width+x)*4; int b=image.Bgra[p]; int g=image.Bgra[p+1]; int r=image.Bgra[p+2];if(b-r>60&&g>140)yes++;}return yes>12;}
 }
 public readonly record struct LayoutCrop(int X0,int Y0,int X1,int Y1);
 public static class LayoutProfiles
