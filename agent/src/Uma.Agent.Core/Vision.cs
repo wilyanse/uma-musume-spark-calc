@@ -103,8 +103,10 @@ public static class Vision
         return Math.Max(0, (t.Top - top) * content / track);
     }
 
-    public static bool AtTop(ScrollThumb? t, LayoutProfile layout) => t is null || t.Top <= layout.Int("scrollbar", "trackTop") + layout.Int("scrollbar", "edgeTolerance");
-    public static bool AtEnd(ScrollThumb? t, LayoutProfile layout) => t is null || t.Bottom >= layout.Int("scrollbar", "trackBottom") - layout.Int("scrollbar", "edgeTolerance");
+    /// <summary>A missing thumb is an unknown scroll position, never proof of top or end (review round 1, B1): a detection
+    /// failure must not mark a list complete. Content that fits without a scrollbar is therefore not recognised (Q-93).</summary>
+    public static bool AtTop(ScrollThumb? t, LayoutProfile layout) => t is not null && t.Top <= layout.Int("scrollbar", "trackTop") + layout.Int("scrollbar", "edgeTolerance");
+    public static bool AtEnd(ScrollThumb? t, LayoutProfile layout) => t is not null && t.Bottom >= layout.Int("scrollbar", "trackBottom") - layout.Int("scrollbar", "edgeTolerance");
 
     /// <summary>Bottom border rows of skill pills in one column (dark run at the pill's left border).</summary>
     public static IReadOnlyList<int> SkillPillBottoms(Frame f, LayoutProfile layout, int column)

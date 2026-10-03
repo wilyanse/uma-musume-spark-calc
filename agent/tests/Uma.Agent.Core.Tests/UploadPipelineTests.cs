@@ -36,22 +36,9 @@ public class UploadPipelineTests
         }
     }
 
-    private static CaptureResult LowConfidenceMcQueen()
-    {
-        var env = FixtureEnv.Instance;
-        var c = new CaptureCoordinator(env.Layout, env.Master);
-        foreach (var f in new[] { "01-veteran-details-skills-independent", "02-veteran-details-inspiration-p1", "03-veteran-details-inspiration-p2", "04-veteran-details-inspiration-p3",
-                     "05-veteran-details-career-info-deck-legacy", "06-veteran-details-career-info-record", "09-sparks-popup-special-week-parent", "10-sparks-popup-guest-parent" })
-        {
-            var p = env.Parsed(f);
-            if (p.Header is { } h) p = p with { Header = h with { Stats = h.Stats.ToDictionary(kv => kv.Key, kv => kv.Key == "gut" ? kv.Value with { Ok = false } : kv.Value) } };
-            if (f.StartsWith("02")) p = p with { Sparks = p.Sparks.Select((s, i) => i == 3 ? s with { Spark = s.Spark with { Ok = false } } : s).ToArray() };
-            c.Feed(p);
-        }
-        var r = c.Current!.Assemble("01K7B33MXGVZV6TZRJZDHB99YE", new DateTimeOffset(2026, 10, 3, 0, 0, 0, TimeSpan.Zero), "test");
-        Assert.Empty(r.Errors);
-        return r;
-    }
+    /// <summary>The complete collection (Collect.Complete: real 02–07, 09, 10 + the SYNTHETIC whole-list Skills frame)
+    /// with two SYNTHETIC uncertain readings; earlier rounds used the real, incomplete 01 frame, which the outbox now refuses.</summary>
+    private static CaptureResult LowConfidenceMcQueen() => Collect.LowConfidence();
 
     [Fact]
     public async Task Crops_upload_first_and_their_keys_land_on_the_right_fields_across_retry_and_restart()
@@ -135,7 +122,7 @@ public class UploadPipelineTests
             Assert.Throws<InvalidDataException>(() => outbox.EnqueueCapture(r with { Crops = [.. r.Crops, ("/stats/spd", r.Crops[0].Png)] }));
             var reversed = r.Capture! with { Veteran = r.Capture.Veteran with { Deck = r.Capture.Veteran.Deck.AsEnumerable().Reverse().ToList() } };
             Assert.Throws<InvalidDataException>(() => outbox.EnqueueCapture(r with { Capture = reversed }));
-            Assert.Throws<InvalidOperationException>(() => outbox.EnqueueCapture(new CaptureResult(null, [], [], ["x"])));
+            Assert.Throws<IncompleteCaptureException>(() => outbox.EnqueueCapture(new CaptureResult(null, [], [], ["x"])));
             Assert.Empty(outbox.Snapshot());
         }
         finally { Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools(); File.Delete(db); }

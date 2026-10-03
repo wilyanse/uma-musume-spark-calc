@@ -4,8 +4,20 @@ using SixLabors.ImageSharp.Processing;
 
 namespace Uma.Agent.Core;
 
+public abstract class UnsupportedFrameException(int width, int height, string message) : Exception(message)
+{
+    public int Width { get; } = width;
+    public int Height { get; } = height;
+}
+
 public sealed class UnsupportedAspectRatioException(int width, int height)
-    : Exception($"unsupported aspect ratio {width}x{height}: only 16:9 game client areas are supported");
+    : UnsupportedFrameException(width, height, $"unsupported aspect ratio {width}x{height}: only 16:9 game client areas are supported");
+
+/// <summary>16:9 client areas below the 1920x1080 reference are refused (review round 1, B2; Q-94). The pixel thresholds
+/// (glyph centre luma, LB diamonds, borrowed band, pill colour) were calibrated at 1920x1080 only, and resampled
+/// smaller frames produced confident-wrong values, so nothing is read from them. The user must enlarge the window.</summary>
+public sealed class UnsupportedResolutionException(int width, int height)
+    : UnsupportedFrameException(width, height, $"game client area {width}x{height} is below 1920x1080: make the game window at least 1920x1080 (16:9) and try again");
 
 /// <summary>BGRA frame helpers. Every parser works in the 1920x1080 reference space (30 §2).</summary>
 public static class Frames
@@ -52,11 +64,13 @@ public static class Frames
         return image;
     }
 
-    /// <summary>Rejects non-16:9 client areas and resamples other 16:9 sizes into reference space.</summary>
+    /// <summary>Rejects non-16:9 client areas and 16:9 areas below 1920x1080 (typed errors, before any reading), and
+    /// resamples larger 16:9 sizes down into reference space.</summary>
     public static Frame Normalize(Frame frame)
     {
         if (frame.Width <= 0 || frame.Height <= 0 || (long)frame.Width * 9 != (long)frame.Height * 16)
             throw new UnsupportedAspectRatioException(frame.Width, frame.Height);
+        if (frame.Width < LayoutProfiles.ReferenceWidth) throw new UnsupportedResolutionException(frame.Width, frame.Height);
         if (frame.Width == LayoutProfiles.ReferenceWidth) return frame;
         using var image = ToImage(frame);
         image.Mutate(c => c.Resize(LayoutProfiles.ReferenceWidth, LayoutProfiles.ReferenceHeight, KnownResamplers.Bicubic));

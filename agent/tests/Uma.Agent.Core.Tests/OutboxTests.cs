@@ -21,7 +21,7 @@ public class OutboxTests
             Requests.Add(request.RequestUri!.PathAndQuery);
             Bodies.Add(await request.Content!.ReadAsStringAsync(cancellationToken));
             var code = Failures-- > 0 ? HttpStatusCode.ServiceUnavailable : HttpStatusCode.OK;
-            if (request.Method == HttpMethod.Post) return new(code) { Content = new StringContent("{\"created\":true}") };
+            if (request.Method == HttpMethod.Post) return new(code == HttpStatusCode.OK ? HttpStatusCode.Created : code) { Content = new StringContent("{\"veteranId\":\"01K7B33MXGVZV6TZRJZDHB99YF\",\"created\":true}") };
             var path = Uri.UnescapeDataString(request.RequestUri.Query.Split('=')[1]);
             return new(code) { Content = new StringContent(CropResponse ?? JsonSerializer.Serialize(new { cropKey = $"crops/{request.RequestUri.Segments.Last()}/{Uri.EscapeDataString(path)}.png" })) };
         }

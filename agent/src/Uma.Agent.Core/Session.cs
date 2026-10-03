@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
@@ -70,7 +72,33 @@ public sealed class ContentMap<T>(Func<T, int> column, Func<T, int> y, Func<T, s
 
 public sealed record SectionStatus(string Section, bool Complete, string Detail);
 
-public sealed record CaptureResult(VeteranCapture? Capture, IReadOnlyList<(string Path, byte[] Png)> Crops, IReadOnlyList<SectionStatus> Checklist, IReadOnlyList<string> Errors);
+/// <summary>Assembler output. <see cref="Capture"/> may be present while the 30 §5 checklist is incomplete: that is a
+/// diagnostic capture (it satisfies the 30 §10 "01–07 assembles a valid VeteranCapture" check) and is never uploadable,
+/// because 01 §3 has no way to say "skills list incomplete" (Q-93). Only a result sealed by the assembler for a complete
+/// checklist with no errors is <see cref="Uploadable"/>; editing the capture or crops afterwards breaks the seal.</summary>
+public sealed record CaptureResult(VeteranCapture? Capture, IReadOnlyList<(string Path, byte[] Png)> Crops, IReadOnlyList<SectionStatus> Checklist, IReadOnlyList<string> Errors)
+{
+    internal string? Seal { get; init; }
+
+    /// <summary>Why this result cannot be uploaded (empty when it can): incomplete sections first, then errors.</summary>
+    public IReadOnlyList<string> Blockers => Checklist.Where(s => !s.Complete).Select(s => $"{s.Section}: {s.Detail}")
+        .Concat(Errors).Concat(Capture is null && Errors.Count == 0 ? ["no capture assembled"] : []).ToArray();
+
+    public bool Uploadable => Capture is not null && Errors.Count == 0 && Checklist.Count > 0 && Checklist.All(s => s.Complete)
+                              && Seal is not null && Seal == ComputeSeal(Capture, Crops, Checklist);
+
+    internal static string ComputeSeal(VeteranCapture capture, IReadOnlyList<(string Path, byte[] Png)> crops, IReadOnlyList<SectionStatus> checklist)
+    {
+        using var sha = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        sha.AppendData(Encoding.UTF8.GetBytes(CaptureJson.Serialize(capture)));
+        foreach (var (path, png) in crops) { sha.AppendData(Encoding.UTF8.GetBytes("\0crop\0" + path + "\0")); sha.AppendData(SHA256.HashData(png)); }
+        foreach (var c in checklist) sha.AppendData(Encoding.UTF8.GetBytes($"\0{c.Section}\0{c.Complete}"));
+        return Convert.ToHexString(sha.GetHashAndReset());
+    }
+}
+
+/// <summary>Thrown by the outbox for a result that is not <see cref="CaptureResult.Uploadable"/> (T10 shows the checklist).</summary>
+public sealed class IncompleteCaptureException(string message) : InvalidOperationException(message);
 
 /// <summary>Collects frames for one veteran (30 §5) and assembles a validated <see cref="VeteranCapture"/>.</summary>
 public sealed class CaptureSession
@@ -115,14 +143,19 @@ public sealed class CaptureSession
 
     public IReadOnlyList<SectionStatus> Checklist()
     {
+        // A section is complete only when the top and the end were both seen with a detected scroll thumb and every frame
+        // was aligned (an unaligned frame may hide a gap). A missing thumb is unknown, never top/end (B1).
         var list = new List<SectionStatus>
         {
-            new("details.skills", Skills.Anchored && Skills.EndSeen, $"{Skills.Rows.Count} skills; top {(Skills.Anchored ? "seen" : "missing")}, end {(Skills.EndSeen ? "seen" : "not reached")}"),
+            new("details.skills", Skills.Anchored && Skills.EndSeen && Skills.FramesRejected == 0,
+                $"{Skills.Rows.Count} skills; top {(Skills.Anchored ? "seen" : "missing")}, end {(Skills.EndSeen ? "seen" : "not reached")}; {Skills.FramesRejected} unaligned frame(s)"),
         };
         var blocks = SparkBlocks();
-        list.Add(new("details.inspiration", Sparks.Anchored && Sparks.EndSeen && blocks.Count == 3, $"{blocks.Count}/3 blocks; top {(Sparks.Anchored ? "seen" : "missing")}, end {(Sparks.EndSeen ? "seen" : "not reached")}; {Sparks.FramesRejected} unaligned frame(s)"));
-        list.Add(new("details.career.deck", _careerTop is not null, _careerTop is null ? "deck not captured" : "6 tiles"));
-        list.Add(new("details.career.parents", _careerTop is not null, _careerTop is null ? "parents not captured" : "2 parents"));
+        list.Add(new("details.inspiration", Sparks.Anchored && Sparks.EndSeen && Sparks.FramesRejected == 0 && blocks.Count == 3,
+            $"{blocks.Count}/3 blocks; top {(Sparks.Anchored ? "seen" : "missing")}, end {(Sparks.EndSeen ? "seen" : "not reached")}; {Sparks.FramesRejected} unaligned frame(s)"));
+        var deckOk = _careerTop is { Deck.Count: 6 }; var parentsOk = _careerTop is { Parents.Count: 2 };
+        list.Add(new("details.career.deck", deckOk, _careerTop is null ? "deck not captured" : $"{_careerTop.Value.Deck.Count}/6 tiles"));
+        list.Add(new("details.career.parents", parentsOk, _careerTop is null ? "parents not captured" : $"{_careerTop.Value.Parents.Count}/2 parents"));
         var careerOk = _career.ContainsKey("races") && _career.ContainsKey("wins") && _career.ContainsKey("scenario") && _career.ContainsKey("date");
         list.Add(new("details.career.block", careerOk, string.Join(",", _career.Keys.Order())));
         return list;
@@ -130,12 +163,16 @@ public sealed class CaptureSession
 
     public bool IsComplete => Checklist().All(s => s.Complete);
 
+    /// <summary>Confident header values seen so far (outfit, character, rating, five stats): the session identity (S5).</summary>
+    internal Dictionary<string, string> Identity { get; } = new(StringComparer.Ordinal);
+
     private List<(int Start, int End)> SparkBlocks()
         => FrameParser.Blocks(Sparks.Rows.Select(r => r.ContentY).ToArray(), Sparks.Extra.Count > 0 ? Sparks.Extra[0] : null, _layout.Int("sparks", "blockGap"));
 
-    /// <summary>Assembles, validates and fingerprints. A missing required section is an error (nothing to upload) unless
-    /// the contract has an explicit uncertainty path for it: an unreadable/partial parent spark block is sent with a
-    /// `/sparks/&lt;owner&gt;` low_confidence field; a partially scrolled skills list is reported in the checklist.</summary>
+    /// <summary>Assembles, validates and fingerprints. A missing required section is an error (no capture). A parent spark
+    /// block that is partial or unreadable is dropped and replaced by the `/sparks/&lt;owner&gt;` low_confidence field
+    /// (01 §3); that is uploadable once the Inspiration tab was covered top to end. A list that was not scrolled to its
+    /// end yields a diagnostic capture whose result is not <see cref="CaptureResult.Uploadable"/> (B1, Q-93).</summary>
     public CaptureResult Assemble(string captureId, DateTimeOffset capturedAt, string agentVersion)
     {
         var errors = new List<string>();
@@ -143,6 +180,7 @@ public sealed class CaptureSession
         var crops = new List<(string, byte[])>();
         var checklist = Checklist();
         if (_headers.Count == 0) return new CaptureResult(null, [], checklist, ["no Umamusume Details header captured"]);
+        if (!Skills.Anchored) errors.Add("Skills tab not captured (the top of the list was not seen with a detectable scroll bar)");
 
         Evidence Pick(Func<HeaderReading, Reading> f)
         {
@@ -216,12 +254,23 @@ public sealed class CaptureSession
             foreach (var (_, row, frame) in rows)
             {
                 var i = sparks.Count;
-                var id = Emit<string>($"/sparks/{i}/sparkId", new Evidence(row.Spark, frame), true);
-                if (id is null) { partial = true; continue; }
+                if (row.Spark.Value is null)
+                {
+                    // Unreadable label: fatal for self; for a parent the whole block is dropped and flagged below (S1).
+                    if (owner == "self") errors.Add($"self spark label unreadable (/sparks/{i}/sparkId)");
+                    partial = true; continue;
+                }
+                var id = Emit<string>($"/sparks/{i}/sparkId", new Evidence(row.Spark, frame), true)!;
                 var type = _master.Sparks.TryGetValue(id, out var info) ? info.Type : row.Type ?? "white";
                 fields.Add(new CaptureField($"/sparks/{i}/type", row.Type, type, row.Type == type ? 1 : 0.5, row.Type == type ? FieldStatus.ok : FieldStatus.low_confidence, [], null));
-                Emit<int?>($"/sparks/{i}/stars", new Evidence(new Reading(row.Stars, null, row.StarsClear ? 1 : 0.6, row.StarsClear && row.Stars is >= 1 and <= 3, [], row.Spark.Crop), frame));
-                sparks.Add(new Spark(owner, id, type, Math.Clamp(row.Stars, 1, 3)));
+                // The emitted value always equals the payload value; an unclear or out-of-range count is clamped to 1..3
+                // and flagged with every legal count as a candidate (S2).
+                var stars = Math.Clamp(row.Stars, 1, 3);
+                var starsOk = row.StarsClear && row.Stars is >= 1 and <= 3;
+                Candidate[] starCandidates = starsOk ? [] : [new(stars, 0.5), .. new[] { 1, 2, 3 }.Where(n => n != stars).Select(n => new Candidate(n, 0.25))];
+                fields.Add(new CaptureField($"/sparks/{i}/stars", row.Stars.ToString(CultureInfo.InvariantCulture), stars, starsOk ? 1 : 0.5, starsOk ? FieldStatus.ok : FieldStatus.low_confidence, starCandidates, null));
+                if (!starsOk && row.Spark.Crop is { } sc) crops.Add(($"/sparks/{i}/stars", CropPng(frame, sc)));
+                sparks.Add(new Spark(owner, id, type, stars));
             }
             var own = sparks.Skip(start).ToArray();
             var shapeOk = own.Count(s => s.Type == "blue") == 1 && own.Count(s => s.Type == "pink") == 1 && own.Count(s => s.Type == "green") <= 1
@@ -229,11 +278,8 @@ public sealed class CaptureSession
             if (!shapeOk || partial)
             {
                 if (owner == "self") { errors.Add(partial ? "self spark block is incomplete" : "self spark block violates the blue/pink/green shape"); continue; }
-                if (!shapeOk)
-                {
-                    // Not representable as-is: drop the block, keep only the explicit owner-block flag.
-                    sparks.RemoveRange(start, sparks.Count - start); fields.RemoveRange(startFields, fields.Count - startFields); crops.RemoveRange(startCrops, crops.Count - startCrops);
-                }
+                // Not representable as a complete block: drop it, keep only the explicit owner-block flag (01 §3).
+                sparks.RemoveRange(start, sparks.Count - start); fields.RemoveRange(startFields, fields.Count - startFields); crops.RemoveRange(startCrops, crops.Count - startCrops);
                 flagged.Add(owner);
             }
         }
@@ -262,7 +308,13 @@ public sealed class CaptureSession
                 var characterId = Emit<string>($"/parents/{i}/characterId", characterEv, true);
                 string? outfitId = null;
                 if (popup?.PopupOutfit is { } po) outfitId = Emit<string>($"/parents/{i}/outfitId", new Evidence(po, popup.Frame), true);
-                else fields.Add(new CaptureField($"/parents/{i}/outfitId", null, null, 1, FieldStatus.ok, [], null));
+                else
+                {
+                    // Unresolved (no matching Sparks popup): null is a gap, not a reading. Flag it for review with the
+                    // portrait crop; the pointer resolves to the null leaf, which the API accepts as correctable (S7).
+                    fields.Add(new CaptureField($"/parents/{i}/outfitId", null, null, 0, FieldStatus.low_confidence, [], null));
+                    if (portrait.IsGuest.Crop is { } oc) crops.Add(($"/parents/{i}/outfitId", CropPng(top.Frame, oc)));
+                }
                 var isGuest = popup is not null ? popup.Screen.Id == ScreenId.SparksPopupGuest : portrait.IsGuest.Get<bool>();
                 if (popup is not null && popup.Screen.Id == ScreenId.SparksPopupGuest != portrait.IsGuest.Get<bool>())
                     Emit<bool?>($"/parents/{i}/isGuest", new Evidence(portrait.IsGuest with { Value = isGuest, Ok = false }, top.Frame));
@@ -271,7 +323,11 @@ public sealed class CaptureSession
                 if (isGuest)
                 {
                     if (popup?.GuestTrainer is { } gt) trainer = Emit<string>($"/parents/{i}/guestTrainer", new Evidence(gt, popup.Frame));
-                    else fields.Add(new CaptureField($"/parents/{i}/guestTrainer", null, null, 0, FieldStatus.low_confidence, [], null));
+                    else
+                    {
+                        fields.Add(new CaptureField($"/parents/{i}/guestTrainer", null, null, 0, FieldStatus.low_confidence, [], null));
+                        if (portrait.IsGuest.Crop is { } gc) crops.Add(($"/parents/{i}/guestTrainer", CropPng(top.Frame, gc)));
+                    }
                 }
                 if (characterId is not null) parents.Add(new Parent(i + 1, characterId, outfitId, isGuest, trainer));
             }
@@ -291,9 +347,9 @@ public sealed class CaptureSession
         var veteran = new Veteran(character, outfit, rank, rating, epithet, trainMode, stats, new Aptitudes(apt), skills, sparks, deck, parents, scenario, new Career(races, wins, fans, date));
         var capture = new VeteranCapture(1, captureId, capturedAt, agentVersion, _layout.Version, _master.Version, Fingerprint.Hash(veteran), veteran, fields);
         var validation = CaptureValidation.Validate(capture, _master.Ids);
-        return validation.Count > 0
-            ? new CaptureResult(null, [], checklist, validation)
-            : new CaptureResult(capture, crops, checklist, []);
+        if (validation.Count > 0) return new CaptureResult(null, [], checklist, validation);
+        var complete = checklist.All(s => s.Complete);
+        return new CaptureResult(capture, crops, checklist, []) { Seal = complete ? CaptureResult.ComputeSeal(capture, crops, checklist) : null };
     }
 
     /// <summary>Pairs each parent portrait with a Sparks popup that proves its identity: the popup's sparks equal that
@@ -335,27 +391,62 @@ public sealed class CaptureSession
     }
 }
 
-/// <summary>Routes parsed frames to per-veteran sessions keyed by the header identity. A header change switches the
-/// active session (switching back resumes it); popups attach to the active session; unknown and card screens are ignored.</summary>
+/// <summary>Routes parsed frames to per-veteran sessions. A veteran is identified by its confident header values: outfit,
+/// character, rating and the five stats (30 §5 names outfit + name + rating; stats are added so two veterans that share
+/// those three are never merged, S5). A frame joins a session only if no confident value conflicts.
+/// <list type="bullet">
+/// <item>Continuity: right after a frame of the current session (popups don't break it), a compatible frame continues it.</item>
+/// <item>Otherwise exactly one compatible session must exist; several compatible sessions is ambiguous and the frame is
+/// ignored (<see cref="AmbiguousIdentity"/>), never guessed.</item>
+/// <item>No compatible session: a new one starts, but only when outfit, character and rating were all read confidently.</item>
+/// </list>
+/// Popups attach to the current session; unknown and card screens are ignored and break continuity.</summary>
 public sealed class CaptureCoordinator(LayoutProfile layout, MasterData master)
 {
-    private readonly Dictionary<string, CaptureSession> _sessions = new(StringComparer.Ordinal);
+    private static readonly string[] Required = ["outfit", "character", "rating"];
+    private readonly List<CaptureSession> _sessions = [];
+    private bool _continuing;
     public CaptureSession? Current { get; private set; }
-    public IReadOnlyCollection<CaptureSession> Sessions => _sessions.Values;
+    public IReadOnlyCollection<CaptureSession> Sessions => _sessions;
     public int Ignored { get; private set; }
+    public int AmbiguousIdentity { get; private set; }
+
+    internal static Dictionary<string, string> ConfidentIdentity(HeaderReading h)
+    {
+        var d = new Dictionary<string, string>(StringComparer.Ordinal);
+        void Add(string k, Reading r) { if (r.Ok && r.Value is not null) d[k] = Convert.ToString(r.Value, CultureInfo.InvariantCulture)!; }
+        Add("outfit", h.Outfit); Add("character", h.Character); Add("rating", h.Rating);
+        foreach (var (k, r) in h.Stats) Add("stats/" + k, r);
+        return d;
+    }
+
+    private static bool Compatible(CaptureSession s, IReadOnlyDictionary<string, string> id)
+        => id.All(kv => !s.Identity.TryGetValue(kv.Key, out var v) || v == kv.Value);
 
     public CaptureSession? Feed(ParsedFrame p)
     {
         switch (p.Screen.Id)
         {
             case ScreenId.DetailsSkills or ScreenId.DetailsInspiration or ScreenId.DetailsCareer when p.Header is not null:
-                var key = p.Header.IdentityKey;
-                if (!_sessions.TryGetValue(key, out var s)) _sessions[key] = s = new CaptureSession(layout, master, key);
-                Current = s; s.Add(p); return s;
+            {
+                var id = ConfidentIdentity(p.Header);
+                CaptureSession? target;
+                if (_continuing && Current is not null && Compatible(Current, id)) target = Current;
+                else
+                {
+                    var compatible = _sessions.Where(s => Compatible(s, id)).ToList();
+                    if (compatible.Count > 1) { AmbiguousIdentity++; Current = null; _continuing = false; return null; }
+                    if (compatible.Count == 1) target = compatible[0];
+                    else if (Required.All(id.ContainsKey)) { target = new CaptureSession(layout, master, p.Header.IdentityKey); _sessions.Add(target); }
+                    else { AmbiguousIdentity++; Current = null; _continuing = false; return null; }
+                }
+                foreach (var (k, v) in id) target.Identity.TryAdd(k, v);
+                Current = target; _continuing = true; target.Add(p); return target;
+            }
             case ScreenId.SparksPopup or ScreenId.SparksPopupGuest when Current is not null:
                 Current.Add(p); return Current;
             default:
-                Ignored++; return null;
+                Ignored++; _continuing = false; return null;
         }
     }
 }

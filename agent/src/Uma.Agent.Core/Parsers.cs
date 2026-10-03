@@ -14,8 +14,9 @@ public sealed record Reading(object? Value, string? Raw, double Confidence, bool
 public sealed record HeaderReading(Reading Character, Reading Outfit, Reading Rank, Reading Rating, Reading Epithet,
     IReadOnlyDictionary<string, Reading> Stats, IReadOnlyDictionary<string, Reading> Aptitudes)
 {
-    /// <summary>Veteran identity (30 §5): outfit + name + rating, from IDs when accepted, else normalised OCR text.</summary>
-    public string IdentityKey => string.Join("|", Key(Outfit), Key(Character), Key(Rating));
+    /// <summary>Display key of the veteran (30 §5 outfit + name + rating, plus stats), from IDs when accepted, else
+    /// normalised OCR text. Session routing uses the confident values only (<see cref="CaptureCoordinator"/>).</summary>
+    public string IdentityKey => string.Join("|", new[] { Key(Outfit), Key(Character), Key(Rating) }.Concat(new[] { "spd", "sta", "pow", "gut", "wit" }.Where(Stats.ContainsKey).Select(k => Key(Stats[k]))));
     private static string Key(Reading r) => r.Ok ? Convert.ToString(r.Value, CultureInfo.InvariantCulture)! : "?" + VocabIndex.Normalize(r.Raw ?? "");
 }
 
