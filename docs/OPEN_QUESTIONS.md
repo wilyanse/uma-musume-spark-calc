@@ -187,6 +187,26 @@ Context: 30 §2 says the agent scales other 16:9 sizes linearly. Bicubic downsam
 Assumption taken: Core refuses 16:9 frames below 1920×1080 with `UnsupportedResolutionException` (an `UnsupportedFrameException`, like `UnsupportedAspectRatioException`), before any reading; T10 shows "make the game window at least 1920×1080". Larger 16:9 sizes are still downscaled to reference space (2560×1440 tested), and non-16:9 sizes are still rejected. Supporting smaller windows needs real captures at those sizes, scale-aware thresholds with an uncertainty band, and fixture tests; thresholds are not retuned on synthetic resampling.
 Blocking: no
 
+## Q-150 (T11) A partial owned-cards sync still replaces the whole table
+Context: 01 §4 says the API "replaces the table atomically" and accepts a count mismatch with `?partial=1`. The route (`apps/api/src/routes/owned-cards.ts`) runs `DELETE FROM owned_cards` then inserts the body for partial syncs as well. So a "Send partial" of one scanned page (e.g. fixture 13: 20 of Held 208) leaves the web app with only those 20 cards. 30 §8 offers "Send partial" without saying whether it merges.
+Assumption taken: no API or contract change. The agent never sends a partial on its own: `CardSyncSession.BuildPartial` needs the user's explicit `PartialSyncConfirmation` for the exact current state, and its `Message` says the list will be replaced by these N cards. A merge mode would need an ADR and a 01 §4 change.
+Blocking: no
+
+## Q-151 (T11) Does `Held N/255` count distinct cards?
+Context: 30 §8 completes the sync "when the unique card count equals `Held N`". No fixture or cited source in the repo says whether the game's Held counter counts distinct support cards or copies. Fixture 13 shows 20 distinct cards with Held 208, which does not decide it.
+Assumption taken: follow 30 §8: a full sync requires the distinct collected count to equal Held. If Held counts copies, a full sync never becomes possible and the user can only send partial. Check at H4 with a real full scroll.
+Blocking: no (verify at H4)
+
+## Q-152 (T11) Card sync has no durable queue
+Context: 30 §6 puts veteran uploads in the SQLite outbox. T09's outbox accepts only `crop` and `veteran` kinds. The owned-cards PUT is a whole-table replace, so a stale queued sync replayed later could overwrite a newer one.
+Assumption taken: no durable card queue and no new outbox kind. `OwnedCardsUploader` sends straight from the in-memory `CardSyncSession` with bounded retry: at most 4 attempts, backoff 2 s doubling and capped at 30 s. Nothing reaches disk: no payload, token or response. Recovery after `Failed`/`AuthRequired`/app exit: rebuild from the still-open session (`BuildFull`/`BuildPartial` give the same body) and send again, or scan again. The last API-acknowledged list remains on the server until a later sync succeeds.
+Blocking: no
+
+## Q-153 (T11) Scroll placement depends on accepted art matches
+Context: 30 §8 de-duplicates assisted scrolling by (cardId, lb, level, grid position relative to the previous frame). With no auto-scroll (T14), the scroll offset can't be known apart from the tiles themselves.
+Assumption taken: a frame is placed only by its accepted art matches, and its offset must be a whole number of rows and agree across those tiles. A frame with no accepted tile is ignored. A frame that contradicts what was seen is rejected whole. Unconnected parts and holes block a full sync even when the count equals Held. The 5×4 grid and per-tile thresholds are T09's, calibrated on fixture 13 only. Re-check scroll behaviour on Windows at H4.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)
