@@ -181,9 +181,9 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Merged locally (0472739); merged native build/166 tests and TS checks passed; T10/T11 dependencies cleared | task/T09-agent-core | T09-agent-core.md | CHANGES_REQUESTED r1 → PASS r2/r3; final SF1–SF4 verified on Sol; H4 remains after T10 |
-| T10 | Running Opus medium from 08d4876; Windows shell and H4 runbook | task/T10-windows-shell | T10-windows-shell.md | Pending; H4 after native shell |
-| T11 | Candidate eb5cd87; parent native build/231 tests passed; independent r1 | task/T11-card-sync | T11-card-sync.md | Pending; T10 integration and H4 remain after reviewed merge |
+| T10 | Resumed same session on Sol medium after Opus HTTP429; partial Windows source/tests preserved | task/T10-windows-shell | T10-windows-shell.md | Pending; H4 after native shell |
+| T11 | Candidate eb5cd87; parent native build/231 tests passed; same independent r1 resumed on Sol after Opus HTTP429 | task/T11-card-sync | T11-card-sync.md | Pending; T10 integration and H4 remain after reviewed merge |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T13 | Running Opus medium from 08d4876; S01–S07 and real browser verification | task/T13-web-screens | T13-web-screens.md | Pending; H5 approved |
+| T13 | Resumed same session on Sol medium after Opus HTTP429; partial S01–S07 work preserved | task/T13-web-screens | T13-web-screens.md | Pending; H5 approved |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
