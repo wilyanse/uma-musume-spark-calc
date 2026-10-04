@@ -28,6 +28,7 @@ public class CardsContractTests
         using var doc = JsonDocument.Parse(json);
         var root = doc.RootElement;
         var props = schema.GetProperty("properties");
+        Assert.Equal(OwnedCardsSyncJson.IsoUtcPattern, props.GetProperty("capturedAt").GetProperty("pattern").GetString());
         Assert.Equal(schema.GetProperty("required").EnumerateArray().Select(x => x.GetString()).Order(), root.EnumerateObject().Select(p => p.Name).Order());
         Assert.False(schema.GetProperty("additionalProperties").GetBoolean());
         var item = props.GetProperty("cards").GetProperty("items");
@@ -85,10 +86,25 @@ public class CardsContractTests
     }
 
     [Fact]
+    public void Shape_validation_is_separate_from_business_validation()
+    {
+        Assert.Contains(OwnedCardsSyncValidator.ValidateSchema(null), e => e.StartsWith("/"));
+        Assert.Contains(OwnedCardsSyncValidator.ValidateSchema(Body(0) with { Cards = null! }), e => e.StartsWith("/cards:"));
+        Assert.Contains(OwnedCardsSyncValidator.ValidateSchema(Body(1) with { Cards = [null!] }), e => e.StartsWith("/cards/0:"));
+        var mismatch = Body(2, held: 3);
+        Assert.Empty(OwnedCardsSyncValidator.ValidateSchema(mismatch));
+        Assert.Contains(OwnedCardsSyncValidator.Validate(mismatch, false, Known), e => e.Contains(OwnedCardsSyncValidator.HeldCountMessage));
+        Assert.Empty(OwnedCardsSyncValidator.Validate(mismatch, true, Known));
+    }
+
+    [Fact]
     public void Deserialize_is_strict()
     {
         var json = OwnedCardsSyncJson.Serialize(Body());
         Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"heldCount\"", "\"extra\":1,\"heldCount\"")));
         Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("2026-10-03T01:02:03Z", "2026-10-03T09:02:03+08:00")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"heldCount\":2", "\"heldCount\":2,\"heldCount\":2")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("2026-10-03T01:02:03Z", "October 3, 2026 01:02:03Z")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"cards\":[", "\"cards\":null,\"cards\":[")));
     }
 }

@@ -6,8 +6,8 @@ public enum CardFeedOutcome { Ignored, Collected, Rejected, HeldChanged, Cancell
 public sealed record CardFeedResult(CardFeedOutcome Outcome, string Reason);
 
 /// <summary>A card the session is sure of. `Segment`/`Position` locate it in the list as seen so far: a segment is a
-/// run of tiles linked by overlapping frames, and positions are row-major indices within it (0 = first seen tile of the
-/// topmost row). `Source` is `art` (accepted art match + read level) or `detail` (resolved on the cards.detail screen).</summary>
+/// run of tiles linked by overlapping frames, and positions are row-major indices within it (0 = the
+/// topmost observed row's grid origin, including unread occupied cells). `Source` is `art` (accepted art match + read level) or `detail` (resolved on the cards.detail screen).</summary>
 public sealed record CollectedCard(int Segment, int Position, string CardId, int Lb, int Level, double Confidence, string Source);
 
 /// <summary>A tile that is not sure yet: art not accepted (`CardId` null, `Candidates` = the parser's top 3) and/or level
@@ -24,8 +24,19 @@ public sealed record CardConflict(int Segment, int Position, IReadOnlyList<CardO
 /// <summary>What the user saw when they chose "Send partial". <see cref="CardSyncSession.BuildPartial"/> refuses a
 /// confirmation that no longer matches the current state. The API replaces the whole owned-card table even with
 /// `?partial=1` (apps/api/src/routes/owned-cards.ts: DELETE then INSERT), so the shell must show <see cref="Message"/>.</summary>
-public sealed record PartialSyncConfirmation(long Revision, int Cards, int HeldCount)
+public sealed record PartialSyncConfirmation
 {
+    public long Revision { get; }
+    public int Cards { get; }
+    public int HeldCount { get; }
+    public Guid SessionId { get; }
+    public long Generation { get; }
+    public long SessionInstance { get; }
+    // A manually constructed confirmation has no session authority.
+    public PartialSyncConfirmation(long Revision, int Cards, int HeldCount)
+        : this(Revision, Cards, HeldCount, Guid.Empty, -1, -1) { }
+    internal PartialSyncConfirmation(long revision, int cards, int heldCount, Guid sessionId, long generation, long sessionInstance)
+    { Revision = revision; Cards = cards; HeldCount = heldCount; SessionId = sessionId; Generation = generation; SessionInstance = sessionInstance; }
     public string Message => $"Send {Cards} of {HeldCount} cards as a partial sync? The web app's owned-card list will be replaced by these {Cards} cards; cards not collected in this scan will no longer be listed.";
 }
 
@@ -60,10 +71,18 @@ public sealed class CardSyncSession
     private sealed record CardSlot(string CardId, int Lb, int Level, double Confidence, string Source) : Slot;
     private sealed record PendingSlot(string Id, string? CardId, int Lb, int? Level, IReadOnlyList<Candidate> Candidates, string? Raw) : Slot;
     private sealed record ConflictSlot(IReadOnlyList<CardObservation> Observations) : Slot;
+    // Occupancy was observed, but LB could not be read. Keep the position (including boundaries); never guess LB.
+    private sealed record UnreadSlot(string? CardId) : Slot;
     private sealed class RejectFrame(string reason) : Exception(reason);
 
     private readonly object _gate = new();
-    private readonly MasterData _master;
+    private readonly string _masterVersion;
+    private readonly IReadOnlySet<string> _knownCards;
+    private readonly Guid _sessionId;
+    // A faulty/reused injected GUID must not alias another live session. No static session registry is retained.
+    private static long _nextInstance;
+    private readonly long _sessionInstance = Interlocked.Increment(ref _nextInstance);
+    private long _generation;
     private readonly IClock _clock;
     private readonly int _columns;
 
@@ -75,14 +94,16 @@ public sealed class CardSyncSession
     private long _revision;
     private DateTimeOffset? _capturedAt;
 
-    public CardSyncSession(MasterData master, LayoutProfile layout, IClock clock)
+    public CardSyncSession(MasterData master, LayoutProfile layout, IClock clock, Func<Guid>? sessionIdentity = null)
     {
-        _master = master; _clock = clock;
+        _masterVersion = master.Version; _knownCards = new HashSet<string>(master.Ids["cards"], StringComparer.Ordinal); _clock = clock;
+        _sessionId = (sessionIdentity ?? Guid.NewGuid)();
+        if (_sessionId == Guid.Empty) throw new ArgumentException("session identity must not be empty", nameof(sessionIdentity));
         _columns = layout.Int("cardsList", "columns");
         if (_columns <= 0) throw new ArgumentException("layout cardsList.columns must be positive", nameof(layout));
     }
 
-    public string MasterVersion => _master.Version;
+    public string MasterVersion => _masterVersion;
 
     /// <summary>Parses a raw client frame (normalized to 1920x1080 by ParseAsync; unsupported sizes throw its typed
     /// <see cref="UnsupportedFrameException"/>s before anything is read) and feeds it.</summary>
@@ -96,7 +117,10 @@ public sealed class CardSyncSession
 
     /// <summary>Feeds a frame parsed by <see cref="FrameParser.ParseAsync"/>. Its frame must be in the 1920x1080
     /// reference space (<see cref="NonReferenceFrameException"/> otherwise).</summary>
-    public CardFeedResult Feed(ParsedFrame parsed)
+    /// <param name="confirmedEmptyCells">Explicit caller-verified empty grid cells; absence of OCR/art
+    /// is not evidence of emptiness. The parser does not currently provide an occupancy classifier.
+    /// Never infer this set from missing readings. Cells with accepted identity or level cannot be declared empty.</param>
+    public CardFeedResult Feed(ParsedFrame parsed, IReadOnlySet<int>? confirmedEmptyCells = null)
     {
         ArgumentNullException.ThrowIfNull(parsed);
         Frames.RequireReference(parsed.Frame);
@@ -106,7 +130,7 @@ public sealed class CardSyncSession
             if (_cancelled) return new(CardFeedOutcome.Cancelled, "the card sync was cancelled; reset to start again");
             if (_heldChanged) return new(CardFeedOutcome.Ignored, "Held changed during the scan; reset to start again");
             var before = Signature();
-            var result = parsed.Screen.Id == ScreenId.CardsList ? FeedList(parsed) : FeedDetail(parsed);
+            var result = parsed.Screen.Id == ScreenId.CardsList ? FeedList(parsed, confirmedEmptyCells) : FeedDetail(parsed);
             if (Signature() != before) { _revision++; _capturedAt = _clock.UtcNow; }
             return result;
         }
@@ -119,22 +143,22 @@ public sealed class CardSyncSession
         lock (_gate)
         {
             if (_cancelled || _heldChanged || Find(pendingId) is null) return false;
-            _awaiting = pendingId;
+            if (_awaiting != pendingId) { _awaiting = pendingId; _revision++; }
             return true;
         }
     }
 
-    public void ClearDetailRequest() { lock (_gate) _awaiting = null; }
+    public void ClearDetailRequest() { lock (_gate) { if (_awaiting is not null) { _awaiting = null; _revision++; } } }
 
     /// <summary>Stops collecting. Nothing can be built until <see cref="Reset"/>.</summary>
-    public void Cancel() { lock (_gate) { _cancelled = true; _awaiting = null; _revision++; } }
+    public void Cancel() { lock (_gate) { _cancelled = true; _awaiting = null; _generation++; _revision++; } }
 
     /// <summary>Forgets everything (Held, cards, pending tiles, conflicts) and starts over.</summary>
     public void Reset()
     {
         lock (_gate)
         {
-            _segments = new(); _nextSegment = 0; _nextPending = 0; _held = null;
+            _segments = new(); _nextSegment = 0; _nextPending = 0; _held = null; _generation++;
             _heldChanged = false; _cancelled = false; _awaiting = null; _capturedAt = null; _revision++;
         }
     }
@@ -169,15 +193,15 @@ public sealed class CardSyncSession
 
     private OwnedCardsSyncPayload Payload(CardSyncState s, bool partial)
     {
-        var body = new OwnedCardsSync(1, (s.CapturedAt ?? _clock.UtcNow).ToUniversalTime(), _master.Version, s.HeldCount!.Value,
-            s.Cards.Select(c => new OwnedCard(c.CardId, c.Lb, c.Level, c.Confidence)).ToArray());
-        var errors = OwnedCardsSyncValidator.Validate(body, partial, _master.Ids["cards"]);
+        var body = new OwnedCardsSync(1, (s.CapturedAt ?? _clock.UtcNow).ToUniversalTime(), _masterVersion, s.HeldCount!.Value,
+            Freeze(s.Cards.Select(c => new OwnedCard(c.CardId, c.Lb, c.Level, c.Confidence))));
+        var errors = OwnedCardsSyncValidator.Validate(body, partial, _knownCards);
         if (errors.Count > 0) throw new InvalidOperationException("invalid owned-cards payload: " + string.Join("; ", errors));
         return new OwnedCardsSyncPayload(body, partial);
     }
 
     // ---------------- list frames ----------------
-    private CardFeedResult FeedList(ParsedFrame p)
+    private CardFeedResult FeedList(ParsedFrame p, IReadOnlySet<int>? confirmedEmptyCells)
     {
         int? held = p.HeldCount is { Ok: true, Value: int h } ? h : null;
         if (held is not null && _held is not null && held != _held)
@@ -191,14 +215,22 @@ public sealed class CardSyncSession
         foreach (var t in p.ListTiles.OrderBy(t => t.Index))
         {
             int? level = t.Level is { Ok: true, Value: int lv } && lv >= OwnedCardsSyncValidator.MinLevel ? lv : null;
-            if (t.Lb is not { Ok: true, Value: int lb } || lb is < 0 or > 4) continue;    // LB is read from pixels; never guessed
-            var cardOk = t.Card is { Ok: true, Value: string id } && _master.Ids["cards"].Contains(id);
+            var cardOk = t.Card is { Ok: true, Value: string id } && _knownCards.Contains(id);
             var cardId = cardOk ? (string)t.Card.Value! : null;
-            if (cardId is null && level is null) continue;                               // empty cell / nothing readable
+            if (confirmedEmptyCells?.Contains(t.Index) == true)
+            {
+                if (cardId is not null || level is not null)
+                    return new(CardFeedOutcome.Rejected, "an explicitly empty cell has an occupied reading; frame not used");
+                continue;
+            }
+            if (cardId is null && level is null)
+            { observations.Add((t.Index, new UnreadSlot(null))); continue; } // Unknown occupancy, never assumed empty.
             if (cardId is not null) anchors.Add((t.Index, cardId));
+            if (t.Lb is not { Ok: true, Value: int lb } || lb is < 0 or > 4)
+            { observations.Add((t.Index, new UnreadSlot(cardId))); continue; }
             Slot slot = cardId is not null && level is not null
                 ? new CardSlot(cardId, lb, level.Value, Math.Round(Math.Min(t.Card.Confidence, t.Level.Confidence), 4), "art")
-                : new PendingSlot("", cardId, lb, level, t.Card.Candidates, t.Card.Raw);
+                : new PendingSlot("", cardId, lb, level, Freeze(t.Card.Candidates.Where(c => c.Value is string).Select(c => new Candidate((string)c.Value!, c.Score))), t.Card.Raw);
             observations.Add((t.Index, slot));
         }
         if (anchors.Count == 0) return new(CardFeedOutcome.Ignored, "no tile was matched confidently, so the frame can't be placed; scroll slowly or open a card");
@@ -231,7 +263,7 @@ public sealed class CardSyncSession
             }
             foreach (var (index, slot) in observations)
             {
-                var s = slot is PendingSlot ps ? ps with { Id = "tile-" + (++nextPending) } : slot;
+                var s = slot is PendingSlot ps ? ps with { Id = $"tile-{_sessionId:N}-{_sessionInstance}-{_generation}-{++nextPending}" } : slot;
                 Put(work[segment], index + offset, s);
             }
             // Uniqueness across the whole collection (01 §4 cardId is the primary key).
@@ -252,6 +284,7 @@ public sealed class CardSyncSession
     private static IEnumerable<string> SlotIds(Slot s) => s switch
     {
         CardSlot c => [c.CardId],
+        UnreadSlot { CardId: { } id } => [id],
         PendingSlot { CardId: { } id } => [id],
         ConflictSlot c => c.Observations.Select(o => o.CardId).OfType<string>().Distinct(),
         _ => [],
@@ -267,9 +300,13 @@ public sealed class CardSyncSession
 
     private static Slot Merge(Slot a, Slot b)
     {
-        string? IdOf(Slot s) => s switch { CardSlot c => c.CardId, PendingSlot p => p.CardId, ConflictSlot c => c.Observations.Select(o => o.CardId).OfType<string>().FirstOrDefault(), _ => null };
+        string? IdOf(Slot s) => s switch { CardSlot c => c.CardId, PendingSlot p => p.CardId, UnreadSlot u => u.CardId, ConflictSlot c => c.Observations.Select(o => o.CardId).OfType<string>().FirstOrDefault(), _ => null };
         var ia = IdOf(a); var ib = IdOf(b);
         if (ia is not null && ib is not null && ia != ib) throw new RejectFrame($"{ib} read where {ia} was seen");
+        // A subsequent readable observation resolves unknown LB. An unread repeat cannot erase a read.
+        if (a is UnreadSlot u) return b is UnreadSlot v ? u with { CardId = u.CardId ?? v.CardId }
+            : b is PendingSlot p ? p with { CardId = p.CardId ?? u.CardId } : b;
+        if (b is UnreadSlot) return a;
         switch (a, b)
         {
             case (CardSlot x, CardSlot y):
@@ -297,13 +334,13 @@ public sealed class CardSyncSession
             ConflictSlot c => c.Observations,
             _ => [],
         };
-        return new ConflictSlot(Obs(a).Concat(Obs(b)).Distinct().ToArray());
+        return new ConflictSlot(Freeze(Obs(a).Concat(Obs(b)).Distinct()));
     }
 
     // ---------------- detail frames ----------------
     private CardFeedResult FeedDetail(ParsedFrame p)
     {
-        if (p.DetailCard is not { Ok: true, Value: string id } || !_master.Ids["cards"].Contains(id))
+        if (p.DetailCard is not { Ok: true, Value: string id } || !_knownCards.Contains(id))
             return new(CardFeedOutcome.DetailIgnored, "the card title and name were not read exactly");
         if (p.DetailLevel is not { Ok: true, Value: int level } || level < OwnedCardsSyncValidator.MinLevel)
             return new(CardFeedOutcome.DetailIgnored, "the card level was not read");
@@ -320,12 +357,12 @@ public sealed class CardSyncSession
             if (requested.Length == 0) { _awaiting = null; return new(CardFeedOutcome.DetailIgnored, "the selected tile is no longer pending"); }
             target = requested[0];
             if (target.Tile.Level is not null && target.Tile.Level != level) return new(CardFeedOutcome.DetailIgnored, $"the selected tile shows Lvl {target.Tile.Level}, this card is Lvl {level}");
-            if (target.Tile.CardId is not null && target.Tile.CardId != id) return new(CardFeedOutcome.DetailIgnored, $"the selected tile was matched to {target.Tile.CardId}");
+            if (!FitsIdentity(target.Tile, id)) return new(CardFeedOutcome.DetailIgnored, $"the selected tile candidates do not match {id}");
             if (pendings.Any(x => x.Tile.Id != _awaiting && x.Tile.CardId == id)) return new(CardFeedOutcome.DetailIgnored, $"{id} was matched to another tile");
         }
         else
         {
-            var fits = pendings.Where(x => (x.Tile.CardId == id || (x.Tile.CardId is null && x.Tile.Candidates.Any(c => c.Value as string == id)))
+            var fits = pendings.Where(x => FitsIdentity(x.Tile, id)
                                            && (x.Tile.Level is null || x.Tile.Level == level)).ToArray();
             if (fits.Length == 0) return new(CardFeedOutcome.DetailIgnored, $"no pending tile fits {id} Lvl {level}");
             if (fits.Length > 1) return new(CardFeedOutcome.DetailIgnored, $"{fits.Length} pending tiles could be {id}; select the tile first");
@@ -341,9 +378,14 @@ public sealed class CardSyncSession
     private static SortedDictionary<int, SortedDictionary<int, Slot>> Clone(SortedDictionary<int, SortedDictionary<int, Slot>> s)
         => new(s.ToDictionary(kv => kv.Key, kv => new SortedDictionary<int, Slot>(kv.Value)));
 
-    /// <summary>Shifts each segment so its first position is 0.</summary>
-    private static SortedDictionary<int, SortedDictionary<int, Slot>> Normalize(SortedDictionary<int, SortedDictionary<int, Slot>> s)
-        => new(s.Where(kv => kv.Value.Count > 0).ToDictionary(kv => kv.Key, kv => { var min = kv.Value.Keys.First(); return new SortedDictionary<int, Slot>(kv.Value.ToDictionary(x => x.Key - min, x => x.Value)); }));
+    private static bool FitsIdentity(PendingSlot tile, string id)
+        => tile.CardId == id || (tile.CardId is null && tile.Candidates.Any(c => c.Value as string == id));
+
+    private static IReadOnlyList<T> Freeze<T>(IEnumerable<T> items) => Array.AsReadOnly(items.ToArray());
+
+    /// <summary>Shift by whole rows only, keeping the grid origin and unread occupied boundary slots.</summary>
+    private SortedDictionary<int, SortedDictionary<int, Slot>> Normalize(SortedDictionary<int, SortedDictionary<int, Slot>> s)
+        => new(s.Where(kv => kv.Value.Count > 0).ToDictionary(kv => kv.Key, kv => { var min = (int)Math.Floor((double)kv.Value.Keys.First() / _columns) * _columns; return new SortedDictionary<int, Slot>(kv.Value.ToDictionary(x => x.Key - min, x => x.Value)); }));
 
     private static (int Segment, int Position)? Locate(SortedDictionary<int, SortedDictionary<int, Slot>> s, string cardId)
     {
@@ -364,6 +406,7 @@ public sealed class CardSyncSession
         CardSlot c => $"C({c.CardId},{c.Lb},{c.Level},{c.Confidence.ToString("R", System.Globalization.CultureInfo.InvariantCulture)},{c.Source})",
         PendingSlot p => $"P({p.Id},{p.CardId},{p.Lb},{p.Level},[{string.Join(";", p.Candidates.Select(c => c.Value + "@" + c.Score.ToString("R", System.Globalization.CultureInfo.InvariantCulture)))}])",
         ConflictSlot k => $"X([{string.Join(";", k.Observations.Select(o => $"{o.CardId}/{o.Lb}/{o.Level}"))}])",
+        UnreadSlot u => $"U({u.CardId})",
         _ => "?",
     };
 
@@ -375,10 +418,10 @@ public sealed class CardSyncSession
                 switch (slot)
                 {
                     case CardSlot c: cards.Add(new(segment, pos, c.CardId, c.Lb, c.Level, c.Confidence, c.Source)); break;
-                    case PendingSlot p: pending.Add(new(p.Id, segment, pos, p.CardId, p.Lb, p.Level, p.Candidates, p.Raw)); break;
-                    case ConflictSlot k: conflicts.Add(new(segment, pos, k.Observations)); break;
+                    case PendingSlot p: pending.Add(new(p.Id, segment, pos, p.CardId, p.Lb, p.Level, Freeze(p.Candidates), p.Raw)); break;
+                    case ConflictSlot k: conflicts.Add(new(segment, pos, Freeze(k.Observations))); break;
                 }
-        var holes = _segments.Values.Sum(seg => seg.Count == 0 ? 0 : seg.Keys.Last() - seg.Keys.First() + 1 - seg.Count);
+        var holes = _segments.Values.Sum(seg => seg.Count == 0 ? 0 : seg.Keys.Last() - seg.Keys.First() + 1 - seg.Count + seg.Values.OfType<UnreadSlot>().Count());
 
         var blockers = new List<string>();
         if (_cancelled) blockers.Add("cancelled");
@@ -395,7 +438,7 @@ public sealed class CardSyncSession
         var status = _cancelled ? CardSyncStatus.Cancelled : _heldChanged ? CardSyncStatus.HeldChanged
             : canFull ? CardSyncStatus.Complete : _revision == 0 || (_segments.Count == 0 && _held is null) ? CardSyncStatus.Idle : CardSyncStatus.Collecting;
         PartialSyncConfirmation? confirm = !_cancelled && !_heldChanged && _held is not null && cards.Count > 0 && cards.Count <= _held
-            ? new(_revision, cards.Count, _held.Value) : null;
-        return new CardSyncState(status, _revision, _held, _master.Version, _capturedAt, cards, pending, conflicts, _segments.Count, _awaiting, canFull, blockers, confirm);
+            ? new(_revision, cards.Count, _held.Value, _sessionId, _generation, _sessionInstance) : null;
+        return new CardSyncState(status, _revision, _held, _masterVersion, _capturedAt, Freeze(cards), Freeze(pending), Freeze(conflicts), _segments.Count, _awaiting, canFull, Freeze(blockers), confirm);
     }
 }

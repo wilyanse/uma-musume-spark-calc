@@ -120,7 +120,7 @@ public class CardsUploaderTests
         Assert.Equal(OwnedCardsUploadOutcome.Invalid, r.Outcome);
         Assert.Contains(r.Errors, e => e.Contains(OwnedCardsSyncValidator.HeldCountMessage));
         var p = Payload(2, 2, false);
-        r = await up.SendAsync(p with { Body = p.Body with { Cards = [p.Body.Cards[0], p.Body.Cards[0]] } });
+        r = await up.SendAsync(new OwnedCardsSyncPayload(p.Body with { Cards = [p.Body.Cards[0], p.Body.Cards[0]] }, p.Partial));
         Assert.Equal(OwnedCardsUploadOutcome.Invalid, r.Outcome);
         Assert.Empty(api.Requests);
         Assert.Equal(0, r.Attempts);
@@ -277,7 +277,7 @@ public class CardsUploaderTests
         // SYNTHETIC session (see Synthetic) end to end: full sync accepted; the fixture-13 partial is accepted with ?partial=1.
         var inv = new Synthetic(23);
         var s = CardsKit.NewSession();
-        s.Feed(inv.Page(0)); s.Feed(inv.Page(5));
+        s.Feed(inv.Page(0), inv.EmptyCells(0)); s.Feed(inv.Page(5), inv.EmptyCells(5));
         var (up, api, _, _) = Setup();
         var r = await up.SendAsync(s.BuildFull());
         Assert.Equal(OwnedCardsUploadOutcome.Synced, r.Outcome);

@@ -15,10 +15,10 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         Assert.Equal(20, s.State.Cards.Count);
         Assert.False(s.State.CanSendFull);
-        s.Feed(inv.Page(5));                                                 // scrolled one row: 15 tiles overlap
+        s.Feed(inv.Page(5), inv.EmptyCells(5));                                                 // scrolled one row: 15 tiles overlap
         var st = s.State;
         Assert.Equal(CardSyncStatus.Complete, st.Status);
         Assert.True(st.CanSendFull);
@@ -36,9 +36,9 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         var rev = s.State.Revision;
-        for (var i = 0; i < 3; i++) Assert.Equal(CardFeedOutcome.Collected, s.Feed(inv.Page(0)).Outcome);
+        for (var i = 0; i < 3; i++) Assert.Equal(CardFeedOutcome.Collected, s.Feed(inv.Page(0), inv.EmptyCells(0)).Outcome);
         Assert.Equal(rev, s.State.Revision);
         Assert.Equal(20, s.State.Cards.Count);
     }
@@ -48,8 +48,8 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23);
         var s = NewSession();
-        s.Feed(inv.Page(5));                                                 // the user scrolled before starting
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(5), inv.EmptyCells(5));                                                 // the user scrolled before starting
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         Assert.Equal(inv.Inventory.Select(c => c.Id), Ids(s.State));
         Assert.True(s.State.CanSendFull);
     }
@@ -59,11 +59,11 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(50);
         var s = NewSession();
-        s.Feed(inv.Page(0)); s.Feed(inv.Page(30));                           // 20..29 never seen
+        s.Feed(inv.Page(0), inv.EmptyCells(0)); s.Feed(inv.Page(30), inv.EmptyCells(30));                           // 20..29 never seen
         Assert.Equal(40, s.State.Cards.Count);
         Assert.Equal(2, s.State.Segments);
         Assert.False(s.State.CanSendFull);
-        s.Feed(inv.Page(15));                                                // overlaps both islands
+        s.Feed(inv.Page(15), inv.EmptyCells(15));                                                // overlaps both islands
         Assert.Equal(1, s.State.Segments);
         Assert.Equal(inv.Inventory.Select(c => c.Id), Ids(s.State));
         Assert.True(s.State.CanSendFull);
@@ -75,7 +75,7 @@ public class CardsSequenceTests
         // Guards a misread Held: 40 cards seen in two unconnected parts must not be sent as the whole collection.
         var inv = new Synthetic(50, held: 40);
         var s = NewSession();
-        s.Feed(inv.Page(0)); s.Feed(inv.Page(30));
+        s.Feed(inv.Page(0), inv.EmptyCells(0)); s.Feed(inv.Page(30), inv.EmptyCells(30));
         Assert.Equal(40, s.State.Cards.Count);
         Assert.Equal(40, s.State.HeldCount);
         Assert.False(s.State.CanSendFull);
@@ -102,7 +102,7 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(30);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         var shifted = Synthetic.List(Enumerable.Range(0, 20).Select(i => Synthetic.Tile(i, inv.Inventory[i + 3])), inv.Held);
         var r = s.Feed(shifted);
         Assert.Equal(CardFeedOutcome.Rejected, r.Outcome);
@@ -115,7 +115,7 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         var r = s.Feed(inv.Page(5) with { HeldCount = new Reading(24, "24/255", 0.9, true, [], null) });
         Assert.Equal(CardFeedOutcome.HeldChanged, r.Outcome);
         Assert.Equal(CardSyncStatus.HeldChanged, s.State.Status);
@@ -123,7 +123,7 @@ public class CardsSequenceTests
         Assert.Null(s.State.PartialConfirmation);
         Assert.Equal(20, s.State.Cards.Count);                                // the changed frame added nothing
         Assert.Throws<InvalidOperationException>(() => s.BuildFull());
-        Assert.Equal(CardFeedOutcome.Ignored, s.Feed(inv.Page(5)).Outcome);
+        Assert.Equal(CardFeedOutcome.Ignored, s.Feed(inv.Page(5), inv.EmptyCells(5)).Outcome);
         s.Reset();
         Assert.Equal(CardSyncStatus.Idle, s.State.Status);
         Assert.Empty(s.State.Cards);
@@ -134,15 +134,15 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23);
         var s = NewSession();
-        s.Feed(inv.Page(0, held: null)); s.Feed(inv.Page(5, held: null));
+        s.Feed(inv.Page(0, held: null), inv.EmptyCells(0)); s.Feed(inv.Page(5, held: null), inv.EmptyCells(5));
         Assert.Null(s.State.HeldCount);
         Assert.Equal(23, s.State.Cards.Count);
         Assert.False(s.State.CanSendFull);
         Assert.Null(s.State.PartialConfirmation);                            // heldCount is required by the contract
         var low = inv.Page(5) with { HeldCount = new Reading(23, "23/255", 0.3, false, [], null) };
-        s.Feed(low);
+        s.Feed(low, inv.EmptyCells(5));
         Assert.Null(s.State.HeldCount);
-        s.Feed(inv.Page(5));
+        s.Feed(inv.Page(5), inv.EmptyCells(5));
         Assert.Equal(23, s.State.HeldCount);
         Assert.True(s.State.CanSendFull);
     }
@@ -164,7 +164,7 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(30);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         // Second frame claims inventory[0] where inventory[10] should be, while the other tiles say one row down.
         var bad = inv.PageWith(5, (pos, t) => pos == 10 ? Synthetic.Tile(t.Index, inv.Inventory[0]) : t);
         var r = s.Feed(bad);
@@ -177,7 +177,7 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         var changed = inv.PageWith(5, (pos, t) => pos == 7 ? t with { Lb = new Reading((inv.Inventory[7].Lb + 1) % 5, null, 1, true, [], null) } : t);
         s.Feed(changed);
         var c = Assert.Single(s.State.Conflicts);
@@ -205,7 +205,7 @@ public class CardsSequenceTests
         var inv = new Synthetic(23);
         var clock = new TestClock();
         var s = NewSession(clock);
-        s.Feed(inv.Page(0)); s.Feed(inv.Page(5));
+        s.Feed(inv.Page(0), inv.EmptyCells(0)); s.Feed(inv.Page(5), inv.EmptyCells(5));
         var a = s.BuildFull();
         clock.UtcNow += TimeSpan.FromMinutes(10);
         Assert.Equal(a, s.BuildFull());
@@ -216,7 +216,7 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23, held: 21);
         var s = NewSession();
-        s.Feed(inv.Page(0)); s.Feed(inv.Page(5));
+        s.Feed(inv.Page(0), inv.EmptyCells(0)); s.Feed(inv.Page(5), inv.EmptyCells(5));
         Assert.Equal(23, s.State.Cards.Count);
         Assert.False(s.State.CanSendFull);
         Assert.Contains(s.State.Blockers, b => b.Contains("more than Held"));
@@ -233,7 +233,7 @@ public class CardsSequenceTests
         Assert.Equal(12, p.Position); Assert.Null(p.CardId);
         Assert.Equal(2, p.Candidates.Count);
         Assert.DoesNotContain(s.State.Cards, c => c.Position == 12);
-        s.Feed(inv.Page(5));                                                 // the same tile, now confidently matched
+        s.Feed(inv.Page(5), inv.EmptyCells(5));                                                 // the same tile, now confidently matched
         Assert.Empty(s.State.Pending);
         Assert.True(s.State.CanSendFull);
     }
@@ -296,7 +296,7 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(3);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         Assert.Equal(3, s.State.Cards.Count);
         Assert.Empty(s.State.Pending);
         Assert.True(s.State.CanSendFull);
@@ -307,14 +307,14 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(23);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         s.Cancel();
         Assert.Equal(CardSyncStatus.Cancelled, s.State.Status);
-        Assert.Equal(CardFeedOutcome.Cancelled, s.Feed(inv.Page(5)).Outcome);
+        Assert.Equal(CardFeedOutcome.Cancelled, s.Feed(inv.Page(5), inv.EmptyCells(5)).Outcome);
         Assert.Null(s.State.PartialConfirmation);
         Assert.Throws<InvalidOperationException>(() => s.BuildFull());
         s.Reset();
-        s.Feed(inv.Page(0)); s.Feed(inv.Page(5));
+        s.Feed(inv.Page(0), inv.EmptyCells(0)); s.Feed(inv.Page(5), inv.EmptyCells(5));
         Assert.True(s.State.CanSendFull);
     }
 
@@ -323,11 +323,11 @@ public class CardsSequenceTests
     {
         var inv = new Synthetic(50);
         var s = NewSession();
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         var seen = s.State.PartialConfirmation!;
-        s.Feed(inv.Page(5));                                                 // more cards arrived after the click
+        s.Feed(inv.Page(5), inv.EmptyCells(5));                                                 // more cards arrived after the click
         Assert.Throws<InvalidOperationException>(() => s.BuildPartial(seen));
-        Assert.Throws<InvalidOperationException>(() => s.BuildPartial(seen with { Revision = s.State.Revision }));   // counts differ
+        Assert.Throws<InvalidOperationException>(() => s.BuildPartial(new PartialSyncConfirmation(s.State.Revision, seen.Cards, seen.HeldCount))); // hand-built counts/revision are not authorization
         var now = s.State.PartialConfirmation!;
         Assert.Equal(25, s.BuildPartial(now).Body.Cards.Count);
     }
@@ -346,12 +346,12 @@ public class CardsSequenceTests
         var inv = new Synthetic(23);
         var clock = new TestClock();
         var s = NewSession(clock);
-        s.Feed(inv.Page(0));
+        s.Feed(inv.Page(0), inv.EmptyCells(0));
         clock.UtcNow += TimeSpan.FromSeconds(5);
-        s.Feed(inv.Page(5));
+        s.Feed(inv.Page(5), inv.EmptyCells(5));
         var t = clock.UtcNow;
         clock.UtcNow += TimeSpan.FromMinutes(1);
-        s.Feed(inv.Page(5));                                                 // no change: capture time stays
+        s.Feed(inv.Page(5), inv.EmptyCells(5));                                                 // no change: capture time stays
         Assert.Equal(t, s.BuildFull().Body.CapturedAt);
     }
 }

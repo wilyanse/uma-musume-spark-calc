@@ -48,12 +48,15 @@ public sealed record OwnedCardsRetryPolicy(int MaxAttempts, TimeSpan BaseDelay, 
 /// <item>Validates locally first (same rules as the API, including master IDs when `knownCards` is given).</item>
 /// <item>Success is only the route's documented acknowledgement: HTTP 200, a JSON object with exactly `count` (= cards
 /// sent), `partial` (= the flag sent) and `syncedAt` (ISO UTC). Anything else is never reported as synced.</item>
-/// <item>The PUT replaces the whole table and is idempotent, so a transient failure is retried with the same body.</item>
+/// <item>A transient failure retries identical bytes, count and query flag. For a whole-table target,
+/// callers MUST use one reusable <see cref="OwnedCardsUploadCoordinator"/> across session/uploader
+/// replacements, and invalidate the session generation on reset/cancel. Direct SendAsync does not order callers.</item>
 /// <item>The secret is read from <see cref="IServiceToken"/> per request and only placed in request headers. Nothing is
 /// written to disk: no payload, token or response is persisted by this class.</item>
 /// </list>
 /// The HttpClient must not follow redirects: build it with <see cref="CreateHandler"/> (as for <see cref="UploadClient"/>).
-/// No durable queue: see <see cref="CardSyncSession"/> and the T11 changelog for the recovery procedure.</summary>
+/// No durable queue. Recovery may retry ONLY the still-current coordinator generation; never revive a stale
+/// session after a newer scan. Cancellation cannot undo server work already in flight.</summary>
 public sealed class OwnedCardsUploader
 {
     private readonly HttpClient _http;
@@ -73,13 +76,20 @@ public sealed class OwnedCardsUploader
     }
 
     public static HttpClientHandler CreateHandler() => UploadClient.CreateHandler();
+    internal Uri Target => new(_baseUri, "api/v1/owned-cards");
 
     public async Task<OwnedCardsUploadResult> SendAsync(OwnedCardsSyncPayload payload, CancellationToken ct = default)
     {
-        ArgumentNullException.ThrowIfNull(payload);
+        if (payload is null) return new(OwnedCardsUploadOutcome.Invalid, 0, null, "invalid-schema", ["/: must be an envelope"]);
+        var schemaErrors = OwnedCardsSyncValidator.ValidateSchema(payload.Body);
+        if (schemaErrors.Count > 0) return new(OwnedCardsUploadOutcome.Invalid, 0, null, "invalid-schema", schemaErrors);
         var errors = OwnedCardsSyncValidator.Validate(payload.Body, payload.Partial, _knownCards);
         if (errors.Count > 0) return new(OwnedCardsUploadOutcome.Invalid, 0, null, "invalid-payload", errors);
+        if (!payload.HasValidProvenance) return new(OwnedCardsUploadOutcome.Invalid, 0, null, "invalid-provenance", ["/: upload envelope authorization changed"]);
+        // Everything used after the first await is from this one immutable snapshot.
         var json = OwnedCardsSyncJson.Serialize(payload.Body);
+        var expectedCount = payload.Body.Cards.Count;
+        var expectedPartial = payload.Partial;
         var uri = new Uri(_baseUri, payload.Partial ? "api/v1/owned-cards?partial=1" : "api/v1/owned-cards");
 
         string? category = null;
@@ -87,7 +97,7 @@ public sealed class OwnedCardsUploader
         {
             if (attempt > 1) await _delay(_policy.DelayBefore(attempt - 1), ct);
             ct.ThrowIfCancellationRequested();
-            var (outcome, ack, cat, apiErrors) = await AttemptAsync(uri, json, payload, ct);
+            var (outcome, ack, cat, apiErrors) = await AttemptAsync(uri, json, expectedCount, expectedPartial, ct);
             switch (outcome)
             {
                 case OwnedCardsUploadOutcome.Synced: return new(outcome, attempt, ack, null, []);
@@ -99,7 +109,7 @@ public sealed class OwnedCardsUploader
         return new(OwnedCardsUploadOutcome.Failed, _policy.MaxAttempts, null, category, []);
     }
 
-    private async Task<(OwnedCardsUploadOutcome, OwnedCardsAck?, string?, IReadOnlyList<string>)> AttemptAsync(Uri uri, string json, OwnedCardsSyncPayload payload, CancellationToken ct)
+    private async Task<(OwnedCardsUploadOutcome, OwnedCardsAck?, string?, IReadOnlyList<string>)> AttemptAsync(Uri uri, string json, int expectedCount, bool expectedPartial, CancellationToken ct)
     {
         using var request = new HttpRequestMessage(HttpMethod.Put, uri);
         var (id, secret) = _token.Read();
@@ -117,15 +127,20 @@ public sealed class OwnedCardsUploader
             if (finalUri is not null && !string.Equals(finalUri.Authority, _baseUri.Authority, StringComparison.OrdinalIgnoreCase))
                 return (OwnedCardsUploadOutcome.AuthRequired, null, UploadErrors.AuthLoginPage, []);
             var media = response.Content.Headers.ContentType?.MediaType ?? "";
-            if (media.Contains("html", StringComparison.OrdinalIgnoreCase))
-                return (OwnedCardsUploadOutcome.AuthRequired, null, UploadErrors.AuthLoginPage, []);
+            if (media.Contains("html", StringComparison.OrdinalIgnoreCase) && code < 500)
+            {
+                var html = await response.Content.ReadAsStringAsync(ct);
+                if (html.Contains("Cloudflare Access", StringComparison.OrdinalIgnoreCase)
+                    && html.Contains("Sign in", StringComparison.OrdinalIgnoreCase))
+                    return (OwnedCardsUploadOutcome.AuthRequired, null, UploadErrors.AuthLoginPage, []);
+            }
             if (!response.IsSuccessStatusCode)
             {
                 if (code is >= 400 and < 500 and not 408 and not 429)
                     return (OwnedCardsUploadOutcome.Rejected, null, $"HTTP {code}", media.Contains("json", StringComparison.OrdinalIgnoreCase) ? ProblemErrors(await response.Content.ReadAsStringAsync(ct)) : []);
                 return (OwnedCardsUploadOutcome.Failed, null, $"HTTP {code}", []);
             }
-            var ack = code == 200 ? TryAck(await response.Content.ReadAsStringAsync(ct), payload) : null;
+            var ack = code == 200 && !media.Contains("html", StringComparison.OrdinalIgnoreCase) ? TryAck(await response.Content.ReadAsStringAsync(ct), expectedCount, expectedPartial) : null;
             return ack is null ? (OwnedCardsUploadOutcome.Failed, null, UploadErrors.UnexpectedResponse, []) : (OwnedCardsUploadOutcome.Synced, ack, null, []);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested) { throw; }
@@ -136,20 +151,23 @@ public sealed class OwnedCardsUploader
     }
 
     /// <summary>The documented acknowledgement, strictly; null for anything else.</summary>
-    internal static OwnedCardsAck? TryAck(string body, OwnedCardsSyncPayload sent)
+    internal static OwnedCardsAck? TryAck(string body, int expectedCount, bool expectedPartial)
     {
         try
         {
             using var doc = JsonDocument.Parse(body);
             var root = doc.RootElement;
             if (root.ValueKind != JsonValueKind.Object) return null;
-            foreach (var p in root.EnumerateObject()) if (p.Name is not ("count" or "partial" or "syncedAt")) return null;
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var p in root.EnumerateObject())
+                if (p.Name is not ("count" or "partial" or "syncedAt") || !names.Add(p.Name)) return null;
+            if (names.Count != 3) return null;
             if (!root.TryGetProperty("count", out var count) || count.ValueKind != JsonValueKind.Number || !count.TryGetInt32(out var n)) return null;
             if (!root.TryGetProperty("partial", out var partial) || partial.ValueKind is not (JsonValueKind.True or JsonValueKind.False)) return null;
             if (!root.TryGetProperty("syncedAt", out var at) || at.ValueKind != JsonValueKind.String) return null;
             var text = at.GetString()!;
-            if (!text.EndsWith('Z') || !DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var syncedAt)) return null;
-            if (n != sent.Body.Cards.Count || partial.GetBoolean() != sent.Partial) return null;
+            if (!OwnedCardsSyncJson.IsIsoUtc(text) || !DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var syncedAt)) return null;
+            if (n != expectedCount || partial.GetBoolean() != expectedPartial) return null;
             return new OwnedCardsAck(n, partial.GetBoolean(), syncedAt);
         }
         catch (JsonException) { return null; }

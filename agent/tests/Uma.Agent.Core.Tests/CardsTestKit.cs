@@ -80,6 +80,10 @@ internal sealed class Synthetic
         return List(tiles, held == -1 ? Held : held);
     }
 
+    // Explicit synthetic occupancy ground truth, not inferred from missing parser readings.
+    public IReadOnlySet<int> EmptyCells(int start)
+        => Enumerable.Range(0, PageTiles).Where(i => start + i >= Inventory.Count).ToHashSet();
+
     public ParsedFrame PageWith(int start, Func<int, ListTile, ListTile> change)
     {
         var p = Page(start);
