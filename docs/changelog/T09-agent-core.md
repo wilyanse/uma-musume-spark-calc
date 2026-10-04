@@ -1,6 +1,6 @@
 # T09 — Agent core
 
-- **Status:** Partial (review round 1 fixes committed; see "Review round 1"). Cross-platform acceptance is met on macOS against the 15 screenshots and recorded OCR. H4 (Windows OCR re-recording and user label verification) is still pending, so do not mark this Done until H4 passes.
+- **Status:** Merged locally (`0472739`) after independent PASS r3 and merged verification. Cross-platform core acceptance met; H4 (Windows OCR, real-game captures, user label and six deck-card identity verification) remains pending after T10. This does not close M2.
 - **Branch:** task/T09-agent-core
 - **Agent / model:** this continuation (commits `0dee2e7`, `6bbf5e1`, `285dbe4` and the changelog commit) was launched as Opus 5.5 / anthropic, medium reasoning. The session does not expose the actual model or effort, so this is the launch setting, not a verified identity. Earlier attribution is unchanged: `b518d7b` is the interrupted Opus run plus the Sol retry; `fe534dd` is the Sol continuation (`gpt-6-sol` / `openai-codex`, medium) that wrote the serializer, schema, outbox and unverified labels.
 - **Date:** 2026-10-03
@@ -283,6 +283,26 @@ Not ordinary coding gaps; they need Windows or the user:
 - User check of all 15 labels, including the new `visibleCharacter`/`sameCardAs` entries, and confirmation of the six deck cardIds listed in H4 step 2.
 - Real-game capture of 3 veterans through T10, with complete checklists and acknowledged uploads (step 4). This also exercises the real Access redirect/401 behaviour against `CreateHandler()`.
 - Real captures below 1920×1080 if smaller windows should ever be supported (Q-94), and a contract decision on a skills-incomplete flag (Q-93).
+
+## Review round 3 and local merge
+
+Fresh coordinator-dispatched independent reviewer `20261004_004900_9ca28a`, approved GPT-6.1 Sol medium fallback, returned **PASS** on `a2dca38deae1e0f6d4ef0fef1b0ff14798b5a045`; SF1–SF4 resolved with no additional blockers. Report: `docs/reviews/T09-review-3.md`. Retained nonblocking limits: HTML without Content-Type remains retryable but not auth-classified; seal is an integrity guard, not a hostile same-process boundary; H4 art-only identities remain unverified.
+
+Merged locally as `0472739`. OPEN_QUESTIONS merge conflict combined both sides, preserving T06/Q-142 and T09/Q-90–94. No push/deployment.
+
+Merged-main verification (real output):
+```text
+$ dotnet build agent/Uma.Agent.sln
+Build succeeded. 0 Warning(s), 0 Error(s).
+$ dotnet test agent/Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet
+Passed! Failed: 0, Passed: 166, Skipped: 0, Total: 166.
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test && pnpm --filter web build
+All five packages lint/typecheck Done.
+schema 149 passed; master-data 82 passed; web 5 passed; API 111 passed; engine 240 passed.
+Vite: 146 modules transformed; built in 220ms. All commands exit 0.
+```
+
+The .NET runner reported an anomalous duration of `7 h 27 m` in the merged run; test counts and exit status were green. No performance claim is based on that duration.
 
 ## Review round2
 

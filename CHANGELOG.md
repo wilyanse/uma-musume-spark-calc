@@ -3,6 +3,7 @@
 The orchestrator adds one line per merged task. Details are in `docs/changelog/Txx-*.md`.
 
 ## Unreleased
+- T09: screen/OCR parsers, completeness-gated assembly and durable acknowledged uploads; independent review PASS r3 after two fix rounds. Native .NET8 tests 166/166; H4 Windows/real-game and six art-only deck identities remain unverified.
 - T06: training-v2 model fitting, child prediction, target scoring and legal-pair ranking; review CHANGES_REQUESTED r1 → PASS r2, merged checks green. Node22 benchmark passes; browser timing and retained-sample re-score validation follow-ups remain.
 - T05b: accepted model-statistical semantics, reproducible covariance/skill evidence and legacy-compatible training-v2 snapshots; independent review PASS r1. Q-123/Q-124 resolved, unblocking T06; nonblocking reference follow-ups carried into T06.
 - Specs, architecture and OCR feasibility spike (initial commit).
