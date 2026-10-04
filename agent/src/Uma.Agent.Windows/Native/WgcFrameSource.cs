@@ -85,7 +85,7 @@ public sealed class WgcFrameSource(Func<AgentSettings> settings) : IFrameSource,
     }
     private void Start(IntPtr hwnd)
     {
-        var factory = WinRT.ActivationFactory.Get("Windows.Graphics.Capture.GraphicsCaptureItem");
+        using var factory = WinRT.ActivationFactory.Get("Windows.Graphics.Capture.GraphicsCaptureItem");
         var interop = factory.AsInterface<IGraphicsCaptureItemInterop>();
         var iid = new Guid("79C3F95B-31F7-4EC2-A464-632EF5D30760");
         var ptr = interop.CreateForWindow(hwnd, ref iid);

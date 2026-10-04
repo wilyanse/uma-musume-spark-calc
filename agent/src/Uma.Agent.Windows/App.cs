@@ -146,7 +146,7 @@ public sealed class App : Application
                 if (flushed.Any(e => e.Kind == PipelineEventKind.Failed)) { _error = flushed.First(e => e.Kind == PipelineEventKind.Failed).Message; return; }
                 if (flushed.Any(e => e.Kind == PipelineEventKind.NotUploadable) && !_confirm.Confirm("Start a fresh collection?", "The stopped collection is incomplete and was NOT uploaded. Starting again drops only in-memory incomplete evidence; persisted outbox items stay unchanged.")) return;
             }
-            _error = null; _watchCancel = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
+            _error = null; _progress = null; _watchCancel = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
             var ct = _watchCancel.Token;
             // Create/own native resources within the worker; Stop joins it before Flush or any resource disposal.
             _watchTask = Task.Run(async () =>

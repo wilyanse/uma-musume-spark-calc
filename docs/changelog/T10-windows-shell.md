@@ -76,3 +76,58 @@ Probe manifest: `/Users/willjose/.hermes/cache/scratch/t10/artifact-manifest.jso
 - H4 native WGC resize/device/window/title/clientarea behavior, real English OCR, DPAPI, single-file content extraction, native test execution and actual Access/upload behavior remain pending.
 - Final runbook, solution registration, final Core regression verification and scope checks follow in milestone 2.
 - No reviewed merge, push, deployment, credentials or global settings changed.
+
+## Milestone 2 — runbook, solution and final verification
+
+- Added `docs/runbooks/agent-install.md`: publish/install/first-run settings, all tray states, explicit finalization, auth and confirmed dead-item recovery, safe operator-directed legacy recovery, actual Windows recorder procedure, and exact H4 capture-3 then >=20/spot-check-3/labels/six-card-ID checks.
+- `agent/Uma.Agent.sln`: registered Windows shell, portable tests and native tests. Retained original CRLF; existing Core project registrations/configurations are unchanged. This is the narrowly allowed solution edit. On Mac test projects individually (solution-wide test now also targets native Windows).
+- `docs/OPEN_QUESTIONS.md`: appended Q-100 (unavailable native OCR confidence) and Q-101 (observed whole-frame dHash collision), both nonblocking; original file bytes verified as unchanged prefix. Parent's current explicit Q-100..109 reservation controls despite older T12 reservation text.
+- Small shell-only cleanup: reset displayed progress on a fresh watch, dispose WinRT activation factory, avoid normalizing larger frames twice. No changes to Core or T11.
+- No ordinary implementation gap is classified as human-blocked. All source/runbook is implemented; platform-native execution is explicitly H4. Independent parent-dispatched review has NOT yet occurred; worker does not merge.
+
+Final real commands (repository root):
+```
+$ dotnet build agent/Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true
+Uma.Agent.Core -> .../bin/Release/net8.0/Uma.Agent.Core.dll
+Uma.Agent.Core.Tests -> .../bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+Uma.Agent.Windows -> .../bin/Release/net8.0-windows10.0.19041.0/Uma.Agent.Windows.dll
+Uma.Agent.Windows.Portable.Tests -> .../Portable/bin/Release/net8.0/Uma.Agent.Windows.Portable.Tests.dll
+Uma.Agent.Windows.Tests -> .../Native/bin/Release/net8.0-windows10.0.19041.0/Uma.Agent.Windows.Tests.dll
+Build succeeded. 0 Warning(s), 0 Error(s).
+$ dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=/private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet
+Passed! Failed: 0, Passed: 166, Skipped: 0, Total: 166, Duration: 5 s
+$ dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=/private/var/folders/k3/6ph2csn113x6w4jq66qjms1r0000gn/T/dotnet8/dotnet
+Passed! Failed: 0, Passed: 103, Skipped: 0, Total: 103, Duration: 3 s
+$ dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableWindowsTargeting=true -o /Users/willjose/.hermes/cache/scratch/t10/publish-final
+Uma.Agent.Windows -> .../bin/Release/net8.0-windows10.0.19041.0/win-x64/Uma.Agent.Windows.dll
+Uma.Agent.Windows -> /Users/willjose/.hermes/cache/scratch/t10/publish-final/
+(exit 0)
+$ python3 /Users/willjose/.hermes/cache/scratch/t10/verify_bundle.py /Users/willjose/.hermes/cache/scratch/t10/publish-final/Uma.Agent.Windows.exe "$PWD"
+PE: AMD64; bundle version: 6 0 entries: 474
+Bundled layout/template/master/settings byte matches: 15
+EXE bytes: 193050936 SHA256: 7b3c572e83c75744617f93f23efd211ce699100f3167246e084f721f8ada5f89
+Publish files: Uma.Agent.Windows.exe (193050936), Uma.Agent.Windows.pdb (36300), Uma.Agent.Core.pdb (85912)
+$ dotnet list agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj package
+Serilog Requested 4.3.0 Resolved 4.3.0
+Serilog.Sinks.File Requested 6.0.0 Resolved 6.0.0
+System.Security.Cryptography.ProtectedData Requested 8.0.0 Resolved 8.0.0
+```
+Windows SDK C#/WinRT reference is explicitly pinned `WindowsSdkPackageVersion=10.0.19041.57`. Core dependencies unchanged. No TS touched, so no TS build/master refresh/golden generation was run.
+
+Read back real Core accuracy report at `agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/accuracy-report.txt`:
+```
+overall: 747/747 = 100.00%
+wrong but confident (silent errors): 0; correct but flagged low_confidence: 3
+stats 40/40; stars 120/120; lb 26/26
+```
+These are unchanged Apple Vision fixture replay results, not actual Windows OCR/game evidence.
+
+Scope checks:
+```
+$ git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check
+(no output, exit 0; an extra blank line from solution newline preservation was caught and removed first)
+$ python3 /Users/willjose/.hermes/cache/scratch/t10/verify_protected.py "$PWD"
+Protected Core/tests/fixtures/layouts/master/golden files match base bytes: 93
+OPEN_QUESTIONS original bytes preserved; append-only verified
+```
+Both native and portable test projects compile; the 3 native test cases are **not executed** on Mac. H4 remains full native API/UX/capture/extraction tests plus all recordings, label/deck identity confirmation, actual Access/upload recovery and real roster checks described in the runbook. Parent gate A and independent review must precede any merge. Final status **Partial**, not Done.

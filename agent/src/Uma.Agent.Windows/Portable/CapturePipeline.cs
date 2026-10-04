@@ -45,7 +45,11 @@ public sealed class CapturePipeline
     {
         ct.ThrowIfCancellationRequested();
         // Validate even unchanged frames: a resize must never inherit the previous valid status.
-        try { Frames.Normalize(frame); }
+        try
+        {
+            if (frame.Width < 1920 || frame.Height < 1080 || (long)frame.Width * 9 != (long)frame.Height * 16)
+                Frames.Normalize(frame); // invalid inputs throw before dHash/OCR; valid larger inputs normalize once in ParseAsync
+        }
         catch (UnsupportedFrameException e) { return new(PipelineEventKind.Unsupported, e.Message); }
         if (!_gate.ShouldProcess(frame)) return new(PipelineEventKind.Skipped, "unchanged frame");
         var p = await _parser.ParseAsync(frame);
