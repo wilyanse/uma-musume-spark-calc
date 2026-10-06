@@ -30,6 +30,7 @@ public sealed class CardSyncWindow : Window
     private bool _watching;
 
     private readonly IConfirm _confirm;
+    private static readonly CardSendResult ChangedWhileAsking = new(CardSendStatus.Stale, "The scan changed while you were deciding (for example, more cards were collected). Nothing was dropped; review the current scan and choose again.");
 
     public CardSyncWindow(CardSyncController cards, IConfirm confirm, IShellLog log)
     {
@@ -44,10 +45,15 @@ public sealed class CardSyncWindow : Window
             b.Click += async (_, _) => await Run(action);
             actions.Children.Add(b); return b;
         }
+        // S1: each drop question is asked for the exact view on screen at the click, and the controller only accepts
+        // that scan AND revision. If cards arrived while the question was open, nothing is dropped and the user is told.
         _start = Add("Start new scan", () =>
         {
-            var q = _cards.ReplaceQuestion();
-            if (q is null || _confirm.Confirm(q.Title, q.Message)) { _shown = _cards.BeginScan(); _last = null; }
+            var v = _cards.View;
+            var q = _cards.ReplaceQuestion(v);
+            if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return Task.CompletedTask;
+            if (_cards.BeginScanReplacing(v) is { } started) { _shown = started; _last = null; }
+            else _last = ChangedWhileAsking;
             return Task.CompletedTask;
         });
         _select = Add("Select pending tile, then open it in game", () =>
@@ -60,14 +66,18 @@ public sealed class CardSyncWindow : Window
         _partial = Add("Send PARTIAL sync (replaces entire list)…", async () => { if (_shown is { } v) _last = await _cards.SendPartialAsync(v); });
         _reset = Add("Reset scan", () =>
         {
-            var q = _cards.ReplaceQuestion();
-            if (_shown is { } v && (q is null || _confirm.Confirm(q.Title, q.Message))) _shown = _cards.Reset(v);
+            if (_cards.View is not { } v) return Task.CompletedTask;
+            var q = _cards.ReplaceQuestion(v);
+            if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return Task.CompletedTask;
+            if (_cards.Reset(v) is { } reset) _shown = reset; else _last = ChangedWhileAsking;
             return Task.CompletedTask;
         });
         _cancel = Add("Cancel scan", () =>
         {
-            var q = _cards.ReplaceQuestion();
-            if (_shown is { } v && (q is null || _confirm.Confirm(q.Title, q.Message))) _cards.Cancel(v);
+            if (_cards.View is not { } v) return Task.CompletedTask;
+            var q = _cards.ReplaceQuestion(v);
+            if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return Task.CompletedTask;
+            if (!_cards.Cancel(v)) _last = ChangedWhileAsking;
             return Task.CompletedTask;
         });
         var close = new Button { Content = "Close (scan stays in memory)", Margin = new Thickness(4), IsCancel = true };
@@ -93,7 +103,7 @@ public sealed class CardSyncWindow : Window
         _watching = watching;
         var view = _cards.View;
         _shown = view;
-        _text.Text = CardSyncText.Describe(view, watching, _last);
+        _text.Text = CardSyncText.Describe(view, watching, _last, _cards.RemoteUnknown);
         var selected = (_pending.SelectedItem as ListBoxItem)?.Tag as string;
         _pending.Items.Clear();
         foreach (var p in view?.State.Pending ?? [])
@@ -102,7 +112,7 @@ public sealed class CardSyncWindow : Window
             _pending.Items.Add(item);
             if (p.Id == selected) item.IsSelected = true;
         }
-        var busy = view?.Sending ?? _cards.Sending;
+        var busy = (view?.Sending ?? _cards.Sending) || _cards.SendsHeld;
         _full.IsEnabled = !busy && view is { State.CanSendFull: true };
         _partial.IsEnabled = !busy && view is { State: { CanSendFull: false, PartialConfirmation: not null } };
         _select.IsEnabled = !busy && view is { State.Pending.Count: > 0 };

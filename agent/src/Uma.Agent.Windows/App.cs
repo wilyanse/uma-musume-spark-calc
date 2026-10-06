@@ -263,8 +263,9 @@ public sealed class App : Application
         if (ApiAddress.Changes(_settings.ApiBaseUrl, dialog.Result!.ApiBaseUrl) && _outbox.Health().Pending > 0 && !_confirm.Confirm("Change upload destination?", "Existing pending captures will be sent to the new HTTPS address. Confirm this is your own configured API.")) return;
         // Join watcher before changing target. Pending upload mutation is serialized by UploadService.
         await StopWatching();
-        _settingsStore.Save(dialog.Result); Volatile.Write(ref _settings, _settingsStore.Load());
-        if (dialog.NewId.Length > 0 || dialog.NewSecret.Length > 0) await _uploader.SaveTokenAndRetryAsync(dialog.NewId, dialog.NewSecret);
+        // T10b r1 B1: the card controller is told about every save; it cancels a scan for the old address and stops an
+        // in-flight card send whose address or token changed (each attempt also re-checks before reading the token).
+        await SettingsCommit.CommitAsync(_settingsStore, dialog.Result, s => Volatile.Write(ref _settings, s), _uploader, dialog.NewId, dialog.NewSecret, _cards);
         _notice = "Settings saved. Start watching to resume capture.";
         }
         finally { dialog.ClearSecrets(); }
@@ -294,6 +295,8 @@ public sealed class App : Application
     }
     private async Task ExitAsync()
     {
+        // T10b r1 N1: no new support-card send may start while Exit asks; cancelling Exit releases the hold.
+        using var holdCards = _cards.HoldSendsForExit();
         // Same drop rules as Start (review S4): an unsaved complete capture or an incomplete collection asks first.
         var q = DropGuard.Check(await StopWatching(), DropGuard.Action.Exit);
         if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return;
