@@ -314,4 +314,18 @@ public class MemoryBoundTests
         Assert.Equal(PipelineEventKind.NotUploadable, third.Kind);
         Assert.Contains("released", third.Message);
     }
+
+    [Fact]
+    public void The_least_recently_visited_incomplete_veteran_is_the_one_released()
+    {
+        using var rig = new Rig();
+        var refs0 = new List<WeakReference>(); var refs1 = new List<WeakReference>();
+        Feed(rig.Pipeline, 0, refs0, only: [1]);
+        Feed(rig.Pipeline, 1, refs1, only: [1]);
+        Feed(rig.Pipeline, 0, refs0, only: [2]);   // the user went back to veteran 0
+        Feed(rig.Pipeline, 2, only: [1]);
+        FullGc();
+        Assert.DoesNotContain(refs1, r => r.IsAlive);   // veteran 1 (least recently visited) released
+        Assert.Equal(2, refs0.Count(r => r.IsAlive));   // veteran 0 kept with both views
+    }
 }

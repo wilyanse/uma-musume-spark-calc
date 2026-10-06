@@ -1,6 +1,6 @@
 # T10 — Windows shell
 
-- **Status:** Partial — Windows native execution/H4 pending; independent parent-dispatched review pending.
+- **Status:** Partial — Windows native execution/H4 pending. Review round 1 (CHANGES_REQUESTED) addressed below; re-review pending.
 - **Branch:** task/T10-windows-shell
 - **Agent / model:** Opus 5.5 medium primary interrupted by HTTP 429 (parent/user report). Existing untracked Windows source and tests inspected and preserved. Explicitly user-approved GPT-6.1 Sol / openai-codex medium continuation; no autonomous fallback switch.
 - **Base:** 08d4876 (prompt-only orchestration commit atop dd16e68); no merge/rebase/reset of main or siblings.
@@ -131,3 +131,107 @@ Protected Core/tests/fixtures/layouts/master/golden files match base bytes: 93
 OPEN_QUESTIONS original bytes preserved; append-only verified
 ```
 Both native and portable test projects compile; the 3 native test cases are **not executed** on Mac. H4 remains full native API/UX/capture/extraction tests plus all recordings, label/deck identity confirmation, actual Access/upload recovery and real roster checks described in the runbook. Parent gate A and independent review must precede any merge. Final status **Partial**, not Done.
+
+## Review round 1 response (fix-1)
+
+Review: coordinator `docs/reviews/T10-review-1.md` of 204de2d (CHANGES_REQUESTED). Fix prompt: coordinator `docs/tasks/T10.fix-1.prompt.md`. Implemented directly by the T10 worker (Opus 5.5 medium) in the existing worktree on top of 204de2d. No reset/clean/rebase/merge, no Core/fixture/layout/master/TS/sibling/main edits, no push/deploy/credentials/global configuration. Tests were written first and run red before each fix (outputs below).
+
+### Evidence corrections (N8, N9)
+- **N8.** The earlier milestone evidence files under `~/.hermes/cache/scratch/t10/` (`red-build.txt`, `verify_bundle.py`, `artifact-manifest.json`, publish folders) **expired** with scratch pruning. The text above is left unchanged as the historical record; those paths cannot be reopened. The EXE SHA-256 values quoted above (`845980dc…`, `7b3c572e…`) are **superseded** and are not reproducible identifiers: the reviewer's re-publish of the same commit matched size but not hash (`b9baa2f3…`). The verification scripts are now kept in the repository (`agent/tests/Uma.Agent.Windows.Tests/Tools/`).
+- **N9.** The `/private/var/folders/.../T/dotnet8/dotnet` host named above is **superseded**: the reviewer found it incomplete ("No frameworks were found"). This round uses the reviewer-installed runtime, checked before use: `~/.hermes/cache/scratch/T10-review/dotnet8/dotnet --list-runtimes` → `Microsoft.NETCore.App 8.0.31`. Nothing was installed globally.
+
+### Blocking
+- **B1 memory bound.** Done in shell code; no Core change and no Q-102 needed.
+  - `FrameGate`: after the 2 s refresh, a frame whose dHash is unchanged is re-read only if its SHA-256 content differs from the last processed frame. Byte-identical idle polls (WGC delivers a fresh array each time) are parsed once. The real 02/03 dHash collision is still re-read (the bytes differ; existing test kept).
+  - `CapturePipeline` now gives each veteran its own Core `CaptureCoordinator`. Frames are routed with Core's own `Feed` rules (confident outfit/character/rating/stats, continuity incl. popups, ambiguity refused, new veteran needs outfit+character+rating), and already queued veterans still count as candidates exactly as before.
+  - A veteran sealed on identity change or Stop is dropped together with its frames. Only its sealed `CaptureResult` is kept until `EnqueueCapture` succeeds, so a failed enqueue retries the exact capture with the same ID. Its identity is remembered: returning to it (header or parent popup) reports `AlreadyQueued` and stores nothing.
+  - A parsed frame whose evidence fingerprint (SHA-256 over every parsed field except pixels) equals one already fed to that veteran is not fed again, so moving clocks/animations re-parse but do not accumulate.
+  - Fixed bounds: at most `MaxLiveSessions = 2` unqueued veterans (the least recently visited incomplete one is released and reported; it was never uploadable) and `MaxFramesPerSession = 40` distinct views per veteran (beyond that a `Limit` event shows as a tray error; never uploaded). Incomplete veterans are no longer lost on identity change: they stay collectable when the user returns.
+  - Upload gates and OCR confidence are unchanged: only Core-sealed `Uploadable` results are enqueued.
+  - Runbook: "Stop/Start periodically" removed; documented bounds with measured numbers.
+
+### Should fix
+- **S1.** `WgcFrameSource` drains the free-threaded pool each poll and uses the newest frame, disposing older ones (`FrameDrain.TakeNewest`, at most 8 per poll so a busy producer cannot hold the poll; a throwing drain disposes what it took). Geometry checks run on that newest frame.
+- **S2.** Full-frame tiling moved into portable `OcrTiling`: overlap 600 reference px (longest fixture line 493). A line is kept only from a tile that contains its whole box clear of the seam; a seam-cut line no tile holds whole gets its band re-read once at ×2. `WindowsOcrEngine` uses it; every request stays within `MaxImageDimension/2`. Tested on the real line geometry of all 15 committed full-frame recordings with a clipping stand-in that does no OCR; the old algorithm on the same harness split "Account Link" and "To Title Screen" on fixture 13 (red below).
+- **S3.** `SettingsStore` catches `JsonException` for the user file only, moves it to `settings.json.bad-<UTC yyyyMMddTHHmmssZ>` (suffix `-1`, `-2`… never overwrites; injected clock), loads shipped defaults (empty address, uploads paused) and exposes `Notice`. App logs the category, shows the notice in a dialog and in the status window. The settings file holds no secrets, so the backup holds none. A malformed bundled `appsettings.json` remains a startup packaging error.
+- **S4.** `DropGuard` holds one rule set for Start and Exit: an unsaved complete capture refuses Start and makes Exit ask; an incomplete collection makes both ask. Start also releases the old pipeline before the new watch. Runbook updated.
+- **S5.** Refused captures log one numbers-only line per change: `Capture geometry <reason>: texture WxH; [bitmap WxH;] dwm frame WxH at X,Y; client WxH at X,Y` (no titles, process names or tokens). A repeated bitmap-size mismatch now fails closed at the 2 s deadline instead of looping. Runbook §6.1 has an explicit H4 geometry check; failing closed is unchanged.
+
+### Nits
+- **N1.** `WindowInfo.ProcessId`; `WindowSelector.Select(..., ownProcessId)` drops the agent's own windows before process or title matching; WGC passes `Environment.ProcessId`.
+- **N2.** `ApiAddress.Changes` compares normalised addresses; App uses it for the destination-change prompt.
+- **N3.** `UserMessages.For` shows typed messages for known local exceptions (unsupported/non-reference frame, capture unavailable, missing token, argument/validation, incomplete capture) and only a category otherwise. Used by the UI dispatcher (covers RecordLive) and the unhandled UI handler. The Settings dialog refuses control characters in token fields before saving.
+- **N4.** Unused `IClock` removed from `UploadService`; callers and tests updated.
+- **N5.** The old WGC test is renamed to say what it proves (pre-cancelled call, idempotent dispose). Added native tests: no matching window fails closed with `CaptureUnavailableException`, and a tiled full-frame Windows OCR read of a blank frame invents nothing. They compile here; they run at H4.
+- **N6.** `DispatcherUnhandledException` (handled, typed/category message), `TaskScheduler.UnobservedTaskException` (observed) and `AppDomain.UnhandledException` log the category only.
+- **N7.** Done rather than deferred: `UploadService.CachedHealth` is refreshed by the serialized upload loop and recovery actions (a failing read in `finally` is logged, not thrown); the 250 ms UI refresh reads the snapshot instead of querying SQLite.
+
+### Files (this round)
+Changed: `Portable/{CapturePipeline,FrameGate,Settings,UploadService,Windowing}.cs`, `Native/{WgcFrameSource,WindowsOcrEngine,Interop}.cs`, `App.cs`, `Dialogs.cs`, portable tests `MemoryBoundTests`, `FrameAndWindowTests`, `SettingsAndSecretsTests`, `UploadServiceTests`, native `NativeTests`, runbook, this changelog. Added: `Portable/{OcrTiling,CaptureDiagnostics,DropGuard,UserMessages}.cs`; tests `OcrTilingTests`, `CaptureDrainTests`, `DropGuardTests`, `ReviewRound1Tests`; tools `Tools/{README.md,bundle_probe.py,MemoryProbe/}`. The Tools project is not in the solution and is not shipped.
+
+Changed existing test expectations (behaviour change requested by the review, not relaxed gates): `Frame_gate_reprocesses_a_still_frame_after_the_refresh_interval_and_after_a_resize` now expects a byte-identical refresh to be skipped and a one-byte change with the same dHash to be re-read; settings/upload constructors take the new arguments.
+
+### Red runs (tests first; real output, trimmed)
+```
+$ dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable -c Release --no-build --filter FullyQualifiedName~MemoryBoundTests -- RunConfiguration.DotNetHostPath=~/.hermes/cache/scratch/T10-review/dotnet8/dotnet
+Failed Returning_to_a_queued_veteran_is_reported_and_never_recollected     Assert.DoesNotContain() Failure
+Failed Twenty_veterans_in_one_watch_are_queued_and_their_frames_released   Assert.True() Failure
+Failed An_incomplete_veteran_keeps_its_evidence_across_another_veteran_and_completes_later  Expected NotUploadable, Actual Progress
+Failed Failed_enqueue_keeps_only_the_sealed_result_and_retries_it_exactly  Expected 1, Actual 2
+Failed Cosmetic_changes_with_the_same_parsed_evidence_are_not_accumulated  Expected 1, Actual 40
+Failed Idle_polls_of_fresh_identical_arrays_parse_once_and_retain_one_frame Expected 1, Actual 15
+Failed!  - Failed: 6, Passed: 1, Total: 7
+(later added, red before the most-recently-visited ordering:)
+Failed The_least_recently_visited_incomplete_veteran_is_the_one_released   Assert.DoesNotContain() Failure
+$ dotnet build agent/tests/Uma.Agent.Windows.Tests/Portable -c Release        [S3/N1/N2/N3 tests before code]
+error CS0103: The name 'UserMessages' does not exist in the current context
+error CS0117: 'ApiAddress' does not contain a definition for 'Changes'
+error CS0117: 'WindowInfo' does not contain a definition for 'ProcessId'
+error CS1061: 'SettingsStore' does not contain a definition for 'Notice'
+error CS1729: 'SettingsStore' does not contain a constructor that takes 3 arguments
+error CS1739: The best overload for 'Select' does not have a parameter named 'ownProcessId'
+(likewise S1/S5: 'FrameDrain', 'GeometryDiagnostics'; N7: 'CachedHealth'; S4: 'DropGuard' did not exist)
+$ [temporary test: verbatim 204de2d tiling loop on fixture 13 line geometry, cap 1300; removed after the run]
+Assert.Empty() Failure: ["Account Link [cut] Rect { X = 1172, ...", "To Title Screen [cut] Rect { X = 1158, ...", "Account Link [cut] Rect { X = 1200, ...", "To Title Screen [cut] Rect { X = 1200, ..."]
+```
+
+### Final verification (worktree root; real output, trimmed)
+```
+$ ~/.hermes/cache/scratch/T10-review/dotnet8/dotnet --list-runtimes
+Microsoft.NETCore.App 8.0.31 [~/.hermes/cache/scratch/T10-review/dotnet8/shared/Microsoft.NETCore.App]
+$ dotnet build agent/Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true --no-incremental
+Uma.Agent.Core / Uma.Agent.Windows.Portable.Tests / Uma.Agent.Windows (net8.0-windows10.0.19041.0) / Uma.Agent.Core.Tests / Uma.Agent.Windows.Tests (Native)
+Build succeeded.  0 Warning(s)  0 Error(s)
+$ dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=<dotnet8>/dotnet
+Passed!  - Failed: 0, Passed: 166, Skipped: 0, Total: 166 - Uma.Agent.Core.Tests.dll (net8.0)
+accuracy-report: overall 747/747 = 100.00%; silent errors 0; stats 40/40   (unchanged Apple Vision replay, not Windows OCR)
+$ dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=<dotnet8>/dotnet
+Passed!  - Failed: 0, Passed: 149, Skipped: 0, Total: 149 - Uma.Agent.Windows.Portable.Tests.dll (net8.0)   (was 103)
+Native tests (5): compiled only, NOT executed — H4.
+$ dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableWindowsTargeting=true -o ~/.hermes/cache/scratch/t10-fix1/publish
+exit 0; Uma.Agent.Windows.exe 193079608 B, Uma.Agent.Windows.pdb 41208, Uma.Agent.Core.pdb 85912
+$ python3 agent/tests/Uma.Agent.Windows.Tests/Tools/bundle_probe.py <publish>/Uma.Agent.Windows.exe "$PWD"
+bundle 6 0 entries 474
+matches 15 of 15   (appsettings.json, data/layouts x2, data/master/latest.json + 11 global-20260930 files)
+Uma.Agent.Core.dll / Uma.Agent.Windows.dll / Microsoft.Windows.SDK.NET.dll / WinRT.Runtime.dll / e_sqlite3.dll / ProtectedData / Serilog: True
+exit 0   (EXE SHA-256 printed for this publish only; not an identifier)
+$ <dotnet8>/dotnet agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe/bin/Release/net8.0/MemoryProbe.dll "$PWD"
+A idle still view, fresh array every poll, after 240 polls (60s): processed 1 skipped 239; Sessions 1, Frames 1; managed +MB 11.1 (flat from 10 s)
+B one-pixel cosmetic change every poll, after 240 polls (60s): processed 30 skipped 210; Frames 1; managed +MB 8.3 (flat)
+C 20 veterans: after veteran 5: queued 4, Frames 9, +MB 75.3; after veteran 20: queued 19, Frames 9, +MB 75.3; after Stop: queued 20, outbox veterans 20, Frames 0, +MB 8.9
+D worst case, 2 unqueued veterans x 60 distinct views: limit events 40; Sessions 2, Frames 80; +MB 672.0 (bound 2 x 40 x 8.29 MB = 664 MB of frames)
+$ [reviewer's retained probe ~/.hermes/cache/scratch/T10-review/probe, rebuilt against this worktree]
+before (review): 34.7 / 51.3 / 76.2 MB at 5 / 10 / 15 s
+after:  processed 1 skipped 19 / 39 / 59; managed MB 19.4 / 19.4 / 19.4
+$ git diff --name-only 08d4876 -- agent/src/Uma.Agent.Core agent/tests/Uma.Agent.Core.Tests agent/tests/fixtures agent/layouts apps docs/reference | wc -l
+0
+$ git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check
+(no output, exit 0)
+```
+The memory figures are Mac managed heap (`GC.GetTotalMemory` after a full blocking GC), not Windows process memory. The 20-veteran run uses synthetic veterans built from real parsed fixture evidence (Speed changed per veteran) and the synthetic whole-list Skills thumb already used by the tests. H4 must record actual Task Manager memory during the ≥20-veteran import. Probe outputs are kept in `~/.hermes/cache/scratch/t10-fix1/` (scratch, may expire; rerun with the tools).
+
+### Remaining
+- Everything native (WGC newest-frame drain, geometry numbers on real Windows builds, tiled Windows OCR, DPAPI, WPF Exit/Start prompts, unhandled handlers, single-file extraction) is H4. Status stays **Partial**.
+- The T11 support-card adapter stays unavailable until T11 is reviewed and merged. This is the normal integration order, not a permission stop.
+- Parent re-review required; the worker does not merge.
+

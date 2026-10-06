@@ -41,7 +41,7 @@ internal static class WindowNative
             try { using var p = Process.GetProcessById((int)pid); process = p.ProcessName; }
             catch (Exception e) when (e is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception) { }
             GetClientRect(hwnd, out var r);
-            result.Add(new(hwnd.ToInt64(), process, title.ToString(), true, IsIconic(hwnd), r.Right-r.Left, r.Bottom-r.Top));
+            result.Add(new(hwnd.ToInt64(), process, title.ToString(), true, IsIconic(hwnd), r.Right-r.Left, r.Bottom-r.Top) { ProcessId = (int)pid });
             return true;
         }, IntPtr.Zero);
         return result;

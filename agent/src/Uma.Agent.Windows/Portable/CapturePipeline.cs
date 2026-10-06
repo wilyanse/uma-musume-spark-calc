@@ -165,6 +165,7 @@ public sealed class CapturePipeline
             target = new Live(new CaptureCoordinator(_data.Layout, _data.Master), _ids.Next(), _clock.UtcNow);
             _live.Add(target);
         }
+        if (!ReferenceEquals(_live[^1], target)) { _live.Remove(target); _live.Add(target); }   // most recently visited last
         _current = target; _currentSealed = null; _active = target; _continuing = true;
         foreach (var (k, v) in id) target.Identity.TryAdd(k, v);
         return Feed(target, p, finalized);
@@ -198,8 +199,9 @@ public sealed class CapturePipeline
 
     private static PipelineEvent AlreadyQueued() => new(PipelineEventKind.AlreadyQueued, "This veteran was already queued; Stop and Start to recapture it.");
 
-    /// <summary>Before a new veteran starts, keep at most MaxLiveSessions-1 other unqueued veterans: the oldest
-    /// (necessarily incomplete, since complete ones are queued on leaving) is released and reported.</summary>
+    /// <summary>Before a new veteran starts, keep at most MaxLiveSessions-1 other unqueued veterans: the least recently
+    /// visited one is released and reported. It is necessarily incomplete: a veteran is assembled when the user leaves
+    /// it and, if sealed, queued and dropped at once; a left veteran only changes again by being visited.</summary>
     private PipelineEvent? Evict()
     {
         if (_live.Count < MaxLiveSessions) return null;

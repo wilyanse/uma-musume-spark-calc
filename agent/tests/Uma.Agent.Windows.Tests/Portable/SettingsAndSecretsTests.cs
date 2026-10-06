@@ -42,7 +42,7 @@ public class SettingsAndSecretsTests
         try
         {
             var defaults = Path.Combine(Repo.Root, "agent/src/Uma.Agent.Windows/appsettings.json");
-            var store = new SettingsStore(Path.Combine(dir, "settings.json"), defaults);
+            var store = new SettingsStore(Path.Combine(dir, "settings.json"), defaults, new TestClock());
             var s = store.Load();
             Assert.Equal("", s.ApiBaseUrl);   // 30 §6 default comes from appsettings.json; no live endpoint is guessed
             Assert.Equal("UmamusumePrettyDerby", s.ProcessName);   // 30 §2
@@ -59,7 +59,7 @@ public class SettingsAndSecretsTests
         try
         {
             var path = Path.Combine(dir, "settings.json");
-            var store = new SettingsStore(path, Path.Combine(Repo.Root, "agent/src/Uma.Agent.Windows/appsettings.json"));
+            var store = new SettingsStore(path, Path.Combine(Repo.Root, "agent/src/Uma.Agent.Windows/appsettings.json"), new TestClock());
             store.Save(new AgentSettings("https://uma.example.test/", "UmamusumePrettyDerby", "Umamusume"));
             Assert.Equal(new AgentSettings("https://uma.example.test/", "UmamusumePrettyDerby", "Umamusume"), store.Load());
             var json = File.ReadAllText(path);
@@ -76,7 +76,7 @@ public class SettingsAndSecretsTests
         var dir = Temp.Dir();
         try
         {
-            var store = new SettingsStore(Path.Combine(dir, "settings.json"), Path.Combine(Repo.Root, "agent/src/Uma.Agent.Windows/appsettings.json"));
+            var store = new SettingsStore(Path.Combine(dir, "settings.json"), Path.Combine(Repo.Root, "agent/src/Uma.Agent.Windows/appsettings.json"), new TestClock());
             Assert.Throws<ArgumentException>(() => store.Save(new AgentSettings("http://uma.example.test", "P", "")));
             Assert.Throws<ArgumentException>(() => store.Save(new AgentSettings("https://uma.example.test", " ", "")));
             store.Save(new AgentSettings("", "P", ""));   // clearing the address is allowed (uploads pause)

@@ -20,7 +20,7 @@ public sealed class DpapiProtector : ISecretProtector
 }
 
 /// <summary>Real English Windows.Media.Ocr. A serialized engine with caller cancellation checks; the WinRT operation
-/// is awaited to completion before bitmap disposal. Full-frame recording is tiled when ×2 exceeds MaxImageDimension.</summary>
+/// is awaited to completion before bitmap disposal. Full-frame recording is tiled (OcrTiling) when ×2 exceeds MaxImageDimension.</summary>
 public sealed class WindowsOcrEngine : IOcrEngine, IDisposable
 {
     private readonly OcrEngine _engine;
@@ -41,29 +41,9 @@ public sealed class WindowsOcrEngine : IOcrEngine, IDisposable
             ct.ThrowIfCancellationRequested();
             if (frame.Width != 1920 || frame.Height != 1080) throw new NonReferenceFrameException(frame.Width, frame.Height);
             // Native limit applies to SoftwareBitmap. Every recognition input is a reference ROI enlarged exactly ×2.
-            // Most parser ROIs fit; the full-frame recorder uses overlapping tiles and deduplicates by box center.
-            int cap = (int)OcrEngine.MaxImageDimension / 2;
-            if (cap < 128) throw new CaptureUnavailableException("Windows OCR maximum image dimension is unexpectedly small.");
-            if (roi.Width <= cap && roi.Height <= cap) return await Recognize(frame, roi, mode, ct);
-            var lines = new List<OcrLine>();
-            const int overlap = 100;
-            for (int y = roi.Y; y < roi.Y + roi.Height; y += cap - overlap)
-            for (int x = roi.X; x < roi.X + roi.Width; x += cap - overlap)
-            {
-                var tile = new Rect(x, y, Math.Min(cap, roi.X + roi.Width - x), Math.Min(cap, roi.Y + roi.Height - y));
-                var tileLines = await Recognize(frame, tile, mode, ct);
-                // Assign overlapping text to the tile whose non-overlap ownership region contains its center.
-                foreach (var l in tileLines)
-                {
-                    double cx = l.Box.X + l.Box.Width / 2.0, cy = l.Box.Y + l.Box.Height / 2.0;
-                    var left = x == roi.X ? x : x + overlap / 2;
-                    var top = y == roi.Y ? y : y + overlap / 2;
-                    var right = x + tile.Width == roi.X + roi.Width ? x + tile.Width : x + tile.Width - overlap / 2;
-                    var bottom = y + tile.Height == roi.Y + roi.Height ? y + tile.Height : y + tile.Height - overlap / 2;
-                    if (cx >= left && cx < right && cy >= top && cy < bottom) lines.Add(l);
-                }
-            }
-            return lines.OrderBy(l => l.Box.Y).ThenBy(l => l.Box.X).ToArray();
+            // Parser ROIs fit in one read; the full-frame recorder tiles without splitting lines (OcrTiling, review S2).
+            var cap = OcrTiling.Cap(OcrEngine.MaxImageDimension);
+            return await OcrTiling.ReadAsync(roi, cap, r => Recognize(frame, r, mode, ct));
         }
         finally { _gate.Release(); }
     }

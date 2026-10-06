@@ -32,7 +32,7 @@ public class UploadServiceTests
             Outbox = new UploadOutbox(Path.Combine(Dir, "outbox.db"), Clock);
             Tokens = new ServiceTokenStore(Path.Combine(Dir, "token.bin"), new XorProtector());
             if (token) Tokens.Save(Id, Secret);
-            Service = new UploadService(Outbox, () => Settings, Tokens, Clock, () => Api, Log);
+            Service = new UploadService(Outbox, () => Settings, Tokens, () => Api, Log);
         }
         public string Queue()
         {
@@ -78,6 +78,22 @@ public class UploadServiceTests
         Assert.Equal(new OutboxHealth(0, 0, false, null), rig.Service.Health());
         Assert.Equal("01K7B33MXGVZV6TZRJZDHB99Z0", rig.Outbox.UploadedVeteranId(captureId));
         NoSecretsLogged(rig);
+    }
+
+    /// <summary>Review N7: the tray refreshes every 250 ms on the UI thread; it reads a health snapshot cached by the
+    /// serialized upload loop/mutations instead of querying SQLite itself.</summary>
+    [Fact]
+    public async Task Health_snapshot_is_cached_by_the_upload_loop_not_queried_by_the_reader()
+    {
+        using var rig = new Rig(token: false);
+        Assert.Equal(new OutboxHealth(0, 0, false, null), rig.Service.CachedHealth);
+        rig.Queue();
+        Assert.Equal(0, rig.Service.CachedHealth.Pending);   // reading never touches SQLite
+        await rig.Service.PumpOnceAsync(CancellationToken.None);
+        Assert.Equal(2, rig.Service.CachedHealth.Pending);   // refreshed by the loop even while paused (no token)
+        await rig.Service.SaveTokenAndRetryAsync(Id, Secret);
+        Assert.Equal(2, await rig.Service.DrainAsync(CancellationToken.None));
+        Assert.Equal(new OutboxHealth(0, 0, false, null), rig.Service.CachedHealth);
     }
 
     [Fact]
@@ -187,7 +203,7 @@ public class UploadServiceTests
             tokens.Save(Id, Secret);
             var api = new BlockingApi();
             var log = new ListLog();
-            await using var service = new UploadService(outbox, () => new AgentSettings("https://uma.example.test/", "P", ""), tokens, clock, () => api, log);
+            await using var service = new UploadService(outbox, () => new AgentSettings("https://uma.example.test/", "P", ""), tokens, () => api, log);
             var pipeline = new CapturePipeline(R.Data, new FrameDispatchOcr(), outbox, clock, new UlidGenerator(clock, Seeded.Bytes(3)), "t", new FrameGate(clock, TimeSpan.FromSeconds(2)), log);
             var first = await R.Parser(Repo.McQueen[0]).ParseAsync(R.Frame(Repo.McQueen[0]));
             pipeline.Accept(first with { Thumb = new ScrollThumb(R.Data.Layout.Int("scrollbar", "trackTop"), R.Data.Layout.Int("scrollbar", "trackBottom")) });

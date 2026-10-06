@@ -20,11 +20,28 @@ public class NativeTests
         var lines = await ocr.ReadAsync(new Frame(bytes,1920,1080), new Rect(100,100,100,40), OcrMode.Text);
         Assert.Empty(lines);
     }
-    [Fact] public async Task Cancelled_WGC_capture_reads_nothing_and_can_be_disposed_twice()
+    // Honest scope (review N5): cancellation is checked before any WGC/window call, so this only proves the
+    // cancel-then-double-dispose contract of the source, not capture behaviour.
+    [Fact] public async Task Pre_cancelled_NextAsync_throws_before_any_capture_call_and_dispose_is_idempotent()
     {
         var src = new WgcFrameSource(() => new("", "synthetic-no-such-game", ""));
         using var cts = new CancellationTokenSource(); cts.Cancel();
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => src.NextAsync(cts.Token));
         await src.DisposeAsync(); await src.DisposeAsync();
+    }
+    // Real WGC path up to window selection: with no window of a nonexistent process and no title fallback, the source
+    // must fail closed with the actionable message (on a machine without WGC support, the WGC message instead).
+    [Fact] public async Task No_matching_game_window_fails_closed_with_an_actionable_capture_unavailable_message()
+    {
+        await using var src = new WgcFrameSource(() => new("", "synthetic-no-such-game-" + Guid.NewGuid().ToString("N"), ""));
+        var e = await Assert.ThrowsAsync<Uma.Agent.Windows.Shell.CaptureUnavailableException>(() => src.NextAsync(CancellationToken.None));
+        Assert.True(e.Message.Contains("game window not found", StringComparison.Ordinal) || e.Message.Contains("Windows Graphics Capture is unavailable", StringComparison.Ordinal), e.Message);
+    }
+    // The tiled full-frame path within the real MaxImageDimension: a blank reference frame yields no invented text.
+    [Fact] public async Task Windows_English_ocr_full_frame_tiled_read_of_a_blank_frame_invents_nothing()
+    {
+        var bytes = Enumerable.Repeat((byte)255, 1920 * 1080 * 4).ToArray();
+        using var ocr = new WindowsOcrEngine();
+        Assert.Empty(await ocr.ReadAsync(new Frame(bytes, 1920, 1080), new Rect(0, 0, 1920, 1080), OcrMode.Text));
     }
 }

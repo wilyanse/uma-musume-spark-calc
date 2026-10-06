@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Uma.Agent.Core;
@@ -32,6 +33,8 @@ public sealed class SettingsWindow : Window
             if (!string.IsNullOrWhiteSpace(_url.Text) && !ApiAddress.TryParse(_url.Text, out _, out var error)) { MessageBox.Show(error); return; }
             if (string.IsNullOrWhiteSpace(_process.Text)) { MessageBox.Show("Set the game process name."); return; }
             if ((_id.Password.Length == 0) != (_secret.Password.Length == 0)) { MessageBox.Show("Enter both token fields or leave both blank to keep the saved token."); return; }
+            // Same rule as ServiceTokenStore (review N3): refuse here with a typed message instead of a generic failure.
+            if (_id.Password.Any(char.IsControl) || _secret.Password.Any(char.IsControl)) { MessageBox.Show("The client ID and secret must be single-line values without control characters (no tabs or line breaks)."); return; }
             Result = new(_url.Text.Trim(), _process.Text.Trim(), _title.Text.Trim()); DialogResult = true;
         };
         panel.Children.Add(save);

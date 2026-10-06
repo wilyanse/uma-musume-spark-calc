@@ -7,7 +7,11 @@ namespace Uma.Agent.Windows.Shell;
 
 /// <summary>A top-level window as seen by the shell: handle, owning process name, title, visibility and client size
 /// (physical pixels; the app is per-monitor DPI aware).</summary>
-public sealed record WindowInfo(long Handle, string ProcessName, string Title, bool Visible, bool Minimized, int ClientWidth, int ClientHeight);
+public sealed record WindowInfo(long Handle, string ProcessName, string Title, bool Visible, bool Minimized, int ClientWidth, int ClientHeight)
+{
+    /// <summary>Owning process ID (0 when unknown). Used to never select the agent's own windows.</summary>
+    public int ProcessId { get; init; }
+}
 
 public sealed record WindowSelection(WindowInfo? Window, string Reason);
 
@@ -15,7 +19,7 @@ public sealed record WindowSelection(WindowInfo? Window, string Reason);
 public sealed class CaptureUnavailableException(string message) : Exception(message);
 
 /// <summary>30 §2: find the game window by process name (configurable, default `UmamusumePrettyDerby`), falling back to
-/// a window-title match. Never guesses between several title matches.</summary>
+/// a window-title match. Never guesses between several title matches and never selects the agent's own process.</summary>
 public static class WindowSelector
 {
     public static string NormalizeProcess(string name)
@@ -24,8 +28,10 @@ public static class WindowSelector
         return n.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) ? n[..^4] : n;
     }
 
-    public static WindowSelection Select(IReadOnlyList<WindowInfo> windows, string processName, string titleContains)
+    public static WindowSelection Select(IReadOnlyList<WindowInfo> windows, string processName, string titleContains, int ownProcessId = 0)
     {
+        // The agent's own status/dialog windows (e.g. "Uma Spark Calc — assisted capture") are never candidates.
+        if (ownProcessId != 0) windows = windows.Where(w => w.ProcessId != ownProcessId).ToArray();
         var process = NormalizeProcess(processName);
         static bool Usable(WindowInfo w) => w.Visible && !w.Minimized && w.ClientWidth > 0 && w.ClientHeight > 0;
         var byProcess = process.Length == 0 ? [] : windows.Where(w => string.Equals(NormalizeProcess(w.ProcessName), process, StringComparison.OrdinalIgnoreCase)).ToArray();

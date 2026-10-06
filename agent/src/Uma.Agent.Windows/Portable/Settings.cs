@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Uma.Agent.Core;
 
 namespace Uma.Agent.Windows.Shell;
 
@@ -45,22 +46,53 @@ public static class ApiAddress
         uri = b.Uri;
         return true;
     }
+
+    /// <summary>True when the dialog text names a different upload destination than the saved address, comparing the
+    /// normalised forms (case, whitespace, trailing slash). Invalid text compares as itself, trimmed.</summary>
+    public static bool Changes(string? saved, string? dialog)
+    {
+        static string Norm(string? t) => TryParse(t, out var u, out _) ? u!.AbsoluteUri : (t ?? "").Trim();
+        return !string.Equals(Norm(saved), Norm(dialog), StringComparison.Ordinal);
+    }
 }
 
 /// <summary>Settings file (plain JSON, no secrets). Defaults come from the shipped appsettings.json (30 §6).
-/// Writes are atomic (temp file + replace).</summary>
-public sealed class SettingsStore(string path, string defaultsPath)
+/// Writes are atomic (temp file + replace). A malformed user file is moved aside to
+/// <c>settings.json.bad-&lt;UTC timestamp&gt;</c> (never overwriting an earlier backup; the file holds no secrets),
+/// defaults are loaded (uploads stay paused until an address is set) and <see cref="Notice"/> says what happened.</summary>
+public sealed class SettingsStore(string path, string defaultsPath, IClock clock)
 {
     private static readonly JsonSerializerOptions Options = new() { WriteIndented = true, PropertyNameCaseInsensitive = true };
 
+    /// <summary>Actionable message after the last <see cref="Load"/> recovered from a malformed file; otherwise null.</summary>
+    public string? Notice { get; private set; }
+
     public AgentSettings Load()
     {
+        Notice = null;
+        // The shipped defaults are part of the bundle: a malformed copy is a packaging error and still throws.
         var defaults = Read(defaultsPath) ?? new AgentSettings("", "UmamusumePrettyDerby", "");
-        var saved = File.Exists(path) ? Read(path) : null;
+        AgentSettings? saved;
+        try { saved = File.Exists(path) ? Read(path) : null; }
+        catch (JsonException)
+        {
+            var backup = Quarantine();
+            Notice = $"Your settings file could not be read, so defaults were loaded and uploads are paused. The unreadable file was kept as {Path.GetFileName(backup)}. Open Settings to enter the HTTPS API address and game process again.";
+            return defaults;
+        }
         if (saved is null) return defaults;
         return new AgentSettings(saved.ApiBaseUrl ?? defaults.ApiBaseUrl,
             string.IsNullOrWhiteSpace(saved.ProcessName) ? defaults.ProcessName : saved.ProcessName,
             saved.WindowTitleContains ?? defaults.WindowTitleContains);
+    }
+
+    private string Quarantine()
+    {
+        var stamp = clock.UtcNow.UtcDateTime.ToString("yyyyMMdd'T'HHmmss'Z'", System.Globalization.CultureInfo.InvariantCulture);
+        var target = path + ".bad-" + stamp;
+        for (var i = 1; File.Exists(target); i++) target = path + ".bad-" + stamp + "-" + i;
+        File.Move(path, target, overwrite: false);
+        return target;
     }
 
     public void Save(AgentSettings settings)

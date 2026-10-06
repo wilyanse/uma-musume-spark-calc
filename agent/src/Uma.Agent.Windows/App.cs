@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -60,8 +61,23 @@ public sealed class App : Application
         using var instance = new Mutex(true, "Local\\UmaSparkCalc-WindowsShell", out var owner);
         if (!owner) { MessageBox.Show("Uma Spark Calc is already running for this Windows session."); return 2; }
         var app = new App { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+        app.InstallUnhandledHandlers();
         app.Startup += async (_, _) => await app.StartupAsync(args);
         return app.Run();
+    }
+    /// <summary>Review N6: last-chance handlers log the exception category only (never its message, which may hold
+    /// paths or server text). UI-thread exceptions are marked handled and shown as a typed/category message so the
+    /// tray stays usable; background and fatal ones are logged before the runtime proceeds.</summary>
+    private void InstallUnhandledHandlers()
+    {
+        DispatcherUnhandledException += (_, e) =>
+        {
+            _log.Error("Unhandled UI exception: " + e.Exception.GetType().Name);
+            _error = UserMessages.For(e.Exception);
+            e.Handled = true;
+        };
+        TaskScheduler.UnobservedTaskException += (_, e) => { _log.Error("Unobserved task exception: " + (e.Exception.InnerException ?? e.Exception).GetType().Name); e.SetObserved(); };
+        AppDomain.CurrentDomain.UnhandledException += (_, e) => { _log.Error("Fatal exception: " + (e.ExceptionObject?.GetType().Name ?? "unknown")); Log.CloseAndFlush(); };
     }
     private static string ContentRoot()
     {
@@ -92,15 +108,17 @@ public sealed class App : Application
                 MessageBox.Show($"Recorded actual Windows OCR for {files.Count} PNG(s) in {options.OutputDirectory}", "OCR recording complete");
                 Shutdown(0); return;
             }
-            _settingsStore = new(_paths.Settings, Path.Combine(root, "appsettings.json")); _settings = _settingsStore.Load();
+            _settingsStore = new(_paths.Settings, Path.Combine(root, "appsettings.json"), _clock); _settings = _settingsStore.Load();
+            if (_settingsStore.Notice is not null) { _log.Warn("Malformed settings file backed up; defaults loaded"); _notice = _settingsStore.Notice; }
             _tokens = new(_paths.ServiceToken, new DpapiProtector());
             _outbox = new(_paths.Outbox, _clock);
             // This factory calls the reviewed Core handler explicitly; automatic redirects stay disabled.
-            _uploader = new(_outbox, () => Volatile.Read(ref _settings), _tokens, _clock, UploadService.DefaultHandler, _log);
+            _uploader = new(_outbox, () => Volatile.Read(ref _settings), _tokens, UploadService.DefaultHandler, _log);
             _uploadTask = Task.Run(() => _uploader.RunAsync(Task.Delay, _lifetime.Token));
             BuildTray();
             _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
             _timer.Tick += (_, _) => Refresh(); _timer.Start(); Refresh(); ShowStatus();
+            if (_settingsStore.Notice is not null) MessageBox.Show(_settingsStore.Notice, "Settings reset", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         catch (Exception e)
         {
@@ -131,7 +149,7 @@ public sealed class App : Application
         if (_busy || _exiting) return;
         _busy = true;
         try { await action(); }
-        catch (Exception e) { _error = "Local operation failed; check file permissions or restart capture. Category: " + e.GetType().Name; _log.Error("UI operation failed: " + e.GetType().Name); }
+        catch (Exception e) { _error = UserMessages.For(e); _log.Error("UI operation failed: " + e.GetType().Name); }
         finally { _busy = false; if (!_exiting) Refresh(); }
     }
     private async Task StartWatching()
@@ -142,9 +160,10 @@ public sealed class App : Application
             if (_watchTask is not null) return;
             if (_pipeline is not null)
             {
-                var flushed = _pipeline.Flush();
-                if (flushed.Any(e => e.Kind == PipelineEventKind.Failed)) { _error = flushed.First(e => e.Kind == PipelineEventKind.Failed).Message; return; }
-                if (flushed.Any(e => e.Kind == PipelineEventKind.NotUploadable) && !_confirm.Confirm("Start a fresh collection?", "The stopped collection is incomplete and was NOT uploaded. Starting again drops only in-memory incomplete evidence; persisted outbox items stay unchanged.")) return;
+                var q = DropGuard.Check(_pipeline.Flush(), DropGuard.Action.Start);
+                if (q is { Refuse: true }) { _error = q.Message; return; }
+                if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return;
+                _pipeline = null;   // release the previous collection's evidence before the new watch starts
             }
             _error = null; _progress = null; _watchCancel = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
             var ct = _watchCancel.Token;
@@ -154,13 +173,13 @@ public sealed class App : Application
                 try
                 {
                     using var ocr = new WindowsOcrEngine { Cancellation = ct };
-                    await using var source = new WgcFrameSource(() => Volatile.Read(ref _settings));
+                    await using var source = new WgcFrameSource(() => Volatile.Read(ref _settings), _log);
                     _pipeline = new(_data, ocr, _outbox, _clock, UlidGenerator.System(_clock), "0.1.0", new FrameGate(_clock, TimeSpan.FromSeconds(2)), _log);
                     await new WatchLoop(source, async (frame, cancellation) =>
                     {
                         var e = await _pipeline.ProcessAsync(frame, cancellation);
                         var progress = _pipeline.Progress;
-                        await Dispatcher.InvokeAsync(() => { _notice = e.Message; _error = e.Kind is PipelineEventKind.Unsupported or PipelineEventKind.Failed ? e.Message : null; _progress = progress; });
+                        await Dispatcher.InvokeAsync(() => { _notice = e.Message; _error = e.Kind is PipelineEventKind.Unsupported or PipelineEventKind.Failed or PipelineEventKind.Limit ? e.Message : null; _progress = progress; });
                     }, message => Dispatcher.BeginInvoke(new Action(() => _error = message)), Task.Delay).RunAsync(ct);
                 }
                 catch (OperationCanceledException) when (ct.IsCancellationRequested) { }
@@ -170,8 +189,9 @@ public sealed class App : Application
         finally { _transition.Release(); }
     }
     private SessionProgress? _progress;
-    private async Task StopWatching()
+    private async Task<IReadOnlyList<PipelineEvent>> StopWatching()
     {
+        IReadOnlyList<PipelineEvent> flushed = [];
         await _transition.WaitAsync();
         try
         {
@@ -181,18 +201,19 @@ public sealed class App : Application
             _error = null;
             if (_pipeline is not null)
             {
-                var flushed = _pipeline.Flush();
+                flushed = _pipeline.Flush();
                 _notice = flushed.Count > 0 ? string.Join("\n", flushed.Select(e => e.Message)) : "Watching stopped; queued captures remain in the durable outbox.";
                 if (flushed.Any(e => e.Kind == PipelineEventKind.Failed)) _error = flushed.First(e => e.Kind == PipelineEventKind.Failed).Message;
             }
         }
         finally { _transition.Release(); }
+        return flushed;
     }
     private void Refresh()
     {
         try
         {
-            _status = TrayStatus.Compute(_watchTask is not null && !_watchTask.IsCompleted, _progress, _error, _uploader.Health(), _uploader.Block, _uploader.Uploading);
+            _status = TrayStatus.Compute(_watchTask is not null && !_watchTask.IsCompleted, _progress, _error, _uploader.CachedHealth, _uploader.Block, _uploader.Uploading);
             if (_tray is not null) { _tray.Text = _status.Tooltip; _tray.Icon = _status.State == TrayState.Error ? SystemIcons.Error : SystemIcons.Application; }
             if (_start is not null) _start.Enabled = _watchTask is null && !_busy;
             if (_stop is not null) _stop.Enabled = !_busy && (_watchTask is not null || _pipeline is not null);
@@ -218,7 +239,7 @@ public sealed class App : Application
         try
         {
         if (dialog.ShowDialog() != true) return;
-        if (_settings.ApiBaseUrl != dialog.Result!.ApiBaseUrl && _outbox.Health().Pending > 0 && !_confirm.Confirm("Change upload destination?", "Existing pending captures will be sent to the new HTTPS address. Confirm this is your own configured API.")) return;
+        if (ApiAddress.Changes(_settings.ApiBaseUrl, dialog.Result!.ApiBaseUrl) && _outbox.Health().Pending > 0 && !_confirm.Confirm("Change upload destination?", "Existing pending captures will be sent to the new HTTPS address. Confirm this is your own configured API.")) return;
         // Join watcher before changing target. Pending upload mutation is serialized by UploadService.
         await StopWatching();
         _settingsStore.Save(dialog.Result); Volatile.Write(ref _settings, _settingsStore.Load());
@@ -241,7 +262,7 @@ public sealed class App : Application
         var dir = Path.Combine(_paths.Recordings, DateTimeOffset.UtcNow.ToString("yyyyMMdd-HHmmss-fffffff"));
         await Task.Run(async () =>
         {
-            await using var source = new WgcFrameSource(() => _settings);
+            await using var source = new WgcFrameSource(() => Volatile.Read(ref _settings), _log);
             var frame = Frames.Normalize(await source.NextAsync(_lifetime.Token));
             using var ocr = new WindowsOcrEngine { Cancellation = _lifetime.Token };
             var classification = await new ScreenClassifier(_data.Layout, ocr).ClassifyAsync(frame);
@@ -252,8 +273,9 @@ public sealed class App : Application
     }
     private async Task ExitAsync()
     {
-        await StopWatching();
-        if (_error is not null && !_confirm.Confirm("Exit without saving?", _error + "\nExit would lose this unsaved in-memory collection. The persisted outbox remains intact.")) return;
+        // Same drop rules as Start (review S4): an unsaved complete capture or an incomplete collection asks first.
+        var q = DropGuard.Check(await StopWatching(), DropGuard.Action.Exit);
+        if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return;
         _exiting = true; _timer?.Stop(); _lifetime.Cancel();
         if (_uploadTask is not null) await _uploadTask;
         await _uploader.DisposeAsync();
