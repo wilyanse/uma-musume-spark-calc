@@ -1,5 +1,5 @@
 /** S03 Review queue (F04). Keyboard: 1/2/3 apply a candidate, J/K next/previous, D (dismiss, Q-70). */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import type { ReviewItem, RosterVeteran } from '@uma/schema';
 import { Page } from '../components/Layout.tsx';
@@ -42,6 +42,13 @@ export function ReviewScreen() {
   const roster = useRoster();
   const master = useMaster();
   const resolve = useResolve();
+  // isPending is an external-store render, not a synchronous same-task submission lock.
+  const submitting = useRef(false);
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
   const { now } = useServices();
   const [params] = useSearchParams();
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -73,17 +80,17 @@ export function ReviewScreen() {
     setSelectedId(items[n]!.id);
   };
   const apply = (it: ReviewItem, value: unknown) => {
-    if (resolve.isPending) return;
+    if (submitting.current || resolve.isPending) return;
+    submitting.current = true;
     const v = byId.get(it.veteranId);
     const name = v && master.data ? characterName(master.data, v.characterId) : 'this veteran';
     setFailure(null);
-    resolve.mutate(
-      { id: it.id, value },
-      {
-        onSuccess: () => setToast(`Fixed. ${items.length - 1} left.`),
-        onError: (e) => setFailure(resolveFailureText(e, name)),
-      },
-    );
+    // Promise settlement is not lost when the item panel changes or the screen unmounts.
+    // Hook-level cache invalidations remain in useResolve; only mounted screens get feedback.
+    void resolve.mutateAsync({ id: it.id, value }).then(
+      () => { if (mounted.current) setToast(`Fixed. ${items.length - 1} left.`); },
+      (e: unknown) => { if (mounted.current) setFailure(resolveFailureText(e, name)); },
+    ).finally(() => { submitting.current = false; });
   };
 
   const summary = open.isSuccess ? (

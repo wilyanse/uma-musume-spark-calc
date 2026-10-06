@@ -16,13 +16,14 @@ export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>
 const isHtml = (res: Response) => /^\s*text\/html\b/i.test(res.headers.get('content-type') ?? '');
 
 /**
- * Responses that did not come from the API route (S2, T13 review r1): fetch follows redirects, so
- * an Access login (or any redirect) arrives as `redirected` with a 200 HTML page, and the SPA
- * fallback answers unknown paths with HTML. An HTML 401/403 is an auth wall too. Other HTML error
- * statuses (502 from a proxy…) stay ordinary server errors. Bodies are never read here.
+ * API fetches use manual redirects: browsers expose redirects (same/cross origin) as an
+ * opaqueredirect with status 0 and no readable headers/body. Classify it before touching either;
+ * never follow a login URL with credentials. HTML 2xx/401/403 is an auth wall / SPA fallback,
+ * while HTML 5xx remains a server error. No response body is included in an error message.
  */
 function authProblem(res: Response, what: string): AuthRedirectError | null {
-  if (res.redirected) return new AuthRedirectError(res.status, what, 'redirected');
+  if (res.type === 'opaqueredirect' || res.redirected)
+    return new AuthRedirectError(res.status, what, 'redirected');
   if (isHtml(res) && (res.ok || res.status === 401 || res.status === 403))
     return new AuthRedirectError(res.status, what, 'html');
   return null;
@@ -60,6 +61,7 @@ export function httpSource(fetchImpl: FetchLike = (i, init) => fetch(i, init), b
       res = await fetchImpl(`${base}${path}`, {
         method,
         credentials: 'include',
+        redirect: 'manual',
         headers: body === undefined ? headers : { 'content-type': 'application/json', ...headers },
         body: body === undefined ? undefined : JSON.stringify(body),
       });

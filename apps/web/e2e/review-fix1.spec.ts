@@ -1,7 +1,7 @@
 /**
  * T13 review round 1 browser regressions on the API-mode dev server (port 5201) with MOCK HTTP
  * (`page.route`, labelled; not a live API or Cloudflare): keyboard resolve flows for an epithet
- * (exact text body, B1), a 409 conflict whose item vanishes on refresh (S1), an HTML auth redirect
+ * (exact text body, B1), a 409 conflict whose item vanishes on refresh (S1), an HTML 200 auth wall
  * (S2) and the pending mode toggle (S3), plus axe in both themes on the populated review screen.
  * Evidence goes to the ignored test-results directory unless T13_E2E_ASSETS_DIR is set (S5).
  */
@@ -72,7 +72,7 @@ for (const t of ['light', 'dark']) {
     const axe = await new AxeBuilder({ page }).analyze();
     writeFileSync(out(`fix1-S03-populated-${t}-axe.json`), JSON.stringify({ url: page.url(), note: 'MOCK HTTP', violations: axe.violations }, null, 2));
     console.log(`AXE fix1-S03-${t}: ${axe.violations.map((x) => `${x.id}:${x.impact}`).join(',') || 'none'}`);
-    expect(axe.violations.filter((x) => x.impact === 'serious' || x.impact === 'critical')).toEqual([]);
+    expect(axe.violations).toEqual([]);
     // B1 by keyboard: type in the search, Tab to the option, Enter, Tab to Apply, Enter
     const search = page.getByRole('combobox', { name: 'None of these? Search the game vocabulary' });
     await search.focus(); await page.keyboard.type('independent lea');
@@ -90,7 +90,7 @@ for (const t of ['light', 'dark']) {
   });
 }
 
-test('MOCK HTTP S2: an HTML login redirect on an API call shows the auth message, not "Something went wrong"', async ({ page }) => {
+test('MOCK HTTP S2: an HTML 200 on an API call shows the auth message, not "Something went wrong"', async ({ page }) => {
   await page.route('**/api/v1/**', (route) => route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>MOCK Access login</title>' }));
   await page.goto(`${API}/roster`);
   await expect(page.getByText('Your session has expired. Reload the page to sign in again.').first()).toBeVisible();

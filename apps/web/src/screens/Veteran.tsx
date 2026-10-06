@@ -94,7 +94,7 @@ export function VeteranScreen() {
         </>
       }
     >
-      <Detail v={v} m={m} />
+      <Detail key={v.id} v={v} m={m} />
       {confirm && (
         <div className="dialog" role="dialog" aria-modal="true" aria-labelledby="del-t">
           <div>
@@ -128,6 +128,7 @@ export function VeteranScreen() {
 
 function Detail({ v, m }: { v: RosterVeteranDetail; m: MasterData }) {
   const patch = usePatchMode(v.id);
+  const submitting = useRef(false);
   const [tab, setTab] = useState<TabKey>('sparks');
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const byPath = new Map(v.fields.map((f) => [f.path, f]));
@@ -135,7 +136,11 @@ function Detail({ v, m }: { v: RosterVeteranDetail; m: MasterData }) {
   const name = characterName(m, v.characterId);
   const cap = m.scenarios.get(v.scenarioId)?.statCap ?? null;
   const setMode = (mode: TrainMode) => {
-    if (mode !== v.trainMode && !patch.isPending) patch.mutate(mode);
+    if (mode === v.trainMode || submitting.current || patch.isPending) return;
+    submitting.current = true;
+    // Hook handles optimistic rollback/invalidation. Always unlock, even after panel unmount;
+    // keyed detail panels isolate a new veteran from the old request's settlement.
+    void patch.mutateAsync(mode).catch(() => undefined).finally(() => { submitting.current = false; });
   };
   const onTabKey = (e: KeyboardEvent, i: number) => {
     const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;

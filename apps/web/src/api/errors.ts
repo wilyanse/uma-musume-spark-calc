@@ -18,14 +18,14 @@ export class HttpError extends Error {
   }
 }
 
-/** Fetch never got a response (offline, DNS, CORS, Access redirect blocked…). */
+/** Fetch rejected without a response (offline, DNS, CORS/network failure). */
 export class NetworkError extends Error {
   override name = 'NetworkError';
 }
 
 /**
- * A response that is not the API's: a followed redirect (Cloudflare Access login, any same-origin
- * redirect) or an HTML page on an API path (the SPA fallback / a login page). Treated as an expired
+ * A response that is not the API's: an opaque manual redirect (no readable status/Location/body)
+ * or an HTML page on an API path (the SPA fallback / a login page). Treated as an expired
  * session. The body is never read into the error, so a login page's content can't leak into logs.
  */
 export class AuthRedirectError extends Error {

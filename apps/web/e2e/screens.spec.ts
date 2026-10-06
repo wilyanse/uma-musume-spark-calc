@@ -34,7 +34,7 @@ async function axe(page: Page, name: string) {
   writeFileSync(out(`${name}-axe.json`), JSON.stringify({ url: page.url(), violations: r.violations }, null, 2));
   const severe = r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
   console.log(`AXE ${name}: serious/critical=${severe.length}; all=${r.violations.length}`);
-  expect(severe, JSON.stringify(severe, null, 2)).toEqual([]);
+  expect(r.violations, JSON.stringify(r.violations, null, 2)).toEqual([]);
 }
 async function screenshot(page: Page, name: string) {
   await page.evaluate(() => window.scrollTo(0, 0));
