@@ -1,0 +1,3 @@
+ingest 3 422 {"type":"about:blank","title":"Unprocessable Content","status":422,"detail":"Request validation failed","errors":[{"path":"/fields","message":"a parent owner with no sparks needs a low_confidence field whose path is exactly \"/sparks/<owner>\" (owner parent2)"}]}
+ingest 14 422 {"type":"about:blank","title":"Unprocessable Content","status":422,"detail":"Request validation failed","errors":[{"path":"/fields","message":"a parent owner with no sparks needs a low_confidence field whose path is exactly \"/sparks/<owner>\" (owner parent1)"}]}
+{"attempted":20,"accepted":18,"rejected":2}

@@ -1,0 +1,15 @@
+{
+  "dir": "dist",
+  "jsFiles": [
+    "assets/engine.worker-oeCLiUZV.js",
+    "assets/index-diIhRFOl.js"
+  ],
+  "fixtureFiles": [],
+  "markers": {
+    "(fixture mode)": [],
+    "/fixtures/golden-truth.json": [],
+    "syntheticInheritance": []
+  }
+}
+check-dist: OK — no fixture code or data in the production build
+exit=0

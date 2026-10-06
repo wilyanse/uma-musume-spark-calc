@@ -1,0 +1,32 @@
+{
+  "server304": 1,
+  "records": [
+    {
+      "path": "/api/v1/roster",
+      "redirect": "manual",
+      "credentials": "include",
+      "type": "basic",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/roster",
+      "redirect": "manual",
+      "credentials": "include",
+      "type": "basic",
+      "status": 304
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/roster",
+      "cookie": ""
+    },
+    {
+      "method": "GET",
+      "path": "/roster",
+      "cookie": "",
+      "etag": "\"test-r2\""
+    }
+  ]
+}

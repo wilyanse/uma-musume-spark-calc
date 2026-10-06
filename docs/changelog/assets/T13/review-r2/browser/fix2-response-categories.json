@@ -1,0 +1,140 @@
+[
+  {
+    "scenario": "html200",
+    "text": "Your session has expired. Reload the page to sign in again.",
+    "records": [
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 200
+      },
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "scenario": "html401",
+    "text": "Your session has expired. Reload the page to sign in again.",
+    "records": [
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 401
+      },
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 401
+      }
+    ]
+  },
+  {
+    "scenario": "html403",
+    "text": "Your session has expired. Reload the page to sign in again.",
+    "records": [
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 403
+      },
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 403
+      }
+    ]
+  },
+  {
+    "scenario": "html502",
+    "text": "Something went wrong. Retry, or reload the page.",
+    "records": [
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 502
+      },
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 502
+      }
+    ]
+  },
+  {
+    "scenario": "problem",
+    "text": "Something went wrong. Retry, or reload the page.",
+    "records": [
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 500
+      },
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 500
+      }
+    ]
+  },
+  {
+    "scenario": "malformed",
+    "text": "The server sent a response the app could not read. Retry, or reload the page.",
+    "records": [
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 200
+      },
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "type": "basic",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "scenario": "network",
+    "text": "Couldn't reach the server. Check your connection and retry.",
+    "records": [
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "error": "TypeError"
+      },
+      {
+        "path": "/api/v1/roster",
+        "redirect": "manual",
+        "credentials": "include",
+        "error": "TypeError"
+      }
+    ]
+  }
+]

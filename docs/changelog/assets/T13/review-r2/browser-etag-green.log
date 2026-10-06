@@ -1,0 +1,7 @@
+
+Running 1 test using 1 worker
+
+LOCAL HTTP roster: If-None-Match sent, 304 retained populated table
+  ✓  1 e2e/review-fix2.spec.ts:35:1 › LOCAL HTTP production roster retains ETag/304 on refetch (650ms)
+
+  1 passed (3.1s)

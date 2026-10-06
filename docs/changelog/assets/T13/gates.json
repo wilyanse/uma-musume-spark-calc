@@ -1,0 +1,32 @@
+[
+  {
+    "name": "environment",
+    "command": "node --version",
+    "exit": 0
+  },
+  {
+    "name": "workspace-lint",
+    "command": "pnpm lint",
+    "exit": 0
+  },
+  {
+    "name": "workspace-typecheck",
+    "command": "pnpm typecheck",
+    "exit": 0
+  },
+  {
+    "name": "workspace-test",
+    "command": "pnpm test",
+    "exit": 0
+  },
+  {
+    "name": "web-build",
+    "command": "pnpm --filter web build",
+    "exit": 0
+  },
+  {
+    "name": "web-e2e",
+    "command": "pnpm --filter web e2e",
+    "exit": 0
+  }
+]

@@ -1,0 +1,96 @@
+{
+  "provenance": "Local controlled HTTP servers; production dist; real browser fetch, not Cloudflare",
+  "observed": [
+    {
+      "scenario": "cross-302",
+      "records": [
+        {
+          "path": "/api/v1/roster",
+          "redirect": "manual",
+          "credentials": "include",
+          "type": "opaqueredirect",
+          "status": 0
+        },
+        {
+          "path": "/api/v1/roster",
+          "redirect": "manual",
+          "credentials": "include",
+          "type": "opaqueredirect",
+          "status": 0
+        }
+      ]
+    },
+    {
+      "scenario": "same-302",
+      "records": [
+        {
+          "path": "/api/v1/roster",
+          "redirect": "manual",
+          "credentials": "include",
+          "type": "opaqueredirect",
+          "status": 0
+        },
+        {
+          "path": "/api/v1/roster",
+          "redirect": "manual",
+          "credentials": "include",
+          "type": "opaqueredirect",
+          "status": 0
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/review-items",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/model-snapshots",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/health",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/roster",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/roster",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/review-items",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/model-snapshots",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/roster",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/health",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    },
+    {
+      "method": "GET",
+      "path": "/roster",
+      "cookie": "TEST_COOKIE=not-a-credential"
+    }
+  ],
+  "targetHits": []
+}

@@ -1,0 +1,312 @@
+{
+  "historicalAssetsChecked": 70,
+  "historicalAssetsChanged": [],
+  "historicalAssets": {
+    "docs/changelog/assets/T13/workspace-test.log": {
+      "sha256": "b786a8ab2263582730f002433e1e6d644d929f59f395096e2e15dc8127ab2834",
+      "mtime_ns": 1791266062210299005
+    },
+    "docs/changelog/assets/T13/S02-veteran-mobile-light.png": {
+      "sha256": "989ee305b74745dfaab02b08795d4a39932a413eda39c3963e6247f4662c2765",
+      "mtime_ns": 1791266091899879956
+    },
+    "docs/changelog/assets/T13/S05-targets-desktop-dark.png": {
+      "sha256": "5ac6a0c78594b02ee17a83fae6154182ceb07e766a707c29affb9b201d6d9322",
+      "mtime_ns": 1791266081412233366
+    },
+    "docs/changelog/assets/T13/S01-roster-desktop-light.png": {
+      "sha256": "1920c33e8a32000ade257ed3ab0e045b3bbb40bd9309ddf805d91edc372d7c33",
+      "mtime_ns": 1791266086700918865
+    },
+    "docs/changelog/assets/T13/S03-review-mobile-light.png": {
+      "sha256": "4807037aa4cdb0c5f459a24818f59e373d706e9701c75cb2c1827fe54f5884c1",
+      "mtime_ns": 1791266092135194766
+    },
+    "docs/changelog/assets/T13/S04-cards-MOCK-desktop-dark.png": {
+      "sha256": "7b98f99f9afcdfaaabb8ad9a243bdb0909779e5cc8d5ed7c7be80c5748670c1d",
+      "mtime_ns": 1791266098804164583
+    },
+    "docs/changelog/assets/T13/S01-roster-mobile-light.png": {
+      "sha256": "c86a7236636bff5b9c82d0aa43d52f153e3f72df9bf34ff1e6085382fa992cc7",
+      "mtime_ns": 1791266091633806762
+    },
+    "docs/changelog/assets/T13/environment.log": {
+      "sha256": "2bba1b03126ffee5a1396e6e47c70c6341edb8ad1aa5d9452b3dd0573217cade",
+      "mtime_ns": 1791266028098428960
+    },
+    "docs/changelog/assets/T13/S03-empty-light-axe.json": {
+      "sha256": "10f91d7e80578f1e3dacde7669991c8cb7fc553dd2874853f358ab523bb7baa0",
+      "mtime_ns": 1791266078303072085
+    },
+    "docs/changelog/assets/T13/S07-health-desktop-dark.png": {
+      "sha256": "c2b2e5e3dedc8df407397361cb00164c7cd9787e4e0ff48903a52b1d113f0602",
+      "mtime_ns": 1791266086352496802
+    },
+    "docs/changelog/assets/T13/S06-planner-desktop-dark.png": {
+      "sha256": "f0140b590121ae4d3aadf41ed48268a6a1925e31785bac4d7c76e72e8d964433",
+      "mtime_ns": 1791266084404418877
+    },
+    "docs/changelog/assets/T13/S01-roster-desktop-dark.png": {
+      "sha256": "9398c7a92c85131d7007cab7325c224b399dffd7284d941e716de7dcdc7fb698",
+      "mtime_ns": 1791266078943603268
+    },
+    "docs/changelog/assets/T13/S03-review-MOCK-desktop-light.png": {
+      "sha256": "af5c32d7bf0086a361cc20655a6f9483d58220209a89e5792df1ed3b2d5aa1cf",
+      "mtime_ns": 1791266096982839677
+    },
+    "docs/changelog/assets/T13/S02-veteran-desktop-light.png": {
+      "sha256": "3205e1c7a02bc81b37c9f8c6ffa31fba94516ccf915fb0df4958584692b533bb",
+      "mtime_ns": 1791266086958692245
+    },
+    "docs/changelog/assets/T13/S06-planner-mobile-light.png": {
+      "sha256": "a74fbfb469236f2f65cd3238c03e19d8a6e90a024f0aa31a17877e25dc379089",
+      "mtime_ns": 1791266095532570151
+    },
+    "docs/changelog/assets/T13/S07-health-mobile-light.png": {
+      "sha256": "781287fb9d7a5d47730959e3b57331db0d4a5fe838e3052076528b18966f2336",
+      "mtime_ns": 1791266096056022898
+    },
+    "docs/changelog/assets/T13/S03-review-desktop-dark.png": {
+      "sha256": "2b970934c759125f69e0e809fd123be2983cbd720ff7932b116072624d79ab22",
+      "mtime_ns": 1791266080677200191
+    },
+    "docs/changelog/assets/T13/S03-review-MOCK-desktop-dark.png": {
+      "sha256": "d7adbc14569efcbbc97fc771ec1e88b1f9306f427876f95de1a521306a87bc10",
+      "mtime_ns": 1791266098300348205
+    },
+    "docs/changelog/assets/T13/S05-targets-mobile-light.png": {
+      "sha256": "dd19d1ff4706eae9312d1ea07225edcf9e2e7743619bc4a5187d5180c21cf523",
+      "mtime_ns": 1791266092588959884
+    },
+    "docs/changelog/assets/T13/workspace-lint.log": {
+      "sha256": "9fd98f6fac395c6abffd858d39591b4b7dfb161e2fb47d197511c17c85689b69",
+      "mtime_ns": 1791266032744394689
+    },
+    "docs/changelog/assets/T13/S02-veteran-desktop-dark.png": {
+      "sha256": "891e13c0b05d0c96d8d022a303a9fefce6214e1f51770856902a18b8f09bf325",
+      "mtime_ns": 1791266080433870937
+    },
+    "docs/changelog/assets/T13/S03-review-dark-axe.json": {
+      "sha256": "10f91d7e80578f1e3dacde7669991c8cb7fc553dd2874853f358ab523bb7baa0",
+      "mtime_ns": 1791266080929228253
+    },
+    "docs/changelog/assets/T13/S04-cards-MOCK-desktop-light.png": {
+      "sha256": "1ac01ae499d0f0152af6b29c2918c316c9a778c0289305dcad46def2157db642",
+      "mtime_ns": 1791266097436427965
+    },
+    "docs/changelog/assets/T13/browser-ranking.json": {
+      "sha256": "0aae305771b56f1d0b6f5afaeaf44da5e3729b39ef1d35ad4d8c1b2f5baf3161",
+      "mtime_ns": 1791266073967423328
+    },
+    "docs/changelog/assets/T13/S03-populated-dark-axe.json": {
+      "sha256": "7fda93aaab543c88560d32023fb70fdad07f75cb01945e63d04cf46d08158056",
+      "mtime_ns": 1791266098264127997
+    },
+    "docs/changelog/assets/T13/web-e2e.log": {
+      "sha256": "b9f974c7b67ce5254a4a94a998251f795e601c55dd16fd3bfee8b0c471e66802",
+      "mtime_ns": 1791266098949848483
+    },
+    "docs/changelog/assets/T13/S04-cards-desktop-light.png": {
+      "sha256": "25e2ace73a4c26be795a367691c9f229df175ab7d3d2b034d66bb026b072ec29",
+      "mtime_ns": 1791266087425057312
+    },
+    "docs/changelog/assets/T13/S04-cards-mobile-light.png": {
+      "sha256": "b07ef23024eb404b14c2ec6e6dac3febd308f6b23299c65929f791055486b29d",
+      "mtime_ns": 1791266092366730474
+    },
+    "docs/changelog/assets/T13/S07-health-desktop-light.png": {
+      "sha256": "7fba92ce6503fccdafe8345d0c5fca83ff4f0426b8dddcda9367cebc42daf28c",
+      "mtime_ns": 1791266091310425557
+    },
+    "docs/changelog/assets/T13/S03-populated-light-axe.json": {
+      "sha256": "7fda93aaab543c88560d32023fb70fdad07f75cb01945e63d04cf46d08158056",
+      "mtime_ns": 1791266096951732797
+    },
+    "docs/changelog/assets/T13/S06-planner-desktop-light.png": {
+      "sha256": "bc175f419acd662aaea2516c5924e1de1a434fc1a1bd00497a2ae6e0f3931094",
+      "mtime_ns": 1791266090710389133
+    },
+    "docs/changelog/assets/T13/S03-review-desktop-light.png": {
+      "sha256": "8df53b163d3bed7c642bfc073631889ae726c92a748831ab0a85ca5a04cd4a8c",
+      "mtime_ns": 1791266087184246556
+    },
+    "docs/changelog/assets/T13/bundle-size.json": {
+      "sha256": "600424cc67e0376897e724b89306ede507a836758c1d96afc122ffc4b33ed0fc",
+      "mtime_ns": 1791266098972431843
+    },
+    "docs/changelog/assets/T13/pnpm.log": {
+      "sha256": "91e8d1eabd56182d60bb750798d44fb33d4ae7bae14d1dfa52565f009faa6ec3",
+      "mtime_ns": 1791079298037531357
+    },
+    "docs/changelog/assets/T13/web-build.log": {
+      "sha256": "ba413810722770797d751612e8788c85d8f8f6665b8c3c84670d28ba38c1caf3",
+      "mtime_ns": 1791266065617156685
+    },
+    "docs/changelog/assets/T13/gates.json": {
+      "sha256": "ea47b9571a83eb024945bc1f29ac1e8e491a41f4e851fd0f3763180dd073ca54",
+      "mtime_ns": 1791266098950240601
+    },
+    "docs/changelog/assets/T13/S05-targets-desktop-light.png": {
+      "sha256": "c817cea7f9fa1fef4ae7b52ed0fcb448034219956b1f5aea87e43228324515d8",
+      "mtime_ns": 1791266087677463410
+    },
+    "docs/changelog/assets/T13/S06-light-axe.json": {
+      "sha256": "9a0decb7945ec76f8bbabf69e661e5873ef7f8de18565a59ce8294573b996bf4",
+      "mtime_ns": 1791266075220782090
+    },
+    "docs/changelog/assets/T13/S06-planner-dark-axe.json": {
+      "sha256": "9a0decb7945ec76f8bbabf69e661e5873ef7f8de18565a59ce8294573b996bf4",
+      "mtime_ns": 1791266085755048708
+    },
+    "docs/changelog/assets/T13/S01-light-axe.json": {
+      "sha256": "934698d6407e3a5f6b04405a846bff3325fa02db60916d3590df8cabe31f02e4",
+      "mtime_ns": 1791266071084891632
+    },
+    "docs/changelog/assets/T13/workspace-typecheck.log": {
+      "sha256": "fa75dce3f308962a31800d1eb517c1abfd55f5245d146d659a69239f5df1bb4c",
+      "mtime_ns": 1791266040360556183
+    },
+    "docs/changelog/assets/T13/S01-roster-dark-axe.json": {
+      "sha256": "934698d6407e3a5f6b04405a846bff3325fa02db60916d3590df8cabe31f02e4",
+      "mtime_ns": 1791266080173219232
+    },
+    "docs/changelog/assets/T13/S04-cards-desktop-dark.png": {
+      "sha256": "c1af758610f7d5d81b07f6fa98d2e5660cda0e9a5d3f43ef72f614be0742d837",
+      "mtime_ns": 1791266081166677859
+    },
+    "docs/changelog/assets/T13/review-r1/probe.mjs": {
+      "sha256": "7f4573da4b80eb2ad9a93ef47b367f24cd802290d63ee62f543dee48bdb2048a",
+      "mtime_ns": 1791287245488792900
+    },
+    "docs/changelog/assets/T13/review-r1/probe-result.json": {
+      "sha256": "440077a5db96c37e9afc9aabfbfc7dec955e2c68ab77694877abe77c948d1fed",
+      "mtime_ns": 1791287283405916064
+    },
+    "docs/changelog/assets/T13/review-r1/workspace-test.log": {
+      "sha256": "e86aeb61e9e285383b828823d54bfd56d01f88cae2951199c871e17c1004d0b7",
+      "mtime_ns": 1791287291318036362
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-browser-ranking.json": {
+      "sha256": "b002a2bd890d277fbe82d4dfd05c6e2bd57eff1b4669903a3921e7677f3b7171",
+      "mtime_ns": 1791287299740862456
+    },
+    "docs/changelog/assets/T13/review-r1/check-dist-fixture-build.log": {
+      "sha256": "3f5c9016bbd964c23b58a7534714a0267836a95fdec9e5fef94da6e639acc920",
+      "mtime_ns": 1791287291558158420
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S03-populated-dark-axe.json": {
+      "sha256": "7fda93aaab543c88560d32023fb70fdad07f75cb01945e63d04cf46d08158056",
+      "mtime_ns": 1791287299707355336
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S06-planner-dark-axe.json": {
+      "sha256": "9133becf08d71dff71ffb6ea9397b75186c66766ead72637f40acdccd1a70d00",
+      "mtime_ns": 1791287299735258158
+    },
+    "docs/changelog/assets/T13/review-r1/probe.log": {
+      "sha256": "134b5d6fbe4da5a63a6f81bc492a8b111c7bf952a384907f74f7ee5d2229acb5",
+      "mtime_ns": 1791287283406151274
+    },
+    "docs/changelog/assets/T13/review-r1/seed.log": {
+      "sha256": "9ba5f9918ccc63dcc9b38d327b93e475275077030042d4b021e61a158747b56f",
+      "mtime_ns": 1791287283406396276
+    },
+    "docs/changelog/assets/T13/review-r1/workspace-lint.log": {
+      "sha256": "f0ca008d3e977aa0b60372c13e339829b7945ac172b5ccf6748548d5bd76fd3d",
+      "mtime_ns": 1791287291312691691
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S01-roster-dark-axe.json": {
+      "sha256": "489cc460da35782fe496225fa48dc5345e82b32e472b960c8ffa4d62590452da",
+      "mtime_ns": 1791287299691750369
+    },
+    "docs/changelog/assets/T13/review-r1/probe-409-alert.png": {
+      "sha256": "f186c58c5b5d9e4f66d92c70260be63745b134629472839ca9064181761be902",
+      "mtime_ns": 1791287283406663487
+    },
+    "docs/changelog/assets/T13/review-r1/wrangler.log": {
+      "sha256": "9e51fa850563e3d2e2be5d6e8cfaeb6c1614f208272216aaeec46fe834209326",
+      "mtime_ns": 1791287283410169475
+    },
+    "docs/changelog/assets/T13/review-r1/web-e2e.log": {
+      "sha256": "593deec17d788ad901a964d7106da58e7d5680fa6b237c2b73a2099e96c69326",
+      "mtime_ns": 1791287291320403382
+    },
+    "docs/changelog/assets/T13/review-r1/check-dist-production.log": {
+      "sha256": "9eb4ee663d7f42a3de10df6dce98cb568d99a99aa9b0f06f46d4db134abce25f",
+      "mtime_ns": 1791287291398453134
+    },
+    "docs/changelog/assets/T13/review-r1/seed.mts": {
+      "sha256": "348a36e21e9fb3466499e09f541700e10283ca9826beb16a7100dfedb850146f",
+      "mtime_ns": 1791287253918175757
+    },
+    "docs/changelog/assets/T13/review-r1/fix1-S03-populated-light-axe.json": {
+      "sha256": "c76e218b06b3e9cd822db965fc1ef2637b604c845f680ef65eee6e8c09eaadf9",
+      "mtime_ns": 1791287291574093848
+    },
+    "docs/changelog/assets/T13/review-r1/fix1-S03-populated-dark-axe.json": {
+      "sha256": "c76e218b06b3e9cd822db965fc1ef2637b604c845f680ef65eee6e8c09eaadf9",
+      "mtime_ns": 1791287291572470334
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S01-light-axe.json": {
+      "sha256": "489cc460da35782fe496225fa48dc5345e82b32e472b960c8ffa4d62590452da",
+      "mtime_ns": 1791287299685357772
+    },
+    "docs/changelog/assets/T13/review-r1/web-build.log": {
+      "sha256": "e40d7dfd0089e9be1c36b67838408d4ef2e0b75c38f8a447c78302b2eccab103",
+      "mtime_ns": 1791287291322792986
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S06-light-axe.json": {
+      "sha256": "9133becf08d71dff71ffb6ea9397b75186c66766ead72637f40acdccd1a70d00",
+      "mtime_ns": 1791287299729283315
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S03-empty-light-axe.json": {
+      "sha256": "4887463a9511e4e0b3628ff7121e213fe69cd20537792e6585b45308a0912fc5",
+      "mtime_ns": 1791287299698403384
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S03-populated-light-axe.json": {
+      "sha256": "7fda93aaab543c88560d32023fb70fdad07f75cb01945e63d04cf46d08158056",
+      "mtime_ns": 1791287299715689157
+    },
+    "docs/changelog/assets/T13/review-r1/fix1-S03-409-dark.png": {
+      "sha256": "ccb22bf11fead6ce2614bb6c165a305a91b8338f8c169bc8a9a0fefb6688b901",
+      "mtime_ns": 1791287291568322757
+    },
+    "docs/changelog/assets/T13/review-r1/workspace-typecheck.log": {
+      "sha256": "b008ff21c31f20b2592dd64c353fc375ead968b062a116aea744002e06b37176",
+      "mtime_ns": 1791287291315450840
+    },
+    "docs/changelog/assets/T13/review-r1/rerun-S03-review-dark-axe.json": {
+      "sha256": "4887463a9511e4e0b3628ff7121e213fe69cd20537792e6585b45308a0912fc5",
+      "mtime_ns": 1791287299723238263
+    },
+    "docs/changelog/assets/T13/review-r1/fix1-S03-409-light.png": {
+      "sha256": "3510c0745a0a5ddb42f5dfab04194ef143ede119d516adf7f4c1a9461dbcf2ab",
+      "mtime_ns": 1791287291571830870
+    }
+  },
+  "explicitExport": "cp-equivalent copytree from ignored apps/web/test-results/e2e-assets to review-r2/browser AFTER default e2e completed",
+  "axeAllSeverityViolationCounts": {
+    "S03-empty-light-axe.json": 0,
+    "S03-review-dark-axe.json": 0,
+    "S03-populated-dark-axe.json": 0,
+    "S03-populated-light-axe.json": 0,
+    "fix1-S03-populated-light-axe.json": 0,
+    "fix1-S03-populated-dark-axe.json": 0,
+    "S06-light-axe.json": 0,
+    "S06-planner-dark-axe.json": 0,
+    "S01-light-axe.json": 0,
+    "S01-roster-dark-axe.json": 0
+  },
+  "rankingMs": [
+    2127,
+    2161,
+    2095,
+    2074,
+    2084
+  ],
+  "mainGzip9Bytes": {
+    "index-CcI4i0Jq.js": 139748,
+    "index-BTZ17_Gg.css": 5786
+  },
+  "totalMainGzip9Bytes": 145534,
+  "reviewVerbatimSha256": "5f3235430310a2989b51f8f9f99274871602e78197fb9129af078b7f35dc8f08"
+}
