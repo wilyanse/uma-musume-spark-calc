@@ -1,0 +1,15 @@
+$ pnpm lint
+$ pnpm -r lint
+Scope: 5 of 6 workspace projects
+packages/schema lint$ eslint .
+packages/schema lint: Done
+packages/master-data lint$ eslint src test vitest.config.ts
+apps/api lint$ eslint .
+packages/master-data lint: Done
+apps/api lint: Done
+packages/engine lint$ eslint src test scripts bench vitest.config.ts
+packages/engine lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+
+EXIT=0

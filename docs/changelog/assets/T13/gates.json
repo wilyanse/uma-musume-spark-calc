@@ -1,0 +1,52 @@
+[
+  {
+    "name": "environment",
+    "command": [
+      "node",
+      "--version"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "pnpm",
+    "command": [
+      "pnpm",
+      "--version"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "workspace-lint",
+    "command": [
+      "pnpm",
+      "lint"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "workspace-typecheck",
+    "command": [
+      "pnpm",
+      "typecheck"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "workspace-test",
+    "command": [
+      "pnpm",
+      "test"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "web-build",
+    "command": [
+      "pnpm",
+      "--filter",
+      "web",
+      "build"
+    ],
+    "exit": 0
+  }
+]

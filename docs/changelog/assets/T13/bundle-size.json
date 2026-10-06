@@ -1,0 +1,25 @@
+{
+  "assets": [
+    {
+      "file": "engine.worker-CvyqFKaj.js",
+      "bytes": 162203,
+      "gzipBytes": 48599,
+      "worker": true
+    },
+    {
+      "file": "index-BSuQgY74.css",
+      "bytes": 27264,
+      "gzipBytes": 5773,
+      "worker": false
+    },
+    {
+      "file": "index-_kuA_E61.js",
+      "bytes": 461166,
+      "gzipBytes": 138737,
+      "worker": false
+    }
+  ],
+  "mainGzipBytesIncludingCSS": 144510,
+  "budgetBytes": 250000,
+  "productionHasFixtureJson": false
+}

@@ -1,0 +1,4 @@
+$ pnpm --version
+11.22.0
+
+EXIT=0

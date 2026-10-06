@@ -1,4 +1,4 @@
 import { expose } from 'comlink';
-import { engineApi } from './engine.api.ts';
+import { createEngineApi } from './engine.api.ts';
 
-expose(engineApi);
+expose(createEngineApi());

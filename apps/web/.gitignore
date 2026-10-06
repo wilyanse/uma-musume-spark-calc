@@ -1,0 +1,3 @@
+dist-fixtures/
+test-results/
+playwright-report/
