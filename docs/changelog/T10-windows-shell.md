@@ -363,3 +363,17 @@ git diff --name-only 08d4876 -- agent/src/Uma.Agent.Core agent/tests/Uma.Agent.C
 A programmatic `git status --porcelain=v1 --untracked-files=all` scope check verified all 23 changed/new files are in Windows source/tests/tools, the runbook or task changelog. The initial whitespace check caught one added blank EOF line in this section; it was removed before the final check/commit.
 
 Status stays Partial: H4 WGC/OCR/DPAPI/WPF/native single-file/actual Access-upload validation and reviewed T11 integration remain pending. No merge/push/deploy performed.
+
+## Coordinator final review and local merge
+Independent r3 PASS is preserved at `docs/reviews/T10-review-3.md`. The same read-only session continued on Opus medium after Sol's usage limit; no review budget reset. Local merge followed approval. Native tests were compiled only, not run.
+
+Merged verification (actual output):
+```
+dotnet build agent/Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true --no-incremental
+Build succeeded. 0 Warning(s) 0 Error(s)
+dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/T10-review/dotnet8/dotnet
+Passed! Failed: 0, Passed: 302, Skipped: 0, Total: 302
+dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/T10-review/dotnet8/dotnet
+Passed! Failed: 0, Passed: 157, Skipped: 0, Total: 157
+```
+Initial attempts to invoke `build`/`test` directly with the runtime-only .NET8 host failed with `No .NET SDKs were found`; corrected by system SDK plus explicit test host above. Integration task T10b carries transient capture-error recovery (r3 S1), persistent-notice structure (S2), validation-message cosmetics (N1) and reflection-test fragility (N2). H4 and live Access remain unverified. No push/deploy.

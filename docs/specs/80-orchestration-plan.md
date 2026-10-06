@@ -138,6 +138,12 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Needs: T09.
 - Done when: it compiles with `EnableWindowsTargeting` on macOS; the runbook is complete. Status is `Partial` until H4.
 
+### T10b — Windows support-card integration
+- Spec: 30 §8 and §10 (T11), 01 §4; T10/T11 final reviews and `docs/runbooks/agent-install.md`.
+- Owns: Windows shell source/tests, agent-install runbook and its task changelog. Core Cards/contracts are read-only unless a minimal cross-task correction is declared.
+- Needs: merged T10 and T11.
+- Done when: tray capture and explicit full/partial sync use the reviewed Core Cards implementation; partial replacement warning/confirmation, stale provenance/revision refusal and upload acknowledgement are exercised in portable tests. No false full capture or silent destructive replacement. Fix T10 r3 transient capture-error recovery without clearing durable unsaved/overflow notices. Native Windows/live PUT stay H4/H2. Independent review before merge.
+
 ### T11 — Agent support card sync
 - Spec: 30 §8, §10 (T11); 01 §4.
 - Owns: `agent/src/Uma.Agent.Core/Cards/**`, `agent/tests/**/Cards*`.
@@ -181,9 +187,10 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Merged locally (0472739); merged native build/166 tests and TS checks passed; T10/T11 dependencies cleared | task/T09-agent-core | T09-agent-core.md | CHANGES_REQUESTED r1 → PASS r2/r3; final SF1–SF4 verified on Sol; H4 remains after T10 |
-| T10 | Candidate 5c1fc59; parent Release/Core166/portable157 passed; fresh independent final Sol r3 | task/T10-windows-shell | T10-windows-shell.md | Pending; H4 after native shell |
+| T10 | Merged locally; Release build 0 warnings/errors, merged Core302/portable157 pass; Partial until H4 | task/T10-windows-shell | T10-windows-shell.md | PASS r3; Sol usage-limit interruption → same-session Opus completion; S1–S2/N1–N2 recorded for integration |
+| T10b | Prepared: reviewed T10/T11 integration and transient-error recovery | task/T10b-card-shell-integration | T10b-card-shell-integration.md | Independent review pending |
 | T11 | Merged locally 4ee0426; native302 and workspace checks passed; T10 wiring/H4 remain | task/T11-card-sync | T11-card-sync.md | CHANGES_REQUESTED r1/r2 → PASS r3; T10 integration and H4 remain |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T13 | Candidate 6d9a8f7; parent workspace/web124/e2e14 passed; fresh independent final Sol r3 | task/T13-web-screens | T13-web-screens.md | Pending; H5 approved |
+| T13 | Merged locally db05929; merged workspace/web124/e2e14, production build and fixture exclusion pass | task/T13-web-screens | T13-web-screens.md | PASS r3; live Access/H4 pending; nonblocking findings retained in review |
 | T14 | Not started | | | |
 | T15 | Not started | | | |

@@ -259,6 +259,8 @@ Main bundle compression was computed from actual dist bytes with Python `gzip.co
 
 ### Reproduction and evidence preservation
 
+Coordinator final r3 PASS is preserved at `docs/reviews/T13-review-3.md`. Local merge `db05929` was followed by fresh verification: `pnpm install --frozen-lockfile`; `pnpm -r lint && pnpm -r typecheck && pnpm -r test` (all succeeded; schema149, master82, API111, engine240, web124 passed); `pnpm --filter web build` (172 modules, built successfully); `pnpm --filter web check:dist` (OK, no fixture code/data); `pnpm --filter web e2e` (14 passed, 56.7s). Actual browser ranking measurements were 2265/2488/3008/2454/2176ms, all below 5s; tested axe pages had zero violations of any severity. Browser/mock/local HTTP evidence is not live Cloudflare validation. Nonblocking r3 follow-ups remain: retain the old-request/new-pending-screen overlap browser regressions and correct the local test server's problem-response MIME header to application/problem+json. Nothing pushed/deployed.
+
 Reproduce the real-browser boundary probe with:
 
 ```sh
