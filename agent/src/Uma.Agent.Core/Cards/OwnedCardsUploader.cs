@@ -55,8 +55,8 @@ public sealed record OwnedCardsRetryPolicy(int MaxAttempts, TimeSpan BaseDelay, 
 /// written to disk: no payload, token or response is persisted by this class.</item>
 /// </list>
 /// The HttpClient must not follow redirects: build it with <see cref="CreateHandler"/> (as for <see cref="UploadClient"/>).
-/// No durable queue. Recovery may retry ONLY the still-current coordinator generation; never revive a stale
-/// session after a newer scan. Cancellation cannot undo server work already in flight.</summary>
+/// No durable queue. Recovery requires the registered current session AND its current snapshot revision,
+/// not merely a current coordinator handle. Cancellation cannot undo server work already in flight.</summary>
 public sealed class OwnedCardsUploader
 {
     private readonly HttpClient _http;
@@ -78,7 +78,10 @@ public sealed class OwnedCardsUploader
     public static HttpClientHandler CreateHandler() => UploadClient.CreateHandler();
     internal Uri Target => new(_baseUri, "api/v1/owned-cards");
 
-    public async Task<OwnedCardsUploadResult> SendAsync(OwnedCardsSyncPayload payload, CancellationToken ct = default)
+    public Task<OwnedCardsUploadResult> SendAsync(OwnedCardsSyncPayload payload, CancellationToken ct = default)
+        => SendCurrentAsync(payload, null, ct);
+
+    internal async Task<OwnedCardsUploadResult> SendCurrentAsync(OwnedCardsSyncPayload payload, Action? requireCurrent, CancellationToken ct)
     {
         if (payload is null) return new(OwnedCardsUploadOutcome.Invalid, 0, null, "invalid-schema", ["/: must be an envelope"]);
         var schemaErrors = OwnedCardsSyncValidator.ValidateSchema(payload.Body);
@@ -95,8 +98,12 @@ public sealed class OwnedCardsUploader
         string? category = null;
         for (var attempt = 1; attempt <= _policy.MaxAttempts; attempt++)
         {
+            // Coordinator freshness is rechecked before a delay and after it, even if an injected
+            // delay ignores cancellation. No older snapshot may start another HTTP attempt.
+            requireCurrent?.Invoke();
             if (attempt > 1) await _delay(_policy.DelayBefore(attempt - 1), ct);
             ct.ThrowIfCancellationRequested();
+            requireCurrent?.Invoke();
             var (outcome, ack, cat, apiErrors) = await AttemptAsync(uri, json, expectedCount, expectedPartial, ct);
             switch (outcome)
             {

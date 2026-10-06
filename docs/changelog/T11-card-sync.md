@@ -34,8 +34,8 @@ Modified:
 ```csharp
 // Keep ONE coordinator per API target/account across all session/uploader replacements.
 var coordinator = new OwnedCardsUploadCoordinator();             // shell lifetime, NOT per scan/send
-var generation = coordinator.BeginGeneration();                  // create/replace/reset scan
 var session = new CardSyncSession(master, layout, clock);          // one per "Capture support cards"
+var generation = coordinator.BeginGeneration(session);           // explicitly register current scan before any send
 CardFeedResult r = await session.FeedAsync(parser, rawFrame, ct);  // or session.Feed(parsedFrame) if the loop already parsed it
 CardSyncState s = session.State;   // Status, HeldCount, Cards, Pending (+Candidates), Conflicts, Segments, Blockers, CanSendFull, PartialConfirmation
 session.RequestDetail(pendingId);  // the user clicked a pending tile, then opens that card in game
@@ -44,7 +44,9 @@ OwnedCardsSyncPayload p = s.CanSendFull ? session.BuildFull()
 var up = new OwnedCardsUploader(new HttpClient(OwnedCardsUploader.CreateHandler()), apiBase, serviceToken /*DPAPI-backed IServiceToken*/, master.Ids["cards"]);
 OwnedCardsUploadResult u = await coordinator.SendAsync(generation, up, p, ct);
 coordinator.Invalidate(generation); session.Cancel();              // same action; invalidate first
-// Reset/replacement: BeginGeneration() FIRST, then session.Reset()/new session.
+// Reset: Invalidate(generation), session.Reset(), then BeginGeneration(session).
+// Replacement: construct newSession, then BeginGeneration(newSession); old scan is retired.
+// Retry only the same current snapshot revision on the existing handle. Changed scan: rebuild and reconfirm partial.
 // Every UI callback retains its originating session AND generation, never the current replacement's handle.
 ```
 The session ignores non-card screens, so T10 can feed it the same frame stream as the veteran `CaptureCoordinator` while card capture is active.
@@ -83,14 +85,14 @@ The session ignores non-card screens, so T10 can feed it the same frame stream a
   - **Retried:** 5xx, 408, 429, network errors, timeouts and non-ack 200s, up to `MaxAttempts` (default 4) with an injected delay of 2 s·2ⁿ capped at 30 s.
 
   Caller cancellation propagates. Errors are surfaced as categories, never exception messages or bodies. The secret is read per request into headers only.
-- **No durable queue (Q-152).** There is no new outbox kind and no Cards database, because a replayed stale whole-table PUT could overwrite a newer sync. Recovery: rebuild/retry ONLY a still-current coordinator generation. Replacement/reset/cancel invalidates older generations before retries. Never create a fresh generation just to replay an older scan after a newer one. On app exit, scan again. Cancellation cannot retract already-applied writes or guarantee remote ordering after ambiguous transport failure (no API generation/CAS contract). Nothing card-related is written to disk.
+- **No durable queue (Q-152).** There is no new outbox kind and no Cards database, because a replayed stale whole-table PUT could overwrite a newer sync. Recovery: retry only the registered current session generation AND its unchanged current snapshot revision, on the existing coordinator handle. `BeginGeneration(session)` explicitly registers the scan before first send. The coordinator refuses old revisions, foreign/replaced sessions and retired scan registrations; reset/cancel also revoke envelopes through the session freshness check. If collection content changes, build a new payload and reconfirm partial. Never create a fresh generation to replay an older envelope. On app exit, scan again. Cancellation cannot retract already-applied writes or guarantee remote ordering after ambiguous transport failure (no API generation/CAS contract). Nothing card-related is written to disk.
 
 ## Deviations from spec
 - 30 §8 "Finish: when the unique card count equals `Held N`": count == Held is required, and the session also requires no pending tiles, conflicts, segments or holes. This is stricter, to avoid sending a confident-wrong whole collection.
 - 30 §6 outbox: card syncs are not queued durably (Q-152).
 
 ## Cross-task edits
-- None. No changes to the T09 parser, outbox, layout, schema, API or Windows shell. `docs/OPEN_QUESTIONS.md` changes are appends only.
+- None. No changes to the T09 parser, outbox, layout, schema, API or Windows shell. `docs/OPEN_QUESTIONS.md` changes were initially appends only; round2 corrects the T11-owned Q-154 safety contract in place, as requested.
 
 ## Verification
 Environment: SDK 10.0.103 builds `net8.0`. Tests run on the isolated native runtime 8.0.31 through `RunConfiguration.DotNetHostPath`; global config is unchanged.
@@ -166,7 +168,7 @@ Test inputs: grounded tests use only the real screenshots 13/14 and their record
 ## Open questions / follow-ups
 - Q-150: a partial PUT replaces the whole owned-cards table. The UI must show `PartialSyncConfirmation.Message`; a merge would need an ADR.
 - Q-151: whether Held counts distinct cards is unverified. Check at H4.
-- Q-152: there is no durable card queue. Recovery is only through the still-current coordinator generation; otherwise scan again.
+- Q-152: there is no durable card queue. Recovery requires the explicitly registered current session and unchanged snapshot revision, not merely a current coordinator handle; otherwise rebuild/reconfirm or scan again.
 - Q-153: scroll placement relies on accepted art matches. Check scroll behaviour at H4.
 - **Pending T10 integration:**
   - add the tray "Capture support cards" mode that feeds frames to `CardSyncSession`;
@@ -201,7 +203,7 @@ Response to `docs/reviews/T11-review-1.md` (CHANGES_REQUESTED on eb5cd87) and `d
 - **B2 (mutability and envelope provenance).** The design:
   - `OwnedCardsSync.Cards` is copied into a read-only wrapper on construction and on `with`.
   - Ingress candidates and every published nested list (cards, pending, candidates, conflicts, observations, blockers) are frozen copies.
-  - `OwnedCardsSyncPayload` has no public constructor or setters. Its non-wire seal (`OwnedCardsProvenance`) survives record copies. Rewrapping an edited body, upgrading partial to full, or changing Held is `Invalid` before any network call.
+  - `OwnedCardsSyncPayload` has no public constructor or setters. Its non-wire seal (`OwnedCardsProvenance`) survives record copies; round2 adds issuing session object, GUID, instance, scan generation and snapshot revision. Rewrapping an edited body, upgrading partial to full, or changing Held is `Invalid` before any network call.
   - The wire DTO shape and serialization are unchanged, and the serialized bytes contain no provenance.
   - The uploader takes its JSON, expected count and expected partial flag once, before the first await, and uses that snapshot for every attempt and acknowledgement check.
 
@@ -213,7 +215,7 @@ Response to `docs/reviews/T11-review-1.md` (CHANGES_REQUESTED on eb5cd87) and `d
   - New in this pass: `Reset_alone_never_reuses_a_pending_handle_for_a_different_tile`.
 - **B4 (selected target identity).** A selected tile now goes through the same `FitsIdentity` check as the automatic path (same ID, or the ID is among its candidates), plus the level check and the "matched to another tile" check. Manual override of the candidate set is out of scope and not exposed. Test: `Unrelated_uncollected_same_level_detail_cannot_bind_selected_or_automatic_tile(false|true)`.
 - **B5 (ordering of whole-table writes).** New `OwnedCardsUploadCoordinator`, owned by the caller (T10). Keep one per API target for the shell's lifetime. How it behaves:
-  - `BeginGeneration()` cancels the previous generation. `Invalidate(g)` cancels only `g`, so a stale cancel callback can't kill its replacement.
+  - `BeginGeneration(session)` explicitly binds the scan and cancels the previous generation (round2 replaces the original parameterless API). `Invalidate(g)` cancels only `g`, so a stale cancel callback can't kill its replacement.
   - `SendAsync(g, uploader, payload)` refuses a non-current generation before doing anything, and binds the target URI on first use. A replacement uploader for another target is refused.
   - Sends are serialized through completion, retries included. The uploader runs on a token linked to the generation, and a success that completes after replacement is never published.
 
@@ -226,7 +228,7 @@ Response to `docs/reviews/T11-review-1.md` (CHANGES_REQUESTED on eb5cd87) and `d
   - `Coordinator_rejects_foreign_generation_and_changed_target`.
   - New in this pass: `Stale_generation_send_is_refused_before_it_can_bind_the_coordinator_target`.
 
-  All coordinator waits are bounded (5 s), so an ordering regression fails the test instead of hanging it.
+  The round-1 bounded-wait claim was incomplete: review round2 N1 found six unbounded coordinator awaits. Round2 adds `WaitAsync(Bound)` to all such awaits and assertion delegates; the never-release mutant is checked against the test deadline itself.
 - **B6 (strict acknowledgement).** The acknowledgement must have exactly three uniquely named properties, an Int32 JSON-number `count`, a JSON-boolean `partial`, and a `syncedAt` string matching the exported `IsoUtc` schema pattern (`OwnedCardsSyncJson.IsoUtcPattern`, asserted equal to `capturedAt.pattern` in `OwnedCardsSync.schema.json`). It is parsed only after that match. The route's real `syncedAt` is `Date.prototype.toISOString()` (`apps/api/src/http.ts` `nowIso`), which matches. `OwnedCardsSyncJson.Deserialize` uses the same uniqueness, type and timestamp rules. Tests: `Duplicate_keys_and_non_ISO_dates_are_not_acknowledgements` (both review payloads), `Every_ack_key_is_unique_and_types_are_strict`, `Strict_ack_accepts_schema_ISO_UTC_forms`, `Strict_ack_refuses_invalid_calendar_and_non_schema_UTC_forms` and the extended `Deserialize_is_strict`.
 - **S1 (HTML responses).** 3xx, 401/403 and off-origin responses are still `AuthRequired`. Below 500, HTML counts as auth only when it is recognisably the Cloudflare Access sign-in page ("Cloudflare Access" and "Sign in"). Any other HTML follows its status: a 502 is retried within the bound, and an HTML 200 is never an acknowledgement (retried, then `Failed`). Tests: `Generic_HTML_502_retries_not_auth`, `Generic_HTML_has_bounded_retry_not_auth(200|502)`, `HTML_success_with_JSON_ack_bytes_is_never_acknowledged`. The existing Access-login and redirect replay tests still pass.
 - **S2.** Covered by the B4 test: tile 5's candidates exclude Special Week and Special Week is not collected anywhere, so the "already collected" guard cannot mask the identity guard. The automatic variant removes tile 0 so ambiguity cannot mask it either.
@@ -299,3 +301,15 @@ HTTP behaviour is fake-handler replay of the inspected route (`apps/api/src/rout
 - Native runtime discovered intact at `/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet`: `Microsoft.NETCore.App 8.0.31`. No install or global change.
 - Baseline: `cd agent && dotnet build Uma.Agent.sln && dotnet test Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet` returned `0 Warning(s)`, `0 Error(s)` and `Passed! - Failed: 0, Passed: 282, Skipped: 0, Total: 282`.
 - RED, before any production edits: added `CardsReviewRound2SafetyTests.cs` against the existing parameterless generation API. `dotnet test Uma.Agent.sln --filter FullyQualifiedName~CardsReviewRound2SafetyTests -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet` returned `Failed! - Failed: 12, Passed: 2, Skipped: 0, Total: 14`. Missing stale-send exceptions and accepted contradictory frames were actual assertion failures. The double-rewrap and identical-current-payload controls passed on existing production. The tests' generation calls will migrate to explicit session registration with the fix.
+
+### Findings and implementation milestone
+- R2-B1: `BeginGeneration(CardSyncSession)` is the only registration API. Its handle binds the actual issuing session object and immutable GUID/instance/scan-generation identity before any send, never the first submitted envelope. Retired scan identities cannot be re-registered; Reset creates a genuinely new scan identity. `OwnedCardsProvenance` additionally seals the immutable snapshot revision, body and partial flag. Record copies/rewraps preserve that original seal. No wire DTO field changed.
+- R2-B1: freshness is checked before target binding, again after the serialized gate wait, before/after each retry delay and before publishing the result. The per-generation revision watermark advances monotonically inside the serialized gate before the uploader's first await; failure does not roll it back. Identical unchanged-current payload retries are allowed. Concurrent Feed changes prevent another old HTTP attempt or obsolete UI success, without pretending an already-received HTTP request can be undone. Direct uploader calls are transport-only; T10 must use the actual tested public coordinator API above.
+- S1: aligned explicit-empty evidence removes only `UnreadSlot(null)` on the frame's transactional clone. Synthetic18 initially has two unknown trailing holes, then explicit empty confirmation clears both; it can build a full 18-card payload. Unknown occupancy elsewhere still blocks full sync. Scroll/out-of-order tests preserve row/column positions.
+- S2: explicit emptiness at a previously occupied aligned position rejects the whole frame without changing revision, capture time, cards or prior payload. Synthetic20 empty-cell19 and both page0/page5 offsets are exercised. A previously valid full snapshot stays valid but the contradictory frame adds no new authorization. Confident false-empty classification is an optional T10/H4 integration risk; core contradiction rejection is fixed here, not deferred.
+- S3: double-rewrap forged-body regression added, with an unchanged valid double-rewrap and immutable caller-list control. Production already preserved the seal; the regression targets the review's reseal mutant.
+- N1: all coordinator await/assertion-delegate paths in `CardsUploadSafetyTests` now use `WaitAsync(Bound)`; rendezvous waits and all new safety-test waits are bounded too. Existing coordinator tests migrated from fabricated unissued DTOs to actual synthetic session-issued envelopes, preserving their count/ordering assertions.
+- N2: no production change requested. Cancel's generation increment mutant is equivalent while cancelled state and Reset generation advancement remain; retain the current implementation.
+- Additional boundaries: parameterless API absent; retired scan registration refused; reset with an identical wire body cannot authorize an old envelope; reused injected GUID with equal body/revision cannot alias an instance; queued envelopes revalidated after gate entry; pre-cancelled calls cannot bind target; unissued/edited bodies cannot provide snapshot authority.
+- GREEN: `cd agent && dotnet build Uma.Agent.sln && dotnet test Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet` returned `Build succeeded. 0 Warning(s) 0 Error(s)` and `Passed! - Failed: 0, Passed: 302, Skipped: 0, Total: 302`. An intermediate new-test build failed on xUnit2031 (Assert.Single filtered with Where); the assertion was changed to its predicate overload, and the command above was rerun successfully.
+- Scope: four Cards production files, new Cards round2 tests, CardsUploadSafetyTests, T11-owned Q-154 correction and this changelog only. Shared schema/API/T09/Windows/master/fixtures remain unchanged. Parent independent re-review is still mandatory; no merge/push/deploy. This final fix budget is exhausted after candidate handoff: escalate any remaining blocking review findings rather than silently starting another fix round.

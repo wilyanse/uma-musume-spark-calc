@@ -33,7 +33,7 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
             int n = JsonDocument.Parse(await r.Content!.ReadAsStringAsync(ct)).RootElement.GetProperty("cards").GetArrayLength(); wire.Add(n);
             return wire.Count <= 3 ? CardsUploaderTests.Json(HttpStatusCode.ServiceUnavailable, "{}") : Ack(n);
         }));
-        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration();
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
         var failed = await c.SendAsync(g, up, older).WaitAsync(Bound);
         Assert.Equal(OwnedCardsUploadOutcome.Failed, failed.Outcome); Assert.Equal(3, failed.Attempts);
         s.Feed(inv.Page(5), inv.EmptyCells(5)); var newer = Partial(s);
@@ -47,7 +47,7 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
     public async Task Old_session_under_fresh_generation_cannot_bind_target_or_send()
     {
         var inv = new Synthetic(30); var old = Scan(inv); var current = Scan(inv); var p = Partial(old);
-        var c = new OwnedCardsUploadCoordinator(); c.BeginGeneration(); var g = c.BeginGeneration();
+        var c = new OwnedCardsUploadCoordinator(); c.BeginGeneration(old); var g = c.BeginGeneration(current);
         int calls = 0;
         var wrong = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }), origin: "https://other.example.test/");
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(g, wrong, p).WaitAsync(Bound));
@@ -62,12 +62,12 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
     public async Task Cancel_or_reset_before_first_send_refuses_envelope_without_pinning_target(bool reset)
     {
         var inv = new Synthetic(30); var s = Scan(inv); var p = Partial(s);
-        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration();
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
         if (reset) { s.Reset(); s.Feed(inv.Page(0), inv.EmptyCells(0)); } else s.Cancel();
         int calls = 0;
         var wrong = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }), origin: "https://other.example.test/");
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(g, wrong, p).WaitAsync(Bound));
-        var current = Scan(inv); var fresh = c.BeginGeneration();
+        var current = Scan(inv); var fresh = c.BeginGeneration(current);
         var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }));
         Assert.Equal(OwnedCardsUploadOutcome.Synced, (await c.SendAsync(fresh, up, Partial(current)).WaitAsync(Bound)).Outcome);
         Assert.Equal(1, calls);
@@ -77,7 +77,7 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
     public async Task Current_revision_changed_before_first_send_is_refused()
     {
         var inv = new Synthetic(30); var s = Scan(inv); var old = Partial(s);
-        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration();
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
         s.Feed(inv.Page(5), inv.EmptyCells(5));
         int calls = 0; var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }));
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(g, up, old).WaitAsync(Bound));
@@ -88,7 +88,7 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
     public async Task Revision_change_while_inflight_stops_old_retry_before_queued_new_send()
     {
         var inv = new Synthetic(30); var s = Scan(inv); var old = Partial(s);
-        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration();
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
         var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var wire = new List<int>();
@@ -111,7 +111,7 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
     public async Task Revision_change_during_noncooperative_retry_delay_stops_next_attempt()
     {
         var inv = new Synthetic(30); var s = Scan(inv); var p = Partial(s);
-        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration();
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
         int calls = 0;
         var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(CardsUploaderTests.Json(HttpStatusCode.ServiceUnavailable, "{}")); }),
             (_, _) => { s.Feed(inv.Page(5), inv.EmptyCells(5)); return Task.CompletedTask; });
@@ -124,7 +124,7 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
     {
         var inv = new Synthetic(30); var s = Scan(inv); var p = Partial(s);
         var callerCards = p.Body.Cards.ToList(); var copy = new OwnedCardsSyncPayload(p.Body with { Cards = callerCards }, true); callerCards.Clear();
-        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(); var bytes = new List<string>();
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s); var bytes = new List<string>();
         var up = Up(new Handler(async (r, ct) => {
             bytes.Add(await r.Content!.ReadAsStringAsync(ct));
             return bytes.Count <= 3 ? CardsUploaderTests.Json(HttpStatusCode.ServiceUnavailable, "{}") : Ack(20);
@@ -149,6 +149,80 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
         Assert.Equal(20, valid.Body.Cards.Count);
         Assert.Throws<NotSupportedException>(() => ((IList<OwnedCard>)valid.Body.Cards).Clear());
         Assert.Equal(OwnedCardsUploadOutcome.Synced, (await up.SendAsync(valid).WaitAsync(Bound)).Outcome); Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public void Only_explicit_registration_exists_and_retired_scan_cannot_be_laundered()
+    {
+        Assert.Single(typeof(OwnedCardsUploadCoordinator).GetMethods(), m => m.Name == "BeginGeneration");
+        Assert.Equal(typeof(CardSyncSession), typeof(OwnedCardsUploadCoordinator).GetMethod("BeginGeneration")!.GetParameters().Single().ParameterType);
+        var old = Scan(new Synthetic(30)); var current = Scan(new Synthetic(30));
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(old);
+        Assert.Throws<InvalidOperationException>(() => c.BeginGeneration(old));
+        c.BeginGeneration(current); c.Invalidate(g);
+        Assert.Throws<InvalidOperationException>(() => c.BeginGeneration(old));
+        old.Reset(); Assert.NotNull(c.BeginGeneration(old)); // genuinely new scan, never the retained old envelope
+    }
+
+    [Fact]
+    public async Task Reset_same_instance_fresh_registration_refuses_old_payload_even_if_wire_body_is_equal()
+    {
+        var inv = new Synthetic(30); var s = Scan(inv); var old = Partial(s);
+        var c = new OwnedCardsUploadCoordinator(); var first = c.BeginGeneration(s); c.Invalidate(first);
+        s.Reset(); s.Feed(inv.Page(0), inv.EmptyCells(0)); var current = Partial(s); var g = c.BeginGeneration(s);
+        Assert.Equal(old.Body, current.Body); // fixed clock and identical cards aren't authority
+        int calls = 0; var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(g, up, new OwnedCardsSyncPayload(old.Body, true)).WaitAsync(Bound));
+        Assert.Equal(OwnedCardsUploadOutcome.Synced, (await c.SendAsync(g, up, current).WaitAsync(Bound)).Outcome); Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public async Task Reused_injected_guid_equal_revision_and_body_still_cannot_alias_session_instance()
+    {
+        var identity = Guid.Parse("a2222222-2222-2222-2222-222222222222"); var inv = new Synthetic(30);
+        CardSyncSession Make() { var s = new CardSyncSession(Env.Master, Env.Layout, new TestClock(), () => identity); s.Feed(inv.Page(0)); return s; }
+        var old = Make(); var current = Make(); Assert.Equal(Partial(old).Body, Partial(current).Body);
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(current);
+        int calls = 0; var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(g, up, Partial(old)).WaitAsync(Bound));
+        Assert.Equal(0, calls);
+    }
+
+    [Fact]
+    public async Task Queued_snapshot_must_be_revalidated_after_serial_gate_wait()
+    {
+        var inv = new Synthetic(30); var s = Scan(inv); var p = Partial(s);
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        int calls = 0; var up = Up(new Handler(async (_, _) => { calls++; entered.TrySetResult(); await release.Task.WaitAsync(Bound); return Ack(20); }));
+        var active = c.SendAsync(g, up, p); await entered.Task.WaitAsync(Bound); var queued = c.SendAsync(g, up, p);
+        s.Feed(inv.Page(5), inv.EmptyCells(5)); release.SetResult();
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => active.WaitAsync(Bound));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => queued.WaitAsync(Bound)); Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public async Task Precancelled_caller_does_not_bind_target_or_advance_watermark()
+    {
+        var s = Scan(new Synthetic(30)); var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
+        using var cancellation = new CancellationTokenSource(); cancellation.Cancel();
+        int calls = 0; var wrong = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }), origin: "https://other.example.test/");
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(g, wrong, Partial(s), cancellation.Token).WaitAsync(Bound));
+        var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }));
+        Assert.Equal(OwnedCardsUploadOutcome.Synced, (await c.SendAsync(g, up, Partial(s)).WaitAsync(Bound)).Outcome); Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public async Task Unissued_or_edited_body_cannot_supply_snapshot_authority()
+    {
+        var s = Scan(new Synthetic(30)); var p = Partial(s); var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
+        int calls = 0; var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }));
+        var unissued = new OwnedCardsSync(p.Body.SchemaVersion, p.Body.CapturedAt, p.Body.MasterVersion, p.Body.HeldCount, p.Body.Cards);
+        foreach (var forged in new[] { new OwnedCardsSyncPayload(unissued, true),
+            new OwnedCardsSyncPayload(new OwnedCardsSyncPayload(p.Body with { CapturedAt = p.Body.CapturedAt.AddSeconds(1) }, true).Body, true) })
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(g, up, forged).WaitAsync(Bound));
+        Assert.Equal(0, calls);
     }
 
     [Fact]

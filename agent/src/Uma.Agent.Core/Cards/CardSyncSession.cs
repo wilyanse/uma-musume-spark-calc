@@ -167,6 +167,24 @@ public sealed class CardSyncSession
 
     public CardSyncState State { get { lock (_gate) return Snapshot(); } }
 
+    internal CardSessionIdentity RegisterUploadIdentity()
+    {
+        lock (_gate)
+        {
+            if (_cancelled || _heldChanged) throw new InvalidOperationException("reset before registering a stopped scan");
+            return new(_sessionId, _sessionInstance, _generation);
+        }
+    }
+
+    internal bool IsCurrentUpload(CardSessionIdentity identity, OwnedCardsProvenance seal)
+    {
+        lock (_gate)
+            return !_cancelled && !_heldChanged && ReferenceEquals(seal.Issuer, this)
+                && identity == seal.Identity && identity.SessionId == _sessionId
+                && identity.SessionInstance == _sessionInstance && identity.Generation == _generation
+                && seal.Revision == _revision;
+    }
+
     /// <summary>The full sync (no `?partial=1`). Throws <see cref="InvalidOperationException"/> unless
     /// <see cref="CardSyncState.CanSendFull"/>.</summary>
     public OwnedCardsSyncPayload BuildFull()
@@ -199,7 +217,9 @@ public sealed class CardSyncSession
             Freeze(s.Cards.Select(c => new OwnedCard(c.CardId, c.Lb, c.Level, c.Confidence))));
         var errors = OwnedCardsSyncValidator.Validate(body, partial, _knownCards);
         if (errors.Count > 0) throw new InvalidOperationException("invalid owned-cards payload: " + string.Join("; ", errors));
-        return new OwnedCardsSyncPayload(body, partial);
+        var seal = new OwnedCardsProvenance(body, partial, this,
+            new(_sessionId, _sessionInstance, _generation), s.Revision);
+        return new OwnedCardsSyncPayload(body with { Provenance = seal }, partial);
     }
 
     // ---------------- list frames ----------------
@@ -214,6 +234,7 @@ public sealed class CardSyncSession
 
         var observations = new List<(int Index, Slot Slot)>();
         var anchors = new List<(int Index, string CardId)>();
+        var emptyCells = new List<int>();
         foreach (var t in p.ListTiles.OrderBy(t => t.Index))
         {
             int? level = t.Level is { Ok: true, Value: int lv } && lv >= OwnedCardsSyncValidator.MinLevel ? lv : null;
@@ -223,6 +244,7 @@ public sealed class CardSyncSession
             {
                 if (cardId is not null || level is not null)
                     return new(CardFeedOutcome.Rejected, "an explicitly empty cell has an occupied reading; frame not used");
+                emptyCells.Add(t.Index);
                 continue;
             }
             if (cardId is null && level is null)
@@ -262,6 +284,16 @@ public sealed class CardSyncSession
                     foreach (var (pos, s) in work[other]) Put(work[segment], pos - otherOff + offset, s);
                     work.Remove(other);
                 }
+            }
+            // Apply emptiness only AFTER alignment, on the transactional clone. Prior occupied evidence
+            // contradicts this frame; only an unknown slot with no accepted ID may be cleared.
+            foreach (var index in emptyCells)
+            {
+                var position = index + offset;
+                if (!work[segment].TryGetValue(position, out var prior)) continue;
+                if (prior is not UnreadSlot { CardId: null })
+                    throw new RejectFrame("an explicitly empty cell contradicts an earlier occupied reading");
+                work[segment].Remove(position);
             }
             foreach (var (index, slot) in observations)
             {

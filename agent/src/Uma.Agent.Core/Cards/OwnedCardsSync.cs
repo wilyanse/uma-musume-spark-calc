@@ -26,7 +26,9 @@ public sealed record OwnedCardsSync(int SchemaVersion, DateTimeOffset CapturedAt
 }
 
 // Trusted, in-memory provenance only; never added to the 01 §4 request body.
-internal sealed record OwnedCardsProvenance(OwnedCardsSync Snapshot, bool Partial);
+internal sealed record CardSessionIdentity(Guid SessionId, long SessionInstance, long Generation);
+internal sealed record OwnedCardsProvenance(OwnedCardsSync Snapshot, bool Partial,
+    CardSyncSession? Issuer = null, CardSessionIdentity? Identity = null, long Revision = -1);
 
 /// <summary>Immutable upload envelope. Its body is frozen on ingress. Body record copies
 /// preserve a non-wire authorization seal: rewrapping an edited body is rejected locally.
