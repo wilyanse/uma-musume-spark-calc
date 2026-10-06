@@ -44,7 +44,12 @@ public class FrameAndWindowTests
         clock.UtcNow += TimeSpan.FromMilliseconds(1999);
         Assert.False(gate.ShouldProcess(f));
         clock.UtcNow += TimeSpan.FromMilliseconds(1);
-        Assert.True(gate.ShouldProcess(f));   // a small scroll can keep the 64-bit hash: re-read the still frame
+        Assert.False(gate.ShouldProcess(f with { Bgra = (byte[])f.Bgra.Clone() }));   // re-checked, but byte-identical: not re-read (B1)
+        clock.UtcNow += TimeSpan.FromSeconds(2);
+        var moved = f with { Bgra = (byte[])f.Bgra.Clone() };
+        moved.Bgra[0] ^= 0xFF;   // one changed byte keeps the 64-bit dHash ...
+        Assert.Equal(FrameGate.Hash(f), FrameGate.Hash(moved));
+        Assert.True(gate.ShouldProcess(moved));   // ... and is re-read after the refresh interval
         var small = new Frame(new byte[16 * 9 * 4], 16, 9);
         Assert.True(gate.ShouldProcess(small));   // size change always counts
         gate.Reset();
