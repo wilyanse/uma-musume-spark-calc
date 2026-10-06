@@ -24,4 +24,3 @@ export function engineErrorText(e: EngineErrorInfo, m?: MasterData): string {
       return e.message;
   }
 }
-
