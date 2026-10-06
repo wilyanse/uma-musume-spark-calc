@@ -49,8 +49,7 @@ import type {
   RankProgress,
   RankResult,
 } from '@uma/engine';
-// Browser-safe by design (its import-graph test forbids node:*); not part of the package exports.
-import { loadGoldenContext } from '../../../../packages/engine/scripts/golden-context.ts';
+import { goldenContextLoader } from '../fixture-only/golden-context.ts';
 import type { GoldenContextInput } from '../../../../packages/engine/scripts/golden-context.ts';
 
 export type ContextKind = 'production' | 'golden-fixture';
@@ -229,8 +228,9 @@ export function createEngineApi(): EngineApi {
         const bundle = validateBundle(input.bundle);
         let overrides: ContextInfo['overrides'] = [];
         if (input.kind === 'golden-fixture') {
+          if (!goldenContextLoader) throw new NotConfiguredError('golden-fixture context is not built into production');
           if (!input.golden) throw new NotConfiguredError('golden-fixture context needs golden-truth.json');
-          ctx = loadGoldenContext(bundle, input.golden);
+          ctx = goldenContextLoader(bundle, input.golden);
           overrides = [
             { rule: 'blueStatGain', source: input.golden.syntheticInheritance.rulesOverrides.blueStatGain.source },
             ...Object.keys(input.golden.syntheticInheritance.inheritanceTurns).map((id) => ({

@@ -167,7 +167,7 @@ td.wrap{white-space:normal}
 .aptgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-2)}
 .detail{background:var(--bg);padding:var(--space-3)!important;white-space:normal!important}
 .detailgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:var(--space-4)}
-.detailgrid h4{margin:0 0 6px;font-size:var(--type-xs);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.detailgrid h2{margin:0 0 6px;font-size:var(--type-xs);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 .contrib{font-size:var(--type-sm);display:grid;grid-template-columns:1fr auto;gap:2px 8px}
 .scatters{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-3)}
 .scatter{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:8px}

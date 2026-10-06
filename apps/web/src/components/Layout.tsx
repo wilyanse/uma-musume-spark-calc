@@ -66,11 +66,11 @@ export function Layout() {
   return (
     <div className={`app${fixture ? ' has-banner' : ''}`}>
       {fixture && (
-        <div className="synthetic" role="note">
+        <aside className="synthetic" aria-label="Fixture mode notice">
           <span aria-hidden="true">⚠</span>
           Fixture mode: SYNTHETIC golden dataset (T08), not a real account. Edits stay in this tab
           only.
-        </div>
+        </aside>
       )}
       <nav className="rail" aria-label="Main">
         <div className="brand">

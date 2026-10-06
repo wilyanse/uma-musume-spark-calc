@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { defineConfig, type Plugin } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
@@ -36,11 +36,32 @@ function fixtures(enabled: boolean): Plugin {
   };
 }
 
+/**
+ * Fixture-only modules (T13 review r1 N3): `src/fixture-only/<name>.ts` resolves to
+ * `<name>.disabled.ts` (a null stub) unless fixture mode is on or Vitest is running, so the fixture
+ * data source, the golden-truth loader and T08's `loadGoldenContext` are not compiled into the
+ * production main or worker bundles at all. `pnpm --filter web check:dist` proves it on `dist/`.
+ */
+const FIXTURE_ONLY_DIR = resolve(import.meta.dirname, 'src/fixture-only');
+function fixtureOnly(enabled: boolean): Plugin {
+  return {
+    name: 'uma-fixture-only',
+    enforce: 'pre',
+    async resolveId(source, importer, options) {
+      if (enabled || !importer) return null;
+      const r = await this.resolve(source, importer, { ...options, skipSelf: true });
+      if (!r || !r.id.startsWith(`${FIXTURE_ONLY_DIR}/`) || r.id.endsWith('.disabled.ts')) return null;
+      return r.id.replace(/\.ts$/, '.disabled.ts');
+    },
+  };
+}
+
 export default defineConfig(() => {
   const fixtureMode = process.env.VITE_FIXTURES === '1';
+  const keepFixtureOnly = fixtureMode || process.env.VITEST !== undefined;
   return {
-    plugins: [react(), fixtures(fixtureMode)],
-    worker: { format: 'es' as const },
+    plugins: [fixtureOnly(keepFixtureOnly), react(), fixtures(fixtureMode)],
+    worker: { format: 'es' as const, plugins: () => [fixtureOnly(keepFixtureOnly)] },
     build: { reportCompressedSize: true },
     test: {
       environment: 'jsdom',

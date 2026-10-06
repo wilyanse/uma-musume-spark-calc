@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json",
     "test": "node scripts/tokens.mjs --check && vitest run",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "check:dist": "node scripts/check-dist.mjs dist"
   },
   "dependencies": {
     "@tanstack/react-query": "5.104.0",

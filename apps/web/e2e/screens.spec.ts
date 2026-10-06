@@ -4,8 +4,15 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { goldenRoster, goldenTargets, goldenTruth, masterBundle } from '../test/fixtures.ts';
 import type { ReviewItem } from '@uma/schema';
-const assets = resolve(import.meta.dirname, '../../../docs/changelog/assets/T13');
-mkdirSync(assets, { recursive: true });
+/**
+ * Evidence output (T13 review r1 S5): by default the ignored `apps/web/test-results/e2e-assets`, so
+ * an ordinary `pnpm --filter web e2e` never rewrites the tracked, previously published evidence in
+ * docs/changelog/assets/T13. Set `T13_E2E_ASSETS_DIR` explicitly to export somewhere else.
+ */
+const assets = resolve(process.env.T13_E2E_ASSETS_DIR ?? resolve(import.meta.dirname, '../test-results/e2e-assets'));
+console.log(`E2E assets → ${assets}`);
+// Created on every write: Playwright empties its output dir (test-results) at the start of a run.
+const out = (name: string) => (mkdirSync(assets, { recursive: true }), resolve(assets, name));
 const roster = goldenRoster();
 const truth = goldenTruth();
 const targets = goldenTargets();
@@ -24,14 +31,14 @@ async function deterministic(page: Page, theme = 'light') {
 }
 async function axe(page: Page, name: string) {
   const r = await new AxeBuilder({ page }).analyze();
-  writeFileSync(resolve(assets, `${name}-axe.json`), JSON.stringify({ url: page.url(), violations: r.violations }, null, 2));
+  writeFileSync(out(`${name}-axe.json`), JSON.stringify({ url: page.url(), violations: r.violations }, null, 2));
   const severe = r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
   console.log(`AXE ${name}: serious/critical=${severe.length}; all=${r.violations.length}`);
   expect(severe, JSON.stringify(severe, null, 2)).toEqual([]);
 }
 async function screenshot(page: Page, name: string) {
   await page.evaluate(() => window.scrollTo(0, 0));
-  await page.screenshot({ path: resolve(assets, `${name}.png`), animations: 'disabled' });
+  await page.screenshot({ path: out(`${name}.png`), animations: 'disabled' });
 }
 async function rankGolden(page: Page) {
   await page.getByRole('button', { name: 'Use golden plan (SYNTHETIC)' }).click();
@@ -70,7 +77,7 @@ test('fixture smoke, real Comlink ranking/cancel/recreate, both-theme axe and al
   await screenshot(page, 'S02-veteran-desktop-light');
   await page.getByRole('link', { name: 'Planner', exact: true }).first().click();
   const benchmark = await rankGolden(page);
-  writeFileSync(resolve(assets, 'browser-ranking.json'), JSON.stringify({ context: 'SYNTHETIC golden, real browser Worker/Comlink, 260 veterans', ...benchmark }, null, 2));
+  writeFileSync(out('browser-ranking.json'), JSON.stringify({ context: 'SYNTHETIC golden, real browser Worker/Comlink, 260 veterans', ...benchmark }, null, 2));
   await axe(page, 'S06-light'); await screenshot(page, 'S06-planner-desktop-light');
   await page.getByRole('button', { name: 'Rank pairs', exact: true }).click();
   await expect(page.getByTestId('rank-progress')).toBeVisible();

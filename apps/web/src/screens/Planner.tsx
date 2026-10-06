@@ -547,7 +547,7 @@ function PairDetail({ p, ran, m }: { p: RankedPair; ran: Ran; m: MasterData }) {
   return (
     <div className="detailgrid">
       <div>
-        <h4>Predicted stats · mean and p10–p90 vs target (dashed) · model n={ran.snapshotN}</h4>
+        <h2>Predicted stats · mean and p10–p90 vs target (dashed) · model n={ran.snapshotN}</h2>
         {STAT_KEYS.map((k) => {
           const s = pred.stats[k];
           const tg = minStats[k];
@@ -568,7 +568,7 @@ function PairDetail({ p, ran, m }: { p: RankedPair; ran: Ran; m: MasterData }) {
         </p>
       </div>
       <div>
-        <h4>Aptitude before → after · model n={ran.snapshotN}</h4>
+        <h2>Aptitude before → after · model n={ran.snapshotN}</h2>
         {aptKeys.map((k) => {
           const dist = pred.aptitudes[k];
           const before = outfit?.aptitudes[k];
@@ -588,7 +588,7 @@ function PairDetail({ p, ran, m }: { p: RankedPair; ran: Ran; m: MasterData }) {
             </div>
           );
         })}
-        <h4 style={{ marginTop: 'var(--space-3)' }}>Skills · P(acquired)</h4>
+        <h2 style={{ marginTop: 'var(--space-3)' }}>Skills · P(acquired)</h2>
         {skills.length === 0 && <p className="muted">No skills in this target.</p>}
         {skills.map((s) => {
           const sp = pred.skills[s.id];
@@ -608,7 +608,7 @@ function PairDetail({ p, ran, m }: { p: RankedPair; ran: Ran; m: MasterData }) {
         <p className="hint">Per-skill sample counts aren't stored in the snapshot (Q-76); “prior only” = no evidence for this skill in this mode.</p>
       </div>
       <div>
-        <h4>Spark contributions (top)</h4>
+        <h2>Spark contributions (top)</h2>
         <div className="contrib">
           {contribs.map((c, i) => (
             <Fragment key={`${c.sparkId}-${c.from}-${i}`}>
@@ -619,7 +619,7 @@ function PairDetail({ p, ran, m }: { p: RankedPair; ran: Ran; m: MasterData }) {
             </Fragment>
           ))}
         </div>
-        <h4 style={{ marginTop: 'var(--space-3)' }}>Affinity · total {int(p.affinity.total)}</h4>
+        <h2 style={{ marginTop: 'var(--space-3)' }}>Affinity · total {int(p.affinity.total)}</h2>
         <div className="contrib">
           {p.affinity.breakdown
             .filter((b) => b.points !== 0)
