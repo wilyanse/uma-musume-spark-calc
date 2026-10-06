@@ -375,3 +375,19 @@ Fixture13/14 identities, exact 20 LB sequence, Held208 partial status and real-m
 `git -c core.whitespace=cr-at-eol diff --check afe2fad` and `git -c core.whitespace=cr-at-eol diff --check 08d4876` both returned no output, exit0 before final documentation commit. Eight changed paths since the reviewed candidate, all within the stated ownership. Milestones: `bf5b9d0` tests-first RED; `4cfc584` implementation GREEN; final verification/test-refinement/documentation commit follows.
 
 Known limits and gate: HTTP already received by a server cannot be undone, and a timed-out HTTP request may still apply later. The unchanged API has no server-side revision/CAS check, so absolute remote ordering after ambiguous in-flight failure is not claimed. Explicit session registration still requires T10 to choose the actual current UI session and keep one coordinator per target/account; the core now enforces the registered instance/generation/revision, rather than trusting a stale-envelope retry rule only in docs. T10 shell wiring, H4 real-game classifier/scroll validation and live API verification remain pending. Parent independent re-review must approve this clean committed candidate before any merge; escalate remaining blockers after this final fix budget.
+
+## Coordinator merge verification
+
+Independent final review PASS: `docs/reviews/T11-review-3.md`, reviewer session `20261006_211923_8d0ed1`, candidate `8b1a8da259e625eb8ee91ec8a18d98d0acbe9a92`. Merged locally as `4ee0426b6ca5b87d2914cf356498fddfae3225b6`. No push/deployment.
+
+```
+$ dotnet build agent/Uma.Agent.sln
+Build succeeded. 0 Warning(s), 0 Error(s).
+$ dotnet test agent/Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+Passed! Failed: 0, Passed: 302, Skipped: 0, Total: 302
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test && pnpm --filter web build
+All lint/typecheck projects Done. Tests: schema149, master-data82, API111, engine240, web5 passed.
+Vite: 146 modules transformed; built in112ms. Exit0.
+```
+
+These are merged-main checks before T13 merge; web5 is the existing skeleton, not the unmerged T13 screen suite. No remaining review findings; T10 coordinator wiring, H4 real-game/empty-cell/Held validation and deployed live PUT remain pending.

@@ -182,7 +182,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Merged locally (0472739); merged native build/166 tests and TS checks passed; T10/T11 dependencies cleared | task/T09-agent-core | T09-agent-core.md | CHANGES_REQUESTED r1 → PASS r2/r3; final SF1–SF4 verified on Sol; H4 remains after T10 |
 | T10 | R2 CHANGES_REQUESTED (failed-enqueue growth and overflow upload); final bounded Sol fix round2 | task/T10-windows-shell | T10-windows-shell.md | Pending; H4 after native shell |
-| T11 | Candidate 8b1a8da; parent build/302 tests passed; fresh independent final Sol r3 | task/T11-card-sync | T11-card-sync.md | CHANGES_REQUESTED r1; collection/confirmation/send safety fixes before merge |
+| T11 | Merged locally 4ee0426; native302 and workspace checks passed; T10 wiring/H4 remain | task/T11-card-sync | T11-card-sync.md | CHANGES_REQUESTED r1/r2 → PASS r3; T10 integration and H4 remain |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T13 | Candidate 6d9a8f7; parent workspace/web124/e2e14 passed; fresh independent final Sol r3 | task/T13-web-screens | T13-web-screens.md | Pending; H5 approved |
 | T14 | Not started | | | |
