@@ -181,7 +181,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T07 | Merged; H5 approved | task/T07-design | T07-design.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Merged locally (0472739); merged native build/166 tests and TS checks passed; T10/T11 dependencies cleared | task/T09-agent-core | T09-agent-core.md | CHANGES_REQUESTED r1 → PASS r2/r3; final SF1–SF4 verified on Sol; H4 remains after T10 |
-| T10 | Candidate 204de2d; parent Release build/Core166/portable103 passed; fresh Opus independent r1 running | task/T10-windows-shell | T10-windows-shell.md | Pending; H4 after native shell |
+| T10 | Independent r1 CHANGES_REQUESTED (retained-frame memory growth); Opus fix round1 | task/T10-windows-shell | T10-windows-shell.md | Pending; H4 after native shell |
 | T11 | Fix round1 resumed same session on Opus after Sol usage limit; 37dab8a and dirty docs preserved | task/T11-card-sync | T11-card-sync.md | CHANGES_REQUESTED r1; collection/confirmation/send safety fixes before merge |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T13 | Candidate 62b168f; parent workspace/build/Playwright3 passed; fresh independent r1 on Opus | task/T13-web-screens | T13-web-screens.md | Pending; H5 approved |
