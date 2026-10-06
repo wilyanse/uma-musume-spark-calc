@@ -1,0 +1,29 @@
+E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web/test-results/e2e-assets
+
+Running 7 tests using 1 worker
+
+AXE fix1-S03-light: none
+  ✓  1 e2e/review-fix1.spec.ts:58:3 › MOCK HTTP S03 keyboard: epithet text body (B1), 409 stale alert after refresh (S1), axe light (1.3s)
+AXE fix1-S03-dark: none
+  ✓  2 e2e/review-fix1.spec.ts:58:3 › MOCK HTTP S03 keyboard: epithet text body (B1), 409 stale alert after refresh (S1), axe dark (999ms)
+  ✓  3 e2e/review-fix1.spec.ts:93:1 › MOCK HTTP S2: an HTML login redirect on an API call shows the auth message, not "Something went wrong" (1.6s)
+  ✓  4 e2e/review-fix1.spec.ts:100:1 › MOCK HTTP S3: mode radios are disabled while the PATCH is pending (keyboard) (493ms)
+E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web/test-results/e2e-assets
+AXE S01-light: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2111 ms (fit+click+render wall 2474 ms)
+AXE S06-light: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2164 ms (fit+click+render wall 2442 ms)
+AXE S03-empty-light: serious/critical=0; all=0
+AXE S01-roster-dark: serious/critical=0; all=0
+AXE S03-review-dark: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2144 ms (fit+click+render wall 2472 ms)
+AXE S06-planner-dark: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2001 ms (fit+click+render wall 2467 ms)
+REAL BROWSER 260 ranking: 2053 ms (fit+click+render wall 2476 ms)
+  ✓  5 e2e/screens.spec.ts:65:1 › fixture smoke, real Comlink ranking/cancel/recreate, both-theme axe and all seven exports (26.6s)
+AXE S03-populated-light: serious/critical=0; all=0
+  ✓  6 e2e/screens.spec.ts:152:40 › S03 MOCK HTTP keyboard 1/2/3 J/K/D and populated axe light (1.3s)
+AXE S03-populated-dark: serious/critical=0; all=0
+  ✓  7 e2e/screens.spec.ts:152:40 › S03 MOCK HTTP keyboard 1/2/3 J/K/D and populated axe dark (1.2s)
+
+  7 passed (36.2s)

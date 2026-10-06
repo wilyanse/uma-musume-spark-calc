@@ -1,6 +1,6 @@
 # T13 — Web screens S01–S07
 
-- **Status:** Done (pending independent parent-dispatched review)
+- **Status:** Review round 1 fixes done (pending independent parent re-review)
 - **Branch:** task/T13-web-screens (base 08d4876; current main dd16e68 NOT merged, per instructions)
 - **Agent / model provenance:** Opus 5.5 medium (primary) → interrupted by HTTP 429 mid-implementation → GPT-6.1 Sol medium (approved fallback) resumed in the same worktree → Sol hit its usage limit → Opus 5.5 medium (primary, restored) finished. No worktree reset/clean/recreate at any switch; every partial file was inspected and kept. Milestone commit 287c7ab was made by the resumed Opus run after Sol's work.
 - **Date:** 2026-10-06
@@ -31,13 +31,15 @@ Exact dependency pins added: `@uma/engine`/`@uma/master-data` `workspace:*`; dev
 - Design bindings' training-v1 wording replaced by training-v2 (ADR-0002, per task card).
 - S07 predicted-vs-actual scatter replaced by an honest "unavailable" note + aggregates (Q74).
 - S03 `D` (dismiss) and S07 "Run calibration" are disabled with explanations (Q70, T15 not implemented).
-- `apps/web` imports `packages/engine/scripts/golden-context.ts` by relative path (browser-safe, not in the package exports) for the fixture context only; no engine edit.
+- `apps/web` imports `packages/engine/scripts/golden-context.ts` by relative path (browser-safe, not in the package exports) for the fixture context only; no engine edit. Since review round 1 the import lives in `src/fixture-only/golden-context.ts`, which production builds replace with a null stub (N3).
 
 ## Cross-task edits
 - `pnpm-lock.yaml` — exact pins above only. No API/schema/engine/master/fixture/golden files changed.
 
 ## Verification
 Node `v25.9.0`, pnpm `11.22.0`. Full logs: `docs/changelog/assets/T13/{workspace-lint,workspace-typecheck,workspace-test,web-build,web-e2e}.log`, summary `gates.json` (all exit 0).
+
+> Historical: the block below, the screenshots/axe JSON in `docs/changelog/assets/T13/` and `browser-ranking.json` are the evidence published for the original candidate (62b168f) and are kept unchanged. Since review round 1, `pnpm --filter web e2e` writes to the ignored `apps/web/test-results/e2e-assets/` and never touches them; to export deliberately, set `T13_E2E_ASSETS_DIR=<dir>`. Round-1 evidence is in `docs/changelog/assets/T13/review-r1/` (see "Review round 1").
 ```
 $ pnpm test          (workspace)
 packages/schema       Tests 149 passed (149)
@@ -80,3 +82,84 @@ AXE S03-populated-dark: serious/critical=0; all=0
 - Follow-up: T15 calibration, review dismiss endpoint (Q70).
 - Follow-up: the golden-context relative import should become a proper engine export if fixture mode is kept long-term.
 - Follow-up: production run against the real deployed API/Access was not performed here.
+
+## Review round 1
+
+Review: `docs/reviews/T13-review-1.md` (CHANGES_REQUESTED on 62b168f). Fix commits on the same branch and worktree (no reset/clean/rebase/merge): 5b93592 (tests first, then B1/S1–S4/N1/N2), 3f8e761 (S5/N3/N4 + browser regressions), 4be5a94 (lint), then the changelog/evidence commit. Model: Opus 5.5 medium (primary), written directly in this worktree; no sub-agents. Scope: `apps/web/**` and `docs/changelog/**` only; no API, schema, engine, master-data, fixture, golden or lock-file change (`git diff 62b168f --stat -- apps/api packages pnpm-lock.yaml` is empty).
+
+Tests were written first; the first run of the two new files failed 15 of 17 (`Tests 15 failed | 2 passed (17)`, e.g. B1: `- "Independent Learner" + "epithet:independent-learner"`), then all passed after the fixes.
+
+### Responses
+
+- **[B1] fixed.** New `resolutionFor(path, veteran)` / `searchVocab` in `src/lib/paths.ts` decide what a resolution sends, per leaf, mirroring the API's `correctionTarget` (apps/api/src/checks.ts) and the 01 §3 types: `/epithet` searches the epithet vocabulary but sends `e.text`; `characterId`/`outfitId` (top level and `/parents/<i>/…`), `/skills/<i>/skillId`, `/sparks/<i>/sparkId`, `/scenarioId`, `/deck/<i>/cardId` send IDs; `/rank`, `/parents/<i>/guestTrainer`, `/career/dateAcquired` are free text; stats/rating/career numbers/`lb`/`level`/`stars` are bounded numbers; aptitudes are grades; `borrowed`/`isGuest` are booleans; `/trainMode`, `…/owner`, `…/type`, `…/slot`, whole arrays/elements and unknown paths are `none` (candidates only). The old "Use the number" option is replaced by a typed value input (`ManualValue`). Tests: `test/review-fix1.test.tsx` (exact POST args `[id, "Independent Learner"]`; ID leaves; immutable leaves), `e2e/review-fix1.spec.ts` (keyboard flow, exact request body `{ value: "Independent Learner" }`).
+  Real local API (see below): epithet-sourced veteran A went from `{"epithet":"Trickster","trainMode":"manual","modeSource":"epithet"}` to `{"epithet":"Independent Learner","trainMode":"independent","modeSource":"epithet"}`; overridden veteran B went from `{…"trainMode":"manual","modeSource":"override"}` to `{"epithet":"Independent Learner","trainMode":"manual","modeSource":"override"}` (override kept, as the API's resolve route does).
+- **[S1] fixed.** The resolve mutation and its failure message moved to `ReviewScreen` (`resolveFailureText`); the banner (`role="alert"`, with a "Dismiss message" button) survives the queue refetch that unmounts the item panel. 404 is treated as stale too. A later successful resolve clears it. Tests: 409 (item vanishes → "Review item is already resolved. The queue was refreshed.") and 404 (next item stays usable by keyboard, success clears the alert) in Vitest; 409 by keyboard in Playwright (both themes); real local API: out-of-band resolve 200, then `1` in the UI → API 409, alert `["Review item is already resolved. The queue was refreshed. Dismiss message"]`, A's item gone from the queue (screenshot `review-r1/probe-409-alert.png`).
+- **[S2] fixed.** `src/api/http.ts`: a `redirected` response, or an HTML body with 2xx/401/403, throws `AuthRedirectError` → the copy.md `error.auth` text; HTML 5xx stays an `HttpError` (generic text) with `problem: null`; a non-parsable JSON body throws `MalformedResponseError` (its own text — new UI copy, copy.md has no key for it). Bodies are never put into error messages. `credentials: 'include'` unchanged and asserted. Tests: `test/http-auth.test.ts` (6 cases incl. no-leak checks); Playwright MOCK HTML on `/api/v1/**`; real local API: `/api/v1/roster` rerouted to the real SPA fallback (`200 text/html; charset=utf-8`) → auth text shown, generic text count 0.
+- **[S3] fixed.** Mode radios are `disabled` while the PATCH is pending (and `setMode` ignores calls while pending); `onSettled` invalidates both `['veteran', id]` and `['roster']`. Tests: Vitest (deferred PATCH; second click sends nothing; both keys invalidated), Playwright keyboard (ArrowLeft → both radios disabled until the gated PATCH completes, one PATCH), real local API with a 1.5 s delayed PATCH: `{"independent":true,"manual":true}` disabled, then label "Train mode (overridden)", server `{"trainMode":"manual","modeSource":"override"}`, exactly one PATCH.
+- **[S4] fixed.** Spark vocabulary is offered only for `/sparks/<i>/sparkId`, filtered to the slot's recorded type (e.g. a white slot never lists the blue "Speed"); `/sparks/<i>/stars` is a number input 1–3 with no vocabulary; `type`/`owner` are never correctable here. Tests: `searchVocab` type filter for white and blue slots; the S03 screen for a white slot and for stars ("Enter a whole number from 1 to 3." on 7).
+- **[S5] fixed.** `e2e/*.spec.ts` write to `apps/web/test-results/e2e-assets` (gitignored) unless `T13_E2E_ASSETS_DIR` is set. Verified: SHA-1 of every file under `docs/changelog/assets/T13/` taken before two full e2e runs is identical afterwards (`diff` empty). The historical evidence is labelled as such above and was not regenerated.
+- **[N1] fixed (no engine edit).** Health shows `min confidence ≥ ${MIN_CONFIDENCE}` from the worker's `configure` result (the engine's exported `MIN_CONFIDENCE`; falls back to "high-confidence rows only"). The insufficient-data copy repeats the engine's own requirement clause parsed from `InsufficientDataError.message` (`need ≥ 5 train rows (5-fold CV) and ≥ 1 holdout row`), with a generic fallback. The coverage band stays the published 50 §9 / 70 F08 band (`COVERAGE_BAND`, 0.72–0.88) and is now labelled "F08 acceptance band". Tests: `engine-api.test.ts` (real engine: `minConfidence === MIN_CONFIDENCE`; requirement is a substring of the real message), `planner-health.test.tsx`.
+- **[N2] fixed.** Neither 01 §3 (`level: number`, min 1) nor master data has a card level cap, so the bound comes from the approved S04 design (`<input min=1 max=50 value=50>`, LB4 selected) and is documented as a UI bound (`FRIEND_LEVEL_MAX`, `FRIEND_DEFAULT`). The Friend level input is `type=number min=1 max=50`, out-of-range text shows "Enter a level from 1 to 50." and is never stored; the slot shows "Defaults LB4 · Lv50 — edit to match the friend's card." Owned and non-owned cards can both be the borrowed Friend (`borrowed: true`, slot 6). Test in `review-fix1.test.tsx`.
+- **[N3] fixed.** Fixture wiring (`fixtureSource` + golden-truth loader) moved to `src/fixture-only/services.ts` and T08's `loadGoldenContext` import to `src/fixture-only/golden-context.ts`. A Vite `resolveId` plugin (main and worker builds) swaps each for its `*.disabled.ts` null stub unless `VITE_FIXTURES=1` or Vitest is running; the worker refuses `golden-fixture` with `NotConfiguredError` when the stub is in. `pnpm --filter web check:dist` (`scripts/check-dist.mjs`) scans the build for the markers `(fixture mode)`, `/fixtures/golden-truth.json`, `syntheticInheritance` and any `fixtures/*` file: production `dist` → none (exit 0); a fixture build (scratch outDir) → all present (`--expect-fixtures` exit 0), and the production check against it fails (exit 1, negative control).
+- **[N4] fixed.** The fixture notice is an `<aside aria-label="Fixture mode notice">` (landmark; fixes `region`), and the S06 pair-detail headings are `h2` (after the page `h1`; fixes `heading-order`, same CSS). Every axe run in the e2e now reports 0 violations of any impact (S01/S03/S06 light+dark, populated S03 light+dark): `review-r1/rerun-*-axe.json`, `review-r1/fix1-*-axe.json`.
+
+### Verification (round 1, exact output)
+```
+$ pnpm -r lint        → exit 0          $ pnpm -r typecheck → exit 0
+$ pnpm -r test        → exit 0
+packages/schema test:       Tests  149 passed (149)
+packages/master-data test:  Tests  82 passed (82)
+apps/api test:              Tests  111 passed (111)
+packages/engine test:       Tests  240 passed (240)
+apps/web test:              Tests  113 passed (113)   (10 files; was 94 in 8)
+$ pnpm --filter web build
+dist/assets/engine.worker-oeCLiUZV.js  161.69 kB
+dist/assets/index-BTZ17_Gg.css          27.38 kB │ gzip:   5.86 kB
+dist/assets/index-diIhRFOl.js          464.47 kB │ gzip: 141.28 kB
+  gzip -9: JS 139,621 B + CSS 5,805 B = 145,426 B ≤ 250,000 B (worker excluded)
+$ pnpm --filter web check:dist
+  "fixtureFiles": [], markers all [] → check-dist: OK — no fixture code or data in the production build
+$ pnpm --filter web e2e      (real Chromium; assets → apps/web/test-results/e2e-assets)
+AXE fix1-S03-light: none                AXE fix1-S03-dark: none
+  ✓ MOCK HTTP S03 keyboard: epithet text body (B1), 409 stale alert after refresh (S1), axe light/dark
+  ✓ MOCK HTTP S2: an HTML login redirect on an API call shows the auth message, not "Something went wrong"
+  ✓ MOCK HTTP S3: mode radios are disabled while the PATCH is pending (keyboard)
+AXE S01-light: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2111 ms (fit+click+render wall 2474 ms)
+AXE S06-light: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2164 ms (fit+click+render wall 2442 ms)
+AXE S03-empty-light / S01-roster-dark / S03-review-dark: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2144 ms ... 2001 ms ... 2053 ms
+AXE S06-planner-dark: serious/critical=0; all=0
+  ✓ fixture smoke, real Comlink ranking/cancel/recreate, both-theme axe and all seven exports (26.6s)
+AXE S03-populated-light / -dark: serious/critical=0; all=0
+  7 passed (36.2s)
+  top pair (rerun-browser-ranking.json) = 01M1RX152GP86FAQ1WPY0MX60J|01M379DKQ86T9BGV6696R6DWN2 (planted best pair)
+```
+Logs: `docs/changelog/assets/T13/review-r1/{workspace-lint,workspace-typecheck,workspace-test,web-build,web-e2e,check-dist-production,check-dist-fixture-build}.log`.
+
+**Local real API (not live Cloudflare/Access).** Production `apps/web/dist` served by `wrangler dev --local --ip 127.0.0.1 --port 8799 --persist-to <scratch> --var AUTH_DISABLED:1 --var MASTER_VERSION:global-20260930` (real API routes, local D1/R2 after `wrangler d1 migrations apply DB --local`, 3 migrations), never deployed, no credentials. Seeded through the real `POST /veterans` with 20 golden roster rows (SYNTHETIC): `{"attempted":20,"accepted":18,"rejected":2}` (2 rejected by the API's parent-spark rule). Runnable sources kept in the repo: `review-r1/seed.mts`, `review-r1/probe.mjs` (`T13_PROBE_BASE`, `T13_PROBE_OUT`; outputs default to the cwd). Output (`review-r1/probe.log`, `probe-result.json`, server log `wrangler.log`):
+```
+before.A {"epithet":"Trickster","trainMode":"manual","modeSource":"epithet"}
+before.B {"epithet":"Trickster","trainMode":"manual","modeSource":"override"}
+after.A {"epithet":"Independent Learner","trainMode":"independent","modeSource":"epithet"}
+after.B {"epithet":"Independent Learner","trainMode":"manual","modeSource":"override"}
+resolvePosts [".../resolve 200 {\"value\":\"Independent Learner\"}", ".../resolve 200 {\"value\":\"Independent Learner\"}"]
+outOfBandResolve 200
+alertAfter409 ["Review item is already resolved. The queue was refreshed. Dismiss message"]
+openItemsForA []
+disabledWhilePending {"independent":true,"manual":true,"seenAfterMs":13}
+afterPatch {"modeLabel":"Train mode (overridden)","server":{"trainMode":"manual","modeSource":"override"}}
+patchReqs ["PATCH /api/v1/veterans/01M48GN5X19EVXKQ1M4056Q2KM 200 {\"trainMode\":\"manual\"}"]
+spaFallback {"status":200,"contentType":"text/html; charset=utf-8"}
+authTextShownForHtml true
+genericShown 0
+pageErrors []
+wrangler.log: POST …/resolve 200 OK ×3, POST …/01M48GN5X112E6ES50H2WT43P2/resolve 409 Conflict, PATCH … 200 OK ×2
+```
+(`queueGutButtonsAll_isVeteranB 1` in the log is veteran B's still-open `/stats/gut` item, not A's.) The wrangler server was stopped afterwards (no listener on :8799).
+
+What is mock vs real: Vitest screen tests use a MOCK `DataSource`; `http-auth.test.ts` uses an in-test fetch double; the `review-fix1.spec.ts` and the S03/S04 populated e2e flows use Playwright MOCK HTTP; the planner ranking e2e uses the real engine in a real Worker on SYNTHETIC golden fixtures; the probe above uses the real API code locally. Nothing here was checked against live Cloudflare or Access.
+
+Unchanged: calibration stays disabled (T15) and dismiss stays unavailable (Q-70); the other screens' acceptance behaviour is unchanged. Pre-existing tests were kept; edits to them only add assertions (`engine-api.test.ts`: `minConfidence`, `requirement`; `planner-health.test.tsx`: F08 label, new MIN_CONFIDENCE case, `requirement` on the insufficient-data mock and its expected text). The S06 detail headings changed from `h4` to `h2` with the same `.detailgrid` rule (visually identical in the rerun screenshots).
+

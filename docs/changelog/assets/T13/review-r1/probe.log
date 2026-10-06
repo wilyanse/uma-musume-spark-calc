@@ -1,0 +1,16 @@
+before.A {"epithet":"Trickster","trainMode":"manual","modeSource":"epithet"}
+before.B {"epithet":"Trickster","trainMode":"manual","modeSource":"override"}
+after.A {"epithet":"Independent Learner","trainMode":"independent","modeSource":"epithet"}
+after.B {"epithet":"Independent Learner","trainMode":"manual","modeSource":"override"}
+resolvePosts ["POST /api/v1/review-items/01M48GN5X0HA91XER10KMTWTXJ/resolve 200 {\"value\":\"Independent Learner\"}","POST /api/v1/review-items/01M48GN5XXMSPPNGHTAH17PZ4Q/resolve 200 {\"value\":\"Independent Learner\"}"]
+outOfBandResolve 200
+alertAfter409 ["Review item is already resolved. The queue was refreshed. Dismiss message"]
+openItemsForA []
+queueGutButtonsAll_isVeteranB 1
+disabledWhilePending {"independent":true,"manual":true,"seenAfterMs":13}
+afterPatch {"modeLabel":"Train mode (overridden)","server":{"trainMode":"manual","modeSource":"override"}}
+patchReqs ["PATCH /api/v1/veterans/01M48GN5X19EVXKQ1M4056Q2KM 200 {\"trainMode\":\"manual\"}"]
+spaFallback {"status":200,"contentType":"text/html; charset=utf-8"}
+authTextShownForHtml true
+genericShown 0
+pageErrors []

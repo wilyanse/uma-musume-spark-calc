@@ -1,0 +1,26 @@
+{
+  "dir": "../../../../../../.hermes/cache/scratch/T13-fix1/dist-fixtures",
+  "jsFiles": [
+    "assets/engine.worker-hJw1e3U-.js",
+    "assets/index-Dr2viI4l.js"
+  ],
+  "fixtureFiles": [
+    "fixtures/cm-targets.json",
+    "fixtures/golden-truth.json",
+    "fixtures/roster.json"
+  ],
+  "markers": {
+    "(fixture mode)": [
+      "assets/index-Dr2viI4l.js"
+    ],
+    "/fixtures/golden-truth.json": [
+      "assets/index-Dr2viI4l.js"
+    ],
+    "syntheticInheritance": [
+      "assets/engine.worker-hJw1e3U-.js"
+    ]
+  }
+}
+check-dist: OK — fixture build contains fixture code and data
+exit=0
+production check run against the fixture build (negative control) exit=1
