@@ -28,13 +28,15 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
     public async Task Same_generation_20_fail3_collect25_sync25_stale20_never_replaces25()
     {
         var inv = new Synthetic(30); var s = Scan(inv); var older = Partial(s);
+        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
         var wire = new List<int>();
         var up = Up(new Handler(async (r, ct) => {
+            Assert.Equal(s.State.Revision, g.Watermark); // watermark advanced before first HTTP await, retries included
             int n = JsonDocument.Parse(await r.Content!.ReadAsStringAsync(ct)).RootElement.GetProperty("cards").GetArrayLength(); wire.Add(n);
             return wire.Count <= 3 ? CardsUploaderTests.Json(HttpStatusCode.ServiceUnavailable, "{}") : Ack(n);
         }));
-        var c = new OwnedCardsUploadCoordinator(); var g = c.BeginGeneration(s);
         var failed = await c.SendAsync(g, up, older).WaitAsync(Bound);
+        Assert.Equal(s.State.Revision, g.Watermark); // bounded failure must not roll back authorization ordering
         Assert.Equal(OwnedCardsUploadOutcome.Failed, failed.Outcome); Assert.Equal(3, failed.Attempts);
         s.Feed(inv.Page(5), inv.EmptyCells(5)); var newer = Partial(s);
         Assert.Equal(OwnedCardsUploadOutcome.Synced, (await c.SendAsync(g, up, newer).WaitAsync(Bound)).Outcome);
@@ -142,7 +144,7 @@ public class CardsReviewRound2SafetyTests(ITestOutputHelper output)
         var s = Scan(new Synthetic(30)); var p = Partial(s);
         var once = new OwnedCardsSyncPayload(p.Body with { HeldCount = 20 }, false);
         var twice = new OwnedCardsSyncPayload(once.Body, false);
-        int calls = 0; var up = Up(new Handler((_, _) => { calls++; return Task.FromResult(Ack(20)); }));
+        int calls = 0; var up = Up(new Handler((r, _) => { calls++; return Task.FromResult(Ack(20, r.RequestUri!.Query == "?partial=1")); }));
         Assert.Equal(OwnedCardsUploadOutcome.Invalid, (await up.SendAsync(twice).WaitAsync(Bound)).Outcome);
         Assert.Equal(0, calls);
         var list = p.Body.Cards.ToList(); var valid = new OwnedCardsSyncPayload(new OwnedCardsSyncPayload(p.Body with { Cards = list }, true).Body, true); list.Clear();

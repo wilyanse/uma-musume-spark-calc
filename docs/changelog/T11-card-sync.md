@@ -185,7 +185,7 @@ Test inputs: grounded tests use only the real screenshots 13/14 and their record
 - Fixture coverage: only one list screen and one detail screen exist. Scrolling, Held change, conflicts and multi-candidate details are proven only on synthetic sequences.
 
 ## Review round 1
-Response to `docs/reviews/T11-review-1.md` (CHANGES_REQUESTED on eb5cd87) and `docs/tasks/T11.fix-1.prompt.md`. All of B1–B6 and S1–S3 are fixed in this branch; none is deferred to T10 or H4. Scope is unchanged: Cards production, Cards tests, an appended open question and this changelog. No shared contract, API, schema, T09, Windows, master or fixture file was edited.
+Response to `docs/reviews/T11-review-1.md` (CHANGES_REQUESTED on eb5cd87) and `docs/tasks/T11.fix-1.prompt.md`. All of B1–B6 and S1–S3 were initially reported fixed in this branch; round2 identified the remaining B5 same-generation snapshot hole and corrects it below. No ordinary bug is deferred to T10 or H4. Scope is unchanged: Cards production, Cards tests, an appended open question and this changelog. No shared contract, API, schema, T09, Windows, master or fixture file was edited.
 
 ### Provenance
 - Fix commits 37dab8a, db27046 and 00954be: started on GPT-6.1 Sol (`gpt-6.1-sol`, `openai-codex`, medium). A Sol usage limit interrupted that run, and it continued on Claude Opus 5.5 (`claude-opus-5-5`) medium. This is as recorded by that run; it ended without a final report, leaving the Q-154 and changelog edits uncommitted.
@@ -313,3 +313,65 @@ HTTP behaviour is fake-handler replay of the inspected route (`apps/api/src/rout
 - Additional boundaries: parameterless API absent; retired scan registration refused; reset with an identical wire body cannot authorize an old envelope; reused injected GUID with equal body/revision cannot alias an instance; queued envelopes revalidated after gate entry; pre-cancelled calls cannot bind target; unissued/edited bodies cannot provide snapshot authority.
 - GREEN: `cd agent && dotnet build Uma.Agent.sln && dotnet test Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet` returned `Build succeeded. 0 Warning(s) 0 Error(s)` and `Passed! - Failed: 0, Passed: 302, Skipped: 0, Total: 302`. An intermediate new-test build failed on xUnit2031 (Assert.Single filtered with Where); the assertion was changed to its predicate overload, and the command above was rerun successfully.
 - Scope: four Cards production files, new Cards round2 tests, CardsUploadSafetyTests, T11-owned Q-154 correction and this changelog only. Shared schema/API/T09/Windows/master/fixtures remain unchanged. Parent independent re-review is still mandatory; no merge/push/deploy. This final fix budget is exhausted after candidate handoff: escalate any remaining blocking review findings rather than silently starting another fix round.
+
+### Final verification and retained evidence
+```
+$ cd agent
+$ dotnet build Uma.Agent.sln
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+$ dotnet test Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+Passed!  - Failed:     0, Passed:   302, Skipped:     0, Total:   302, Duration: 7 s
+$ dotnet test Uma.Agent.sln --no-build --filter FullyQualifiedName~Uma.Agent.Core.Tests.Cards -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+Passed!  - Failed:     0, Passed:   136, Skipped:     0, Total:   136, Duration: 1 s
+$ dotnet test Uma.Agent.sln --no-build --filter FullyQualifiedName~CardsFixtureSessionTests -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+Passed!  - Failed:     0, Passed:    11, Skipped:     0, Total:    11, Duration: 1 s
+```
+
+Retained runnable copy and evidence: `/Users/willjose/.hermes/cache/scratch/t11-fix2/`, documented in `README.txt`. Created using `mkdir -p .../copy && git archive HEAD | tar -x -C .../copy` at implementation milestone `4cfc584`, then copied the final test refinements. Production restored byte-identical to the worktree after all mutations; hashes in `restored-source-sha256.json`. Original reviewer sources were left untouched.
+
+Adapted `copy/agent/tests/Uma.Agent.Core.Tests/CardsReviewR2Probes.cs` uses explicit session registration and bounded waits, moves collect25 until after the failed20 send, adds safety assertions, and corrects the reviewer's acknowledged wrong expected-full assertion (position0 is only seen unread: 39/40 plus a hole). Other observational probes are retained as observations, not misrepresented as new strict guard assertions.
+```
+$ cd /Users/willjose/.hermes/cache/scratch/t11-fix2/copy/agent
+$ dotnet test Uma.Agent.sln --filter FullyQualifiedName~CardsReviewR2Probes --logger 'console;verbosity=detailed' -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+Test Run Successful.
+Total tests: 34
+     Passed: 34
+OBS older=Failed newer=Synced stale-resend=REFUSED; wire=[20,20,20,25] -> final remote table 25 cards
+OBS stale session payload with new generation: REFUSED; no request sent
+OBS Collected then confirmed Collected: canFull=True blockers=
+OBS confirmed-empty over earlier read card: Rejected an explicitly empty cell contradicts an earlier occupied reading; frame not used cards=20 canFull=True
+$ dotnet build Uma.Agent.sln
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+$ dotnet test Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+Passed!  - Failed:     0, Passed:   336, Skipped:     0, Total:   336, Duration: 7 s
+$ dotnet test Uma.Agent.sln --no-build --filter FullyQualifiedName~CardsReviewRound2SafetyTests --logger 'console;verbosity=detailed' -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+Test Run Successful.
+Total tests: 20
+     Passed: 20
+wire=[20,20,20,25]; final remote=25; stale20 refused
+old session -> refused before target binding; current -> Synced; wire=[20]
+identical current payload: Failed(3), Synced(1); all four wire bodies identical
+inflight update: wire=[20,25]; final remote=25
+```
+The “remote” values here mean the simulated fake-handler wire's final replacement, not a live API/database observation. The 336 total is the 302 candidate tests plus 34 adapted retained probes, not a changed production baseline. Actual logs: `probe-output.txt` and `safety-wire-output.txt`.
+
+Targeted mutation verification used one scratch-source edit at a time, then `dotnet build Uma.Agent.sln -nologo -v q` (all compiled) and `dotnet test Uma.Agent.sln --no-build --filter FullyQualifiedName~<filter> -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet`. Exact old/new/filter and results are in `mutations.json`; full output in `mutant-*.txt`. Nine unique mutants: eight killed, one expected equivalent survivor.
+- Seal reset on rewrap: `Double_rewrap_never_reseals` failed, `Expected: Invalid`, `Actual: Synced`, `Failed: 1, Passed: 0, Total: 1`. The test fake now acknowledges the sent query flag for both forged full and valid partial; the first mutation trial killed it as `Actual: Failed` because the fake ACK had the wrong flag, so that initial output is not used as the final proof. Confirmed output: `mutant-seal-reset-double-rewrap-confirmed.txt`.
+- Serial gate never released: `Identical_current_payload_can_retry` failed with `System.TimeoutException : The operation has timed out.`, `Failed: 1, Passed: 0, Total: 1, Duration: 5 s`. The test-owned `WaitAsync(Bound)` fired. The foreground tool's 45-second external deadline was supporting only and did not fire; no hang polling or process kill was used.
+- Session revision guard removed: `CardsReviewRound2SafetyTests` returned `Failed: 4, Passed: 16, Total: 20`.
+- Issuing-session binding removed: old-session/fresh-generation guard returned `Failed: 1, Passed: 0, Total: 1`.
+- Post-delay freshness guard removed: delay-update test returned `Expected: 1`, `Actual: 2`, `Failed: 1, Passed: 0, Total: 1` (the stale second HTTP attempt was observed).
+- Unknown empty cell not cleared: clearing test returned `Expected: True`, `Actual: False`, `Failed: 1, Passed: 0, Total: 1`.
+- Earlier occupied/empty contradiction ignored: synthetic20/cell19 test returned `Expected: Rejected`, `Actual: Collected`, `Failed: 1, Passed: 0, Total: 1`.
+- Watermark not advanced: 20→25 regression checks the watermark before the first HTTP await and after bounded failure; mutant returned `Expected: 1`, `Actual: -1`, `Failed: 1, Passed: 0, Total: 1`.
+- N2 Cancel generation increment removed: `Passed! - Failed: 0, Passed: 170, Skipped: 0, Total: 170` (136 Cards tests plus 34 scratch probes). Expected equivalent survivor; no production change.
+
+Fixture13/14 identities, exact 20 LB sequence, Held208 partial status and real-master detail resolution remain covered by the unchanged 11 fixture-session tests. `git diff eb5cd87 -- agent/tests/Uma.Agent.Core.Tests/CardsFixtureSessionTests.cs` produced no output. No fixture/master/label generation or TS build was run.
+
+`git -c core.whitespace=cr-at-eol diff --check afe2fad` and `git -c core.whitespace=cr-at-eol diff --check 08d4876` both returned no output, exit0 before final documentation commit. Eight changed paths since the reviewed candidate, all within the stated ownership. Milestones: `bf5b9d0` tests-first RED; `4cfc584` implementation GREEN; final verification/test-refinement/documentation commit follows.
+
+Known limits and gate: HTTP already received by a server cannot be undone, and a timed-out HTTP request may still apply later. The unchanged API has no server-side revision/CAS check, so absolute remote ordering after ambiguous in-flight failure is not claimed. Explicit session registration still requires T10 to choose the actual current UI session and keep one coordinator per target/account; the core now enforces the registered instance/generation/revision, rather than trusting a stale-envelope retry rule only in docs. T10 shell wiring, H4 real-game classifier/scroll validation and live API verification remain pending. Parent independent re-review must approve this clean committed candidate before any merge; escalate remaining blockers after this final fix budget.
