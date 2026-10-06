@@ -184,6 +184,6 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T10 | Candidate 8e0f245; parent Release/Core166/portable149 passed; fresh independent Opus r2 | task/T10-windows-shell | T10-windows-shell.md | Pending; H4 after native shell |
 | T11 | Independent r2 CHANGES_REQUESTED (same-generation stale snapshot replay); final fix round2 on Opus | task/T11-card-sync | T11-card-sync.md | CHANGES_REQUESTED r1; collection/confirmation/send safety fixes before merge |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
-| T13 | Candidate 7e61ccb; parent workspace/web113/e2e7 passed; fresh independent Opus r2 | task/T13-web-screens | T13-web-screens.md | Pending; H5 approved |
+| T13 | R2 held for cross-origin Access redirect handling; final bounded Opus fix round2 | task/T13-web-screens | T13-web-screens.md | Pending; H5 approved |
 | T14 | Not started | | | |
 | T15 | Not started | | | |
