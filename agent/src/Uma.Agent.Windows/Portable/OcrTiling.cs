@@ -7,7 +7,7 @@ using Uma.Agent.Core;
 namespace Uma.Agent.Windows.Shell;
 
 /// <summary>Full-frame OCR recording within Windows OCR's <c>MaxImageDimension</c> at exactly ×2 (T10 review S2).
-/// Tiles overlap by <see cref="Overlap"/> reference px (longer than any fixture line: the longest, on fixture 13, is
+/// Tiles overlap by <see cref="Overlap"/> reference px (longer than any fixture line: the longest, on fixture 14, is
 /// 493 px). A line is kept only from the first tile whose interior fully contains its box (an interior seam edge does
 /// not count as interior), so a line cut by a seam is never recorded in pieces. A seam-cut line that no tile contains
 /// fully (longer than the overlap) gets its horizontal band re-read once at ×2, centred on it.</summary>

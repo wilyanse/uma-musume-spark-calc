@@ -11,7 +11,7 @@ public static class UserMessages
     public static string For(Exception e) => e switch
     {
         UnsupportedFrameException or NonReferenceFrameException or CaptureUnavailableException or ServiceTokenMissingException
-            or ArgumentException or IncompleteCaptureException => e.Message,
+            or ShellValidationException or IncompleteCaptureException => e.Message,
         _ => $"Local operation failed ({e.GetType().Name}). Check local file permissions, restore the game window, or Stop and Start; the local logs record the category only.",
     };
 }

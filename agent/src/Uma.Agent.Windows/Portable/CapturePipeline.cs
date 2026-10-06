@@ -19,7 +19,7 @@ public sealed class SupportCardsUnavailable : ISupportCardsIntegration
     public string Message => "Support card capture is unavailable until T11 is merged and integrated. Nothing is synced or uploaded.";
 }
 public enum PipelineEventKind { Progress, NotUploadable, Ignored, CardScreen, Unsupported, Skipped, Queued, AlreadyQueued, Failed, Limit }
-public sealed record PipelineEvent(PipelineEventKind Kind, string Message, string? CaptureId = null);
+public sealed record PipelineEvent(PipelineEventKind Kind, string Message, string? CaptureId = null, IReadOnlyList<CaptureNotice>? Notices = null);
 /// <summary>What the pipeline keeps alive: unqueued veteran sessions, the parsed frames fed into them (Core keeps one
 /// full 1920x1080 BGRA reference frame, about 8.3 MB, per fed frame) and sealed results awaiting an enqueue retry
 /// (capture JSON and review-crop PNGs only, no frames).</summary>
@@ -36,13 +36,15 @@ public sealed record SessionProgress(string IdentityKey, int TabsComplete, IRead
 /// as Core did. Then:</para>
 /// <list type="bullet">
 /// <item>A sealed (Uploadable) veteran is dropped with its frames as soon as it is assembled; only the sealed result
-/// is kept until <see cref="UploadOutbox.EnqueueCapture"/> succeeds, so a failed enqueue retries the exact capture.
+/// is kept until <see cref="UploadOutbox.EnqueueCapture"/> succeeds. A failed enqueue pauses all collection with at most
+/// one sealed result; Flush retries the exact capture and resumes only after durable success.
 /// Its confident identity is remembered, so returning to it reports <see cref="PipelineEventKind.AlreadyQueued"/> and
 /// stores nothing.</item>
 /// <item>A parsed frame whose evidence fingerprint equals one already fed to the same veteran is not fed again
 /// (moving clocks/animations re-parse to the same evidence).</item>
 /// <item>At most <see cref="MaxLiveSessions"/> unqueued veterans and <see cref="MaxFramesPerSession"/> fed frames
-/// per veteran are kept; reaching either limit is reported, never silently uploaded.</item>
+/// per veteran are kept. Rejecting distinct evidence at the view cap permanently blocks that collection until a fresh
+/// pipeline; eviction retains a lightweight blocked identity. Frame/result retention is bounded, not the small identity history.</item>
 /// </list></summary>
 public sealed class CapturePipeline
 {
@@ -50,6 +52,8 @@ public sealed class CapturePipeline
     public const int MaxLiveSessions = 2;
     /// <summary>Distinct-evidence frames per veteran (about 330 MB of reference frames). The fixture veteran needs 9.</summary>
     public const int MaxFramesPerSession = 40;
+    /// <summary>Backpressure: the first failed enqueue pauses all collection until exact retry succeeds.</summary>
+    public const int MaxSealedPending = 1;
     private static readonly string[] Required = ["outfit", "character", "rating"];
 
     private sealed class Live(CaptureCoordinator coordinator, string id, DateTimeOffset at)
@@ -59,6 +63,7 @@ public sealed class CapturePipeline
         public Dictionary<string, string> Identity { get; } = new(StringComparer.Ordinal);
         public HashSet<string> Fingerprints { get; } = new(StringComparer.Ordinal);
         public int Frames { get; set; }
+        public bool Overflowed { get; set; }
         public string Id { get; } = id;
         public DateTimeOffset At { get; } = at;
     }
@@ -75,6 +80,9 @@ public sealed class CapturePipeline
     private readonly List<Live> _live = [];
     private readonly List<Dictionary<string, string>> _sealedIdentities = [];
     private readonly List<Sealed> _pending = [];
+    private readonly List<Dictionary<string, string>> _overflowIdentities = []; // tombstones after frame eviction
+    private readonly Dictionary<CaptureNoticeKind, CaptureNotice> _notices = [];
+    private int _releasedCount;
     private Live? _current;                              // Core's Current: popups route here
     private Dictionary<string, string>? _currentSealed;  // Current is a veteran that was already queued
     private bool _continuing;                            // Core's continuity flag
@@ -90,14 +98,15 @@ public sealed class CapturePipeline
     public async Task<PipelineEvent> ProcessAsync(Frame frame, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
+        if (_pending.Count > 0) return Publish(Paused());
         // Validate even unchanged frames: a resize must never inherit the previous valid status.
         try
         {
             if (frame.Width < 1920 || frame.Height < 1080 || (long)frame.Width * 9 != (long)frame.Height * 16)
                 Frames.Normalize(frame); // invalid inputs throw before dHash/OCR; valid larger inputs normalize once in ParseAsync
         }
-        catch (UnsupportedFrameException e) { return new(PipelineEventKind.Unsupported, e.Message); }
-        if (!_gate.ShouldProcess(frame)) return new(PipelineEventKind.Skipped, "unchanged frame");
+        catch (UnsupportedFrameException e) { return Publish(new(PipelineEventKind.Unsupported, e.Message)); }
+        if (!_gate.ShouldProcess(frame)) return Publish(new(PipelineEventKind.Skipped, "unchanged frame"));
         var p = await _parser.ParseAsync(frame);
         ct.ThrowIfCancellationRequested();
         return Accept(p);
@@ -115,7 +124,15 @@ public sealed class CapturePipeline
     private static bool Compatible(IReadOnlyDictionary<string, string> known, IReadOnlyDictionary<string, string> id)
         => id.All(kv => !known.TryGetValue(kv.Key, out var v) || v == kv.Value);
 
-    internal PipelineEvent Accept(ParsedFrame p)
+    public PipelineEvent Accept(ParsedFrame p) => Publish(_pending.Count > 0 ? Paused() : AcceptCore(p));
+
+    private PipelineEvent Publish(PipelineEvent e) => e with { Notices = _notices.Values.ToArray() };
+    private PipelineEvent Paused() => new(PipelineEventKind.Failed, UnsavedMessage, _pending[0].Id);
+    private const string UnsavedMessage = "Complete capture not saved. Collection is paused: no new evidence is accepted. Keep the agent open, fix local outbox access, then retry Stop.";
+    private const string OverflowMessage = "This veteran exceeded the 40-view evidence limit. Rejected evidence makes this collection unsafe: it cannot be saved, even if earlier views were complete. Stop, then confirm Start a fresh collection and recapture with fewer, longer scroll stops.";
+    private PipelineEvent Overflow() => new(PipelineEventKind.Limit, OverflowMessage);
+
+    private PipelineEvent AcceptCore(ParsedFrame p)
     {
         switch (p.Screen.Id)
         {
@@ -142,10 +159,18 @@ public sealed class CapturePipeline
         {
             var live = _live.Where(l => Compatible(l.Identity, id)).ToList();
             var queued = _sealedIdentities.Where(s => Compatible(s, id)).ToList();
-            if (live.Count + queued.Count > 1 || (live.Count + queued.Count == 0 && !Required.All(id.ContainsKey)))
+            var overflowed = _overflowIdentities.Where(s => Compatible(s, id)).ToList();
+            if (live.Count + queued.Count + overflowed.Count > 1 || (live.Count + queued.Count + overflowed.Count == 0 && !Required.All(id.ContainsKey)))
             {
                 _current = null; _currentSealed = null; _continuing = false;
                 return new(PipelineEventKind.Ignored, "Veteran identity is not clear on this frame; hold still on the details header. Nothing stored.");
+            }
+            if (overflowed.Count == 1)
+            {
+                var left = _active is null ? null : Finalize(_active);
+                if (_pending.Count > 0) return left!;
+                _active = null; _current = null; _currentSealed = null; _continuing = false; Progress = null;
+                return Overflow();
             }
             if (queued.Count == 1) sealedTarget = queued[0];
             else if (live.Count == 1) target = live[0];
@@ -153,11 +178,13 @@ public sealed class CapturePipeline
         if (sealedTarget is not null)
         {
             var left = _active is null ? null : Finalize(_active);
+            if (_pending.Count > 0) return left!;
             _active = null; _current = null; _currentSealed = sealedTarget; _continuing = true; Progress = null;
             return left is { Kind: PipelineEventKind.Queued or PipelineEventKind.Failed or PipelineEventKind.NotUploadable } ? left : AlreadyQueued();
         }
         PipelineEvent? finalized = null;
         if (_active is not null && !ReferenceEquals(_active, target)) finalized = Finalize(_active);
+        if (_pending.Count > 0) return finalized!; // do not accept the transition frame after failed durable enqueue
         if (target is null)
         {
             var evicted = Evict();
@@ -173,12 +200,17 @@ public sealed class CapturePipeline
 
     private PipelineEvent Feed(Live target, ParsedFrame p, PipelineEvent? finalized)
     {
-        PipelineEvent? limit = null;
+        PipelineEvent? limit = target.Overflowed ? Overflow() : null;
         var fingerprint = Fingerprint(p);
-        if (!target.Fingerprints.Contains(fingerprint))
+        if (!target.Overflowed && !target.Fingerprints.Contains(fingerprint))
         {
             if (target.Frames >= MaxFramesPerSession)
-                limit = new(PipelineEventKind.Limit, $"This veteran reached the {MaxFramesPerSession}-view evidence limit, so new views are not collected. If the checklist is complete, Stop to save it; otherwise Stop, Start and recapture with fewer, longer scroll stops.");
+            {
+                target.Overflowed = true;
+                _notices[CaptureNoticeKind.Overflow] = new(CaptureNoticeKind.Overflow, OverflowMessage);
+                _log.Warn("Collection blocked after distinct evidence exceeded the view limit");
+                limit = Overflow();
+            }
             else
             {
                 var session = target.Coordinator.Feed(p);
@@ -192,7 +224,9 @@ public sealed class CapturePipeline
         var tabs = (list.First(s => s.Section == "details.skills").Complete ? 1 : 0)
             + (list.First(s => s.Section == "details.inspiration").Complete ? 1 : 0)
             + (list.Where(s => s.Section.StartsWith("details.career", StringComparison.Ordinal)).All(s => s.Complete) ? 1 : 0);
-        Progress = new(target.Session.IdentityKey, tabs, list);
+        // UI must not present the stale Core checklist as uploadable after rejecting evidence.
+        if (target.Overflowed) list = list.Select(s => s with { Complete = false, Detail = OverflowMessage }).ToArray();
+        Progress = new(target.Session.IdentityKey, target.Overflowed ? 0 : tabs, list);
         if (finalized is not null) return finalized;
         return limit ?? new(PipelineEventKind.Progress, "Scroll slowly from top to bottom on Skills and Inspiration, then Career Info; open parent popups before Stop.");
     }
@@ -207,14 +241,19 @@ public sealed class CapturePipeline
         if (_live.Count < MaxLiveSessions) return null;
         var oldest = _live[0];
         _live.RemoveAt(0);
+        if (oldest.Overflowed) _overflowIdentities.Add(oldest.Identity);
         if (ReferenceEquals(_current, oldest)) _current = null;
         if (ReferenceEquals(_active, oldest)) _active = null;
         _log.Warn("Incomplete collection released at the live-session limit");
-        return new(PipelineEventKind.NotUploadable, $"An earlier incomplete veteran was released (at most {MaxLiveSessions} unqueued veterans are kept). Nothing was uploaded for it; recapture it from the top.");
+        var message = $"An earlier incomplete veteran was released (at most {MaxLiveSessions} unqueued veterans are kept; releases this watch: {++_releasedCount}). Nothing was uploaded for it; recapture it from the top.";
+        _notices[CaptureNoticeKind.Released] = new(CaptureNoticeKind.Released, message);
+        return new(PipelineEventKind.NotUploadable, message);
     }
 
     private PipelineEvent Finalize(Live live)
     {
+        if (_pending.Count >= MaxSealedPending) return Paused();
+        if (live.Overflowed) return new(PipelineEventKind.NotUploadable, OverflowMessage);
         if (live.Session is null) { _live.Remove(live); return new(PipelineEventKind.Ignored, "No veteran evidence stored."); }
         var result = live.Session.Assemble(live.Id, live.At, _version);
         if (!result.Uploadable) return new(PipelineEventKind.NotUploadable, "Incomplete veteran kept in memory, NOT uploaded: " + string.Join("; ", result.Blockers));
@@ -231,7 +270,12 @@ public sealed class CapturePipeline
         try
         {
             _outbox.EnqueueCapture(s.Result);
-            _pending.Remove(s);
+            var wasPaused = _pending.Remove(s);
+            if (wasPaused && _pending.Count == 0)
+            {
+                _notices.Remove(CaptureNoticeKind.Unsaved);
+                _gate.Reset(); // even the last refused frame is fresh after successful durable recovery
+            }
             _log.Info("Complete capture queued");
             return new(PipelineEventKind.Queued, "Complete capture queued for acknowledged upload.", s.Id);
         }
@@ -239,15 +283,29 @@ public sealed class CapturePipeline
         {
             if (!_pending.Contains(s)) _pending.Add(s);
             _log.Error("Capture enqueue failed: " + e.GetType().Name);
-            return new(PipelineEventKind.Failed, "Complete capture not saved. Keep the agent open, fix local outbox access, then retry Stop.", s.Id);
+            _notices[CaptureNoticeKind.Unsaved] = new(CaptureNoticeKind.Unsaved, UnsavedMessage);
+            Progress = null;
+            return new(PipelineEventKind.Failed, UnsavedMessage, s.Id);
         }
     }
 
     /// <summary>Stop/Exit: retry sealed results whose enqueue failed, then finalize every unqueued veteran.</summary>
     public IReadOnlyList<PipelineEvent> Flush()
     {
-        var events = _pending.ToArray().Select(Enqueue).ToList();
-        events.AddRange(_live.ToArray().Select(Finalize).Where(e => e.Kind != PipelineEventKind.Ignored));
+        var events = new List<PipelineEvent>();
+        foreach (var s in _pending.ToArray())
+        {
+            events.Add(Publish(Enqueue(s)));
+            if (_pending.Count > 0) return events;
+        }
+        foreach (var live in _live.ToArray())
+        {
+            var e = Finalize(live);
+            if (e.Kind != PipelineEventKind.Ignored) events.Add(Publish(e));
+            if (_pending.Count > 0) break;
+        }
+        // Evicted overflow identities remain blocked and participate in explicit fresh-scan confirmation.
+        if (_overflowIdentities.Count > 0) events.Add(Publish(new(PipelineEventKind.NotUploadable, OverflowMessage)));
         return events;
     }
 

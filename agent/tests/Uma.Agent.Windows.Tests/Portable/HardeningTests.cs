@@ -10,7 +10,7 @@ public class HardeningTests
     public void Token_controls_are_rejected_before_any_trimming(string id, string secret)
     {
         var dir=Temp.Dir();
-        try { var store=new ServiceTokenStore(Path.Combine(dir,"t.bin"),new XorProtector()); Assert.Throws<ArgumentException>(()=>store.Save(id,secret)); Assert.False(store.HasToken); }
+        try { var store=new ServiceTokenStore(Path.Combine(dir,"t.bin"),new XorProtector()); Assert.Throws<ShellValidationException>(()=>store.Save(id,secret)); Assert.False(store.HasToken); }
         finally { Temp.Drop(dir); }
     }
     [Fact] public void Token_values_are_not_silently_normalized()

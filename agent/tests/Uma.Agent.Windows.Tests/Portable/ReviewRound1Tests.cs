@@ -109,7 +109,6 @@ public class ReviewRound1Tests
     [Theory]
     [InlineData(typeof(UnsupportedFrameException))]
     [InlineData(typeof(CaptureUnavailableException))]
-    [InlineData(typeof(ArgumentException))]
     [InlineData(typeof(ServiceTokenMissingException))]
     public void Known_local_errors_show_their_own_typed_message(Type type)
     {

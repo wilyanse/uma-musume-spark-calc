@@ -126,7 +126,7 @@ public class OcrRecordingTests
     [InlineData("--bogus")]
     [InlineData("--out d")]
     public void Command_line_errors_are_reported(string line)
-        => Assert.Throws<ArgumentException>(() => CommandLineOptions.Parse(line.Split(' ')));
+        => Assert.Throws<ShellValidationException>(() => CommandLineOptions.Parse(line.Split(' ')));
 
     [Fact]
     public void Recording_engine_names_say_what_produced_them()

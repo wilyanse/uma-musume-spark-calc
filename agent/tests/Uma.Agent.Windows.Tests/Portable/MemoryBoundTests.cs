@@ -233,7 +233,7 @@ public class MemoryBoundTests
         var failed = Feed(rig.Pipeline, 1, refs, only: [0]).Single();   // identity change triggers the enqueue
         Assert.Equal(PipelineEventKind.Failed, failed.Kind);
         FullGc();
-        Assert.Equal(1, rig.Pipeline.Retained.Sessions);   // veteran 0's frames released; its sealed result is kept
+        Assert.Equal(0, rig.Pipeline.Retained.Sessions);   // sealed result retained; transition refused until durable recovery
         Assert.Equal(1, rig.Pipeline.Retained.SealedPending);
         RepairOutbox(db, payload);
         var retried = rig.Pipeline.Flush();
@@ -241,6 +241,103 @@ public class MemoryBoundTests
         Assert.Equal(failed.CaptureId, queued.CaptureId);   // exact same sealed capture ID
         Assert.Equal(0, rig.Pipeline.Retained.SealedPending);
         Assert.Single(rig.Outbox.Snapshot(), i => i.Kind == "veteran" && i.CaptureId == failed.CaptureId);
+    }
+
+    [Fact]
+    public async Task Repeated_failed_enqueue_pauses_both_entry_points_before_new_evidence_and_retry_resumes_fresh()
+    {
+        var ocr = new AnyFrameOcr(R.Ocr(Repo.McQueen[0]));
+        using var rig = new Rig(ocr);
+        Feed(rig.Pipeline, 0);
+        var db = Path.Combine(rig.Dir, "outbox.db");
+        var aside = BreakOutbox(db);
+        var failed = Feed(rig.Pipeline, 1, only: [0]).Single();
+        Assert.Equal(PipelineEventKind.Failed, failed.Kind);
+        Assert.Equal((0, 0, 1), (rig.Pipeline.Retained.Sessions, rig.Pipeline.Retained.Frames, rig.Pipeline.Retained.SealedPending));
+        var pending = Pending(rig.Pipeline);
+        var payload = System.Text.Encoding.UTF8.GetBytes(CaptureJson.Serialize(pending.Capture!));
+        var pngs = pending.Crops.ToDictionary(c => c.Path, c => (byte[])c.Png.Clone());
+        for (var i = 1; i <= 25; i++)
+        {
+            Assert.All(Feed(rig.Pipeline, i), e => Assert.Equal(PipelineEventKind.Failed, e.Kind));
+            Assert.Equal(PipelineEventKind.Failed, (await rig.Pipeline.ProcessAsync(R.Frame(Repo.McQueen[0]), CancellationToken.None)).Kind);
+            Assert.Equal(0, ocr.Calls);
+            Assert.Equal((0, 0, 1), (rig.Pipeline.Retained.Sessions, rig.Pipeline.Retained.Frames, rig.Pipeline.Retained.SealedPending));
+            Assert.Equal(failed.CaptureId, Assert.Single(rig.Pipeline.Flush()).CaptureId);
+            Assert.Same(pending, Pending(rig.Pipeline));
+        }
+        RepairOutbox(db, aside);
+        var recovered = Assert.Single(rig.Pipeline.Flush());
+        Assert.Equal(PipelineEventKind.Queued, recovered.Kind);
+        Assert.Equal(failed.CaptureId, recovered.CaptureId);
+        using (var c = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=" + db))
+        {
+            c.Open(); using var q = c.CreateCommand(); q.CommandText = "SELECT kind, path, payload FROM outbox";
+            using var rows = q.ExecuteReader(); var count = 0;
+            while (rows.Read()) { count++; Assert.Equal(rows.GetString(0) == "veteran" ? payload : pngs[rows.GetString(1)], (byte[])rows[2]); }
+            Assert.Equal(1 + pngs.Count, count);
+        }
+        Assert.Equal(PipelineEventKind.AlreadyQueued, (await rig.Pipeline.ProcessAsync(R.Frame(Repo.McQueen[0]), CancellationToken.None)).Kind);
+        Assert.True(ocr.Calls > 0); // paused frame re-parsed, but queued identity stays frozen
+        Assert.Equal(PipelineEventKind.Progress, Feed(rig.Pipeline, 1, only: [0]).Single().Kind);
+        Assert.Equal(1, rig.Pipeline.Retained.Frames);
+    }
+
+    private static CaptureResult Pending(CapturePipeline p)
+    {
+        var list = (System.Collections.IEnumerable)typeof(CapturePipeline).GetField("_pending", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(p)!;
+        var entry = Assert.Single(list.Cast<object>());
+        return (CaptureResult)entry.GetType().GetProperty("Result")!.GetValue(entry)!;
+    }
+
+    [Fact]
+    public void Previously_complete_at_cap_fails_closed_on_rejected_unaligned_skills_even_after_return_and_stop()
+    {
+        using var rig = new Rig();
+        var core = new CaptureCoordinator(R.Data.Layout, R.Data.Master);
+        foreach (var p in Veteran.Value) { rig.Pipeline.Accept(p); core.Feed(p); }
+        for (var i = Veteran.Value.Count; i < CapturePipeline.MaxFramesPerSession; i++)
+        {
+            var p = Veteran.Value[5] with { Thumb = new ScrollThumb(1000 + i, 1100 + i) };
+            rig.Pipeline.Accept(p); core.Feed(p);
+        }
+        Assert.Equal(3, rig.Pipeline.Progress!.TabsComplete);
+        var rejected = Veteran.Value[0] with { Thumb = new ScrollThumb(700, 730), Skills = [] };
+        Assert.Equal(PipelineEventKind.Limit, rig.Pipeline.Accept(rejected).Kind);
+        core.Feed(rejected);
+        Assert.False(core.Current!.Checklist().First(c => c.Section == "details.skills").Complete);
+        Assert.NotEqual(3, rig.Pipeline.Progress!.TabsComplete);
+        Assert.Equal(PipelineEventKind.Limit, rig.Pipeline.Accept(Veteran.Value[0]).Kind);
+        Assert.DoesNotContain(rig.Pipeline.Flush(), e => e.Kind == PipelineEventKind.Queued);
+        Feed(rig.Pipeline, 1, only: [1]); Feed(rig.Pipeline, 2, only: [1]);
+        Assert.Equal(PipelineEventKind.Limit, rig.Pipeline.Accept(Veteran.Value[0]).Kind);
+        Assert.DoesNotContain(rig.Pipeline.Flush(), e => e.Kind == PipelineEventKind.Queued);
+        Assert.Empty(rig.Outbox.Snapshot());
+    }
+
+    [Fact]
+    public async Task Overflow_blocker_survives_process_polls_and_does_not_prevent_other_complete_capture()
+    {
+        using var rig = new Rig();
+        Feed(rig.Pipeline, 0);
+        for (var i = Veteran.Value.Count; i <= CapturePipeline.MaxFramesPerSession; i++)
+            rig.Pipeline.Accept(Veteran.Value[5] with { Thumb = new ScrollThumb(1000 + i, 1100 + i) });
+        var status = new CaptureNoticeStatus();
+        status.Apply(await rig.Pipeline.ProcessAsync(R.Frame(Repo.McQueen[0]), CancellationToken.None));
+        Assert.Equal(PipelineEventKind.Skipped, (await rig.Pipeline.ProcessAsync(R.Frame(Repo.McQueen[0]), CancellationToken.None)).Kind);
+        status.Apply(await rig.Pipeline.ProcessAsync(R.Frame(Repo.McQueen[0]), CancellationToken.None));
+        Assert.Contains("cannot be saved", status.Error);
+        Assert.Contains(rig.Pipeline.Flush(), e => e.Kind == PipelineEventKind.NotUploadable);
+        Assert.Empty(rig.Outbox.Snapshot());
+        Feed(rig.Pipeline, 1);
+        var flushed = rig.Pipeline.Flush();
+        Assert.Single(flushed, e => e.Kind == PipelineEventKind.Queued);
+        Assert.Single(flushed, e => e.Kind == PipelineEventKind.NotUploadable);
+        Assert.Single(rig.Outbox.Snapshot(), i => i.Kind == "veteran");
+        Assert.Contains("cannot be saved", status.Error);
+        var fresh = rig.New(new FrameDispatchOcr()); // explicit fresh pipeline only
+        Feed(fresh, 0);
+        Assert.Equal(PipelineEventKind.Queued, Assert.Single(fresh.Flush()).Kind);
     }
 
     private static string BreakOutbox(string db)

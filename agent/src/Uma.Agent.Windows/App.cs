@@ -49,6 +49,7 @@ public sealed class App : Application
     private Window? _statusWindow;
     private TextBlock? _statusText;
     private string? _error;
+    private readonly CaptureNoticeStatus _captureNotices = new();
     private string _notice = "Ready. Configure Settings before uploading.";
     private bool _exiting, _busy;
     private TrayStatus? _status;
@@ -98,7 +99,7 @@ public sealed class App : Application
             if (options.Mode == AgentMode.RecordOcr)
             {
                 var files = options.ExpandInputs();
-                if (files.Count == 0) throw new ArgumentException("No PNG inputs found.");
+                if (files.Count == 0) throw new ShellValidationException("No PNG inputs found.");
                 await Task.Run(async () =>
                 {
                     using var ocr = new WindowsOcrEngine();
@@ -124,7 +125,7 @@ public sealed class App : Application
         {
             _log.Error("Startup failed: " + e.GetType().Name);
             // Only known local/validation messages shown; never an HTTP exception/body.
-            MessageBox.Show(e is CaptureUnavailableException or ArgumentException or IOException ? e.Message : "Unable to start. Check the bundled data, local file permissions and English Windows OCR. See local logs for the error category.", "Uma Spark Calc", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(UserMessages.For(e), "Uma Spark Calc", MessageBoxButton.OK, MessageBoxImage.Error);
             Log.CloseAndFlush(); Shutdown(1);
         }
     }
@@ -134,6 +135,7 @@ public sealed class App : Application
         void Add(string title, Func<Task> action) { var item = menu.Items.Add(title); item.Click += async (_, _) => await Dispatch(action); }
         _start = new Forms.ToolStripMenuItem("Start watching"); _start.Click += async (_, _) => await Dispatch(StartWatching); menu.Items.Add(_start);
         _stop = new Forms.ToolStripMenuItem("Stop / save complete captures"); _stop.Click += async (_, _) => await Dispatch(StopWatching); menu.Items.Add(_stop);
+        Add("Acknowledge released-collection warning", () => { _captureNotices.AcknowledgeReleased(); return Task.CompletedTask; });
         Add("Checklist / status", () => { ShowStatus(); return Task.CompletedTask; });
         Add("Capture support cards", () => { MessageBox.Show(new SupportCardsUnavailable().Message, "Support cards"); return Task.CompletedTask; });
         Add("Open web app", () => { OpenWeb(); return Task.CompletedTask; });
@@ -160,11 +162,14 @@ public sealed class App : Application
             if (_watchTask is not null) return;
             if (_pipeline is not null)
             {
-                var q = DropGuard.Check(_pipeline.Flush(), DropGuard.Action.Start);
+                var flushed = _pipeline.Flush();
+                foreach (var e in flushed) _captureNotices.Apply(e);
+                var q = DropGuard.Check(flushed, DropGuard.Action.Start);
                 if (q is { Refuse: true }) { _error = q.Message; return; }
                 if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return;
                 _pipeline = null;   // release the previous collection's evidence before the new watch starts
             }
+            if (!_captureNotices.StartFresh()) return;
             _error = null; _progress = null; _watchCancel = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
             var ct = _watchCancel.Token;
             // Create/own native resources within the worker; Stop joins it before Flush or any resource disposal.
@@ -179,7 +184,7 @@ public sealed class App : Application
                     {
                         var e = await _pipeline.ProcessAsync(frame, cancellation);
                         var progress = _pipeline.Progress;
-                        await Dispatcher.InvokeAsync(() => { _notice = e.Message; _error = e.Kind is PipelineEventKind.Unsupported or PipelineEventKind.Failed or PipelineEventKind.Limit ? e.Message : null; _progress = progress; });
+                        await Dispatcher.InvokeAsync(() => { _captureNotices.Apply(e); if (e.Kind == PipelineEventKind.Unsupported) _error = e.Message; _progress = progress; });
                     }, message => Dispatcher.BeginInvoke(new Action(() => _error = message)), Task.Delay).RunAsync(ct);
                 }
                 catch (OperationCanceledException) when (ct.IsCancellationRequested) { }
@@ -202,7 +207,9 @@ public sealed class App : Application
             if (_pipeline is not null)
             {
                 flushed = _pipeline.Flush();
-                _notice = flushed.Count > 0 ? string.Join("\n", flushed.Select(e => e.Message)) : "Watching stopped; queued captures remain in the durable outbox.";
+                foreach (var e in flushed) _captureNotices.Apply(e);
+                _progress = _pipeline.Progress;
+                _notice = "Watching stopped; see collection notices/checklist below. Queued captures remain in the durable outbox.";
                 if (flushed.Any(e => e.Kind == PipelineEventKind.Failed)) _error = flushed.First(e => e.Kind == PipelineEventKind.Failed).Message;
             }
         }
@@ -213,11 +220,11 @@ public sealed class App : Application
     {
         try
         {
-            _status = TrayStatus.Compute(_watchTask is not null && !_watchTask.IsCompleted, _progress, _error, _uploader.CachedHealth, _uploader.Block, _uploader.Uploading);
+            _status = TrayStatus.Compute(_watchTask is not null && !_watchTask.IsCompleted, _progress, _captureNotices.Error ?? _error, _uploader.CachedHealth, _uploader.Block, _uploader.Uploading);
             if (_tray is not null) { _tray.Text = _status.Tooltip; _tray.Icon = _status.State == TrayState.Error ? SystemIcons.Error : SystemIcons.Application; }
             if (_start is not null) _start.Enabled = _watchTask is null && !_busy;
             if (_stop is not null) _stop.Enabled = !_busy && (_watchTask is not null || _pipeline is not null);
-            if (_statusText is not null) _statusText.Text = _status.Title + "\n\n" + _status.Detail + "\n\n" + _notice + "\n\n" + string.Join("\n", (_progress?.Checklist ?? []).Select(s => (s.Complete ? "✓ " : "○ ") + s.Section + ": " + s.Detail));
+            if (_statusText is not null) _statusText.Text = _status.Title + "\n\n" + _status.Detail + "\n\n" + _notice + "\n" + _captureNotices.Message + "\n\n" + string.Join("\n", (_progress?.Checklist ?? []).Select(s => (s.Complete ? "✓ " : "○ ") + s.Section + ": " + s.Detail));
         }
         catch (Exception e) { _log.Error("Status failed: " + e.GetType().Name); }
     }

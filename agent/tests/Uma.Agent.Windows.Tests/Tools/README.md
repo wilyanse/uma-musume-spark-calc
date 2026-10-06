@@ -19,6 +19,24 @@ change on every poll. C, 20 synthetic distinct veterans (real parsed evidence, S
 watch. D, both limits reached. Figures are `GC.GetTotalMemory` after a full blocking GC: managed heap on the Mac,
 not Windows process memory.
 
+## EdgeProbe (review round 2 B1/B2/S1/S2)
+
+Retains the independent review's real-Core edge probe and adds fail-fast assertions. It attempts 41 synthetic
+veterans with an actually unavailable SQLite path, checks one retained sealed capture and exact ID/JSON/PNG retry,
+failed retry/backpressure, resumed identity collection, persistent status, complete-at-cap followed by rejected
+unaligned Skills (compared with Core), Stop refusing upload and category-only ArgumentException display.
+The other inherited identity/thumb/cancellation/settings/drain checks remain visible in its output.
+No native Windows OCR or game evidence is generated. Managed heap is a Mac measurement, not Windows RSS;
+identity tombstones grow with distinct veterans, while live frames and sealed unsaved results have fixed capacities.
+
+```sh
+dotnet build agent/tests/Uma.Agent.Windows.Tests/Tools/EdgeProbe -c Release
+<dotnet8>/dotnet agent/tests/Uma.Agent.Windows.Tests/Tools/EdgeProbe/bin/Release/net8.0/EdgeProbe.dll "$PWD"
+```
+
+The copied baseline came from the parent's independent round-2 scratch probe; added assertions are implementation
+verification, not a new independent review. Parent focused read-only re-review remains required before merge.
+
 ## bundle_probe.py (packaging)
 
 ```sh

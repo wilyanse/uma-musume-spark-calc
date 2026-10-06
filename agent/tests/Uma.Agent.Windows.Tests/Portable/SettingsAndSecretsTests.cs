@@ -77,8 +77,8 @@ public class SettingsAndSecretsTests
         try
         {
             var store = new SettingsStore(Path.Combine(dir, "settings.json"), Path.Combine(Repo.Root, "agent/src/Uma.Agent.Windows/appsettings.json"), new TestClock());
-            Assert.Throws<ArgumentException>(() => store.Save(new AgentSettings("http://uma.example.test", "P", "")));
-            Assert.Throws<ArgumentException>(() => store.Save(new AgentSettings("https://uma.example.test", " ", "")));
+            Assert.Throws<ShellValidationException>(() => store.Save(new AgentSettings("http://uma.example.test", "P", "")));
+            Assert.Throws<ShellValidationException>(() => store.Save(new AgentSettings("https://uma.example.test", " ", "")));
             store.Save(new AgentSettings("", "P", ""));   // clearing the address is allowed (uploads pause)
         }
         finally { Temp.Drop(dir); }
@@ -125,7 +125,7 @@ public class SettingsAndSecretsTests
         try
         {
             var store = new ServiceTokenStore(Path.Combine(dir, "t.bin"), new XorProtector());
-            var e = Assert.Throws<ArgumentException>(() => store.Save(id, secret));
+            var e = Assert.Throws<ShellValidationException>(() => store.Save(id, secret));
             if (secret.Length > 0) Assert.DoesNotContain(secret, e.Message, StringComparison.Ordinal);
             Assert.False(store.HasToken);
         }

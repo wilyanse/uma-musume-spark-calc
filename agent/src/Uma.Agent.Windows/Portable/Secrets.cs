@@ -36,8 +36,8 @@ public sealed class ServiceTokenStore(string path, ISecretProtector protector) :
     public void Save(string clientId, string clientSecret)
     {
         var id = clientId ?? ""; var secret = clientSecret ?? "";
-        if (id.Length == 0 || secret.Length == 0) throw new ArgumentException("Both the client ID and the client secret are required.");
-        if (HasControl(id) || HasControl(secret)) throw new ArgumentException("The client ID and secret must be single-line values without control characters.");
+        if (id.Length == 0 || secret.Length == 0) throw new ShellValidationException("Both the client ID and the client secret are required.");
+        if (HasControl(id) || HasControl(secret)) throw new ShellValidationException("The client ID and secret must be single-line values without control characters.");
         var plain = JsonSerializer.SerializeToUtf8Bytes(new Payload(id, secret));
         try
         {

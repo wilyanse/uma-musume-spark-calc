@@ -33,7 +33,7 @@ public static class OcrGeometry
     public static Rect Union(IEnumerable<Rect> boxes)
     {
         var list = boxes.ToArray();
-        if (list.Length == 0) throw new ArgumentException("no boxes", nameof(boxes));
+        if (list.Length == 0) throw new ShellValidationException("OCR geometry requires at least one box.");
         int x0 = list.Min(b => b.X), y0 = list.Min(b => b.Y), x1 = list.Max(b => b.X + b.Width), y1 = list.Max(b => b.Y + b.Height);
         return new Rect(x0, y0, x1 - x0, y1 - y0);
     }

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Retained round-2 reviewer probe, regression assertions added; not shipped. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../../../src/Uma.Agent.Windows/Portable/**/*.cs" Link="Shell/%(RecursiveDir)%(Filename)%(Extension)" />
+    <ProjectReference Include="../../../../src/Uma.Agent.Core/Uma.Agent.Core.csproj" />
+  </ItemGroup>
+</Project>

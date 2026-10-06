@@ -1,6 +1,6 @@
 # T10 — Windows shell
 
-- **Status:** Partial — Windows native execution/H4 pending. Review round 1 (CHANGES_REQUESTED) addressed below; re-review pending.
+- **Status:** Partial — Windows native execution/H4 pending. Final bounded review round 2 fixes implemented and verified below; independent parent focused re-review pending.
 - **Branch:** task/T10-windows-shell
 - **Agent / model:** Opus 5.5 medium primary interrupted by HTTP 429 (parent/user report). Existing untracked Windows source and tests inspected and preserved. Explicitly user-approved GPT-6.1 Sol / openai-codex medium continuation; no autonomous fallback switch.
 - **Base:** 08d4876 (prompt-only orchestration commit atop dd16e68); no merge/rebase/reset of main or siblings.
@@ -234,3 +234,132 @@ The memory figures are Mac managed heap (`GC.GetTotalMemory` after a full blocki
 - Everything native (WGC newest-frame drain, geometry numbers on real Windows builds, tiled Windows OCR, DPAPI, WPF Exit/Start prompts, unhandled handlers, single-file extraction) is H4. Status stays **Partial**.
 - The T11 support-card adapter stays unavailable until T11 is reviewed and merged. This is the normal integration order, not a permission stop.
 - Parent re-review required; the worker does not merge.
+
+## Review round 2
+
+### Provenance and scope
+
+Final bounded fix-2 in the existing clean worktree, starting at `8e0f2451dc6195e4cb5750914b5bab60998869c4`, branch `task/T10-windows-shell`. Read the absolute coordinator `docs/tasks/T10.fix-2.prompt.md` and `docs/reviews/T10-review-2.md` in full, original/fix-1 prompts and governing contracts. Implemented directly under the user's explicitly approved GPT-6.1 Sol medium fallback after Anthropic HTTP 429 (approval/failure provenance is the user and task prompt, not a new provider probe). No model CLI, worker, delegation, orchestration, reset, clean, rebase, merge, main/sibling edit, push, deployment, credential access or global configuration change. No new dependency/service or paid tier.
+
+Changed only Windows shell source, Windows-owned tests/tools, runbook and this changelog. Core/Core tests/Cards/fixtures/layouts/master/TS unchanged. The new retained `Tools/EdgeProbe` copies the independent review's scratch source, with relative project references and regression assertions added; its execution is verification, NOT a newly independent review.
+
+### B1 — durable-enqueue backpressure
+
+- `MaxSealedPending = 1`. First real `UploadOutbox.EnqueueCapture` failure retains the sealed result (same object, ID, timestamp, serialized JSON and PNGs), releases its frames and pauses collection BEFORE accepting the identity-transition frame. Both public `Accept` and `ProcessAsync` refuse all further evidence; paused Process does not run geometry/hash/OCR or mutate the frame gate.
+- Flush retries the exact pending result first and returns immediately if retry fails. It finalizes live collections sequentially and stops on the first failure; there is no extra sealing outside capacity and no eviction of unsaved complete data. Other previously collected incomplete/overflow evidence is preserved within the live-session limit.
+- Successful durable retry removes only the unsaved notice and resets the frame gate. The currently displayed frame is fresh; an already-queued identity stays frozen, while a new veteran resumes safely. Start remains refused while unsaved; Exit still asks before losing it.
+- Behavioral regression attempts 25 complete subsequent veterans, both entry points and repeated failed Flush, against a genuinely unavailable SQLite path. It checks no new frames/OCR, one pending object, exact bytes read back from real repaired SQLite and resumed identity collection. Retained edge probe additionally attempts 41 veterans.
+- Bound claims corrected: at most 2 live sessions × 40 reference frames plus one unsaved sealed result. Small queued/overflow identity tombstones grow with distinct identities; this is NOT a constant-total-heap guarantee or a Windows RSS measurement. Unaccepted paused evidence is not saved and must be shown again after repair; existing sealed data is never silently dropped.
+
+### B2 — persistent fail-closed overflow
+
+- Rejecting any new distinct evidence at the view cap sets a sticky per-collection overflow blocker. Repeated/older evidence cannot clear it. Finalize/Flush/Stop/identity transition refuse that veteran even if its prior Core checklist was complete. Public Accept and Process enforce the same rule.
+- Displayed checklist sections become incomplete (0/3); underlying Core evidence and completeness rules are not edited. Evicting its frames keeps a lightweight blocked identity, so returning later cannot silently start an uploadable collection. Flush reports those tombstones too, forcing the existing confirmation on explicit fresh Start. Only a newly constructed pipeline after the confirmed fresh scan drops them; Stop or polling never does.
+- Tests compare actual Core receiving 40 complete views then new unaligned Skills: both displayed shell Skills and Core are incomplete, shell Stop writes zero outbox rows. Return, unchanged Process polls, eviction, repeated Stop, fresh-pipeline recovery and another legitimate complete collection are exercised. Other collections remain independently saveable; released incomplete collections retain warnings.
+
+### S1 — persistent portable notice reducer
+
+- Pipeline events include authoritative snapshots of distinct unsaved/overflow/released notices, separate from routine progress. Queued or NotUploadable primary events cannot mask simultaneous limit/release notices. Routine Skipped/Progress events cannot erase them.
+- `CaptureNoticeStatus` drives WPF status/error display. Unsaved clears only after durable retry; overflow only after explicit fresh scan; released warnings have their own acknowledgement menu. A new release revokes the earlier acknowledgement. StartFresh refuses to dismiss unsaved data.
+- Portable behavioral tests cover persistence, unrelated-notice preservation, simultaneous queue/limit, acknowledgement and refusing fresh state while unsaved. An immediate-ack regression found duplicate warning copy in routine text; fixed by separating that copy and removing Stop's duplicate historical warning text. WPF native UI behavior remains H4, not claimed executed here.
+
+### S2 — safe validation message ownership
+
+- Arbitrary framework `ArgumentException` (including null/out-of-range), IO/HTTP/aggregate and other generic exceptions now show categories only through `UserMessages.For`. Startup now uses that same boundary instead of its former ArgumentException/IOException message passthrough; UI dispatcher and unhandled UI already use it. Logs remain category-only.
+- Internal-constructor shell-owned `ShellValidationException` replaces legitimate shell validation throws. Its copy is fixed shell text; unknown options and invalid URI schemes no longer echo user input. Token single-line/required, HTTPS/process settings, frame-size and recorder-option messages remain actionable. Exact-type validation tests now expect the owned type; the old broad ArgumentException allowlist test was removed and replaced with marker regressions.
+- Synthetic sensitive-marker tests cover all generic display categories, unknown command options, token controls and an arbitrary URI scheme. No actual secret used or accessed.
+
+### N1 — fixture attribution correction
+
+`OcrTiling` comment and runbook now attribute the 493-reference-pixel longest recorded line to `14-support-card-detail.json`: “Increases initial Friendship Gauge when beginning a Career”. Fixture 13 remains the old-seam regression. The fix-1 prompt's “fixture13 longestline493” attribution was incorrect; this correction supersedes that historical attribution without rewriting prompts or claiming new OCR evidence. Overlap remains 600; no OCR recording/fixture was changed.
+
+### Tests-first red → green (actual output)
+
+All commands below ran from `/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T10-windows-shell`.
+
+For test execution set `DOTNET_ROOT=/Users/willjose/.hermes/cache/scratch/T10-review/dotnet8`; `<host>` below denotes the exact absolute `/Users/willjose/.hermes/cache/scratch/T10-review/dotnet8/dotnet`.
+
+```
+<host> --list-runtimes
+Microsoft.NETCore.App 8.0.31
+
+dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --filter 'FullyQualifiedName~Repeated_failed_enqueue|FullyQualifiedName~Previously_complete_at_cap|FullyQualifiedName~ReviewRound2SecurityTests' -- RunConfiguration.DotNetHostPath=<host>
+Failed: 4, Passed: 0, Total: 4
+B1 Expected (0,0,1), Actual (1,1,1)
+B2 Expected Not 3, Actual 3
+S2 Framework_exception_messages_are_never_displayed: synthetic marker displayed
+S2 Unknown_command_option_does_not_echo_user_input: synthetic marker displayed
+
+dotnet build agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release
+Build FAILED: CS0246 CaptureNotice missing (new reducer tests/API before implementation)
+
+dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --filter FullyQualifiedName~Immediate_acknowledgement -- RunConfiguration.DotNetHostPath=<host>
+Failed: 1, Passed: 0, Total: 1
+Assert.DoesNotContain: released remained in routine text after acknowledgement
+```
+
+First full green attempt had 153 passes and 2 failures: the historical broad ArgumentException expectation, and a test expecting new progress from the ORIGINAL already-queued veteran after repair. Corrected those expectations without relaxing upload gates: generic exceptions must be category-only; recovery re-parses that frame but still reports AlreadyQueued, then a different-stat veteran collects successfully. Final suite below includes the immediate-ack fix.
+
+### Final actual verification
+
+```
+dotnet build agent/Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true --no-incremental
+Build succeeded. 0 Warning(s), 0 Error(s).
+Core, Core.Tests, Windows, Windows.Portable.Tests and Windows.Native.Tests compiled.
+
+dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=<host>
+Passed! Failed: 0, Passed: 166, Skipped: 0, Total: 166
+
+dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=<host>
+Passed! Failed: 0, Passed: 157, Skipped: 0, Total: 157
+Native tests (5) compile only: NOT executed on Mac.
+
+dotnet build agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe -c Release
+<host> agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe/bin/Release/net8.0/MemoryProbe.dll "$PWD"
+exit 0
+Still 240 polls: processed 1, skipped 239, retained 1 frame; managed +11.1 MB (flat)
+Cosmetic 240 polls: processed 30, skipped 210, retained 1 frame; managed +8.3 MB (flat)
+20 synthetic veterans: +75.3 MB at veterans 5/10/15/20, current 9 frames
+After Stop: 20 outbox veterans, 0 frames, +8.9 MB
+Two capped collections: 80 retained frames, 40 limit events, +672.0 MB
+
+dotnet build /Users/willjose/.hermes/cache/scratch/T10-review/r2/edge-probe/EdgeProbe.csproj -c Release
+<host> /Users/willjose/.hermes/cache/scratch/T10-review/r2/edge-probe/bin/Release/net8.0/EdgeProbe.dll "$PWD"
+exit 0; original reviewer probe: 1 pending result, 0 frames after 21/41 attempted veterans;
+74,758 retained PNG bytes; exact IDs/payload/PNGs; Stop overflow outbox 0; sensitive marker False.
+Its historical failedIDs output counts repeated failure events, not distinct capture IDs.
+
+dotnet build agent/tests/Uma.Agent.Windows.Tests/Tools/EdgeProbe -c Release
+<host> agent/tests/Uma.Agent.Windows.Tests/Tools/EdgeProbe/bin/Release/net8.0/EdgeProbe.dll "$PWD"
+Build succeeded. 0 Warning(s), 0 Error(s). Exit 0.
+LIMIT event=Limit; Frames=40; shellSkillsComplete=False; CoreSkillsComplete=False
+LIMIT Stop=NotUploadable; outboxVeterans=0
+QUEUEFAIL veterans=21: Sessions=0 Frames=0 SealedPending=1; managed+MB=9.500; distinctFailedIDs=1; retainedPngBytes=74758
+QUEUEFAIL veterans=41: Sessions=0 Frames=0 SealedPending=1; managed+MB=9.505; distinctFailedIDs=1; retainedPngBytes=74758
+RETRY queued=1; oldCapturePayloadsExact=True; oldIDsPreserved=True; pending=0; oldCropBytesExact=True
+BACKPRESSURE failed retry blocked; ProcessAsync blocked; exact retry; new identity resumed; notices verified
+MESSAGE ArgumentException reflects marker=False
+ASSERTIONS passed
+
+dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableWindowsTargeting=true -o /Users/willjose/.hermes/cache/scratch/t10-fix2/publish-final
+exit 0; EXE 193083704 bytes
+python3 agent/tests/Uma.Agent.Windows.Tests/Tools/bundle_probe.py /Users/willjose/.hermes/cache/scratch/t10-fix2/publish-final/Uma.Agent.Windows.exe "$PWD"
+bundle 6 0 entries 474; matches 15 of 15; all 7 key assemblies/native libraries True; exit 0
+SHA256 this publish only: 4af2d9d2d3f2ca295d24b979c653cd255dfd46059b8df2caed6f7eff57d6eb9d
+```
+
+All heap figures are Mac managed heap after blocking GC, not Windows Task Manager/RSS. Probes replay actual fixture OCR and pixels with explicitly synthetic distinct-stat veterans/whole-list Skills thumb/unaligned evidence; they are not real game imports or native OCR results. Repeated-failure heap includes the probe's own inputs/event/ID bookkeeping, so the supported bound is retained frames/results, not an absolute heap plateau. Source/tools remain reproducible; raw logs and final published bundle are in `/Users/willjose/.hermes/cache/scratch/t10-fix2/` (scratch may expire). Earlier EXE hashes remain historical and are not reproducible identifiers.
+
+### Focused parent re-review handoff
+
+Implementer focused self-check covered transition-before-feed backpressure, sequential Flush, cap invalidation, identity tombstones/ambiguity, displayed checklist and persistent notices, validation callers and startup/unhandled display paths. That is NOT independent review. Parent must independently review `8e0f245..HEAD` against B1/B2/S1/S2/N1, rerun the retained edge/portable checks and record a verdict before any merge. No reviewer was spawned in this direct-only round. If a blocker remains after this final bounded round, parent takes over/escalates; do not launch a third worker fix round.
+
+### Scope checks (actual output)
+
+```
+git diff --name-only 08d4876 -- agent/src/Uma.Agent.Core agent/tests/Uma.Agent.Core.Tests agent/src/Uma.Agent.Cards agent/tests/fixtures agent/layouts apps packages docs/reference
+(no output; protected paths changed: 0)
+```
+A programmatic `git status --porcelain=v1 --untracked-files=all` scope check verified all 23 changed/new files are in Windows source/tests/tools, the runbook or task changelog. The initial whitespace check caught one added blank EOF line in this section; it was removed before the final check/commit.
+
+Status stays Partial: H4 WGC/OCR/DPAPI/WPF/native single-file/actual Access-upload validation and reviewed T11 integration remain pending. No merge/push/deploy performed.

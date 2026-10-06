@@ -38,7 +38,7 @@ public static class ApiAddress
         if (!t.Contains("://", StringComparison.Ordinal) || !Uri.TryCreate(t, UriKind.Absolute, out var u) || u.IsFile || u.IsUnc)
         { error = "The API address must be an absolute https:// address."; return false; }
         if (!string.Equals(u.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
-        { error = $"The API address must use https (got {u.Scheme})."; return false; }
+        { error = "The API address must use https."; return false; }
         if (u.UserInfo.Length > 0) { error = "The API address must not contain a user name or password."; return false; }
         if (u.Query.Length > 0 || u.Fragment.Length > 0) { error = "The API address must not contain a query or fragment."; return false; }
         var b = new UriBuilder(u);
@@ -100,10 +100,10 @@ public sealed class SettingsStore(string path, string defaultsPath, IClock clock
         var address = settings.ApiBaseUrl.Trim();
         if (address.Length > 0)
         {
-            if (!ApiAddress.TryParse(address, out var uri, out var error)) throw new ArgumentException(error, nameof(settings));
+            if (!ApiAddress.TryParse(address, out var uri, out var error)) throw new ShellValidationException(error);
             address = uri!.AbsoluteUri;
         }
-        if (string.IsNullOrWhiteSpace(settings.ProcessName)) throw new ArgumentException("The game process name is required.", nameof(settings));
+        if (string.IsNullOrWhiteSpace(settings.ProcessName)) throw new ShellValidationException("The game process name is required.");
         var normalized = new AgentSettings(address, settings.ProcessName.Trim(), (settings.WindowTitleContains ?? "").Trim());
         AtomicFile.WriteAllBytes(path, JsonSerializer.SerializeToUtf8Bytes(normalized, Options));
     }
