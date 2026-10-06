@@ -234,4 +234,3 @@ The memory figures are Mac managed heap (`GC.GetTotalMemory` after a full blocki
 - Everything native (WGC newest-frame drain, geometry numbers on real Windows builds, tiled Windows OCR, DPAPI, WPF Exit/Start prompts, unhandled handlers, single-file extraction) is H4. Status stays **Partial**.
 - The T11 support-card adapter stays unavailable until T11 is reviewed and merged. This is the normal integration order, not a permission stop.
 - Parent re-review required; the worker does not merge.
-
