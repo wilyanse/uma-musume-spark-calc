@@ -180,7 +180,7 @@ No TypeScript was touched, so pnpm lint/typecheck/test was not run. The scope is
 
 ## Review round 1
 
-Review: `docs/reviews/T10b-review-1.md` (CHANGES_REQUESTED on 6e6a09a). Fix commits on top of 6e6a09a: `139ad6f` (B1, S1, S2, S3, N1 and the regression test file), `86fbc56` (B2), `4030734` (runbook), plus this changelog commit. The B2 tests in `CardReviewRound1Tests.cs` fail at `139ad6f` alone and pass from `86fbc56` on. Same model and method as before (Opus 5.5, worked directly, no subagents). The reviewer's scratch probes were read only, not copied or changed. Every new test uses `*.example.test` hosts and `SYNTHETIC-*` credential markers saved through the real `ServiceTokenStore` with the test protector.
+Review: `docs/reviews/T10b-review-1.md` (CHANGES_REQUESTED on 6e6a09a). Fix commits on top of 6e6a09a: `139ad6f` (B1, S1, S2, S3, N1 and the regression test file), `86fbc56` (B2), `4030734` (runbook), plus this changelog commit. The B2 regression tests are committed in `139ad6f` with the rest of the round-1 test file, before the B2 fix in `86fbc56`; I did not separately run that intermediate commit. Same model and method as before (Opus 5.5, worked directly, no subagents). The reviewer's scratch probes were read only, not copied or changed. Every new test uses `*.example.test` hosts and `SYNTHETIC-*` credential markers saved through the real `ServiceTokenStore` with the test protector.
 
 ### B1: settings changed during a confirmation or retry (fixed)
 - **Cause** (as the review found): the address was read once before the modal, and the uploader read the live token on every attempt. Settings saved from the tray during the confirmation or the retry delay therefore sent B's credential to A.
