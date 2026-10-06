@@ -188,7 +188,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T08 | Merged locally | task/T08-golden-dataset | T08-golden-dataset.md | CHANGES_REQUESTED r1/r2 → PASS r3 |
 | T09 | Merged locally (0472739); merged native build/166 tests and TS checks passed; T10/T11 dependencies cleared | task/T09-agent-core | T09-agent-core.md | CHANGES_REQUESTED r1 → PASS r2/r3; final SF1–SF4 verified on Sol; H4 remains after T10 |
 | T10 | Merged locally; Release build 0 warnings/errors, merged Core302/portable157 pass; Partial until H4 | task/T10-windows-shell | T10-windows-shell.md | PASS r3; Sol usage-limit interruption → same-session Opus completion; S1–S2/N1–N2 recorded for integration |
-| T10b | Prepared: reviewed T10/T11 integration and transient-error recovery | task/T10b-card-shell-integration | T10b-card-shell-integration.md | Independent review pending |
+| T10b | Candidate 6e6a09a; parent Release build 0 warnings/errors, Core302/portable195 passed; native/live checks remain | task/T10b-card-shell-integration | T10b-card-shell-integration.md | Fresh independent Opus medium r1 dispatched; not merged |
 | T11 | Merged locally 4ee0426; native302 and workspace checks passed; T10 wiring/H4 remain | task/T11-card-sync | T11-card-sync.md | CHANGES_REQUESTED r1/r2 → PASS r3; T10 integration and H4 remain |
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T13 | Merged locally db05929; merged workspace/web124/e2e14, production build and fixture exclusion pass | task/T13-web-screens | T13-web-screens.md | PASS r3; live Access/H4 pending; nonblocking findings retained in review |
