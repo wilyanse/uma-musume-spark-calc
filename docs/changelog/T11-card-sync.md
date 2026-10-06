@@ -290,3 +290,12 @@ HTTP behaviour is fake-handler replay of the inspected route (`apps/api/src/rout
 - T10: one `OwnedCardsUploadCoordinator` per target, generation lifecycle on scan create, replace, reset and cancel, UI callbacks bound to their own session and generation, and verified empty cells (or accept that a partly filled last row blocks full sync through `FeedAsync`).
 - H4 (Windows, real game): Q-151 (Held distinct vs copies), real scroll behaviour and empty-last-row handling (Q-153/Q-154), a real ambiguous detail, and one live PUT against the deployed API (needs H2).
 - This branch does not complete M2 or the independent re-review of round 1; the parent runs that review.
+
+## Review round2
+
+### Provenance and tests-first milestone
+- Implemented directly with GPT-6.1 Sol (`gpt-6.1-sol`, `openai-codex`), approved medium fallback. The user reported a preceding Anthropic HTTP 429; this run did not observe or independently verify that provider response. No worker/model CLI, orchestration script or subagent was used. Initial inspection found clean HEAD `afe2fad6a8ec2c12423a59b9401a715303468ec5`; no inherited dirty work existed.
+- Governing inputs: coordinator-owned absolute `docs/tasks/T11.fix-2.prompt.md`, `docs/reviews/T11-review-2.md`, original prompt, round-1 review, AGENTS and specs 00/01/30/70/80. Retained reviewer probe source/output inspected without editing the originals.
+- Native runtime discovered intact at `/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet`: `Microsoft.NETCore.App 8.0.31`. No install or global change.
+- Baseline: `cd agent && dotnet build Uma.Agent.sln && dotnet test Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet` returned `0 Warning(s)`, `0 Error(s)` and `Passed! - Failed: 0, Passed: 282, Skipped: 0, Total: 282`.
+- RED, before any production edits: added `CardsReviewRound2SafetyTests.cs` against the existing parameterless generation API. `dotnet test Uma.Agent.sln --filter FullyQualifiedName~CardsReviewRound2SafetyTests -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet` returned `Failed! - Failed: 12, Passed: 2, Skipped: 0, Total: 14`. Missing stale-send exceptions and accepted contradictory frames were actual assertion failures. The double-rewrap and identical-current-payload controls passed on existing production. The tests' generation calls will migrate to explicit session registration with the fix.
