@@ -8,16 +8,16 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Uma.Agent.Core;
+using Uma.Agent.Core.Cards;
 
 namespace Uma.Agent.Windows.Shell;
 
 public interface IShellLog { void Info(string message); void Warn(string message); void Error(string message); }
-public interface ISupportCardsIntegration { bool Available { get; } string Message { get; } }
-public sealed class SupportCardsUnavailable : ISupportCardsIntegration
-{
-    public bool Available => false;
-    public string Message => "Support card capture is unavailable until T11 is merged and integrated. Nothing is synced or uploaded.";
-}
+/// <summary>Receives classified cards.list / cards.detail frames parsed by the pipeline (T10b). Returns null when no
+/// support-card scan is active, so nothing is stored.
+/// <para><see cref="Epoch"/> changes when a scan starts or resets: the pipeline then re-reads the next frame even if it
+/// is byte-identical to the last one, so a still card list is read by the new scan.</para></summary>
+public interface ISupportCardsIntegration { CardFeedResult? Feed(ParsedFrame parsed); long Epoch { get; } }
 public enum PipelineEventKind { Progress, NotUploadable, Ignored, CardScreen, Unsupported, Skipped, Queued, AlreadyQueued, Failed, Limit }
 public sealed record PipelineEvent(PipelineEventKind Kind, string Message, string? CaptureId = null, IReadOnlyList<CaptureNotice>? Notices = null);
 /// <summary>What the pipeline keeps alive: unqueued veteran sessions, the parsed frames fed into them (Core keeps one
@@ -77,6 +77,8 @@ public sealed class CapturePipeline
     private readonly string _version;
     private readonly FrameGate _gate;
     private readonly IShellLog _log;
+    private readonly ISupportCardsIntegration? _cards;
+    private long _cardEpoch;
     private readonly List<Live> _live = [];
     private readonly List<Dictionary<string, string>> _sealedIdentities = [];
     private readonly List<Sealed> _pending = [];
@@ -90,11 +92,14 @@ public sealed class CapturePipeline
     public SessionProgress? Progress { get; private set; }
     public RetainedEvidence Retained => new(_live.Count, _live.Sum(l => l.Frames), _pending.Count);
 
-    public CapturePipeline(AgentData data, IOcrEngine ocr, UploadOutbox outbox, IClock clock, UlidGenerator ids, string version, FrameGate gate, IShellLog log)
+    public CapturePipeline(AgentData data, IOcrEngine ocr, UploadOutbox outbox, IClock clock, UlidGenerator ids, string version, FrameGate gate, IShellLog log, ISupportCardsIntegration? cards = null)
     {
         _data = data; _parser = new(data.Layout, data.Master, data.Templates, ocr);
-        _outbox = outbox; _clock = clock; _ids = ids; _version = version; _gate = gate; _log = log;
+        _outbox = outbox; _clock = clock; _ids = ids; _version = version; _gate = gate; _log = log; _cards = cards;
     }
+
+    /// <summary>Sealed results whose durable enqueue failed (at most <see cref="MaxSealedPending"/>), for tests and probes.</summary>
+    internal IReadOnlyList<CaptureResult> PendingResults => _pending.Select(s => s.Result).ToArray();
     public async Task<PipelineEvent> ProcessAsync(Frame frame, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
@@ -106,6 +111,7 @@ public sealed class CapturePipeline
                 Frames.Normalize(frame); // invalid inputs throw before dHash/OCR; valid larger inputs normalize once in ParseAsync
         }
         catch (UnsupportedFrameException e) { return Publish(new(PipelineEventKind.Unsupported, e.Message)); }
+        if (_cards is not null && _cards.Epoch != _cardEpoch) { _cardEpoch = _cards.Epoch; _gate.Reset(); }
         if (!_gate.ShouldProcess(frame)) return Publish(new(PipelineEventKind.Skipped, "unchanged frame"));
         var p = await _parser.ParseAsync(frame);
         ct.ThrowIfCancellationRequested();
@@ -144,7 +150,7 @@ public sealed class CapturePipeline
                 return Feed(_current, p, null);
             default:
                 _continuing = false;
-                if (p.Screen.Id is ScreenId.CardsList or ScreenId.CardsDetail) return new(PipelineEventKind.CardScreen, new SupportCardsUnavailable().Message);
+                if (p.Screen.Id is ScreenId.CardsList or ScreenId.CardsDetail) return CardScreen(p);
                 return new(PipelineEventKind.Ignored, "Unknown screen ignored; no data stored.");
         }
     }
@@ -229,6 +235,14 @@ public sealed class CapturePipeline
         Progress = new(target.Session.IdentityKey, target.Overflowed ? 0 : tabs, list);
         if (finalized is not null) return finalized;
         return limit ?? new(PipelineEventKind.Progress, "Scroll slowly from top to bottom on Skills and Inspiration, then Career Info; open parent popups before Stop.");
+    }
+
+    /// <summary>Card screens never touch veteran sessions, frame retention or the outbox. The parsed frame (same
+    /// capture/OCR path, same gate and pause rules) is handed to the support-card scan, which keeps no frames.</summary>
+    private PipelineEvent CardScreen(ParsedFrame p)
+    {
+        var r = _cards?.Feed(p);
+        return new(PipelineEventKind.CardScreen, r is null ? CardSyncController.NoScanMessage : $"Support cards: {r.Outcome}: {r.Reason}");
     }
 
     private static PipelineEvent AlreadyQueued() => new(PipelineEventKind.AlreadyQueued, "This veteran was already queued; Stop and Start to recapture it.");

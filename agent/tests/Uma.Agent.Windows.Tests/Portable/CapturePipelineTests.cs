@@ -81,19 +81,17 @@ public class CapturePipelineTests
     }
 
     [Fact]
-    public async Task Support_card_screens_give_the_truthful_unavailable_message_and_store_nothing()
+    public async Task Support_card_screens_without_an_active_scan_store_nothing()
     {
         using var rig = new Rig();
         foreach (var n in new[] { "13-support-card-list", "14-support-card-detail" })
         {
             var e = await rig.Pipeline.ProcessAsync(rig.Fixture(n), CancellationToken.None);
             Assert.Equal(PipelineEventKind.CardScreen, e.Kind);
-            Assert.Equal(new SupportCardsUnavailable().Message, e.Message);
+            Assert.Equal(CardSyncController.NoScanMessage, e.Message);
         }
         Assert.Empty(rig.Outbox.Snapshot());
-        Assert.False(new SupportCardsUnavailable().Available);
-        Assert.Contains("T11", new SupportCardsUnavailable().Message);
-        Assert.Contains("nothing", new SupportCardsUnavailable().Message, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(new RetainedEvidence(0, 0, 0), rig.Pipeline.Retained);
     }
 
     private static Frame Resized(Frame f, int w, int h)

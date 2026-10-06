@@ -285,9 +285,7 @@ public class MemoryBoundTests
 
     private static CaptureResult Pending(CapturePipeline p)
     {
-        var list = (System.Collections.IEnumerable)typeof(CapturePipeline).GetField("_pending", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(p)!;
-        var entry = Assert.Single(list.Cast<object>());
-        return (CaptureResult)entry.GetType().GetProperty("Result")!.GetValue(entry)!;
+        return Assert.Single(p.PendingResults);   // internal accessor (T10 r3 N2), no reflection
     }
 
     [Fact]

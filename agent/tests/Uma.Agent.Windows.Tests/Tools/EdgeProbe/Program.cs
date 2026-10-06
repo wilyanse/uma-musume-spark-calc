@@ -143,12 +143,11 @@ sealed class Probe(string root) : IDisposable
         for(int v=0;v<41;v++) {
             foreach(var f in parsed.Take(7)) { var e=failed.Accept(Veteran(f,v)); if(e.Kind==PipelineEventKind.Failed) ids.Add(e.CaptureId!); }
             if(v==20||v==40) {
-                var retainedResults=((System.Collections.IEnumerable)typeof(CapturePipeline).GetField("_pending",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)!.GetValue(failed)!).Cast<object>().Select(x=>(CaptureResult)x.GetType().GetProperty("Result")!.GetValue(x)!).ToList();
+                var retainedResults=failed.PendingResults.ToList();
                 Console.WriteLine($"QUEUEFAIL veterans={v+1}; retained={failed.Retained}; managed+MB={(Heap()-baseline)/1e6:F3}; distinctFailedIDs={ids.Distinct().Count()}; failedEvents={ids.Count}; retainedPngBytes={retainedResults.Sum(r=>r.Crops.Sum(c=>c.Png.Length))}");
             }
         }
-        var pending=(System.Collections.IEnumerable)typeof(CapturePipeline).GetField("_pending",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)!.GetValue(failed)!;
-        var results=pending.Cast<object>().Select(x=>(CaptureResult)x.GetType().GetProperty("Result")!.GetValue(x)!).ToList();
+        var results=failed.PendingResults.ToList();
         var hashes=results.ToDictionary(r=>r.Capture!.CaptureId,r=>Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(CaptureJson.Serialize(r.Capture!)))));
         var crops=results.SelectMany(r=>r.Crops.Select(c=>(Id:r.Capture!.CaptureId,c.Path,Hash:Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(c.Png))))).ToList();
         Console.WriteLine($"QUEUEFAIL sealedResults={results.Count}; sealedAll={results.All(r=>r.Uploadable)}; pngBytes={results.Sum(r=>r.Crops.Sum(c=>c.Png.Length))}");
