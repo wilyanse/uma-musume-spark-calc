@@ -1,3 +1,4 @@
+/* global process, console */
 // Proves a production build carries no fixture data or fixture-only code (T13 review r1 N3).
 // Usage: node scripts/check-dist.mjs [dist-dir] [--expect-fixtures]
 // Markers are string literals / property names that survive minification:
