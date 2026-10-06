@@ -7,19 +7,19 @@
       "worker": true
     },
     {
-      "file": "index-BSuQgY74.css",
-      "bytes": 27264,
-      "gzipBytes": 5773,
+      "file": "index-B-5YzKpV.js",
+      "bytes": 461204,
+      "gzipBytes": 138749,
       "worker": false
     },
     {
-      "file": "index-_kuA_E61.js",
-      "bytes": 461166,
-      "gzipBytes": 138737,
+      "file": "index-xZoPOzG9.css",
+      "bytes": 27380,
+      "gzipBytes": 5786,
       "worker": false
     }
   ],
-  "mainGzipBytesIncludingCSS": 144510,
+  "mainGzipBytesIncludingCSS": 144535,
   "budgetBytes": 250000,
-  "productionHasFixtureJson": false
+  "fixtureJsonInProduction": []
 }

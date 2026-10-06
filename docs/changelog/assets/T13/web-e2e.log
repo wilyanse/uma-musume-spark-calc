@@ -1,0 +1,25 @@
+$ pnpm --filter web e2e
+$ playwright test
+
+Running 3 tests using 1 worker
+
+AXE S01-light: serious/critical=0; all=1
+REAL BROWSER 260 ranking: 2137 ms (fit+click+render wall 2474 ms)
+AXE S06-light: serious/critical=0; all=2
+REAL BROWSER 260 ranking: 2348 ms (fit+click+render wall 2453 ms)
+AXE S03-empty-light: serious/critical=0; all=1
+AXE S01-roster-dark: serious/critical=0; all=1
+AXE S03-review-dark: serious/critical=0; all=1
+REAL BROWSER 260 ranking: 2120 ms (fit+click+render wall 2471 ms)
+AXE S06-planner-dark: serious/critical=0; all=2
+REAL BROWSER 260 ranking: 2074 ms (fit+click+render wall 2506 ms)
+REAL BROWSER 260 ranking: 2075 ms (fit+click+render wall 2473 ms)
+  ✓  1 e2e/screens.spec.ts:58:1 › fixture smoke, real Comlink ranking/cancel/recreate, both-theme axe and all seven exports (27.1s)
+AXE S03-populated-light: serious/critical=0; all=0
+  ✓  2 e2e/screens.spec.ts:145:40 › S03 MOCK HTTP keyboard 1/2/3 J/K/D and populated axe light (1.4s)
+AXE S03-populated-dark: serious/critical=0; all=0
+  ✓  3 e2e/screens.spec.ts:145:40 › S03 MOCK HTTP keyboard 1/2/3 J/K/D and populated axe dark (1.4s)
+
+  3 passed (32.5s)
+
+EXIT=0
