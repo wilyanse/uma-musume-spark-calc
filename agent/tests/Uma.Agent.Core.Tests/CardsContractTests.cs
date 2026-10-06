@@ -106,5 +106,12 @@ public class CardsContractTests
         Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"heldCount\":2", "\"heldCount\":2,\"heldCount\":2")));
         Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("2026-10-03T01:02:03Z", "October 3, 2026 01:02:03Z")));
         Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"cards\":[", "\"cards\":null,\"cards\":[")));
+        // Numbers must be JSON numbers (schema `integer`/`number`); the shared Web options would otherwise read "1" as 1.
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"heldCount\":2", "\"heldCount\":\"2\"")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"schemaVersion\":1", "\"schemaVersion\":\"1\"")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"lb\":0", "\"lb\":\"0\"")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"lb\":0", "\"lb\":0.5")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"confidence\":0.9", "\"confidence\":\"0.9\"")));
+        Assert.Throws<JsonException>(() => OwnedCardsSyncJson.Deserialize(json.Replace("\"masterVersion\":\"global-20260930\"", "\"masterVersion\":1")));
     }
 }

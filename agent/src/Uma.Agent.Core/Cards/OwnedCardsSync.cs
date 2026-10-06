@@ -62,6 +62,8 @@ public static class OwnedCardsSyncJson
         return match.Success && match.Length == text.Length;
     }
 
+    private static bool IsInteger(JsonElement e) => e.ValueKind == JsonValueKind.Number && e.TryGetInt32(out _);
+
     public static string Serialize(OwnedCardsSync body) => JsonSerializer.Serialize(body, CaptureJson.Options);
 
     public static OwnedCardsSync Deserialize(string json)
@@ -73,8 +75,15 @@ public static class OwnedCardsSyncJson
             if (root.EnumerateObject().Count() != RootKeys.Length || root.EnumerateObject().Select(p => p.Name).Distinct(StringComparer.Ordinal).Count() != RootKeys.Length) throw new JsonException("OwnedCardsSync: duplicate or unknown property");
             if (root.GetProperty("capturedAt").ValueKind != JsonValueKind.String || !IsIsoUtc(root.GetProperty("capturedAt").GetString()!)) throw new JsonException("OwnedCardsSync: invalid ISO UTC time");
             if (root.GetProperty("cards").ValueKind != JsonValueKind.Array) throw new JsonException("OwnedCardsSync: cards must be an array");
+            // JSON types per the exported schema. CaptureJson.Options (T09, Web defaults) would read "1" as 1, so check here.
+            if (!IsInteger(root.GetProperty("schemaVersion")) || !IsInteger(root.GetProperty("heldCount"))) throw new JsonException("OwnedCardsSync: schemaVersion/heldCount must be integers");
+            if (root.GetProperty("masterVersion").ValueKind != JsonValueKind.String) throw new JsonException("OwnedCardsSync: masterVersion must be a string");
             foreach (var c in root.GetProperty("cards").EnumerateArray())
+            {
                 if (c.ValueKind != JsonValueKind.Object || CardKeys.Any(k => !c.TryGetProperty(k, out _)) || c.EnumerateObject().Count() != CardKeys.Length || c.EnumerateObject().Select(p => p.Name).Distinct(StringComparer.Ordinal).Count() != CardKeys.Length) throw new JsonException("OwnedCardsSync: card missing property");
+                if (c.GetProperty("cardId").ValueKind != JsonValueKind.String || !IsInteger(c.GetProperty("lb")) || !IsInteger(c.GetProperty("level"))
+                    || c.GetProperty("confidence").ValueKind != JsonValueKind.Number) throw new JsonException("OwnedCardsSync: card property has the wrong JSON type");
+            }
         }
         var body = JsonSerializer.Deserialize<OwnedCardsSync>(json, CaptureJson.Options) ?? throw new JsonException("OwnedCardsSync is null");
         if (body.MasterVersion is null || body.Cards is null || body.Cards.Any(c => c is null || c.CardId is null)) throw new JsonException("OwnedCardsSync: null value");

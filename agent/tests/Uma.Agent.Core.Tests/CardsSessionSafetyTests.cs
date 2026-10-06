@@ -122,6 +122,32 @@ public class CardsSessionSafetyTests
         Assert.Equal(before.AwaitingDetailFor, s.State.AwaitingDetailFor);
     }
 
+    [Theory]
+    [InlineData(false)] [InlineData(true)]
+    public void Detail_cannot_bind_a_card_already_located_at_another_unread_LB_tile(bool selected)
+    {
+        // GROUNDED+SYNTHETIC (from the round-1 re-review): fixture 13 tile 0 keeps its accepted art
+        // (Special Week) but its LB is made unreadable; tile 5 is demoted with Special Week among its
+        // candidates and its level set to 40. Detail 14 (Special Week Lvl 40) must not bind tile 5:
+        // the card is already located at tile 0, and binding would put it at two positions with tile 5's LB.
+        var p = Env.Parsed(List13);
+        p = ReplaceTile(p, 0, t => t with { Lb = t.Lb with { Ok = false } });
+        p = ReplaceTile(p, 5, t => t with { Card = t.Card with { Ok = false, Candidates = [new Candidate(Brightest, .8), new Candidate("card:synthetic-runner-up", .7)] }, Level = t.Level with { Value = 40 } });
+        var s = NewSession(); s.Feed(p);
+        var tile5 = s.State.Pending.Single(x => x.Position == 5);
+        if (selected) Assert.True(s.RequestDetail(tile5.Id));
+        var before = s.State.Revision;
+        Assert.Equal(CardFeedOutcome.DetailIgnored, s.Feed(Env.Parsed(Detail14)).Outcome);
+        Assert.Equal(before, s.State.Revision);
+        Assert.DoesNotContain(s.State.Cards, c => c.CardId == Brightest);
+        Assert.Single(s.State.Pending, x => x.Position == 5);
+        // Not wedged: the same frame, and one with tile 0's LB readable, are still accepted.
+        Assert.Equal(CardFeedOutcome.Collected, s.Feed(p).Outcome);
+        var readable = ReplaceTile(Env.Parsed(List13), 5, t => t with { Card = t.Card with { Ok = false, Candidates = [new Candidate(Brightest, .8)] }, Level = t.Level with { Value = 40 } });
+        Assert.Equal(CardFeedOutcome.Collected, s.Feed(readable).Outcome);
+        Assert.Equal(2, s.State.Cards.Single(c => c.CardId == Brightest).Lb);
+    }
+
     [Fact]
     public void Confirmation_cannot_authorize_a_different_session_even_with_equal_counts_and_revision()
     {

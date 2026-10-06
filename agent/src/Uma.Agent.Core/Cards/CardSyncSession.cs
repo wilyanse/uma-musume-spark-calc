@@ -119,7 +119,9 @@ public sealed class CardSyncSession
     /// reference space (<see cref="NonReferenceFrameException"/> otherwise).</summary>
     /// <param name="confirmedEmptyCells">Explicit caller-verified empty grid cells; absence of OCR/art
     /// is not evidence of emptiness. The parser does not currently provide an occupancy classifier.
-    /// Never infer this set from missing readings. Cells with accepted identity or level cannot be declared empty.</param>
+    /// Never infer this set from missing readings. Cells with accepted identity or level cannot be declared empty.
+    /// The declaration applies to this frame only and is not remembered: a later frame that reads a card at that
+    /// position adds it normally.</param>
     public CardFeedResult Feed(ParsedFrame parsed, IReadOnlySet<int>? confirmedEmptyCells = null)
     {
         ArgumentNullException.ThrowIfNull(parsed);
@@ -348,6 +350,11 @@ public sealed class CardSyncSession
             return new(CardFeedOutcome.DetailIgnored, $"{id} is already collected");
         if (_segments.Values.SelectMany(s => s.Values).OfType<ConflictSlot>().Any(c => c.Observations.Any(o => o.CardId == id)))
             return new(CardFeedOutcome.DetailIgnored, $"{id} has conflicting reads; reset and scan again");
+        // The card is already located at a tile (accepted art with an unread LB, or a pending tile that already
+        // carries this ID). The detail screen can't read LB, so binding it elsewhere would place the card twice.
+        // Only a pending tile that already IS this card may take the detail (its level/ID gets confirmed).
+        if (_segments.Values.SelectMany(s => s.Values).OfType<UnreadSlot>().Any(u => u.CardId == id))
+            return new(CardFeedOutcome.DetailIgnored, $"{id} is already at a tile whose LB was not read; scroll it into view again");
 
         var pendings = _segments.SelectMany(s => s.Value.Where(kv => kv.Value is PendingSlot).Select(kv => (Segment: s.Key, Position: kv.Key, Tile: (PendingSlot)kv.Value))).ToArray();
         (int Segment, int Position, PendingSlot Tile) target;
