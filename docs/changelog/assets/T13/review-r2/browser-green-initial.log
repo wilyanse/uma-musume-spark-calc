@@ -17,7 +17,7 @@ LOCAL HTTP Veteran: one PATCH per attempt, rollback + retry passed
   ✓  6 e2e/review-fix2.spec.ts:100:1 › LOCAL HTTP production Veteran: two same-task clicks send once, 500 rolls back, retry unlocks (248ms)
 
 
-  1) e2e/review-fix2.spec.ts:29:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network 
+  1) e2e/review-fix2.spec.ts:29:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network
 
     Error: expect(locator).toBeVisible() failed
 
@@ -51,7 +51,7 @@ LOCAL HTTP Veteran: one PATCH per attempt, rollback + retry passed
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   1 failed
-    e2e/review-fix2.spec.ts:29:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network 
+    e2e/review-fix2.spec.ts:29:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network
   5 passed (12.5s)
 undefined
 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web:
