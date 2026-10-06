@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- T10 Windows shell (30 §1, §7). Windows-only TFM; on macOS/Linux it compiles with EnableWindowsTargeting
+       (set below for non-Windows hosts so `dotnet build agent/Uma.Agent.sln` keeps working there). It cannot run off
+       Windows. Files under Portable/ use only the BCL and Uma.Agent.Core and are also compiled into the net8.0
+       portable test project (agent/tests/Uma.Agent.Windows.Tests/Portable). -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <!-- Pin the C#/WinRT projection package instead of taking whatever the installed SDK bundles. -->
+    <WindowsSdkPackageVersion>10.0.19041.57</WindowsSdkPackageVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <EnableWindowsTargeting Condition="'$(OS)' != 'Windows_NT'">true</EnableWindowsTargeting>
+    <UseWPF>true</UseWPF>
+    <!-- Only for System.Windows.Forms.NotifyIcon (WPF has no tray icon); no WinForms windows are used. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- WPF owns startup; the tray-only WinForms analyzer does not apply. Manifest sets DPI before any HWND. -->
+    <NoWarn>$(NoWarn);WFAC010</NoWarn>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Uma.Agent.Windows</RootNamespace>
+    <AssemblyName>Uma.Agent.Windows</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Version>0.1.0</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <!-- Single-file publish (30 §7, 65 §4 agent-release.yml uploads the one .exe): the layout, templates, published master
+         bundle and appsettings.json are bundled content and are extracted with the native libraries (SQLite, WPF). -->
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Uma.Agent.Core/Uma.Agent.Core.csproj" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Uma.Agent.Windows.Tests" />
+  </ItemGroup>
+
+  <!-- Read-only runtime data, copied from the repository (never modified by the agent). -->
+  <ItemGroup>
+    <Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../layouts/**/*.json" Link="data/layouts/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../../apps/web/public/master/**/*.json" Link="data/master/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

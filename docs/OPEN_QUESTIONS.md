@@ -222,3 +222,13 @@ Blocking: no (verify the empty-last-row behaviour at H4)
 - R-3: community master data (e.g. GameTora) is acceptable, after checking terms. (user, 2026-09-29)
 - R-4: the capture agent runs on the user's Windows PC. Everything else is built and tested on macOS. (user, 2026-09-29)
 - R-5: game client is Global (English) on Steam, 1920×1080 reference resolution. (user, 2026-09-29)
+
+## Q-100 (T10) Windows.Media.Ocr exposes no confidence score
+Context: T09 recorded Apple Vision lines carry measured OCR confidence; Windows.Media.Ocr returns text and word boxes, but no confidence. Core gates text/digit readings at 0.3/0.5 in addition to vocab scores/margins and pixel/template validation. The shell cannot invent measured Windows confidence.
+Assumption taken: document and record constant 1.0 for native OCR lines as a compatibility sentinel (not a measured probability); retain all other Core validation/matching gates unchanged. English Windows recording/accuracy and ambiguous glyph/digit checks are explicit H4. A future confidence estimator or conservative review policy needs evidence and coordinator/Core ownership, not guessed numbers here.
+Blocking: no (implementation complete; native accuracy remains H4)
+
+## Q-101 (T10) Whole-frame dHash collides between real scroll views
+Context: real screenshot fixtures 02 and 03 both hash to e8c989d1c1e1c1d1 across the full frame. Strictly skipping every equal dHash could miss necessary scroll evidence even though the screenshots differ.
+Assumption taken: keep 4fps maximum polling and unchanged dHash skipping, but force reread after two seconds using injected time. In assisted mode require dwell >=2 seconds per overlapping view; never fabricate end-thumb coverage or bridge gaps. A real collision regression demonstrates the refresh behavior. Exact-content hashing could be a future performance/correctness alternative after Windows measurements.
+Blocking: no
