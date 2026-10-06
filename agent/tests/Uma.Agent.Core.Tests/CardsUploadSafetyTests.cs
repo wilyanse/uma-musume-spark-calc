@@ -12,6 +12,8 @@ public class CardsUploadSafetyTests
     private sealed class Token : IServiceToken { public (string ClientId, string ClientSecret) Read() => ("id", "memory-only"); }
     private sealed class Handler(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> send) : HttpMessageHandler
     { protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage r, CancellationToken ct) => send(r, ct); }
+    // Every coordinator wait is bounded so an ordering regression fails instead of hanging the run.
+    private static readonly TimeSpan Bound = TimeSpan.FromSeconds(5);
     private static OwnedCardsSync Body(int n) => new(1, DateTimeOffset.Parse("2026-10-03T00:00:00Z"), "master", n,
         Enumerable.Range(0,n).Select(i => new OwnedCard($"card:c-{i}",0,30,0.9)).ToArray());
     private static HttpResponseMessage Ack(int n) => CardsUploaderTests.Json(HttpStatusCode.OK, $"{{\"count\":{n},\"partial\":false,\"syncedAt\":\"2026-10-03T00:00:00.000Z\"}}");
@@ -168,7 +170,7 @@ public class CardsUploadSafetyTests
         var second=coordinator.BeginGeneration(); var newer=coordinator.SendAsync(second,replacementUp,new(Body(20),false));
         Assert.False(newer.IsCompleted); Assert.Equal(1,calls);
         coordinator.Invalidate(first); // stale cancel callback must not invalidate second
-        release.SetResult(); await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>old);
+        release.SetResult(); await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>old.WaitAsync(Bound));
         Assert.Equal(OwnedCardsUploadOutcome.Synced,(await newer.WaitAsync(TimeSpan.FromSeconds(5))).Outcome);
         Assert.Equal(2,calls); Assert.Equal(1,max);
     }
@@ -184,7 +186,7 @@ public class CardsUploadSafetyTests
         var c=new OwnedCardsUploadCoordinator(); var generation=c.BeginGeneration();
         var send=c.SendAsync(generation,up,new(Body(19),false)); await entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
         c.Invalidate(generation); release.SetResult();
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>send); Assert.Equal(1,calls);
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>send.WaitAsync(Bound)); Assert.Equal(1,calls);
         await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>c.SendAsync(generation,up,new(Body(19),false)));
     }
 
@@ -222,6 +224,30 @@ public class CardsUploadSafetyTests
         await Assert.ThrowsAsync<ArgumentException>(()=>c.SendAsync(g,wrong,new(Body(2),false)));
     }
 
+    // Response content that completes even though the generation is replaced WHILE it is being read
+    // (the replacement happens inside the read, so no cancellation is observed by the uploader).
+    private sealed class ReplaceDuringReadContent(string json, Action duringRead) : HttpContent
+    {
+        protected override async Task SerializeToStreamAsync(Stream stream, System.Net.TransportContext? context)
+        { duringRead(); var b = Encoding.UTF8.GetBytes(json); await stream.WriteAsync(b); }
+        protected override bool TryComputeLength(out long length) { length = -1; return false; }
+    }
+
+    [Fact]
+    public async Task A_success_that_completes_after_replacement_is_never_published()
+    {
+        var c = new OwnedCardsUploadCoordinator(); var first = c.BeginGeneration();
+        OwnedCardsUploadCoordinator.Generation? second = null;
+        var up = Uploader(new Handler((_, _) => {
+            var r = new HttpResponseMessage(HttpStatusCode.OK) { Content = new ReplaceDuringReadContent(
+                "{\"count\":19,\"partial\":false,\"syncedAt\":\"2026-10-03T00:00:00Z\"}", () => second = c.BeginGeneration()) };
+            r.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            return Task.FromResult(r);
+        }));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => c.SendAsync(first, up, new(Body(19), false)).WaitAsync(Bound));
+        Assert.NotNull(second);
+    }
+
     [Fact]
     public async Task Newest_replacement_forbids_old_retry_19_20_19()
     {
@@ -233,10 +259,11 @@ public class CardsUploadSafetyTests
             return replacements.Count==1 ? CardsUploaderTests.Json(HttpStatusCode.ServiceUnavailable,"{}") : Ack(n);
         }),async(_,ct)=> { retry.TrySetResult(); await resume.Task.WaitAsync(ct); });
         var coordinator=new OwnedCardsUploadCoordinator(); var first=coordinator.BeginGeneration();
-        var old=coordinator.SendAsync(first,up,new(Body(19),false)); await retry.Task;
+        var old=coordinator.SendAsync(first,up,new(Body(19),false)); await retry.Task.WaitAsync(Bound);
         var second=coordinator.BeginGeneration();
-        var newer=await coordinator.SendAsync(second,up,new(Body(20),false)); resume.SetResult();
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>old);
+        // Bounded: if replacement did not cancel the old retry, the newer send would wait forever behind it.
+        var newer=await coordinator.SendAsync(second,up,new(Body(20),false)).WaitAsync(Bound); resume.SetResult();
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>old.WaitAsync(Bound));
         await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>coordinator.SendAsync(first,up,new(Body(19),false)));
         Assert.Equal(OwnedCardsUploadOutcome.Synced,newer.Outcome);
         Assert.Equal(new[]{19,20},replacements);

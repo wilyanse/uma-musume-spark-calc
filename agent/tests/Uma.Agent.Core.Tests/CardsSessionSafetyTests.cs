@@ -21,6 +21,25 @@ public class CardsSessionSafetyTests
         Assert.Empty(other.State.Cards);
     }
 
+    [Fact]
+    public void Normalization_keeps_the_grid_column_when_the_first_observed_cell_is_not_column_zero()
+    {
+        // SYNTHETIC: the leading cell is explicitly declared empty, so the first kept position is column 1.
+        // Shifting to that key (instead of whole rows) would make an identical refeed or a one-row scroll look
+        // like a fraction-of-a-row move.
+        var inv = new Synthetic(23);
+        var page = inv.PageWith(0, (pos, t) => pos == 0 ? Synthetic.Empty(t.Index) with { Lb = Reading.Missing(null, "") } : t);
+        var s = NewSession();
+        var empty = new HashSet<int>(inv.EmptyCells(0)) { 0 };
+        Assert.Equal(CardFeedOutcome.Collected, s.Feed(page, empty).Outcome);
+        Assert.Equal(1, s.State.Cards.Min(c => c.Position));
+        var revision = s.State.Revision;
+        Assert.Equal(CardFeedOutcome.Collected, s.Feed(page, empty).Outcome);
+        Assert.Equal(revision, s.State.Revision);
+        Assert.Equal(CardFeedOutcome.Collected, s.Feed(inv.Page(5), inv.EmptyCells(5)).Outcome);
+        Assert.Equal(Enumerable.Range(1, 22), s.State.Cards.Select(c => c.Position));
+    }
+
     [Theory]
     [InlineData(0)] [InlineData(19)]
     public void No_reading_is_unknown_occupancy_not_proof_of_empty(int boundary)
