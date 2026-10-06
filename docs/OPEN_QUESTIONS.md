@@ -207,6 +207,15 @@ Context: 30 §8 de-duplicates assisted scrolling by (cardId, lb, level, grid pos
 Assumption taken: a frame is placed only by its accepted art matches, and its offset must be a whole number of rows and agree across those tiles. A frame with no accepted tile is ignored. A frame that contradicts what was seen is rejected whole. Unconnected parts and holes block a full sync even when the count equals Held. The 5×4 grid and per-tile thresholds are T09's, calibrated on fixture 13 only. Re-check scroll behaviour on Windows at H4.
 Blocking: no
 
+## Q-154 (T11) Review round 1 amendments to Q-150, Q-152 and Q-153
+Context: The T11 round-1 review (B1–B6) showed boundary tiles erased during normalization, mutable confirmations/envelopes, and stale in-memory whole-table retries. This entry narrows the T11-owned assumptions of Q-150/Q-152/Q-153. No API or shared-contract change.
+Assumption taken:
+- Q-150: a partial confirmation is bound to session identity, instance, generation and revision. The shell shows `PartialSyncConfirmation.Message` and calls `BuildPartial` only after the user accepts. Session-issued envelopes are immutable and cannot be rewritten into a full send or a different Held.
+- Q-152: T10 keeps ONE `OwnedCardsUploadCoordinator` per API target/account for the shell's lifetime, across session and uploader replacement. Call `BeginGeneration()` before creating, replacing or resetting a scan; call `Invalidate(thatGeneration)` on cancel; send and repair auth only through the still-current generation; never start a new generation to resend an old scan. No durable queue: after an app exit, scan again. `CardSyncSession.Reset/Cancel` alone does not revoke an already-built payload. Cancellation cannot undo a PUT the server already received, and remote order after an ambiguous transport failure is not guaranteed (the API has no generation/CAS check).
+- Q-153: placement keeps the row/grid origin and every unread occupied cell, boundaries included. A cell with neither accepted art nor a read level is unknown occupancy, not empty. `Feed(parsed, confirmedEmptyCells)` accepts only caller-verified empty indices and rejects a frame where such a cell has a reading; nothing infers emptiness from missing readings. `FeedAsync` stays conservative because the T09 parser has no empty-cell classifier, so a partly filled last row blocks a full sync until T10/H4 provides verified emptiness.
+- Q-151 is unchanged (Held distinct vs copies, H4).
+Blocking: no (verify the empty-last-row behaviour at H4)
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

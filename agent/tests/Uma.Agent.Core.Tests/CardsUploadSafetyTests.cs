@@ -214,6 +214,21 @@ public class CardsUploadSafetyTests
     }
 
     [Fact]
+    public async Task Stale_generation_send_is_refused_before_it_can_bind_the_coordinator_target()
+    {
+        // A cancelled/replaced generation must be refused up front. Otherwise a stale UI callback could pin the
+        // coordinator to its uploader's target and make the current generation's legitimate send fail.
+        int calls=0;
+        var c=new OwnedCardsUploadCoordinator(); var stale=c.BeginGeneration(); c.Invalidate(stale);
+        var other=new OwnedCardsUploader(new HttpClient(new Handler((_,_)=> { calls++; return Task.FromResult(Ack(2)); })),new Uri("https://other.example.test/"),new Token(),null);
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(()=>c.SendAsync(stale,other,new(Body(2),false)));
+        var current=c.BeginGeneration();
+        var up=Uploader(new Handler((_,_)=> { calls++; return Task.FromResult(Ack(2)); }));
+        Assert.Equal(OwnedCardsUploadOutcome.Synced,(await c.SendAsync(current,up,new(Body(2),false))).Outcome);
+        Assert.Equal(1,calls);
+    }
+
+    [Fact]
     public async Task Coordinator_rejects_foreign_generation_and_changed_target()
     {
         var c=new OwnedCardsUploadCoordinator(); var g=c.BeginGeneration();

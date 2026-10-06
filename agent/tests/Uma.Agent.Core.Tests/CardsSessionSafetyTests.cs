@@ -178,6 +178,25 @@ public class CardsSessionSafetyTests
     }
 
     [Fact]
+    public void Reset_alone_never_reuses_a_pending_handle_for_a_different_tile()
+    {
+        // SYNTHETIC. No Cancel in between: Reset by itself must start a new handle generation, otherwise the
+        // first pending tile after Reset gets the same handle as the first one before it (the B3 stale-UI case).
+        var inv = new Synthetic(23);
+        ParsedFrame Amb(int pos) => inv.PageWith(0, (i, t) => i == pos ? Synthetic.Ambiguous(t.Index, inv.Inventory[i], [inv.Inventory[i].Id]) : t);
+        var s = NewSession();
+        s.Feed(Amb(0));
+        var old = s.State.Pending.Single();
+        s.Reset();
+        s.Feed(Amb(7));
+        var now = s.State.Pending.Single();
+        Assert.Equal(7, now.Position);
+        Assert.NotEqual(old.Id, now.Id);
+        Assert.False(s.RequestDetail(old.Id));
+        Assert.Null(s.State.AwaitingDetailFor);
+    }
+
+    [Fact]
     public void Injected_identity_cannot_collide_and_confirmations_have_no_rewritable_revision()
     {
         var injected = Guid.Parse("54e39b50-cd69-494c-91cc-03e503c902f8");

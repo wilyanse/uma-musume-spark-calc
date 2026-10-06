@@ -2,7 +2,7 @@
 
 - **Status:** Partial. The cross-platform Core work is done and tested. Nothing is wired into the Windows shell yet (T10 calls this API after merge), and nothing has run on real game frames beyond fixtures 13 and 14 (H4).
 - **Branch:** task/T11-card-sync (from main 08d4876, which includes the reviewed T06/T09 merge dd16e68)
-- **Agent / model:** Claude Opus 5.5 (`claude-opus-5-5`), reasoning medium. No fallback was used.
+- **Agent / model:** original candidate: Claude Opus 5.5 (`claude-opus-5-5`), reasoning medium. Review round 1: started on GPT-6.1 Sol (`gpt-6.1-sol`, `openai-codex`, medium), interrupted by a Sol usage limit, then continued on Claude Opus 5.5 medium. Details in *Review round 1 → Provenance*.
 - **Date:** 2026-10-04
 
 ## Summary
@@ -23,13 +23,18 @@ Created:
 - `agent/tests/Uma.Agent.Core.Tests/CardsSequenceTests.cs`: synthetic sequence tests.
 - `agent/tests/Uma.Agent.Core.Tests/CardsContractTests.cs`: schema and rules parity.
 - `agent/tests/Uma.Agent.Core.Tests/CardsUploaderTests.cs`: HTTP replay tests against a fake of `owned-cards.ts`.
+- `agent/src/Uma.Agent.Core/Cards/OwnedCardsUploadCoordinator.cs` (review round 1): caller-owned ordering/invalidation for whole-table sends.
+- `agent/tests/Uma.Agent.Core.Tests/CardsSessionSafetyTests.cs`, `CardsUploadSafetyTests.cs` (review round 1): B1–B6/S1–S3 regressions.
 - `docs/changelog/T11-card-sync.md`: this file.
 
 Modified:
-- `docs/OPEN_QUESTIONS.md`: appended Q-150 to Q-153 (from the reserved Q-150..159).
+- `docs/OPEN_QUESTIONS.md`: appended Q-150 to Q-153, and Q-154 for the review round 1 amendments (all from the reserved Q-150..159).
 
 ## API for T10 (call after merge; no Windows code was edited)
 ```csharp
+// Keep ONE coordinator per API target/account across all session/uploader replacements.
+var coordinator = new OwnedCardsUploadCoordinator();             // shell lifetime, NOT per scan/send
+var generation = coordinator.BeginGeneration();                  // create/replace/reset scan
 var session = new CardSyncSession(master, layout, clock);          // one per "Capture support cards"
 CardFeedResult r = await session.FeedAsync(parser, rawFrame, ct);  // or session.Feed(parsedFrame) if the loop already parsed it
 CardSyncState s = session.State;   // Status, HeldCount, Cards, Pending (+Candidates), Conflicts, Segments, Blockers, CanSendFull, PartialConfirmation
@@ -37,8 +42,10 @@ session.RequestDetail(pendingId);  // the user clicked a pending tile, then open
 OwnedCardsSyncPayload p = s.CanSendFull ? session.BuildFull()
                         : session.BuildPartial(s.PartialConfirmation!);   // only after the user confirms PartialConfirmation.Message
 var up = new OwnedCardsUploader(new HttpClient(OwnedCardsUploader.CreateHandler()), apiBase, serviceToken /*DPAPI-backed IServiceToken*/, master.Ids["cards"]);
-OwnedCardsUploadResult u = await up.SendAsync(p, ct);  // Synced | Invalid | AuthRequired | Rejected | Failed
-session.Cancel(); session.Reset();
+OwnedCardsUploadResult u = await coordinator.SendAsync(generation, up, p, ct);
+coordinator.Invalidate(generation); session.Cancel();              // same action; invalidate first
+// Reset/replacement: BeginGeneration() FIRST, then session.Reset()/new session.
+// Every UI callback retains its originating session AND generation, never the current replacement's handle.
 ```
 The session ignores non-card screens, so T10 can feed it the same frame stream as the veteran `CaptureCoordinator` while card capture is active.
 
@@ -50,7 +57,7 @@ The session ignores non-card screens, so T10 can feed it the same frame stream a
   - a card would end up at two positions.
 
   A frame with no accepted tile is ignored. Frames that overlap nothing start a new segment, and a later overlapping frame joins segments.
-- **Never a confident-wrong ID.** A tile becomes `PendingTile` (`CardId` null, the parser's top-3 candidates and raw text kept) when its art match isn't accepted or its level wasn't read. Pending tiles are never sent. LB is pixel-read; a tile whose LB reading isn't `Ok` is skipped, which leaves a hole that blocks a full sync.
+- **Never a confident-wrong ID.** A tile becomes `PendingTile` (`CardId` null, the parser's top-3 candidates and raw text kept) when its art match isn't accepted or its level wasn't read. Pending tiles are never sent. LB is pixel-read; an unread occupied tile is retained as an unresolved slot (including boundaries), never skipped. A cell lacking both accepted identity and readable level has unknown occupancy, not proof of emptiness.
 - **Detail binding.** A `cards.detail` frame resolves a pending tile only when all of these hold:
   - its title+name identity (T09 `DetailAsync`, accepted) is a master card;
   - its level was read;
@@ -71,12 +78,12 @@ The session ignores non-card screens, so T10 can feed it the same frame stream a
 - **Parity.** The validator's constants and messages are tested against `packages/schema/json/OwnedCardsSync.schema.json` and the `OWNED_CARDS_SYNC_RULES` text in `packages/schema/src/capture.ts`. Serialization reuses T09's `CaptureJson.Options` (camelCase, `Z` timestamps, unmapped members disallowed), and deserialization also requires every property.
 - **Uploader.** It validates first, so an invalid payload never reaches the network. Responses are classified as follows:
   - **Success:** only HTTP 200 with a JSON object of exactly `count` (= cards sent), `partial` (= the flag sent) and `syncedAt` (a UTC `Z` string). That is the route's actual response; the route was inspected (`c.json({ count, partial, syncedAt: now })`).
-  - **`AuthRequired`, not retried:** 401/403, 3xx, HTML, or an off-origin final URI. It reuses T09's `UploadErrors` categories, and `CreateHandler` disables redirects.
+  - **`AuthRequired`, not retried:** 401/403, 3xx, recognizable Access sign-in HTML, or an off-origin final URI. Generic HTML gateway errors retry boundedly and HTML success is never an acknowledgement. It reuses T09's `UploadErrors` categories, and `CreateHandler` disables redirects.
   - **`Rejected`, not retried:** other 4xx. The result carries the problem `errors[]` paths and messages.
   - **Retried:** 5xx, 408, 429, network errors, timeouts and non-ack 200s, up to `MaxAttempts` (default 4) with an injected delay of 2 s·2ⁿ capped at 30 s.
 
   Caller cancellation propagates. Errors are surfaced as categories, never exception messages or bodies. The secret is read per request into headers only.
-- **No durable queue (Q-152).** There is no new outbox kind and no Cards database, because a replayed stale whole-table PUT could overwrite a newer sync. Recovery: keep the session open and rebuild the payload (`BuildFull` is deterministic for an unchanged state; this is tested), then send again, or scan again. Nothing card-related is written to disk.
+- **No durable queue (Q-152).** There is no new outbox kind and no Cards database, because a replayed stale whole-table PUT could overwrite a newer sync. Recovery: rebuild/retry ONLY a still-current coordinator generation. Replacement/reset/cancel invalidates older generations before retries. Never create a fresh generation just to replay an older scan after a newer one. On app exit, scan again. Cancellation cannot retract already-applied writes or guarantee remote ordering after ambiguous transport failure (no API generation/CAS contract). Nothing card-related is written to disk.
 
 ## Deviations from spec
 - 30 §8 "Finish: when the unique card count equals `Held N`": count == Held is required, and the session also requires no pending tiles, conflicts, segments or holes. This is stricter, to avoid sending a confident-wrong whole collection.
@@ -114,7 +121,7 @@ Probe of the real fixture parse (scratch project in `~/.hermes/cache/scratch/t11
 19 card:party-formation-mayano-top-gun ok=True dhash d=6 margin=9 ... lb=0 lv=30
 detail card:the-brightest-star-in-japan-special-week ok=True raw=[The Brightest Star in Japan!] / Special Week ... lv=40 True Lvl 40 / 40
 ```
-GREEN (final, at the commit below):
+GREEN (original candidate eb5cd87; superseded by *Review round 1 → Verification*):
 ```
 $ dotnet build Uma.Agent.sln
     0 Warning(s)
@@ -137,7 +144,7 @@ Acceptance (30 §10 T11, 70 F03 agent side) is covered by `CardsFixtureSessionTe
 
 The API's count-mismatch rejection is T04's test (`apps/api/test/other-endpoints.test.ts`) and was not re-run here (no TS files touched). `CardsUploaderTests` replays that route's 422 and 200 shapes. **Those fakes are test evidence of client handling, not live verification.**
 
-Mutation check (`~/.hermes/cache/scratch/t11/mutate.py`): each guard was disabled in turn, the Cards tests were run, and the source was restored. All 12 mutations were killed:
+Mutation check on the original candidate (`~/.hermes/cache/scratch/t11/mutate.py`, since pruned; round 1 below re-ran its own): each guard was disabled in turn, the Cards tests were run, and the source was restored. All 12 mutations were killed:
 ```
 full ignores segments/holes: build_errors=0 | Failed!  - Failed:     2, Passed:    64,
 pending art accepted blindly: build_errors=0 | Failed!  - Failed:     9, Passed:    57,
@@ -159,13 +166,13 @@ Test inputs: grounded tests use only the real screenshots 13/14 and their record
 ## Open questions / follow-ups
 - Q-150: a partial PUT replaces the whole owned-cards table. The UI must show `PartialSyncConfirmation.Message`; a merge would need an ADR.
 - Q-151: whether Held counts distinct cards is unverified. Check at H4.
-- Q-152: there is no durable card queue. Recovery is to rebuild from the open session and resend.
+- Q-152: there is no durable card queue. Recovery is only through the still-current coordinator generation; otherwise scan again.
 - Q-153: scroll placement relies on accepted art matches. Check scroll behaviour at H4.
 - **Pending T10 integration:**
   - add the tray "Capture support cards" mode that feeds frames to `CardSyncSession`;
   - show `State` (progress "n of Held", pending tiles with candidates and a "select then open card" action, conflicts, blockers);
   - "Send" / "Send partial" with the confirmation message;
-  - `OwnedCardsUploader` with the DPAPI-backed `IServiceToken` and `CreateHandler()`;
+  - `OwnedCardsUploader` with the DPAPI-backed `IServiceToken` and `CreateHandler()`, ALWAYS routed through the persistent `OwnedCardsUploadCoordinator`;
   - surface `AuthRequired` → Settings.
 - **Pending H4 (Windows, real game):**
   - a full assisted scroll of the real inventory (Held 208 at fixture time) to completion;
@@ -174,3 +181,112 @@ Test inputs: grounded tests use only the real screenshots 13/14 and their record
 
   Windows OCR and capture may differ from the Apple Vision recordings (30 App. A). Card art thresholds (Q-6) are calibrated on fixture 13 only.
 - Fixture coverage: only one list screen and one detail screen exist. Scrolling, Held change, conflicts and multi-candidate details are proven only on synthetic sequences.
+
+## Review round 1
+Response to `docs/reviews/T11-review-1.md` (CHANGES_REQUESTED on eb5cd87) and `docs/tasks/T11.fix-1.prompt.md`. All of B1–B6 and S1–S3 are fixed in this branch; none is deferred to T10 or H4. Scope is unchanged: Cards production, Cards tests, an appended open question and this changelog. No shared contract, API, schema, T09, Windows, master or fixture file was edited.
+
+### Provenance
+- Fix commits 37dab8a, db27046 and 00954be: started on GPT-6.1 Sol (`gpt-6.1-sol`, `openai-codex`, medium). A Sol usage limit interrupted that run, and it continued on Claude Opus 5.5 (`claude-opus-5-5`) medium. This is as recorded by that run; it ended without a final report, leaving the Q-154 and changelog edits uncommitted.
+- Completion pass (this section, two added regression tests, final commit): Claude Opus 5.5 (`claude-opus-5-5`, provider `anthropic`). Worked directly in this worktree, with no sub-agents or orchestration scripts. The inherited uncommitted Q-154 and changelog edits were kept and completed. Before anything else, all three fix commits were read in full against the review.
+
+### Findings
+- **B1 (boundary holes and grid origin).** `UnreadSlot` keeps every occupied cell with no accepted identity or no readable LB, boundaries included. Holes now count unread slots. `Normalize` shifts only by whole rows (`floor(first/columns)·columns`), so the grid column and the leading or trailing unread cells survive. A cell with no reading is unknown occupancy. Only `Feed(parsed, confirmedEmptyCells)` declares a cell empty, and a frame that "empties" a cell with a reading is rejected. Detail binding also refuses a card already located at an unread-LB tile. Tests:
+  - `Unread_occupied_boundaries_block_full_and_repeated_frames_keep_origin(0|19)`: the review's case, with Held=19 and a leading or trailing unread LB. Full sync stays blocked, and an identical refeed is a no-op instead of a fraction-of-a-row rejection.
+  - `No_reading_is_unknown_occupancy_not_proof_of_empty`, `Empty_boundary_cells_require_explicit_confirmation_and_cannot_hide_a_read_card`.
+  - `Normalization_keeps_the_grid_column_when_the_first_observed_cell_is_not_column_zero`.
+  - `Boundary_holes_survive_out_of_order_disconnected_pages_and_bridges(false|true)`.
+  - `Reading_boundary_LB_later_resolves_the_hole_but_empty_cells_do_not_create_holes`.
+  - `Detail_cannot_bind_a_card_already_located_at_another_unread_LB_tile(false|true)`.
+  - The existing sequence tests now pass the synthetic inventory's explicit empty cells (`Synthetic.EmptyCells`) instead of relying on missing readings.
+- **B2 (mutability and envelope provenance).** The design:
+  - `OwnedCardsSync.Cards` is copied into a read-only wrapper on construction and on `with`.
+  - Ingress candidates and every published nested list (cards, pending, candidates, conflicts, observations, blockers) are frozen copies.
+  - `OwnedCardsSyncPayload` has no public constructor or setters. Its non-wire seal (`OwnedCardsProvenance`) survives record copies. Rewrapping an edited body, upgrading partial to full, or changing Held is `Invalid` before any network call.
+  - The wire DTO shape and serialization are unchanged, and the serialized bytes contain no provenance.
+  - The uploader takes its JSON, expected count and expected partial flag once, before the first await, and uses that snapshot for every attempt and acknowledgement check.
+
+  Tests: `Dto_copies_ingress_and_with_assigned_lists`, `Mutation_during_request_cannot_change_ack_expectations` (the review's 20 sent → list mutated → count=19 ack now gives `Failed`), `Constructor_freezes_cards_before_send_and_retry_snapshot_stays_identical`, `Session_envelope_cannot_be_upgraded_or_have_Held_rewritten`, `Caller_candidates_and_published_nested_lists_cannot_mutate_binding_without_revision` and `Published_conflicts_and_payload_cards_are_frozen`. This is ordinary public-API safety, not a defence against hostile code in the same process.
+- **B3 (session and generation identity).** `PartialSyncConfirmation` carries an injected-or-random session GUID, a process-unique session instance and a generation, alongside revision, count and Held. Its public constructor creates an unauthorized confirmation. Pending handles are `tile-{session}-{instance}-{generation}-{n}`. `Reset` and `Cancel` advance the generation, so a stale handle or confirmation never matches the replacement. Tests:
+  - `Confirmation_cannot_authorize_a_different_session_even_with_equal_counts_and_revision`: the review's two sessions with the same revision and count but different LB.
+  - `Pending_handles_are_not_reused_between_sessions_reset_or_cancel`.
+  - `Injected_identity_cannot_collide_and_confirmations_have_no_rewritable_revision`: a deterministic injected GUID used by two sessions.
+  - New in this pass: `Reset_alone_never_reuses_a_pending_handle_for_a_different_tile`.
+- **B4 (selected target identity).** A selected tile now goes through the same `FitsIdentity` check as the automatic path (same ID, or the ID is among its candidates), plus the level check and the "matched to another tile" check. Manual override of the candidate set is out of scope and not exposed. Test: `Unrelated_uncollected_same_level_detail_cannot_bind_selected_or_automatic_tile(false|true)`.
+- **B5 (ordering of whole-table writes).** New `OwnedCardsUploadCoordinator`, owned by the caller (T10). Keep one per API target for the shell's lifetime. How it behaves:
+  - `BeginGeneration()` cancels the previous generation. `Invalidate(g)` cancels only `g`, so a stale cancel callback can't kill its replacement.
+  - `SendAsync(g, uploader, payload)` refuses a non-current generation before doing anything, and binds the target URI on first use. A replacement uploader for another target is refused.
+  - Sends are serialized through completion, retries included. The uploader runs on a token linked to the generation, and a success that completes after replacement is never published.
+
+  It has no durable queue and changes no API. The limits are documented truthfully in the class XML docs, the API section above and Q-154: cancellation cannot undo a PUT the server already received, and without an API generation/CAS check, remote order after an ambiguous transport failure is not guaranteed. Tests:
+  - `Newest_replacement_forbids_old_retry_19_20_19`: the review's deterministic sequence. The wire now sees only [19, 20]: the old retry is cancelled, the old generation can't resend, and the newest wins.
+  - `Replacement_waits_for_noncooperative_inflight_request_then_sends_newest`: max concurrency 1, including across a replacement uploader.
+  - `Invalidation_stops_retries_even_when_delay_ignores_cancellation`.
+  - `A_success_that_completes_after_replacement_is_never_published`.
+  - `Auth_repair_reuses_coordinator_and_never_resurrects_stale_generation`, `Auth_repair_for_still_current_generation_is_allowed`.
+  - `Coordinator_rejects_foreign_generation_and_changed_target`.
+  - New in this pass: `Stale_generation_send_is_refused_before_it_can_bind_the_coordinator_target`.
+
+  All coordinator waits are bounded (5 s), so an ordering regression fails the test instead of hanging it.
+- **B6 (strict acknowledgement).** The acknowledgement must have exactly three uniquely named properties, an Int32 JSON-number `count`, a JSON-boolean `partial`, and a `syncedAt` string matching the exported `IsoUtc` schema pattern (`OwnedCardsSyncJson.IsoUtcPattern`, asserted equal to `capturedAt.pattern` in `OwnedCardsSync.schema.json`). It is parsed only after that match. The route's real `syncedAt` is `Date.prototype.toISOString()` (`apps/api/src/http.ts` `nowIso`), which matches. `OwnedCardsSyncJson.Deserialize` uses the same uniqueness, type and timestamp rules. Tests: `Duplicate_keys_and_non_ISO_dates_are_not_acknowledgements` (both review payloads), `Every_ack_key_is_unique_and_types_are_strict`, `Strict_ack_accepts_schema_ISO_UTC_forms`, `Strict_ack_refuses_invalid_calendar_and_non_schema_UTC_forms` and the extended `Deserialize_is_strict`.
+- **S1 (HTML responses).** 3xx, 401/403 and off-origin responses are still `AuthRequired`. Below 500, HTML counts as auth only when it is recognisably the Cloudflare Access sign-in page ("Cloudflare Access" and "Sign in"). Any other HTML follows its status: a 502 is retried within the bound, and an HTML 200 is never an acknowledgement (retried, then `Failed`). Tests: `Generic_HTML_502_retries_not_auth`, `Generic_HTML_has_bounded_retry_not_auth(200|502)`, `HTML_success_with_JSON_ack_bytes_is_never_acknowledged`. The existing Access-login and redirect replay tests still pass.
+- **S2.** Covered by the B4 test: tile 5's candidates exclude Special Week and Special Week is not collected anywhere, so the "already collected" guard cannot mask the identity guard. The automatic variant removes tile 0 so ambiguity cannot mask it either.
+- **S3 (malformed public DTOs).** `OwnedCardsSyncValidator.ValidateSchema` (shape and range) is separate from `Validate` (adds the duplicate, master-ID and held-count business rules). A null body, null `Cards` or a null item gives `Invalid`/`invalid-schema` with no request sent. Null `Cards` is no longer treated as empty, and nothing throws NullReferenceException. Tests: `Shape_validation_is_separate_from_business_validation`, `Malformed_public_DTOs_are_invalid_without_network`.
+
+### Commits
+- 37dab8a: fixed the reviewed collection and whole-table upload safety (B1–B6, S1–S3, plus the new coordinator and safety test files).
+- db27046: killed the surviving boundary-origin and obsolete-success mutants, and bounded the coordinator waits.
+- 00954be: refused detail binding over an unread-LB located card, and made JSON number types strict.
+- Final commit (this pass): two regression tests that kill the surviving mutants found below, Q-154 and this section.
+
+### Verification (completion pass, exact output)
+The isolated host named in the prompt (`/private/var/folders/.../T/dotnet8`) had been partly pruned by macOS temp cleanup: 72 files, no `.deps.json`, and `--list-runtimes` printed nothing, so the test host aborted ("Test Run Aborted", framework 8.0.0 not found). The same official runtime was re-extracted into the scratch dir. No global install or config change was made, and the old directory was left untouched.
+```
+$ curl -sSL -o rt.tgz https://builds.dotnet.microsoft.com/dotnet/Runtime/8.0.31/dotnet-runtime-8.0.31-osx-arm64.tar.gz
+$ shasum -a 512 rt.tgz      # equals the sha512 in the official 8.0 releases.json
+1963d2ab3798efdc2b33034ef57d4252849a066a2313ce62a574e556d19e5e981afe13c9545eb6d59437849723e1c8350f10f8068bcfa6b7a2815a07263bb8b3
+$ D8=/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/dotnet
+$ $D8 --list-runtimes
+Microsoft.NETCore.App 8.0.31 [/Users/willjose/.hermes/cache/scratch/t11-fix1/dotnet8/shared/Microsoft.NETCore.App]
+$ dotnet --version
+10.0.103
+```
+Inherited HEAD 00954be before this pass's test additions: `Passed!  - Failed: 0, Passed: 280, Skipped: 0, Total: 280` (Cards: 114).
+
+Independent mutation pass (`/Users/willjose/.hermes/cache/scratch/t11-fix1/mutations.py`) on a `git archive HEAD` copy, never the worktree. One mutant per finding guard; each was compiled under TreatWarningsAsErrors, the Cards tests were run, and the source was restored. Of the first 24, 19 were killed, 2 didn't compile (re-expressed in the next run), and 3 survived:
+```
+SURVIVED B2 published candidates aliased
+SURVIVED B3 reset keeps generation
+SURVIVED B5 stale generation accepted
+```
+- *B3 reset keeps generation* was a real gap. With no `Cancel`, `Reset` reused handle `tile-…-1-0-1` for a different tile. The new test `Reset_alone_never_reuses_a_pending_handle_for_a_different_tile` fails on that mutant (`Assert.NotEqual() Failure: Strings are equal … "tile-ed649402197843b68677dd7a1dd46244-1-0-1"`, `Failed: 1`) and passes on HEAD production.
+- *B5 stale generation accepted*: with the up-front check removed, the token check still stopped the send, but a stale callback could first pin the coordinator to its own uploader's target and so break the current generation's send. The new test `Stale_generation_send_is_refused_before_it_can_bind_the_coordinator_target` fails on that mutant (`System.ArgumentException : Uploader must address the coordinator's same target`, `Failed: 1`) and passes on HEAD production.
+- *B2 published candidates aliased* is an equivalent mutant, so it is not a test gap. The snapshot's `p.Candidates` is already the read-only wrapper frozen on ingress or merge, so dropping the second `Freeze` changes no behaviour. The mutation-refusal assertions in `Caller_candidates_and_published_nested_lists_cannot_mutate_binding_without_revision` still hold.
+
+Re-run with the new tests (`mutations-output-2.txt`): every guard mutant is killed except the equivalent one above. The re-expressed provenance mutant (`B2 envelope provenance ignored`) and the selected-identity mutant (`B4 selected target identity check removed`) are both KILLED (`Failed: 1`). The stale-generation mutant was confirmed killed separately (output above).
+
+Final, at the commit below (worktree tree identical):
+```
+$ cd agent && dotnet build Uma.Agent.sln
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+$ dotnet test Uma.Agent.sln --no-build -- RunConfiguration.DotNetHostPath=$D8
+Passed!  - Failed:     0, Passed:   282, Skipped:     0, Total:   282, Duration: 6 s - Uma.Agent.Core.Tests.dll (net8.0)
+$ dotnet test Uma.Agent.sln --no-build --filter "FullyQualifiedName~Uma.Agent.Core.Tests.Cards" -- RunConfiguration.DotNetHostPath=$D8
+Passed!  - Failed:     0, Passed:   116, Skipped:     0, Total:   116, Duration: 1 s - Uma.Agent.Core.Tests.dll (net8.0)
+$ DOTNET_ROLL_FORWARD=Major dotnet test Uma.Agent.sln --no-build      # native-runtime guard still fires
+  Failed Uma.Agent.Core.Tests.SchemaTests.Runtime_is_native_net8 [< 1 ms]
+Failed!  - Failed:     1, Passed:   281, Skipped:     0, Total:   282
+$ dotnet list src/Uma.Agent.Core package     # unchanged pins
+   > Microsoft.Data.Sqlite      10.0.3      10.0.3
+   > SixLabors.ImageSharp       3.1.12      3.1.12
+$ git -c core.whitespace=cr-at-eol diff --check 08d4876      # no output, exit 0
+```
+Fixture identity is unchanged: `CardsFixtureSessionTests.cs` has no diff since eb5cd87, and all 11 of its tests pass. These include `Fixture_13_collects_20_cards_with_the_exact_LB_list_and_stays_partial_against_Held_208` (20 unique cards, LB `[2,4,4,4,4,0,0,1,0,4,0,4,0,4,4,0,0,4,4,0]`, Held 208, partial) and `Fixture_13_tile_0_resolved_by_detail_14_through_the_actual_master`. No evidence, master or fixture was regenerated, and pnpm was not run. The diff from 08d4876 touches only `agent/src/Uma.Agent.Core/Cards/*`, `agent/tests/Uma.Agent.Core.Tests/Cards*`, `docs/OPEN_QUESTIONS.md` (append only) and this file.
+
+HTTP behaviour is fake-handler replay of the inspected route (`apps/api/src/routes/owned-cards.ts`: DELETE plus optional INSERT in one D1 batch, then `c.json({ count, partial, syncedAt: now })`). This is not live verification. The review's scratch probes (`~/.hermes/cache/scratch/t11-review-r1/`) had been pruned before this pass and could not be re-run as-is; the review's six failed guard scenarios are re-expressed as the regression tests named above.
+
+### Remaining (not done here)
+- T10: one `OwnedCardsUploadCoordinator` per target, generation lifecycle on scan create, replace, reset and cancel, UI callbacks bound to their own session and generation, and verified empty cells (or accept that a partly filled last row blocks full sync through `FeedAsync`).
+- H4 (Windows, real game): Q-151 (Held distinct vs copies), real scroll behaviour and empty-last-row handling (Q-153/Q-154), a real ambiguous detail, and one live PUT against the deployed API (needs H2).
+- This branch does not complete M2 or the independent re-review of round 1; the parent runs that review.
