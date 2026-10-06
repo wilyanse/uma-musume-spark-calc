@@ -1,0 +1,37 @@
+Scope: 5 of 6 workspace projects
+packages/schema test$ vitest run
+packages/schema test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/packages/schema
+packages/schema test:  Test Files  4 passed (4)
+packages/schema test:       Tests  149 passed (149)
+packages/schema test:    Start at  21:19:23
+packages/schema test:    Duration  366ms (import 44%, transform 40%, tests 14%, worker 1%)
+packages/schema test: Done
+packages/master-data test$ vitest run
+apps/api test$ vitest run
+packages/master-data test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/packages/master-data
+packages/master-data test:  Test Files  3 passed (3)
+packages/master-data test:       Tests  82 passed (82)
+packages/master-data test:    Start at  21:19:24
+packages/master-data test:    Duration  484ms (tests 34%, transform 34%, import 30%, worker 2%)
+packages/master-data test: Done
+apps/api test:  RUN  v4.1.11 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/api
+apps/api test:  Test Files  13 passed (13)
+apps/api test:       Tests  111 passed (111)
+apps/api test:    Start at  21:19:25
+apps/api test:    Duration  9.17s (transform 6.87s, setup 39.63s, import 1.46s, tests 6.51s, environment 1ms)
+apps/api test: Done
+packages/engine test$ vitest run
+packages/engine test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/packages/engine
+packages/engine test:  Test Files  16 passed (16)
+packages/engine test:       Tests  240 passed (240)
+packages/engine test:    Start at  21:19:34
+packages/engine test:    Duration  4.28s (tests 48%, import 42%, transform 10%)
+packages/engine test: Done
+apps/web test$ node scripts/tokens.mjs --check && vitest run
+apps/web test: tokens.css is up to date
+apps/web test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web
+apps/web test:  Test Files  11 passed (11)
+apps/web test:       Tests  124 passed (124)
+apps/web test:    Start at  21:19:39
+apps/web test:    Duration  4.70s (tests 44%, environment 35%, transform 9%, setup 8%, import 3%)
+apps/web test: Done

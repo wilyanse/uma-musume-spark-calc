@@ -1,0 +1,15 @@
+$ node scripts/check-dist.mjs dist
+{
+  "dir": "dist",
+  "jsFiles": [
+    "assets/engine.worker-oeCLiUZV.js",
+    "assets/index-CcI4i0Jq.js"
+  ],
+  "fixtureFiles": [],
+  "markers": {
+    "(fixture mode)": [],
+    "/fixtures/golden-truth.json": [],
+    "syntheticInheritance": []
+  }
+}
+check-dist: OK — no fixture code or data in the production build

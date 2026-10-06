@@ -1,0 +1,9 @@
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web
+
+
+ Test Files  2 passed (2)
+      Tests  17 passed (17)
+   Start at  21:21:32
+   Duration  1.67s (environment 47%, tests 26%, setup 11%, transform 10%, import 5%)
+

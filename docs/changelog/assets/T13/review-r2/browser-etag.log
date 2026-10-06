@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 e2e/review-fix2.spec.ts:35:1 › LOCAL HTTP production roster retains ETag/304 on refetch (5.5s)
+
+
+  1) e2e/review-fix2.spec.ts:35:1 › LOCAL HTTP production roster retains ETag/304 on refetch ───────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      40 |     await expect(page.getByRole('table')).toBeVisible();
+      41 |     await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+    > 42 |     await expect.poll(async () => (await fetchRecords(page)).some((r) => r.status === 304)).toBe(true);
+         |                                                                                             ^
+      43 |     await expect(page.getByRole('table')).toBeVisible();
+      44 |     expect(s.state.requests.some((r) => r.path === '/roster' && r.etag === '"test-r2"')).toBe(true);
+      45 |     save('fix2-etag.json', { records: await fetchRecords(page), requests: s.state.requests.filter((r) => r.path === '/roster') });
+        at /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web/e2e/review-fix2.spec.ts:42:93
+
+    Error Context: test-results/review-fix2-LOCAL-HTTP-pro-392f2-retains-ETag-304-on-refetch/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/review-fix2-LOCAL-HTTP-pro-392f2-retains-ETag-304-on-refetch/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/review-fix2-LOCAL-HTTP-pro-392f2-retains-ETag-304-on-refetch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/review-fix2.spec.ts:35:1 › LOCAL HTTP production roster retains ETag/304 on refetch ────────
+undefined
+/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test e2e/review-fix2.spec.ts --grep ETag

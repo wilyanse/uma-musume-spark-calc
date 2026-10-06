@@ -1,0 +1,44 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 e2e/review-fix2.spec.ts:11:1 › LOCAL HTTP production bundle: actual cross-origin 302 is auth and neither redirect target is followed (5.4s)
+
+
+  1) e2e/review-fix2.spec.ts:11:1 › LOCAL HTTP production bundle: actual cross-origin 302 is auth and neither redirect target is followed 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Your session has expired. Reload the page to sign in again.').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('Your session has expired. Reload the page to sign in again.').first()
+
+
+      16 |       s.state.scenario = scenario;
+      17 |       await page.goto(`${s.origin}/roster`);
+    > 18 |       await expect(page.getByText(AUTH).first()).toBeVisible();
+         |                                                  ^
+      19 |       await expect(page.getByText("Couldn't reach the server. Check your connection and retry.")).toHaveCount(0);
+      20 |       await expect(page.getByText(/SECRET-/)).toHaveCount(0);
+      21 |       expect(s.state.hits).toEqual([]);
+        at /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web/e2e/review-fix2.spec.ts:18:50
+
+    Error Context: test-results/review-fix2-LOCAL-HTTP-pro-e70d6-redirect-target-is-followed/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/review-fix2-LOCAL-HTTP-pro-e70d6-redirect-target-is-followed/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/review-fix2-LOCAL-HTTP-pro-e70d6-redirect-target-is-followed/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/review-fix2.spec.ts:11:1 › LOCAL HTTP production bundle: actual cross-origin 302 is auth and neither redirect target is followed 
+undefined
+/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test e2e/review-fix2.spec.ts --grep 'actual cross-origin'

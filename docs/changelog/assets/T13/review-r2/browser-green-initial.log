@@ -1,0 +1,58 @@
+
+Running 6 tests using 1 worker
+
+LOCAL HTTP cross-302: auth=true targetHits=0
+LOCAL HTTP same-302: auth=true targetHits=0
+  ✓  1 e2e/review-fix2.spec.ts:11:1 › LOCAL HTTP production bundle: actual cross-origin 302 is auth and neither redirect target is followed (3.0s)
+  ✘  2 e2e/review-fix2.spec.ts:29:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network (5.1s)
+LOCAL HTTP Review keydown: posts=2 (one per item), staleAlerts=0
+  ✓  3 e2e/review-fix2.spec.ts:52:3 › LOCAL HTTP production Review: two same-task keydowns send once, next item unlocks, no spurious alert (372ms)
+LOCAL HTTP Review click: posts=2 (one per item), staleAlerts=0
+  ✓  4 e2e/review-fix2.spec.ts:52:3 › LOCAL HTTP production Review: two same-task clicks send once, next item unlocks, no spurious alert (288ms)
+LOCAL HTTP Review 500: error retained; retry successful; posts=2
+LOCAL HTTP Review 404: error retained; retry successful; posts=2
+LOCAL HTTP Review 409: error retained; retry successful; posts=2
+  ✓  5 e2e/review-fix2.spec.ts:78:1 › LOCAL HTTP production Review: 500/404/409 persist, unlock retry, success clears error (556ms)
+LOCAL HTTP Veteran: one PATCH per attempt, rollback + retry passed
+  ✓  6 e2e/review-fix2.spec.ts:100:1 › LOCAL HTTP production Veteran: two same-task clicks send once, 500 rolls back, retry unlocks (248ms)
+
+
+  1) e2e/review-fix2.spec.ts:29:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Your session has expired. Reload the page to sign in again.', { exact: true }).first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('Your session has expired. Reload the page to sign in again.', { exact: true }).first()
+
+
+      40 |       s.state.scenario = scenario!;
+      41 |       await page.goto(`${s.origin}/roster`);
+    > 42 |       await expect(page.getByText(text!, { exact: true }).first()).toBeVisible();
+         |                                                                    ^
+      43 |       await expect(page.getByText(/SECRET-/)).toHaveCount(0);
+      44 |       results.push({ scenario, text });
+      45 |       console.log(`LOCAL HTTP ${scenario}: ${text}`);
+        at /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web/e2e/review-fix2.spec.ts:42:68
+
+    Error Context: test-results/review-fix2-LOCAL-HTTP-pro-170c6-inct-real-TypeError-network/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/review-fix2-LOCAL-HTTP-pro-170c6-inct-real-TypeError-network/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/review-fix2-LOCAL-HTTP-pro-170c6-inct-real-TypeError-network/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/review-fix2.spec.ts:29:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network 
+  5 passed (12.5s)
+undefined
+/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T13-web-screens/apps/web:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test e2e/review-fix2.spec.ts
