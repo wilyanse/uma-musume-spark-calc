@@ -5,7 +5,8 @@
  */
 import { describe, expect, it } from 'vitest';
 import type { ModelSnapshot } from '@uma/schema';
-import { createEngineApi, type EngineResult } from '../src/workers/engine.api.ts';
+import { createEngineApi, insufficientRequirement, type EngineResult } from '../src/workers/engine.api.ts';
+import { MIN_CONFIDENCE } from '@uma/engine';
 import { goldenRoster, goldenTargets, goldenTruth, masterBundle } from './fixtures.ts';
 
 const ok = <T,>(r: EngineResult<T>): T => {
@@ -26,6 +27,7 @@ describe('engine worker api (real @uma/engine)', () => {
     expect(info.unverifiedRules.length).toBeGreaterThan(0);
     expect(info.unverifiedRules).toContain('blueStatGain');
     expect(info.masterVersion).toBe(masterBundle().version);
+    expect(info.minConfidence).toBe(MIN_CONFIDENCE);
   });
 
   it('golden-fixture context is labelled with its synthetic overrides', () => {
@@ -56,6 +58,9 @@ describe('engine worker api (real @uma/engine)', () => {
     expect(r.ok).toBe(false);
     if (!r.ok && r.error.name === 'InsufficientDataError') {
       expect(r.error.train).toBeLessThan(5);
+      // N1: the requirement text comes from the engine message, not a UI copy of its constants
+      expect(r.error.requirement).toMatch(/^need ≥ \d+ train rows/);
+      expect(r.error.message).toContain(r.error.requirement!);
     } else throw new Error('expected InsufficientDataError');
   });
 
@@ -109,4 +114,11 @@ describe('engine worker api (real @uma/engine)', () => {
     expect(progress.some((p) => p.phase === 'fast' && p.done === p.total)).toBe(true);
     expect(JSON.stringify(roster)).toBe(before);
   }, 120_000);
+});
+
+describe('insufficientRequirement', () => {
+  it('extracts the clause or returns null for other shapes', () => {
+    expect(insufficientRequirement('insufficient training data: need X (eligible 3, train 2, holdout 1)')).toBe('need X');
+    expect(insufficientRequirement('something else')).toBeNull();
+  });
 });

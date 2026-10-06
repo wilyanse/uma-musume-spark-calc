@@ -1,21 +1,39 @@
 /** S03 Review queue (F04). Keyboard: 1/2/3 apply a candidate, J/K next/previous, D (dismiss, Q-70). */
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import type { ReviewItem, RosterVeteran, VocabEntry } from '@uma/schema';
+import type { ReviewItem, RosterVeteran } from '@uma/schema';
 import { Page } from '../components/Layout.tsx';
 import { Empty, ErrorBanner, Kbd, Loading, Tag } from '../components/atoms.tsx';
 import { useMaster, useResolve, useReviewItems, useRoster } from '../app/queries.ts';
 import { useServices } from '../app/services.ts';
 import { errorText, HttpError } from '../api/errors.ts';
 import { characterName, type MasterData } from '../master/load.ts';
-import { candidateLabel, humanPath, vocabKindFor } from '../lib/paths.ts';
+import { candidateLabel, humanPath, numberError, resolutionFor, searchVocab, type Resolution } from '../lib/paths.ts';
+import { GRADES } from '../lib/keys.ts';
 
 const WEEK_MS = 7 * 86_400_000;
 
 export function conflictKind(e: unknown): 'fingerprint' | 'stale' | null {
-  if (!(e instanceof HttpError) || e.status !== 409) return null;
+  if (!(e instanceof HttpError)) return null;
+  if (e.status === 404) return 'stale';
+  if (e.status !== 409) return null;
   const fp = e.problem?.errors?.some((x) => x.message === 'fingerprint collision');
   return fp || /duplicates an existing/.test(e.problem?.detail ?? '') ? 'fingerprint' : 'stale';
+}
+
+/**
+ * The failure message for a resolve. It lives at screen level (S1): a 409/404 refreshes the queue,
+ * which can remove the item and unmount its panel, and the user must still see why.
+ */
+export function resolveFailureText(e: unknown, name: string): string {
+  const conflict = conflictKind(e);
+  if (conflict === 'fingerprint')
+    return `This value would make ${name} identical to another veteran already in your roster. Delete one of them or choose a different value.`;
+  if (conflict === 'stale') {
+    const detail = (e as HttpError).problem?.detail ?? 'This item changed.';
+    return `${/[.!?]$/.test(detail) ? detail : `${detail}.`} The queue was refreshed.`;
+  }
+  return `Couldn't save the fix. Retry. ${errorText(e)}`;
 }
 
 export function ReviewScreen() {
@@ -23,10 +41,12 @@ export function ReviewScreen() {
   const resolved = useReviewItems('resolved');
   const roster = useRoster();
   const master = useMaster();
+  const resolve = useResolve();
   const { now } = useServices();
   const [params] = useSearchParams();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [failure, setFailure] = useState<string | null>(null);
 
   const items = open.data ?? [];
   const byId = useMemo(() => new Map((roster.data?.roster ?? []).map((v) => [v.id, v])), [roster.data]);
@@ -51,6 +71,19 @@ export function ReviewScreen() {
     if (!items.length) return;
     const n = Math.min(items.length - 1, Math.max(0, (idx < 0 ? 0 : idx) + d));
     setSelectedId(items[n]!.id);
+  };
+  const apply = (it: ReviewItem, value: unknown) => {
+    if (resolve.isPending) return;
+    const v = byId.get(it.veteranId);
+    const name = v && master.data ? characterName(master.data, v.characterId) : 'this veteran';
+    setFailure(null);
+    resolve.mutate(
+      { id: it.id, value },
+      {
+        onSuccess: () => setToast(`Fixed. ${items.length - 1} left.`),
+        onError: (e) => setFailure(resolveFailureText(e, name)),
+      },
+    );
   };
 
   const summary = open.isSuccess ? (
@@ -97,9 +130,9 @@ export function ReviewScreen() {
             item={item}
             veteran={byId.get(item.veteranId)}
             m={master.data}
-            left={items.length}
             onMove={move}
-            onDone={(msg) => setToast(msg)}
+            onApply={(value) => apply(item, value)}
+            pending={resolve.isPending}
           />
         )}
       </div>
@@ -107,6 +140,14 @@ export function ReviewScreen() {
 
   return (
     <Page title="Review queue" actions={summary}>
+      {failure && (
+        <div className="banner err" role="alert">
+          {failure}{' '}
+          <button type="button" className="btn sm" onClick={() => setFailure(null)}>
+            Dismiss message
+          </button>
+        </div>
+      )}
       {body}
       {toast && (
         <div className="toast" role="status">
@@ -121,31 +162,25 @@ function ItemPanel({
   item,
   veteran,
   m,
-  left,
   onMove,
-  onDone,
+  onApply,
+  pending,
 }: {
   item: ReviewItem;
   veteran: RosterVeteran | undefined;
   m: MasterData;
-  left: number;
   onMove: (d: number) => void;
-  onDone: (msg: string) => void;
+  onApply: (value: unknown) => void;
+  pending: boolean;
 }) {
-  const resolve = useResolve();
   const { source } = useServices();
   const [query, setQuery] = useState('');
   const [chosen, setChosen] = useState<{ value: unknown; label: string } | null>(null);
   const [dismissNote, setDismissNote] = useState(false);
-  const panelRef = useRef<HTMLElement>(null);
   const cands = item.field.candidates.slice(0, 3);
   const name = veteran ? characterName(m, veteran.characterId) : 'this veteran';
   const current = chosen ?? (cands[0] ? { value: cands[0].value, label: candidateLabel(cands[0].value, item.path, m).label } : null);
-
-  const apply = (value: unknown, _label: string) => {
-    if (resolve.isPending) return;
-    resolve.mutate({ id: item.id, value }, { onSuccess: () => onDone(`Fixed. ${left - 1} left.`) });
-  };
+  const res = useMemo(() => resolutionFor(item.path, veteran), [item.path, veteran]);
 
   useEffect(() => {
     const onKey = (e: globalThis.KeyboardEvent) => {
@@ -166,7 +201,7 @@ function ItemPanel({
         const c = cands[Number(k) - 1];
         if (c) {
           e.preventDefault();
-          apply(c.value, candidateLabel(c.value, item.path, m).label);
+          onApply(c.value);
         }
       }
     };
@@ -174,28 +209,11 @@ function ItemPanel({
     return () => window.removeEventListener('keydown', onKey);
   });
 
-  const kind = vocabKindFor(item.path);
-  const matches = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (q.length < 2) return [];
-    const pool: VocabEntry[] = m.bundle.vocab.filter((e) => !kind || e.kind === kind);
-    const seen = new Set<string>();
-    const out: VocabEntry[] = [];
-    for (const e of pool) {
-      if (e.text.toLowerCase().includes(q) && !seen.has(e.id)) {
-        seen.add(e.id);
-        out.push(e);
-        if (out.length >= 8) break;
-      }
-    }
-    return out;
-  }, [query, m, kind]);
-  const numeric = typeof item.field.value === 'number' && /^\d+$/.test(query.trim());
-  const conflict = conflictKind(resolve.error);
+  const matches = useMemo(() => searchVocab(query, res, m, veteran), [query, res, m, veteran]);
   const conf = item.field.confidence;
 
   return (
-    <section className="panel" ref={panelRef} aria-labelledby="item-title">
+    <section className="panel" aria-labelledby="item-title">
       <header>
         <span id="item-title">
           {name} — {humanPath(item.path, veteran)}
@@ -231,8 +249,8 @@ function ItemPanel({
                     key={i}
                     type="button"
                     className={`cand${i === 0 ? ' top' : ''}`}
-                    disabled={resolve.isPending}
-                    onClick={() => apply(c.value, l.label)}
+                    disabled={pending}
+                    onClick={() => onApply(c.value)}
                   >
                     <span>
                       <b>{l.label}</b> <span className="muted">· {l.kind}</span>
@@ -247,54 +265,44 @@ function ItemPanel({
             </div>
           )}
         </div>
-        <div>
-          <label className="field">
-            <span>None of these? Search the game vocabulary</span>
-            <input
-              className="input"
-              placeholder="Type a spark, skill or outfit name…"
-              value={query}
-              role="combobox"
-              aria-expanded={matches.length > 0}
-              aria-controls="vocab-list"
-              aria-autocomplete="list"
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </label>
-          {(matches.length > 0 || numeric) && (
-            <div id="vocab-list" role="listbox" className="grid" style={{ gap: 2, marginTop: 4 }}>
-              {numeric && (
-                <button type="button" role="option" aria-selected={false} className="cand" onClick={() => setChosen({ value: Number(query.trim()), label: query.trim() })}>
-                  Use the number {query.trim()}
-                </button>
-              )}
-              {matches.map((e) => (
-                <button
-                  key={e.id}
-                  type="button"
-                  role="option"
-                  aria-selected={chosen?.value === e.id}
-                  className="cand"
-                  onClick={() => setChosen({ value: e.id, label: e.text })}
-                >
-                  <span>
-                    <b>{e.text}</b> <span className="muted">· {e.kind}</span>
-                  </span>
-                  <span className="mono muted">{e.id}</span>
-                </button>
-              ))}
-            </div>
-          )}
-          {query.trim().length >= 2 && matches.length === 0 && !numeric && <p className="hint">No matches.</p>}
-        </div>
-        {resolve.isError && (
-          <div className="banner err" role="alert">
-            {conflict === 'fingerprint'
-              ? `This value would make ${name} identical to another veteran already in your roster. Delete one of them or choose a different value.`
-              : conflict === 'stale'
-                ? `${(resolve.error as HttpError).problem?.detail ?? 'This item changed.'} The queue will refresh.`
-                : `Couldn't save the fix. Retry. ${errorText(resolve.error)}`}
+        {res.vocab !== null ? (
+          <div>
+            <label className="field">
+              <span>None of these? Search the game vocabulary</span>
+              <input
+                className="input"
+                placeholder="Type a spark, skill or outfit name…"
+                value={query}
+                role="combobox"
+                aria-expanded={matches.length > 0}
+                aria-controls="vocab-list"
+                aria-autocomplete="list"
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </label>
+            {matches.length > 0 && (
+              <div id="vocab-list" role="listbox" className="grid" style={{ gap: 2, marginTop: 4 }}>
+                {matches.map((h) => (
+                  <button
+                    key={h.key}
+                    type="button"
+                    role="option"
+                    aria-selected={chosen?.value === h.value}
+                    className="cand"
+                    onClick={() => setChosen({ value: h.value, label: h.label })}
+                  >
+                    <span>
+                      <b>{h.label}</b> <span className="muted">· {h.kind}</span>
+                    </span>
+                    {h.value !== h.label && <span className="mono muted">{h.value}</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+            {query.trim().length >= 2 && matches.length === 0 && <p className="hint">No matches.</p>}
           </div>
+        ) : (
+          <ManualValue key={item.id} res={res} onChoose={setChosen} />
         )}
         {dismissNote && (
           <div className="banner info" role="status">
@@ -306,9 +314,9 @@ function ItemPanel({
           <button
             type="button"
             className="btn primary"
-            disabled={!current || resolve.isPending}
-            aria-busy={resolve.isPending}
-            onClick={() => current && apply(current.value, current.label)}
+            disabled={!current || pending}
+            aria-busy={pending}
+            onClick={() => current && onApply(current.value)}
           >
             Apply “{current?.label ?? '—'}” {!chosen && cands[0] && <Kbd>1</Kbd>}
           </button>
@@ -332,6 +340,65 @@ function ItemPanel({
         </p>
       </div>
     </section>
+  );
+}
+
+/** Typed value entry for leaves without a vocabulary (numbers, grades, flags, free text). */
+function ManualValue({ res, onChoose }: { res: Resolution; onChoose: (c: { value: unknown; label: string } | null) => void }) {
+  const [raw, setRaw] = useState('');
+  if (res.value === 'none' || res.value === 'sparkList')
+    return <p className="hint">This field can only be fixed with one of the candidates above.</p>;
+  if (res.value === 'grade' || res.value === 'boolean') {
+    const opts = res.value === 'grade' ? GRADES.map((g) => [g, g] as const) : ([['true', 'Yes'], ['false', 'No']] as const);
+    return (
+      <label className="field">
+        <span>Enter the correct value</span>
+        <select
+          className="input w-sm"
+          value={raw}
+          onChange={(e) => {
+            setRaw(e.target.value);
+            const o = opts.find(([v]) => v === e.target.value);
+            onChoose(o ? { value: res.value === 'boolean' ? o[0] === 'true' : o[0], label: o[1] } : null);
+          }}
+        >
+          <option value="">Choose…</option>
+          {opts.map(([v, l]) => (
+            <option key={v} value={v}>
+              {l}
+            </option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+  const err = raw.trim() === '' ? null : res.value === 'number' ? numberError(raw, res) : null;
+  return (
+    <div>
+      <label className="field">
+        <span>Enter the correct value</span>
+        <input
+          className="input w-sm"
+          type={res.value === 'number' ? 'number' : 'text'}
+          inputMode={res.value === 'number' ? 'numeric' : undefined}
+          min={res.value === 'number' ? res.min : undefined}
+          max={res.value === 'number' && res.max !== null ? res.max : undefined}
+          value={raw}
+          aria-invalid={err ? true : undefined}
+          onChange={(e) => {
+            const t = e.target.value;
+            setRaw(t);
+            const bad = t.trim() === '' || (res.value === 'number' && numberError(t, res) !== null);
+            onChoose(bad ? null : { value: res.value === 'number' ? Number(t.trim()) : t, label: t.trim() });
+          }}
+        />
+      </label>
+      {err && (
+        <p className="hint" role="status">
+          {err}
+        </p>
+      )}
+    </div>
   );
 }
 

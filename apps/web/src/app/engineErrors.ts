@@ -13,7 +13,7 @@ export function engineErrorText(e: EngineErrorInfo, m?: MasterData): string {
             ? 'The stored model snapshot is corrupt. Refit the model.'
             : `Unsupported model kind “${e.kind}”.`;
     case 'InsufficientDataError':
-      return `Not enough training data to fit the model: ${e.eligible} eligible veterans (train ${e.train}, holdout ${e.holdout}); the engine needs at least 5 train rows and 1 holdout row.`;
+      return `Not enough training data to fit the model: ${e.eligible} eligible veterans (train ${e.train}, holdout ${e.holdout}).${e.requirement ? ` The engine says: ${e.requirement}.` : ' Import more veterans, then refit.'}`;
     case 'ModelInputError':
       if (e.code === 'own-unique-skill') return "The target asks for the trainee's own unique skill, which the model doesn't estimate (Q-142).";
       if (e.code === 'duplicate-card') return 'A card is in the deck twice.';

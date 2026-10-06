@@ -101,10 +101,10 @@ describe('S06 Planner', () => {
     expect(engine.workersCreated).toBe(2);
   });
   it('shows true insufficient-data engine error, not a UI fitting threshold', async () => {
-    renderRoute('/planner', mockSource({ roster: roster.slice(0, 3), targets }).src, { store: planStore(), engine: fakeEngine({ fit: async () => ({ ok: false, error: { name: 'InsufficientDataError', message: 'MOCK', eligible: 3, train: 2, holdout: 1 } }) }) });
+    renderRoute('/planner', mockSource({ roster: roster.slice(0, 3), targets }).src, { store: planStore(), engine: fakeEngine({ fit: async () => ({ ok: false, error: { name: 'InsufficientDataError', message: 'MOCK', eligible: 3, train: 2, holdout: 1, requirement: 'MOCK need more rows' } }) }) });
     await waitFor(() => expect((screen.getByRole('button', { name: 'Rank pairs' }) as HTMLButtonElement).disabled).toBe(false));
     await userEvent.click(screen.getByRole('button', { name: 'Rank pairs' }));
-    expect(await screen.findByText(/3 eligible veterans \(train 2, holdout 1\)/)).toBeTruthy();
+    expect(await screen.findByText(/3 eligible veterans \(train 2, holdout 1\)\. The engine says: MOCK need more rows\./)).toBeTruthy();
   });
   it('validates own-unique/unknown skills per selected trainee; removal is run-only', async () => {
     const own = masterData().outfits.get(truth.golden.traineeOutfitId)!.uniqueSkillId;
@@ -140,6 +140,14 @@ describe('S07 Model health', () => {
     expect(screen.getByText(/No points are drawn/)).toBeTruthy();
     expect(screen.getAllByText('⚠ unverified').length).toBeGreaterThan(0);
     expect((screen.getByRole('button', { name: 'Run calibration' }) as HTMLButtonElement).disabled).toBe(true);
+    // N1: the threshold shown is the one the (fake) engine context reports, the band is labelled F08
+    expect(screen.getByText('high-confidence rows only')).toBeTruthy();
+    expect(screen.getByText(/F08 acceptance band 0.72–0.88/)).toBeTruthy();
+  });
+  it('shows the training-row threshold the engine context reports (MIN_CONFIDENCE)', async () => {
+    const engine = fakeEngine({ configure: async () => ({ ok: true, value: { kind: 'production', masterVersion: masterData().version, rulesVersion: 'rules-1', unverifiedRules: [], placeholderRules: [], warnings: [], overrides: [], minConfidence: 0.42 } }) });
+    renderRoute('/health', mockSource({ roster, snapshot: fit.snapshot }).src, { engine });
+    expect(await screen.findByText('min confidence ≥ 0.42')).toBeTruthy();
   });
   it('legacy remains readable and never relabelled', async () => {
     const legacy = { ...fit.snapshot, kind: 'training-v1' as const };

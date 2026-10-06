@@ -144,13 +144,13 @@ export function HealthScreen() {
             <div className="kpi">
               <small>Training rows</small>
               <b>{s.nSamples}</b>
-              <small>min confidence ≥ 0.9</small>
+              <small>{ctxQ.data?.minConfidence !== undefined ? `min confidence ≥ ${ctxQ.data.minConfidence}` : 'high-confidence rows only'}</small>
             </div>
             <div className="kpi">
               <small>80% interval coverage</small>
               <b>{cov!.toFixed(2)}</b>
               <small>
-                target {COVERAGE_BAND[0]}–{COVERAGE_BAND[1]}{' '}
+                F08 acceptance band {COVERAGE_BAND[0]}–{COVERAGE_BAND[1]}{' '}
                 {legacy ? <Tag kind="neutral">legacy</Tag> : <Tag kind={inBand ? 'ok' : 'warn'}>{inBand ? 'in range' : 'out of range'}</Tag>}
               </small>
             </div>

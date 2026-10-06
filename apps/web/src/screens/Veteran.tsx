@@ -135,7 +135,7 @@ function Detail({ v, m }: { v: RosterVeteranDetail; m: MasterData }) {
   const name = characterName(m, v.characterId);
   const cap = m.scenarios.get(v.scenarioId)?.statCap ?? null;
   const setMode = (mode: TrainMode) => {
-    if (mode !== v.trainMode) patch.mutate(mode);
+    if (mode !== v.trainMode && !patch.isPending) patch.mutate(mode);
   };
   const onTabKey = (e: KeyboardEvent, i: number) => {
     const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
@@ -186,7 +186,13 @@ function Detail({ v, m }: { v: RosterVeteranDetail; m: MasterData }) {
             <div className="seg" role="radiogroup" aria-labelledby="mode-l" aria-busy={patch.isPending}>
               {(['independent', 'manual'] as const).map((md) => (
                 <label key={md}>
-                  <input type="radio" name="mode" checked={v.trainMode === md} onChange={() => setMode(md)} />
+                  <input
+                    type="radio"
+                    name="mode"
+                    checked={v.trainMode === md}
+                    disabled={patch.isPending}
+                    onChange={() => setMode(md)}
+                  />
                   {md === 'independent' ? 'Independent' : 'Manual'}
                 </label>
               ))}

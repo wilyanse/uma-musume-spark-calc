@@ -39,6 +39,7 @@ import {
   NumericError,
   IllegalPairError,
   MODEL_KIND,
+  MIN_CONFIDENCE,
 } from '@uma/engine';
 import type {
   EngineContext,
@@ -63,11 +64,21 @@ export interface ContextInfo {
   warnings: string[];
   /** Rule overrides applied on top of the published rules (golden fixture only). */
   overrides: { rule: string; source: string }[];
+  /** The engine's training-row confidence threshold (`MIN_CONFIDENCE`, 50 §4), for display. */
+  minConfidence?: number;
 }
 
 export type EngineErrorInfo =
   | { name: 'RefitRequiredError'; message: string; reason: RefitRequiredError['reason']; kind: string }
-  | { name: 'InsufficientDataError'; message: string; eligible: number; train: number; holdout: number }
+  | {
+      name: 'InsufficientDataError';
+      message: string;
+      eligible: number;
+      train: number;
+      holdout: number;
+      /** The engine's own requirement text (e.g. "need ≥ 5 train rows …"), or null if absent. */
+      requirement: string | null;
+    }
   | { name: 'ModelInputError'; message: string; code: string }
   | { name: 'SkillPosteriorError'; message: string; code: string }
   | { name: 'NumericError'; message: string; code: string }
@@ -95,6 +106,7 @@ export function describeError(e: unknown): EngineErrorInfo {
       eligible: e.eligible,
       train: e.train,
       holdout: e.holdout,
+      requirement: insufficientRequirement(e.message),
     };
   if (e instanceof ModelInputError) return { name: 'ModelInputError', message: e.message, code: e.code };
   if (e instanceof SkillPosteriorError)
@@ -108,6 +120,16 @@ export function describeError(e: unknown): EngineErrorInfo {
   if (e instanceof MasterSchemaError) return { name: 'MasterSchemaError', message: e.message };
   if (e instanceof NotConfiguredError) return { name: 'NotConfiguredError', message: e.message };
   return { name: 'Error', message: e instanceof Error ? e.message : String(e) };
+}
+
+/**
+ * The requirement clause of the engine's InsufficientDataError message
+ * (`insufficient training data: <requirement> (eligible …)`), so the UI repeats the engine's own
+ * thresholds instead of copying its constants (T13 review r1 N1).
+ */
+export function insufficientRequirement(message: string): string | null {
+  const m = /^insufficient training data: (.+?) \(eligible \d+, train \d+, holdout \d+\)$/.exec(message);
+  return m ? m[1]! : null;
 }
 
 class MasterSchemaError extends Error {
@@ -227,6 +249,7 @@ export function createEngineApi(): EngineApi {
           placeholderRules: [...ctx.placeholderRules],
           warnings: [...ctx.warnings],
           overrides,
+          minConfidence: MIN_CONFIDENCE,
         };
       }),
     fit: (roster, opts) =>

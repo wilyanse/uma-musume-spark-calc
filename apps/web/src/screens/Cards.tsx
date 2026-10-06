@@ -21,6 +21,49 @@ import {
   type DeckDraft,
 } from '../lib/deck.ts';
 
+/**
+ * Borrowed Friend defaults and the level bound come from the approved S04 design
+ * (docs/design/screens/S04-cards.html: LB4 selected, `<input min=1 max=50 value=50>`). The 01 §3
+ * `DeckSlot.level` contract has no upper bound and master data has no per-card level cap, so this
+ * is a UI bound, not a game fact.
+ */
+export const FRIEND_DEFAULT = { lb: 4, level: 50 } as const;
+export const FRIEND_LEVEL_MAX = 50;
+
+function FriendLevel({ level, onChange }: { level: number; onChange: (n: number) => void }) {
+  const [raw, setRaw] = useState(String(level));
+  const t = raw.trim();
+  const n = Number(t);
+  const ok = /^\d+$/.test(t) && n >= 1 && n <= FRIEND_LEVEL_MAX;
+  return (
+    <span className="grid" style={{ gap: 2 }}>
+      <label className="field">
+        <span className="sr">Friend level</span>
+        <input
+          className="input w-sm"
+          type="number"
+          inputMode="numeric"
+          min={1}
+          max={FRIEND_LEVEL_MAX}
+          value={raw}
+          aria-invalid={ok ? undefined : true}
+          onChange={(e) => {
+            setRaw(e.target.value);
+            const v = e.target.value.trim();
+            const x = Number(v);
+            if (/^\d+$/.test(v) && x >= 1 && x <= FRIEND_LEVEL_MAX) onChange(x);
+          }}
+        />
+      </label>
+      {!ok && (
+        <small className="hint" role="status">
+          Enter a level from 1 to {FRIEND_LEVEL_MAX}.
+        </small>
+      )}
+    </span>
+  );
+}
+
 const TYPES: CardType[] = ['speed', 'stamina', 'power', 'guts', 'wit', 'friend', 'group'];
 
 /**
@@ -258,24 +301,18 @@ function DeckBuilder({
                   ))}
                 </select>
               </label>
-              <label className="field">
-                <span className="sr">Friend level</span>
-                <input
-                  className="input w-sm"
-                  inputMode="numeric"
-                  value={friend.level}
-                  onChange={(e) => {
-                    const n = Number(e.target.value);
-                    if (Number.isInteger(n) && n >= 1) setDeck(setFriend(deck, { ...friend, level: n }));
-                  }}
-                />
-              </label>
+              <FriendLevel key={friend.cardId} level={friend.level} onChange={(level) => setDeck(setFriend(deck, { ...friend, level }))} />
               <button type="button" className="btn sm" aria-label="Remove slot 6" onClick={() => setDeck(setFriend(deck, null))}>
                 ✕
               </button>
             </div>
           ) : (
             <span className="muted">Empty slot</span>
+          )}
+          {friend?.borrowed && (
+            <small className="hint">
+              Defaults LB{FRIEND_DEFAULT.lb} · Lv{FRIEND_DEFAULT.level} — edit to match the friend's card.
+            </small>
           )}
         </div>
         <label className="field">
@@ -292,8 +329,8 @@ function DeckBuilder({
                 aria-selected={friend?.cardId === c.id}
                 className="cand"
                 onClick={() => {
-                  // LB/level of a borrowed card are chosen by the user (defaults LB4 / level 50 are editable).
-                  setDeck(setFriend(deck, { cardId: c.id, lb: friend?.lb ?? 4, level: friend?.level ?? 50 }));
+                  // LB/level of a borrowed card are chosen by the user; the labelled defaults are editable.
+                  setDeck(setFriend(deck, { cardId: c.id, lb: friend?.lb ?? FRIEND_DEFAULT.lb, level: friend?.level ?? FRIEND_DEFAULT.level }));
                   setFriendQuery('');
                 }}
               >

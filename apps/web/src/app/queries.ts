@@ -2,7 +2,7 @@
  * TanStack Query hooks over the injected `DataSource` (60 §1, §3).
  * - Roster: loaded once with its ETag; refetches send `If-None-Match` and a 304 keeps the cached
  *   array (same object identity, so nothing downstream recomputes).
- * - Mode override: optimistic PATCH with rollback on error.
+ * - Mode override: optimistic PATCH with rollback on error; detail + roster refetch on settle.
  * - Review resolve: invalidates roster + review queries.
  */
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -83,7 +83,13 @@ export function usePatchMode(id: string) {
       if (snap?.prevRoster) qc.setQueryData(qk.roster, snap.prevRoster);
     },
     onSuccess: (detail) => qc.setQueryData(qk.veteran(id), detail),
-    onSettled: () => qc.invalidateQueries({ queryKey: qk.roster }),
+    // Refetch both after every outcome, so a rollback can never leave an out-of-date snapshot in
+    // either cache (T13 review r1 S3). The UI also disables the toggle while a PATCH is pending.
+    onSettled: () =>
+      Promise.all([
+        qc.invalidateQueries({ queryKey: qk.veteran(id) }),
+        qc.invalidateQueries({ queryKey: qk.roster }),
+      ]),
   });
 }
 
