@@ -668,13 +668,20 @@ public class CaptureStatusRecoveryTests
     [InlineData(PipelineEventKind.Progress)]
     [InlineData(PipelineEventKind.Queued)]
     [InlineData(PipelineEventKind.AlreadyQueued)]
+    [InlineData(PipelineEventKind.CardScreen)]
+    [InlineData(PipelineEventKind.Skipped)]        // T10b r1 B2: geometry is validated before the frame gate
+    [InlineData(PipelineEventKind.Ignored)]
+    [InlineData(PipelineEventKind.NotUploadable)]
+    [InlineData(PipelineEventKind.Limit)]
     public void A_valid_event_clears_a_transient_capture_error(PipelineEventKind kind)
     {
         var s = new CaptureStatusModel();
         s.Apply(new(PipelineEventKind.Unsupported, "game client area 1280x720 is below 1920x1080"));
         Assert.Contains("1920x1080", s.Error);
-        s.Apply(new(PipelineEventKind.Skipped, "unchanged"));
-        Assert.NotNull(s.Error);                                  // an unchanged poll proves nothing
+        s.Apply(new(PipelineEventKind.Unsupported, "game client area 1280x720 is below 1920x1080"));
+        Assert.NotNull(s.Error);                                  // a still-invalid frame keeps it
+        s.Apply(new(PipelineEventKind.Failed, "paused"));
+        Assert.NotNull(s.Error);                                  // a paused pipeline never looked at the frame
         s.Apply(new(kind, "ok"));
         Assert.Null(s.Error);
         s.ReportCaptureError("The game window is not available.");

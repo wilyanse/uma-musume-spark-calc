@@ -45,11 +45,14 @@ public sealed class CaptureNoticeStatus
     }
 }
 
-/// <summary>Transient capture-source error (unsupported client size/aspect, window/capture unavailable). T10 r3 S1:
-/// it clears itself once a valid frame is accepted again (<see cref="PipelineEventKind.Progress"/>, Queued,
-/// AlreadyQueued, or a recognized support-card screen), so the tray returns to Capturing after the user fixes the
-/// window. It is separate from <see cref="CaptureNoticeStatus"/>: durable unsaved/overflow notices are never cleared
-/// here, and they take precedence in <see cref="Error"/>.</summary>
+/// <summary>Transient capture-source error (unsupported client size/aspect, window/capture unavailable). T10 r3 S1,
+/// T10b r1 B2: it clears once the pipeline has been given a captured frame whose geometry is valid again. In
+/// <see cref="CapturePipeline.ProcessAsync"/> geometry is validated before the frame gate and parsing, so every result
+/// of a captured frame except <see cref="PipelineEventKind.Unsupported"/> proves a valid source, including
+/// <see cref="PipelineEventKind.Skipped"/> (the same still screen as before the resize: the gate still holds it),
+/// Ignored (a valid non-capture screen) and NotUploadable/Limit. <see cref="PipelineEventKind.Failed"/> leaves it as is:
+/// a paused pipeline returns Failed before it looks at the frame. It is separate from <see cref="CaptureNoticeStatus"/>:
+/// durable unsaved/overflow notices are never cleared here, and they take precedence in <see cref="Error"/>.</summary>
 public sealed class CaptureStatusModel
 {
     public CaptureNoticeStatus Notices { get; } = new();
@@ -59,7 +62,7 @@ public sealed class CaptureStatusModel
     {
         Notices.Apply(e);
         if (e.Kind == PipelineEventKind.Unsupported) Transient = e.Message;
-        else if (e.Kind is PipelineEventKind.Progress or PipelineEventKind.Queued or PipelineEventKind.AlreadyQueued or PipelineEventKind.CardScreen) Transient = null;
+        else if (e.Kind != PipelineEventKind.Failed) Transient = null;   // valid geometry was proven (see summary)
     }
     /// <summary>From the watch loop: no frame could be read (window missing/minimized, geometry, device).</summary>
     public void ReportCaptureError(string message) => Transient = message;
