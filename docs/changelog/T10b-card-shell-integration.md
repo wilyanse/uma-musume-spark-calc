@@ -348,4 +348,10 @@ No TypeScript was touched, so pnpm was not run. Not run on this Mac: the WPF tra
   - Settings saved during an open confirmation or a slow send; cards arriving during a drop question; Exit during a send confirmation (round 1);
   - Task Manager memory.
 - Follow-up: there is no server-side revision/CAS. A request already received cannot be undone, and remote ordering after an ambiguous failure is not guaranteed (an API/ADR change would be needed).
-- Independent coordinator review is required before merge. This branch is not merged, pushed or deployed.
+- Independent review r2 PASS on code candidate `838f640aab4a4add808a1c0c9e76dde45cf2158c`, following same-session Opus continuation after lifecycle interruption. Parent report: `docs/reviews/T10b-review-2.md`. No Blocking or Should-fix findings remain. This record is a coordinator-only documentation addition after code approval; local merge and merged verification follow separately. Nothing pushed/deployed.
+
+## Review round 2 — coordinator disposition
+- N-a: Windows-only Exit while send confirmation remains open may leave an owned MessageBox orphaned. Portable probe returned Cancelled, zero requests and completed shutdown; this does not verify WPF. Carry explicitly into H4 §6 step7(j), checking modal dismissal/orphaning and no hang.
+- N-b: source-string App wiring assertions are brittle and not runtime proof. Retain portable behavior tests; verify actual tray Settings and Exit guards during H4 rather than presenting static checks as native evidence.
+- N-c: mutation counts remain worker self-reports. Approval rests on the independent reviewer’s retained fresh/inherited regression probes and actual build/tests, not those counts.
+- Native tests compile only; WGC/OCR/WPF/DPAPI/single-file execution and live Access PUT remain H4/H2. Task remains Partial for these human checks.
