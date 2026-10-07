@@ -48,8 +48,11 @@ public sealed class App : Application
     private DispatcherTimer? _timer;
     private Window? _statusWindow;
     private TextBlock? _statusText;
-    private string? _error;
-    private readonly CaptureNoticeStatus _captureNotices = new();
+    private string? _error;   // UI-operation failures; capture-source errors live in _capture (T10 r3 S1)
+    private readonly CaptureStatusModel _capture = new();
+    private CaptureNoticeStatus _captureNotices => _capture.Notices;
+    private CardSyncController _cards = null!;
+    private CardSyncWindow? _cardWindow;
     private string _notice = "Ready. Configure Settings before uploading.";
     private bool _exiting, _busy;
     private TrayStatus? _status;
@@ -116,6 +119,8 @@ public sealed class App : Application
             // This factory calls the reviewed Core handler explicitly; automatic redirects stay disabled.
             _uploader = new(_outbox, () => Volatile.Read(ref _settings), _tokens, UploadService.DefaultHandler, _log);
             _uploadTask = Task.Run(() => _uploader.RunAsync(Task.Delay, _lifetime.Token));
+            // Support cards (T10b): in-memory only, explicit sends through the reviewed Core coordinator.
+            _cards = new(_data, _clock, () => Volatile.Read(ref _settings), _tokens, UploadService.DefaultHandler, _confirm, _log);
             BuildTray();
             _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
             _timer.Tick += (_, _) => Refresh(); _timer.Start(); Refresh(); ShowStatus();
@@ -137,7 +142,7 @@ public sealed class App : Application
         _stop = new Forms.ToolStripMenuItem("Stop / save complete captures"); _stop.Click += async (_, _) => await Dispatch(StopWatching); menu.Items.Add(_stop);
         Add("Acknowledge released-collection warning", () => { _captureNotices.AcknowledgeReleased(); return Task.CompletedTask; });
         Add("Checklist / status", () => { ShowStatus(); return Task.CompletedTask; });
-        Add("Capture support cards", () => { MessageBox.Show(new SupportCardsUnavailable().Message, "Support cards"); return Task.CompletedTask; });
+        Add("Capture support cards", () => { ShowCards(); return Task.CompletedTask; });
         Add("Open web app", () => { OpenWeb(); return Task.CompletedTask; });
         Add("Settings", Settings);
         Add("Review rejected uploads", Rejected);
@@ -170,7 +175,7 @@ public sealed class App : Application
                 _pipeline = null;   // release the previous collection's evidence before the new watch starts
             }
             if (!_captureNotices.StartFresh()) return;
-            _error = null; _progress = null; _watchCancel = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
+            _error = null; _capture.ClearTransient(); _progress = null; _watchCancel = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
             var ct = _watchCancel.Token;
             // Create/own native resources within the worker; Stop joins it before Flush or any resource disposal.
             _watchTask = Task.Run(async () =>
@@ -179,16 +184,16 @@ public sealed class App : Application
                 {
                     using var ocr = new WindowsOcrEngine { Cancellation = ct };
                     await using var source = new WgcFrameSource(() => Volatile.Read(ref _settings), _log);
-                    _pipeline = new(_data, ocr, _outbox, _clock, UlidGenerator.System(_clock), "0.1.0", new FrameGate(_clock, TimeSpan.FromSeconds(2)), _log);
+                    _pipeline = new(_data, ocr, _outbox, _clock, UlidGenerator.System(_clock), "0.1.0", new FrameGate(_clock, TimeSpan.FromSeconds(2)), _log, _cards);
                     await new WatchLoop(source, async (frame, cancellation) =>
                     {
                         var e = await _pipeline.ProcessAsync(frame, cancellation);
                         var progress = _pipeline.Progress;
-                        await Dispatcher.InvokeAsync(() => { _captureNotices.Apply(e); if (e.Kind == PipelineEventKind.Unsupported) _error = e.Message; _progress = progress; });
-                    }, message => Dispatcher.BeginInvoke(new Action(() => _error = message)), Task.Delay).RunAsync(ct);
+                        await Dispatcher.InvokeAsync(() => { _capture.Apply(e); _progress = progress; });
+                    }, message => Dispatcher.BeginInvoke(new Action(() => _capture.ReportCaptureError(message))), Task.Delay).RunAsync(ct);
                 }
                 catch (OperationCanceledException) when (ct.IsCancellationRequested) { }
-                catch (Exception e) { _log.Error("Watcher failed: " + e.GetType().Name); await Dispatcher.InvokeAsync(() => _error = e is CaptureUnavailableException ? e.Message : "Capture device failed. Stop and Start to retry."); }
+                catch (Exception e) { _log.Error("Watcher failed: " + e.GetType().Name); await Dispatcher.InvokeAsync(() => _capture.ReportCaptureError(e is CaptureUnavailableException ? e.Message : "Capture device failed. Stop and Start to retry.")); }
             });
         }
         finally { _transition.Release(); }
@@ -203,7 +208,7 @@ public sealed class App : Application
             _watchCancel?.Cancel();
             if (_watchTask is not null) await _watchTask;
             _watchTask = null; _watchCancel?.Dispose(); _watchCancel = null;
-            _error = null;
+            _error = null; _capture.ClearTransient();
             if (_pipeline is not null)
             {
                 flushed = _pipeline.Flush();
@@ -220,10 +225,11 @@ public sealed class App : Application
     {
         try
         {
-            _status = TrayStatus.Compute(_watchTask is not null && !_watchTask.IsCompleted, _progress, _captureNotices.Error ?? _error, _uploader.CachedHealth, _uploader.Block, _uploader.Uploading);
+            _status = TrayStatus.Compute(_watchTask is not null && !_watchTask.IsCompleted, _progress, _capture.Error ?? _error, _uploader.CachedHealth, _uploader.Block, _uploader.Uploading);
             if (_tray is not null) { _tray.Text = _status.Tooltip; _tray.Icon = _status.State == TrayState.Error ? SystemIcons.Error : SystemIcons.Application; }
             if (_start is not null) _start.Enabled = _watchTask is null && !_busy;
             if (_stop is not null) _stop.Enabled = !_busy && (_watchTask is not null || _pipeline is not null);
+            _cardWindow?.Refresh(_watchTask is not null && !_watchTask.IsCompleted);
             if (_statusText is not null) _statusText.Text = _status.Title + "\n\n" + _status.Detail + "\n\n" + _notice + "\n" + _captureNotices.Message + "\n\n" + string.Join("\n", (_progress?.Checklist ?? []).Select(s => (s.Complete ? "✓ " : "○ ") + s.Section + ": " + s.Detail));
         }
         catch (Exception e) { _log.Error("Status failed: " + e.GetType().Name); }
@@ -234,6 +240,14 @@ public sealed class App : Application
         _statusText = new TextBlock { Margin = new Thickness(16), TextWrapping = TextWrapping.Wrap };
         _statusWindow = new Window { Title = "Uma Spark Calc — assisted capture", Width = 650, Height = 470, Content = new ScrollViewer { Content = _statusText } };
         _statusWindow.Closed += (_, _) => { _statusWindow = null; _statusText = null; }; Refresh(); _statusWindow.Show();
+    }
+    private void ShowCards()
+    {
+        if (_cardWindow is not null) { _cardWindow.Show(); _cardWindow.Activate(); return; }
+        _cardWindow = new CardSyncWindow(_cards, _confirm, _log);
+        _cardWindow.Closed += (_, _) => _cardWindow = null;
+        _cardWindow.Refresh(_watchTask is not null && !_watchTask.IsCompleted);
+        _cardWindow.Show();
     }
     private void OpenWeb()
     {
@@ -249,8 +263,9 @@ public sealed class App : Application
         if (ApiAddress.Changes(_settings.ApiBaseUrl, dialog.Result!.ApiBaseUrl) && _outbox.Health().Pending > 0 && !_confirm.Confirm("Change upload destination?", "Existing pending captures will be sent to the new HTTPS address. Confirm this is your own configured API.")) return;
         // Join watcher before changing target. Pending upload mutation is serialized by UploadService.
         await StopWatching();
-        _settingsStore.Save(dialog.Result); Volatile.Write(ref _settings, _settingsStore.Load());
-        if (dialog.NewId.Length > 0 || dialog.NewSecret.Length > 0) await _uploader.SaveTokenAndRetryAsync(dialog.NewId, dialog.NewSecret);
+        // T10b r1 B1: the card controller is told about every save; it cancels a scan for the old address and stops an
+        // in-flight card send whose address or token changed (each attempt also re-checks before reading the token).
+        await SettingsCommit.CommitAsync(_settingsStore, dialog.Result, s => Volatile.Write(ref _settings, s), _uploader, dialog.NewId, dialog.NewSecret, _cards);
         _notice = "Settings saved. Start watching to resume capture.";
         }
         finally { dialog.ClearSecrets(); }
@@ -280,10 +295,17 @@ public sealed class App : Application
     }
     private async Task ExitAsync()
     {
+        // T10b r1 N1: no new support-card send may start while Exit asks; cancelling Exit releases the hold.
+        using var holdCards = _cards.HoldSendsForExit();
         // Same drop rules as Start (review S4): an unsaved complete capture or an incomplete collection asks first.
         var q = DropGuard.Check(await StopWatching(), DropGuard.Action.Exit);
         if (q is not null && !_confirm.Confirm(q.Title, q.Message)) return;
-        _exiting = true; _timer?.Stop(); _lifetime.Cancel();
+        // Support-card scans are in memory only (Q-152): ask before dropping unsynced cards or leaving a send.
+        var cards = _cards.ExitQuestion();
+        if (cards is not null && !_confirm.Confirm(cards.Title, cards.Message)) return;
+        _exiting = true; _timer?.Stop(); _cardWindow?.Close();
+        await _cards.ShutdownAsync();
+        _lifetime.Cancel();
         if (_uploadTask is not null) await _uploadTask;
         await _uploader.DisposeAsync();
         _tray?.Dispose(); _statusWindow?.Close();

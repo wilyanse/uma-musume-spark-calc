@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Threading;
 using Uma.Agent.Core;
 
 namespace Uma.Agent.Windows.Shell;
@@ -23,6 +24,13 @@ public sealed class ServiceTokenStore(string path, ISecretProtector protector) :
 {
     private sealed record Payload(string Id, string Secret);
     private readonly object _lock = new();
+    private long _version;
+
+    /// <summary>Nonsecret change counter (T10b r1 B1): incremented under the file lock immediately before every
+    /// <see cref="Save"/> write and <see cref="Clear"/>. A caller that reads <see cref="Version"/>, then
+    /// <see cref="Read"/>, then <see cref="Version"/> again and sees the same value knows it read the token that was
+    /// current at that version. It carries no information about the token itself.</summary>
+    public long Version => Interlocked.Read(ref _version);
 
     public bool HasToken
     {
@@ -42,7 +50,7 @@ public sealed class ServiceTokenStore(string path, ISecretProtector protector) :
         try
         {
             var blob = protector.Protect(plain);
-            lock (_lock) AtomicFile.WriteAllBytes(path, blob);
+            lock (_lock) { Interlocked.Increment(ref _version); AtomicFile.WriteAllBytes(path, blob); }
         }
         finally { CryptographicOperations.ZeroMemory(plain); }
     }
@@ -73,7 +81,7 @@ public sealed class ServiceTokenStore(string path, ISecretProtector protector) :
 
     public void Clear()
     {
-        lock (_lock) if (File.Exists(path)) File.Delete(path);
+        lock (_lock) { Interlocked.Increment(ref _version); if (File.Exists(path)) File.Delete(path); }
     }
 
     public override string ToString() => HasToken ? "service token: saved (protected)" : "service token: not saved";

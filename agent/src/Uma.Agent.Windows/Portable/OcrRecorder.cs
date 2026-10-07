@@ -155,15 +155,15 @@ public sealed record CommandLineOptions(AgentMode Mode, IReadOnlyList<string> In
                 case "--record-ocr": record = true; break;
                 case "--overwrite": overwrite = true; break;
                 case "--out":
-                    if (i + 1 >= args.Count || args[i + 1].StartsWith("--", StringComparison.Ordinal)) throw new ShellValidationException("--out needs a directory");
+                    if (i + 1 >= args.Count || args[i + 1].StartsWith("--", StringComparison.Ordinal)) throw new ShellValidationException("--out needs a directory.");
                     output = args[++i]; break;
                 default:
                     if (args[i].StartsWith('-')) throw new ShellValidationException("Unknown command option. Use --help for supported options.");
                     inputs.Add(args[i]); break;
             }
         }
-        if (!record) throw new ShellValidationException("options given without --record-ocr");
-        if (inputs.Count == 0) throw new ShellValidationException("--record-ocr needs at least one PNG file or directory");
+        if (!record) throw new ShellValidationException("Options were given without --record-ocr. Use --help for supported options.");
+        if (inputs.Count == 0) throw new ShellValidationException("--record-ocr needs at least one PNG file or directory.");
         output ??= Path.Combine(AgentPaths.ForCurrentUser().Recordings, (now ?? DateTimeOffset.UtcNow).UtcDateTime.ToString("yyyyMMdd'T'HHmmss'Z'", CultureInfo.InvariantCulture));
         return new(AgentMode.RecordOcr, inputs, output, overwrite);
     }
