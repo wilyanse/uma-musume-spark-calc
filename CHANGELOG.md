@@ -3,6 +3,7 @@
 The orchestrator adds one line per merged task. Details are in `docs/changelog/Txx-*.md`.
 
 ## Unreleased
+- T10b: reviewed support-card capture/sync integration with destructive confirmation, settings/token-bound attempts and stale/drop/exit guards; PASS r2, merged Core302/portable225 and workspace checks green. Native Windows/H4 and live PUT remain.
 - T13: seven web screens and real Comlink engine integration; independent PASS r3, merged web124/browser14 checks green, real-browser ranking <5s. Live Cloudflare/Access and real imports remain pending.
 - T10: bounded Windows capture shell, durable-enqueue backpressure and overflow upload guards; independent PASS r3, merged cross-target build and Core302/portable157 tests pass. Native H4 and card-shell integration remain pending.
 - T11: support-card collection and whole-table sync with session/revision freshness guards; independent PASS r3, merged native tests 302/302. T10 wiring, real-game H4 and live PUT remain pending.

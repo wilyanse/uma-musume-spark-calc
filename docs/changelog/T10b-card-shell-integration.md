@@ -355,3 +355,19 @@ No TypeScript was touched, so pnpm was not run. Not run on this Mac: the WPF tra
 - N-b: source-string App wiring assertions are brittle and not runtime proof. Retain portable behavior tests; verify actual tray Settings and Exit guards during H4 rather than presenting static checks as native evidence.
 - N-c: mutation counts remain worker self-reports. Approval rests on the independent reviewer’s retained fresh/inherited regression probes and actual build/tests, not those counts.
 - Native tests compile only; WGC/OCR/WPF/DPAPI/single-file execution and live Access PUT remain H4/H2. Task remains Partial for these human checks.
+
+## Coordinator merged verification
+Local merge `b649c6b5af39cb6aac75d50a161aacf4038487ff` followed independent PASS and a documentation-only commit recording nits. Real main rerun:
+```
+dotnet build agent/Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true --no-incremental
+Build succeeded. 0 Warning(s) 0 Error(s)
+dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/T10-review/dotnet8/dotnet
+Passed! Failed: 0, Passed: 302, Skipped: 0, Total: 302
+dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --no-build -- RunConfiguration.DotNetHostPath=/Users/willjose/.hermes/cache/scratch/T10-review/dotnet8/dotnet
+Passed! Failed: 0, Passed: 225, Skipped: 0, Total: 225
+pnpm -r lint && pnpm -r typecheck && pnpm -r test
+All lint/typecheck commands Done; schema149/master82/API111/engine240/web124 tests passed
+pnpm --filter web build
+172 modules transformed; built in 194ms
+```
+No native execution or deployed verification inferred. H4 card modal dismissal/orphaning is specifically required. Nothing pushed/deployed.
