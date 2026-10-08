@@ -115,7 +115,7 @@ export interface TrainingFit {
   report: FitReport;
 }
 
-interface PreparedRow {
+export interface PreparedRow {
   v: Veteran;
   plan: FeaturePlan;
   exp: InheritanceResult;
@@ -124,7 +124,7 @@ interface PreparedRow {
   parents: [ParentKind, ParentKind];
 }
 
-function prepareRow(
+export function prepareRow(
   ctx: EngineContext,
   v: Veteran,
   byId: ReadonlyMap<string, Veteran>,
@@ -184,7 +184,7 @@ function prepareRow(
   };
 }
 
-function seededSplit(ids: readonly string[], seed: string | number) {
+export function seededSplit(ids: readonly string[], seed: string | number) {
   const sorted = [...ids].sort();
   const rng = mulberry32(typeof seed === 'number' ? seed : seedFromString(seed));
   for (let i = sorted.length - 1; i > 0; i--) {
@@ -199,7 +199,7 @@ function seededSplit(ids: readonly string[], seed: string | number) {
 }
 
 /** Recency weights 0.5^(age/60) with the clock at `clock` (ms). */
-const recency = (time: number, clock: number) =>
+export const recency = (time: number, clock: number) =>
   0.5 ** ((clock - time) / DAY_MS / RECENCY_HALF_LIFE_DAYS);
 
 /** Skill candidate cells of one row (ADR-0002 §3), sorted by skill id. */

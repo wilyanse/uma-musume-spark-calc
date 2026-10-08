@@ -4,11 +4,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import type { RosterVeteran } from '@uma/schema';
-import {
-  calibrateRules,
-  ModelInputError,
-  withBlueStatGainMultiplier,
-} from '../../src/index.ts';
+import { calibrateRules, ModelInputError, withBlueStatGainMultiplier } from '../../src/index.ts';
 import { buildGrid, selectArgmin } from '../../src/calibrate/grid.ts';
 import {
   calibrationRoster,
@@ -140,9 +136,7 @@ describe('options and numeric guards', () => {
     [{ min: 0.5, max: Number.POSITIVE_INFINITY, step: 0.1 }],
     [{ min: 0, max: 1000, step: 0.0001 }],
   ])('rejects grid %o', (grid) => {
-    expect(() => calibrateRules(goldenCtx(), guestGuest, opts({ grid }))).toThrow(
-      ModelInputError,
-    );
+    expect(() => calibrateRules(goldenCtx(), guestGuest, opts({ grid }))).toThrow(ModelInputError);
   });
 
   it.each([[-1], [1.5], [Number.NaN], [100_001]])('rejects bootstrap %s', (b) => {
@@ -203,9 +197,8 @@ describe('rules and roster are never mutated or auto-applied', () => {
 
 describe('aptitude and skill contradictions are counted, not hidden', () => {
   const rows = calibrationRoster.map((v) => structuredClone(v));
-  const holdId = storedSplit.holdoutIds.find(
-    (id) =>
-      rows.find((v) => v.id === id)!.parents.every((p) => p.isGuest || p.matchedVeteranId),
+  const holdId = storedSplit.holdoutIds.find((id) =>
+    rows.find((v) => v.id === id)!.parents.every((p) => p.isGuest || p.matchedVeteranId),
   )!;
   const row = rows.find((v) => v.id === holdId)! as RosterVeteran;
   // Grade far below the trainee base (pink sparks only add steps): impossible under the model.
@@ -218,7 +211,7 @@ describe('aptitude and skill contradictions are counted, not hidden', () => {
 
   it('impossible aptitude grades are excluded from the log-likelihood and counted', () => {
     const r = calibrateRules(ctx, rows, opts({ bootstrap: 0 }));
-    if (outfitTurf === 'G') return; // nothing impossible about G on a G-base outfit
+    expect(outfitTurf).not.toBe('G'); // the fixture row must make G impossible (not vacuous)
     expect(r.aptitude.impossible).toBe(1);
     expect(r.aptitude.belowBase).toBe(1);
     expect(Number.isFinite(r.aptitude.logLik)).toBe(true);
@@ -240,5 +233,24 @@ describe('published Global context end to end', () => {
     expect(r.stats.status).toBe('nonidentifiable');
     expect(r.warnings.join(' ')).toMatch(/placeholder|unverified/);
     expect(r.notCalibrated.length).toBeGreaterThan(5);
+  });
+});
+
+describe('production purity', () => {
+  it('src/calibrate imports only engine src and @uma/schema (no node:*, scripts/, truth or DOM)', async () => {
+    const { readdirSync, readFileSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    const dir = join(import.meta.dirname, '../../src/calibrate');
+    const files = readdirSync(dir).filter((f) => f.endsWith('.ts'));
+    expect(files.sort()).toEqual(['aptitude.ts', 'context.ts', 'grid.ts', 'index.ts', 'skills.ts']);
+    for (const f of files) {
+      const text = readFileSync(join(dir, f), 'utf8');
+      const specs = [...text.matchAll(/from '([^']+)'/g)].map((m) => m[1]!);
+      for (const s of specs)
+        expect(s, `${f}: ${s}`).toMatch(/^(\.\.?\/(?!.*scripts)|@uma\/schema$)/);
+      expect(text, f).not.toMatch(
+        /truth|latent|fetch\(|document\.|window\.|readFileSync|Math\.random/,
+      );
+    }
   });
 });

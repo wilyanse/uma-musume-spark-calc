@@ -14,7 +14,8 @@ export { calibrationRoster, master, roster, truth };
 
 /** Only the documented synthetic inheritance inputs (no latent, no calibration multiplier). */
 export const goldenInput = { syntheticInheritance: structuredClone(truth.syntheticInheritance) };
-export const goldenCtx = (scale = 1): EngineContext => loadGoldenContext(master, goldenInput, scale);
+export const goldenCtx = (scale = 1): EngineContext =>
+  loadGoldenContext(master, goldenInput, scale);
 /** The published Global rules, unchanged (blueStatGain 0/0/0 placeholder, no inheritance turns). */
 export const publishedCtx = (): EngineContext => loadContext(master, master.rules);
 

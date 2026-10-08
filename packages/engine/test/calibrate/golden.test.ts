@@ -4,15 +4,19 @@
  * only). The planted ×1.3 is never passed to `calibrateRules`; only the assertions know it.
  */
 import { describe, expect, it } from 'vitest';
-import { STAT_KEYS } from '@uma/schema';
+import { APT_KEYS, STAT_KEYS } from '@uma/schema';
+import type { RosterVeteran } from '@uma/schema';
 import {
   calibrateRules,
   CALIBRATION_KIND,
+  expectationFromPlan,
+  planInheritance,
+  recordedParent,
   DEFAULT_CALIBRATION_GRID,
   fitTrainingModelDetailed,
   withBlueStatGainMultiplier,
 } from '../../src/index.ts';
-import type { CalibrationReport } from '../../src/index.ts';
+import type { CalibrationReport, Legacy } from '../../src/index.ts';
 import {
   cached,
   calibrationRoster,
@@ -239,13 +243,40 @@ describe('the holdout is evaluation only (per candidate)', () => {
     );
     expect(p.stats.trainCvSelected).toBeTruthy();
     expect(p.stats.trainCvSelected!.multiplier).toBe(r.stats.trainCvSelected!.multiplier);
-    const fp = (x: CalibrationReport) => x.candidates.map((c) => c.fit?.trainFingerprint);
-    expect(fp(p)[0]).toBe(fp(r)[0]);
+    // Every candidate refit at a multiplier both runs share has bit-identical train parameters.
+    let shared = 0;
+    for (const c of p.candidates) {
+      const o = r.candidates.find((x) => x.multiplier === c.multiplier);
+      if (!o) continue;
+      shared++;
+      expect(c.fit!.trainFingerprint).toBe(o.fit!.trainFingerprint);
+      expect(c.fit!.lambdas).toEqual(o.fit!.lambdas);
+      expect(c.fit!.sigma).toEqual(o.fit!.sigma);
+    }
+    expect(shared).toBeGreaterThanOrEqual(1);
+    // And at r's suggested multiplier even if p suggests a different one.
+    const m = r.stats.selected!.multiplier;
+    const fitAt = (rows: readonly RosterVeteran[]) =>
+      fitTrainingModelDetailed(withBlueStatGainMultiplier(goldenCtx(), m), rows, {
+        split: r.split,
+        now: () => FIXED_NOW,
+        id: () => FIXED_ID,
+      }).snapshot.params;
+    const a = fitAt(calibrationRoster);
+    const b = fitAt(perturbed);
+    expect([b.perStat, b.residualCov, b.skillAcquire]).toEqual([
+      a.perStat,
+      a.residualCov,
+      a.skillAcquire,
+    ]);
+    expect(b.holdout).not.toEqual(a.holdout);
   });
 
   it('holdout metrics (and possibly the recommendation) change', () => {
     const r = x13();
-    expect(p.stats.grid.map((g) => g.holdoutMae)).not.toEqual(r.stats.grid.map((g) => g.holdoutMae));
+    expect(p.stats.grid.map((g) => g.holdoutMae)).not.toEqual(
+      r.stats.grid.map((g) => g.holdoutMae),
+    );
     expect(p.skills.candidates[0]!.holdout.observed).toBe(0);
   });
 
@@ -257,7 +288,9 @@ describe('the holdout is evaluation only (per candidate)', () => {
       return c;
     });
     const q = calibrateRules(goldenCtx(), t, opts({ bootstrap: 0 }));
-    expect(q.candidates[0]!.fit!.trainFingerprint).not.toBe(x13().candidates[0]!.fit!.trainFingerprint);
+    expect(q.candidates[0]!.fit!.trainFingerprint).not.toBe(
+      x13().candidates[0]!.fit!.trainFingerprint,
+    );
   });
 });
 
@@ -302,5 +335,65 @@ describe('aptitude and skill checks on the golden data', () => {
     expect(h.contradictions).toBe(0);
     // The golden roster records each veteran's own unique skill; it is excluded (Q-142).
     expect(h.ownUniqueExcluded).toBe(39);
+  });
+});
+
+describe('independent recomputation through the public API', () => {
+  const r = x13();
+  const ctx = goldenCtx();
+  const byId = new Map(calibrationRoster.map((v) => [v.id, v]));
+  const expOf = (id: string) => {
+    const v = byId.get(id)!;
+    const p = [1, 2].map((s) => recordedParent(v, s as 1 | 2, byId)!.legacy) as [Legacy, Legacy];
+    return expectationFromPlan(planInheritance(ctx, v.outfitId, p, v.scenarioId));
+  };
+
+  it('aptitude log-likelihood = Σ log aptitudeDist[observed] over the used rows', () => {
+    let ll = 0;
+    for (const row of r.population.rows.filter((x) => x.included)) {
+      const v = byId.get(row.id)!;
+      const d = expOf(row.id).aptitudeDist;
+      for (const a of APT_KEYS) ll += Math.log(d[a][v.aptitudes[a]]);
+    }
+    expect(r.aptitude.logLik!).toBeCloseTo(ll, 9);
+  });
+
+  it('skill expected count = Σ q·E[θ] (availability once) from the current refit', () => {
+    const snap = fitTrainingModelDetailed(ctx, calibrationRoster, {
+      split: r.split,
+      now: () => FIXED_NOW,
+      id: () => FIXED_ID,
+    }).snapshot;
+    let expected = 0;
+    let lineage = 0;
+    let observed = 0;
+    for (const id of r.split.holdoutIds) {
+      const v = byId.get(id)!;
+      const exp = expOf(id);
+      const outfit = ctx.outfits.get(v.outfitId)!;
+      const sure = new Set(outfit.innateSkillIds);
+      for (const d of v.deck) {
+        const c = ctx.cards.get(d.cardId)!;
+        [...c.hintSkillIds, ...c.eventSkillIds].forEach((s) => sure.add(s));
+      }
+      const cand = new Set([...sure, ...Object.keys(exp.skillHintProb)]);
+      cand.delete(outfit.uniqueSkillId);
+      const acquired = new Set(v.skills.map((s) => s.skillId));
+      for (const s of cand) {
+        const q = sure.has(s) ? 1 : exp.skillHintProb[s]!;
+        if (!(q > 0)) continue;
+        const beta =
+          snap.params.skillAcquire[v.trainMode][s] ?? snap.params.skillAcquire[v.trainMode]['*']!;
+        const p = q * (beta.a / (beta.a + beta.b));
+        expected += p;
+        if (!sure.has(s)) lineage += p;
+        if (acquired.has(s)) observed++;
+      }
+    }
+    const h = r.skills.candidates[0]!.holdout;
+    expect(h.expected).toBeCloseTo(expected, 9);
+    expect(h.lineageOnly.expected).toBeCloseTo(lineage, 9);
+    expect(h.observed).toBe(observed);
+    expect(h.lineageOnly.cells).toBeGreaterThan(0);
   });
 });
