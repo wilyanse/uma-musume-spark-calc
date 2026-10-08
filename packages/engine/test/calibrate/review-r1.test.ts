@@ -139,18 +139,21 @@ describe('S1: a one- or two-point grid is not a search', () => {
   it.each([
     [{ min: 1.3, max: 1.3, step: 0.01 }, 1],
     [{ min: 1.3, max: 1.31, step: 0.01 }, 2],
-  ])('grid %o (%i point(s)): insufficient-data, no suggestion, no zero-width interval', (grid, n) => {
-    const r = calibrateRules(goldenCtx(), calibrationRoster, opts({ grid, bootstrap: 50 }));
-    expect(r.stats.grid).toHaveLength(n);
-    expect(r.stats.status).toBe('insufficient-data');
-    expect(r.stats.insufficient).toMatch(/≥ 3 grid points/);
-    expect(r.stats.selected).toBeNull();
-    expect(r.stats.bootstrap).toBeNull();
-    expect(r.stats.uncertainty.status).toBe('grid-too-small');
-    expect(r.suggestions).toEqual([]);
-    expect(r.candidates.map((c) => c.multiplier)).toEqual([1]);
-    expect(r.notCalibrated.map((x) => x.rule)).toContain('blueStatGain');
-  });
+  ])(
+    'grid %o (%i point(s)): insufficient-data, no suggestion, no zero-width interval',
+    (grid, n) => {
+      const r = calibrateRules(goldenCtx(), calibrationRoster, opts({ grid, bootstrap: 50 }));
+      expect(r.stats.grid).toHaveLength(n);
+      expect(r.stats.status).toBe('insufficient-data');
+      expect(r.stats.insufficient).toMatch(/≥ 3 grid points/);
+      expect(r.stats.selected).toBeNull();
+      expect(r.stats.bootstrap).toBeNull();
+      expect(r.stats.uncertainty.status).toBe('grid-too-small');
+      expect(r.suggestions).toEqual([]);
+      expect(r.candidates.map((c) => c.multiplier)).toEqual([1]);
+      expect(r.notCalibrated.map((x) => x.rule)).toContain('blueStatGain');
+    },
+  );
 
   it('the default grid is unaffected', () => {
     const r = x13();
@@ -182,9 +185,9 @@ describe('S2: tiny holdouts give no confident-looking interval', () => {
     const ag = r.stats.selectionAgreement!;
     expect(ag.withinInterval).toBeNull();
     for (const s of r.suggestions) expect(s.consistentWithCurrent).toBeNull();
-    if (ag.holdout !== ag.trainCv) {
-      expect(r.warnings.join(' ')).toMatch(/selections disagree/);
-    }
+    // On this controlled 1-row holdout the selections differ (1.42 vs 1.97 at review time).
+    expect(ag.holdout).not.toBe(ag.trainCv);
+    expect(r.warnings.join(' ')).toMatch(/selections disagree.*no bootstrap interval/);
     expect(jsonRoundTrip(r)).toEqual(r);
   });
 
@@ -218,7 +221,9 @@ describe('S4: zero scored skill cells never read as a perfect score', () => {
     const z: [number, number, number] = [0, 0, 0];
     return {
       ...g,
-      cards: new Map([...g.cards].map(([k, c]) => [k, { ...c, hintSkillIds: [], eventSkillIds: [] }])),
+      cards: new Map(
+        [...g.cards].map(([k, c]) => [k, { ...c, hintSkillIds: [], eventSkillIds: [] }]),
+      ),
       outfits: new Map([...g.outfits].map(([k, o]) => [k, { ...o, innateSkillIds: [] }])),
       tables: {
         ...g.tables,
@@ -289,7 +294,8 @@ describe('N2: blueStatGain signal must exist on train rows', () => {
     const rows = guestGuest.map((v) => structuredClone(v));
     const train = rows.slice(0, 28);
     const hold = rows.slice(28);
-    for (const v of train) v.sparks = v.sparks.filter((s) => !(s.type === 'blue' && s.owner !== 'self'));
+    for (const v of train)
+      v.sparks = v.sparks.filter((s) => !(s.type === 'blue' && s.owner !== 'self'));
     const r = calibrateRules(
       goldenCtx(),
       rows,

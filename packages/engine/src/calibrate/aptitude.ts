@@ -1,8 +1,19 @@
 /**
  * 50 §8.1 aptitude check: observed final grades against the predicted `aptitudeDist` (trainee
  * base + pink steps, capped at S) on the recorded lineage. No fit is involved, so every used row
- * contributes. Impossible observations (probability 0, e.g. a grade below the trainee base) are
- * excluded from the log-likelihood and counted; they are never scored as a finite penalty.
+ * contributes.
+ *
+ * Likelihood semantics (T15 review 1, B1; Q-158):
+ * - The FULL log-likelihood Σ log p(observed) over every cell is −∞ as soon as one observed grade
+ *   has p = 0. It is then reported as `logLik: null` (JSON-safe, never −Infinity and never a
+ *   finite stand-in) with `fullLikelihood: 'zero-probability-observed'`.
+ * - `conditionalLogLik` sums log p over the `possibleCells` only (p > 0). It is a separately
+ *   named diagnostic with its own denominator, not the model's likelihood.
+ * - Impossible cells are counted as `belowBase` (below the trainee's base grade), `aboveMax`
+ *   (above every reachable grade) or `unreachable` (an interior support gap, e.g. pink gain 2
+ *   skipping a grade); the three always sum to `impossible`.
+ * - A cell whose most likely grade has p ≥ 1 − DEGENERATE_TOL carries no calibration information.
+ *   When every cell is degenerate the check is `uninformative`, not `ok`.
  */
 import { APT_KEYS, GRADES } from '@uma/schema';
 import type { AptKey, Grade } from '@uma/schema';
@@ -12,6 +23,9 @@ import type { PreparedRow } from '../model/fit.ts';
 export const RELIABILITY_BINS = 10;
 /** A cell whose most likely grade has p ≥ 1 − this carries no calibration information. */
 export const DEGENERATE_TOL = 1e-12;
+
+export type FullLikelihoodState = 'finite' | 'zero-probability-observed' | 'no-cells';
+export type ImpossibleReason = 'below-base' | 'above-max' | 'unreachable';
 
 export interface ReliabilityBin {
   lo: number;
@@ -23,37 +37,104 @@ export interface ReliabilityBin {
   observedRate: number | null;
 }
 
-export interface AptitudeStat {
-  cells: number;
-  logLik: number;
+interface LikelihoodFields {
+  /**
+   * 'finite': every observed grade has p > 0 and `logLik` is the full log-likelihood.
+   * 'zero-probability-observed': ≥ 1 observed grade has p = 0, so the full log-likelihood is −∞
+   * and `logLik`/`meanLogLik` are null. 'no-cells': nothing to score.
+   */
+  fullLikelihood: FullLikelihoodState;
+  /** Full Σ log p(observed) over every cell; null unless `fullLikelihood` is 'finite'. */
+  logLik: number | null;
+  /** `logLik` / cells; null unless `fullLikelihood` is 'finite'. */
+  meanLogLik: number | null;
+  /** Cells whose observed grade has p > 0 (the conditional denominator). */
+  possibleCells: number;
+  /** Σ log p(observed) over `possibleCells` only (null when there are none). Not the full likelihood. */
+  conditionalLogLik: number | null;
+  /** `conditionalLogLik` / `possibleCells`. */
+  conditionalMeanLogLik: number | null;
   impossible: number;
+  belowBase: number;
+  aboveMax: number;
+  /** Impossible although between reachable grades (a gap in the predicted support). */
+  unreachable: number;
+  degenerateCells: number;
+  uncertainCells: number;
+}
+
+export interface AptitudeStat extends LikelihoodFields {
+  status: 'ok' | 'uninformative';
+  cells: number;
   /** Mean predicted grade index (G = 0 … S = 7) and mean observed index, over possible cells. */
   meanPredictedIndex: number | null;
   meanObservedIndex: number | null;
 }
 
-export interface AptitudeCheck {
-  status: 'ok' | 'insufficient-data';
+export interface AptitudeCheck extends LikelihoodFields {
+  /**
+   * 'ok': at least one cell is uncertain (informative). 'uninformative': every cell is degenerate
+   * (the prediction is certain), so neither the likelihood nor reliability can discriminate.
+   * 'insufficient-data': no rows.
+   */
+  status: 'ok' | 'uninformative' | 'insufficient-data';
+  /** Why the check is uninformative (null otherwise). */
+  uninformative: string | null;
   rows: number;
   cells: number;
-  /** Σ log p(observed grade) over possible cells; null when there are none. */
-  logLik: number | null;
-  /** logLik / possible cells. */
-  meanLogLik: number | null;
-  impossible: number;
-  /** Impossible because the observed grade is below the trainee's base grade. */
-  belowBase: number;
-  /** Impossible because the observed grade is above every reachable grade. */
-  aboveMax: number;
-  degenerateCells: number;
-  uncertainCells: number;
   /**
    * One (cell, grade) event per grade with 0 < p < 1 on uncertain cells; predicted p against the
    * indicator observed == grade, in 10 equal-width bins ([0.9, 1.0] closed).
    */
   reliability: ReliabilityBin[];
   perAptitude: Partial<Record<AptKey, AptitudeStat>>;
-  examples: { id: string; apt: AptKey; observed: Grade; reason: 'below-base' | 'above-max' }[];
+  examples: { id: string; apt: AptKey; observed: Grade; reason: ImpossibleReason }[];
+}
+
+interface Acc {
+  cells: number;
+  ll: number;
+  possible: number;
+  imp: number;
+  below: number;
+  above: number;
+  gap: number;
+  degenerate: number;
+  pi: number;
+  oi: number;
+}
+
+const acc = (): Acc => ({
+  cells: 0,
+  ll: 0,
+  possible: 0,
+  imp: 0,
+  below: 0,
+  above: 0,
+  gap: 0,
+  degenerate: 0,
+  pi: 0,
+  oi: 0,
+});
+
+function likelihood(a: Acc): LikelihoodFields {
+  const state: FullLikelihoodState =
+    a.cells === 0 ? 'no-cells' : a.imp > 0 ? 'zero-probability-observed' : 'finite';
+  const finite = state === 'finite';
+  return {
+    fullLikelihood: state,
+    logLik: finite ? a.ll : null,
+    meanLogLik: finite ? a.ll / a.cells : null,
+    possibleCells: a.possible,
+    conditionalLogLik: a.possible ? a.ll : null,
+    conditionalMeanLogLik: a.possible ? a.ll / a.possible : null,
+    impossible: a.imp,
+    belowBase: a.below,
+    aboveMax: a.above,
+    unreachable: a.gap,
+    degenerateCells: a.degenerate,
+    uncertainCells: a.cells - a.degenerate,
+  };
 }
 
 export function aptitudeCheck(ctx: EngineContext, rows: readonly PreparedRow[]): AptitudeCheck {
@@ -64,29 +145,30 @@ export function aptitudeCheck(ctx: EngineContext, rows: readonly PreparedRow[]):
     sumP: 0,
     hits: 0,
   }));
-  const per = new Map<AptKey, { cells: number; ll: number; imp: number; pi: number; oi: number }>();
-  let ll = 0;
-  let possible = 0;
-  let impossible = 0;
-  let belowBase = 0;
-  let aboveMax = 0;
-  let degenerate = 0;
-  let cells = 0;
+  const per = new Map<AptKey, Acc>();
+  const all = acc();
   const examples: AptitudeCheck['examples'] = [];
   for (const r of rows) {
     const outfit = ctx.outfits.get(r.v.outfitId)!;
     for (const apt of APT_KEYS) {
-      cells++;
       const dist = r.exp.aptitudeDist[apt];
       const obs = r.v.aptitudes[apt];
       const p = dist[obs] ?? 0;
       let s = per.get(apt);
-      if (!s) per.set(apt, (s = { cells: 0, ll: 0, imp: 0, pi: 0, oi: 0 }));
+      if (!s) per.set(apt, (s = acc()));
       s.cells++;
+      all.cells++;
       let maxP = 0;
-      for (const g of GRADES) maxP = Math.max(maxP, dist[g] ?? 0);
-      if (maxP >= 1 - DEGENERATE_TOL) degenerate++;
-      else {
+      let maxReach = -1;
+      GRADES.forEach((g, i) => {
+        const pg = dist[g] ?? 0;
+        maxP = Math.max(maxP, pg);
+        if (pg > 0) maxReach = i;
+      });
+      if (maxP >= 1 - DEGENERATE_TOL) {
+        s.degenerate++;
+        all.degenerate++;
+      } else {
         for (const g of GRADES) {
           const pg = dist[g] ?? 0;
           if (!(pg > 0) || !(pg < 1)) continue;
@@ -97,26 +179,29 @@ export function aptitudeCheck(ctx: EngineContext, rows: readonly PreparedRow[]):
         }
       }
       if (!(p > 0)) {
-        impossible++;
-        s.imp++;
-        const below = GRADES.indexOf(obs) < GRADES.indexOf(outfit.aptitudes[apt]);
-        if (below) belowBase++;
-        else aboveMax++;
-        if (examples.length < 20) {
-          examples.push({
-            id: r.v.id,
-            apt,
-            observed: obs,
-            reason: below ? 'below-base' : 'above-max',
-          });
+        const oi = GRADES.indexOf(obs);
+        const reason: ImpossibleReason =
+          oi < GRADES.indexOf(outfit.aptitudes[apt])
+            ? 'below-base'
+            : oi > maxReach
+              ? 'above-max'
+              : 'unreachable';
+        for (const t of [s, all]) {
+          t.imp++;
+          if (reason === 'below-base') t.below++;
+          else if (reason === 'above-max') t.above++;
+          else t.gap++;
         }
+        if (examples.length < 20) examples.push({ id: r.v.id, apt, observed: obs, reason });
         continue;
       }
-      possible++;
-      ll += Math.log(p);
-      s.ll += Math.log(p);
+      const lp = Math.log(p);
       let mean = 0;
       GRADES.forEach((g, i) => (mean += i * (dist[g] ?? 0)));
+      for (const t of [s, all]) {
+        t.possible++;
+        t.ll += lp;
+      }
       s.pi += mean;
       s.oi += GRADES.indexOf(obs);
     }
@@ -125,26 +210,28 @@ export function aptitudeCheck(ctx: EngineContext, rows: readonly PreparedRow[]):
   for (const apt of APT_KEYS) {
     const s = per.get(apt);
     if (!s) continue;
-    const n = s.cells - s.imp;
     perAptitude[apt] = {
+      status: s.cells > s.degenerate ? 'ok' : 'uninformative',
       cells: s.cells,
-      logLik: s.ll,
-      impossible: s.imp,
-      meanPredictedIndex: n ? s.pi / n : null,
-      meanObservedIndex: n ? s.oi / n : null,
+      ...likelihood(s),
+      meanPredictedIndex: s.possible ? s.pi / s.possible : null,
+      meanObservedIndex: s.possible ? s.oi / s.possible : null,
     };
   }
+  const status: AptitudeCheck['status'] = !rows.length
+    ? 'insufficient-data'
+    : all.cells > all.degenerate
+      ? 'ok'
+      : 'uninformative';
   return {
-    status: rows.length ? 'ok' : 'insufficient-data',
+    status,
+    uninformative:
+      status === 'uninformative'
+        ? `all ${all.cells} cells are degenerate (one grade has predicted p ≥ 1 − ${DEGENERATE_TOL}): the prediction is certain, so the likelihood and reliability table carry no calibration information`
+        : null,
     rows: rows.length,
-    cells,
-    logLik: possible ? ll : null,
-    meanLogLik: possible ? ll / possible : null,
-    impossible,
-    belowBase,
-    aboveMax,
-    degenerateCells: degenerate,
-    uncertainCells: cells - degenerate,
+    cells: all.cells,
+    ...likelihood(all),
     reliability: bins.map((b) => ({
       lo: b.lo,
       hi: b.hi,

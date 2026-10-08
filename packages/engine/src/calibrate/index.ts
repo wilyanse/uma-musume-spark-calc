@@ -10,13 +10,18 @@
  *
  * Checks:
  * 1. Aptitude: observed grades against the predicted `aptitudeDist` (current rules), on every
- *    used row: log-likelihood, impossible-cell counts and reliability tables. Diagnostics only.
+ *    used row: full log-likelihood (null when an observed grade has p = 0), a separately named
+ *    conditional log-likelihood over possible cells, impossible-cell counts and reliability
+ *    tables. 'uninformative' when every cell is degenerate. Diagnostics only.
  * 2. Stats: for each multiplier m on a fixed grid, y_m = stat − E[inh | recorded lineage,
  *    blueStatGain × m]; the 50 §4 design, recency weights and per-stat λ re-selected by 5-fold CV
  *    on TRAIN rows only; holdout MAE (Σ over stats) is the 50 §8 selection criterion. The train
- *    5-fold CV MAE gives a second selection that never sees the holdout; its holdout MAE is the
- *    unbiased evaluation. E[inh] is affine in m (blueStatGain only scales event stat gains), so
- *    y_m = stat − (E₀ + m·(E₁ − E₀)) is exact; candidate refits cross-check it.
+ *    5-fold CV MAE gives a second selection that never uses holdout targets; its holdout MAE
+ *    (`holdoutMaeOfTrainCvSelection`) evaluates that procedure, subject to ADR-0002 lineage
+ *    coupling. E[inh] is affine in m (blueStatGain only scales event stat gains), so
+ *    y_m = stat − (E₀ + m·(E₁ − E₀)) is exact; candidate refits cross-check it. Identifiability
+ *    is judged on TRAIN rows (the rows that fit the model), a search needs ≥ 3 grid points and
+ *    the holdout bootstrap needs ≥ MIN_BOOTSTRAP_HOLDOUT holdout rows.
  * 3. Skills: for each candidate rules context (current, suggested) the model is refitted with
  *    `fitTrainingModelDetailed` (ADR-0002 §2.11) and holdout skills are scored against
  *    q·E[θ] with availability counted once (ADR-0002 §3).
@@ -66,6 +71,22 @@ export const DEFAULT_BOOTSTRAP_SEED = 't15-bootstrap';
 export const MAX_BOOTSTRAP = 100_000;
 /** Candidate refits whose holdout MAE differs from the grid by more than this raise a warning. */
 export const FAST_PATH_TOL = 1e-6;
+/**
+ * A selection on fewer grid points is not a search: one point is trivially its own argmin and two
+ * points are both boundaries. Below this the stat check is 'insufficient-data' (review 1, S1).
+ */
+export const MIN_SEARCH_GRID_POINTS = 3;
+/**
+ * Statistical guard (not a game fact; review 1, S2): the percentile bootstrap of the argmin is
+ * suppressed below this many holdout rows. With n rows there are only C(2n−1, n) distinct
+ * resamples (1 at n = 1, 126 at n = 5) and nearest-rank p05/p95 of B resamples rest on a few
+ * rows, so a tiny holdout yields a zero-width or near-zero-width interval that looks confident.
+ * 20 is a conservative conventional floor for percentile bootstraps (each 5% tail then spans at
+ * least one row's share of the data); it is a documented choice, not an estimated constant.
+ */
+export const MIN_BOOTSTRAP_HOLDOUT = 20;
+/** Relative tolerance under which per-stat train blue sensitivities count as constant. */
+export const CONSTANT_SIGNAL_TOL = 1e-9;
 
 export interface CalibrationOptions {
   /**
@@ -122,6 +143,33 @@ export interface Selection {
   atBoundary: boolean;
 }
 
+export interface StatUncertainty {
+  /**
+   * 'available': the holdout bootstrap ran. 'disabled': `bootstrap: 0`. 'insufficient-holdout':
+   * fewer than MIN_BOOTSTRAP_HOLDOUT holdout rows. 'grid-too-small': no search (S1).
+   * 'not-run': the stat check did not reach selection (insufficient data / nonidentifiable).
+   */
+  status: 'available' | 'disabled' | 'insufficient-holdout' | 'grid-too-small' | 'not-run';
+  reason: string | null;
+  minHoldout: number;
+  /** What the interval covers when available. */
+  scope: string;
+}
+
+export interface SelectionAgreement {
+  /** Holdout-MAE argmin (50 §8 selection). */
+  holdout: number;
+  /** Train-CV argmin (holdout targets unused). */
+  trainCv: number;
+  /** trainCv − holdout. */
+  difference: number;
+  /**
+   * Whether the train-CV argmin lies in the holdout bootstrap [p05, p95]. Null when no interval is
+   * available: agreement is then unknown, not established.
+   */
+  withinInterval: boolean | null;
+}
+
 export interface StatCheck {
   status: 'suggested' | 'boundary' | 'nonidentifiable' | 'insufficient-data';
   insufficient?: string;
@@ -140,13 +188,24 @@ export interface StatCheck {
     selectionSet: 'holdout';
     /** The selected multiplier's holdout MAE is post-selection (optimistic), not independent proof. */
     selectedHoldoutMaeIsPostSelection: true;
-    /** Holdout MAE of the train-CV selection: the holdout was not used to choose it. */
-    unbiasedHoldoutMae: number | null;
+    /**
+     * Holdout MAE of the train-CV selection: holdout targets were not used to choose it. Train
+     * lineages may still include holdout veterans as matched parents (ADR-0002 coupling), so it is
+     * not a fully independent evaluation.
+     */
+    holdoutMaeOfTrainCvSelection: number | null;
     /** Holdout MAE at m = 1 for comparison. */
     currentHoldoutMae: number | null;
     note: string;
   };
-  /** Holdout-row bootstrap of the holdout-MAE argmin (holdout sampling only; train fixed). */
+  /** Why `bootstrap` is or is not available, and what it covers. */
+  uncertainty: StatUncertainty;
+  /** Holdout vs train-CV selections, judged against the bootstrap interval when available. */
+  selectionAgreement: SelectionAgreement | null;
+  /**
+   * Holdout-row bootstrap of the holdout-MAE argmin, conditional on the fixed split and the fixed
+   * train fit (holdout sampling only; not train-fit, split or model uncertainty).
+   */
   bootstrap: {
     resamples: number;
     seed: string;
@@ -191,7 +250,10 @@ export interface Suggestion {
   /** Always false: calibration never applies rules. */
   applied: false;
   basis: 'holdout-mae';
-  /** Whether the holdout bootstrap interval contains 1 (null without bootstrap). */
+  /**
+   * Whether the conditional holdout bootstrap interval contains 1. Null when the bootstrap is
+   * unavailable (disabled, or a holdout below MIN_BOOTSTRAP_HOLDOUT): unknown, not inconsistent.
+   */
   consistentWithCurrent: boolean | null;
   note: string;
 }
@@ -231,6 +293,7 @@ export interface CalibrationReport {
   aptitude: AptitudeCheck;
   stats: StatCheck;
   skills: {
+    /** 'ok' only when every candidate scored ≥ 1 holdout cell. */
     status: 'ok' | 'insufficient-data';
     candidates: { multiplier: number; holdout: SkillHoldoutCheck }[];
     assumptions: string[];
@@ -261,6 +324,63 @@ function validateBootstrap(b: number): void {
   if (!Number.isInteger(b) || b < 0 || b > MAX_BOOTSTRAP) {
     throw new ModelInputError('bad-bootstrap', `bootstrap ${b} (integer 0..${MAX_BOOTSTRAP})`);
   }
+}
+
+const UNCERTAINTY_SCOPE =
+  'holdout-row resampling with the split and train fit held fixed (conditional): not full uncertainty (excludes train-fit, split, λ and model uncertainty)';
+
+/** Holdout vs train-CV argmin agreement against the reported bootstrap interval (if any). */
+export function selectionAgreement(
+  holdout: number,
+  trainCv: number,
+  interval: { p05: number; p95: number } | null,
+): SelectionAgreement {
+  return {
+    holdout,
+    trainCv,
+    difference: trainCv - holdout,
+    withinInterval: interval ? interval.p05 <= trainCv && trainCv <= interval.p95 : null,
+  };
+}
+
+/**
+ * Whether a blueStatGain multiplier is identifiable from TRAIN rows (review 1, N2). `train`/`hold`
+ * are per-row blue sensitivities d = E₁ − E₀ (stat order). Holdout rows are evaluation only, so
+ * holdout-only sensitivity cannot identify m. If every train row has the same d per stat, the
+ * multiplier only shifts each stat by a constant, which the intercept absorbs: there is no
+ * within-train signal and no argmin is reported.
+ */
+export function blueIdentifiability(
+  train: readonly (readonly number[])[],
+  hold: readonly (readonly number[])[],
+): { identifiable: boolean; reasons: string[] } {
+  const nz = (d: readonly number[]) => d.some((x) => x !== 0);
+  const trainSens = train.filter(nz).length;
+  const holdSens = hold.filter(nz).length;
+  if (trainSens === 0) {
+    return {
+      identifiable: false,
+      reasons: [
+        `no train row's E[inh] depends on blueStatGain${holdSens ? ` (${holdSens} holdout row(s) do, but the holdout is evaluation only and cannot identify a multiplier)` : ''}`,
+      ],
+    };
+  }
+  const k = train[0]!.length;
+  let varies = false;
+  for (let j = 0; j < k && !varies; j++) {
+    const xs = train.map((d) => d[j]!);
+    const scale = Math.max(1, ...xs.map(Math.abs));
+    varies = Math.max(...xs) - Math.min(...xs) > CONSTANT_SIGNAL_TOL * scale;
+  }
+  if (!varies) {
+    return {
+      identifiable: false,
+      reasons: [
+        `every train row has the same blueStatGain sensitivity per stat (${trainSens} of ${train.length} non-zero): m·d is a constant shift per stat, confounded with the intercept, so the train fit carries no information about m`,
+      ],
+    };
+  }
+  return { identifiable: true, reasons: [] };
 }
 
 function defaultTimer(): () => number {
@@ -377,9 +497,10 @@ export function calibrateRules(
   const aptitude = aptitudeCheck(ctx, [...used.values()]);
   if (aptitude.impossible > 0) {
     warnings.push(
-      `aptitude: ${aptitude.impossible} observed grade(s) have predicted probability 0 (${aptitude.belowBase} below the trainee base, ${aptitude.aboveMax} above every reachable grade); excluded from the log-likelihood`,
+      `aptitude: ${aptitude.impossible} observed grade(s) have predicted probability 0 (${aptitude.belowBase} below the trainee base, ${aptitude.aboveMax} above every reachable grade, ${aptitude.unreachable} in an unreachable gap): the full log-likelihood is −∞ (reported as null, zero-probability-observed); conditionalLogLik covers the ${aptitude.possibleCells} possible cells only`,
     );
   }
+  if (aptitude.status === 'uninformative') warnings.push(`aptitude: ${aptitude.uninformative}`);
 
   // 2. Stats.
   const current = ctx.tables.blueStatGain;
@@ -395,22 +516,33 @@ export function calibrateRules(
     evaluation: {
       selectionSet: 'holdout',
       selectedHoldoutMaeIsPostSelection: true,
-      unbiasedHoldoutMae: null,
+      holdoutMaeOfTrainCvSelection: null,
       currentHoldoutMae: null,
-      note: 'The suggested multiplier minimises holdout MAE (50 §8), so its holdout MAE is a post-selection value, not independent validation. The train-CV selection never used the holdout; its holdout MAE is the unbiased evaluation of that procedure. Holdout rows can still be matched parents in train-row lineages (ADR-0002 related-record coupling).',
+      note: 'The suggested multiplier minimises holdout MAE (50 §8), so its holdout MAE is a post-selection value, not independent validation. The train-CV selection never used holdout targets; holdoutMaeOfTrainCvSelection is its holdout MAE. Holdout rows can still be matched parents in train-row lineages (ADR-0002 related-record lineage coupling), so neither value is a fully independent evaluation.',
     },
+    uncertainty: {
+      status: 'not-run',
+      reason: 'the stat check did not reach selection',
+      minHoldout: MIN_BOOTSTRAP_HOLDOUT,
+      scope: UNCERTAINTY_SCOPE,
+    },
+    selectionAgreement: null,
     bootstrap: null,
     withoutInheritance: null,
   };
   const tGrid0 = timer();
   let tBoot = 0;
   const enough = train.length >= CV_FOLDS && hold.length >= 1;
-  const sensitive = [...used.values()].some((r) => r.d.some((x) => x !== 0));
+  const ident = blueIdentifiability(
+    train.map((r) => r.d),
+    hold.map((r) => r.d),
+  );
+  const ms0 = buildGrid(gridSpec);
   if (!enough) {
     stats.insufficient = `need ≥ ${CV_FOLDS} train rows (5-fold CV) and ≥ 1 holdout row; have ${train.length} train, ${hold.length} holdout`;
-  } else if (!sensitive) {
+  } else if (!ident.identifiable) {
     stats.status = 'nonidentifiable';
-    const reasons: string[] = [];
+    const reasons = [...ident.reasons];
     if (currentArr.every((x) => x === 0)) {
       reasons.push(
         'blueStatGain is zero for every star (placeholder): any multiplier of zero is zero, so no factor can be estimated',
@@ -424,83 +556,129 @@ export function calibrateRules(
         `scenario(s) ${noTurns.join(', ')} have no inheritance turns: event blue gains never apply, so blueStatGain cannot affect any stat`,
       );
     }
-    if (!reasons.length)
-      reasons.push('no used row has a blue spark whose event gain reaches a stat');
     stats.nonidentifiable = { reasons };
+    stats.uncertainty.reason = 'blueStatGain is not identifiable';
     warnings.push(`stats: blueStatGain multiplier is not identifiable (${reasons.join('; ')})`);
   } else {
-    const fit = statGrid(ctx, train, hold, cvSeed, buildGrid(gridSpec));
+    const fit = statGrid(ctx, train, hold, cvSeed, ms0);
     stats.grid = fit.grid;
     stats.current = fit.grid.find((g) => g.multiplier === 1) ?? fit.point(1);
     stats.withoutInheritance = fit.raw;
-    const ms = fit.grid.map((g) => g.multiplier);
-    const lo = ms[0]!;
-    const hi = ms[ms.length - 1]!;
-    const sel = (i: number): Selection => {
-      const g = fit.grid[i]!;
-      return {
-        multiplier: g.multiplier,
-        holdoutMae: g.holdoutMae,
-        trainCvMae: g.trainCvMae,
-        atBoundary: ms.length > 1 && (g.multiplier === lo || g.multiplier === hi),
-      };
-    };
-    stats.selected = sel(
-      selectArgmin(
-        ms,
-        fit.grid.map((g) => g.holdoutMae),
-      ),
-    );
-    stats.trainCvSelected = sel(
-      selectArgmin(
-        ms,
-        fit.grid.map((g) => g.trainCvMae),
-      ),
-    );
-    stats.evaluation.unbiasedHoldoutMae = stats.trainCvSelected.holdoutMae;
     stats.evaluation.currentHoldoutMae = stats.current.holdoutMae;
-    stats.status = stats.selected.atBoundary ? 'boundary' : 'suggested';
-    if (stats.selected.atBoundary) {
-      warnings.push(
-        `stats: the holdout-MAE minimum is at the grid boundary (${stats.selected.multiplier} in [${lo}, ${hi}]); widen the grid. No multiplier is suggested.`,
-      );
-    }
-    if (stats.trainCvSelected.atBoundary) {
-      warnings.push(
-        `stats: the train-CV minimum is at the grid boundary (${stats.trainCvSelected.multiplier})`,
-      );
-    }
-    if (bootstrapN > 0) {
-      const tb = timer();
-      const rng = mulberry32(seedFromString(bootstrapSeed));
-      const n = hold.length;
-      const picks: number[] = [];
-      let atB = 0;
-      const sums = new Float64Array(ms.length);
-      for (let b = 0; b < bootstrapN; b++) {
-        sums.fill(0);
-        for (let j = 0; j < n; j++) {
-          const i = Math.floor(rng() * n);
-          const rowAbs = fit.rowAbs[i]!;
-          for (let g = 0; g < ms.length; g++) sums[g] = sums[g]! + rowAbs[g]!;
-        }
-        const k = selectArgmin(ms, [...sums]);
-        picks.push(ms[k]!);
-        if (ms.length > 1 && (k === 0 || k === ms.length - 1)) atB++;
-      }
-      picks.sort((a, b) => a - b);
-      const p05 = percentile(picks, 0.05);
-      const p95 = percentile(picks, 0.95);
-      stats.bootstrap = {
-        resamples: bootstrapN,
-        seed: bootstrapSeed,
-        p05,
-        p50: percentile(picks, 0.5),
-        p95,
-        atBoundaryShare: atB / bootstrapN,
-        containsCurrent: p05 <= 1 && 1 <= p95,
+    const ms = fit.grid.map((g) => g.multiplier);
+    if (ms.length < MIN_SEARCH_GRID_POINTS) {
+      stats.insufficient = `need ≥ ${MIN_SEARCH_GRID_POINTS} grid points for a multiplier search; the grid has ${ms.length}. Grid MAEs are reported as diagnostics; nothing is selected or suggested.`;
+      stats.uncertainty = {
+        status: 'grid-too-small',
+        reason: stats.insufficient,
+        minHoldout: MIN_BOOTSTRAP_HOLDOUT,
+        scope: UNCERTAINTY_SCOPE,
       };
-      tBoot = timer() - tb;
+      warnings.push(`stats: ${stats.insufficient}`);
+    } else {
+      const lo = ms[0]!;
+      const hi = ms[ms.length - 1]!;
+      const sel = (i: number): Selection => {
+        const g = fit.grid[i]!;
+        return {
+          multiplier: g.multiplier,
+          holdoutMae: g.holdoutMae,
+          trainCvMae: g.trainCvMae,
+          atBoundary: g.multiplier === lo || g.multiplier === hi,
+        };
+      };
+      stats.selected = sel(
+        selectArgmin(
+          ms,
+          fit.grid.map((g) => g.holdoutMae),
+        ),
+      );
+      stats.trainCvSelected = sel(
+        selectArgmin(
+          ms,
+          fit.grid.map((g) => g.trainCvMae),
+        ),
+      );
+      stats.evaluation.holdoutMaeOfTrainCvSelection = stats.trainCvSelected.holdoutMae;
+      stats.status = stats.selected.atBoundary ? 'boundary' : 'suggested';
+      if (stats.selected.atBoundary) {
+        warnings.push(
+          `stats: the holdout-MAE minimum is at the grid boundary (${stats.selected.multiplier} in [${lo}, ${hi}]); widen the grid. No multiplier is suggested.`,
+        );
+      }
+      if (stats.trainCvSelected.atBoundary) {
+        warnings.push(
+          `stats: the train-CV minimum is at the grid boundary (${stats.trainCvSelected.multiplier})`,
+        );
+      }
+      if (bootstrapN === 0) {
+        stats.uncertainty = {
+          status: 'disabled',
+          reason: 'bootstrap: 0',
+          minHoldout: MIN_BOOTSTRAP_HOLDOUT,
+          scope: UNCERTAINTY_SCOPE,
+        };
+      } else if (hold.length < MIN_BOOTSTRAP_HOLDOUT) {
+        stats.uncertainty = {
+          status: 'insufficient-holdout',
+          reason: `${hold.length} holdout row(s); the bootstrap interval needs ≥ ${MIN_BOOTSTRAP_HOLDOUT} (a tiny holdout gives a spuriously narrow interval)`,
+          minHoldout: MIN_BOOTSTRAP_HOLDOUT,
+          scope: UNCERTAINTY_SCOPE,
+        };
+        warnings.push(`stats: no bootstrap interval: ${stats.uncertainty.reason}`);
+      } else {
+        const tb = timer();
+        const rng = mulberry32(seedFromString(bootstrapSeed));
+        const n = hold.length;
+        const picks: number[] = [];
+        let atB = 0;
+        const sums = new Float64Array(ms.length);
+        for (let b = 0; b < bootstrapN; b++) {
+          sums.fill(0);
+          for (let j = 0; j < n; j++) {
+            const i = Math.floor(rng() * n);
+            const rowAbs = fit.rowAbs[i]!;
+            for (let g = 0; g < ms.length; g++) sums[g] = sums[g]! + rowAbs[g]!;
+          }
+          const k = selectArgmin(ms, [...sums]);
+          picks.push(ms[k]!);
+          if (k === 0 || k === ms.length - 1) atB++;
+        }
+        picks.sort((a, b) => a - b);
+        const p05 = percentile(picks, 0.05);
+        const p95 = percentile(picks, 0.95);
+        stats.bootstrap = {
+          resamples: bootstrapN,
+          seed: bootstrapSeed,
+          p05,
+          p50: percentile(picks, 0.5),
+          p95,
+          atBoundaryShare: atB / bootstrapN,
+          containsCurrent: p05 <= 1 && 1 <= p95,
+        };
+        stats.uncertainty = {
+          status: 'available',
+          reason: null,
+          minHoldout: MIN_BOOTSTRAP_HOLDOUT,
+          scope: UNCERTAINTY_SCOPE,
+        };
+        tBoot = timer() - tb;
+      }
+      const ag = selectionAgreement(
+        stats.selected.multiplier,
+        stats.trainCvSelected.multiplier,
+        stats.bootstrap,
+      );
+      stats.selectionAgreement = ag;
+      if (ag.withinInterval === false) {
+        warnings.push(
+          `stats: holdout and train-CV selections disagree beyond the reported conditional holdout-bootstrap interval (holdout ${ag.holdout}, train-CV ${ag.trainCv}, interval [${stats.bootstrap!.p05}, ${stats.bootstrap!.p95}]); treat the suggestion as unstable`,
+        );
+      } else if (ag.withinInterval === null && ag.holdout !== ag.trainCv) {
+        warnings.push(
+          `stats: holdout and train-CV selections disagree (holdout ${ag.holdout}, train-CV ${ag.trainCv}) and no bootstrap interval is available to judge the difference`,
+        );
+      }
     }
   }
   const gridMs = timer() - tGrid0 - tBoot;
@@ -573,7 +751,10 @@ export function calibrateRules(
   }
   const candidateFitMs = timer() - tFit0;
   const skills: CalibrationReport['skills'] = {
-    status: skillCands.length && hold.length ? 'ok' : 'insufficient-data',
+    status:
+      skillCands.length && hold.length && skillCands.every((c) => c.holdout.status === 'ok')
+        ? 'ok'
+        : 'insufficient-data',
     candidates: skillCands,
     assumptions: [
       'P(acquire) = q·E[θ] per (holdout row, candidate skill); availability q counted once (ADR-0002 §3).',
@@ -584,6 +765,11 @@ export function calibrateRules(
     ],
   };
   for (const s of skillCands) {
+    if (s.holdout.status !== 'ok') {
+      warnings.push(
+        `skills: no holdout skill cell could be scored under ×${s.multiplier} (likelihood and Brier are null)`,
+      );
+    }
     if (s.holdout.contradictions > 0) {
       warnings.push(
         `skills: ${s.holdout.contradictions} acquired holdout skill cell(s) with no observable source (Q-131) under ×${s.multiplier}`,

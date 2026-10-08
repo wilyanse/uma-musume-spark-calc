@@ -53,7 +53,7 @@ function run(name: string, ctx: () => EngineContext, rows: readonly RosterVetera
     coupling: r.split.lineageCoupling,
     selected: s.selected,
     trainCvSelected: s.trainCvSelected,
-    unbiasedHoldoutMae: s.evaluation.unbiasedHoldoutMae,
+    holdoutMaeOfTrainCvSelection: s.evaluation.holdoutMaeOfTrainCvSelection,
     currentHoldoutMae: s.evaluation.currentHoldoutMae,
     maeAt: {
       '0.5': at(0.5),
@@ -64,6 +64,8 @@ function run(name: string, ctx: () => EngineContext, rows: readonly RosterVetera
       '2.0': at(2),
     },
     bootstrap: s.bootstrap,
+    uncertainty: s.uncertainty.status,
+    selectionAgreement: s.selectionAgreement,
     withoutInheritance: s.withoutInheritance?.holdoutMae ?? null,
     nonidentifiable: s.nonidentifiable ?? null,
     suggestions: r.suggestions.map((x) => ({
@@ -81,12 +83,19 @@ function run(name: string, ctx: () => EngineContext, rows: readonly RosterVetera
     aptitude: {
       status: r.aptitude.status,
       cells: r.aptitude.cells,
+      fullLikelihood: r.aptitude.fullLikelihood,
       logLik: r.aptitude.logLik,
+      possibleCells: r.aptitude.possibleCells,
+      conditionalLogLik: r.aptitude.conditionalLogLik,
       impossible: r.aptitude.impossible,
+      belowBase: r.aptitude.belowBase,
+      aboveMax: r.aptitude.aboveMax,
+      unreachable: r.aptitude.unreachable,
       uncertain: r.aptitude.uncertainCells,
     },
     skills: r.skills.candidates.map((c) => ({
       m: c.multiplier,
+      status: c.holdout.status,
       cells: c.holdout.cells,
       expected: c.holdout.expected,
       observed: c.holdout.observed,
@@ -141,10 +150,10 @@ for (const r of runs as ReturnType<typeof run>[]) {
   console.log(
     `${r.name} | ${r.status}/${r.statStatus} | used ${r.used} split ${r.split.join('/')} | ` +
       `holdout-argmin ${r.selected?.multiplier ?? '-'} (${r.selected?.holdoutMae.toFixed(3) ?? '-'}) ` +
-      `trainCV-argmin ${r.trainCvSelected?.multiplier ?? '-'} unbiased ${r.unbiasedHoldoutMae?.toFixed(3) ?? '-'} current ${r.currentHoldoutMae?.toFixed(3) ?? '-'} ` +
-      `noInh ${r.withoutInheritance?.toFixed(3) ?? '-'} | boot ${r.bootstrap ? `${r.bootstrap.p05}/${r.bootstrap.p50}/${r.bootstrap.p95}` : '-'} | ` +
-      `apt ll ${r.aptitude.logLik?.toFixed(2) ?? '-'} imp ${r.aptitude.impossible} | ` +
-      `skills ${r.skills.map((s) => `E${s.expected.toFixed(1)}/O${s.observed} z${s.z?.toFixed(2)}`).join(' ')} | ` +
+      `trainCV-argmin ${r.trainCvSelected?.multiplier ?? '-'} holdoutMaeOfTrainCvSel ${r.holdoutMaeOfTrainCvSelection?.toFixed(3) ?? '-'} current ${r.currentHoldoutMae?.toFixed(3) ?? '-'} ` +
+      `noInh ${r.withoutInheritance?.toFixed(3) ?? '-'} | boot ${r.bootstrap ? `${r.bootstrap.p05}/${r.bootstrap.p50}/${r.bootstrap.p95}` : `- (${r.uncertainty})`} | ` +
+      `apt ${r.aptitude.status} full ${r.aptitude.fullLikelihood} ll ${r.aptitude.logLik?.toFixed(2) ?? 'null'} cond ${r.aptitude.conditionalLogLik?.toFixed(2) ?? 'null'}/${r.aptitude.possibleCells} imp ${r.aptitude.impossible} (below ${r.aptitude.belowBase} above ${r.aptitude.aboveMax} gap ${r.aptitude.unreachable}) | ` +
+      `skills ${r.skills.map((s) => `E${s.expected.toFixed(1)}/O${s.observed} z${s.z?.toFixed(2)} ${s.status}`).join(' ')} | ` +
       `ms total ${r.runtime.totalMs.toFixed(0)} grid ${r.runtime.gridMs.toFixed(0)} (${r.runtime.gridPoints} pts) fits ${r.runtime.candidateFitMs.toFixed(0)} (${r.runtime.candidateFits}) boot ${r.runtime.bootstrapMs.toFixed(0)}`,
   );
 }

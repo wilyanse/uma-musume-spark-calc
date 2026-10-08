@@ -139,6 +139,8 @@ export {
   DEFAULT_BOOTSTRAP,
   DEFAULT_BOOTSTRAP_SEED,
   DEFAULT_CALIBRATION_SPLIT_SEED,
+  MIN_BOOTSTRAP_HOLDOUT,
+  MIN_SEARCH_GRID_POINTS,
 } from './calibrate/index.ts';
 export type {
   CalibrationExclusion,
@@ -150,11 +152,19 @@ export type {
   NotCalibrated,
   PopulationRow as CalibrationPopulationRow,
   Selection as CalibrationSelection,
+  SelectionAgreement as CalibrationSelectionAgreement,
   StatCheck as CalibrationStatCheck,
+  StatUncertainty as CalibrationStatUncertainty,
   Suggestion as CalibrationSuggestion,
 } from './calibrate/index.ts';
 export { DEFAULT_CALIBRATION_GRID } from './calibrate/grid.ts';
 export type { GridSpec as CalibrationGrid } from './calibrate/grid.ts';
 export { withBlueStatGainMultiplier } from './calibrate/context.ts';
-export type { AptitudeCheck, ReliabilityBin } from './calibrate/aptitude.ts';
-export type { SkillHoldoutCheck } from './calibrate/skills.ts';
+export type {
+  AptitudeCheck,
+  AptitudeStat,
+  FullLikelihoodState,
+  ImpossibleReason,
+  ReliabilityBin,
+} from './calibrate/aptitude.ts';
+export type { SkillCellSummary, SkillHoldoutCheck } from './calibrate/skills.ts';

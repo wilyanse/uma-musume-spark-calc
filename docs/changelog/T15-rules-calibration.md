@@ -9,8 +9,8 @@
 `@uma/engine` now exports `calibrateRules(ctx, roster, opts?)`. It is the 50 §8 calibration and returns an engine-local `CalibrationReport` (`kind: 'calibration-v1'`):
 
 - **Population:** T06-eligible rows whose two recorded parents are each a matched roster veteran or a guest. Every exclusion is listed per row and counted per reason.
-- **Aptitude check:** log-likelihood and reliability tables against the predicted `aptitudeDist`.
-- **Stat check:** a fixed `blueStatGain` multiplier grid. Each point refits the 50 §4 ridge on train rows only, with λ re-selected by CV. It reports the holdout-MAE argmin (the suggestion) and a train-CV argmin as the unbiased evaluation, plus a seeded holdout bootstrap and a no-inheritance baseline.
+- **Aptitude check:** the full log-likelihood (null when an observed grade has probability 0), a separately named conditional log-likelihood over the possible cells, and reliability tables against the predicted `aptitudeDist`.
+- **Stat check:** a fixed `blueStatGain` multiplier grid. Each point refits the 50 §4 ridge on train rows only, with λ re-selected by CV. It reports the holdout-MAE argmin (the suggestion) and a train-CV argmin with its holdout MAE (`holdoutMaeOfTrainCvSelection`), plus a conditional seeded holdout bootstrap (suppressed below 20 holdout rows) and a no-inheritance baseline.
 - **Skill check:** exposure-aware (q·E[θ], availability counted once) on a full `fitTrainingModelDetailed` refit for each candidate rules context.
 
 Nothing is applied. A zero-placeholder table is reported as nonidentifiable.
@@ -27,6 +27,7 @@ Created:
 - `packages/engine/test/calibrate/helpers.ts`: test inputs (golden context, stored split, injected clock/id/timer) and a deep-freeze helper.
 - `packages/engine/test/calibrate/golden.test.ts`: 27 tests (F12, interior minimum, unbiased evaluation, population, grid = full refit, candidate refits, determinism, base/×1.3/×2 contexts, wider/coarser/offset grids, boundary, seeded split, published context, holdout isolation per candidate, aptitude/skill checks, independent recomputation).
 - `packages/engine/test/calibrate/edge.test.ts`: 25 tests (empty/small rosters, exclusions, matched/guest/unmatched/matched-missing parents, unread guest sparks, illegal lineage, low or NaN confidence, non-finite stats, duplicate ids, split errors and drops, grid/bootstrap guards, tie rule, immutability with deep-frozen inputs, aptitude/skill contradictions, published context, import purity).
+- `packages/engine/test/calibrate/review-r1.test.ts` (review round 1): 19 tests for B1, S1–S4, N1 and N2.
 - `packages/engine/test/calibrate/golden-report.ts`: a TEST-ONLY evidence runner. It prints input hashes, summaries and timings, and writes JSON only with `--out`.
 
 Modified:
@@ -44,12 +45,14 @@ DEFAULT_CALIBRATION_SPLIT_SEED = 't15-holdout'
 DEFAULT_BOOTSTRAP = 200
 DEFAULT_BOOTSTRAP_SEED = 't15-bootstrap'
 CalibrationOptions = { split?, splitSeed?, cvSeed? (default T06 't06-cv'), grid?, bootstrap?, bootstrapSeed?, now?, id?, timer? }
+MIN_SEARCH_GRID_POINTS = 3          // review round 1 (S1)
+MIN_BOOTSTRAP_HOLDOUT = 20          // review round 1 (S2), statistical guard
 ```
 Type exports:
 - `CalibrationReport`, `CalibrationOptions`, `CalibrationGrid`, `CalibrationExclusion`;
-- `CalibrationPopulationRow`, `CalibrationGridPoint`, `CalibrationSelection`, `CalibrationStatCheck`;
+- `CalibrationPopulationRow`, `CalibrationGridPoint`, `CalibrationSelection`, `CalibrationStatCheck`, `CalibrationStatUncertainty`, `CalibrationSelectionAgreement` (round 1);
 - `CalibrationCandidate`, `CalibrationCandidateFit`, `CalibrationSuggestion`, `NotCalibrated`;
-- `AptitudeCheck`, `ReliabilityBin`, `SkillHoldoutCheck`.
+- `AptitudeCheck`, `AptitudeStat`, `FullLikelihoodState`, `ImpossibleReason`, `ReliabilityBin`, `SkillHoldoutCheck`, `SkillCellSummary` (the last four were added in round 1).
 
 Errors are the existing `ModelInputError` codes: `duplicate-id`, `split-unknown`, `split-overlap`, `bad-grid`, `bad-bootstrap`, `bad-multiplier`, `non-finite`.
 
@@ -64,8 +67,11 @@ Errors are the existing `ModelInputError` codes: `duplicate-id`, `split-unknown`
   - `lineageCoupling` counts train→holdout matched-parent references (ADR-0002 limitation; the holdout is not fully independent of train lineage inputs).
 - **`aptitude`:**
   - Computed on every used row under the current rules, with no fit.
-  - `logLik` sums log p(observed) over possible cells. Impossible cells (p = 0) are excluded and counted as `belowBase` or `aboveMax` (Q-158).
-  - `degenerateCells` (max p ≥ 1 − 1e-12) carry no information.
+  - `fullLikelihood` is `'finite'`, `'zero-probability-observed'` or `'no-cells'`. `logLik`/`meanLogLik` are the full log-likelihood over every cell, and they are null unless the state is finite. A p = 0 observation makes the full value −∞, which is reported as null and never as −Infinity or 0.
+  - `conditionalLogLik`/`conditionalMeanLogLik` sum over `possibleCells` (p > 0) only. They are named separately and are not the model's likelihood.
+  - Impossible cells are counted as `belowBase`, `aboveMax` or `unreachable` (an interior support gap), and the three sum to `impossible` (Q-158).
+  - The same fields appear per aptitude, each with its own `status`.
+  - `degenerateCells` (max p ≥ 1 − 1e-12) carry no information. When every cell is degenerate the status is `uninformative` (with an `uninformative` reason) rather than `ok`, and the check does not count towards `complete`.
   - Reliability: one event per (uncertain cell, grade with 0 < p < 1), in 10 bins.
   - Diagnostics only; no rule suggestion comes from this check.
 - **`stats`:**
@@ -74,13 +80,16 @@ Errors are the existing `ModelInputError` codes: `duplicate-id`, `split-unknown`
   - Two criteria per point:
     - `holdoutMae`: Σ over stats of the unweighted holdout MAE, which equals T06 `report.holdout.mae` (tested against full refits at six multipliers, |Δ| < 1e-7, same λ);
     - `trainCvMae`: Σ over stats of the recency-weighted OOF MAE on train rows.
-  - `selected` is the holdout-MAE argmin (50 §8). `trainCvSelected` is the train-CV argmin, and its holdout MAE is `evaluation.unbiasedHoldoutMae`. `selectedHoldoutMaeIsPostSelection: true` is explicit.
+  - `selected` is the holdout-MAE argmin (50 §8). `trainCvSelected` is the train-CV argmin, and its holdout MAE is `evaluation.holdoutMaeOfTrainCvSelection`. It was called `unbiasedHoldoutMae` before round 1; the new name avoids overclaiming, because ADR-0002 lineage coupling remains. `selectedHoldoutMaeIsPostSelection: true` is explicit.
   - Status values:
     - `suggested`;
     - `boundary`: the argmin is at a grid end, so no suggestion is made and a warning says to widen the grid;
-    - `nonidentifiable`: no used row's E[inh] depends on `blueStatGain` (zero table and/or no inheritance turns, with reasons);
-    - `insufficient-data`: fewer than 5 train rows or no holdout row.
-  - `bootstrap`: a seeded resample of holdout rows with the train fit fixed, so it covers holdout sampling only. It reports the argmin p05/p50/p95, the share at a boundary, and whether the interval contains 1.
+    - `nonidentifiable`: no TRAIN row's E[inh] depends on `blueStatGain`, or every train row's sensitivity is the same per stat (absorbed by the intercept). Reasons are given, including holdout-only sensitivity, a zero table and no inheritance turns (round 1, N2);
+    - `insufficient-data`: fewer than 5 train rows, no holdout row, or fewer than 3 grid points. With 1–2 points the grid MAEs are still reported, but nothing is selected (round 1, S1).
+  - `bootstrap`: a seeded resample of holdout rows with the split and train fit fixed. It is conditional and covers holdout sampling only, not full uncertainty. It reports the argmin p05/p50/p95, the share at a boundary, and whether the interval contains 1.
+    - It is null when disabled, when there are fewer than 20 holdout rows, or when no search ran. `uncertainty.status`/`reason`/`scope` say which.
+  - `selectionAgreement` compares the holdout and train-CV selections against the interval. `withinInterval` is null when there is no interval.
+    - A warning is raised when they disagree beyond the interval, or disagree with no interval to judge (round 1, S2).
   - `withoutInheritance`: the same procedure with y = stat.
 - **`candidates`:**
   - m = 1 (current), plus the suggested m when it differs from 1. Each candidate gets a full `fitTrainingModelDetailed` refit with the same split and CV seed (ADR-0002 §2.11).
@@ -89,23 +98,24 @@ Errors are the existing `ModelInputError` codes: `duplicate-id`, `split-unknown`
 - **`skills`:**
   - Per candidate, holdout cells are scored against q·E[θ] from that candidate's refit, with availability counted once. Contradictions (q = 0, y = 1) are excluded and counted (Q-131), the own unique skill is excluded (Q-142), and underflow cells are counted.
   - Because `blueStatGain` does not change q, the skill check is identical across blue candidates. The report says so, and the check does not discriminate blue multipliers.
+  - With zero scored cells, overall or in the guaranteed/lineage-only subgroup, `logLik`, `meanLogLik` and `brier` are null and `status` is `insufficient-data`. `skills.status` is `ok` only when every candidate scored ≥ 1 cell (round 1, S4).
 - **`suggestions`:**
   - Only `{rule: 'blueStatGain', kind: 'multiplier'}`, and only when the status is `suggested`.
-  - Each carries `current`, `proposed`, `change`, `applied: false`, `basis: 'holdout-mae'` and `consistentWithCurrent` (whether the bootstrap interval contains 1).
+  - Each carries `current`, `proposed`, `change`, `applied: false`, `basis: 'holdout-mae'` and `consistentWithCurrent`: whether the conditional bootstrap interval contains 1, or null (unknown) when no interval is available.
 - **`notCalibrated`:** every other rule, with `verified`/`placeholder` flags and the reason it is not estimated (Q-157). `blueStatGain` is included here whenever no suggestion is made.
-- **`status`:** `complete` when the aptitude, stat and skill checks all ran; `partial` when some did; `unavailable` when none did.
+- **`status`:** `complete` when the aptitude check is `ok` (informative), the stat check reached `suggested`/`boundary`, and the skill check is `ok`; `partial` when some did; `unavailable` when none did.
 - **`runtime`:** measured from the injected timer. It is never an input to any result.
 
 ## Decisions
 - **Engine-local report, no schema change (Q-155).** 01 has no calibration contract, and 80 keeps browser/apply integration out of T15.
 - **The population reuses T06 `prepareRow`, then applies the 50 §8 parent filter.** The calibration rows are then exactly the rows the training model could use, with the same low-confidence, unknown-id, illegal-lineage, unread-sparks and non-finite guards.
 - **The default split is seeded over the 50 §8 population** (`t15-holdout`). An explicit split drops ineligible ids into `dropped` instead of throwing. This makes the stored golden split usable: its 44 unmatched-parent rows are dropped and counted.
-- **The selection criterion is holdout MAE as the spec says. The unbiased evaluation is reported separately (Q-156).** No claim is made that the post-selection holdout MAE is independent proof.
+- **The selection criterion is holdout MAE as the spec says. The train-CV selection and its holdout MAE are reported separately (Q-156).** No claim is made that the post-selection holdout MAE is independent proof.
 - **Fixed 0.01 grid over [0.5, 2.0]; not adaptive and no coarse/refine step.** This is the T08 feasibility grid. The fixed grid's measured cost is about 1.1–1.3 s, so no refinement was needed. Wider (0–4, 0.5–3), narrower (1–2), coarser (0.05) and offset (0.73–1.91, step 0.03) grids are tested. Every 0.01 grid that contains the default one returns the same argmin (1.33).
 - **The tie rule prefers the multiplier closest to 1, then the smaller one.** Ties are relative 1e-12. It is deterministic and conservative, never towards 1.3.
 - **The multiplier is relative to the context's current table.** The golden ×1.3 and ×2 contexts recover ≈1.02 and 0.66, i.e. 1.33 and 1.32 in absolute terms. There is no planted-value fallback anywhere.
 - **Grid points reuse the T06 ridge (`fitRidge`) but not the full `fitTrainingModelDetailed`.** Σ_N and θ do not enter MAE. Full refits are done for the candidate contexts, and the tests prove the grid value equals the full refit at six multipliers.
-- **Impossible aptitude cells are excluded and counted, not smoothed (Q-158).**
+- **Impossible aptitude cells are counted and not smoothed. They null the full likelihood, and the finite sum is reported separately as conditional (Q-158, revised in round 1).**
 - **Timer fallback.** The engine entry purity test forbids `Date.now(`. Without `performance`, runtimes are 0, which is documented.
 
 ## Deviations from spec
@@ -142,7 +152,7 @@ Mutation checks (temporary, reverted, verified with `git status`):
 - Counting availability twice (`p = q·q·E[θ]`) fails `skill expected count = Σ q·E[θ]`.
 - Adding holdout rows to the grid ridge fit fails `train criteria, λ choices and candidate fit parameters are bit-identical`.
 
-Golden evidence: `node packages/engine/test/calibrate/golden-report.ts --variants --out <scratch>/runA.json`, run twice (A and B). Excerpt of real output (MAE = Σ over 5 stats):
+Golden evidence: `node packages/engine/test/calibrate/golden-report.ts --variants --out <scratch>/runA.json`, run twice (A and B). Excerpt of real output (MAE = Σ over 5 stats). These are **historical first-candidate figures**; the round-1 output is under *Review round 1*:
 ```
 x1.3 roster, golden context, stored split | complete/suggested | used 196 split 157/39 | holdout-argmin 1.33 (40.939) trainCV-argmin 1.31 unbiased 41.020 current 88.453 noInh 332.506 | boot 1.31/1.33/1.37 | apt ll -235.24 imp 0 | skills E770.7/O797 z1.25 | ms total 1249 grid 1084 (151 pts) fits 126 (2) boot 7
 base roster, golden context, stored split | complete/suggested | used 196 split 157/39 | holdout-argmin 1.03 (35.908) trainCV-argmin 1 unbiased 36.317 current 36.317 noInh 261.802 | boot 1/1.03/1.06 | ... | ms total 1285 grid 1135 (151 pts) fits 123 (2)
@@ -154,7 +164,7 @@ x1.3 roster, seeded split t15-holdout | split 156/40 | holdout-argmin 1.32 train
 x1.3 seeded t15-alt-1..5: holdout-argmin 1.32, 1.30, 1.30, 1.31, 1.34; trainCV-argmin 1.32, 1.31, 1.31, 1.32, 1.32
 base seeded t15-alt-1..5: holdout-argmin 1.01, 1.00, 1.01, 1.01, 1.04; trainCV-argmin 1.02, 1.01, 1.01, 1.02, 1.02
 ```
-- The published context's `apt ll 0.00` is honest. With no inheritance turns every aptitude is predicted to stay at the base grade with p = 1. The 87 cells that differ are impossible and excluded (Q-158), so the remaining cells contribute log 1 = 0.
+- *Superseded (review round 1, B1):* the first candidate printed the published context's `apt ll 0.00` and called it honest. With no inheritance turns every aptitude is predicted to stay at the base grade with p = 1, and 87 observed cells have p = 0, so the true full log-likelihood is −∞. That 0.00 was only the sum over possible cells. It is now `logLik: null`, `fullLikelihood: 'zero-probability-observed'`, `conditionalLogLik: 0` over 1,873 `possibleCells`, and the status is `uninformative`.
 - The 1.33 result agrees with the T08 TEST-ONLY diagnostic on the same population (50§8/50§8: 1.33, λ fixed 0.1/0.1). Here λ is re-selected per point, so the agreement is consistent but not identical code.
 
 Determinism and input integrity:
@@ -179,10 +189,179 @@ Not run: the golden generator command, any recursive build, and the web build. N
 
 ## Open questions / follow-ups
 - Q-155: `CalibrationReport` is engine-local and has no apply path.
-- Q-156: holdout selection vs unbiased evaluation.
+- Q-156: holdout selection vs the train-CV selection; round-1 guards (≥ 3 grid points, bootstrap ≥ 20 holdout rows, identifiability on train rows).
 - Q-157: only `blueStatGain` can be suggested; zero placeholders are nonidentifiable.
-- Q-158: impossible aptitude grades are excluded and counted.
+- Q-158: impossible aptitude grades null the full likelihood; they are counted below-base/above-max/unreachable; the check is uninformative when every cell is degenerate (revised in round 1).
 - **H4 (blocking for Done):** run `calibrateRules(loadContext(master, master.rules), realRoster)` on ≥ 20 imported real veterans and attach the report: population/exclusion counts, aptitude impossible counts, skill contradictions, runtime and input hashes. With the published rules (zero `blueStatGain`, no turns) the stat check will be `nonidentifiable`. A real multiplier needs Q-3/Q-5 values first.
 - **Browser consumer (separate reviewed task, T13/S07):** worker wiring, progress/cancellation (the call is synchronous, about 1.3 s on golden-sized data in Node, with no progress callback), display of `notCalibrated` and the evaluation caveats, and the apply/refit flow (Q-141, Q-155). S07 calibration stays disabled until then.
 - Follow-up: the `test/calibrate` suite takes about 18 s because it runs many full calibrations. Memoisation is already used, and further trimming is optional.
 - No `TODO`s in the code.
+
+## Review round 1
+Review: `docs/reviews/T15-review-1.md` (CHANGES_REQUESTED: B1, S1–S4, N1, N2), against HEAD `1a484d6`. The reviewer's evidence under `~/.hermes/cache/scratch/t15-review-r1/` was read only, never modified. My scratch is `~/.hermes/cache/scratch/t15-fix-r1/`.
+
+The TDD order is visible in git. Tests were committed first (`efe43eb T15: failing review-1 tests`): the new `test/calibrate/review-r1.test.ts`, plus updates to three existing assertions that pinned the old semantics (edge: impossible grade; golden: renamed evaluation, published aptitude status). Real RED output against the unchanged candidate code:
+```
+$ pnpm exec vitest run test/calibrate          # in packages/engine, before any src change
+ × impossible aptitude grades null the full log-likelihood; ...   expected undefined to be 'zero-probability-observed'
+ × published context: 87 zero-probability cells -> full logLik null ...   expected undefined to be 'zero-probability-observed'
+ × golden ×1.3: no impossible cell -> the full likelihood is the actual finite value   expected undefined to be 'finite'
+ × pinkGradeGain 2/2/2 creates interior gaps: classified unreachable ...   expected undefined to be 34
+ × published context: the 87 impossible cells reconcile ...   expected NaN to be 87
+ × the minimum is 3 points   expected undefined to be 3
+ × grid { min: 1.3, max: 1.3, step: 0.01 } (1 point(s)) ...   expected 'suggested' to be 'insufficient-data'
+ × grid { min: 1.3, max: 1.31, step: 0.01 } (2 point(s)) ...   expected 'boundary' to be 'insufficient-data'
+ × minimum holdout for the bootstrap is documented (20)   expected undefined to be 20
+ × 5 train + 1 holdout: bootstrap null with a reason ...   expected { resamples: 100, …(6) } to be null
+ × golden ×1.3: bootstrap available, labelled conditional ...   TypeError: Cannot read properties of undefined (reading 'status')
+ × selectionAgreement: outside the reported interval ...   TypeError: selectionAgreement is not a function
+ × no scored cell at all: totals null, status insufficient-data ...   expected undefined to be 'insufficient-data'
+ × an empty subgroup is null while the other keeps its real metrics   expected undefined to be 'insufficient-data'
+ × golden: real numeric metrics, status ok   expected undefined to be 'ok'
+ × holdoutMaeOfTrainCvSelection replaces unbiasedHoldoutMae   expected undefined to be 41.019800926455574
+ × holdout-only sensitivity (train rows carry no parent blue spark) is nonidentifiable   expected 'suggested' to be 'nonidentifiable'
+ × blueIdentifiability: zero, holdout-only, constant ... signals   TypeError: blueIdentifiability is not a function
+ × (golden) the train-CV selection ... holdout MAE beats current rules   expected undefined to be 41.019800926455574
+ × (golden) proposes no blueStatGain factor and says why   expected 'ok' to be 'uninformative'
+ Test Files  3 failed (3)
+      Tests  20 failed | 51 passed (71)
+```
+After the RED commit I made one change to a test. In the S2 one-row test, a conditional `if (holdout !== trainCv) expect(warning)` became an unconditional assertion that the selections differ and the disagreement warning is present. During RED that test already failed earlier, on `bootstrap` not being null.
+
+GREEN:
+```
+$ pnpm exec vitest run test/calibrate
+ Test Files  3 passed (3)
+      Tests  71 passed (71)          # 27 golden + 25 edge + 19 review-r1
+   Duration  17.36s
+```
+
+### B1: full aptitude likelihood (blocking)
+- `aptitude.ts` changes, applied to the aggregate and to every per-aptitude entry:
+  - `fullLikelihood: 'finite' | 'zero-probability-observed' | 'no-cells'`.
+  - `logLik`/`meanLogLik` are the FULL value and are null unless the state is finite. They are JSON-safe: null, never −Infinity or a finite stand-in.
+  - The old finite sum is now `conditionalLogLik`/`conditionalMeanLogLik`, with the denominator `possibleCells`.
+- Status:
+  - The aggregate status is `ok | uninformative | insufficient-data`. Each aptitude has `ok | uninformative`.
+  - All-degenerate cells give `uninformative` with an `uninformative` reason, plus a report warning. That check no longer counts towards `complete` (`index.ts` status uses `aptitude.status === 'ok'`).
+- The impossible-cell warning now says the full log-likelihood is −∞ (null) and names the conditional denominator.
+- Published context (test `B1 published context`; evidence run):
+  - `apt uninformative full zero-probability-observed ll null cond 0.00/1873 imp 87 (below 0 above 87 gap 0)`;
+  - report `partial/nonidentifiable`;
+  - every per-aptitude entry is `uninformative`, and those with impossible > 0 have a null full logLik.
+- Golden ×1.3: `apt ok full finite ll -235.24 cond -235.24/1960 imp 0`. That is the actual likelihood, the same value as before; the independent public-API recomputation test still passes.
+- Edge row with a below-base turf G: `logLik` null, `possibleCells = cells − 1`, finite negative `conditionalLogLik`, `status: ok` (informative cells remain), and dirt stays `finite`.
+- Documentation: Q-158 is rewritten. The old "`apt ll 0.00` is honest" claim and its figure are kept above and labelled *Superseded*. The evidence runner prints the full and conditional values and the state.
+
+### S1: one- and two-point grids
+- New constant `MIN_SEARCH_GRID_POINTS = 3`. With fewer points the stat check is `insufficient-data`, with the reason `need ≥ 3 grid points for a multiplier search`:
+  - grid MAEs and the current point are still reported as diagnostics;
+  - `selected`/`trainCvSelected`/`bootstrap` are null and `uncertainty.status` is `grid-too-small`;
+  - there is no suggestion and only the m = 1 candidate is refitted;
+  - `blueStatGain` is listed in `notCalibrated`.
+- `atBoundary` no longer needs the `ms.length > 1` special case.
+- Tests pin `{1.3,1.3}` (1 point; before the fix: `suggested`) and `{1.3,1.31}` (2 points; before the fix: `boundary`). Default grid: still 151 points, `suggested`.
+
+### S2: tiny holdout and the bootstrap
+- Decision: `MIN_BOOTSTRAP_HOLDOUT = 20`. This is a statistical guard, not a game fact.
+  - Below 20 holdout rows the percentile bootstrap of the argmin rests on very few distinct resamples: there is exactly 1 at n = 1, and C(2n−1, n) = 126 at n = 5. That gives zero- or near-zero-width intervals.
+  - 20 is a conservative conventional floor. The rationale is in the `index.ts` doc comment and in Q-156.
+  - The golden holdouts (39/40 rows) are above it, so the published golden figures are unchanged.
+- Below 20, or with `bootstrap: 0`:
+  - `bootstrap` is null;
+  - `uncertainty: {status: 'insufficient-holdout' | 'disabled', reason, minHoldout: 20, scope}`;
+  - `consistentWithCurrent` is null (unknown, not false);
+  - `selectionAgreement.withinInterval` is null.
+- The 50 §8 holdout-MAE selection is still reported and suggested, as the spec requires. The "only N holdout rows: noisy" warning stays.
+- `uncertainty.scope` says the interval is holdout-row resampling, conditional on the fixed split and train fit, and is not full uncertainty.
+- `selectionAgreement {holdout, trainCv, difference, withinInterval}`:
+  - The warning `selections disagree beyond the reported conditional holdout-bootstrap interval` is raised when the train-CV argmin falls outside [p05, p95].
+  - When no interval exists, the warning is `… disagree … and no bootstrap interval is available`.
+- Controlled one-row test (the reviewer's P5 shape, 5 train + 1 holdout): selections 1.42 vs 1.97, bootstrap null, `insufficient-holdout`, `consistentWithCurrent: null`, disagreement warning present, JSON round-trip equal.
+- Unit tests cover in-interval (true), out-of-interval (false) and no interval (null).
+- Golden ×1.3: `available`, `withinInterval: true` (1.31 in [1.31, 1.37]), no disagreement warning.
+
+### S3: unreachable interior grades
+- `ImpossibleReason = 'below-base' | 'above-max' | 'unreachable'`:
+  - below-base: observed index < trainee base;
+  - above-max: observed index > the highest grade with p > 0;
+  - unreachable: otherwise, a gap inside the support.
+- Counts are kept overall and per aptitude, and `belowBase + aboveMax + unreachable = impossible` holds at both levels (tested). Examples carry the new reason.
+- pinkGradeGain 2/2/2 test, with an independent classification through the public API: unreachable = 34 (the reviewer's P7 gap count), aboveMax and belowBase equal the independent counts, and the per-aptitude gaps match.
+- Published context reconciles: 87 = 0 + 87 + 0.
+
+### S4: zero scored skill cells
+- `SkillHoldoutCheck` and the `SkillCellSummary` subgroups (guaranteed / lineage-only) gain `status: 'ok' | 'insufficient-data'`.
+- `logLik`, `meanLogLik` and `brier` are now `number | null`, and are null when cells = 0. `z` was already null.
+- `skills.status` is `ok` only when every candidate scored ≥ 1 cell. Otherwise it is `insufficient-data`, so the report is not `complete`, and a warning is added per candidate.
+- Tests:
+  - A context with no deck/innate sources and zero green/white/race/scenario activation: cells 0, every total and subgroup metric null, `skills.status` insufficient-data, report not `complete`, JSON round-trip equal.
+  - Deck/innate sources removed only: the guaranteed subgroup is null and insufficient-data, while lineage-only keeps its real negative logLik and stays `ok`.
+  - Golden: real numeric metrics, all statuses `ok`.
+
+### N1: precise naming
+- `evaluation.unbiasedHoldoutMae` was renamed to `evaluation.holdoutMaeOfTrainCvSelection`. The API is engine-local and unmerged, so no compatibility alias was kept.
+- The note no longer says "unbiased". It says holdout targets were not used to choose the train-CV selection, and that ADR-0002 lineage coupling means neither value is a fully independent evaluation.
+- Also updated: the source doc comments, the golden test, the evidence runner label (`holdoutMaeOfTrainCvSel`), Summary, Report semantics, Decisions and Q-156. A test asserts the old key is absent and the note mentions lineage and not "unbiased".
+
+### N2: identifiability on train rows
+- `blueIdentifiability(trainD, holdD)` replaces the any-used-row sensitivity check:
+  - nonidentifiable when no train row is sensitive, and the reason names any holdout-only sensitivity (the holdout is evaluation only);
+  - nonidentifiable when every train row has the same sensitivity per stat (relative tol 1e-9). Then m·d is a constant per-stat shift absorbed by the intercept, and the reason says so. No argmin is fabricated.
+  - Any within-train variation stays identifiable.
+- The zero-table and no-turns reasons are still appended where they apply.
+- Tests:
+  - Controlled: 34 guest/guest rows, with the 28 train rows' parent blue sparks removed, give `nonidentifiable` ("no train row … 6 holdout row(s) do") and no suggestion. Before the fix: `suggested` 1.21 with train-CV argmin 1.
+  - Unit cases: zero, holdout-only, constant, and varying.
+  - Golden: still `suggested`.
+
+### Verification (round 1)
+Environment: Node v25.9.0, pnpm 11.22.0.
+```
+$ pnpm install --frozen-lockfile --offline
+Done in 329ms using pnpm v11.22.0
+
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test      # exit 0
+packages/schema test:       Tests  149 passed (149)
+packages/master-data test:       Tests  82 passed (82)
+apps/api test:       Tests  111 passed (111)
+packages/engine test:  Test Files  19 passed (19)
+packages/engine test:       Tests  311 passed (311)
+apps/web test:       Tests  124 passed (124)
+```
+The first recursive gate attempt ran at the same time as the two evidence runs, and failed once. The failure was the unchanged existing test `deep-frozen context rules and roster produce the same report`: `Test timed out in 5000ms` under the CPU contention. Run alone, the gates gave the exit-0 output above. Its default 5 s timeout is listed as a follow-up; I did not change it, because that would be an acceptance or timeout change outside this fix.
+
+Evidence: `node packages/engine/test/calibrate/golden-report.ts --variants --out <scratch>/t15-fix-r1/run{A,B}.json`, run twice, both exit 0.
+```
+identical except timings: True 17
+x1.3 roster, golden context, stored split | complete/suggested | used 196 split 157/39 | holdout-argmin 1.33 (40.939) trainCV-argmin 1.31 holdoutMaeOfTrainCvSel 41.020 current 88.453 noInh 332.506 | boot 1.31/1.33/1.37 | apt ok full finite ll -235.24 cond -235.24/1960 imp 0 (below 0 above 0 gap 0) | skills E770.7/O797 z1.25 ok E770.7/O797 z1.25 ok | ms total 1457 grid 1273 (151 pts) fits 144 (2) boot 8
+base roster, golden context, stored split | complete/suggested | holdout-argmin 1.03 (35.908) trainCV-argmin 1 holdoutMaeOfTrainCvSel 36.317 | boot 1/1.03/1.06 | apt ok full finite ll -235.24
+x1.3 roster, published context | partial/nonidentifiable | boot - (not-run) | apt uninformative full zero-probability-observed ll null cond 0.00/1873 imp 87 (below 0 above 87 gap 0) | skills E734.7/O751 z0.81 ok
+x1.3 roster, golden ×1.3 context | holdout-argmin 1.02 trainCV-argmin 1.01 | boot 1.01/1.02/1.05
+x1.3 roster, golden ×2 context   | holdout-argmin 0.66 trainCV-argmin 0.65 | boot 0.66/0.66/0.68
+x1.3 roster, grid 0..4 step 0.01 | holdout-argmin 1.33 (40.939) | boot - (disabled)
+x1.3 roster, seeded split t15-holdout | split 156/40 | holdout-argmin 1.32 trainCV-argmin 1.32 | boot 1.29/1.32/1.36
+x1.3 seeded t15-alt-1..5: holdout-argmin 1.32, 1.30, 1.30, 1.31, 1.34; trainCV-argmin 1.32, 1.31, 1.31, 1.32, 1.32
+base seeded t15-alt-1..5: holdout-argmin 1.01, 1.00, 1.01, 1.01, 1.04; trainCV-argmin 1.02, 1.01, 1.01, 1.02, 1.02
+6a02f36050f92899f55ffc2a78ab355d12b545c0b41888e6b7e110619c707911  packages/engine/test/golden/roster.json
+8982ab4aba43c4c770fc41260361a29255e2cccd57a5b3db70075c23f94f5434  packages/engine/test/golden/roster.calibration-x1.3.json
+1ccf0d5a9c2b1fb6d9626126c22a0a2c4d9eb634af79457097a6dc68eceed0b2  packages/engine/test/golden/truth.json
+352e5ea3350fb39a68fd38815938d01565e7e1ed8e8aff0e2510f036d22a95e7  apps/web/public/master/global-20260930/rules.json
+$ git diff --quiet HEAD -- packages/engine/test/golden apps packages/schema packages/master-data docs/specs && echo "published inputs unchanged"
+published inputs unchanged
+```
+- Golden ×1.3 is still 1.33, in [1.2, 1.4]. I compared all 17 runs read-only against the reviewer's `t15-review-r1/runA.json` for the first candidate: selected, trainCvSelected, currentHoldoutMae, maeAt, bootstrap, withoutInheritance, suggestions, candidates (MAE, coverage, fingerprint), skills (excluding the new status), aptitude impossible counts and the old `unbiasedHoldoutMae` against the new `holdoutMaeOfTrainCvSelection` gave `diffs []`. The hashes are equal.
+- Not run: the golden generator, any recursive build, and the web build. No web, schema, fixture, golden, master or contract files changed.
+- `fit.ts` keeps the round-0 visibility-only exports and was not touched in this round.
+
+### Decisions (round 1)
+- Null rather than −Infinity for an impossible full likelihood (JSON safety), with an explicit state enum rather than overloading null.
+- `uninformative` is a check status, not a warning only: a check that cannot discriminate must not make a report `complete`.
+- `MIN_SEARCH_GRID_POINTS = 3` is the smallest grid with an interior point. `MIN_BOOTSTRAP_HOLDOUT = 20` is a documented statistical guard. Neither changes the default grid, the golden holdouts or the F12 band.
+- The 50 §8 holdout argmin is still suggested on small holdouts, because the spec selects on the holdout; only the uncertainty and agreement fields become unknown.
+- The identifiability check uses exact zero for "no sensitivity" (as before) and a relative 1e-9 tolerance for "constant across train rows".
+
+### Follow-ups (round 1)
+- The existing edge test `deep-frozen context rules and roster produce the same report` runs a full calibration under the default 5 s Vitest timeout. It passes alone (1118 ms in a verbose run) but timed out once under CPU contention. A separate decision is needed on whether to give it an explicit timeout.
+- A browser consumer must display `fullLikelihood`/`uninformative`, `uncertainty.reason` and `selectionAgreement`, and never show a null as 0 (S07 task, Q-155).
+- H4 real-roster run and Q-3/Q-5 are unchanged.

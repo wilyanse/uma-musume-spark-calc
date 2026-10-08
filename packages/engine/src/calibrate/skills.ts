@@ -4,6 +4,9 @@
  * (q = 1 for deck hint/event or innate, else the recorded-lineage `skillHintProb`) and θ from the
  * candidate's own refit (train rows only). The trainee's own unique skill is excluded (Q-142);
  * an acquired skill with q = 0 is a contradiction (Q-131), counted and excluded.
+ *
+ * With zero scored cells (overall or in a subgroup) the likelihood and Brier metrics are null and
+ * the status is 'insufficient-data' (T15 review 1, S4): an empty sum is not a perfect score.
  */
 import type { ModelSnapshot } from '@uma/schema';
 import type { EngineContext } from '../context.ts';
@@ -12,14 +15,19 @@ import type { PreparedRow } from '../model/fit.ts';
 import { betaMoments } from '../model/skills.ts';
 
 export interface SkillCellSummary {
+  /** 'insufficient-data' when no cell was scored (then logLik/meanLogLik/brier are null). */
+  status: 'ok' | 'insufficient-data';
   cells: number;
   expected: number;
   observed: number;
-  logLik: number;
-  brier: number;
+  logLik: number | null;
+  meanLogLik: number | null;
+  brier: number | null;
 }
 
 export interface SkillHoldoutCheck {
+  /** 'insufficient-data' when no cell was scored (every metric below is then null). */
+  status: 'ok' | 'insufficient-data';
   rows: number;
   /** Candidate cells with q > 0 scored in the likelihood. */
   cells: number;
@@ -29,9 +37,9 @@ export interface SkillHoldoutCheck {
   observed: number;
   /** z = (observed − expected) / √Σ P(1 − P). Null when the variance is 0. */
   z: number | null;
-  logLik: number;
+  logLik: number | null;
   meanLogLik: number | null;
-  brier: number;
+  brier: number | null;
   guaranteed: SkillCellSummary;
   lineageOnly: SkillCellSummary;
   /** Scored cells whose θ fell back to the mode's global prior `'*'`. */
@@ -55,7 +63,25 @@ export interface SkillHoldoutCheck {
   }[];
 }
 
-const empty = (): SkillCellSummary => ({ cells: 0, expected: 0, observed: 0, logLik: 0, brier: 0 });
+interface Acc {
+  cells: number;
+  expected: number;
+  observed: number;
+  logLik: number;
+  brier: number;
+}
+
+const empty = (): Acc => ({ cells: 0, expected: 0, observed: 0, logLik: 0, brier: 0 });
+
+const summary = (s: Acc): SkillCellSummary => ({
+  status: s.cells ? 'ok' : 'insufficient-data',
+  cells: s.cells,
+  expected: s.expected,
+  observed: s.observed,
+  logLik: s.cells ? s.logLik : null,
+  meanLogLik: s.cells ? s.logLik / s.cells : null,
+  brier: s.cells ? s.brier / s.cells : null,
+});
 
 export function skillHoldoutCheck(
   ctx: EngineContext,
@@ -123,25 +149,25 @@ export function skillHoldoutCheck(
       b.hits += c.y;
     }
   }
-  const cells = g.cells + l.cells;
-  const expected = g.expected + l.expected;
-  const observed = g.observed + l.observed;
-  const logLik = g.logLik + l.logLik;
-  const norm = (s: SkillCellSummary): SkillCellSummary => ({
-    ...s,
-    brier: s.cells ? s.brier / s.cells : 0,
+  const total = summary({
+    cells: g.cells + l.cells,
+    expected: g.expected + l.expected,
+    observed: g.observed + l.observed,
+    logLik: g.logLik + l.logLik,
+    brier: g.brier + l.brier,
   });
   return {
+    status: total.status,
     rows: hold.length,
-    cells,
-    expected,
-    observed,
-    z: variance > 0 ? (observed - expected) / Math.sqrt(variance) : null,
-    logLik,
-    meanLogLik: cells ? logLik / cells : null,
-    brier: cells ? (g.brier + l.brier) / cells : 0,
-    guaranteed: norm(g),
-    lineageOnly: norm(l),
+    cells: total.cells,
+    expected: total.expected,
+    observed: total.observed,
+    z: variance > 0 ? (total.observed - total.expected) / Math.sqrt(variance) : null,
+    logLik: total.logLik,
+    meanLogLik: total.meanLogLik,
+    brier: total.brier,
+    guaranteed: summary(g),
+    lineageOnly: summary(l),
     priorFallbackCells: prior,
     contradictions,
     contradictionSkills: [...contra]
