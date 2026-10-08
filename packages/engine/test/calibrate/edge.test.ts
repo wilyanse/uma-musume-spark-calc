@@ -7,6 +7,7 @@ import type { RosterVeteran } from '@uma/schema';
 import { calibrateRules, ModelInputError, withBlueStatGainMultiplier } from '../../src/index.ts';
 import { buildGrid, selectArgmin } from '../../src/calibrate/grid.ts';
 import {
+  FULL_CALIBRATION_TIMEOUT_MS,
   calibrationRoster,
   deepFreeze,
   goldenCtx,
@@ -14,6 +15,9 @@ import {
   publishedCtx,
   storedSplit,
 } from './helpers.ts';
+
+/** Explicit bounded timeout for full-calibration tests (review 2, S-C). */
+const T = FULL_CALIBRATION_TIMEOUT_MS;
 
 const byId = new Map(calibrationRoster.map((v) => [v.id, v]));
 const guestGuest = calibrationRoster.filter(
@@ -101,29 +105,33 @@ describe('eligibility: matched-or-guest parents, exclusions all counted', () => 
     );
   });
 
-  it('explicit split: unknown or overlapping ids are typed errors; ineligible ids are dropped and counted', () => {
-    const ids = guestGuest.slice(0, 10).map((v) => v.id);
-    const rows = guestGuest.slice(0, 10);
-    expect(() =>
-      calibrateRules(goldenCtx(), rows, opts({ split: { trainIds: ['nope'], holdoutIds: ids } })),
-    ).toThrow(/split-unknown/);
-    expect(() =>
-      calibrateRules(
+  it(
+    'explicit split: unknown or overlapping ids are typed errors; ineligible ids are dropped and counted',
+    () => {
+      const ids = guestGuest.slice(0, 10).map((v) => v.id);
+      const rows = guestGuest.slice(0, 10);
+      expect(() =>
+        calibrateRules(goldenCtx(), rows, opts({ split: { trainIds: ['nope'], holdoutIds: ids } })),
+      ).toThrow(/split-unknown/);
+      expect(() =>
+        calibrateRules(
+          goldenCtx(),
+          rows,
+          opts({ split: { trainIds: ids.slice(0, 6), holdoutIds: ids.slice(5) } }),
+        ),
+      ).toThrow(/split-overlap/);
+      const low = structuredClone(rows);
+      low[0]!.minConfidence = 0.1;
+      const r = calibrateRules(
         goldenCtx(),
-        rows,
-        opts({ split: { trainIds: ids.slice(0, 6), holdoutIds: ids.slice(5) } }),
-      ),
-    ).toThrow(/split-overlap/);
-    const low = structuredClone(rows);
-    low[0]!.minConfidence = 0.1;
-    const r = calibrateRules(
-      goldenCtx(),
-      low,
-      opts({ split: { trainIds: ids.slice(0, 7), holdoutIds: ids.slice(7) }, bootstrap: 0 }),
-    );
-    expect(r.split.dropped).toEqual([{ id: ids[0], reason: 'low-confidence' }]);
-    expect(r.split.trainIds).toHaveLength(6);
-  });
+        low,
+        opts({ split: { trainIds: ids.slice(0, 7), holdoutIds: ids.slice(7) }, bootstrap: 0 }),
+      );
+      expect(r.split.dropped).toEqual([{ id: ids[0], reason: 'low-confidence' }]);
+      expect(r.split.trainIds).toHaveLength(6);
+    },
+    T,
+  );
 });
 
 describe('options and numeric guards', () => {
@@ -179,20 +187,24 @@ describe('options and numeric guards', () => {
 });
 
 describe('rules and roster are never mutated or auto-applied', () => {
-  it('deep-frozen context rules and roster produce the same report', () => {
-    const rows = calibrationRoster.map((v) => structuredClone(v));
-    const ctx = goldenCtx();
-    deepFreeze(ctx.rules);
-    deepFreeze(ctx.tables);
-    deepFreeze(rows);
-    const snapshot = JSON.stringify(rows);
-    const rulesBefore = JSON.stringify(ctx.rules);
-    const r = calibrateRules(ctx, rows, opts({ bootstrap: 20 }));
-    expect(JSON.stringify(rows)).toBe(snapshot);
-    expect(JSON.stringify(ctx.rules)).toBe(rulesBefore);
-    expect(r.suggestions.every((s) => s.applied === false)).toBe(true);
-    expect(r.rulesVersion).toBe(ctx.rules.version);
-  });
+  it(
+    'deep-frozen context rules and roster produce the same report',
+    () => {
+      const rows = calibrationRoster.map((v) => structuredClone(v));
+      const ctx = goldenCtx();
+      deepFreeze(ctx.rules);
+      deepFreeze(ctx.tables);
+      deepFreeze(rows);
+      const snapshot = JSON.stringify(rows);
+      const rulesBefore = JSON.stringify(ctx.rules);
+      const r = calibrateRules(ctx, rows, opts({ bootstrap: 20 }));
+      expect(JSON.stringify(rows)).toBe(snapshot);
+      expect(JSON.stringify(ctx.rules)).toBe(rulesBefore);
+      expect(r.suggestions.every((s) => s.applied === false)).toBe(true);
+      expect(r.rulesVersion).toBe(ctx.rules.version);
+    },
+    T,
+  );
 });
 
 describe('aptitude and skill contradictions are counted, not hidden', () => {
@@ -209,41 +221,53 @@ describe('aptitude and skill contradictions are counted, not hidden', () => {
   const ctx = goldenCtx();
   const outfitTurf = ctx.outfits.get(row.outfitId)!.aptitudes.turf;
 
-  it('impossible aptitude grades null the full log-likelihood; the conditional one stays finite', () => {
-    const r = calibrateRules(ctx, rows, opts({ bootstrap: 0 }));
-    expect(outfitTurf).not.toBe('G'); // the fixture row must make G impossible (not vacuous)
-    expect(r.aptitude.impossible).toBe(1);
-    expect(r.aptitude.belowBase).toBe(1);
-    expect(r.aptitude.fullLikelihood).toBe('zero-probability-observed');
-    expect(r.aptitude.logLik).toBeNull();
-    expect(r.aptitude.meanLogLik).toBeNull();
-    expect(r.aptitude.possibleCells).toBe(r.aptitude.cells - 1);
-    expect(Number.isFinite(r.aptitude.conditionalLogLik)).toBe(true);
-    expect(r.aptitude.conditionalLogLik!).toBeLessThan(0);
-    expect(r.aptitude.perAptitude.turf!.impossible).toBe(1);
-    expect(r.aptitude.perAptitude.turf!.logLik).toBeNull();
-    expect(Number.isFinite(r.aptitude.perAptitude.turf!.conditionalLogLik)).toBe(true);
-    expect(r.aptitude.perAptitude.dirt!.fullLikelihood).toBe('finite');
-    expect(Number.isFinite(r.aptitude.perAptitude.dirt!.logLik)).toBe(true);
-    expect(r.aptitude.status).toBe('ok'); // informative cells remain
-  });
+  it(
+    'impossible aptitude grades null the full log-likelihood; the conditional one stays finite',
+    () => {
+      const r = calibrateRules(ctx, rows, opts({ bootstrap: 0 }));
+      expect(outfitTurf).not.toBe('G'); // the fixture row must make G impossible (not vacuous)
+      expect(r.aptitude.impossible).toBe(1);
+      expect(r.aptitude.belowBase).toBe(1);
+      expect(r.aptitude.fullLikelihood).toBe('zero-probability-observed');
+      expect(r.aptitude.logLik).toBeNull();
+      expect(r.aptitude.meanLogLik).toBeNull();
+      expect(r.aptitude.possibleCells).toBe(r.aptitude.cells - 1);
+      expect(Number.isFinite(r.aptitude.conditionalLogLik)).toBe(true);
+      expect(r.aptitude.conditionalLogLik!).toBeLessThan(0);
+      expect(r.aptitude.perAptitude.turf!.impossible).toBe(1);
+      expect(r.aptitude.perAptitude.turf!.logLik).toBeNull();
+      expect(Number.isFinite(r.aptitude.perAptitude.turf!.conditionalLogLik)).toBe(true);
+      expect(r.aptitude.perAptitude.dirt!.fullLikelihood).toBe('finite');
+      expect(Number.isFinite(r.aptitude.perAptitude.dirt!.logLik)).toBe(true);
+      expect(r.aptitude.status).toBe('ok'); // informative cells remain
+    },
+    T,
+  );
 
-  it('a q = 0 acquired holdout skill is a contradiction, excluded from the likelihood', () => {
-    const r = calibrateRules(ctx, rows, opts({ bootstrap: 0 }));
-    const h = r.skills.candidates[0]!.holdout;
-    expect(h.contradictions).toBe(1);
-    expect(h.contradictionSkills).toEqual([{ skillId: orphan, count: 1 }]);
-    expect(Number.isFinite(h.logLik)).toBe(true);
-  });
+  it(
+    'a q = 0 acquired holdout skill is a contradiction, excluded from the likelihood',
+    () => {
+      const r = calibrateRules(ctx, rows, opts({ bootstrap: 0 }));
+      const h = r.skills.candidates[0]!.holdout;
+      expect(h.contradictions).toBe(1);
+      expect(h.contradictionSkills).toEqual([{ skillId: orphan, count: 1 }]);
+      expect(Number.isFinite(h.logLik)).toBe(true);
+    },
+    T,
+  );
 });
 
 describe('published Global context end to end', () => {
-  it('runs without throwing and is honest about placeholders', () => {
-    const r = calibrateRules(publishedCtx(), calibrationRoster, opts({ bootstrap: 0 }));
-    expect(r.stats.status).toBe('nonidentifiable');
-    expect(r.warnings.join(' ')).toMatch(/placeholder|unverified/);
-    expect(r.notCalibrated.length).toBeGreaterThan(5);
-  });
+  it(
+    'runs without throwing and is honest about placeholders',
+    () => {
+      const r = calibrateRules(publishedCtx(), calibrationRoster, opts({ bootstrap: 0 }));
+      expect(r.stats.status).toBe('nonidentifiable');
+      expect(r.warnings.join(' ')).toMatch(/placeholder|unverified/);
+      expect(r.notCalibrated.length).toBeGreaterThan(5);
+    },
+    T,
+  );
 });
 
 describe('production purity', () => {
@@ -252,7 +276,14 @@ describe('production purity', () => {
     const { join } = await import('node:path');
     const dir = join(import.meta.dirname, '../../src/calibrate');
     const files = readdirSync(dir).filter((f) => f.endsWith('.ts'));
-    expect(files.sort()).toEqual(['aptitude.ts', 'context.ts', 'grid.ts', 'index.ts', 'skills.ts']);
+    expect(files.sort()).toEqual([
+      'aptitude.ts',
+      'context.ts',
+      'grid.ts',
+      'identify.ts',
+      'index.ts',
+      'skills.ts',
+    ]);
     for (const f of files) {
       const text = readFileSync(join(dir, f), 'utf8');
       const specs = [...text.matchAll(/from '([^']+)'/g)].map((m) => m[1]!);

@@ -34,13 +34,24 @@ function q13Roster(k: number): RosterVeteran[] {
   const SK = ['spd', 'sta', 'pow', 'gut', 'wit'] as const;
   const ids = ['spark:speed', 'spark:stamina', 'spark:power', 'spark:guts', 'spark:wit'];
   const sidOf = (s: string) =>
-    s === 'scenario:ura-finale' ? 0 : s === 'scenario:unity-cup' ? 1 : s === 'scenario:trackblazer' ? 2 : 4;
+    s === 'scenario:ura-finale'
+      ? 0
+      : s === 'scenario:unity-cup'
+        ? 1
+        : s === 'scenario:trackblazer'
+          ? 2
+          : 4;
   return guestAll.map((v) => {
     const c = structuredClone(v);
     c.sparks = c.sparks.filter((s) => !(s.type === 'blue' && s.owner !== 'self'));
     const j = sidOf(c.scenarioId);
     for (const owner of ['parent1', 'parent2'] as const) {
-      c.sparks.push({ owner, sparkId: ids[j]!, stars: 3, type: 'blue' } as RosterVeteran['sparks'][number]);
+      c.sparks.push({
+        owner,
+        sparkId: ids[j]!,
+        stars: 3,
+        type: 'blue',
+      } as RosterVeteran['sparks'][number]);
     }
     c.stats[SK[j]!] = Math.round(c.stats[SK[j]!] + k * 240);
     return c;
@@ -131,15 +142,36 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
   );
 
   it('Q7.unitTiny: a 1e-8 relative variation is not within-train signal', () => {
-    const tiny = blueIdentifiability([[1, 0, 0, 0, 0], [1 + 1e-8, 0, 0, 0, 0]], []);
+    const tiny = blueIdentifiability(
+      [
+        [1, 0, 0, 0, 0],
+        [1 + 1e-8, 0, 0, 0, 0],
+      ],
+      [],
+    );
     expect(tiny.identifiable).toBe(false);
     expect(tiny.reasons.join(' ')).toMatch(/intercept/);
     // A sensitivity at floating-point noise level relative to the stat scale is no sensitivity.
-    const noise = blueIdentifiability([[1e-12, 0, 0, 0, 0], [3e-12, 0, 0, 0, 0]], []);
+    const noise = blueIdentifiability(
+      [
+        [1e-12, 0, 0, 0, 0],
+        [3e-12, 0, 0, 0, 0],
+      ],
+      [],
+    );
     expect(noise.identifiable).toBe(false);
     expect(noise.reasons.join(' ')).toMatch(/no train row/);
     // A real relative variation is signal.
-    expect(blueIdentifiability([[1, 0, 0, 0, 0], [1.5, 0, 0, 0, 0], [1, 0, 0, 0, 0]], []).identifiable).toBe(true);
+    expect(
+      blueIdentifiability(
+        [
+          [1, 0, 0, 0, 0],
+          [1.5, 0, 0, 0, 0],
+          [1, 0, 0, 0, 0],
+        ],
+        [],
+      ).identifiable,
+    ).toBe(true);
   });
 
   // Design: intercept + 2-group one-hot + one free covariate, 8 rows (rank 4 < 8).
@@ -170,7 +202,13 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
     const r = blueIdentifiability(d, [], { design: X, structural });
     expect(r.identifiable).toBe(true);
     expect(r.identification.status).toBe('identified');
-    expect(r.identification.perStat.map((s) => s.confounded)).toEqual([true, false, null, null, null]);
+    expect(r.identification.perStat.map((s) => s.confounded)).toEqual([
+      true,
+      false,
+      null,
+      null,
+      null,
+    ]);
     expect(r.identification.confoundedStats).toEqual(['spd']);
   });
 
@@ -179,10 +217,17 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
       [1, 1, 0],
       [1, 0, 1],
     ];
-    const r = blueIdentifiability([[1, 0, 0, 0, 0], [2, 0, 0, 0, 0]], [], {
-      design: Xsat,
-      structural: [true, true, true],
-    });
+    const r = blueIdentifiability(
+      [
+        [1, 0, 0, 0, 0],
+        [2, 0, 0, 0, 0],
+      ],
+      [],
+      {
+        design: Xsat,
+        structural: [true, true, true],
+      },
+    );
     expect(r.identification.saturated).toBe(true);
     expect(r.identification.basis).toBe('intercept-only');
     expect(r.identifiable).toBe(true);
@@ -193,7 +238,11 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
     for (const s of [1e-6, 1, 1e6]) {
       const d = dWithin.map((r) => r.map((x) => x * s));
       const Xs = X.map((r) => r.map((x, j) => (j === 3 ? x * s : x)));
-      const res = blueIdentifiability(d, [], { design: Xs, structural, scale: [1e3 * s, 1, 1, 1, 1] });
+      const res = blueIdentifiability(d, [], {
+        design: Xs,
+        structural,
+        scale: [1e3 * s, 1, 1, 1, 1],
+      });
       expect(res.identifiable).toBe(true);
     }
   });

@@ -20,7 +20,9 @@
  *    (`holdoutMaeOfTrainCvSelection`) evaluates that procedure, subject to ADR-0002 lineage
  *    coupling. E[inh] is affine in m (blueStatGain only scales event stat gains), so
  *    y_m = stat − (E₀ + m·(E₁ − E₀)) is exact; candidate refits cross-check it. Identifiability
- *    is judged on TRAIN rows (the rows that fit the model), a search needs ≥ 3 grid points and
+ *    is judged on TRAIN rows against the train design column space (`identify.ts`: a
+ *    sensitivity the design reproduces is design-confounded and only the ridge penalty would pick
+ *    m, so nothing is selected), a search needs ≥ 3 grid points and
  *    the holdout bootstrap needs ≥ MIN_BOOTSTRAP_HOLDOUT holdout rows.
  * 3. Skills: for each candidate rules context (current, suggested) the model is refitted with
  *    `fitTrainingModelDetailed` (ADR-0002 §2.11) and holdout skills are scored against
@@ -28,7 +30,7 @@
  *
  * Nothing is applied: suggestions are values for the user to apply from S07, then refit.
  */
-import { STAT_KEYS } from '@uma/schema';
+import { GRADES, STAT_KEYS } from '@uma/schema';
 import type { StatKey } from '@uma/schema';
 import type { EngineContext } from '../context.ts';
 import { expectationFromPlan, planInheritance } from '../inheritance/inheritance.ts';
@@ -46,7 +48,7 @@ import {
 import type { ExclusionReason, PreparedRow } from '../model/fit.ts';
 import { recordedParent } from '../model/lineage.ts';
 import type { ParentKind } from '../model/lineage.ts';
-import { CV_FOLDS, dot, fitRidge } from '../model/ridge.ts';
+import { CV_FOLDS, cvFolds, dot, fitRidge } from '../model/ridge.ts';
 import type { DesignRow } from '../model/ridge.ts';
 import { newUlid } from '../model/ulid.ts';
 import { aptitudeCheck } from './aptitude.ts';
@@ -61,6 +63,8 @@ import {
   validateGrid,
 } from './grid.ts';
 import type { GridSpec } from './grid.ts';
+import { blueIdentifiability } from './identify.ts';
+import type { BlueIdentification } from './identify.ts';
 import { skillHoldoutCheck } from './skills.ts';
 import type { SkillHoldoutCheck } from './skills.ts';
 
@@ -85,8 +89,13 @@ export const MIN_SEARCH_GRID_POINTS = 3;
  * least one row's share of the data); it is a documented choice, not an estimated constant.
  */
 export const MIN_BOOTSTRAP_HOLDOUT = 20;
-/** Relative tolerance under which per-stat train blue sensitivities count as constant. */
-export const CONSTANT_SIGNAL_TOL = 1e-9;
+export {
+  blueIdentifiability,
+  COLLINEAR_REL_TOL,
+  RANK_REL_TOL,
+  SENSITIVITY_REL_TOL,
+} from './identify.ts';
+export type { BlueIdentification, FoldIdentification, StatIdentification } from './identify.ts';
 
 export interface CalibrationOptions {
   /**
@@ -174,6 +183,12 @@ export interface StatCheck {
   status: 'suggested' | 'boundary' | 'nonidentifiable' | 'insufficient-data';
   insufficient?: string;
   nonidentifiable?: { reasons: string[] };
+  /**
+   * Train-design identifiability of the multiplier (review 2, S-A): per-stat projection of the
+   * blue sensitivity onto the train design column space, the basis used, saturation and the same
+   * test per CV fold. Null when there are no train rows.
+   */
+  identification: BlueIdentification | null;
   /** The context's current table (the multiplier is relative to it). */
   currentBlueStatGain: [number, number, number];
   gridSpec: GridSpec;
@@ -250,6 +265,10 @@ export interface Suggestion {
   /** Always false: calibration never applies rules. */
   applied: false;
   basis: 'holdout-mae';
+  /** Always 'identified' (a suggestion is only made then); see `stats.identification`. */
+  identification: 'identified';
+  /** Sensitive stats whose part of the criterion is design-confounded (ridge-only); usually empty. */
+  confoundedStats: StatKey[];
   /**
    * Whether the conditional holdout bootstrap interval contains 1. Null when the bootstrap is
    * unavailable (disabled, or a holdout below MIN_BOOTSTRAP_HOLDOUT): unknown, not inconsistent.
@@ -341,46 +360,6 @@ export function selectionAgreement(
     difference: trainCv - holdout,
     withinInterval: interval ? interval.p05 <= trainCv && trainCv <= interval.p95 : null,
   };
-}
-
-/**
- * Whether a blueStatGain multiplier is identifiable from TRAIN rows (review 1, N2). `train`/`hold`
- * are per-row blue sensitivities d = E₁ − E₀ (stat order). Holdout rows are evaluation only, so
- * holdout-only sensitivity cannot identify m. If every train row has the same d per stat, the
- * multiplier only shifts each stat by a constant, which the intercept absorbs: there is no
- * within-train signal and no argmin is reported.
- */
-export function blueIdentifiability(
-  train: readonly (readonly number[])[],
-  hold: readonly (readonly number[])[],
-): { identifiable: boolean; reasons: string[] } {
-  const nz = (d: readonly number[]) => d.some((x) => x !== 0);
-  const trainSens = train.filter(nz).length;
-  const holdSens = hold.filter(nz).length;
-  if (trainSens === 0) {
-    return {
-      identifiable: false,
-      reasons: [
-        `no train row's E[inh] depends on blueStatGain${holdSens ? ` (${holdSens} holdout row(s) do, but the holdout is evaluation only and cannot identify a multiplier)` : ''}`,
-      ],
-    };
-  }
-  const k = train[0]!.length;
-  let varies = false;
-  for (let j = 0; j < k && !varies; j++) {
-    const xs = train.map((d) => d[j]!);
-    const scale = Math.max(1, ...xs.map(Math.abs));
-    varies = Math.max(...xs) - Math.min(...xs) > CONSTANT_SIGNAL_TOL * scale;
-  }
-  if (!varies) {
-    return {
-      identifiable: false,
-      reasons: [
-        `every train row has the same blueStatGain sensitivity per stat (${trainSens} of ${train.length} non-zero): m·d is a constant shift per stat, confounded with the intercept, so the train fit carries no information about m`,
-      ],
-    };
-  }
-  return { identifiable: true, reasons: [] };
 }
 
 function defaultTimer(): () => number {
@@ -500,6 +479,11 @@ export function calibrateRules(
       `aptitude: ${aptitude.impossible} observed grade(s) have predicted probability 0 (${aptitude.belowBase} below the trainee base, ${aptitude.aboveMax} above every reachable grade, ${aptitude.unreachable} in an unreachable gap): the full log-likelihood is −∞ (reported as null, zero-probability-observed); conditionalLogLik covers the ${aptitude.possibleCells} possible cells only`,
     );
   }
+  if (aptitude.invalidObserved > 0) {
+    warnings.push(
+      `aptitude: ${aptitude.invalidObserved} observed aptitude grade(s) are not a valid grade (${GRADES.join('/')}); they are excluded from every cell count and the likelihood (see invalidExamples), not treated as impossible`,
+    );
+  }
   if (aptitude.status === 'uninformative') warnings.push(`aptitude: ${aptitude.uninformative}`);
 
   // 2. Stats.
@@ -507,6 +491,7 @@ export function calibrateRules(
   const currentArr: [number, number, number] = [current[0], current[1], current[2]];
   const stats: StatCheck = {
     status: 'insufficient-data',
+    identification: null,
     currentBlueStatGain: currentArr,
     gridSpec,
     grid: [],
@@ -533,10 +518,38 @@ export function calibrateRules(
   const tGrid0 = timer();
   let tBoot = 0;
   const enough = train.length >= CV_FOLDS && hold.length >= 1;
+  const design = trainDesign(ctx, train);
+  const foldOf = cvFolds(trainIds, cvSeed);
   const ident = blueIdentifiability(
     train.map((r) => r.d),
     hold.map((r) => r.d),
+    {
+      design: design.xt,
+      structural: design.isId.map((x) => !x),
+      scale: STAT_KEYS.map((k) => Math.max(1, ...train.map((r) => Math.abs(r.v.stats[k])))),
+      folds: trainIds.map((t) => foldOf.get(t)!),
+    },
   );
+  stats.identification = train.length ? ident.identification : null;
+  if (train.length) {
+    const idn = ident.identification;
+    if (idn.saturated) {
+      warnings.push(
+        `stats: the full train design is saturated (rank ${idn.designRank} ≥ ${idn.trainRows} train rows), so every sensitivity is in its column space; identifiability was tested against the ${idn.basis} basis (rank ${idn.basisRank}). Beyond those columns the multiplier fit rests on the ridge penalty`,
+      );
+    }
+    if (ident.identifiable && idn.confoundedStats.length) {
+      warnings.push(
+        `stats: blueStatGain sensitivity of ${idn.confoundedStats.join(', ')} is design-confounded (ridge-only); the multiplier is identified by the other sensitive stat(s), but those stats' MAE terms vary with m only through the penalty`,
+      );
+    }
+    const badFolds = idn.folds.filter((f) => f.status !== 'identified');
+    if (ident.identifiable && badFolds.length) {
+      warnings.push(
+        `stats: on CV fold(s) ${badFolds.map((f) => `${f.fold} (${f.status})`).join(', ')} the fold fitting rows do not identify the multiplier; their train-CV and λ terms are ridge-only`,
+      );
+    }
+  }
   const ms0 = buildGrid(gridSpec);
   if (!enough) {
     stats.insufficient = `need ≥ ${CV_FOLDS} train rows (5-fold CV) and ≥ 1 holdout row; have ${train.length} train, ${hold.length} holdout`;
@@ -560,7 +573,7 @@ export function calibrateRules(
     stats.uncertainty.reason = 'blueStatGain is not identifiable';
     warnings.push(`stats: blueStatGain multiplier is not identifiable (${reasons.join('; ')})`);
   } else {
-    const fit = statGrid(ctx, train, hold, cvSeed, ms0);
+    const fit = statGrid(design, train, hold, cvSeed, ms0);
     stats.grid = fit.grid;
     stats.current = fit.grid.find((g) => g.multiplier === 1) ?? fit.point(1);
     stats.withoutInheritance = fit.raw;
@@ -790,6 +803,8 @@ export function calibrateRules(
       change: m !== 1,
       applied: false,
       basis: 'holdout-mae',
+      identification: 'identified',
+      confoundedStats: [...stats.identification!.confoundedStats],
       consistentWithCurrent: stats.bootstrap ? stats.bootstrap.containsCurrent : null,
       note: 'Unverified statistical suggestion (verified:false). Apply explicitly, then refit the training model (ADR-0002 §2.11, Q-141).',
     });
@@ -871,14 +886,14 @@ function r0Events(ctx: EngineContext, scenarioId: string): number {
   return ctx.scenarios.get(scenarioId)?.inheritanceTurns(ctx).length ?? 0;
 }
 
-/** Train-only grid fit. Returns grid points, per-holdout-row Σ_k|e| per grid point, the raw fit. */
-function statGrid(
-  ctx: EngineContext,
-  train: readonly UsedRow[],
-  hold: readonly UsedRow[],
-  cvSeed: string,
-  ms: readonly number[],
-) {
+type TrainDesign = ReturnType<typeof trainDesign>;
+
+/**
+ * The 50 §4 design on the TRAIN rows (column names from train plans only, intercept in column 0):
+ * the same matrix `fitRidge` sees here and that `fitTrainingModelDetailed` builds for the
+ * candidate refits on the same train ids.
+ */
+function trainDesign(ctx: EngineContext, train: readonly UsedRow[]) {
   const names = featureNames(
     ctx,
     train.map((r) => r.plan),
@@ -891,9 +906,19 @@ function statGrid(
     full.set(x, 1);
     return full;
   };
-  const xt = train.map(xOf);
-  const xh = hold.map(xOf);
-  const isId = [false, ...names.map(isCardIdFeature)];
+  return { xOf, xt: train.map(xOf), isId: [false, ...names.map(isCardIdFeature)] };
+}
+
+/** Train-only grid fit. Returns grid points, per-holdout-row Σ_k|e| per grid point, the raw fit. */
+function statGrid(
+  design: TrainDesign,
+  train: readonly UsedRow[],
+  hold: readonly UsedRow[],
+  cvSeed: string,
+  ms: readonly number[],
+) {
+  const { xt, isId } = design;
+  const xh = hold.map(design.xOf);
   const clock = Math.max(...train.map((r) => r.time));
   const w = train.map((r) => recency(r.time, clock));
   const W = w.reduce((a, b) => a + b, 0);

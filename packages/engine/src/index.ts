@@ -139,10 +139,12 @@ export {
   DEFAULT_BOOTSTRAP,
   DEFAULT_BOOTSTRAP_SEED,
   DEFAULT_CALIBRATION_SPLIT_SEED,
+  COLLINEAR_REL_TOL,
   MIN_BOOTSTRAP_HOLDOUT,
   MIN_SEARCH_GRID_POINTS,
 } from './calibrate/index.ts';
 export type {
+  BlueIdentification as CalibrationBlueIdentification,
   CalibrationExclusion,
   CalibrationOptions,
   CalibrationReport,
@@ -165,6 +167,7 @@ export type {
   AptitudeStat,
   FullLikelihoodState,
   ImpossibleReason,
+  InvalidObservedGrade,
   ReliabilityBin,
 } from './calibrate/aptitude.ts';
 export type { SkillCellSummary, SkillHoldoutCheck } from './calibrate/skills.ts';

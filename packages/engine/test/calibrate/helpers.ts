@@ -23,6 +23,14 @@ export const storedSplit = {
   trainIds: truth.holdout.trainIds,
   holdoutIds: truth.holdout.holdoutIds,
 };
+/**
+ * Explicit per-test timeout for tests that run one or more full `calibrateRules` calls (review 2,
+ * S-C). Such a test takes ≈ 1.1–1.3 s alone (≈ 2.8 s for the 401-point grid) on the dev Mac and
+ * has timed out at the Vitest default 5 s under host load ≈ 42. 30 s is a bounded ceiling for
+ * contention only: no assertion, acceptance or runtime target depends on it.
+ */
+export const FULL_CALIBRATION_TIMEOUT_MS = 30_000;
+
 export const FIXED_NOW = new Date('2026-10-08T00:00:00.000Z');
 export const FIXED_ID = '01KGQZ0000G01DENCM0000T15A';
 

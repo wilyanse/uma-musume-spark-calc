@@ -25,9 +25,11 @@ Created:
 - `packages/engine/src/calibrate/grid.ts`: grid validation/building (exact decimal ticks), the deterministic argmin tie rule, percentile and a non-cryptographic fingerprint.
 - `packages/engine/src/calibrate/context.ts`: `withBlueStatGainMultiplier(ctx, m)`, which returns a new context and never mutates the input.
 - `packages/engine/test/calibrate/helpers.ts`: test inputs (golden context, stored split, injected clock/id/timer) and a deep-freeze helper.
-- `packages/engine/test/calibrate/golden.test.ts`: 27 tests (F12, interior minimum, unbiased evaluation, population, grid = full refit, candidate refits, determinism, base/×1.3/×2 contexts, wider/coarser/offset grids, boundary, seeded split, published context, holdout isolation per candidate, aptitude/skill checks, independent recomputation).
+- `packages/engine/test/calibrate/golden.test.ts`: 27 tests (F12, interior minimum, the train-CV selection and its holdout MAE, population, grid = full refit, candidate refits, determinism, base/×1.3/×2 contexts, wider/coarser/offset grids, boundary, seeded split, published context, holdout isolation per candidate, aptitude/skill checks, independent recomputation).
 - `packages/engine/test/calibrate/edge.test.ts`: 25 tests (empty/small rosters, exclusions, matched/guest/unmatched/matched-missing parents, unread guest sparks, illegal lineage, low or NaN confidence, non-finite stats, duplicate ids, split errors and drops, grid/bootstrap guards, tie rule, immutability with deep-frozen inputs, aptitude/skill contradictions, published context, import purity).
 - `packages/engine/test/calibrate/review-r1.test.ts` (review round 1): 19 tests for B1, S1–S4, N1 and N2.
+- `packages/engine/src/calibrate/identify.ts` (review round 2, S-A): train-design identifiability of the blue multiplier (column-space projection, saturation fallback, per-fold check).
+- `packages/engine/test/calibrate/review-r2.test.ts` (review round 2): 14 tests for S-A, S-B and S-C.
 - `packages/engine/test/calibrate/golden-report.ts`: a TEST-ONLY evidence runner. It prints input hashes, summaries and timings, and writes JSON only with `--out`.
 
 Modified:
@@ -47,12 +49,14 @@ DEFAULT_BOOTSTRAP_SEED = 't15-bootstrap'
 CalibrationOptions = { split?, splitSeed?, cvSeed? (default T06 't06-cv'), grid?, bootstrap?, bootstrapSeed?, now?, id?, timer? }
 MIN_SEARCH_GRID_POINTS = 3          // review round 1 (S1)
 MIN_BOOTSTRAP_HOLDOUT = 20          // review round 1 (S2), statistical guard
+COLLINEAR_REL_TOL = 1e-7            // review round 2 (S-A), numeric guard
 ```
 Type exports:
 - `CalibrationReport`, `CalibrationOptions`, `CalibrationGrid`, `CalibrationExclusion`;
 - `CalibrationPopulationRow`, `CalibrationGridPoint`, `CalibrationSelection`, `CalibrationStatCheck`, `CalibrationStatUncertainty`, `CalibrationSelectionAgreement` (round 1);
 - `CalibrationCandidate`, `CalibrationCandidateFit`, `CalibrationSuggestion`, `NotCalibrated`;
-- `AptitudeCheck`, `AptitudeStat`, `FullLikelihoodState`, `ImpossibleReason`, `ReliabilityBin`, `SkillHoldoutCheck`, `SkillCellSummary` (the last four were added in round 1).
+- `AptitudeCheck`, `AptitudeStat`, `FullLikelihoodState`, `ImpossibleReason`, `ReliabilityBin`, `SkillHoldoutCheck`, `SkillCellSummary` (the last four were added in round 1);
+- `CalibrationBlueIdentification`, `InvalidObservedGrade` (round 2).
 
 Errors are the existing `ModelInputError` codes: `duplicate-id`, `split-unknown`, `split-overlap`, `bad-grid`, `bad-bootstrap`, `bad-multiplier`, `non-finite`.
 
@@ -72,6 +76,8 @@ Errors are the existing `ModelInputError` codes: `duplicate-id`, `split-unknown`
   - Impossible cells are counted as `belowBase`, `aboveMax` or `unreachable` (an interior support gap), and the three sum to `impossible` (Q-158).
   - The same fields appear per aptitude, each with its own `status`.
   - `degenerateCells` (max p ≥ 1 − 1e-12) carry no information. When every cell is degenerate the status is `uninformative` (with an `uninformative` reason) rather than `ok`, and the check does not count towards `complete`.
+  - The likelihood fields stay populated when the status is `uninformative`: a near-degenerate observed grade (0 < p < 1e-12) still gives a finite, very negative `logLik` (about −29.9 in review 2's Q3 probe). `uninformative` describes discrimination, not whether a likelihood exists.
+  - Observed values that are not a schema grade (e.g. 'Z', 'a', a number, null, a missing key) are excluded from every cell count and the likelihood and counted in `invalidObserved` (overall and per aptitude; an aptitude with no valid cell is `insufficient-data`). The first 20 appear in `invalidExamples`, with the raw string (or null) and its type. They are never classified below-base (round 2, S-B).
   - Reliability: one event per (uncertain cell, grade with 0 < p < 1), in 10 bins.
   - Diagnostics only; no rule suggestion comes from this check.
 - **`stats`:**
@@ -84,7 +90,7 @@ Errors are the existing `ModelInputError` codes: `duplicate-id`, `split-unknown`
   - Status values:
     - `suggested`;
     - `boundary`: the argmin is at a grid end, so no suggestion is made and a warning says to widen the grid;
-    - `nonidentifiable`: no TRAIN row's E[inh] depends on `blueStatGain`, or every train row's sensitivity is the same per stat (absorbed by the intercept). Reasons are given, including holdout-only sensitivity, a zero table and no inheritance turns (round 1, N2);
+    - `nonidentifiable`: no TRAIN row's E[inh] depends on `blueStatGain`; or every train row's sensitivity is the same per stat (absorbed by the intercept); or every sensitive stat's sensitivity lies in the column space of the train design (`design-confounded`: a selected m would be ridge-only). Reasons are given, including holdout-only sensitivity, a zero table and no inheritance turns (round 1 N2, round 2 S-A). `stats.identification` gives the per-stat relative residuals, the basis, the rank, saturation and the per-fold status;
     - `insufficient-data`: fewer than 5 train rows, no holdout row, or fewer than 3 grid points. With 1–2 points the grid MAEs are still reported, but nothing is selected (round 1, S1).
   - `bootstrap`: a seeded resample of holdout rows with the split and train fit fixed. It is conditional and covers holdout sampling only, not full uncertainty. It reports the argmin p05/p50/p95, the share at a boundary, and whether the interval contains 1.
     - It is null when disabled, when there are fewer than 20 holdout rows, or when no search ran. `uncertainty.status`/`reason`/`scope` say which.
@@ -194,7 +200,7 @@ Not run: the golden generator command, any recursive build, and the web build. N
 - Q-158: impossible aptitude grades null the full likelihood; they are counted below-base/above-max/unreachable; the check is uninformative when every cell is degenerate (revised in round 1).
 - **H4 (blocking for Done):** run `calibrateRules(loadContext(master, master.rules), realRoster)` on ≥ 20 imported real veterans and attach the report: population/exclusion counts, aptitude impossible counts, skill contradictions, runtime and input hashes. With the published rules (zero `blueStatGain`, no turns) the stat check will be `nonidentifiable`. A real multiplier needs Q-3/Q-5 values first.
 - **Browser consumer (separate reviewed task, T13/S07):** worker wiring, progress/cancellation (the call is synchronous, about 1.3 s on golden-sized data in Node, with no progress callback), display of `notCalibrated` and the evaluation caveats, and the apply/refit flow (Q-141, Q-155). S07 calibration stays disabled until then.
-- Follow-up: the `test/calibrate` suite takes about 18 s because it runs many full calibrations. Memoisation is already used, and further trimming is optional.
+- Follow-up: the `test/calibrate` suite takes about 18 s (about 21–31 s after round 2 adds 14 tests) because it runs many full calibrations. Memoisation is already used, and further trimming is optional.
 - No `TODO`s in the code.
 
 ## Review round 1
@@ -362,6 +368,130 @@ published inputs unchanged
 - The identifiability check uses exact zero for "no sensitivity" (as before) and a relative 1e-9 tolerance for "constant across train rows".
 
 ### Follow-ups (round 1)
-- The existing edge test `deep-frozen context rules and roster produce the same report` runs a full calibration under the default 5 s Vitest timeout. It passes alone (1118 ms in a verbose run) but timed out once under CPU contention. A separate decision is needed on whether to give it an explicit timeout.
+- The existing edge test `deep-frozen context rules and roster produce the same report` runs a full calibration under the default 5 s Vitest timeout. It passes alone (1118 ms in a verbose run) but timed out once under CPU contention. A separate decision is needed on whether to give it an explicit timeout. *(Resolved in review round 2, S-C.)*
 - A browser consumer must display `fullLikelihood`/`uninformative`, `uncertainty.reason` and `selectionAgreement`, and never show a null as 0 (S07 task, Q-155).
 - H4 real-roster run and Q-3/Q-5 are unchanged.
+
+## Review round 2
+Review: `docs/reviews/T15-review-2.md` (PASS, no blockers; should-fix S-A, S-B, S-C and two nits), against HEAD `dffb549`. The coordinator chose to fix S-A/S-B/S-C in this second and final worker round, before the browser consumer. The reviewer's scratch `~/.hermes/cache/scratch/t15-review-r2/` (probe.mts, probe-*.json) was read only, never modified. My scratch is `~/.hermes/cache/scratch/t15-fix-r2/`.
+
+TDD order is in git: `bbadbbf T15: failing review-2 tests` adds `test/calibrate/review-r2.test.ts` only; the fix commit follows. Real RED output against the unchanged `dffb549` code:
+```
+$ pnpm exec vitest run test/calibrate/review-r2.test.ts      # in packages/engine, before any src change
+ × numeric guards are documented and are not game facts              TypeError: actual value must be number or bigint, received "undefined"
+ × Q13: d = 240 × scenario indicator (planted k = 1.3) is design-confounded   expected 'suggested' to be 'nonidentifiable'
+ × Q13: d = 240 × scenario indicator (planted k = 3) is design-confounded     expected 'boundary' to be 'nonidentifiable'
+ × genuine within-cell signal on the same small guest roster stays identified  TypeError: Cannot read properties of undefined (reading 'status')
+ × golden ×1.3: identified on the full train design, still 1.33 / train-CV 1.31 TypeError: Cannot read properties of undefined (reading 'status')
+ × Q7.unitTiny: a 1e-8 relative variation is not within-train signal  expected true to be false
+ × a group-indicator sensitivity is design-confounded; a within-group one is identified   expected true to be false
+ × mixed stats: one confounded and one independent stat is identified ...  TypeError: Cannot read properties of undefined (reading 'status')
+ × a column-space test that is vacuous ... falls back to the intercept only TypeError: Cannot read properties of undefined (reading 'saturated')
+ × "Z" on turf: excluded with a reason and a count, not an impossible cell  expected undefined to be 1
+ × non-string, missing, null and lowercase values are invalid ...      expected undefined to be 5
+ × every grade invalid (or no aptitudes object) ...                     TypeError: Cannot read properties of undefined (reading 'turf')
+ × the shared timeout is bounded and above the Vitest default           TypeError: actual value must be number or bigint, received "undefined"
+      Tests  13 failed | 1 passed (14)
+```
+(The one passing RED test is the scale-aware unit test. Against the old two-argument `blueIdentifiability` it passed vacuously, because a varying d was already "identifiable"; after the fix it exercises the projection.) Before the fix, the existing edge suite with `--testTimeout=800` timed out on the deep-frozen and two contradiction tests (`Error: Test timed out in 800ms`). This demonstrates the S-C mechanism: a full calibration takes about 1.1 s, so any contention that pushes it past the default timeout fails the test, not an assertion.
+
+GREEN (after the fix):
+```
+$ pnpm exec vitest run test/calibrate/review-r2.test.ts
+      Tests  14 passed (14)
+$ pnpm exec vitest run test/calibrate --no-file-parallelism --reporter=verbose     # serial
+      Tests  85 passed (85)          # 27 golden + 25 edge + 19 review-r1 + 14 review-r2
+   Duration  30.58s
+```
+
+### S-A: blue sensitivity collinear with the train design
+- I inspected the design actually used: `statGrid` builds `featureNames(ctx, train plans)` + `featureVector`, with the intercept in column 0 and `isId` from `isCardIdFeature`. That is the same construction `fitTrainingModelDetailed` (`fit.ts` lines 299–314) uses for the candidate refits on the same train ids. The CV folds (`cvFolds(trainIds, cvSeed)`) fit on train rows minus one fold. That design builder is now factored into `trainDesign()` in `calibrate/index.ts` and shared by the identifiability test and `statGrid`. `fit.ts` is unchanged.
+- I measured it before coding (scratch `design.mts`, read-only against the candidate):
+  - Golden stored split: 157 train rows, 47 columns, rank 38, per-stat relative residual 0.61–0.68 on the full design.
+  - Q13 / Q7 guest-only rosters: 27 train rows, 44 columns, full rank 27 = n (**saturated**: every d is trivially in the span, so a full-design test alone would reject everything, including Q7.orig's genuine signal). On the structural columns (non-card-id, rank 17): Q13 d residual ≈ 1e-16 to 1e-31 (exactly in the span), Q7.orig 0.51–0.60 (genuine), Q7.sameBlue ≈ 5e-17 (constant).
+- The fix is the new `src/calibrate/identify.ts`:
+  - It builds an orthonormal basis of the train design columns by modified Gram–Schmidt with columns normalised to unit length and a second full reorthogonalisation pass. A column joins the basis when its residual exceeds `RANK_REL_TOL = 1e-10` (relative). For each sensitive stat, d is normalised, projected twice, and its relative residual ‖d − Pd‖/‖d‖ is compared with `COLLINEAR_REL_TOL = 1e-7`. It uses plain loops and no new library.
+  - Saturation: if the full design's rank is ≥ the number of train rows, it falls back to the structural columns (everything but card-id columns), then to the intercept alone. `saturated` and `basis` are reported, and a warning says that beyond the basis the multiplier fit rests on the ridge penalty.
+  - Statuses: `no-train-sensitivity`, `intercept-confounded` (the round-1 constant case, now also scale-aware), `design-confounded` (every sensitive stat's residual is at or below the tolerance) and `identified`.
+  - The sensitivity guard is now scale-aware. A stat is sensitive when max|d| > `SENSITIVITY_REL_TOL = 1e-9` × max(1, max |observed stat| on train rows), so round-off-sized d (1e-12) no longer counts. The old `CONSTANT_SIGNAL_TOL` is replaced; constancy is now judged by the same projection onto the intercept, at the relative tolerance 1e-7.
+  - The tolerances are numeric guards. Projection round-off here is about 1e-15 to 1e-17 and real signals are about 0.5 to 0.7, so 1e-7 sits many decades from both. They are not game facts, and the doc comments and Q-159 say so.
+- Mixed-stat policy: m is one shared multiplier of the blue table. It is identified when at least one sensitive stat has a non-negligible residual. Confounded stats are listed in `identification.confoundedStats` and on the suggestion (`confoundedStats`), and a warning says their MAE terms vary with m only through the penalty. This avoids over-rejecting a real signal carried by other stats (unit test "mixed stats").
+- Sibling design paths: the same test runs on each CV fold's fitting rows (`identification.folds[]`). If the full train design identifies m but some fold does not, a warning names those folds (their train-CV/λ terms are ridge-only). The full train design decides the status, because it is the fit that produces the holdout-MAE selection; fold results are reported, not used for gating. The candidate refit design equals the train design (same rows, same builder), so it needs no separate check.
+- When the status is design-confounded, the stat check is `nonidentifiable`: nothing is selected, there is no bootstrap, no suggestion, only the ×1 candidate refit, and `blueStatGain` is in `notCalibrated`. The reason states it explicitly: "design-confounded: every sensitive stat's blueStatGain sensitivity lies in the column space of the train design (…) a selected m would be ridge-only (set by the penalty, not by data); no multiplier is reported". This is not just a warning.
+- Reviewer probes reproduced on the fix (scratch `probe2.mts`/`probe2.log`):
+```
+Q13.k0 / k1.3 / k3 / k-2   nonidentifiable, report partial, ident design-confounded structural-design saturated rank [27 full, 17 basis, 27 rows],
+                           residuals [8.1e-17, 3.9e-31, 3.0e-31, null, 3.0e-31], all 5 folds design-confounded, sel null, 0 suggestions
+                           (before: k1.3 -> suggested 1.25, k3 -> 2.95, k0/k-2 -> boundary 0)
+Q7.orig                    suggested 1.28, complete, identified structural-design, residuals 0.51–0.60, folds all identified, warning "saturated"
+Q7.sameBlue                nonidentifiable (intercept-confounded), residual 4.0e-17
+Q7.unitTiny                [1, 1+1e-8] -> false (intercept-confounded); [1e-12, 3e-12] -> false (no-train-sensitivity)   (before: true / true)
+```
+- Tests (`review-r2.test.ts`, S-A block): Q13 at k = 1.3 and k = 3 (end to end, JSON round trip, not `complete`); Q7.orig genuine within-cell positive (still suggested, saturation disclosed); golden ×1.3 identified on the full design with residuals > 0.1, all folds identified, still 1.33 / train-CV 1.31; unitTiny; synthetic group-indicator and linear-combination designs (confounded) vs within-group (identified); mixed stats; vacuous design falling back to the intercept; scale invariance across 1e-6…1e6.
+- The golden and context statuses are unchanged. All 17 evidence runs are `identified` on the full design (rank 38 of 156/157 rows, min residual 0.59–0.62). The published context is still `nonidentifiable`, now with status `no-train-sensitivity`.
+
+### S-B: invalid observed aptitude grades
+- `aptitude.ts` now validates every observed value at runtime with `isGrade` (a string in the schema `GRADES`, via a Set). The typed `Veteran` shape is not trusted: a missing or non-object `aptitudes` is handled too.
+- An invalid value is not a cell. It is excluded from `cells`, `possibleCells`, impossible/below/above/unreachable, degenerate counts, reliability and likelihood, and counted in `invalidObserved` overall and per aptitude. The first 20 go to `invalidExamples`: `{id, apt, observed: string (≤ 16 chars) | null, valueType, reason: 'invalid-grade'}`, which is JSON-safe (NaN, numbers and undefined become null with their type). A report warning gives the count.
+- Decision: exclude and count rather than throw `ModelInputError`. This matches how T06/T15 handle row-level data problems (non-finite stats and low confidence are excluded with a reason, not thrown) and keeps the rest of the report usable. Typed errors stay reserved for caller-option errors (split, grid, bootstrap, duplicate ids). The input is not changed and no grade is substituted. The schema is not touched.
+- An aptitude with no valid cell is `insufficient-data`, and so is the aggregate when no valid cell remains at all. Valid support-gap classification is unchanged: the golden, pink 2/2/2 and published reconciliations still pass (87 = 0 + 87 + 0).
+- Probe Q2.invalidGrade on the fix: `cells 9, impossible 0, belowBase 0, invalidObserved 1, turf [cells 0, invalid 1, impossible 0], examples [], invalidExamples [{observed 'Z', valueType 'string', reason 'invalid-grade'}]`, round-trip true. Before: impossible 1, belowBase 1, example reason 'below-base'.
+- Tests: 'Z' on turf; number, missing, null, lowercase 'a' and NaN on five aptitudes (each per-aptitude count 1, status insufficient-data, `no-cells`); no aptitudes object at all (10 invalid, aggregate `no-cells`, `insufficient-data`, null likelihoods).
+
+### S-C: explicit timeout for full-calibration tests
+- New `FULL_CALIBRATION_TIMEOUT_MS = 30_000` in `test/calibrate/helpers.ts`, with a doc comment giving the reason and the timings. It is passed as the third `it()` argument only to tests that run at least one full `calibrateRules` on golden-sized data or read a memoised one that may be computed first: 5 in edge, 23 in golden, 14 in review-r1 and 3 in review-r2. Cheap unit tests keep the default.
+- A whitespace-insensitive comparison of the old and new test files shows that only the trailing `T` argument, the import and the purity-test file list (which gains `identify.ts`) changed. No assertion was relaxed, removed or skipped, and no acceptance or runtime target changed.
+- Timings, serial run (`--no-file-parallelism`, load average about 8): deep-frozen 1084 ms, impossible-grade edge 1183 ms, golden identification 1060 ms. The slowest is the 401-point grid at 3452 ms. In the parallel run, the B1 golden test took 2023 ms and deep-frozen 2071 ms. 30 s is a ceiling about 9× the slowest test, so it only absorbs contention like the reviewer's load average of about 42. It still stops a genuine hang.
+
+### Nits
+- The `golden.test.ts` file description no longer says "unbiased evaluation". It now reads "the train-CV selection and its holdout MAE". The historical lines in round 0 and round 1 are left as labelled.
+- Report semantics now say that likelihood fields stay populated when the status is `uninformative`. A near-degenerate observed grade (0 < p < 1e-12) gives a finite, very negative logLik (about −29.9, review-2 Q3).
+
+### Verification (round 2)
+Environment: Node v25.9.0, pnpm 11.22.0. Run serially, with no evidence run at the same time.
+```
+$ pnpm install --frozen-lockfile --offline && pnpm -r lint && pnpm -r typecheck && pnpm -r test     # exit 0
+Done in 342ms using pnpm v11.22.0
+packages/schema test:       Tests  149 passed (149)
+packages/master-data test:       Tests  82 passed (82)
+apps/api test:       Tests  111 passed (111)
+packages/engine test:  Test Files  20 passed (20)
+packages/engine test:       Tests  325 passed (325)
+apps/web test:       Tests  124 passed (124)
+```
+Evidence: `node packages/engine/test/calibrate/golden-report.ts --variants --out <scratch>/t15-fix-r2/run{A,B}.json`, run serially, both exit 0. The runner now also prints `ident <status> <basis> rank <r>/<n> minRes` and `invalid <n>`.
+```
+x1.3 roster, golden context, stored split | complete/suggested | used 196 split 157/39 | holdout-argmin 1.33 (40.939) trainCV-argmin 1.31 holdoutMaeOfTrainCvSel 41.020 current 88.453 noInh 332.506 | ident identified full-design rank 38/157 minRes 6.12e-1 | boot 1.31/1.33/1.37 | apt ok full finite ll -235.24 cond -235.24/1960 imp 0 (below 0 above 0 gap 0) invalid 0 | skills E770.7/O797 z1.25 ok ...
+base roster, golden context, stored split | complete/suggested | holdout-argmin 1.03 (35.908) trainCV-argmin 1 | ident identified full-design rank 38/157 | boot 1/1.03/1.06
+x1.3 roster, published context | partial/nonidentifiable | ident no-train-sensitivity | boot - (not-run) | apt uninformative full zero-probability-observed ll null cond 0.00/1873 imp 87 (below 0 above 87 gap 0) invalid 0
+x1.3 roster, golden ×1.3 context | holdout-argmin 1.02 trainCV-argmin 1.01 | boot 1.01/1.02/1.05
+x1.3 roster, golden ×2 context   | holdout-argmin 0.66 trainCV-argmin 0.65 | boot 0.66/0.66/0.68
+x1.3 roster, grid 0..4 step 0.01 | holdout-argmin 1.33 (40.939)
+x1.3 roster, seeded split t15-holdout | split 156/40 | holdout-argmin 1.32 trainCV-argmin 1.32 | ident identified full-design rank 38/156 minRes 5.99e-1 | boot 1.29/1.32/1.36
+x1.3 seeded t15-alt-1..5: holdout-argmin 1.32, 1.30, 1.30, 1.31, 1.34; base: 1.01, 1.00, 1.01, 1.01, 1.04  (all identified, full-design)
+
+A==B except timings: True 17     hashes eq round 1: True
+diffs vs fix-r1 runA (new identification/invalidObserved fields removed): []
+6a02f36050f92899f55ffc2a78ab355d12b545c0b41888e6b7e110619c707911  packages/engine/test/golden/roster.json
+8982ab4aba43c4c770fc41260361a29255e2cccd57a5b3db70075c23f94f5434  packages/engine/test/golden/roster.calibration-x1.3.json
+1ccf0d5a9c2b1fb6d9626126c22a0a2c4d9eb634af79457097a6dc68eceed0b2  packages/engine/test/golden/truth.json
+352e5ea3350fb39a68fd38815938d01565e7e1ed8e8aff0e2510f036d22a95e7  apps/web/public/master/global-20260930/rules.json
+$ git diff --quiet dffb549 -- packages/engine/src/model packages/engine/test/golden apps packages/schema packages/master-data docs/specs && echo unchanged-since-dffb549
+unchanged-since-dffb549
+```
+- Every golden selection, train-CV selection, MAE, bootstrap, candidate fingerprint, aptitude count, skill metric and warning is identical to round 1. The new guard changes no golden or context status, because the golden sensitivities have relative residuals of about 0.6 against a rank-38 design with 157 rows.
+- Preserved from earlier rounds: q counted once, train-only fitting (holdout-isolation tests pass), immutable inputs (deep-freeze test), null full likelihood on impossible cells, and the round-1 sparse guards (S1–S4).
+- Not run: the golden generator, any recursive build, the web build. No web, schema, fixture, golden, master, contract or `src/model` file changed.
+
+### Decisions (round 2)
+- Identifiability is judged against the column space of the actual train design, with a saturation fallback that is reported rather than hidden. Without the fallback, small rosters with as many columns as rows would always be called confounded, even when the signal is genuine (Q7.orig).
+- One sensitive stat with independent signal identifies the shared multiplier. Confounded stats are disclosed, not used to reject.
+- Fold-level confounding is reported and warned about, not gating.
+- Invalid grades are excluded and counted, not thrown. That is consistent with row-data handling elsewhere.
+- One bounded timeout constant applied per test, not a global `testTimeout`, so cheap tests keep fast-failure behaviour.
+- New `OPEN_QUESTIONS` entry: Q-159 (design confounding and invalid grades).
+
+### Follow-ups (round 2)
+- The saturated fallback is a policy choice. On real rosters with fewer train rows than design columns, the structural-design test is the effective guard, and card-id contributions beyond it rest on λ_id. A reviewer may prefer requiring n > full rank before any suggestion. That is a stricter acceptance change, so I did not make it.
+- The browser consumer (S07) must display `stats.identification` (status, basis, saturation, confounded stats) and `aptitude.invalidObserved` / `invalidExamples`.
+- H4 real-roster run and Q-3/Q-5 are unchanged. The status stays Partial.

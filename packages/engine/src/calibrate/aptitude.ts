@@ -13,7 +13,14 @@
  *   (above every reachable grade) or `unreachable` (an interior support gap, e.g. pink gain 2
  *   skipping a grade); the three always sum to `impossible`.
  * - A cell whose most likely grade has p ≥ 1 − DEGENERATE_TOL carries no calibration information.
- *   When every cell is degenerate the check is `uninformative`, not `ok`.
+ *   When every cell is degenerate the check is `uninformative`, not `ok`. Likelihood fields stay
+ *   populated in that case: a near-degenerate observed grade (0 < p < DEGENERATE_TOL) gives a
+ *   finite, very negative `logLik` while the status is `uninformative`.
+ * - Observed grades are validated at runtime (review 2, S-B): a value that is not one of the
+ *   schema GRADES strings (e.g. 'Z', a lowercase letter, a number, null or a missing key) is not a
+ *   cell. It is excluded, counted in `invalidObserved` (aggregate and per aptitude) and listed in
+ *   `invalidExamples`; it is never classified below-base/above-max/unreachable and no valid grade
+ *   is substituted.
  */
 import { APT_KEYS, GRADES } from '@uma/schema';
 import type { AptKey, Grade } from '@uma/schema';
@@ -26,6 +33,20 @@ export const DEGENERATE_TOL = 1e-12;
 
 export type FullLikelihoodState = 'finite' | 'zero-probability-observed' | 'no-cells';
 export type ImpossibleReason = 'below-base' | 'above-max' | 'unreachable';
+
+/** An observed aptitude value that is not a schema grade (excluded, never scored). */
+export interface InvalidObservedGrade {
+  id: string;
+  apt: AptKey;
+  /** The raw value when it is a string (truncated to 16 chars), otherwise null (JSON-safe). */
+  observed: string | null;
+  /** `typeof` of the raw value, or 'null'. */
+  valueType: string;
+  reason: 'invalid-grade';
+}
+
+const GRADE_SET: ReadonlySet<string> = new Set(GRADES);
+const isGrade = (x: unknown): x is Grade => typeof x === 'string' && GRADE_SET.has(x);
 
 export interface ReliabilityBin {
   lo: number;
@@ -61,10 +82,13 @@ interface LikelihoodFields {
   unreachable: number;
   degenerateCells: number;
   uncertainCells: number;
+  /** Observed values that are not a valid grade: excluded from `cells` and every count above. */
+  invalidObserved: number;
 }
 
 export interface AptitudeStat extends LikelihoodFields {
-  status: 'ok' | 'uninformative';
+  /** 'insufficient-data' when no valid observed grade remains for this aptitude. */
+  status: 'ok' | 'uninformative' | 'insufficient-data';
   cells: number;
   /** Mean predicted grade index (G = 0 … S = 7) and mean observed index, over possible cells. */
   meanPredictedIndex: number | null;
@@ -75,7 +99,7 @@ export interface AptitudeCheck extends LikelihoodFields {
   /**
    * 'ok': at least one cell is uncertain (informative). 'uninformative': every cell is degenerate
    * (the prediction is certain), so neither the likelihood nor reliability can discriminate.
-   * 'insufficient-data': no rows.
+   * 'insufficient-data': no rows, or no valid observed grade at all.
    */
   status: 'ok' | 'uninformative' | 'insufficient-data';
   /** Why the check is uninformative (null otherwise). */
@@ -89,6 +113,8 @@ export interface AptitudeCheck extends LikelihoodFields {
   reliability: ReliabilityBin[];
   perAptitude: Partial<Record<AptKey, AptitudeStat>>;
   examples: { id: string; apt: AptKey; observed: Grade; reason: ImpossibleReason }[];
+  /** First 20 invalid observed values (reason 'invalid-grade'). */
+  invalidExamples: InvalidObservedGrade[];
 }
 
 interface Acc {
@@ -100,6 +126,7 @@ interface Acc {
   above: number;
   gap: number;
   degenerate: number;
+  invalid: number;
   pi: number;
   oi: number;
 }
@@ -113,6 +140,7 @@ const acc = (): Acc => ({
   above: 0,
   gap: 0,
   degenerate: 0,
+  invalid: 0,
   pi: 0,
   oi: 0,
 });
@@ -134,6 +162,7 @@ function likelihood(a: Acc): LikelihoodFields {
     unreachable: a.gap,
     degenerateCells: a.degenerate,
     uncertainCells: a.cells - a.degenerate,
+    invalidObserved: a.invalid,
   };
 }
 
@@ -148,14 +177,35 @@ export function aptitudeCheck(ctx: EngineContext, rows: readonly PreparedRow[]):
   const per = new Map<AptKey, Acc>();
   const all = acc();
   const examples: AptitudeCheck['examples'] = [];
+  const invalidExamples: InvalidObservedGrade[] = [];
   for (const r of rows) {
     const outfit = ctx.outfits.get(r.v.outfitId)!;
+    // Runtime input: the typed shape is not trusted (review 2, S-B).
+    const observed = r.v.aptitudes as Partial<Record<AptKey, unknown>> | null | undefined;
     for (const apt of APT_KEYS) {
       const dist = r.exp.aptitudeDist[apt];
-      const obs = r.v.aptitudes[apt];
-      const p = dist[obs] ?? 0;
+      const raw: unknown =
+        observed && typeof observed === 'object' && Object.hasOwn(observed, apt)
+          ? observed[apt]
+          : undefined;
       let s = per.get(apt);
       if (!s) per.set(apt, (s = acc()));
+      if (!isGrade(raw)) {
+        s.invalid++;
+        all.invalid++;
+        if (invalidExamples.length < 20) {
+          invalidExamples.push({
+            id: r.v.id,
+            apt,
+            observed: typeof raw === 'string' ? raw.slice(0, 16) : null,
+            valueType: raw === null ? 'null' : typeof raw,
+            reason: 'invalid-grade',
+          });
+        }
+        continue;
+      }
+      const obs: Grade = raw;
+      const p = dist[obs] ?? 0;
       s.cells++;
       all.cells++;
       let maxP = 0;
@@ -211,14 +261,14 @@ export function aptitudeCheck(ctx: EngineContext, rows: readonly PreparedRow[]):
     const s = per.get(apt);
     if (!s) continue;
     perAptitude[apt] = {
-      status: s.cells > s.degenerate ? 'ok' : 'uninformative',
+      status: !s.cells ? 'insufficient-data' : s.cells > s.degenerate ? 'ok' : 'uninformative',
       cells: s.cells,
       ...likelihood(s),
       meanPredictedIndex: s.possible ? s.pi / s.possible : null,
       meanObservedIndex: s.possible ? s.oi / s.possible : null,
     };
   }
-  const status: AptitudeCheck['status'] = !rows.length
+  const status: AptitudeCheck['status'] = !all.cells
     ? 'insufficient-data'
     : all.cells > all.degenerate
       ? 'ok'
@@ -241,5 +291,6 @@ export function aptitudeCheck(ctx: EngineContext, rows: readonly PreparedRow[]):
     })),
     perAptitude,
     examples,
+    invalidExamples,
   };
 }
