@@ -193,4 +193,4 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T13 | Merged locally db05929; merged workspace/web124/e2e14, production build and fixture exclusion pass | task/T13-web-screens | T13-web-screens.md | PASS r3; live Access/H4 pending; nonblocking findings retained in review |
 | T14 | Not started | | | |
-| T15 | Fixed candidate dffb549; parent final workspace/engine311 tests and diffcheck passed | task/T15-rules-calibration | T15-rules-calibration.md | CHANGES_REQUESTED r1 → fresh independent Opus medium r2 dispatched; one fix round consumed; not merged; H4/real rules/browser remain |
+| T15 | Candidate dffb549 independently PASS r2; coordinator holds merge to fix design-confounded calibration and invalid-grade diagnostics now | task/T15-rules-calibration | T15-rules-calibration.md | Final bounded Opus medium fix2 dispatched for S-A/S-B/S-C; fresh review required; not merged; H4/real rules/browser remain |
