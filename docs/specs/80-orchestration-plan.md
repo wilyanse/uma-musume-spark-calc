@@ -172,6 +172,12 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Needs: T06, T08; the real-roster run needs H4.
 - Done when: the golden check passes; a real-roster report is attached once H4 is done.
 
+### T15b — Browser calibration diagnostics
+- Spec: 61 (all), 60 §3–4, S07 approved design reconciled to T15 report in 61, ADR-0002 and T15 r4 follow-ups.
+- Owns: S07 calibration UI, focused worker/client plumbing, web tests/browser evidence; minimal test-double wiring declared. Engine/schema/API/master/golden remain read-only.
+- Needs: merged T13 and T15. Does not wait for H4 to implement synthetic/published-context checks.
+- Done when: real worker calibration/report/cancel/retry/stale guards work in S07, truthful null/conditional/identification displays, all scoped gates and independent review pass. No rules apply/persistence in this task; T15c owns explicit apply/refit after its context/snapshot provenance contract is specified. H4 still gates real-roster acceptance.
+
 ## 5. Status
 | Task | Status | Branch | Changelog | Review |
 |---|---|---|---|---|
@@ -194,3 +200,4 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T13 | Merged locally db05929; merged workspace/web124/e2e14, production build and fixture exclusion pass | task/T13-web-screens | T13-web-screens.md | PASS r3; live Access/H4 pending; nonblocking findings retained in review |
 | T14 | Not started | | | |
 | T15 | Merged locally e699c35; merged workspace/engine329 tests, scoped web build and fixture exclusion pass; synthetic ×1.3→1.33 | task/T15-rules-calibration | T15-rules-calibration.md | PASS r4 after coordinator takeover; Partial acceptance: H4/real rules/browser consumer remain; nonblocking findings retained |
+| T15b | Prepared browser diagnostics/report scope; apply/refit deferred explicitly to T15c | task/T15b-calibration-consumer | T15b-calibration-consumer.md | Independent review required; Opus 5.5 medium → Sol 6.1 medium |
