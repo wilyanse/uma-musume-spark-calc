@@ -2,6 +2,7 @@
  * @uma/engine public API (50 §1). T05: context, scenarios, inheritance. T06: training model,
  * prediction, target scoring and ranking (`fitTrainingModel`, `predictChild`, `scoreTarget`,
  * `rankPairs`) plus their engine-local types (not shared contracts: they never cross the API).
+ * T15: `calibrateRules` and its engine-local `CalibrationReport`.
  */
 export { loadContext, RulesError, STAT_INDEX } from './context.ts';
 export type { EngineContext, LoadContextOptions, PerStar, RaceEffectRow } from './context.ts';
@@ -130,3 +131,43 @@ export {
   rankPairsDetailed,
 } from './rank/index.ts';
 export type { RankedPair, RankOptions, RankProgress, RankResult } from './rank/index.ts';
+
+// T15 (50 §8): rules calibration. Engine-local report type (not a shared contract).
+export {
+  CALIBRATION_KIND,
+  calibrateRules,
+  DEFAULT_BOOTSTRAP,
+  DEFAULT_BOOTSTRAP_SEED,
+  DEFAULT_CALIBRATION_SPLIT_SEED,
+  COLLINEAR_REL_TOL,
+  MIN_BOOTSTRAP_HOLDOUT,
+  MIN_SEARCH_GRID_POINTS,
+} from './calibrate/index.ts';
+export type {
+  BlueIdentification as CalibrationBlueIdentification,
+  CalibrationExclusion,
+  CalibrationOptions,
+  CalibrationReport,
+  Candidate as CalibrationCandidate,
+  CandidateFit as CalibrationCandidateFit,
+  GridPoint as CalibrationGridPoint,
+  NotCalibrated,
+  PopulationRow as CalibrationPopulationRow,
+  Selection as CalibrationSelection,
+  SelectionAgreement as CalibrationSelectionAgreement,
+  StatCheck as CalibrationStatCheck,
+  StatUncertainty as CalibrationStatUncertainty,
+  Suggestion as CalibrationSuggestion,
+} from './calibrate/index.ts';
+export { DEFAULT_CALIBRATION_GRID } from './calibrate/grid.ts';
+export type { GridSpec as CalibrationGrid } from './calibrate/grid.ts';
+export { withBlueStatGainMultiplier } from './calibrate/context.ts';
+export type {
+  AptitudeCheck,
+  AptitudeStat,
+  FullLikelihoodState,
+  ImpossibleReason,
+  InvalidObservedGrade,
+  ReliabilityBin,
+} from './calibrate/aptitude.ts';
+export type { SkillCellSummary, SkillHoldoutCheck } from './calibrate/skills.ts';
