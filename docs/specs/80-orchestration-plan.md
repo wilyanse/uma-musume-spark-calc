@@ -22,7 +22,7 @@
 | W4 | T08, T10, T11, T12 | T05 merged (T08); T09 merged (T10, T11); T04 merged (T12) |
 | W5 | T06 | T08 merged |
 | W5b | T13 | T06 merged + H5 design approval |
-| W6 | T15, T14 | M3 exit; H4 real-roster import (T15); Q-2 answered (T14) |
+| W6 | T15, T14 | T15 implementation/synthetic checks may start after T06/T08; H4 still gates real-roster calibration/M4 exit. T14 waits for H3/Q-2. |
 
 ## 3. Human checkpoints
 | ID | When | What the user does | Unblocks |
@@ -168,7 +168,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 
 ### T15 — Rules calibration (M4)
 - Spec: 50 §8, §9 (T15).
-- Owns: `packages/engine/src/calibrate/**`, `packages/engine/test/calibrate/**`.
+- Owns: `packages/engine/src/calibrate/**`, `packages/engine/test/calibrate/**`; minimal public engine export/type and test wiring allowed if declared. Shared contracts, golden fixtures and master data remain read-only. Browser calibration/apply integration is a separate reviewed consumer task, not implicitly part of this engine task.
 - Needs: T06, T08; the real-roster run needs H4.
 - Done when: the golden check passes; a real-roster report is attached once H4 is done.
 
@@ -193,4 +193,4 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T13 | Merged locally db05929; merged workspace/web124/e2e14, production build and fixture exclusion pass | task/T13-web-screens | T13-web-screens.md | PASS r3; live Access/H4 pending; nonblocking findings retained in review |
 | T14 | Not started | | | |
-| T15 | Not started | | | |
+| T15 | Prepared: engine calibration implementation and synthetic acceptance; real-roster report waits H4 | task/T15-rules-calibration | T15-rules-calibration.md | Independent review required; Opus 5.5 medium → Sol 6.1 medium |
