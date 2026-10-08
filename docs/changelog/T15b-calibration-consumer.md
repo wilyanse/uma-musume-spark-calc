@@ -149,3 +149,16 @@ Not done or absent: native (Windows), live API/Cloudflare Access, a deployed sit
 - **Evidence nit:** S07 had no axe run before this task. T15b covers Health with a report in both themes and the stale view; T13's own S07 screenshots are unchanged.
 - **H4 / Q-3 / Q-5:** real-roster calibration, native shell and live API remain pending; nothing here verifies mechanics.
 - The UI report id uses `Math.random` for the ULID's random part (display/id only; the time is injected). Engine results do not depend on it.
+
+## Review round 1 — independent approval
+
+Fresh Opus 5.5 medium reviewer approved `d1ac0258bae79c1ee4d8cc58101a9f304089be9b`: PASS, no blockers. Report saved at `docs/reviews/T15b-review-1.md`. Independently reran workspace gates (web164/engine329), build/check-dist, browser16, archived-vs-fresh report comparison and six additional lifecycle probes. No behavior edits were made after approval.
+
+Deferred findings / consumer mitigations:
+- S1: boundary minimum header can read like a recommendation. There is currently no application path, and the Suggestions section says none; T15c must relabel it “Boundary minimum … not a suggestion; widen the grid” before adding Apply.
+- S2: conditional likelihood 0 on an all-degenerate model needs an inline uninformative qualifier. The existing status is visible and full likelihood is unavailable; T15c must carry the qualifier into the likelihood line.
+- N1: configure context/info should be built in locals and assigned atomically; reviewer could not reproduce mismatch. Address with test-first plumbing work when adding override configuration.
+- N2: FNV identity is not a security authority; ETag plus content hash currently detects session staleness. No change required by reviewer.
+- N3: inherited Planner global cancellation should become owned-job cancellation when Planner is next touched; Health already owns its cancellation.
+- N4: optional roster ETag/identity provenance display remains a follow-up.
+- Apply/refit, snapshot fingerprint, H4, Q-3/Q-5, native/live/cloud verification remain pending. This approval establishes local diagnostics only, not usable rule overrides or real mechanics.
