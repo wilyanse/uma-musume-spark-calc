@@ -537,3 +537,16 @@ Nonblocking follow-ups retained:
 - N1: strengthen the suggestion type's identification discriminant when evolving the consumer contract.
 - N2: add nonsaturated end-to-end mixed-stat coverage; reviewer construction attempts were inconclusive, not evidence of correctness. Current mixed-stat/fold guards have unit coverage and saturation probes have end-to-end coverage.
 - H4/real-roster, browser consumer, native and live proof remain pending; Q-3/Q-5 unverified. No game facts established.
+
+### Coordinator merged verification
+Merged locally as `e699c35fc4c700b62f60407c3a521e74c600a617`; no push or deployment.
+```
+$ pnpm install --frozen-lockfile --offline && pnpm -r lint && pnpm -r typecheck && pnpm -r test && pnpm --filter web build && pnpm --filter web check:dist && git diff --check
+Done in 292ms using pnpm v11.22.0
+schema 149 passed; master-data 82 passed; api 111 passed
+engine 329 passed (21 files); web 124 passed
+vite: 172 modules transformed; built in 262ms
+check-dist: OK — no fixture code or data in the production build
+exit 0
+```
+No recursive build was run. These gates verify the local merge, not native capture, deployed execution or real-game calibration.
