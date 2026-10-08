@@ -200,4 +200,4 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T13 | Merged locally db05929; merged workspace/web124/e2e14, production build and fixture exclusion pass | task/T13-web-screens | T13-web-screens.md | PASS r3; live Access/H4 pending; nonblocking findings retained in review |
 | T14 | Not started | | | |
 | T15 | Merged locally e699c35; merged workspace/engine329 tests, scoped web build and fixture exclusion pass; synthetic ×1.3→1.33 | task/T15-rules-calibration | T15-rules-calibration.md | PASS r4 after coordinator takeover; Partial acceptance: H4/real rules/browser consumer remain; nonblocking findings retained |
-| T15b | Prepared browser diagnostics/report scope; apply/refit deferred explicitly to T15c | task/T15b-calibration-consumer | T15b-calibration-consumer.md | Independent review required; Opus 5.5 medium → Sol 6.1 medium |
+| T15b | Direct Opus medium implementation dispatched; S07 worker calibration/report/cancel/stale guards; apply/refit deferred to T15c | task/T15b-calibration-consumer | T15b-calibration-consumer.md | Independent review required; Opus 5.5 medium → Sol 6.1 medium |
