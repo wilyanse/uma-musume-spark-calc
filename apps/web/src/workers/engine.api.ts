@@ -56,6 +56,9 @@ import type { GoldenContextInput } from '../../../../packages/engine/scripts/gol
 
 export type ContextKind = 'production' | 'golden-fixture';
 
+/** 01 §1 ULID (same pattern the schema enforces on snapshot ids). */
+const ULID_RE = /^[0-7][0-9A-HJKMNP-TV-Z]{25}$/;
+
 export interface ContextInfo {
   kind: ContextKind;
   masterVersion: string;
@@ -326,6 +329,8 @@ export function createEngineApi(): EngineApi {
         const i = info!;
         const now = new Date(opts.nowIso);
         if (Number.isNaN(now.getTime())) throw new ModelInputError('bad-now', `nowIso ${opts.nowIso}`);
+        // The id also names the candidate refit snapshots, which the schema requires to be ULIDs.
+        if (opts.id !== undefined && !ULID_RE.test(opts.id)) throw new ModelInputError('bad-id', `report id ${opts.id} is not a ULID`);
         const report = calibrateRules(c, roster, {
           now: () => now,
           ...(opts.id ? { id: () => opts.id! } : {}),

@@ -67,13 +67,14 @@ export function mockSource(data: MockData = {}, over: Partial<DataSource> = {}) 
   return { src, calls };
 }
 
-/** FAKE engine: no worker; configure succeeds, fit/rank are scripted by the test. */
-export function fakeEngine(remote: Partial<Record<'configure' | 'fit' | 'rank', (...a: unknown[]) => Promise<unknown>>> = {}) {
+/** FAKE engine: no worker; configure succeeds, fit/rank/calibrate are scripted by the test. */
+export function fakeEngine(remote: Partial<Record<'configure' | 'fit' | 'rank' | 'calibrate', (...a: unknown[]) => Promise<unknown>>> = {}) {
   const handle = (): EngineHandle => ({
     remote: {
       configure: remote.configure ?? (async () => ({ ok: true, value: { kind: 'production', masterVersion: masterData().version, rulesVersion: 'rules-1', unverifiedRules: ['blueStatGain'], placeholderRules: [], warnings: [], overrides: [] } })),
       fit: remote.fit ?? (async () => ({ ok: false, error: { name: 'Error', message: 'fit not scripted' } })),
       rank: remote.rank ?? (async () => ({ ok: false, error: { name: 'Error', message: 'rank not scripted' } })),
+      calibrate: remote.calibrate ?? (async () => ({ ok: false, error: { name: 'Error', message: 'calibrate not scripted' } })),
     } as unknown as EngineHandle['remote'],
     terminate: () => undefined,
   });

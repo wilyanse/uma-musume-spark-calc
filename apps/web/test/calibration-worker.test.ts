@@ -95,6 +95,15 @@ describe('worker calibrate (real @uma/engine calibrateRules)', () => {
     expect(again.context.masterVersion).toBe(info.masterVersion);
   }, T);
 
+  it('rejects a report id that is not a ULID and an invalid clock (candidate snapshots need a valid ULID)', () => {
+    const api = createEngineApi();
+    ok(api.configure({ bundle: masterBundle(), kind: 'production' }));
+    const a = api.calibrate([], { nowIso: NOW, id: 'not-a-ulid' });
+    expect(a.ok ? 'ok' : `${a.error.name}:${'code' in a.error ? a.error.code : ''}`).toBe('ModelInputError:bad-id');
+    const b = api.calibrate([], { nowIso: 'yesterday' });
+    expect(b.ok ? 'ok' : `${b.error.name}:${'code' in b.error ? b.error.code : ''}`).toBe('ModelInputError:bad-now');
+  });
+
   it('a bad roster is a typed engine error, not a throw', () => {
     const api = createEngineApi();
     ok(api.configure({ bundle: masterBundle(), kind: 'production' }));
