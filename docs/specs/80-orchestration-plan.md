@@ -193,4 +193,4 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T12 | Merged locally; real deployment waits for H2 | task/T12-devops | T12-devops.md | CHANGES_REQUESTED r1 → PASS r2 |
 | T13 | Merged locally db05929; merged workspace/web124/e2e14, production build and fixture exclusion pass | task/T13-web-screens | T13-web-screens.md | PASS r3; live Access/H4 pending; nonblocking findings retained in review |
 | T14 | Not started | | | |
-| T15 | Fixed candidate e47981c; parent workspace/engine325 tests and diffcheck passed; saturated-design fallback requires independent scrutiny | task/T15-rules-calibration | T15-rules-calibration.md | Fresh Opus medium r3 dispatched; both bounded fix rounds consumed; merge held; H4/real rules/browser remain |
+| T15 | R3 CHANGES_REQUESTED; coordinator takeover fa4810d suppresses saturated/mixed/fold-confounded selections; workspace/engine329 gates passed; twice17 evidence deterministic | task/T15-rules-calibration | T15-rules-calibration.md | Fresh Opus medium r4 dispatched; no further worker fix loop; merge held; H4/real rules/browser remain |
