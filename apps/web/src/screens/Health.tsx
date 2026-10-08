@@ -119,14 +119,13 @@ export function HealthScreen() {
     const live = () => runRef.current === id;
     setRefit({ state: 'running' });
     try {
-      await refitBody(id, live, owned);
+      await refitBody(live, owned);
     } finally {
       if (jobRef.current === owned) jobRef.current = null;
     }
   };
-  const refitBody = async (id: number, live: () => boolean, owned: OwnedJob) => {
+  const refitBody = async (live: () => boolean, owned: OwnedJob) => {
     if (!all || !m) return;
-    void id;
     const out = await ensureModel(services, qc, {
       roster: all,
       rosterEtag: roster.data?.etag ?? null,
@@ -164,7 +163,11 @@ export function HealthScreen() {
     const out = await job.promise;
     if (jobRef.current !== owned) return; // cancelled, superseded, unmounted or inputs changed
     jobRef.current = null;
-    if (out.status === 'cancelled' || out.status === 'superseded') return setCal({ state: 'cancelled' });
+    if (out.status === 'cancelled' || out.status === 'superseded') {
+      // Not the user's Cancel (that clears jobRef first): the engine was reconfigured (master or
+      // context change) or another job took the worker. Say so; the reason may not be known yet.
+      return setCal({ state: 'refused', message: 'Calibration stopped: the engine was reconfigured or another engine job started while it ran. The result was discarded; run calibration again.' });
+    }
     if (out.status === 'crashed') return setCal({ state: 'error', message: `Calibration failed: the engine worker stopped: ${out.message}` });
     if (!out.result.ok) return setCal({ state: 'error', message: `Calibration failed: ${calibrationErrorText(out.result.error, m)}` });
     const v = out.result.value;

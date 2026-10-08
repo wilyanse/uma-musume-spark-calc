@@ -237,6 +237,33 @@ describe('S07 calibration: provenance and stale authority', () => {
     expect(engine.busy).toBeNull();
   });
 
+  it('a context/rules reconfigure terminates a running calibration (refused, with reason) and marks a finished report stale', async () => {
+    let rules = synthetic.report.rulesVersion;
+    const calls: D<unknown>[] = [];
+    const engine = fakeEngine({
+      configure: async () => { const v = ctxValue(synthetic); v.value.rulesVersion = rules; return v; },
+      calibrate: () => { const d = deferred<unknown>(); calls.push(d); return d.promise; },
+    });
+    const { qc } = renderRoute('/health', mockSource({ roster, snapshot: null }).src, { engine });
+    await ready();
+    await userEvent.click(run());
+    await waitFor(() => expect(calls.length).toBe(1));
+    rules = 'rules-next';
+    await act(async () => { await qc.invalidateQueries({ queryKey: ['engine-context'] }); });
+    expect(await screen.findByText(/Calibration stopped: the engine was reconfigured/)).toBeTruthy();
+    await act(async () => calls[0]!.resolve({ ok: true, value: synthetic })); // late reply from the terminated job
+    expect(screen.queryByTestId('calibration-report')).toBeNull();
+    // Finished report, then the rules change again: stale, not current.
+    await userEvent.click(screen.getByRole('button', { name: 'Retry calibration' }));
+    await waitFor(() => expect(calls.length).toBe(2));
+    const next = clone(synthetic); next.report.rulesVersion = 'rules-next';
+    await act(async () => calls[1]!.resolve({ ok: true, value: next }));
+    await screen.findByTestId('calibration-report');
+    rules = 'rules-third';
+    await act(async () => { await qc.invalidateQueries({ queryKey: ['engine-context'] }); });
+    expect((await screen.findByTestId('calib-stale')).textContent).toMatch(/rules changed/);
+  });
+
   it('a reply whose master/rules versions differ from the run provenance is refused', async () => {
     const { engine, calls } = scripted(() => synthetic);
     renderRoute('/health', mockSource({ roster, snapshot: null }).src, { engine });
