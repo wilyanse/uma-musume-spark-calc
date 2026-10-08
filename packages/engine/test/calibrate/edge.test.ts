@@ -209,13 +209,23 @@ describe('aptitude and skill contradictions are counted, not hidden', () => {
   const ctx = goldenCtx();
   const outfitTurf = ctx.outfits.get(row.outfitId)!.aptitudes.turf;
 
-  it('impossible aptitude grades are excluded from the log-likelihood and counted', () => {
+  it('impossible aptitude grades null the full log-likelihood; the conditional one stays finite', () => {
     const r = calibrateRules(ctx, rows, opts({ bootstrap: 0 }));
     expect(outfitTurf).not.toBe('G'); // the fixture row must make G impossible (not vacuous)
     expect(r.aptitude.impossible).toBe(1);
     expect(r.aptitude.belowBase).toBe(1);
-    expect(Number.isFinite(r.aptitude.logLik)).toBe(true);
+    expect(r.aptitude.fullLikelihood).toBe('zero-probability-observed');
+    expect(r.aptitude.logLik).toBeNull();
+    expect(r.aptitude.meanLogLik).toBeNull();
+    expect(r.aptitude.possibleCells).toBe(r.aptitude.cells - 1);
+    expect(Number.isFinite(r.aptitude.conditionalLogLik)).toBe(true);
+    expect(r.aptitude.conditionalLogLik!).toBeLessThan(0);
     expect(r.aptitude.perAptitude.turf!.impossible).toBe(1);
+    expect(r.aptitude.perAptitude.turf!.logLik).toBeNull();
+    expect(Number.isFinite(r.aptitude.perAptitude.turf!.conditionalLogLik)).toBe(true);
+    expect(r.aptitude.perAptitude.dirt!.fullLikelihood).toBe('finite');
+    expect(Number.isFinite(r.aptitude.perAptitude.dirt!.logLik)).toBe(true);
+    expect(r.aptitude.status).toBe('ok'); // informative cells remain
   });
 
   it('a q = 0 acquired holdout skill is a contradiction, excluded from the likelihood', () => {

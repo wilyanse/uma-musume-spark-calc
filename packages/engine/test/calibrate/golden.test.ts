@@ -66,13 +66,15 @@ describe('F12: planted blueStatGain ×1.3 (stored split, 50 §8 population)', ()
     expect(at(2).holdoutMae).toBeGreaterThan(best);
   });
 
-  it('the unbiased evaluation (train-only selection, holdout untouched by it) also lands in band and beats current rules', () => {
+  it('the train-CV selection (holdout unused to choose it) also lands in band and its holdout MAE beats current rules', () => {
     const r = x13();
     const t = r.stats.trainCvSelected!;
     expect(t.multiplier).toBeGreaterThanOrEqual(BAND[0]);
     expect(t.multiplier).toBeLessThanOrEqual(BAND[1]);
-    expect(r.stats.evaluation.unbiasedHoldoutMae).toBe(t.holdoutMae);
-    expect(r.stats.evaluation.unbiasedHoldoutMae!).toBeLessThan(r.stats.current!.holdoutMae);
+    expect(r.stats.evaluation.holdoutMaeOfTrainCvSelection).toBe(t.holdoutMae);
+    expect(r.stats.evaluation.holdoutMaeOfTrainCvSelection!).toBeLessThan(
+      r.stats.current!.holdoutMae,
+    );
     expect(r.stats.evaluation.selectedHoldoutMaeIsPostSelection).toBe(true);
   });
 
@@ -219,8 +221,8 @@ describe('published context: zero placeholder blueStatGain is nonidentifiable', 
     expect(r.stats.nonidentifiable!.reasons.join(' ')).toMatch(/zero/);
     expect(r.stats.nonidentifiable!.reasons.join(' ')).toMatch(/inheritance turns/);
     expect(r.stats.grid).toEqual([]);
-    // The rest of the report still exists.
-    expect(r.aptitude.status).toBe('ok');
+    // The rest of the report still exists; the aptitude check is uninformative (B1).
+    expect(r.aptitude.status).toBe('uninformative');
     expect(r.skills.status).toBe('ok');
     expect(r.notCalibrated.map((n) => n.rule)).toContain('blueStatGain');
   });
