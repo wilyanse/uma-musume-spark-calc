@@ -178,6 +178,12 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Needs: merged T13 and T15. Does not wait for H4 to implement synthetic/published-context checks.
 - Done when: real worker calibration/report/cancel/retry/stale guards work in S07, truthful null/conditional/identification displays, all scoped gates and independent review pass. No rules apply/persistence in this task; T15c owns explicit apply/refit after its context/snapshot provenance contract is specified. H4 still gates real-roster acceptance.
 
+### T15c — Explicit browser-local rules apply and refit
+- Spec: 62 (all), 61/60, S07 design, authoritative 01 and ADR-0002; T15b review follow-ups.
+- Owns: focused web override/context/model provenance, worker/client, Health and minimal Planner integration, tests/evidence. Engine/schema/API/master/golden stay read-only.
+- Needs: merged T15/T15b/T13; synthetic implementation does not wait H4.
+- Done when: revision-bound explicit apply fits before commit, browser-only overrides/models never enter baseline snapshot API, context fingerprint gates reuse/ranking, reset/reload/failure/cancel paths and actual browser workflow pass with independent review. Real-data/H4 and cross-device storage remain separate.
+
 ## 5. Status
 | Task | Status | Branch | Changelog | Review |
 |---|---|---|---|---|
@@ -201,3 +207,4 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T14 | Not started | | | |
 | T15 | Merged locally e699c35; merged workspace/engine329 tests, scoped web build and fixture exclusion pass; synthetic ×1.3→1.33 | task/T15-rules-calibration | T15-rules-calibration.md | PASS r4 after coordinator takeover; Partial acceptance: H4/real rules/browser consumer remain; nonblocking findings retained |
 | T15b | Merged locally d1105eb; merged workspace/web164/browser16, scoped build and fixture exclusion passed; real-browser synthetic ×1.32 | task/T15b-calibration-consumer | T15b-calibration-consumer.md | PASS r1; labels/atomic configure follow-ups recorded for T15c; H4 remains |
+| T15c | Prepared explicit browser-local apply/refit and snapshot-context provenance contract | task/T15c-calibration-apply | T15c-calibration-apply.md | Independent review required; Opus 5.5 medium → Sol 6.1 medium |
