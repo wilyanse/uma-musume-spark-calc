@@ -373,7 +373,8 @@ export function HealthScreen() {
       <div className="split s2b">
         <section className="panel" aria-labelledby="rules-t">
           <header id="rules-t">Inheritance rules ({m.bundle.rules.version})</header>
-          <div className="tbl-wrap fit" style={{ border: 0 }}>
+          {/* Scrollable on narrow columns: keyboard-focusable, labelled region (axe scrollable-region-focusable). */}
+          <div className="tbl-wrap fit" style={{ border: 0 }} tabIndex={0} role="region" aria-label="Inheritance rules table (scrollable)">
             <table>
               <caption className="sr">Inheritance rules with verification status</caption>
               <thead>

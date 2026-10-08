@@ -17,7 +17,7 @@ const triple = (t: readonly number[]) => t.map((x) => fmtNum(x, 2)).join(' / ');
 function Section({ id, title, children, testId }: { id: string; title: string; children: ReactNode; testId?: string }) {
   return (
     <section className="calib-sec" aria-labelledby={id} data-testid={testId}>
-      <h3 id={id}>{title}</h3>
+      <h2 id={id}>{title}</h2>
       {children}
     </section>
   );
@@ -42,7 +42,7 @@ export function CalibrationReportView({ value, stale, onDismiss }: { value: Sess
         </Banner>
       )}
       <p data-testid="calib-status">
-        Report status <Tag kind={STATUS_KIND[r.status]}>{r.status}</Tag> · run {dateTime(r.generatedAt)} · <span className="mono">{r.kind}</span>
+        Report status <Tag kind={STATUS_KIND[r.status]}>{r.status}</Tag> · run {dateTime(r.generatedAt)} · <span className="mono">{r.kind}</span> · report <span className="mono" data-testid="calib-id">{r.id}</span>
       </p>
       <p className="hint">“complete” means every check could run (checks available); it is not verified mechanics, not real-roster acceptance and not a milestone sign-off.</p>
       {c.synthetic ? (
@@ -194,7 +194,7 @@ export function CalibrationReportView({ value, stale, onDismiss }: { value: Sess
       <Section id="calib-sug-t" title="Suggested values (unverified proposals)" testId="calib-suggestions">
         {suggestion ? (
           <p>
-            Suggested blueStatGain ×{fmtNum(suggestion.multiplier, 2)}: {triple(suggestion.current)} → {triple(suggestion.proposed)} (1★/2★/3★); not applied; consistent with current: {yesNo(suggestion.consistentWithCurrent)}. {suggestion.note}
+            Suggested blueStatGain ×{fmtNum(suggestion.multiplier, 2)}: {triple(suggestion.current)} → {triple(suggestion.proposed)} (1★/2★/3★); not applied; consistent with current: {yesNo(suggestion.consistentWithCurrent)}. Engine note: “{suggestion.note}”
           </p>
         ) : (
           <p>No suggestion: nothing to propose from this report.</p>
