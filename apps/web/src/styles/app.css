@@ -292,3 +292,8 @@ th[aria-sort] button.linklike::after{content:none}
 .detail .row{flex-wrap:nowrap}
 .detail .statrow{grid-template-columns:44px minmax(0,1fr)}
 .detail .statrow .val{grid-column:1/-1;white-space:normal}
+/* T15b S07 calibration report */
+.calib .calib-sec h2{font-size:var(--type-sm);margin:0 0 var(--space-1)}
+.calib p,.calib li,.calib dd,.calib dt{overflow-wrap:anywhere}
+.calib ul{margin:0;padding-left:1.2em}
+.calib dl.contrib{margin:0}.calib dl.contrib dd{margin:0;text-align:right}

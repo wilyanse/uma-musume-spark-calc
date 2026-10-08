@@ -12,7 +12,7 @@
 import { proxy, wrap, type Remote } from 'comlink';
 import type { CmTarget, ModelSnapshot, RosterVeteran } from '@uma/schema';
 import type { PlanInput, RankOptions, RankProgress, RankResult } from '@uma/engine';
-import type { ConfigureInput, ContextInfo, EngineApi, EngineResult, FitOutput } from './engine.api.ts';
+import type { CalibrateOpts, CalibrationOutput, ConfigureInput, ContextInfo, EngineApi, EngineResult, FitOutput } from './engine.api.ts';
 
 export interface EngineHandle {
   remote: Remote<EngineApi>;
@@ -151,6 +151,15 @@ export class EngineClient {
 
   fit(roster: RosterVeteran[], opts: { nowIso: string; id?: string }): Job<FitOutput> {
     return this.run((r) => r.fit(roster, opts) as Promise<EngineResult<FitOutput>>);
+  }
+
+  /**
+   * T15b: `calibrateRules` in the worker. Shares the single active-job authority with fit/rank, so a
+   * later job supersedes it (and vice versa) and its reply can never overwrite a newer result.
+   * Arguments are plain data (no callbacks: the engine has no progress hook).
+   */
+  calibrate(roster: RosterVeteran[], opts: CalibrateOpts): Job<CalibrationOutput> {
+    return this.run((r) => r.calibrate(roster, opts) as Promise<EngineResult<CalibrationOutput>>);
   }
 
   rank(

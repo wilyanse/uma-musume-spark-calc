@@ -43,6 +43,12 @@ export function masterData(): MasterData {
 
 export const goldenRoster = (): RosterVeteran[] =>
   json(join(WEB, 'fixtures/roster.json')) as RosterVeteran[];
+/**
+ * The committed T08 planted ×1.3 roster (SYNTHETIC, read-only, unchanged; 70 §2 F12). Only the
+ * roster rows are read: the planted multiplier itself lives in truth.json and is never an input.
+ */
+export const calibrationRoster = (): RosterVeteran[] =>
+  json(join(WEB, '../../packages/engine/test/golden/roster.calibration-x1.3.json')) as RosterVeteran[];
 export const goldenTargets = (): CmTarget[] => json(join(WEB, 'fixtures/cm-targets.json')) as CmTarget[];
 export const goldenTruth = (): Record<string, unknown> & {
   golden: {

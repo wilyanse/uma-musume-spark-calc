@@ -1,0 +1,7 @@
+{
+  "context": "SYNTHETIC golden fixture context, real browser Worker/Comlink, unchanged roster.calibration-x1.3.json",
+  "ms": 1918,
+  "multiplier": 1.32,
+  "selection": "Selected multiplier ×1.32 (holdout-MAE argmin; stats status suggested).",
+  "reportId": "01M4CCYJ00D20FJFH8S3TCN6K9"
+}

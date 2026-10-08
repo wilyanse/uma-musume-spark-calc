@@ -133,13 +133,14 @@ describe('S07 Model health', () => {
     renderRoute('/health', mockSource({}, { latestSnapshot: failure }).src);
     expect(await screen.findByText(/Couldn't load model health/)).toBeTruthy();
   });
-  it('renders real metrics, unavailable scatter honestly, published unverified rules and disabled calibration', async () => {
+  it('renders real metrics, unavailable scatter honestly, published unverified rules and (T15b) enabled calibration', async () => {
     renderRoute('/health', mockSource({ roster, snapshot: fit.snapshot }).src);
     expect(await screen.findByText(String(fit.snapshot.nSamples))).toBeTruthy();
     expect(screen.getByText(fit.snapshot.params.holdout.mae.spd.toFixed(1))).toBeTruthy();
     expect(screen.getByText(/No points are drawn/)).toBeTruthy();
     expect(screen.getAllByText('⚠ unverified').length).toBeGreaterThan(0);
-    expect((screen.getByRole('button', { name: 'Run calibration' }) as HTMLButtonElement).disabled).toBe(true);
+    // T15b: calibration is enabled once roster and context are ready (no snapshot needed).
+    await waitFor(() => expect((screen.getByRole('button', { name: 'Run calibration' }) as HTMLButtonElement).disabled).toBe(false));
     // N1: the threshold shown is the one the (fake) engine context reports, the band is labelled F08
     expect(screen.getByText('high-confidence rows only')).toBeTruthy();
     expect(screen.getByText(/F08 acceptance band 0.72–0.88/)).toBeTruthy();

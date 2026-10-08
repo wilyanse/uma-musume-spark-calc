@@ -13,6 +13,33 @@ import { COVERAGE_BAND, LOW_DATA_N, STAT_KEYS, STAT_LABEL } from '../lib/keys.ts
 import { dateTime, titleCase } from '../lib/format.ts';
 import { engineErrorText } from '../app/engineErrors.ts';
 import { isReadableSnapshot } from '../lib/model.ts';
+import type { EngineErrorInfo } from '../workers/engine.api.ts';
+import type { MasterData } from '../master/load.ts';
+import { setSessionCalibration, useSessionCalibration } from '../app/calibration.ts';
+import { provenanceKey, provenanceOf, staleReasons, type CalibrationProvenance } from '../lib/calibration.ts';
+import { CalibrationReportView } from '../components/CalibrationReport.tsx';
+import { ulid } from '../lib/ulid.ts';
+
+type CalState =
+  | { state: 'idle' }
+  | { state: 'running'; cancel: () => void }
+  | { state: 'cancelled' }
+  | { state: 'refused'; message: string }
+  | { state: 'error'; message: string };
+
+/** One active Health job (refit or calibration), held synchronously so same-tick clicks can't race. */
+interface OwnedJob {
+  kind: 'refit' | 'calibrate';
+  id: number;
+  cancel: (() => void) | null;
+  provenance?: CalibrationProvenance;
+}
+
+function calibrationErrorText(e: EngineErrorInfo, m?: MasterData): string {
+  if (e.name === 'ModelInputError') return `invalid roster or calibration input (${e.code}): ${e.message}`;
+  if (e.name === 'NotConfiguredError') return `the engine context isn't configured: ${e.message}`;
+  return engineErrorText(e, m);
+}
 
 /** One row per rules.json entry (01 §12): its numbers, verified flag and source. */
 export function rulesRows(rules: Rules): { rule: string; value: string; verified: boolean; source: string }[] {
@@ -41,9 +68,36 @@ export function HealthScreen() {
   const fit = useSessionFit();
   const [refit, setRefit] = useState<{ state: 'idle' | 'running' | 'error' | 'cancelled'; message?: string; cancel?: () => void }>({ state: 'idle' });
   const runRef = useRef(0);
-  useEffect(() => () => { runRef.current++; services.engine.cancel(); }, [services.engine]);
+  const jobRef = useRef<OwnedJob | null>(null);
+  const [cal, setCal] = useState<CalState>({ state: 'idle' });
+  const session = useSessionCalibration(services.engine);
+  // Route unmount cancels only the job this screen owns (never another screen's worker job).
+  useEffect(() => () => {
+    runRef.current++;
+    const j = jobRef.current;
+    jobRef.current = null;
+    j?.cancel?.();
+  }, [services.engine]);
   const m = master.data;
   const all = roster.data?.roster;
+  const currentProv = useMemo(
+    () => (ctxQ.data && m && roster.data ? provenanceOf(ctxQ.data, m.version, roster.data) : null),
+    [ctxQ.data, m, roster.data],
+  );
+  const currentKey = currentProv ? provenanceKey(currentProv) : null;
+  const provRef = useRef(currentProv);
+  provRef.current = currentProv;
+
+  // Inputs changed while a calibration runs: revoke its authority (terminate) and say why.
+  useEffect(() => {
+    const j = jobRef.current;
+    if (!j || j.kind !== 'calibrate' || !j.provenance) return;
+    if (currentProv && provenanceKey(j.provenance) === currentKey) return;
+    const why = currentProv ? staleReasons(j.provenance, currentProv) : ['inputs are reloading'];
+    jobRef.current = null;
+    j.cancel?.();
+    setCal({ state: 'refused', message: `Calibration stopped: its inputs changed while it ran (${why.join(', ')}). The result was discarded; run calibration again.` });
+  }, [currentKey, currentProv]);
 
   const counts = useMemo(() => {
     if (!all) return [];
@@ -58,10 +112,20 @@ export function HealthScreen() {
   }, [all]);
 
   const doRefit = async () => {
-    if (!all || !m || !ctxQ.data) return;
+    if (!all || !m || !ctxQ.data || jobRef.current) return;
     const id = ++runRef.current;
+    const owned: OwnedJob = { kind: 'refit', id, cancel: null };
+    jobRef.current = owned;
     const live = () => runRef.current === id;
     setRefit({ state: 'running' });
+    try {
+      await refitBody(live, owned);
+    } finally {
+      if (jobRef.current === owned) jobRef.current = null;
+    }
+  };
+  const refitBody = async (live: () => boolean, owned: OwnedJob) => {
+    if (!all || !m) return;
     const out = await ensureModel(services, qc, {
       roster: all,
       rosterEtag: roster.data?.etag ?? null,
@@ -69,7 +133,10 @@ export function HealthScreen() {
       context: contextKindFor(services),
       force: 'requested',
       isCurrent: live,
-      onFitStart: (_r, cancel) => live() && setRefit({ state: 'running', cancel: () => { runRef.current++; cancel(); setRefit({ state: 'cancelled' }); } }),
+      onFitStart: (_r, cancel) => {
+        owned.cancel = cancel;
+        if (live()) setRefit({ state: 'running', cancel: () => { runRef.current++; cancel(); setRefit({ state: 'cancelled' }); } });
+      },
     });
     if (!live()) return;
     if (out.status === 'cancelled') return setRefit({ state: 'cancelled' });
@@ -77,9 +144,49 @@ export function HealthScreen() {
     setRefit({ state: 'idle', message: out.storeError ?? undefined });
   };
 
+  const doCalibrate = async () => {
+    const prov = provRef.current;
+    if (!all || !m || !prov || jobRef.current) return;
+    const id = ++runRef.current;
+    const owned: OwnedJob = { kind: 'calibrate', id, cancel: null, provenance: prov };
+    jobRef.current = owned;
+    const now = services.now();
+    const job = services.engine.calibrate(all, { nowIso: now.toISOString(), id: ulid(now.getTime(), Math.random) });
+    const cancel = () => {
+      if (jobRef.current !== owned) return;
+      jobRef.current = null;
+      job.cancel();
+      setCal({ state: 'cancelled' });
+    };
+    owned.cancel = job.cancel;
+    setCal({ state: 'running', cancel });
+    const out = await job.promise;
+    if (jobRef.current !== owned) return; // cancelled, superseded, unmounted or inputs changed
+    jobRef.current = null;
+    if (out.status === 'cancelled' || out.status === 'superseded') {
+      // Not the user's Cancel (that clears jobRef first): the engine was reconfigured (master or
+      // context change) or another job took the worker. Say so; the reason may not be known yet.
+      return setCal({ state: 'refused', message: 'Calibration stopped: the engine was reconfigured or another engine job started while it ran. The result was discarded; run calibration again.' });
+    }
+    if (out.status === 'crashed') return setCal({ state: 'error', message: `Calibration failed: the engine worker stopped: ${out.message}` });
+    if (!out.result.ok) return setCal({ state: 'error', message: `Calibration failed: ${calibrationErrorText(out.result.error, m)}` });
+    const v = out.result.value;
+    if (v.context.kind !== prov.contextKind || v.report.masterVersion !== prov.masterVersion || v.report.rulesVersion !== prov.rulesVersion) {
+      return setCal({
+        state: 'error',
+        message: `Calibration failed: the worker's report (${v.context.kind}, master ${v.report.masterVersion}, rules ${v.report.rulesVersion}) does not match the inputs it was started with (${prov.contextKind}, master ${prov.masterVersion}, rules ${prov.rulesVersion}). It was discarded.`,
+      });
+    }
+    setSessionCalibration(services.engine, { output: v, provenance: prov });
+    setCal({ state: 'idle' });
+  };
+  const calRunning = cal.state === 'running';
+  const busy = refit.state === 'running' || calRunning;
+  const canCalibrate = !!all && !!m && !!currentProv && !busy;
+
   const actions = (
     <>
-      <button type="button" className="btn" disabled={refit.state === 'running' || !all || !ctxQ.data} aria-busy={refit.state === 'running'} onClick={() => void doRefit()}>
+      <button type="button" className="btn" disabled={busy || !all || !ctxQ.data} aria-busy={refit.state === 'running'} onClick={() => void doRefit()}>
         Refit model
       </button>
       {refit.state === 'running' && refit.cancel && (
@@ -87,7 +194,7 @@ export function HealthScreen() {
           Cancel
         </button>
       )}
-      <button type="button" className="btn primary" aria-disabled="true" disabled title="Calibration (T15) is not implemented yet">
+      <button type="button" className="btn primary" disabled={!canCalibrate} aria-busy={calRunning} onClick={() => void doCalibrate()}>
         Run calibration
       </button>
     </>
@@ -266,7 +373,8 @@ export function HealthScreen() {
       <div className="split s2b">
         <section className="panel" aria-labelledby="rules-t">
           <header id="rules-t">Inheritance rules ({m.bundle.rules.version})</header>
-          <div className="tbl-wrap fit" style={{ border: 0 }}>
+          {/* Scrollable on narrow columns: keyboard-focusable, labelled region (axe scrollable-region-focusable). */}
+          <div className="tbl-wrap fit" style={{ border: 0 }} tabIndex={0} role="region" aria-label="Inheritance rules table (scrollable)">
             <table>
               <caption className="sr">Inheritance rules with verification status</caption>
               <thead>
@@ -301,12 +409,42 @@ export function HealthScreen() {
         </section>
         <section className="panel" aria-labelledby="cal-t">
           <header id="cal-t">Calibration result</header>
-          <div className="body">
-            <p>Calibration hasn't been run.</p>
-            <p className="hint">
-              Rules calibration is task T15 and isn't implemented yet, so “Run calibration” is disabled. Suggested values are never applied automatically; applying rule overrides would also require a model refit (Q-141).
-            </p>
-          </div>
+          {cal.state === 'running' && (
+            <div className="body">
+              <Banner kind="info">
+                <span data-testid="calib-running">Calibrating… running in the engine worker. The engine reports no progress, so no estimate is shown.</span>
+                <span className="sp" />
+                <button type="button" className="btn sm" onClick={cal.cancel}>
+                  Cancel calibration
+                </button>
+              </Banner>
+            </div>
+          )}
+          {(cal.state === 'cancelled' || cal.state === 'refused' || cal.state === 'error') && (
+            <div className="body">
+              <Banner kind={cal.state === 'error' ? 'err' : cal.state === 'refused' ? 'warn' : 'info'}>
+                <span>{cal.state === 'cancelled' ? 'Calibration cancelled.' : cal.message}</span>
+                <span className="sp" />
+                <button type="button" className="btn sm" disabled={busy || !canCalibrate} onClick={() => void doCalibrate()}>
+                  Retry calibration
+                </button>
+              </Banner>
+            </div>
+          )}
+          {session ? (
+            <CalibrationReportView
+              value={session}
+              stale={currentProv ? staleReasons(session.provenance, currentProv) : ['inputs are reloading']}
+              onDismiss={() => setSessionCalibration(services.engine, null)}
+            />
+          ) : (
+            <div className="body">
+              <p>Calibration hasn't been run.</p>
+              <p className="hint">
+                Run calibration checks the current rules against your roster in the engine worker. It works without a fitted model, changes nothing and stores nothing; the report stays in this tab until you dismiss it. Suggested values are never applied (explicit apply-and-refit is a separate task, T15c; Q-141).
+              </p>
+            </div>
+          )}
         </section>
       </div>
     </Page>

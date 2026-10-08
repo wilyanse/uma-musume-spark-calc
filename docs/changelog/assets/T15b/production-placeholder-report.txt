@@ -1,0 +1,88 @@
+Report status partial · run 2026-10-08 00:00 · calibration-v1 · report 01M4CCYJ0073TPFQBGXAZ0AW7J
+
+“complete” means every check could run (checks available); it is not verified mechanics, not real-roster acceptance and not a milestone sign-off.
+
+Production context: the published rules verbatim (master global-20260930, rules rules-1). Placeholder (UNKNOWN) rules in force: blueStatGain, whiteHintLevels; a placeholder rule cannot be calibrated into a real value. Unverified rules: 12.
+
+Population and split
+
+260 roster rows · 196 used · excluded: low-confidence 20, parent-not-matched-or-guest 44 · train 156 · holdout 40
+
+Split seeded (seed t15-holdout), CV seed t06-cv; dropped 0, unused 0. Lineage coupling (ADR-0002): 28 train→holdout parent reference(s) from 26 train row(s).
+
+Stats: blueStatGain multiplier
+
+No multiplier selected: stats status nonidentifiable.
+
+no train row's E[inh] depends on blueStatGain
+CV fold(s) 0, 1, 2, 3, 4 do not identify the multiplier on the full design
+blueStatGain is zero for every star (placeholder): any multiplier of zero is zero, so no factor can be estimated
+scenario(s) scenario:brighter-together-our-grand-concert, scenario:trackblazer, scenario:unity-cup, scenario:ura-finale have no inheritance turns: event blue gains never apply, so blueStatGain cannot affect any stat
+Holdout MAE, current rules (×1)
+unavailable
+Holdout MAE, no inheritance term
+unavailable
+Holdout MAE at the selection (post-selection, optimistic)
+unavailable
+Train-CV selection (holdout unused to choose it)
+unavailable
+Holdout MAE of the train-CV selection
+unavailable
+
+MAE is summed over the five stats (stat points). The train-CV evaluation is still lineage-coupled to the holdout (ADR-0002), so it is not fully independent.
+
+Confidence: not-run (blueStatGain is not identifiable). Interval: unavailable.
+
+Conditional holdout bootstrap: holdout rows resampled with the split and train fit held fixed. It is not full uncertainty (train-fit, split, λ and model uncertainty are excluded).
+
+Selection agreement: unknown (no selection).
+
+Identification diagnostic (numeric): no-train-sensitivity, basis full-design, design rank 38 / 156 train rows; CV folds not identified: 0 (no-train-sensitivity), 1 (no-train-sensitivity), 2 (no-train-sensitivity), 3 (no-train-sensitivity), 4 (no-train-sensitivity).
+
+“Identified” means numerically non-collinear, not well-determined or precise. Selection authority is the stats status, not this diagnostic.
+
+Aptitude check
+
+Status uninformative — all 1960 cells are degenerate (one grade has predicted p ≥ 1 − 1e-12): the prediction is certain, so the likelihood and reliability table carry no calibration information · 196 rows, 1960 cells
+
+Full log-likelihood: unavailable (zero-probability-observed: at least one observed grade had predicted probability 0, so the full likelihood is −∞)
+
+Conditional log-likelihood (possible cells only; not the full fit): 0.00 over 1873 possible cells (mean 0.000)
+
+Impossible observations: 87 (below base 0 · above max 87 · unreachable 0); degenerate cells 1960, uncertain cells 0
+
+0 invalid observed grade(s) excluded (not scored, not counted as impossible)
+
+Skill check (holdout)
+
+Status ok
+
+×1.00: ok, 2069 scored cells over 40 rows; log-likelihood −1252.01, Brier 0.209, z 0.27; expected 799.3 vs observed 805; contradictions 33
+Suggested values (unverified proposals)
+
+No suggestion: nothing to propose from this report.
+
+Rule override/apply-and-refit integration not yet available (separate task T15c). Calibration never changes the rules, the engine context, the model or anything stored.
+
+Dismiss
+Rules not calibrated
+blueStatGain unverified placeholder stat check status nonidentifiable: no multiplier is suggested
+activation.blue unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+activation.pink unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the aptitude check reports fit only
+activation.green unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the skill check reports fit only
+activation.white unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the skill check reports fit only
+affinityMultiplier unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+grandparentWeight unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+blueInitialBonus unverified confounded with the training intercepts and the event gain; parents-only vs every legacy is an open source conflict (Q-3)
+pinkGradeGain unverified integer grade steps; the aptitude check reports fit only
+whiteHintLevels unverified placeholder hint levels are not observed on veterans
+raceSparkStatGain unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+scenarioSparkEffects unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+Engine warnings
+aptitude: 87 observed grade(s) have predicted probability 0 (0 below the trainee base, 87 above every reachable grade, 0 in an unreachable gap): the full log-likelihood is −∞ (reported as null, zero-probability-observed); conditionalLogLik covers the 1873 possible cells only
+aptitude: all 1960 cells are degenerate (one grade has predicted p ≥ 1 − 1e-12): the prediction is certain, so the likelihood and reliability table carry no calibration information
+stats: blueStatGain multiplier is not identifiable (no train row's E[inh] depends on blueStatGain; CV fold(s) 0, 1, 2, 3, 4 do not identify the multiplier on the full design; blueStatGain is zero for every star (placeholder): any multiplier of zero is zero, so no factor can be estimated; scenario(s) scenario:brighter-together-our-grand-concert, scenario:trackblazer, scenario:unity-cup, scenario:ura-finale have no inheritance turns: event blue gains never apply, so blueStatGain cannot affect any stat)
+skills: 33 acquired holdout skill cell(s) with no observable source (Q-131) under ×1
+unverified rules in force: activation.blue, activation.pink, activation.green, activation.white, affinityMultiplier, grandparentWeight, blueStatGain, blueInitialBonus, pinkGradeGain, whiteHintLevels, raceSparkStatGain, scenarioSparkEffects
+placeholder (UNKNOWN) rules in force: blueStatGain, whiteHintLevels
+holdout is lineage-coupled: 28 train→holdout matched-parent reference(s) from 26 train row(s) to 17 holdout veteran(s) (ADR-0002)
