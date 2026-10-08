@@ -26,6 +26,7 @@ import {
 import type { CmTarget, ModelSnapshot, RosterVeteran } from '@uma/schema';
 import type { MasterBundle } from '@uma/master-data';
 import {
+  calibrateRules,
   fitTrainingModelDetailed,
   InsufficientDataError,
   loadContext,
@@ -42,6 +43,7 @@ import {
   MIN_CONFIDENCE,
 } from '@uma/engine';
 import type {
+  CalibrationReport,
   EngineContext,
   FitReport,
   PlanInput,
@@ -202,9 +204,40 @@ export interface FitOutput {
   summary: FitSummary;
 }
 
+/**
+ * T15b (61): provenance of the context a calibration ran under, captured inside the worker at
+ * call time (not inferred by the UI). `synthetic` is true only for the fixture-only golden context.
+ */
+export interface CalibrationContextInfo {
+  kind: ContextKind;
+  synthetic: boolean;
+  masterVersion: string;
+  rulesVersion: string;
+  unverifiedRules: string[];
+  placeholderRules: string[];
+  overrides: { rule: string; source: string }[];
+}
+
+/** Read-only diagnostics: the engine-local `CalibrationReport` (never stored or sent) + provenance. */
+export interface CalibrationOutput {
+  report: CalibrationReport;
+  context: CalibrationContextInfo;
+}
+
+/** Serializable calibration inputs (no functions cross Comlink): clock and report id. */
+export interface CalibrateOpts {
+  nowIso: string;
+  id?: string;
+}
+
 export interface EngineApi {
   configure(input: ConfigureInput): EngineResult<ContextInfo>;
   fit(roster: RosterVeteran[], opts: { nowIso: string; id?: string }): EngineResult<FitOutput>;
+  /**
+   * 50 §8 `calibrateRules` on the configured context (T15b). Pure: never changes the context, no
+   * snapshot, no storage. Synchronous inside the worker; cancel = terminate (client.ts).
+   */
+  calibrate(roster: RosterVeteran[], opts: CalibrateOpts): EngineResult<CalibrationOutput>;
   rank(
     snapshot: ModelSnapshot,
     input: PlanInput,
@@ -218,6 +251,7 @@ export interface EngineApi {
 
 export function createEngineApi(): EngineApi {
   let ctx: EngineContext | null = null;
+  let info: ContextInfo | null = null;
   const need = (): EngineContext => {
     if (!ctx) throw new NotConfiguredError('engine context not configured');
     return ctx;
@@ -241,7 +275,8 @@ export function createEngineApi(): EngineApi {
         } else {
           ctx = loadContext(bundle, bundle.rules);
         }
-        return {
+        // ctx and info always change together (a failed configure keeps the previous pair).
+        info = {
           kind: input.kind,
           masterVersion: ctx.masterVersion,
           rulesVersion: ctx.rules.version,
@@ -251,6 +286,7 @@ export function createEngineApi(): EngineApi {
           overrides,
           minConfidence: MIN_CONFIDENCE,
         };
+        return info;
       }),
     fit: (roster, opts) =>
       wrap(() => {
@@ -281,6 +317,29 @@ export function createEngineApi(): EngineApi {
               assumptions: report.skills.assumptions,
             },
             warnings: report.warnings,
+          },
+        };
+      }),
+    calibrate: (roster, opts) =>
+      wrap(() => {
+        const c = need();
+        const i = info!;
+        const now = new Date(opts.nowIso);
+        if (Number.isNaN(now.getTime())) throw new ModelInputError('bad-now', `nowIso ${opts.nowIso}`);
+        const report = calibrateRules(c, roster, {
+          now: () => now,
+          ...(opts.id ? { id: () => opts.id! } : {}),
+        });
+        return {
+          report,
+          context: {
+            kind: i.kind,
+            synthetic: i.kind === 'golden-fixture',
+            masterVersion: report.masterVersion,
+            rulesVersion: report.rulesVersion,
+            unverifiedRules: [...i.unverifiedRules],
+            placeholderRules: [...i.placeholderRules],
+            overrides: i.overrides.map((o) => ({ ...o })),
           },
         };
       }),
