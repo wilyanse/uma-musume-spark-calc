@@ -526,3 +526,14 @@ Golden ×1.3: complete/suggested 1.33, train-CV 1.31, full-design rank 38/157
 Published context: partial/nonidentifiable, full likelihood null, impossible 87
 ```
 All four reported input hashes match round 2. Real-roster/H4, browser and live evidence remain absent. Fresh independent review of the coordinator fix is required before merge.
+
+## Review round 4 — independent approval
+
+Opus 5.5 medium independently approved code candidate `fa4810d16089214f275f1ef5ba57d376b372ed56`: PASS, no blockers. Exact report: `docs/reviews/T15-review-4.md`. Fresh card-indicator and two-row-rescue probes are nonidentifiable without suggestions; independent workspace gates passed (engine329) and twice17 evidence runs matched apart from timings. These are synthetic/local checks only; task remains Partial for H4.
+
+Nonblocking follow-ups retained:
+- S1: consumers must use `stats.status` and the nonidentifiable reasons as the selection authority, not `stats.identification.status` alone. The latter is a full-train rank diagnostic and may say identified while mixed-stat/fold gating suppresses selection. Add an explicit selectionGate field in separately reviewed consumer/API work.
+- S2: remove unreachable old-policy warnings, ignored structural option and obsolete basis variant; clarify always-empty suggestion confoundedStats. No behavior patch after approval.
+- N1: strengthen the suggestion type's identification discriminant when evolving the consumer contract.
+- N2: add nonsaturated end-to-end mixed-stat coverage; reviewer construction attempts were inconclusive, not evidence of correctness. Current mixed-stat/fold guards have unit coverage and saturation probes have end-to-end coverage.
+- H4/real-roster, browser consumer, native and live proof remain pending; Q-3/Q-5 unverified. No game facts established.
