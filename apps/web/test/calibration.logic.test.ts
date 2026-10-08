@@ -50,7 +50,7 @@ describe('selection gate', () => {
 
 describe('provenance and staleness', () => {
   const roster = [{ id: 'a', stats: { spd: 1 } }, { id: 'b', stats: { spd: 2 } }] as never[];
-  const ctx = { kind: 'production' as const, masterVersion: 'm1', rulesVersion: 'r1' };
+  const ctx = { kind: 'production' as const, masterVersion: 'm1', rulesVersion: 'r1', fingerprint: `sha256:${'a'.repeat(64)}` };
   it('content identity changes with roster content even when the ETag does not', () => {
     const a = rosterIdentity(roster);
     expect(rosterIdentity(structuredClone(roster))).toBe(a);
@@ -64,5 +64,7 @@ describe('provenance and staleness', () => {
     expect(staleReasons(p, provenanceOf({ ...ctx, masterVersion: 'm2' }, 'm2', { etag: '"e1"', roster }))).toEqual(['master data changed']);
     expect(staleReasons(p, provenanceOf({ ...ctx, rulesVersion: 'r2' }, 'm1', { etag: '"e1"', roster }))).toEqual(['rules changed']);
     expect(staleReasons(p, provenanceOf({ ...ctx, kind: 'golden-fixture' }, 'm1', { etag: '"e1"', roster }))).toEqual(['engine context changed']);
+    // T15c: same rules.version, different effective values (identity) → rules changed.
+    expect(staleReasons(p, provenanceOf({ ...ctx, fingerprint: `sha256:${'b'.repeat(64)}` }, 'm1', { etag: '"e1"', roster }))).toEqual(['rules changed']);
   });
 });

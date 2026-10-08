@@ -55,7 +55,7 @@ describe('EngineClient', () => {
   it('changing master/context cancels the running worker before reconfiguration', async () => {
     const f = fakeFactory(); const c = new EngineClient(f.factory);
     await c.configure(cfg);
-    const a = c.rank({} as never, {} as never, [], {} as never, {});
+    const a = c.rank({} as never, {} as never, [], {} as never, {}, { contextFingerprint: 'x' });
     await tick();
     await c.configure({ ...cfg, bundle: { version: 'new-master' } as never });
     expect(await a.promise).toEqual({ status: 'cancelled' });
@@ -97,9 +97,9 @@ describe('EngineClient', () => {
     const f = fakeFactory();
     const c = new EngineClient(f.factory);
     await c.configure(cfg);
-    const a = c.rank({} as never, {} as never, [], {} as never, {});
+    const a = c.rank({} as never, {} as never, [], {} as never, {}, { contextFingerprint: 'x' });
     await tick();
-    const b = c.rank({} as never, {} as never, [], {} as never, {});
+    const b = c.rank({} as never, {} as never, [], {} as never, {}, { contextFingerprint: 'x' });
     expect(await a.promise).toEqual({ status: 'superseded' });
     expect(f.workers[0]!.terminated).toBe(true);
     await tick();
