@@ -216,6 +216,26 @@ Assumption taken:
 - Q-151 is unchanged (Held distinct vs copies, H4).
 Blocking: no (verify the empty-last-row behaviour at H4)
 
+## Q-155 (T15) `CalibrationReport` has no shared contract and no apply path
+Context: 50 §1/§8 name `calibrateRules(ctx, roster): CalibrationReport` and say the user applies suggestions from S07. 01 defines no calibration type, rules override, apply endpoint or rules version (Q-141), and 80 §T15 keeps the browser calibration/apply integration out of this task.
+Assumption taken: `CalibrationReport` (`kind: 'calibration-v1'`) is engine-local, exported from `@uma/engine`, and never stored or sent through the API. Suggestions carry `applied: false`; nothing is applied or persisted. A consumer that applies one must build a new rules object (e.g. `withBlueStatGainMultiplier`), keep it `verified:false`, and refit (ADR-0002 §2.11). The snapshot cannot record which rules it was fitted with (Q-141). S07 stays disabled until a reviewed consumer task defines storage/apply semantics.
+Blocking: no (blocks the S07 apply action, not the engine)
+
+## Q-156 (T15) Selecting on the holdout vs reporting an unbiased evaluation
+Context: 50 §8 says "report the multiplier that minimises holdout MAE". Choosing the multiplier on the holdout makes that holdout MAE a post-selection value. ADR-0002 also notes related-record lineage coupling between train and holdout rows.
+Assumption taken: the suggestion is the holdout-MAE argmin, as the spec says. The report also gives the train 5-fold OOF MAE argmin (the holdout is never used to choose it) and its holdout MAE as the unbiased evaluation, a seeded bootstrap of holdout rows for the argmin interval, and the lineage-coupling count. A grid-boundary argmin yields status `boundary` and no suggestion. Ties go to the multiplier closest to 1, then the smaller one. On the golden ×1.3 roster the two argmins are 1.33 and 1.31.
+Blocking: no
+
+## Q-157 (T15) Which rules calibration may suggest
+Context: activations are never observed (50 §8). 50 §8 names only a `blueStatGain` multiplier grid. In the published Global rules `blueStatGain` is a 0/0/0 placeholder and every scenario has `inheritanceTurns: []` (Q-3/Q-5). A multiplier of a zero table is still zero.
+Assumption taken: T15 only suggests one scalar multiplier applied to all three star values of the context's current `blueStatGain`. When no used row's E[inh] depends on `blueStatGain` (zero table or no turns), the stat check reports `nonidentifiable` with reasons and suggests nothing. It never proposes an absolute gain or a planted 1.3. The per-star shape, activation rates, affinity, grandparent weight, `blueInitialBonus` (parents-only vs every legacy, Q-3), pink/white levels and race/scenario sparks are listed under `notCalibrated` with reasons. Calibrating them needs a cited source or a reviewed estimator. A real-roster `blueStatGain` estimate first needs Q-3/Q-5 values (a non-zero base table and real turns).
+Blocking: no (blocks a meaningful real-roster stat suggestion until Q-3/Q-5)
+
+## Q-158 (T15) Aptitude grades the model calls impossible
+Context: `aptitudeDist` puts zero probability on grades below the trainee's base, and on grades above what the pink sparks can add. With the published rules (no inheritance turns) every aptitude is predicted to stay at the base grade with certainty. Applied to the golden ×1.3 roster (generated with the synthetic turns), 87 of 1,960 cells are then impossible.
+Assumption taken: impossible cells are excluded from the log-likelihood and counted separately as below-base or above-max, with examples. They are never given a finite penalty, and no smoothing constant is invented. On a real roster a high above-max count points at missing inheritance turns or pink rules (Q-5). A high below-base count points at master-data or OCR errors.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)
