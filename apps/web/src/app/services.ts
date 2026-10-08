@@ -28,6 +28,11 @@ export interface AppServices {
   engine: EngineClient;
   store: KeyValueStore;
   now: () => Date;
+  /**
+   * T15c: creates an ISOLATED engine client for a candidate (apply) fit, so the active worker and
+   * its context are untouched until the candidate commits. Disposed after every apply attempt.
+   */
+  candidateEngine?: () => EngineClient;
   /** Monotonic duration clock; distinct from the injected model/record date. */
   monotonicNow?: () => number;
   /**

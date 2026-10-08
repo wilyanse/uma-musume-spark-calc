@@ -6,19 +6,22 @@ import { Page } from '../components/Layout.tsx';
 import { Banner, Empty, ErrorBanner, Loading, Tag } from '../components/atoms.tsx';
 import { useMaster, useRoster } from '../app/queries.ts';
 import { useServices } from '../app/services.ts';
-import { contextKindFor, ensureModel, useEngineContext, useLatestSnapshot, useSessionFit } from '../app/engine.ts';
+import { ensureModel, useEngineContext, useLatestSnapshot, useLocalModel, useSessionFit, type EngineContextState } from '../app/engine.ts';
 import { errorText } from '../api/errors.ts';
 import { scenarioName } from '../master/load.ts';
 import { COVERAGE_BAND, LOW_DATA_N, STAT_KEYS, STAT_LABEL } from '../lib/keys.ts';
 import { dateTime, titleCase } from '../lib/format.ts';
 import { engineErrorText } from '../app/engineErrors.ts';
-import { isReadableSnapshot } from '../lib/model.ts';
+import { decideModel, isReadableSnapshot, loadFitRecord } from '../lib/model.ts';
 import type { EngineErrorInfo } from '../workers/engine.api.ts';
 import type { MasterData } from '../master/load.ts';
 import { setSessionCalibration, useSessionCalibration } from '../app/calibration.ts';
 import { provenanceKey, provenanceOf, staleReasons, type CalibrationProvenance } from '../lib/calibration.ts';
 import { CalibrationReportView } from '../components/CalibrationReport.tsx';
 import { ulid } from '../lib/ulid.ts';
+import { applyEligibility, applyProposal, resetOverride, type ApplyProposal } from '../app/rulesApply.ts';
+import { storedOverrideRaw } from '../app/rulesSession.ts';
+import { localModelMismatch } from '../lib/rulesOverride.ts';
 
 type CalState =
   | { state: 'idle' }
@@ -27,13 +30,25 @@ type CalState =
   | { state: 'refused'; message: string }
   | { state: 'error'; message: string };
 
-/** One active Health job (refit or calibration), held synchronously so same-tick clicks can't race. */
+/** One active Health job (refit, calibration or apply), held synchronously so same-tick clicks can't race. */
 interface OwnedJob {
-  kind: 'refit' | 'calibrate';
+  kind: 'refit' | 'calibrate' | 'apply';
   id: number;
   cancel: (() => void) | null;
   provenance?: CalibrationProvenance;
 }
+
+type ApplyState =
+  | { state: 'idle' }
+  | { state: 'confirm'; proposal: ApplyProposal }
+  | { state: 'running'; cancel: () => void }
+  | { state: 'done'; kind: 'ok' | 'info' | 'warn' | 'err'; message: string };
+
+type ResetState = { state: 'idle' } | { state: 'confirm'; storedRaw: string | null; clearOnly: boolean };
+
+const baseLabel = (ctx: EngineContextState) =>
+  ctx.kind === 'golden-fixture' ? 'the SYNTHETIC golden fixture base context (fixture mode; not the published rules)' : `the published rules (${ctx.baseRulesVersion})`;
+const triple = (t: readonly number[]) => t.map((x) => (Math.round(x * 1e4) / 1e4).toString()).join(' / ');
 
 function calibrationErrorText(e: EngineErrorInfo, m?: MasterData): string {
   if (e.name === 'ModelInputError') return `invalid roster or calibration input (${e.code}): ${e.message}`;
@@ -61,11 +76,18 @@ export function rulesRows(rules: Rules): { rule: string; value: string; verified
 export function HealthScreen() {
   const services = useServices();
   const qc = useQueryClient();
-  const snap = useLatestSnapshot();
   const roster = useRoster();
   const master = useMaster();
   const ctxQ = useEngineContext();
+  const ctx = ctxQ.data;
+  const overrideActive = !!ctx?.override;
+  // Under a browser-local override the server snapshot is never fetched or shown as the model.
+  const snap = useLatestSnapshot(!!ctx && !overrideActive);
+  const local = useLocalModel(overrideActive);
   const fit = useSessionFit();
+  const [apply, setApply] = useState<ApplyState>({ state: 'idle' });
+  const [reset, setReset] = useState<ResetState>({ state: 'idle' });
+  const [rulesNote, setRulesNote] = useState<{ kind: 'ok' | 'info' | 'warn' | 'err'; message: string } | null>(null);
   const [refit, setRefit] = useState<{ state: 'idle' | 'running' | 'error' | 'cancelled'; message?: string; cancel?: () => void }>({ state: 'idle' });
   const runRef = useRef(0);
   const jobRef = useRef<OwnedJob | null>(null);
@@ -88,16 +110,38 @@ export function HealthScreen() {
   const provRef = useRef(currentProv);
   provRef.current = currentProv;
 
-  // Inputs changed while a calibration runs: revoke its authority (terminate) and say why.
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
+  const ctxRef = useRef(ctx);
+  ctxRef.current = ctx;
+
+  // Inputs changed while a calibration or apply runs: revoke its authority (terminate) and say why.
   useEffect(() => {
     const j = jobRef.current;
-    if (!j || j.kind !== 'calibrate' || !j.provenance) return;
+    if (!j || (j.kind !== 'calibrate' && j.kind !== 'apply') || !j.provenance) return;
     if (currentProv && provenanceKey(j.provenance) === currentKey) return;
     const why = currentProv ? staleReasons(j.provenance, currentProv) : ['inputs are reloading'];
     jobRef.current = null;
     j.cancel?.();
-    setCal({ state: 'refused', message: `Calibration stopped: its inputs changed while it ran (${why.join(', ')}). The result was discarded; run calibration again.` });
+    if (j.kind === 'calibrate') {
+      setCal({ state: 'refused', message: `Calibration stopped: its inputs changed while it ran (${why.join(', ')}). The result was discarded; run calibration again.` });
+    } else {
+      setApply({ state: 'done', kind: 'warn', message: `Apply stopped: its inputs changed while the candidate model was fitting (${why.join(', ')}). Nothing was applied; the active rules and model are unchanged.` });
+    }
   }, [currentKey, currentProv]);
+
+  // An open confirmation is bound to one report/provenance/override revision: any change cancels it.
+  useEffect(() => {
+    if (apply.state !== 'confirm') return;
+    const p = apply.proposal;
+    if (session?.output.report.id === p.reportId && currentKey === p.provenanceKey && ctx?.storedRaw === p.storedRaw) return;
+    setApply({ state: 'done', kind: 'warn', message: 'The confirmation was cancelled: the report, roster, master data or rules override changed while it was open. Nothing was applied.' });
+  }, [apply, session, currentKey, ctx?.storedRaw]);
+  useEffect(() => {
+    if (reset.state !== 'confirm' || !ctx || ctx.storedRaw === reset.storedRaw) return;
+    setReset({ state: 'idle' });
+    setRulesNote({ kind: 'warn', message: 'The reset confirmation was cancelled: the rules override changed (possibly in another tab). Nothing was reset.' });
+  }, [reset, ctx]);
 
   const counts = useMemo(() => {
     if (!all) return [];
@@ -112,7 +156,7 @@ export function HealthScreen() {
   }, [all]);
 
   const doRefit = async () => {
-    if (!all || !m || !ctxQ.data || jobRef.current) return;
+    if (!all || !m || !ctxQ.data || !currentProv || jobRef.current) return;
     const id = ++runRef.current;
     const owned: OwnedJob = { kind: 'refit', id, cancel: null };
     jobRef.current = owned;
@@ -125,12 +169,13 @@ export function HealthScreen() {
     }
   };
   const refitBody = async (live: () => boolean, owned: OwnedJob) => {
-    if (!all || !m) return;
+    if (!all || !m || !ctxQ.data || !currentProv) return;
     const out = await ensureModel(services, qc, {
       roster: all,
       rosterEtag: roster.data?.etag ?? null,
+      rosterIdentity: currentProv.rosterIdentity,
       masterVersion: m.version,
-      context: contextKindFor(services),
+      ctx: ctxQ.data,
       force: 'requested',
       isCurrent: live,
       onFitStart: (_r, cancel) => {
@@ -171,7 +216,7 @@ export function HealthScreen() {
     if (out.status === 'crashed') return setCal({ state: 'error', message: `Calibration failed: the engine worker stopped: ${out.message}` });
     if (!out.result.ok) return setCal({ state: 'error', message: `Calibration failed: ${calibrationErrorText(out.result.error, m)}` });
     const v = out.result.value;
-    if (v.context.kind !== prov.contextKind || v.report.masterVersion !== prov.masterVersion || v.report.rulesVersion !== prov.rulesVersion) {
+    if (v.context.kind !== prov.contextKind || v.context.fingerprint !== prov.contextFingerprint || v.report.masterVersion !== prov.masterVersion || v.report.rulesVersion !== prov.rulesVersion) {
       return setCal({
         state: 'error',
         message: `Calibration failed: the worker's report (${v.context.kind}, master ${v.report.masterVersion}, rules ${v.report.rulesVersion}) does not match the inputs it was started with (${prov.contextKind}, master ${prov.masterVersion}, rules ${prov.rulesVersion}). It was discarded.`,
@@ -181,8 +226,101 @@ export function HealthScreen() {
     setCal({ state: 'idle' });
   };
   const calRunning = cal.state === 'running';
-  const busy = refit.state === 'running' || calRunning;
+  const applyRunning = apply.state === 'running';
+  const busy = refit.state === 'running' || calRunning || applyRunning;
   const canCalibrate = !!all && !!m && !!currentProv && !busy;
+  const eligibility = applyEligibility(session, ctx, currentProv);
+  const applyDisabled = busy ? 'another engine job is running' : apply.state === 'confirm' ? 'a confirmation is open' : eligibility.ok ? null : eligibility.reason;
+
+  const openApply = () => {
+    const c = ctxRef.current;
+    const sess = sessionRef.current;
+    const prov = provRef.current;
+    if (jobRef.current || !c || !sess || !prov) return;
+    const e = applyEligibility(sess, c, prov);
+    if (!e.ok) return;
+    setRulesNote(null);
+    setApply({ state: 'confirm', proposal: { reportId: sess.output.report.id, provenanceKey: provenanceKey(prov), storedRaw: c.storedRaw, storedRevision: c.storedRevision, contextFingerprint: c.fingerprint, suggestion: e.suggestion } });
+  };
+
+  const confirmApply = async () => {
+    if (apply.state !== 'confirm' || jobRef.current) return;
+    const p = apply.proposal;
+    const c = ctxRef.current;
+    const sess = sessionRef.current;
+    const prov = provRef.current;
+    // Re-validate synchronously against the bound proposal (a same-tick double confirm starts one job).
+    if (!c || !sess || !prov || !all || !m || sess.output.report.id !== p.reportId || provenanceKey(prov) !== p.provenanceKey ||
+      c.storedRaw !== p.storedRaw || storedOverrideRaw(services) !== p.storedRaw || c.fingerprint !== p.contextFingerprint) {
+      setApply({ state: 'done', kind: 'warn', message: 'The source changed before confirmation took effect. Nothing was applied.' });
+      return;
+    }
+    const id = ++runRef.current;
+    const owned: OwnedJob = { kind: 'apply', id, cancel: null, provenance: prov };
+    jobRef.current = owned;
+    const cancel = () => {
+      if (jobRef.current !== owned) return;
+      jobRef.current = null;
+      owned.cancel?.();
+      setApply({ state: 'done', kind: 'info', message: 'Apply cancelled. Nothing was applied; the active rules and model are unchanged.' });
+    };
+    setApply({ state: 'running', cancel });
+    const golden = c.kind === 'golden-fixture' && services.loadGolden ? await services.loadGolden() : undefined;
+    const out = await applyProposal(services, qc, {
+      proposal: p,
+      session: sess,
+      ctx: c,
+      master: m,
+      ...(golden ? { golden } : {}),
+      roster: all,
+      rosterEtag: prov.rosterEtag,
+      rosterIdentity: prov.rosterIdentity,
+      isCurrent: () => jobRef.current === owned && provRef.current !== null && provenanceKey(provRef.current) === p.provenanceKey && sessionRef.current?.output.report.id === p.reportId,
+      onCandidateStart: (c2) => { owned.cancel = c2; },
+    });
+    // 'applied' is reported even if authority moved meanwhile: the commit happened and is the truth.
+    if (out.status === 'applied') {
+      if (jobRef.current === owned) jobRef.current = null;
+      return setApply({
+        state: 'done',
+        kind: 'ok',
+        message: `Applied in this browser only: blueStatGain ${triple(out.override.proposed)} (unverified, from report ${out.override.sourceReport.id}). A candidate model was fitted and committed locally; it is never uploaded. The source report is now historical: run calibration again to check the new context.`,
+      });
+    }
+    if (jobRef.current !== owned) return; // cancelled / revoked: that path already said why
+    jobRef.current = null;
+    if (out.status === 'cancelled') return setApply({ state: 'done', kind: 'info', message: 'Apply cancelled. Nothing was applied; the active rules and model are unchanged.' });
+    return setApply({ state: 'done', kind: out.status === 'refused' ? 'warn' : 'err', message: out.message });
+  };
+
+  const openReset = (clearOnly: boolean) => {
+    const c = ctxRef.current;
+    if (!c) return;
+    setRulesNote(null);
+    setReset({ state: 'confirm', storedRaw: c.storedRaw, clearOnly });
+  };
+  const confirmReset = () => {
+    if (reset.state !== 'confirm') return;
+    const c = ctxRef.current;
+    // Reset cancels only the work this screen owns.
+    const j = jobRef.current;
+    if (j) {
+      jobRef.current = null;
+      runRef.current++;
+      j.cancel?.();
+      if (j.kind === 'refit') setRefit({ state: 'cancelled' });
+      if (j.kind === 'calibrate') setCal({ state: 'cancelled' });
+      if (j.kind === 'apply') setApply({ state: 'idle' });
+    }
+    const r = resetOverride(services, qc, reset.storedRaw);
+    setReset({ state: 'idle' });
+    if (r.status !== 'reset') return setRulesNote({ kind: r.status === 'refused' ? 'warn' : 'err', message: r.message });
+    setApply({ state: 'idle' });
+    setRulesNote({
+      kind: 'ok',
+      message: `${reset.clearOnly ? 'The stored override record was cleared.' : 'Reset done.'} ${c ? `${titleCaseFirst(baseLabel(c))} is in force again.` : ''} Old ranking results and reports are stale; the next model must pass provenance checks or is refitted.${r.note ? ` ${r.note}` : ''}`,
+    });
+  };
 
   const actions = (
     <>
@@ -199,28 +337,48 @@ export function HealthScreen() {
       </button>
     </>
   );
+  const resetName = ctx?.kind === 'golden-fixture' ? 'Reset to fixture base rules' : 'Reset to published rules';
 
   if (master.isError || ctxQ.isError) {
     return <Page title="Model health" actions={actions}><ErrorBanner text={<>Couldn't load model health. {errorText(master.error ?? ctxQ.error)}</>} onRetry={() => { void master.refetch(); void ctxQ.refetch(); }} /></Page>;
   }
-  if (snap.isError) {
+  if (!overrideActive && snap.isError) {
     return (
       <Page title="Model health" actions={actions}>
         <ErrorBanner text={<>Couldn't load model health. {errorText(snap.error)}</>} onRetry={() => void snap.refetch()} />
       </Page>
     );
   }
-  if (!snap.isSuccess || !m) {
+  if (!m || !ctx || (overrideActive ? !local.isSuccess : !snap.isSuccess)) {
     return (
       <Page title="Model health" actions={actions}>
         <Loading label="Loading model health…" />
       </Page>
     );
   }
-  if (snap.data && !isReadableSnapshot(snap.data)) {
+  if (!overrideActive && snap.data && !isReadableSnapshot(snap.data)) {
     return <Page title="Model health" actions={actions}><ErrorBanner text="The stored snapshot is malformed. Refit the model to replace it; this is not a legacy/master-version mismatch." /></Page>;
   }
-  const s = snap.data;
+  // The model shown is the one that may be used under the ACTIVE context: a matching browser-local
+  // envelope under an override, otherwise the server snapshot (whose reuse provenance is checked).
+  let s = null as typeof snap.data | null;
+  let localWhy: string | null = null;
+  if (overrideActive && ctx.override) {
+    const l = local.data;
+    if (l?.status === 'ok') {
+      localWhy = localModelMismatch(l.env, {
+        overrideId: ctx.override.id, contextFingerprint: ctx.fingerprint, baseFingerprint: ctx.baseFingerprint, masterVersion: m.version,
+        rosterEtag: currentProv?.rosterEtag ?? null, rosterIdentity: currentProv?.rosterIdentity ?? '',
+      });
+      if (!localWhy && isReadableSnapshot(l.env.snapshot)) s = l.env.snapshot;
+      else localWhy ??= 'the stored local model is malformed';
+    } else localWhy = l?.status === 'invalid' ? l.reason : 'none has been fitted for this override in this browser yet';
+  } else s = snap.data ?? null;
+  const unproven = !overrideActive && !!s && s.kind === 'training-v2' && !!currentProv &&
+    decideModel({ v2: s, anyLatest: s, rosterEtag: currentProv.rosterEtag, rosterIdentity: currentProv.rosterIdentity, masterVersion: m.version, context: ctx.kind, contextFingerprint: ctx.fingerprint, record: loadFitRecord(services.store, services.source.kind) }).action !== 'use';
+  const effectiveRows = rulesRows(ctx.effectiveRules);
+  const ov = ctx.override;
+  const stored = ctx.storedOverride;
   const legacy = s?.kind === 'training-v1';
   const cov = s?.params.holdout.coverage80;
   const inBand = cov !== undefined && cov >= COVERAGE_BAND[0] && cov <= COVERAGE_BAND[1];
@@ -233,12 +391,52 @@ export function HealthScreen() {
       {refit.state === 'error' && <ErrorBanner text={refit.message ?? 'Refit failed.'} />}
       {refit.state === 'cancelled' && <Banner kind="info">Refit cancelled.</Banner>}
       {refit.message && refit.state === 'idle' && <Banner kind="warn">{refit.message}</Banner>}
-      {ctxQ.data?.kind === 'golden-fixture' && (
-        <Banner kind="warn">Golden fixture context (SYNTHETIC overrides: {ctxQ.data.overrides.map((o) => o.rule).join(', ')}). Not game facts.</Banner>
+      {ctx.kind === 'golden-fixture' && (
+        <Banner kind="warn">Golden fixture context (SYNTHETIC overrides: {ctx.overrides.map((o) => o.rule).join(', ')}). Not game facts.</Banner>
       )}
+      <section className="panel" aria-labelledby="ov-t" data-testid="rules-override" data-context={ctx.fingerprint} data-base-context={ctx.baseFingerprint} data-revision={ctx.storedRevision} style={{ marginBottom: 'var(--space-3)' }}>
+        <header id="ov-t">Rules in force</header>
+        <div className="body grid">
+          {ov && stored ? (
+            <>
+              <p data-testid="override-active">
+                <Tag kind="warn">browser-local override</Tag> blueStatGain <b className="num">{triple(ov.proposed)}</b> (1★/2★/3★) replaces {triple(stored.sourceReport.current)} of {baseLabel(ctx)}. Proposal ×{ov.multiplier} from calibration report <span className="mono">{ov.sourceReportId}</span>, applied {dateTime(stored.appliedAt)}. Unverified statistical value, not a game fact.
+              </p>
+              <p className="hint">
+                Stored in THIS browser only (revision {ctx.storedRevision}; not synced to other devices, never uploaded). Models fitted under it are kept in this browser and never stored on the server. Context <span className="mono">{ctx.fingerprint.slice(0, 19)}…</span>
+              </p>
+            </>
+          ) : (
+            <p data-testid="override-none">
+              No browser-local override: {baseLabel(ctx)} {ctx.kind === 'golden-fixture' ? 'is' : 'are'} in force. Context <span className="mono">{ctx.fingerprint.slice(0, 19)}…</span>
+            </p>
+          )}
+          {ctx.overrideProblem && (
+            <Banner kind="err">
+              <span data-testid="override-problem">{titleCaseFirst(ctx.overrideProblem)}. {titleCaseFirst(baseLabel(ctx))} {ctx.kind === 'golden-fixture' ? 'is' : 'are'} in force instead.</span>
+            </Banner>
+          )}
+          {rulesNote && (
+            <Banner kind={rulesNote.kind === 'err' ? 'err' : rulesNote.kind === 'warn' ? 'warn' : 'info'}>
+              <span data-testid="rules-note">{rulesNote.message}</span>
+            </Banner>
+          )}
+          {(ov || ctx.overrideProblem) && (
+            <div className="row">
+              <button type="button" className="btn" disabled={reset.state === 'confirm'} onClick={() => openReset(!ov)}>
+                {ov ? resetName : 'Clear the stored override'}
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
       {!s ? (
         <Empty>
-          <p>No model yet. Import veterans, then fit one from the Planner.</p>
+          {overrideActive ? (
+            <p data-testid="local-model-missing">No browser-local model for the active override ({localWhy}). Refit model fits one in this browser; the Planner fits one automatically before ranking. No server snapshot is used under an override.</p>
+          ) : (
+            <p>No model yet. Import veterans, then fit one from the Planner.</p>
+          )}
         </Empty>
       ) : (
         <>
@@ -264,9 +462,10 @@ export function HealthScreen() {
             <div className="kpi">
               <small>Model</small>
               <b style={{ fontSize: 'var(--type-md)' }}>{s.kind}</b>
-              <small>
-                fitted {dateTime(s.trainedAt)} · master {s.masterVersion}
+              <small data-testid="model-origin" data-snapshot={s.id}>
+                fitted {dateTime(s.trainedAt)} · master {s.masterVersion} · {overrideActive ? 'browser-local model (override context; never uploaded)' : 'server snapshot (base context)'}
                 {s.masterVersion !== m.version && <> · <Tag kind="warn">refit required (master changed)</Tag></>}
+                {unproven && <> · <Tag kind="warn">provenance for this context unproven: the Planner refits before ranking</Tag></>}
               </small>
             </div>
           </div>
@@ -372,7 +571,7 @@ export function HealthScreen() {
       )}
       <div className="split s2b">
         <section className="panel" aria-labelledby="rules-t">
-          <header id="rules-t">Inheritance rules ({m.bundle.rules.version})</header>
+          <header id="rules-t">Inheritance rules in force ({ctx.rulesVersion})</header>
           {/* Scrollable on narrow columns: keyboard-focusable, labelled region (axe scrollable-region-focusable). */}
           <div className="tbl-wrap fit" style={{ border: 0 }} tabIndex={0} role="region" aria-label="Inheritance rules table (scrollable)">
             <table>
@@ -386,7 +585,7 @@ export function HealthScreen() {
                 </tr>
               </thead>
               <tbody>
-                {rulesRows(m.bundle.rules).map((r) => (
+                {effectiveRows.map((r) => (
                   <tr key={r.rule}>
                     <th scope="row" className="mono">
                       {r.rule}
@@ -401,11 +600,9 @@ export function HealthScreen() {
               </tbody>
             </table>
           </div>
-          {ctxQ.data?.kind === 'golden-fixture' && (
-            <p className="hint" style={{ padding: '0 var(--space-3) var(--space-3)' }}>
-              Published rules shown. The fixture-mode engine overrides {ctxQ.data.overrides.map((o) => o.rule).join(', ')} with SYNTHETIC values.
-            </p>
-          )}
+          <p className="hint" style={{ padding: '0 var(--space-3) var(--space-3)' }} data-testid="rules-shown">
+            Effective values the engine uses now{ctx.kind === 'golden-fixture' ? ` (fixture mode: ${ctx.overrides.filter((o) => !o.source.startsWith('BROWSER-LOCAL')).map((o) => o.rule).join(', ')} are SYNTHETIC test values)` : ''}{ov ? '; blueStatGain is the browser-local override' : ''}. Published master rules: {m.bundle.rules.version}.
+          </p>
         </section>
         <section className="panel" aria-labelledby="cal-t">
           <header id="cal-t">Calibration result</header>
@@ -431,22 +628,113 @@ export function HealthScreen() {
               </Banner>
             </div>
           )}
+          {apply.state === 'running' && (
+            <div className="body">
+              <Banner kind="info">
+                <span data-testid="apply-running">Applying: fitting a candidate model under the proposed rules in a separate engine worker. The active rules and model stay in force until it succeeds.</span>
+                <span className="sp" />
+                <button type="button" className="btn sm" onClick={apply.cancel}>
+                  Cancel apply
+                </button>
+              </Banner>
+            </div>
+          )}
+          {apply.state === 'done' && (
+            <div className="body">
+              <Banner kind={apply.kind === 'err' ? 'err' : apply.kind === 'warn' ? 'warn' : 'info'}>
+                <span data-testid="apply-result">{apply.message}</span>
+              </Banner>
+            </div>
+          )}
           {session ? (
             <CalibrationReportView
               value={session}
               stale={currentProv ? staleReasons(session.provenance, currentProv) : ['inputs are reloading']}
               onDismiss={() => setSessionCalibration(services.engine, null)}
+              apply={{ disabledReason: applyDisabled, onApply: openApply }}
             />
           ) : (
             <div className="body">
               <p>Calibration hasn't been run.</p>
               <p className="hint">
-                Run calibration checks the current rules against your roster in the engine worker. It works without a fitted model, changes nothing and stores nothing; the report stays in this tab until you dismiss it. Suggested values are never applied (explicit apply-and-refit is a separate task, T15c; Q-141).
+                Run calibration checks the rules in force against your roster in the engine worker. It works without a fitted model, changes nothing and stores nothing; the report stays in this tab until you dismiss it. A suggested value is applied only if you explicitly confirm it, and only in this browser.
               </p>
             </div>
           )}
         </section>
       </div>
+      {apply.state === 'confirm' && (
+        <ApplyDialog ctx={ctx} proposal={apply.proposal} onCancel={() => setApply({ state: 'idle' })} onConfirm={() => void confirmApply()} />
+      )}
+      {reset.state === 'confirm' && (
+        <div className="dialog" role="dialog" aria-modal="true" aria-labelledby="reset-t">
+          <div>
+            <h2 id="reset-t">{reset.clearOnly ? 'Clear the stored override?' : `${resetName}?`}</h2>
+            <p>
+              {reset.clearOnly ? 'This removes the unusable stored override record' : 'This removes the browser-local blueStatGain override'} and any browser-local model fitted under it, for {services.source.kind === 'fixture' ? 'fixture mode' : 'this app'} in this browser only. {titleCaseFirst(baseLabel(ctx))} will be in force.
+            </p>
+            <p className="hint">Nothing on the server or in master data changes. Running work on this screen is cancelled; old reports and rankings become stale and the next model must pass provenance checks or is refitted.</p>
+            <div className="row">
+              <button type="button" className="btn" onClick={() => setReset({ state: 'idle' })}>
+                Keep it
+              </button>
+              <button type="button" className="btn primary" onClick={confirmReset}>
+                {reset.clearOnly ? 'Clear it' : 'Reset'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Page>
+  );
+}
+
+const titleCaseFirst = (x: string) => (x ? x[0]!.toUpperCase() + x.slice(1) : x);
+
+function ApplyDialog({ ctx, proposal, onCancel, onConfirm }: { ctx: EngineContextState; proposal: ApplyProposal; onCancel: () => void; onConfirm: () => void }) {
+  const s = proposal.suggestion;
+  return (
+    <div className="dialog" role="dialog" aria-modal="true" aria-labelledby="apply-t" aria-describedby="apply-d">
+      <div>
+        <h2 id="apply-t">Apply the suggested blueStatGain?</h2>
+        <div id="apply-d" className="grid">
+          <table>
+            <caption className="sr">Current and proposed blueStatGain values</caption>
+            <thead>
+              <tr>
+                <th scope="col">blueStatGain</th>
+                <th scope="col" className="num">1★</th>
+                <th scope="col" className="num">2★</th>
+                <th scope="col" className="num">3★</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-testid="apply-old">
+                <th scope="row">In force now</th>
+                {s.current.map((x, i) => <td key={i} className="num">{Math.round(x * 1e4) / 1e4}</td>)}
+              </tr>
+              <tr data-testid="apply-new">
+                <th scope="row">Proposed (×{s.multiplier})</th>
+                {s.proposed.map((x, i) => <td key={i} className="num">{Math.round(x * 1e4) / 1e4}</td>)}
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            From calibration report <span className="mono">{proposal.reportId}</span> on {baseLabel(ctx)}{ctx.override ? ' with the current browser-local override' : ''}. The proposed absolute values replace the current table (not multiplied again). <b>Unverified</b> statistical value (verified:false), not a game fact.
+          </p>
+          <p className="hint">
+            A candidate model is fitted first in a separate engine worker; only if it succeeds are the override and that model kept in THIS browser (not synced, never uploaded to the server). Reset restores {baseLabel(ctx)}.
+          </p>
+        </div>
+        <div className="row">
+          <button type="button" className="btn" onClick={onCancel}>
+            Cancel
+          </button>
+          <button type="button" className="btn primary" onClick={onConfirm}>
+            Fit and apply
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

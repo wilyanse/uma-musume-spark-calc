@@ -8,7 +8,8 @@ import { Page } from '../components/Layout.tsx';
 import { Banner, Empty, ErrorBanner, GradeBadge, Loading, ProbBar, RangeBar, SparkPill, Tag } from '../components/atoms.tsx';
 import { useMaster, useRoster, useTargets } from '../app/queries.ts';
 import { useServices, type FixtureGolden } from '../app/services.ts';
-import { contextKindFor, ensureModel, useEngineContext, type ModelOutcome } from '../app/engine.ts';
+import { ensureModel, useEngineContext, type ModelOutcome } from '../app/engine.ts';
+import { rosterIdentity } from '../lib/calibration.ts';
 import { FIT_REASON_TEXT, type FitReason } from '../lib/model.ts';
 import { characterName, outfitTitle, scenarioName, skillName, sparkName, type MasterData } from '../master/load.ts';
 import { duplicateCards, isComplete, loadDeck, missing, saveDeck, type DeckDraft } from '../lib/deck.ts';
@@ -47,7 +48,12 @@ interface Ran {
   snapshotN: number;
   coverage: number;
   kind: string;
+  snapshotId: string;
   signature: string;
+  /** T15c: identity of the rules context the ranking ran under, and whether the model is browser-local. */
+  contextFingerprint: string;
+  local: boolean;
+  overrideId: string | null;
 }
 
 export function PlannerScreen() {
@@ -68,13 +74,20 @@ export function PlannerScreen() {
   const [dropIssues, setDropIssues] = useState<string[] | null>(null);
   const [golden, setGolden] = useState<FixtureGolden | null>(null);
   const runRef = useRef(0);
+  /** The worker job this screen started (fit or rank); unmount cancels only it (T15b N3). */
+  const ownedRef = useRef<(() => void) | null>(null);
   const set = (p: Partial<Settings>) =>
     setSettingsState((s) => {
       const n = { ...s, ...p };
       writeJson(store, sKey, n);
       return n;
     });
-  useEffect(() => () => { runRef.current++; engine.cancel(); }, [engine]);
+  useEffect(() => () => {
+    runRef.current++;
+    const c = ownedRef.current;
+    ownedRef.current = null;
+    c?.();
+  }, [engine]);
   useEffect(() => {
     if (services.loadGolden) void services.loadGolden().then(setGolden);
   }, [services]);
@@ -92,7 +105,8 @@ export function PlannerScreen() {
     [all, m, traineeChar],
   );
   const lowData = all && settings.scenarioId ? all.filter((v) => v.scenarioId === settings.scenarioId && v.trainMode === settings.trainMode).length : null;
-  const signature = JSON.stringify([settings, deck, target, roster.data?.etag ?? null, m?.version, ctxQ.data?.kind]);
+  const rosterId = useMemo(() => (all ? rosterIdentity(all) : null), [all]);
+  const signature = JSON.stringify([settings, deck, target, roster.data?.etag ?? null, rosterId, m?.version, ctxQ.data?.kind, ctxQ.data?.fingerprint]);
   const busy = phase.kind === 'model' || phase.kind === 'ranking';
 
   const applyGoldenPlan = () => {
@@ -106,7 +120,8 @@ export function PlannerScreen() {
   };
 
   const run = async (opts: { force?: FitReason } = {}) => {
-    if (!m || !all || !target || !isComplete(deck) || !ctxQ.data) return;
+    if (!m || !all || !target || !isComplete(deck) || !ctxQ.data || !rosterId) return;
+    const ctx = ctxQ.data;
     const drop = dropIssues ?? [];
     const runTarget = drop.length ? withoutSkills(target, drop) : target;
     const myRun = ++runRef.current;
@@ -117,18 +132,24 @@ export function PlannerScreen() {
     const model: ModelOutcome = await ensureModel(services, qc, {
       roster: all,
       rosterEtag: roster.data?.etag ?? null,
+      rosterIdentity: rosterId,
       masterVersion: m.version,
-      context: contextKindFor(services),
+      ctx,
       force: opts.force,
       isCurrent: live,
-      onFitStart: (reason, cancel) => live() && setPhase({ kind: 'model', reason, cancel }),
+      onFitStart: (reason, cancel) => {
+        ownedRef.current = cancel;
+        if (live()) setPhase({ kind: 'model', reason, cancel });
+      },
     });
+    ownedRef.current = null;
     if (!live()) return;
     if (model.status === 'cancelled') return setPhase({ kind: 'cancelled' });
     if (model.status === 'error') return setPhase({ kind: 'error', message: model.engine ? engineErrorText(model.engine, m) : model.message, engine: model.engine });
     const n: string[] = [];
     if (model.legacy) n.push(`A legacy training-v1 snapshot (${model.legacy.id}) was left unchanged; a training-v2 model was fitted.`);
     if (model.fitted) n.push(`Model fitted because ${FIT_REASON_TEXT[model.fitted.reason]}.`);
+    if (model.local) n.push('Using a browser-local model fitted under the browser-local rules override (kept in this browser only; never uploaded).');
     if (model.storeError) n.push(model.storeError);
     setNotices(n);
     const input: PlanInput = {
@@ -139,11 +160,13 @@ export function PlannerScreen() {
       ...(settings.lockParent1 ? { lockParent1: settings.lockParent1 } : {}),
     };
     const started = (services.monotonicNow ?? (() => performance.now()))();
-    const job = engine.rank(model.snapshot, input, all, runTarget, {}, (p) => {
+    const job = engine.rank(model.snapshot, input, all, runTarget, {}, model.provenance, (p) => {
       if (live()) setPhase((ph) => (ph.kind === 'ranking' ? { ...ph, progress: p } : ph));
     });
+    ownedRef.current = job.cancel;
     setPhase({ kind: 'ranking', progress: null, cancel: job.cancel, started });
     const out = await job.promise;
+    if (ownedRef.current === job.cancel) ownedRef.current = null;
     if (!live()) return;
     if (out.status === 'cancelled' || out.status === 'superseded') return setPhase({ kind: 'cancelled' });
     if (out.status === 'crashed') return setPhase({ kind: 'error', message: `Ranking failed: ${out.message}.` });
@@ -157,7 +180,11 @@ export function PlannerScreen() {
       snapshotN: model.snapshot.nSamples,
       coverage: model.snapshot.params.holdout.coverage80,
       kind: model.snapshot.kind,
+      snapshotId: model.snapshot.id,
       signature,
+      contextFingerprint: model.provenance.contextFingerprint,
+      local: model.local,
+      overrideId: ctx.override?.id ?? null,
     });
     setPhase({ kind: 'idle' });
   };
@@ -171,8 +198,8 @@ export function PlannerScreen() {
   };
 
   const modelLine = ran ? (
-    <span className="hint" data-testid="model-line">
-      Model {ran.kind} · fitted on {ran.snapshotN} veterans · 80% interval coverage {ran.coverage.toFixed(2)} (holdout)
+    <span className="hint" data-testid="model-line" data-snapshot={ran.snapshotId} data-context={ran.contextFingerprint} data-local={ran.local ? 'true' : 'false'}>
+      Model {ran.kind}{ran.local ? ' (browser-local, override rules)' : ''} · fitted on {ran.snapshotN} veterans · 80% interval coverage {ran.coverage.toFixed(2)} (holdout)
     </span>
   ) : null;
 
@@ -213,9 +240,17 @@ export function PlannerScreen() {
       {ctxQ.isError && <ErrorBanner text={`Couldn't start the engine: ${(ctxQ.error as Error).message}`} onRetry={() => void ctxQ.refetch()} />}
       {ctx?.kind === 'golden-fixture' && (
         <Banner kind="warn">
-          Golden fixture context (SYNTHETIC): published rules except {ctx.overrides.map((o) => o.rule).join(', ')} from golden-truth.json (Q-120). Not game facts.
+          Golden fixture context (SYNTHETIC): published rules except {ctx.overrides.filter((o) => !o.source.startsWith('BROWSER-LOCAL')).map((o) => o.rule).join(', ')} from golden-truth.json (Q-120). Not game facts.
         </Banner>
       )}
+      {ctx?.override && (
+        <Banner kind="warn">
+          <span data-testid="planner-override">
+            Browser-local rules override in force: blueStatGain {ctx.override.proposed.map((x) => Math.round(x * 1e4) / 1e4).join(' / ')} (unverified, from calibration report {ctx.override.sourceReportId}; this browser only). Rankings use a model fitted under it. <Link to="/health">Review or reset in Health</Link>.
+          </span>
+        </Banner>
+      )}
+      {ctx?.overrideProblem && <ErrorBanner text={`${ctx.overrideProblem}. The base rules are in force; see Health.`} />}
       {ctx?.kind === 'production' && ctx.unverifiedRules.length > 0 && (
         <Banner kind="info">
           ⚠ {ctx.unverifiedRules.length} inheritance rules are unverified ({ctx.placeholderRules.length} placeholders); predictions use them as published. See Health.
@@ -363,7 +398,15 @@ export function PlannerScreen() {
             </Banner>
           ))}
           <StatusPanel phase={phase} ran={ran} onRefit={() => void run({ force: 'corrupt' })} />
-          {stale && <Banner kind="warn">These results are for earlier settings. Rank again to update them.</Banner>}
+          {stale && (
+            <Banner kind="warn">
+              <span data-testid="rank-stale">
+                {ran && ctx && ran.contextFingerprint !== ctx.fingerprint
+                  ? 'These results were ranked under a different rules context (an override was applied or reset). They are stale; rank again to use the active rules.'
+                  : 'These results are for earlier settings. Rank again to update them.'}
+              </span>
+            </Banner>
+          )}
           {ran && <Results ran={ran} m={m} roster={all} open={open} setOpen={setOpen} />}
         </div>
       </div>

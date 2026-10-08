@@ -5,6 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useHealth, useMaster, useReviewItems, qk } from '../app/queries.ts';
 import { useServices } from '../app/services.ts';
 import { readJson, writeJson } from '../lib/storage.ts';
+import { useStoredOverrideRaw } from '../app/rulesSession.ts';
+import { parseOverride } from '../lib/rulesOverride.ts';
+import { contextKindFor } from '../app/engine.ts';
 
 const NAV = [
   ['roster', 'Roster'],
@@ -42,8 +45,13 @@ function ReviewBadge() {
 }
 
 function ModelFooter() {
-  const { source } = useServices();
-  const q = useQuery({ queryKey: qk.snapshot('latest'), queryFn: () => source.latestSnapshot() });
+  const services = useServices();
+  const { source } = services;
+  // T15c: under a browser-local override the server snapshot is not the active model; don't show it as one.
+  const parsed = parseOverride(useStoredOverrideRaw(services), source.kind);
+  const local = parsed.status === 'ok' && parsed.active.base.contextKind === contextKindFor(services);
+  const q = useQuery({ queryKey: qk.snapshot('latest'), queryFn: () => source.latestSnapshot(), enabled: !local });
+  if (local) return <>Model: browser-local (override)</>;
   if (!q.isSuccess) return <>Model: —</>;
   if (!q.data) return <>Model: none yet</>;
   return <>Model: {q.data.kind === 'training-v1' ? 'training-v1 (legacy)' : q.data.kind}</>;

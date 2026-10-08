@@ -67,11 +67,22 @@ export function mockSource(data: MockData = {}, over: Partial<DataSource> = {}) 
   return { src, calls };
 }
 
+/** T15c: the context identity the FAKE engine's default configure reports (not a real digest of anything). */
+export const HARNESS_FP = `sha256:${'f'.repeat(64)}`;
+/** A full FAKE `ContextInfo` (production, no override) for fake engines. */
+export function fakeContext(over: Record<string, unknown> = {}) {
+  return {
+    kind: 'production', masterVersion: masterData().version, rulesVersion: 'rules-1', unverifiedRules: ['blueStatGain'], placeholderRules: [], warnings: [], overrides: [],
+    fingerprint: HARNESS_FP, baseFingerprint: HARNESS_FP, baseRulesVersion: 'rules-1', override: null, overrideRejected: null, effectiveRules: masterData().bundle.rules,
+    ...over,
+  };
+}
+
 /** FAKE engine: no worker; configure succeeds, fit/rank/calibrate are scripted by the test. */
 export function fakeEngine(remote: Partial<Record<'configure' | 'fit' | 'rank' | 'calibrate', (...a: unknown[]) => Promise<unknown>>> = {}) {
   const handle = (): EngineHandle => ({
     remote: {
-      configure: remote.configure ?? (async () => ({ ok: true, value: { kind: 'production', masterVersion: masterData().version, rulesVersion: 'rules-1', unverifiedRules: ['blueStatGain'], placeholderRules: [], warnings: [], overrides: [] } })),
+      configure: remote.configure ?? (async () => ({ ok: true, value: fakeContext() })),
       fit: remote.fit ?? (async () => ({ ok: false, error: { name: 'Error', message: 'fit not scripted' } })),
       rank: remote.rank ?? (async () => ({ ok: false, error: { name: 'Error', message: 'rank not scripted' } })),
       calibrate: remote.calibrate ?? (async () => ({ ok: false, error: { name: 'Error', message: 'calibrate not scripted' } })),
