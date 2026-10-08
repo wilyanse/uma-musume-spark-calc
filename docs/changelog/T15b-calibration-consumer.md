@@ -162,3 +162,17 @@ Deferred findings / consumer mitigations:
 - N3: inherited Planner global cancellation should become owned-job cancellation when Planner is next touched; Health already owns its cancellation.
 - N4: optional roster ETag/identity provenance display remains a follow-up.
 - Apply/refit, snapshot fingerprint, H4, Q-3/Q-5, native/live/cloud verification remain pending. This approval establishes local diagnostics only, not usable rule overrides or real mechanics.
+
+### Coordinator merged verification
+Local merge `d1105ebcf7322c445d6a0fe67491993406ceab85`; no push/deployment.
+```
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test && pnpm --filter web build && pnpm --filter web check:dist && pnpm --filter web e2e && git diff --check
+schema149/master82/api111/engine329/web164 tests passed
+vite: 176 modules; main gzip 146.20 kB; built in 193ms
+check-dist: OK — no fixture code or data in the production build
+browser 16 passed (1.0m)
+real browser synthetic calibration: 1943ms, selected ×1.32
+production placeholder: 139ms, no selection/nonidentifiable
+Health axe both themes and stale: all=0; exit 0
+```
+No recursive build or fixture refresh. Native/live/H4 evidence remains absent.
