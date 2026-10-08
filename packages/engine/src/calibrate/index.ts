@@ -535,7 +535,7 @@ export function calibrateRules(
     const idn = ident.identification;
     if (idn.saturated) {
       warnings.push(
-        `stats: the full train design is saturated (rank ${idn.designRank} ≥ ${idn.trainRows} train rows), so every sensitivity is in its column space; identifiability was tested against the ${idn.basis} basis (rank ${idn.basisRank}). Beyond those columns the multiplier fit rests on the ridge penalty`,
+        `stats: the full train design is saturated (rank ${idn.designRank} ≥ ${idn.trainRows} train rows); the multiplier is ridge-only and no reduced-design fallback or suggestion is allowed`,
       );
     }
     if (ident.identifiable && idn.confoundedStats.length) {
@@ -792,7 +792,11 @@ export function calibrateRules(
 
   // Suggestions (only what the implementation supports).
   const suggestions: Suggestion[] = [];
-  if (stats.status === 'suggested') {
+  if (
+    stats.status === 'suggested' &&
+    ident.identifiable &&
+    stats.identification?.basis === 'full-design'
+  ) {
     const m = stats.selected!.multiplier;
     suggestions.push({
       rule: 'blueStatGain',

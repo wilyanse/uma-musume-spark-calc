@@ -204,14 +204,14 @@ describe('S2: tiny holdouts give no confident-looking interval', () => {
   });
 
   it(
-    '5 train + 1 holdout: bootstrap null with a reason, consistentWithCurrent null, disagreement warned',
+    'identified train design + 1 holdout: bootstrap null with a reason and unknown agreement interval',
     () => {
-      const six = guestGuest.slice(0, 6);
+      const split = opts().split!;
       const r = calibrateRules(
         goldenCtx(),
-        six,
+        calibrationRoster,
         opts({
-          split: { trainIds: six.slice(0, 5).map((v) => v.id), holdoutIds: [six[5]!.id] },
+          split: { trainIds: split.trainIds, holdoutIds: [split.holdoutIds[0]!] },
           bootstrap: 100,
         }),
       );
@@ -223,9 +223,9 @@ describe('S2: tiny holdouts give no confident-looking interval', () => {
       const ag = r.stats.selectionAgreement!;
       expect(ag.withinInterval).toBeNull();
       for (const s of r.suggestions) expect(s.consistentWithCurrent).toBeNull();
-      // On this controlled 1-row holdout the selections differ (1.42 vs 1.97 at review time).
-      expect(ag.holdout).not.toBe(ag.trainCv);
-      expect(r.warnings.join(' ')).toMatch(/selections disagree.*no bootstrap interval/);
+      if (ag.holdout !== ag.trainCv) {
+        expect(r.warnings.join(' ')).toMatch(/selections disagree.*no bootstrap interval/);
+      }
       expect(jsonRoundTrip(r)).toEqual(r);
     },
     T,
@@ -386,7 +386,7 @@ describe('N2: blueStatGain signal must exist on train rows', () => {
     const k = blueIdentifiability([c, c, c], [z]);
     expect(k.identifiable).toBe(false);
     expect(k.reasons.join(' ')).toMatch(/intercept/);
-    expect(blueIdentifiability([c, [1, 2, 0, 0, 4], c], [z]).identifiable).toBe(true);
+    expect(blueIdentifiability([c, [1, 2, 0, 0, 4], c], [z]).identifiable).toBe(false);
   });
 
   it(

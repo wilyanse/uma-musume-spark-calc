@@ -81,11 +81,10 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
       expect(r.notCalibrated.some((n) => n.rule === 'blueStatGain')).toBe(true);
       const id = r.stats.identification!;
       expect(id.status).toBe('design-confounded');
-      // 27 train rows ≤ the full design rank: the column-space test falls back to the
-      // structural (non-card-id) columns, which still have rank < n and contain d exactly.
+      // Saturation is checked on the full fitted design, without a reduced-basis fallback.
       expect(id.saturated).toBe(true);
-      expect(id.basis).toBe('structural-design');
-      expect(id.basisRank).toBeLessThan(id.trainRows);
+      expect(id.basis).toBe('full-design');
+      expect(id.basisRank).toBe(id.trainRows);
       const sens = id.perStat.filter((s) => s.sensitive);
       expect(sens.length).toBeGreaterThan(0);
       for (const s of sens) {
@@ -99,16 +98,15 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
   );
 
   it(
-    'genuine within-cell signal on the same small guest roster stays identified (no over-rejection)',
+    'within-cell variation on a saturated guest roster is still penalty-only',
     () => {
       const r = calibrateRules(goldenCtx(), guestAll, opts({ split: undefined, bootstrap: 0 }));
       const id = r.stats.identification!;
-      expect(id.status).toBe('identified');
+      expect(id.status).toBe('design-confounded');
       expect(id.saturated).toBe(true);
-      expect(id.basis).toBe('structural-design');
-      expect(Math.max(...id.perStat.map((s) => s.relativeResidual ?? 0))).toBeGreaterThan(0.1);
-      expect(r.stats.status).toBe('suggested');
-      // The saturation is disclosed: beyond the structural columns the fit rests on the ridge.
+      expect(id.basis).toBe('full-design');
+      expect(r.stats.status).toBe('nonidentifiable');
+      expect(r.suggestions).toEqual([]);
       expect(r.warnings.join(' ')).toMatch(/saturated/);
     },
     T,
@@ -200,7 +198,7 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
   it('mixed stats: one confounded and one independent stat is identified (the shared m has signal), confounded stats listed', () => {
     const d = g.map((gi, i) => [gi ? 240 : 0, [1, 4, 2, 7, 3, 9, 1, 2][i]!, 0, 0, 0]);
     const r = blueIdentifiability(d, [], { design: X, structural });
-    expect(r.identifiable).toBe(true);
+    expect(r.identifiable).toBe(false);
     expect(r.identification.status).toBe('identified');
     expect(r.identification.perStat.map((s) => s.confounded)).toEqual([
       true,
@@ -229,8 +227,8 @@ describe('S-A: blue sensitivity collinear with the train design is not identifie
       },
     );
     expect(r.identification.saturated).toBe(true);
-    expect(r.identification.basis).toBe('intercept-only');
-    expect(r.identifiable).toBe(true);
+    expect(r.identification.basis).toBe('full-design');
+    expect(r.identifiable).toBe(false);
   });
 
   it('scale-aware: the result does not depend on the units of d or of the design', () => {

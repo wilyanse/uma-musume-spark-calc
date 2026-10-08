@@ -16,13 +16,11 @@
  * normalised), and are not game facts.
  *
  * Saturation: when the basis rank reaches the number of train rows, every d is in the column space
- * and the test is vacuous (the ridge alone pins every coefficient). Then the test falls back to
- * the structural columns (everything except card-id columns), then to the intercept alone, and
- * reports `saturated: true` plus the basis used.
+ * and every sensitivity is design-confounded. No reduced-design fallback can identify the fitted
+ * model's multiplier; saturated designs cannot produce suggestions.
  *
- * Mixed stats: m is one shared multiplier of the blue table. It is identified when at least one
- * sensitive stat has a non-negligible residual; the confounded stats are listed and warned about,
- * since their part of the MAE criterion still varies with m only through the penalty.
+ * Mixed stats: because the criterion sums all stats, any sensitive confounded stat or unidentified
+ * CV fold suppresses selection. "Identified" means not numerically collinear, not well-determined.
  */
 import { STAT_KEYS } from '@uma/schema';
 import type { StatKey } from '@uma/schema';
@@ -32,7 +30,7 @@ export const RANK_REL_TOL = 1e-10;
 /**
  * A sensitivity whose relative residual off the design column space is at most this is
  * design-confounded. Numeric guard: well above double round-off of the projection (~1e-15 here)
- * and far below any real signal (the golden residuals are ≈ 0.6). Not a game fact.
+ * It does not establish adequate signal strength or statistical precision. Not a game fact.
  */
 export const COLLINEAR_REL_TOL = 1e-7;
 /**
@@ -146,7 +144,7 @@ function test(
   d: readonly (readonly number[])[],
   sensitive: readonly boolean[],
   design: readonly ArrayLike<number>[] | undefined,
-  structural: readonly boolean[] | undefined,
+  _structural: readonly boolean[] | undefined,
 ): Tested {
   const n = d.length;
   const ones = new Float64Array(n).fill(1);
@@ -172,17 +170,9 @@ function test(
   if (design && n) {
     const full = orthoBasis(colsOf(() => true));
     designRank = full.length;
-    if (full.length < n) {
-      basis = 'full-design';
-      b = full;
-    } else {
-      saturated = true;
-      const st = orthoBasis(colsOf((j) => structural?.[j] ?? true));
-      if (st.length < n) {
-        basis = 'structural-design';
-        b = st;
-      }
-    }
+    basis = 'full-design';
+    b = full;
+    saturated = full.length >= n;
   }
   const perStat = STAT_KEYS.map((stat, k): StatIdentification => {
     if (!sensitive[k]) return { stat, sensitive: false, relativeResidual: null, confounded: null };
@@ -197,7 +187,7 @@ const statusOf = (t: Tested, anySensitive: boolean): IdentificationStatus =>
     ? 'no-train-sensitivity'
     : t.interceptConstant
       ? 'intercept-confounded'
-      : t.perStat.some((s) => s.confounded === false)
+      : !t.saturated && t.perStat.some((s) => s.confounded === false)
         ? 'identified'
         : 'design-confounded';
 
@@ -242,7 +232,11 @@ export function blueIdentifiability(
         basis: ft.basis,
         basisRank: ft.basisRank,
         saturated: ft.saturated,
-        status: statusOf(ft, fsens.some(Boolean)),
+        status:
+          statusOf(ft, fsens.some(Boolean)) === 'identified' &&
+          ft.perStat.some((s) => s.confounded === true)
+            ? 'design-confounded'
+            : statusOf(ft, fsens.some(Boolean)),
       });
     }
   }
@@ -274,5 +268,30 @@ export function blueIdentifiability(
       `design-confounded: every sensitive stat's blueStatGain sensitivity lies in the column space of the train design (${t.basis}, rank ${t.basisRank} over ${train.length} train rows; max relative residual ${maxRes.toExponential(2)} ≤ ${COLLINEAR_REL_TOL}). Any m·d is absorbed by the cell/growth/card/type/deck coefficients, so a selected m would be ridge-only (set by the penalty, not by data); no multiplier is reported`,
     );
   }
-  return { identifiable: status === 'identified', reasons, identification };
+  if (t.saturated) {
+    reasons.push(
+      'design saturated (rank ≥ train rows): multiplier identification is ridge-only; no reduced-basis fallback or suggestion is allowed',
+    );
+  }
+  if (status === 'identified' && identification.confoundedStats.length) {
+    reasons.push(
+      `all-stat selection includes design-confounded sensitive stats (${identification.confoundedStats.join(', ')}); their ridge-only MAE terms cannot select a multiplier`,
+    );
+  }
+  const badFolds = folds.filter(
+    (f) => f.status !== 'identified' || f.saturated || f.basis !== 'full-design',
+  );
+  if (badFolds.length)
+    reasons.push(
+      `CV fold(s) ${badFolds.map((f) => f.fold).join(', ')} do not identify the multiplier on the full design`,
+    );
+  return {
+    identifiable:
+      status === 'identified' &&
+      !t.saturated &&
+      identification.confoundedStats.length === 0 &&
+      badFolds.length === 0,
+    reasons,
+    identification,
+  };
 }

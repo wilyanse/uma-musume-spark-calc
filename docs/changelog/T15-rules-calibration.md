@@ -495,3 +495,34 @@ unchanged-since-dffb549
 - The saturated fallback is a policy choice. On real rosters with fewer train rows than design columns, the structural-design test is the effective guard, and card-id contributions beyond it rest on λ_id. A reviewer may prefer requiring n > full rank before any suggestion. That is a stricter acceptance change, so I did not make it.
 - The browser consumer (S07) must display `stats.identification` (status, basis, saturation, confounded stats) and `aptitude.invalidObserved` / `invalidExamples`.
 - H4 real-roster run and Q-3/Q-5 are unchanged. The status stays Partial.
+
+## Review round 3 — coordinator takeover
+
+Independent Opus r3 requested changes: the saturation fallback still permitted false identification. Both worker fix rounds were consumed; the coordinator applied this fix directly, not through another worker loop. The round-2 fallback and mixed-stat/fold policy above are superseded.
+
+### B1 / S-A and S1
+- Always project against the full fitted design, including card-id columns. Saturated designs are nonidentifiable; no structural/intercept fallback, selection or suggestion is permitted.
+- Conservative all-stat criterion policy: suppress selection when any sensitive stat is confounded or any CV fold fails identification, rather than letting ridge-only terms select a shared multiplier. Full-design residuals remain reported.
+- `identified` denotes numerical non-collinearity, not adequate signal strength, precision or verified mechanics. Q-159 carries this clarification.
+- Suggestions additionally require full-design basis and the complete identification gate. Invalid-grade and likelihood fixes remain unchanged.
+- Files modified: calibration identify/index, review-r1/r2 tests, Q-159 and this changelog. New review-r3 tests cover saturation, mixed-stat contamination, fold gating and the saturated guest report.
+- Retargeted the guest positive to nonidentifiable (reviewer explicitly required this); retargeted the one-holdout bootstrap test to an identified full train design, retaining unavailable-interval assertions. No golden fixture or F12 band changed.
+
+### Verification
+```
+$ pnpm --filter @uma/engine test -- test/calibrate/review-r3.test.ts
+Tests 4 failed | 325 passed (329), exit 1
+```
+All four new regressions failed on the previous production code for the expected true-vs-false/suggested-vs-nonidentifiable reasons. This script ran the entire suite despite the filter; no claimed targeted-only run.
+First GREEN attempt: 327/329 passed; two older assertions relied on the superseded fallback/mixed-stat policy. They were updated as described above.
+```
+$ pnpm -r lint && pnpm -r typecheck && pnpm -r test && git diff --check
+schema 149 passed; master-data 82 passed; api 111 passed
+engine 329 passed (21 files); web 124 passed; exit 0
+$ node packages/engine/test/calibrate/golden-report.ts --variants --out <scratch>/t15-coordinator-A.json
+$ node packages/engine/test/calibrate/golden-report.ts --variants --out <scratch>/t15-coordinator-B.json
+Both exit 0; 17 runs; Python comparison excluding *Ms: True
+Golden ×1.3: complete/suggested 1.33, train-CV 1.31, full-design rank 38/157
+Published context: partial/nonidentifiable, full likelihood null, impossible 87
+```
+All four reported input hashes match round 2. Real-roster/H4, browser and live evidence remain absent. Fresh independent review of the coordinator fix is required before merge.
