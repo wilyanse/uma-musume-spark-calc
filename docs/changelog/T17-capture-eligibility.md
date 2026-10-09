@@ -164,3 +164,74 @@ Spec scenario matrix → tests:
 - H2 (Cloudflare): live D1 CPU for the added `EXISTS` on `/roster` at real size is unmeasured (Q-4); locally the 2,000-row benchmark stays in line with T04b figures.
 - Follow-up (not in scope): `IngestResponse` could carry the flag if a consumer needs it; would need a 01 §3 change.
 - Independent fresh review and the parent's gates are still required before merge; this changelog and the self-run tests are not approval.
+
+## Review round1 follow-ups
+
+Independent round 1 verdict: **PASS**, no blocking findings, for preserved candidate `4df13698706ab913b230636a8ae4993eb390bd17`. Source: `/Users/willjose/Projects/personal/uma-musume-spark-calc/docs/reviews/T17-review-1.md`. The coordinator elected to address nonblocking S1/N1 before merge; this is fix round 1 of at most 2, not a rejection of the proven policy. Round 2 focused independent review and parent gates remain required; this execution is not self-approval or merge authorization.
+
+Provenance: the historical implementation and its original tests/logs above remain Opus 5.5 medium work. This continuation is direct GPT-6.1 Sol medium implementation using the explicitly approved fallback after the coordinator-confirmed primary Opus HTTP 429. No delegation or model CLI was used.
+
+- **S1 addressed:** added `packages/engine/test/calibrate/capture-eligibility.test.ts`, adapting the inspected reviewer scratch probe `/Users/willjose/.hermes/cache/scratch/T17-review1-calibration.mjs` to existing Vitest and calibration helpers. Nine cases call actual `calibrateRules` with the real unchanged synthetic roster, published context, injected clock/ID/timer, explicit split/CV/bootstrap seeds and bounded timeout. Accepted 0.875 and corrected 0.3 enter the reported population and actual train/holdout split without changing raw scores. Unresolved 0.99, absent legacy flag at 0.875, malformed string flag, and unread parent sparks assert exact exclusion reasons/details; absent legacy flag at 0.9 remains admitted. Unmatched non-guest and missing matched parents pass `prepareRow` but fail calibration's additional `parent-not-matched-or-guest` restriction. Every case checks the whole input roster is unchanged and reported population accounting matches the actual rows. Published placeholder rules remain `nonidentifiable`; no equivalent population or game-mechanics result is invented. These are regression-retention tests against already-correct code, not a production bug or a newly claimed TDD RED.
+- **N1 addressed:** corrected ADR-0003 §2.1: PATCH returns detail; resolve returns a `ReviewItem`, with changed veteran metadata observable in a subsequent roster/detail fetch. No API response-shape edit.
+- **Cross-task scope:** one new engine calibration test and one ADR sentence; this changelog append. No production behavior, schema/export, API, web, dependency, fixture, master/golden, migration or agent changes. Historical counts and RED/GREEN evidence above are retained unchanged.
+
+Verification commands (worktree root unless noted), new logs in `/Users/willjose/.hermes/cache/scratch/T17/`:
+
+```text
+$ pnpm --filter @uma/engine exec vitest run test/calibrate/capture-eligibility.test.ts --reporter=verbose
+  Test Files  1 passed (1)
+       Tests  9 passed (9)
+  Exit 0; r1-calibration-green.log
+```
+
+Focused mutation: patched only the known `prepareRow` confidence-gate line to the prior numeric-only rule, ran the same nine tests, and restored that exact line with a targeted patch (no checkout/reset/clean or blind overwrite). This experiment is not a historical RED against the correct implementation. Eight cases fail (including the legacy-low detail assertion); legacy 0.9 still passes. Accepted/corrected low-score admission and unresolved/malformed high-score exclusion independently catch the old gate.
+
+```text
+$ pnpm --filter @uma/engine exec vitest run test/calibrate/capture-eligibility.test.ts --reporter=verbose
+  Test Files  1 failed (1)
+       Tests  8 failed | 1 passed (9)
+  Exit 1; r1-calibration-mutation.log
+$ git diff --exit-code -- packages/engine/src/model/fit.ts
+  Exit 0 after the targeted restoration
+$ pnpm --filter @uma/engine exec vitest run test/calibrate/capture-eligibility.test.ts
+  Test Files  1 passed (1)
+       Tests  9 passed (9)
+  Exit 0; r1-calibration-restored.log
+```
+
+Full gates after the follow-up code/docs commit (logs `r1-lint.log`, `r1-typecheck.log`, `r1-tests.log`, `r1-build.log`, `r1-dist.log`, `r1-e2e.log`):
+
+```text
+$ pnpm -r lint
+  Exit 0
+$ pnpm -r typecheck
+  Exit 0
+$ pnpm -r test
+  schema:      153 passed
+  master-data: 82 passed
+  API:         123 passed
+  engine:      360 passed (historical 351 + 9 new calibration tests)
+  web:         239 passed
+  Exit 0
+$ pnpm --filter web build
+  dist/assets/index-CVqjKgHu.js  616.17 kB │ gzip: 185.13 kB
+  ✓ built in 210ms
+  Exit 0; scoped build only
+$ pnpm --filter web check:dist
+  fixtureFiles: []
+  check-dist: OK — no fixture code or data in the production build
+  Exit 0
+$ pnpm --filter web e2e
+  18 passed (1.6m)
+  Exit 0
+$ git diff --check 439764a..HEAD
+  Exit 0
+$ git diff --quiet 439764a HEAD -- apps/web/public packages/engine/test/golden apps/web/fixtures packages/master-data agent
+  Exit 0; frozen paths unchanged
+$ git diff --quiet 4df13698706ab913b230636a8ae4993eb390bd17 HEAD -- packages/engine/src packages/schema apps/api apps/web/src pnpm-lock.yaml
+  Exit 0; production paths unchanged from the reviewed candidate
+```
+
+The final committed candidate is also checked with the same six gate commands above, with separate `r1-candidate-{lint,typecheck,tests,build,dist,e2e}.log` files so the earlier run is preserved. The handoff reports the exact SHA and those execution results; parent verification remains independent.
+
+H2 live Cloudflare CPU/provisioning and H4 native Windows/real-roster acceptance remain pending. T16's independent dependency/license blocker is not a T17 defect and was not modified. No new open question is needed. No self-merge, push or deployment was performed.
