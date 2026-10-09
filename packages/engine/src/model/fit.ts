@@ -27,7 +27,14 @@ import type { BetaParams, Exposure, PriorFit, SkillPosterior } from './skills.ts
 import { newUlid } from './ulid.ts';
 
 export const MODEL_KIND = 'training-v2' as const;
+/** Legacy numeric gate (50 §4): applies only to rows WITHOUT the T17 status flag. */
 export const MIN_CONFIDENCE = 0.9;
+/**
+ * T17 / ADR-0003: identity of the training-row eligibility policy. Changing who is eligible
+ * changes the fitted population, so consumers bind cached fits to this value (it is NOT part of
+ * the `training-v2` numeric semantics, which are unchanged). Bump on any eligibility change.
+ */
+export const TRAINING_ELIGIBILITY_POLICY = 'capture-status-v1' as const;
 export const RECENCY_HALF_LIFE_DAYS = 60;
 export const HOLDOUT_FRACTION = 0.2;
 export const DEFAULT_SPLIT_SEED = 't06-holdout';
@@ -124,14 +131,31 @@ export interface PreparedRow {
   parents: [ParentKind, ParentKind];
 }
 
+/**
+ * The confidence-only part of training eligibility (ADR-0003). A row with the API's
+ * `hasLowConfidence` status flag uses it: true (some current field still low_confidence) excludes,
+ * false passes whatever the raw `minConfidence` score. A row without the flag (legacy producer,
+ * or a schema that stripped it) keeps the strict `minConfidence >= 0.9` gate. A present but
+ * non-boolean flag is malformed and excludes (never coerced). Returns the exclusion detail or null.
+ */
+export function confidenceExclusion(v: Veteran): string | null {
+  const flag: unknown = (v as { hasLowConfidence?: unknown }).hasLowConfidence;
+  if (flag === undefined) {
+    return v.minConfidence >= MIN_CONFIDENCE
+      ? null
+      : `legacy row without hasLowConfidence: minConfidence ${v.minConfidence} < ${MIN_CONFIDENCE}`;
+  }
+  if (typeof flag !== 'boolean') return `malformed hasLowConfidence ${JSON.stringify(flag) ?? String(flag)}`;
+  return flag ? `hasLowConfidence: a capture field is still low_confidence (minConfidence ${v.minConfidence})` : null;
+}
+
 export function prepareRow(
   ctx: EngineContext,
   v: Veteran,
   byId: ReadonlyMap<string, Veteran>,
 ): { row: PreparedRow } | { reason: ExclusionReason; detail: string } {
-  if (!(v.minConfidence >= MIN_CONFIDENCE)) {
-    return { reason: 'low-confidence', detail: `minConfidence ${v.minConfidence}` };
-  }
+  const low = confidenceExclusion(v);
+  if (low !== null) return { reason: 'low-confidence', detail: low };
   if (!v.scenarioId || !ctx.scenarios.has(v.scenarioId)) {
     return { reason: 'unknown-scenario', detail: String(v.scenarioId) };
   }
