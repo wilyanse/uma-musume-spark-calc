@@ -1,0 +1,578 @@
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+
+ ❯ test/t15c-apply.test.tsx (28 tests | 8 failed) 6082ms
+   ❯ review r1 B1: the footer reports the WORKER-CONFIRMED context, never an unvalidated stored record (6)
+     × an override refused for a wrong master (API mode) is labelled baseline and the server snapshot is queried and shown 1087ms
+     × an override the WORKER rejected (base context differs) is labelled baseline, not browser-local 1037ms
+     × on a route without an engine screen: no stored override → no worker configure; a valid one → ONE shared configure, confirmed browser-local 65ms
+   ❯ review r1 B2: reset confirmation is guarded synchronously and released in finally (2)
+     × a same-tick double click on Reset resets ONCE and reports success (no "nothing was reset" overwrite) 79ms
+     × the guard holds across the awaited cross-tab lock (deferred), then releases: failure, then a retry succeeds 54ms
+   ❯ review r1 S1: override and report ids come from the INJECTED AppServices.random (2)
+     × the same seed gives the same report id, override id and (identity-bookkeeping) fingerprint; ids follow the seeded sequence 254ms
+   ❯ review r1 N1/N3 (3)
+     × N1: overwriting an invalid record keeps its recoverable revision monotonic; an unreadable one restarts at 1 1ms
+     × N3: after a reapply on top of an override, the text names the PREVIOUS override values, not the base values 51ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 B1: the footer reports the WORKER-CONFIRMED context, never an unvalidated stored record > an override refused for a wrong master (API mode) is labelled baseline and the server snapshot is queried and shown
+AssertionError: expected 'Master data global-20260930Model: bro…' to match /Model: none yet/
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head>[39m
+    [36m<title>[39m
+      [0mModel health — Uma Spark Calc[0m
+    [36m</title>[39m
+  [36m</head>[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"app"[39m
+      [36m>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Main"[39m
+          [33mclass[39m=[32m"rail"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"brand"[39m
+          [36m>[39m
+            [36m<i[39m
+              [33maria-hidden[39m=[32m"true"[39m
+            [36m>[39m
+              [0m★[0m
+            [36m</i>[39m
+            [0mUma Spark Calc[0m
+          [36m</div>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/roster"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mRoster[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/review"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mReview[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/cards"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mCards[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/targets"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mTargets[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/planner"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mPlanner[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33maria-current[39m=[32m"page"[39m
+            [33mclass[39m=[32m"nav active"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/health"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mHealth[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"foot"[39m
+          [36m>[39m
+            [0mMaster data [0m
+            [0mglobal-20260930[0m
+            [36m<br />[39m
+            [0mModel: browser-local (override)[0m
+            [36m<label[39m
+              [33mclass[39m=[32m"field theme-toggle"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mTheme[0m
+              [36m</span>[39m
+              [36m<select[39m
+                [33mclass[39m=[32m"input"[39m
+              [36m>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"system"[39m
+                [36m>[39m
+                  [0mSystem[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"light"[39m
+                [36m>[39m
+                  [0mLight[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"dark"[39m
+                [36m>[39m
+                  [0mDark[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+        [36m</nav>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"main"[39m
+        [36m>[39m
+          [36m<header[39m
+            [33mclass[39m=[32m"topbar"[39m
+          [36m>[39m
+            [36m<h1>[39m
+              [0mModel health[0m
+            [36m</h1>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"sp"[39m
+            [36m/>[39m
+            [36m<button[39m
+              [33maria-busy[39m=[32m"false"[39m
+              [33mclass[39m=[32m"btn"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mRefit model[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-busy[39m=[32m"false"[39m
+              [33mclass[39m=[32m"btn primary"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mRun calibration[0m
+            [36m</button>[39m
+          [36m</header>[39m
+          [36m<main[39m
+            [33mclass[39m=[32m"content"[39m
+            [33mid[39m=[32m"content"[39m
+          [36m>[39m
+            [36m<section[39m
+              [33maria-labelledby[39m=[32m"ov-t"[39m
+              [33mclass[39m=[32m"panel"[39m
+              [33mdata-base-context[39m=[32m"sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"[39m
+              [33mdata-context[39m=[32m"sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"[39m
+              [33mdata-revision[39m=[32m"4"[39m
+              [33mdata-testid[39m=[32m"rules-override"[39m
+              [33mstyle[39m=[32m"margin-bottom: var(--space-3);"[39m
+            [36m>[39m
+              [36m<header[39m
+                [33mid[39m=[32m"ov-t"[39m
+              [36m>[39m
+                [0mRules in force[0m
+              [36m</header>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"body grid"[39m
+              [36m>[39m
+                [36m<p[39m
+                  [33mdata-testid[39m=[32m"override-none"[39m
+                [36m>[39m
+                  [0mNo browser-local override: [0m
+                  [0mthe published rules (rules-1)[0m
+                  [0m [0m
+                  [0mare[0m
+                  [0m in force. Context [0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"mono"[39m
+                  [36m>[39m
+                    [0msha256:ffffffffffff[0m
+                    [0m…[0m
+                  [36m</span>[39m
+                [36m</p>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"banner err"[39m
+                  [33mrole[39m=[32m"alert"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mdata-testid[39m=[32m"override-problem"[39m
+                  [36m>[39m
+                    [0mThe stored rules override was not applied: it was applied with master OLD-MASTER, but master global-20260930 is loaded[0m
+                    [0m. [0m
+                    [0mThe published rules (rules-1)[0m
+                    [0m [0m
+                    [0mare[0m
+                    [0m in force in...
+
+- Expected:
+/Model: none yet/
+
++ Received:
+"Master data global-20260930Model: browser-local (override)ThemeSystemLightDark"
+
+ ❯ test/t15c-apply.test.tsx:420:42
+    418|     expect((await screen.findByTestId('override-problem')).textContent…
+    419|     expect(e.configures).toEqual([null]);
+    420|     await waitFor(() => expect(footer()).toMatch(/Model: none yet/));
+       |                                          ^
+    421|     expect(footer()).not.toMatch(/browser-local/);
+    422|     expect(m.calls.some((c) => c.method === 'latestSnapshot')).toBe(tr…
+ ❯ runWithExpensiveErrorDiagnosticsDisabled ../../node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback ../../node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback ../../node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 B1: the footer reports the WORKER-CONFIRMED context, never an unvalidated stored record > an override the WORKER rejected (base context differs) is labelled baseline, not browser-local
+AssertionError: expected 'Master data global-20260930Model: bro…' to match /Model: none yet/
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head>[39m
+    [36m<title>[39m
+      [0mModel health — Uma Spark Calc[0m
+    [36m</title>[39m
+  [36m</head>[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"app has-banner"[39m
+      [36m>[39m
+        [36m<aside[39m
+          [33maria-label[39m=[32m"Fixture mode notice"[39m
+          [33mclass[39m=[32m"synthetic"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+          [36m>[39m
+            [0m⚠[0m
+          [36m</span>[39m
+          [0mFixture mode: SYNTHETIC golden dataset (T08), not a real account. Edits stay in this tab only.[0m
+        [36m</aside>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Main"[39m
+          [33mclass[39m=[32m"rail"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"brand"[39m
+          [36m>[39m
+            [36m<i[39m
+              [33maria-hidden[39m=[32m"true"[39m
+            [36m>[39m
+              [0m★[0m
+            [36m</i>[39m
+            [0mUma Spark Calc[0m
+          [36m</div>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/roster"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mRoster[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/review"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mReview[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/cards"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mCards[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/targets"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mTargets[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/planner"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mPlanner[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<a[39m
+            [33maria-current[39m=[32m"page"[39m
+            [33mclass[39m=[32m"nav active"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/health"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mHealth[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"foot"[39m
+          [36m>[39m
+            [0mMaster data [0m
+            [0mglobal-20260930[0m
+            [36m<br />[39m
+            [0mModel: browser-local (override)[0m
+            [36m<label[39m
+              [33mclass[39m=[32m"field theme-toggle"[39m
+            [36m>[39m
+              [36m<span>[39m
+                [0mTheme[0m
+              [36m</span>[39m
+              [36m<select[39m
+                [33mclass[39m=[32m"input"[39m
+              [36m>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"system"[39m
+                [36m>[39m
+                  [0mSystem[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"light"[39m
+                [36m>[39m
+                  [0mLight[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"dark"[39m
+                [36m>[39m
+                  [0mDark[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+        [36m</nav>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"main"[39m
+        [36m>[39m
+          [36m<header[39m
+            [33mclass[39m=[32m"topbar"[39m
+          [36m>[39m
+            [36m<h1>[39m
+              [0mModel health[0m
+            [36m</h1>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"sp"[39m
+            [36m/>[39m
+            [36m<button[39m
+              [33maria-busy[39m=[32m"false"[39m
+              [33mclass[39m=[32m"btn"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mRefit model[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-busy[39m=[32m"false"[39m
+              [33mclass[39m=[32m"btn primary"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mRun calibration[0m
+            [36m</button>[39m
+          [36m</header>[39m
+          [36m<main[39m
+            [33mclass[39m=[32m"content"[39m
+            [33mid[39m=[32m"content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"banner warn"[39m
+              [33mrole[39m=[32m"status"[39m
+            [36m>[39m
+              [0mGolden fixture context (SYNTHETIC overrides: [0m
+              [0mblueStatGain, inheritanceTurns(scenario:brighter-together-our-grand-concert), inheritanceTurns(scenario:trackblazer), inheritanceTurns(scenario:unity-cup), inheritanceTurns(scenario:ura-finale)[0m
+              [0m). Not game facts.[0m
+            [36m</div>[39m
+            [36m<section[39m
+              [33maria-labelledby[39m=[32m"ov-t"[39m
+              [33mclass[39m=[32m"panel"[39m
+              [33mdata-base-context[39m=[32m"sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add"[39m
+              [33mdata-context[39m=[32m"sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add"[39m
+              [33mdata-revision[39m=[32m"1"[39m
+              [33mdata-testid[39m=[32m"rules-override"[39m
+              [33mstyle[39m=[32m"margin-bottom: var(--space-3);"[39m
+            [36m>[39m
+              [36m<header[39m
+                [33mid[39m=[32m"ov-t"[39m
+              [36m>[39m
+                [0mRules in force[0m
+              [36m</header>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"body grid"[39m
+              [36m>[39m
+                [36m<p[39m
+                  [33mdata-testid[39m=[32m"override-none"[39m
+                [36m>[39m
+                  [0mNo browser-local override: [0m
+                  [0mthe SYNTHETIC golden fixture base context (fixture mode; not the publishe...
+
+- Expected:
+/Model: none yet/
+
++ Received:
+"Master data global-20260930Model: browser-local (override)ThemeSystemLightDark"
+
+ ❯ test/t15c-apply.test.tsx:436:42
+    434|     renderRoute('/health', src.src, { loadGolden, store, engine: a.eng…
+    435|     expect((await screen.findByTestId('override-problem')).textContent…
+    436|     await waitFor(() => expect(footer()).toMatch(/Model: none yet/));
+       |                                          ^
+    437|     expect(footer()).not.toMatch(/browser-local/);
+    438|     expect(src.calls.some((c) => c.method === 'latestSnapshot')).toBe(…
+ ❯ runWithExpensiveErrorDiagnosticsDisabled ../../node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback ../../node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback ../../node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 B1: the footer reports the WORKER-CONFIRMED context, never an unvalidated stored record > on a route without an engine screen: no stored override → no worker configure; a valid one → ONE shared configure, confirmed browser-local
+AssertionError: expected [] to deeply equal [ '01KGQZ0000G01DENCM00T15CR1' ]
+
+- Expected
++ Received
+
+- [
+-   "01KGQZ0000G01DENCM00T15CR1",
+- ]
++ []
+
+ ❯ test/t15c-apply.test.tsx:467:44
+    465|     const r2 = renderRoute('/roster', m2.src, { store, engine: e.engin…
+    466|     await waitFor(() => expect(footer()).toMatch(/Model: browser-local…
+    467|     expect(e.configures.map((o) => o?.id)).toEqual(['01KGQZ0000G01DENC…
+       |                                            ^
+    468|     // Navigating to Health shares the SAME context query: no second c…
+    469|     await act(async () => { await r2.router.navigate('/health'); });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 B2: reset confirmation is guarded synchronously and released in finally > a same-tick double click on Reset resets ONCE and reports success (no "nothing was reset" overwrite)
+AssertionError: expected 'The rules override changed in another…' to match /^Reset done\./
+
+- Expected:
+/^Reset done\./
+
++ Received:
+"The rules override changed in another tab since you confirmed. Nothing was reset; review the current state and try again."
+
+ ❯ test/t15c-apply.test.tsx:496:67
+    494|     await act(async () => { btn.click(); btn.click(); });
+    495|     await new Promise((r) => setTimeout(r, 20));
+    496|     expect((await screen.findByTestId('rules-note')).textContent).toMa…
+       |                                                                   ^
+    497|     expect(screen.getByTestId('rules-note').textContent).not.toMatch(/…
+    498|     expect(readOverride(store, 'fixture')).toMatchObject({ status: 'no…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 B2: reset confirmation is guarded synchronously and released in finally > the guard holds across the awaited cross-tab lock (deferred), then releases: failure, then a retry succeeds
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ test/t15c-apply.test.tsx:517:24
+    515|       await act(async () => { btn.click(); });
+    516|       await act(async () => { btn.click(); }); // a later click while …
+    517|       expect(requests).toBe(1);
+       |                        ^
+    518|       await act(async () => { pending.shift()!(); });
+    519|       expect((await screen.findByTestId('rules-note')).textContent).to…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 S1: override and report ids come from the INJECTED AppServices.random > the same seed gives the same report id, override id and (identity-bookkeeping) fingerprint; ids follow the seeded sequence
+AssertionError: expected { …(3) } to deeply equal { …(3) }
+
+- Expected
++ Received
+
+  {
+-   "fp": "sha256:010423b00070004a0e0590000000000000000000000000000000000000000000",
+-   "overrideId": "01M423BP007TJX4ATEM59WGVPM",
+-   "reportId": "01M423BP00EQHVX47XCNM2VCV9",
++   "fp": "sha256:010423b000900ec0f00005070800000000000000000000000000000000000000",
++   "overrideId": "01M423BP009T0ECMFMZVT5P7P8",
++   "reportId": "01M423BP00FZY3BQQYTEHPZ2MC",
+  }
+
+ ❯ test/t15c-apply.test.tsx:554:17
+    552|     const one = await applyOnce(0x15c);
+    553|     const two = await applyOnce(0x15c);
+    554|     expect(two).toEqual(one);
+       |                 ^
+    555|     const rnd = seededRandom(0x15c);
+    556|     expect(one.reportId).toBe(ulid(NOW.getTime(), rnd));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 N1/N3 > N1: overwriting an invalid record keeps its recoverable revision monotonic; an unreadable one restarts at 1
+AssertionError: expected { ok: true, revision: 1, …(1) } to match object { ok: true, revision: 51 }
+(1 matching property omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "ok": true,
+-   "revision": 51,
++   "revision": 1,
+  }
+
+ ❯ test/t15c-apply.test.tsx:576:15
+    574|     store.setItem(overrideKey('fixture'), '{"schema":"uma-browser-rule…
+    575|     const w = writeOverrideState(store, 'fixture', store.getItem(overr…
+    576|     expect(w).toMatchObject({ ok: true, revision: 51 });
+       |               ^
+    577|     store.setItem(overrideKey('fixture'), '{garbage');
+    578|     expect(writeOverrideState(store, 'fixture', '{garbage', null)).toM…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  test/t15c-apply.test.tsx > review r1 N1/N3 > N3: after a reapply on top of an override, the text names the PREVIOUS override values, not the base values
+AssertionError: expected 'browser-local override blueStatGain 1…' to match /replaces the previous browser-local o…/
+
+- Expected:
+/replaces the previous browser-local override/
+
++ Received:
+"browser-local override blueStatGain 14 / 28 / 42 (1★/2★/3★) replaces 13.2 / 26.4 / 39.6 of the SYNTHETIC golden fixture base context (fixture mode; not the published rules). Proposal ×1.06 from calibration report 01KGQZ0000G01DENCM00T15C31, applied 2026-10-04 00:00. Unverified statistical value, not a game fact."
+
+ ❯ test/t15c-apply.test.tsx:591:15
+    589|     renderRoute('/health', fixtureSource().src, { loadGolden, store, e…
+    590|     const t = (await screen.findByTestId('override-active')).textConte…
+    591|     expect(t).toMatch(/replaces the previous browser-local override/);
+       |               ^
+    592|     expect(t).toMatch(/base context remains the SYNTHETIC golden fixtu…
+    593|     expect(t).not.toMatch(/replaces [\d. /]+ of the SYNTHETIC/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 20 passed (28)
+   Start at  02:37:54
+   Duration  7.90s (tests 79%, environment 8%, transform 7%, import 4%, setup 3%)
+
+EXIT=1

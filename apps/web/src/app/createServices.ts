@@ -18,7 +18,8 @@ export function createServices(fixtures = FIXTURE_MODE): AppServices {
     return master;
   };
   const now = () => new Date();
-  const base = { loadMaster: getMaster, engine: new EngineClient(), store: defaultStore(), now, monotonicNow: () => performance.now() };
+  const random = Math.random;
+  const base = { random, loadMaster: getMaster, engine: new EngineClient(), candidateEngine: () => new EngineClient(), store: defaultStore(), now, monotonicNow: () => performance.now() };
   if (!fixtures || !fixtureServices) return { ...base, source: httpSource() };
-  return { ...base, ...fixtureServices({ now, getMaster }) };
+  return { ...base, ...fixtureServices({ now, random, getMaster }) };
 }

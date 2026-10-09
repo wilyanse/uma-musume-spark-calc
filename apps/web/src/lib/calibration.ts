@@ -14,6 +14,7 @@
 import type { RosterVeteran } from '@uma/schema';
 import type { CalibrationReport } from '@uma/engine';
 import type { ContextKind } from '../workers/engine.api.ts';
+import { digestOf } from './digest.ts';
 
 export const UNAVAILABLE = 'unavailable';
 
@@ -49,19 +50,24 @@ export function selectionView(stats: CalibrationReport['stats']): SelectionView 
   return { made, suggested: made && stats.status === 'suggested', status: stats.status, reasons, rawIdentified, gateConflict: rawIdentified && !made };
 }
 
-/** FNV-1a 32-bit over the roster JSON: content identity (not a security hash). */
+/**
+ * Roster content identity: row count + SHA-256 of the canonical roster JSON (T15c: model reuse is
+ * authorised against it, so a collision-resistant digest replaces T15b's 32-bit FNV hash).
+ */
+const rosterIds = new WeakMap<readonly RosterVeteran[], string>();
 export function rosterIdentity(roster: readonly RosterVeteran[]): string {
-  const s = JSON.stringify(roster);
-  let h = 0x811c9dc5;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 0x01000193) >>> 0;
+  let id = rosterIds.get(roster);
+  if (!id) {
+    id = `${roster.length}:${digestOf(roster)}`;
+    rosterIds.set(roster, id);
   }
-  return `${roster.length}:${h.toString(16).padStart(8, '0')}`;
+  return id;
 }
 
 export interface CalibrationProvenance {
   contextKind: ContextKind;
+  /** T15c: effective context identity (rules values, overrides, master, synthetic inputs). */
+  contextFingerprint: string;
   masterVersion: string;
   rulesVersion: string;
   rosterEtag: string | null;
@@ -70,12 +76,13 @@ export interface CalibrationProvenance {
 }
 
 export function provenanceOf(
-  ctx: { kind: ContextKind; masterVersion: string; rulesVersion: string },
+  ctx: { kind: ContextKind; masterVersion: string; rulesVersion: string; fingerprint: string },
   loadedMasterVersion: string,
   roster: { etag: string | null; roster: readonly RosterVeteran[] },
 ): CalibrationProvenance {
   return {
     contextKind: ctx.kind,
+    contextFingerprint: ctx.fingerprint,
     // The loaded master wins: a context still configured for an older master is itself stale.
     masterVersion: loadedMasterVersion === ctx.masterVersion ? ctx.masterVersion : loadedMasterVersion,
     rulesVersion: ctx.rulesVersion,
@@ -90,10 +97,10 @@ export function staleReasons(run: CalibrationProvenance, now: CalibrationProvena
   const out: string[] = [];
   if (run.rosterEtag !== now.rosterEtag || run.rosterIdentity !== now.rosterIdentity) out.push('roster changed');
   if (run.masterVersion !== now.masterVersion) out.push('master data changed');
-  if (run.rulesVersion !== now.rulesVersion) out.push('rules changed');
+  if (run.rulesVersion !== now.rulesVersion || run.contextFingerprint !== now.contextFingerprint) out.push('rules changed');
   if (run.contextKind !== now.contextKind) out.push('engine context changed');
   return out;
 }
 
 export const provenanceKey = (p: CalibrationProvenance) =>
-  [p.contextKind, p.masterVersion, p.rulesVersion, p.rosterEtag ?? '', p.rosterIdentity].join('|');
+  [p.contextKind, p.contextFingerprint, p.masterVersion, p.rulesVersion, p.rosterEtag ?? '', p.rosterIdentity].join('|');

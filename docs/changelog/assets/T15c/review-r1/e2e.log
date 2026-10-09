@@ -1,0 +1,82 @@
+T15c E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/docs/changelog/assets/T15c/review-r1
+T15b E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web/test-results/t15b-assets
+E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web/test-results/e2e-assets
+
+Running 18 tests using 1 worker
+
+T15c E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/docs/changelog/assets/T15c/review-r1
+REAL BROWSER calibration (fixture ×1.3 roster): 1341 ms; Selected multiplier ×1.32 (holdout-MAE argmin; stats status suggested).
+AXE S07-apply-dialog-light: serious/critical=0; all=0
+DETERMINISTIC IDS (seed 0x15c): report 01M4CCYJ00XBCD055FYZDBSBT6 override 01M4CCYJ00YZSW5680A1AKJ75D context sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09
+REAL BROWSER apply (candidate fit + commit): 543 ms; context sha256:979cfd2ef13b… → sha256:9db75f3afe72…; local snapshot 01M4CCYJ0078VB90M5WRK3074K
+AXE S07-applied-light: serious/critical=0; all=0
+AXE S07-applied-dark: serious/critical=0; all=0
+REAL BROWSER ranking under override: top pair 01M1RX152GP86FAQ1WPY0MX60J + 01M379DKQ86T9BGV6696R6DWN2 (base: 01M1RX152GP86FAQ1WPY0MX60J + 01M379DKQ86T9BGV6696R6DWN2)
+AXE S06-override-light: serious/critical=0; all=0
+AXE S06-override-dark: serious/critical=0; all=0
+REAL BROWSER recalibration on the applied context: Selected multiplier ×1.00 (holdout-MAE argmin; stats status suggested).
+AXE S07-reset-dialog-light: serious/critical=0; all=0
+  ✓   1 e2e/apply.spec.ts:112:1 › fixture: real calibrate → confirm → candidate fit → apply → Planner rank; cancel/fault/cross-tab/reload/recalibrate/reset; no overridden snapshot stored (31.1s)
+B1 footer under refused fixture-bound override (API mode): Master data global-20260930 | Model: none yet
+AXE S07-production-light: serious/critical=0; all=0
+AXE S07-production-dark: serious/critical=0; all=0
+  ✓   2 e2e/apply.spec.ts:344:1 › production (API mode, MOCK HTTP): no Apply for placeholder; a fixture-bound stored override is refused; no writes; axe both themes (2.8s)
+T15b E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web/test-results/t15b-assets
+REAL BROWSER calibration (fixture ×1.3 roster): 1927 ms; selection: Selected multiplier ×1.32 (holdout-MAE argmin; stats status suggested).
+AXE S07-calibration-fixture-light: serious/critical=0; all=0
+AXE S07-calibration-fixture-dark: serious/critical=0; all=0
+AXE S07-calibration-stale-light: serious/critical=0; all=0
+  ✓   3 e2e/calibration.spec.ts:81:1 › fixture: real worker calibrates the unchanged ×1.3 roster; cancel/retry/navigation/stale; axe + screenshots (6.0s)
+REAL BROWSER calibration (production placeholder, API-mode MOCK HTTP): 155 ms; selection: No multiplier selected: stats status nonidentifiable. no train row's E[inh] depends on blueStatGain CV fold(s) 0, 1, 2, 3, 4 do not identify the multiplier on the full design blueStatGain is zero for every star (placeholder): any multiplier of zero is zero, so no factor can be estimated scenario(s) scenario:brighter-together-our-grand-concert, scenario:trackblazer, scenario:unity-cup, scenario:ura-finale have no inheritance turns: event blue gains never apply, so blueStatGain cannot affect any stat
+AXE S07-calibration-production-light: serious/critical=0; all=0
+AXE S07-calibration-production-dark: serious/critical=0; all=0
+  ✓   4 e2e/calibration.spec.ts:179:1 › production (API mode, MOCK HTTP): published placeholder rules give nonidentifiable diagnostics; axe both themes (2.9s)
+AXE fix1-S03-light: none
+  ✓   5 e2e/review-fix1.spec.ts:58:3 › MOCK HTTP S03 keyboard: epithet text body (B1), 409 stale alert after refresh (S1), axe light (1.2s)
+AXE fix1-S03-dark: none
+  ✓   6 e2e/review-fix1.spec.ts:58:3 › MOCK HTTP S03 keyboard: epithet text body (B1), 409 stale alert after refresh (S1), axe dark (1.2s)
+  ✓   7 e2e/review-fix1.spec.ts:93:1 › MOCK HTTP S2: an HTML 200 on an API call shows the auth message, not "Something went wrong" (1.8s)
+  ✓   8 e2e/review-fix1.spec.ts:100:1 › MOCK HTTP S3: mode radios are disabled while the PATCH is pending (keyboard) (689ms)
+LOCAL HTTP roster: If-None-Match sent, 304 retained populated table
+  ✓   9 e2e/review-fix2.spec.ts:35:1 › LOCAL HTTP production roster retains ETag/304 on refetch (496ms)
+LOCAL HTTP cross-302: auth=true targetHits=0
+LOCAL HTTP same-302: auth=true targetHits=0
+  ✓  10 e2e/review-fix2.spec.ts:52:1 › LOCAL HTTP production bundle: actual cross-origin 302 is auth and neither redirect target is followed (2.8s)
+LOCAL HTTP html200: Your session has expired. Reload the page to sign in again.
+LOCAL HTTP html401: Your session has expired. Reload the page to sign in again.
+LOCAL HTTP html403: Your session has expired. Reload the page to sign in again.
+LOCAL HTTP html502: Something went wrong. Retry, or reload the page.
+LOCAL HTTP problem: Something went wrong. Retry, or reload the page.
+LOCAL HTTP malformed: The server sent a response the app could not read. Retry, or reload the page.
+LOCAL HTTP network: Couldn't reach the server. Check your connection and retry.
+  ✓  11 e2e/review-fix2.spec.ts:76:1 › LOCAL HTTP production bundle: HTML 200/401/403 auth; 502/problem generic; malformed JSON distinct; real TypeError network (9.7s)
+LOCAL HTTP Review keydown: posts=2 (one per item), staleAlerts=0
+  ✓  12 e2e/review-fix2.spec.ts:102:3 › LOCAL HTTP production Review: two same-task keydowns send once, next item unlocks, no spurious alert (346ms)
+LOCAL HTTP Review click: posts=2 (one per item), staleAlerts=0
+  ✓  13 e2e/review-fix2.spec.ts:102:3 › LOCAL HTTP production Review: two same-task clicks send once, next item unlocks, no spurious alert (326ms)
+LOCAL HTTP Review 500: error retained; retry successful; posts=2
+LOCAL HTTP Review 404: error retained; retry successful; posts=2
+LOCAL HTTP Review 409: error retained; retry successful; posts=2
+  ✓  14 e2e/review-fix2.spec.ts:128:1 › LOCAL HTTP production Review: 500/404/409 persist, unlock retry, success clears error (593ms)
+LOCAL HTTP Veteran: one PATCH per attempt, rollback + retry passed
+  ✓  15 e2e/review-fix2.spec.ts:150:1 › LOCAL HTTP production Veteran: two same-task clicks send once, 500 rolls back, retry unlocks (284ms)
+E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web/test-results/e2e-assets
+AXE S01-light: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2144 ms (fit+click+render wall 2478 ms)
+AXE S06-light: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2290 ms (fit+click+render wall 2452 ms)
+AXE S03-empty-light: serious/critical=0; all=0
+AXE S01-roster-dark: serious/critical=0; all=0
+AXE S03-review-dark: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2127 ms (fit+click+render wall 2477 ms)
+AXE S06-planner-dark: serious/critical=0; all=0
+REAL BROWSER 260 ranking: 2121 ms (fit+click+render wall 2473 ms)
+REAL BROWSER 260 ranking: 2137 ms (fit+click+render wall 2485 ms)
+  ✓  16 e2e/screens.spec.ts:65:1 › fixture smoke, real Comlink ranking/cancel/recreate, both-theme axe and all seven exports (29.9s)
+AXE S03-populated-light: serious/critical=0; all=0
+  ✓  17 e2e/screens.spec.ts:152:40 › S03 MOCK HTTP keyboard 1/2/3 J/K/D and populated axe light (1.7s)
+AXE S03-populated-dark: serious/critical=0; all=0
+  ✓  18 e2e/screens.spec.ts:152:40 › S03 MOCK HTTP keyboard 1/2/3 J/K/D and populated axe dark (1.7s)
+
+  18 passed (1.6m)
+EXIT=0

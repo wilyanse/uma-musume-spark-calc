@@ -1,0 +1,24 @@
+T15c E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/docs/changelog/assets/T15c/review-r1
+
+Running 2 tests using 1 worker
+
+T15c E2E assets → /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/docs/changelog/assets/T15c/review-r1
+REAL BROWSER calibration (fixture ×1.3 roster): 1349 ms; Selected multiplier ×1.32 (holdout-MAE argmin; stats status suggested).
+AXE S07-apply-dialog-light: serious/critical=0; all=0
+DETERMINISTIC IDS (seed 0x15c): report 01M4CCYJ00XBCD055FYZDBSBT6 override 01M4CCYJ00YZSW5680A1AKJ75D context sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09
+REAL BROWSER apply (candidate fit + commit): 500 ms; context sha256:979cfd2ef13b… → sha256:9db75f3afe72…; local snapshot 01M4CCYJ00E168KWT62ATQMNQM
+AXE S07-applied-light: serious/critical=0; all=0
+AXE S07-applied-dark: serious/critical=0; all=0
+REAL BROWSER ranking under override: top pair 01M1RX152GP86FAQ1WPY0MX60J + 01M379DKQ86T9BGV6696R6DWN2 (base: 01M1RX152GP86FAQ1WPY0MX60J + 01M379DKQ86T9BGV6696R6DWN2)
+AXE S06-override-light: serious/critical=0; all=0
+AXE S06-override-dark: serious/critical=0; all=0
+REAL BROWSER recalibration on the applied context: Selected multiplier ×1.00 (holdout-MAE argmin; stats status suggested).
+AXE S07-reset-dialog-light: serious/critical=0; all=0
+  ✓  1 e2e/apply.spec.ts:112:1 › fixture: real calibrate → confirm → candidate fit → apply → Planner rank; cancel/fault/cross-tab/reload/recalibrate/reset; no overridden snapshot stored (31.1s)
+B1 footer under refused fixture-bound override (API mode): Master data global-20260930 | Model: none yet
+AXE S07-production-light: serious/critical=0; all=0
+AXE S07-production-dark: serious/critical=0; all=0
+  ✓  2 e2e/apply.spec.ts:344:1 › production (API mode, MOCK HTTP): no Apply for placeholder; a fixture-bound stored override is refused; no writes; axe both themes (2.4s)
+
+  2 passed (36.2s)
+EXIT=0

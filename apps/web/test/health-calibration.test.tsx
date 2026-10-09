@@ -37,7 +37,8 @@ beforeAll(() => {
 /** The fake worker's configure must report the same versions the report carries. */
 const ctxValue = (o: CalibrationOutput) => ({
   ok: true,
-  value: { kind: o.context.kind, masterVersion: o.report.masterVersion, rulesVersion: o.report.rulesVersion, unverifiedRules: o.context.unverifiedRules, placeholderRules: o.context.placeholderRules, warnings: [], overrides: o.context.overrides },
+  value: { kind: o.context.kind, masterVersion: o.report.masterVersion, rulesVersion: o.report.rulesVersion, unverifiedRules: o.context.unverifiedRules, placeholderRules: o.context.placeholderRules, warnings: [], overrides: o.context.overrides,
+    fingerprint: o.context.fingerprint, baseFingerprint: o.context.baseFingerprint, baseRulesVersion: o.report.rulesVersion, override: null, overrideRejected: null, effectiveRules: masterBundle().rules },
 });
 interface D<T> { promise: Promise<T>; resolve: (v: T) => void; reject: (e: unknown) => void }
 const deferred = <T,>(): D<T> => {
@@ -79,8 +80,9 @@ describe('S07 calibration: run, states and read-only behaviour', () => {
     expect(within(panel).getByTestId('calib-selection').textContent).toMatch(new RegExp(`×${m.toFixed(2)}`));
     expect(within(panel).getByText(/SYNTHETIC golden fixture context/)).toBeTruthy();
     const apply = within(panel).getByRole('button', { name: 'Apply suggested multipliers' }) as HTMLButtonElement;
-    expect(apply.disabled).toBe(true);
-    expect(within(panel).getByText(/apply-and-refit integration not yet available.*T15c/i)).toBeTruthy();
+    // T15c: a current, suggested report offers the explicit (confirmed, fit-before-commit) Apply.
+    expect(apply.disabled).toBe(false);
+    expect(within(panel).getByText(/Apply \(only for a suggested proposal of a current report\) asks for confirmation/)).toBeTruthy();
     expect(within(panel).getByText(/checks available.*not verified/i)).toBeTruthy();
     // Read-only: no snapshot stored, no fit record, no backend write.
     expect(http.map((c) => c.method).filter((x) => !['roster', 'latestSnapshot', 'health', 'reviewItems'].includes(x))).toEqual([]);

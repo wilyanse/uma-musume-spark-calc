@@ -243,6 +243,11 @@ Assumption taken: (1) identifiability is tested per stat by projecting d onto an
 Coordinator revision after review round 3: the saturated-design fallback above is superseded. Always test the full fitted design. Saturation, any sensitive confounded stat in the all-stat criterion, or any non-identified CV fold suppresses selection, suggestions and complete status. Structural/intercept fallback is not evidence for the fitted model. Identified means numerically non-collinear, not well-determined or sufficiently precise; residuals and conditional uncertainty do not prove game mechanics.
 Blocking: no
 
+## Q-160 (T15c) Browser-local rules overrides: scope, identity and cross-tab serialization
+Context: 62 resolves Q-141/Q-155 for the S07 apply workflow only, without changing 01 §13. A `ModelSnapshot` still cannot say which rules it was fitted with, and there is no shared override/apply endpoint.
+Assumption taken: an applied blueStatGain proposal is a versioned browser-local envelope (`uma:<api|fixture>:rules-override`, absolute proposed table, `verified:false`, source report and base context SHA-256 fingerprint). A model fitted under it lives only in a browser-local envelope bound to the effective-context SHA-256 (canonical JSON of the effective master/rules/kind/synthetic inputs), master version, roster ETag and roster content digest, validated with the authoritative `ModelSnapshot` schema. It is never POSTed or read back from `/model-snapshots`. Base-context fits keep server storage but need FitRecord v2 provenance; older records force a refit. Every durable write (apply, reset, local refit) runs inside an exclusive Web Lock `uma:<mode>:rules-transaction` and rechecks the exact stored string inside it; a browser without Web Locks refuses the change rather than racing localStorage. Overrides do not sync across browsers/devices. A shared persisted rules contract (e.g. a snapshot rules fingerprint) remains future work needing an ADR.
+Blocking: no
+
 ## Resolved
 - R-1: parents can't be the same character as each other or as the trainee. (user, 2026-09-29)
 - R-2: train mode is detected from the epithet: "Independent Learner" means independent, anything else means manual. The user never changes epithets. (user, 2026-09-29)

@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useHealth, useMaster, useReviewItems, qk } from '../app/queries.ts';
 import { useServices } from '../app/services.ts';
 import { readJson, writeJson } from '../lib/storage.ts';
+import { useStoredOverrideRaw } from '../app/rulesSession.ts';
+import { useEngineContext } from '../app/engine.ts';
 
 const NAV = [
   ['roster', 'Roster'],
@@ -42,9 +44,22 @@ function ReviewBadge() {
 }
 
 function ModelFooter() {
-  const { source } = useServices();
-  const q = useQuery({ queryKey: qk.snapshot('latest'), queryFn: () => source.latestSnapshot() });
-  if (!q.isSuccess) return <>Model: —</>;
+  const services = useServices();
+  const { source } = services;
+  // T15c (review r1 B1): "browser-local" only when the WORKER confirmed the override is in force
+  // (`ContextInfo.override`), never from the stored record alone: a record refused for its mode,
+  // master, context kind, validity or by the worker leaves the baseline (server snapshot) in force.
+  // With nothing stored there is no override to confirm, so the worker is not configured for the
+  // footer; otherwise the footer observes the same engine-context query Health/Planner use (one
+  // shared configure per stored string, no extra job).
+  const stored = useStoredOverrideRaw(services) !== null;
+  const ctx = useEngineContext(stored);
+  // Loading or failed context with a stored record: not known, so claim neither model.
+  const pending = stored && !ctx.isSuccess;
+  const local = stored && !!ctx.data?.override;
+  const q = useQuery({ queryKey: qk.snapshot('latest'), queryFn: () => source.latestSnapshot(), enabled: !local && !pending });
+  if (local) return <>Model: browser-local (override)</>;
+  if (pending || !q.isSuccess) return <>Model: —</>;
   if (!q.data) return <>Model: none yet</>;
   return <>Model: {q.data.kind === 'training-v1' ? 'training-v1 (legacy)' : q.data.kind}</>;
 }

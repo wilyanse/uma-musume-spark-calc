@@ -14,6 +14,7 @@ import { memoryStore } from '../src/lib/storage.ts';
 import { HttpError } from '../src/api/errors.ts';
 import { EngineClient, type EngineHandle } from '../src/workers/client.ts';
 import { masterData } from './fixtures.ts';
+import { seededRandom } from '../src/lib/ulid.ts';
 
 export const NOW = new Date('2026-10-04T00:00:00.000Z');
 
@@ -67,11 +68,22 @@ export function mockSource(data: MockData = {}, over: Partial<DataSource> = {}) 
   return { src, calls };
 }
 
+/** T15c: the context identity the FAKE engine's default configure reports (not a real digest of anything). */
+export const HARNESS_FP = `sha256:${'f'.repeat(64)}`;
+/** A full FAKE `ContextInfo` (production, no override) for fake engines. */
+export function fakeContext(over: Record<string, unknown> = {}) {
+  return {
+    kind: 'production', masterVersion: masterData().version, rulesVersion: 'rules-1', unverifiedRules: ['blueStatGain'], placeholderRules: [], warnings: [], overrides: [],
+    fingerprint: HARNESS_FP, baseFingerprint: HARNESS_FP, baseRulesVersion: 'rules-1', override: null, overrideRejected: null, effectiveRules: masterData().bundle.rules,
+    ...over,
+  };
+}
+
 /** FAKE engine: no worker; configure succeeds, fit/rank/calibrate are scripted by the test. */
 export function fakeEngine(remote: Partial<Record<'configure' | 'fit' | 'rank' | 'calibrate', (...a: unknown[]) => Promise<unknown>>> = {}) {
   const handle = (): EngineHandle => ({
     remote: {
-      configure: remote.configure ?? (async () => ({ ok: true, value: { kind: 'production', masterVersion: masterData().version, rulesVersion: 'rules-1', unverifiedRules: ['blueStatGain'], placeholderRules: [], warnings: [], overrides: [] } })),
+      configure: remote.configure ?? (async () => ({ ok: true, value: fakeContext() })),
       fit: remote.fit ?? (async () => ({ ok: false, error: { name: 'Error', message: 'fit not scripted' } })),
       rank: remote.rank ?? (async () => ({ ok: false, error: { name: 'Error', message: 'rank not scripted' } })),
       calibrate: remote.calibrate ?? (async () => ({ ok: false, error: { name: 'Error', message: 'calibrate not scripted' } })),
@@ -89,6 +101,8 @@ export function renderRoute(path: string, source: DataSource, extra: Partial<App
     engine: fakeEngine(),
     store: memoryStore(),
     now: () => NOW,
+    // Deterministic ids (01 §1 ULIDs): the injected id randomness is seeded in every screen test.
+    random: seededRandom(0x15c),
     ...extra,
   };
   const router = createMemoryRouter(routes, { initialEntries: [path] });

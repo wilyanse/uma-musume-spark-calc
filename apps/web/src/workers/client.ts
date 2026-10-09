@@ -12,7 +12,7 @@
 import { proxy, wrap, type Remote } from 'comlink';
 import type { CmTarget, ModelSnapshot, RosterVeteran } from '@uma/schema';
 import type { PlanInput, RankOptions, RankProgress, RankResult } from '@uma/engine';
-import type { CalibrateOpts, CalibrationOutput, ConfigureInput, ContextInfo, EngineApi, EngineResult, FitOutput } from './engine.api.ts';
+import type { CalibrateOpts, CalibrationOutput, ConfigureInput, ContextInfo, EngineApi, EngineResult, FitOutput, SnapshotProvenance } from './engine.api.ts';
 
 export interface EngineHandle {
   remote: Remote<EngineApi>;
@@ -168,6 +168,7 @@ export class EngineClient {
     roster: RosterVeteran[],
     target: CmTarget,
     opts: RankOptions,
+    provenance: SnapshotProvenance,
     onProgress?: (p: RankProgress) => void,
   ): Job<RankResult> {
     return this.run((r) => {
@@ -178,7 +179,7 @@ export class EngineClient {
             if (this.running?.generation === gen) onProgress(p);
           })
         : undefined;
-      return r.rank(snapshot, input, roster, target, opts, cb) as Promise<EngineResult<RankResult>>;
+      return r.rank(snapshot, input, roster, target, opts, provenance, cb) as Promise<EngineResult<RankResult>>;
     });
   }
 

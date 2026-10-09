@@ -119,8 +119,9 @@ test('fixture: real worker calibrates the unchanged ×1.3 roster; cancel/retry/n
   await expect(page.getByTestId('calib-status')).toContainText('complete');
   await expect(page.getByText(/SYNTHETIC golden fixture context/)).toBeVisible();
   await expect(page.getByText(/checks available.*not verified/i)).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Apply suggested multipliers' })).toBeDisabled();
-  await expect(page.getByText(/apply-and-refit integration not yet available \(separate task T15c\)/)).toBeVisible();
+  // T15c: Apply is now offered for a current suggested report (explicit confirmation; e2e/apply.spec.ts).
+  await expect(page.getByRole('button', { name: 'Apply suggested multipliers' })).toBeEnabled();
+  await expect(page.getByText(/asks for confirmation, fits a candidate model first/)).toBeVisible();
   await expect(page.getByText(/No model yet/)).toBeVisible(); // calibration stored no model
   const report = await page.getByTestId('calibration-report').innerText();
   writeFileSync(out('fixture-x1.3-report.txt'), report);
@@ -205,7 +206,7 @@ test('production (API mode, MOCK HTTP): published placeholder rules give noniden
   await expect(page.getByTestId('calib-status')).not.toContainText('complete');
   await expect(page.getByText(/Suggested blueStatGain/)).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Apply suggested multipliers' })).toHaveCount(0);
-  await expect(page.getByText(/apply-and-refit integration not yet available/)).toBeVisible();
+  await expect(page.getByText(/Calibration itself never changes the rules/)).toBeVisible();
   writeFileSync(out('production-placeholder-report.txt'), await page.getByTestId('calibration-report').innerText());
   await page.evaluate(() => { const n = document.createElement('div'); n.className = 'synthetic'; n.textContent = 'TEST MOCK HTTP — SYNTHETIC golden roster under the production context; no live API'; document.querySelector('main')!.prepend(n); });
   await axe(page, 'S07-calibration-production-light');

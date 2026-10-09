@@ -1,7 +1,8 @@
 /**
  * S07 calibration report (T15b, 61 §Report display). Renders the engine-local `CalibrationReport`
  * field by field from its actual shape; never recomputes probabilities. Nulls show "unavailable"
- * (never 0). Read-only: no apply, no override, no refit (T15c owns explicit apply/refit).
+ * (never 0). The report itself is read-only; T15c's explicit Apply is offered only through
+ * `apply` (eligibility decided by the caller, confirmation in a dialog owned by S07).
  */
 import type { ReactNode } from 'react';
 import type { CalibrationReport } from '@uma/engine';
@@ -23,7 +24,13 @@ function Section({ id, title, children, testId }: { id: string; title: string; c
   );
 }
 
-export function CalibrationReportView({ value, stale, onDismiss }: { value: SessionCalibration; stale: string[]; onDismiss: () => void }) {
+export interface ApplyControl {
+  /** Null when Apply may be offered; otherwise the reason it is disabled. */
+  disabledReason: string | null;
+  onApply: () => void;
+}
+
+export function CalibrationReportView({ value, stale, onDismiss, apply }: { value: SessionCalibration; stale: string[]; onDismiss: () => void; apply?: ApplyControl }) {
   const { report: r, context: c } = value.output;
   const sel = selectionView(r.stats);
   const st = r.stats;
@@ -68,10 +75,13 @@ export function CalibrationReportView({ value, stale, onDismiss }: { value: Sess
 
       <Section id="calib-stats-t" title="Stats: blueStatGain multiplier">
         <div data-testid="calib-selection">
-          {sel.made ? (
+          {sel.made && st.status === 'boundary' ? (
             <p>
-              Selected multiplier <b className="num">×{fmtNum(st.selected!.multiplier, 2)}</b> (holdout-MAE argmin; stats status <span className="mono">{st.status}</span>
-              {st.selected!.atBoundary && ', at the grid boundary'}).
+              Boundary minimum <b className="num">×{fmtNum(st.selected!.multiplier, 2)}</b> (not a suggestion; widen the grid). Stats status <span className="mono">{st.status}</span>.
+            </p>
+          ) : sel.made ? (
+            <p>
+              Selected multiplier <b className="num">×{fmtNum(st.selected!.multiplier, 2)}</b> (holdout-MAE argmin; stats status <span className="mono">{st.status}</span>).
             </p>
           ) : (
             <>
@@ -168,6 +178,7 @@ export function CalibrationReportView({ value, stale, onDismiss }: { value: Sess
         </p>
         <p data-testid="apt-conditional">
           Conditional log-likelihood (possible cells only; not the full fit): {fmtNum(apt.conditionalLogLik, 2)} over {apt.possibleCells} possible cells (mean {fmtNum(apt.conditionalMeanLogLik, 3)})
+          {apt.status === 'uninformative' && ' (uninformative: every cell is degenerate)'}
         </p>
         <p data-testid="apt-impossible">
           Impossible observations: {apt.impossible} (below base {apt.belowBase} · above max {apt.aboveMax} · unreachable {apt.unreachable}); degenerate cells {apt.degenerateCells}, uncertain cells {apt.uncertainCells}
@@ -194,17 +205,18 @@ export function CalibrationReportView({ value, stale, onDismiss }: { value: Sess
       <Section id="calib-sug-t" title="Suggested values (unverified proposals)" testId="calib-suggestions">
         {suggestion ? (
           <p>
-            Suggested blueStatGain ×{fmtNum(suggestion.multiplier, 2)}: {triple(suggestion.current)} → {triple(suggestion.proposed)} (1★/2★/3★); not applied; consistent with current: {yesNo(suggestion.consistentWithCurrent)}. Engine note: “{suggestion.note}”
+            Suggested blueStatGain ×{fmtNum(suggestion.multiplier, 2)}: {triple(suggestion.current)} → {triple(suggestion.proposed)} (1★/2★/3★); not applied by this report; consistent with current: {yesNo(suggestion.consistentWithCurrent)}. Engine note: “{suggestion.note}”
           </p>
         ) : (
           <p>No suggestion: nothing to propose from this report.</p>
         )}
         <p id="calib-apply-why" className="hint">
-          Rule override/apply-and-refit integration not yet available (separate task T15c). Calibration never changes the rules, the engine context, the model or anything stored.
+          Calibration itself never changes the rules, the engine context, the model or anything stored. Apply (only for a suggested proposal of a current report) asks for confirmation, fits a candidate model first, and keeps the result in THIS browser only.
+          {suggestion && apply?.disabledReason && <> Apply is unavailable: {apply.disabledReason}.</>}
         </p>
         <div className="row">
           {suggestion && (
-            <button type="button" className="btn primary" disabled aria-describedby="calib-apply-why">
+            <button type="button" className="btn primary" disabled={!apply || apply.disabledReason !== null} aria-describedby="calib-apply-why" onClick={apply?.onApply}>
               Apply suggested multipliers
             </button>
           )}

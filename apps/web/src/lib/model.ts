@@ -5,6 +5,12 @@
  * that snapshot was fitted, or this browser has no record of what it was fitted on (the snapshot
  * carries no roster ETag or rules version, Q-141, so an unknown provenance is treated as stale).
  * A legacy `training-v1` snapshot is never reused or relabelled: it is reported and a v2 fit runs.
+ *
+ * T15c: the record (v2) also binds the snapshot to the EFFECTIVE context identity (SHA-256 of the
+ * exact rules/master/synthetic inputs) and the roster content digest. A pre-T15c record has no
+ * identity, so it reads as unknown provenance and forces a refit (never guessed from rules.version).
+ * This record is only ever written for base-context fits stored through the API; models fitted
+ * under a browser-local override live in their own local envelope (lib/rulesOverride.ts).
  */
 import type { ModelSnapshot } from '@uma/schema';
 import { STAT_KEYS } from './keys.ts';
@@ -23,21 +29,30 @@ export function isReadableSnapshot(v: unknown): v is ModelSnapshot {
 }
 
 export interface FitRecord {
+  v: 2;
   snapshotId: string;
   rosterEtag: string | null;
+  /** Roster content digest (lib/calibration.ts `rosterIdentity`). */
+  rosterIdentity: string;
   masterVersion: string;
   /** Engine context the fit used ('production' or the fixture-only 'golden-fixture'). */
   context: string;
+  /** Effective context identity the worker reported for this fit. */
+  contextFingerprint: string;
 }
 
 const isRecord = (v: unknown): v is FitRecord => {
   if (!v || typeof v !== 'object') return false;
   const r = v as Record<string, unknown>;
   return (
+    r.v === 2 &&
     typeof r.snapshotId === 'string' &&
     (r.rosterEtag === null || typeof r.rosterEtag === 'string') &&
+    typeof r.rosterIdentity === 'string' &&
     typeof r.masterVersion === 'string' &&
-    typeof r.context === 'string'
+    typeof r.context === 'string' &&
+    typeof r.contextFingerprint === 'string' &&
+    /^sha256:[0-9a-f]{64}$/.test(r.contextFingerprint)
   );
 };
 
@@ -62,8 +77,8 @@ export const FIT_REASON_TEXT: Record<FitReason, string> = {
   'legacy-only': 'only a legacy training-v1 snapshot exists (pre-ADR-0002, refit required)',
   'roster-changed': 'the roster changed since the last fit',
   'master-changed': 'master data changed since the last fit',
-  'context-changed': 'the engine context changed since the last fit',
-  'unknown-provenance': "this browser doesn't know which roster the stored snapshot was fitted on",
+  'context-changed': 'the rules context changed since the last fit',
+  'unknown-provenance': "this browser can't prove which roster and rules context the stored snapshot was fitted on",
   corrupt: 'the stored snapshot is corrupt',
   requested: 'you asked for a refit',
 };
@@ -77,8 +92,10 @@ export function decideModel(input: {
   /** Latest snapshot of any kind (to notice a legacy one). */
   anyLatest: ModelSnapshot | null;
   rosterEtag: string | null;
+  rosterIdentity: string;
   masterVersion: string;
   context: string;
+  contextFingerprint: string;
   record: FitRecord | null;
 }): ModelDecision {
   const legacy = input.anyLatest?.kind === 'training-v1' ? input.anyLatest : null;
@@ -87,8 +104,8 @@ export function decideModel(input: {
   if (s.masterVersion !== input.masterVersion) return { action: 'fit', reason: 'master-changed', legacy };
   const r = input.record;
   if (!r || r.snapshotId !== s.id) return { action: 'fit', reason: 'unknown-provenance', legacy };
-  if (r.context !== input.context) return { action: 'fit', reason: 'context-changed', legacy };
+  if (r.context !== input.context || r.contextFingerprint !== input.contextFingerprint) return { action: 'fit', reason: 'context-changed', legacy };
   if (r.masterVersion !== input.masterVersion) return { action: 'fit', reason: 'master-changed', legacy };
-  if (r.rosterEtag !== input.rosterEtag) return { action: 'fit', reason: 'roster-changed', legacy };
+  if (r.rosterEtag !== input.rosterEtag || r.rosterIdentity !== input.rosterIdentity) return { action: 'fit', reason: 'roster-changed', legacy };
   return { action: 'use', snapshot: s };
 }
