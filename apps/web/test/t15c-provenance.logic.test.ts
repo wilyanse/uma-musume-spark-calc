@@ -27,6 +27,8 @@ import { decideModel, loadFitRecord, saveFitRecord, type FitRecord } from '../sr
 import { rosterIdentity } from '../src/lib/calibration.ts';
 import { memoryStore, type KeyValueStore } from '../src/lib/storage.ts';
 import { goldenRoster } from './fixtures.ts';
+import { createEngineApi } from '../src/workers/engine.api.ts';
+import { masterBundle } from './fixtures.ts';
 
 const FP = (c: string) => `sha256:${c.repeat(64)}`;
 const active = (over: Partial<ActiveOverride> = {}): ActiveOverride => ({
@@ -136,7 +138,11 @@ describe('browser-local override state (versioned, mode-namespaced, validated)',
 });
 
 describe('local overridden-model envelope', () => {
-  const snapshot = { id: '01KGQZ0000G01DENCM00T15CS1', kind: 'training-v2', masterVersion: 'm1', trainedAt: '2026-10-08T00:00:00.000Z', nSamples: 10, params: {} } as unknown as ModelSnapshot;
+  const api = createEngineApi();
+  api.configure({ bundle: masterBundle(), kind: 'production' });
+  const fitted = api.fit(goldenRoster(), { nowIso: '2026-10-08T00:00:00.000Z', id: '01KGQZ0000G01DENCM00T15CS1' });
+  if (!fitted.ok) throw Error(fitted.error.message);
+  const snapshot: ModelSnapshot = { ...fitted.value.snapshot, masterVersion: 'm1' };
   const env = (over: Partial<LocalModelEnvelope> = {}): LocalModelEnvelope => ({
     schema: LOCAL_MODEL_SCHEMA, v: 1, mode: 'fixture', overrideId: active().id, contextFingerprint: FP('b'), baseFingerprint: FP('a'),
     masterVersion: 'm1', rosterEtag: '"e1"', rosterIdentity: 'r', snapshot, savedAt: '2026-10-08T00:00:00.000Z', ...over,
@@ -164,6 +170,11 @@ describe('local overridden-model envelope', () => {
     expect(parseLocalModel(JSON.stringify({ ...env(), v: 2 }), 'fixture')).toMatchObject({ status: 'invalid' });
     expect(parseLocalModel(JSON.stringify(env({ snapshot: { ...snapshot, kind: 'training-v1' } })), 'fixture')).toMatchObject({ status: 'invalid', reason: expect.stringMatching(/training-v2/) });
     expect(parseLocalModel(JSON.stringify(env({ contextFingerprint: 'deadbeef' })), 'fixture')).toMatchObject({ status: 'invalid' });
+  });
+  it('validates the FULL authoritative ModelSnapshot schema before local reuse', () => {
+    const malformed = { ...snapshot, params: { ...snapshot.params, residualCov: [[1]] } };
+    expect(parseLocalModel(JSON.stringify(env({ snapshot: malformed })), 'fixture')).toMatchObject({ status: 'invalid' });
+    expect(saveLocalModel(memoryStore(), 'fixture', env({ snapshot: malformed })).ok).toBe(false);
   });
   it('a failed model write is reported, not claimed', () => {
     const throwing: KeyValueStore = { ...memoryStore(), setItem: () => { throw new Error('quota'); } };

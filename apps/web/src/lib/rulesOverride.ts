@@ -9,6 +9,7 @@
  * revision written by another tab is never overwritten silently, and every write is read back so a
  * dropped or throwing write never claims durability.
  */
+import { ModelSnapshot as SnapshotSchema } from '@uma/schema';
 import type { ModelSnapshot } from '@uma/schema';
 import type { ContextKind } from '../workers/engine.api.ts';
 import type { KeyValueStore } from './storage.ts';
@@ -209,7 +210,9 @@ export function parseLocalModel(raw: string | null, mode: DataMode): LocalModelR
   if (!isObj(s) || s.kind !== 'training-v2' || !str(s.id) || s.masterVersion !== v.masterVersion || !isObj(s.params)) {
     return { status: 'invalid', reason: 'local model snapshot is not a training-v2 snapshot for its master version' };
   }
-  return { status: 'ok', env: v as unknown as LocalModelEnvelope };
+  const parsed = SnapshotSchema.safeParse(s);
+  if (!parsed.success) return { status: 'invalid', reason: `local model violates ModelSnapshot schema: ${parsed.error.message}` };
+  return { status: 'ok', env: { ...v, snapshot: parsed.data } as unknown as LocalModelEnvelope };
 }
 
 export function readLocalModel(store: KeyValueStore, mode: DataMode): LocalModelRead {
@@ -242,6 +245,8 @@ export function localModelMismatch(env: LocalModelEnvelope, want: LocalModelExpe
 export function saveLocalModel(store: KeyValueStore, mode: DataMode, env: LocalModelEnvelope): { ok: true } | { ok: false; reason: string } {
   const key = localModelKey(mode);
   const raw = JSON.stringify(env);
+  const checked = parseLocalModel(raw, mode);
+  if (checked.status !== 'ok') return { ok: false, reason: checked.status === 'invalid' ? checked.reason : 'missing model' };
   try {
     store.setItem(key, raw);
     if (store.getItem(key) !== raw) return { ok: false, reason: 'the write did not persist (storage read-back differs)' };

@@ -160,7 +160,8 @@ export function HealthScreen() {
     const id = ++runRef.current;
     const owned: OwnedJob = { kind: 'refit', id, cancel: null };
     jobRef.current = owned;
-    const live = () => runRef.current === id;
+    const key = currentKey;
+    const live = () => runRef.current === id && provRef.current !== null && provenanceKey(provRef.current) === key;
     setRefit({ state: 'running' });
     try {
       await refitBody(live, owned);
@@ -299,7 +300,7 @@ export function HealthScreen() {
     setRulesNote(null);
     setReset({ state: 'confirm', storedRaw: c.storedRaw, clearOnly });
   };
-  const confirmReset = () => {
+  const confirmReset = async () => {
     if (reset.state !== 'confirm') return;
     const c = ctxRef.current;
     // Reset cancels only the work this screen owns.
@@ -312,7 +313,7 @@ export function HealthScreen() {
       if (j.kind === 'calibrate') setCal({ state: 'cancelled' });
       if (j.kind === 'apply') setApply({ state: 'idle' });
     }
-    const r = resetOverride(services, qc, reset.storedRaw);
+    const r = await resetOverride(services, qc, reset.storedRaw);
     setReset({ state: 'idle' });
     if (r.status !== 'reset') return setRulesNote({ kind: r.status === 'refused' ? 'warn' : 'err', message: r.message });
     setApply({ state: 'idle' });

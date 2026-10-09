@@ -267,6 +267,19 @@ describe('S07 reset and stored-state problems', () => {
     await waitFor(() => expect(a.configures.at(-1)).toBeNull());
     expect(await screen.findByTestId('override-none')).toBeTruthy();
   });
+  it('failed reset storage cleanup retains the previous rules and local model', async () => {
+    const underlying = await appliedStore();
+    const previous = underlying.getItem(overrideKey('fixture'));
+    const model = underlying.getItem(localModelKey('fixture'));
+    const store = { ...underlying, removeItem: (key: string) => { if (key === localModelKey('fixture')) throw Error('INJECTED reset cleanup fault'); underlying.removeItem(key); } };
+    renderRoute('/health', fixtureSource().src, { loadGolden, store, engine: activeEngine().engine });
+    await screen.findByTestId('override-active');
+    await userEvent.click(screen.getByRole('button', { name: 'Reset to fixture base rules' }));
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Reset' }));
+    expect((await screen.findByTestId('rules-note')).textContent).toMatch(/Reset could not clear/);
+    expect(underlying.getItem(overrideKey('fixture'))).toBe(previous);
+    expect(underlying.getItem(localModelKey('fixture'))).toBe(model);
+  });
   it('a reset confirmation is cancelled when another tab changes the override first', async () => {
     const store = await appliedStore();
     renderRoute('/health', fixtureSource().src, { loadGolden, store, engine: activeEngine().engine });

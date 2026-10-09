@@ -107,6 +107,8 @@ export function PlannerScreen() {
   const lowData = all && settings.scenarioId ? all.filter((v) => v.scenarioId === settings.scenarioId && v.trainMode === settings.trainMode).length : null;
   const rosterId = useMemo(() => (all ? rosterIdentity(all) : null), [all]);
   const signature = JSON.stringify([settings, deck, target, roster.data?.etag ?? null, rosterId, m?.version, ctxQ.data?.kind, ctxQ.data?.fingerprint]);
+  const signatureRef = useRef(signature);
+  signatureRef.current = signature;
   const busy = phase.kind === 'model' || phase.kind === 'ranking';
 
   const applyGoldenPlan = () => {
@@ -119,13 +121,21 @@ export function PlannerScreen() {
     saveDeck(store, source.kind, d);
   };
 
+  useEffect(() => {
+    if (!ownedRef.current) return;
+    runRef.current++;
+    ownedRef.current();
+    ownedRef.current = null;
+    setPhase({ kind: 'cancelled' });
+  }, [signature]);
+
   const run = async (opts: { force?: FitReason } = {}) => {
     if (!m || !all || !target || !isComplete(deck) || !ctxQ.data || !rosterId) return;
     const ctx = ctxQ.data;
     const drop = dropIssues ?? [];
     const runTarget = drop.length ? withoutSkills(target, drop) : target;
     const myRun = ++runRef.current;
-    const live = () => runRef.current === myRun;
+    const live = () => runRef.current === myRun && signatureRef.current === signature;
     setNotices([]);
     setOpen(null);
     setPhase({ kind: 'model', reason: null, cancel: null });

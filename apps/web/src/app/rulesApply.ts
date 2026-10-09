@@ -36,6 +36,7 @@ import {
   type LocalModelEnvelope,
 } from '../lib/rulesOverride.ts';
 import { ulid } from '../lib/ulid.ts';
+import { withRulesLock } from './rulesLock.ts';
 import type { FitOutput } from '../workers/engine.api.ts';
 import type { MasterData } from '../master/load.ts';
 import type { FixtureGolden } from './services.ts';
@@ -144,7 +145,9 @@ export async function applyProposal(services: AppServices, qc: QueryClient, a: A
     if (!out.result.ok) return { status: 'failed', message: `The candidate fit failed: ${out.result.error.message}. Nothing was applied.` };
     const fit: FitOutput = out.result.value;
     if (fit.contextFingerprint !== cfg.value.fingerprint || !fit.overridden) return { status: 'failed', message: 'The candidate fit did not run under the candidate context. Nothing was applied.' };
-    return commit(services, qc, a, override, fit, cfg.value.fingerprint);
+    return await withRulesLock(services.store, services.source.kind, () => commit(services, qc, a, override, fit, cfg.value.fingerprint));
+  } catch (e) {
+    return { status: 'failed', message: `Apply failed: ${e instanceof Error ? e.message : String(e)}. No successful application is claimed; review the active rules shown above.` };
   } finally {
     candidate.dispose();
   }
@@ -205,18 +208,44 @@ export type ResetOutcome = { status: 'reset'; note: string | null } | { status: 
  * fixture mode), bound to the exact stored override string the user confirmed. Clears only this
  * mode's override and local overridden model; never touches the server or master data.
  */
-export function resetOverride(services: AppServices, qc: QueryClient, expectedRaw: string | null): ResetOutcome {
+export async function resetOverride(services: AppServices, qc: QueryClient, expectedRaw: string | null): Promise<ResetOutcome> {
+  try {
+    return await withRulesLock(services.store, services.source.kind, () => resetLocked(services, qc, expectedRaw));
+  } catch (e) {
+    return { status: 'failed', message: `Reset failed: ${e instanceof Error ? e.message : String(e)}. The previous rules remain active.` };
+  }
+}
+
+function resetLocked(services: AppServices, qc: QueryClient, expectedRaw: string | null): ResetOutcome {
   const { store, source } = services;
   if (storedOverrideRaw(services) !== expectedRaw) return { status: 'refused', message: 'The rules override changed in another tab since you confirmed. Nothing was reset; review the current state and try again.' };
+  const modelKey = localModelKey(source.kind);
+  const provenanceKey = `uma:${source.kind}:model-fit`;
+  let oldModel: string | null;
+  let oldProvenance: string | null;
+  try { oldModel = store.getItem(modelKey); oldProvenance = store.getItem(provenanceKey); }
+  catch (e) { return { status: 'failed', message: `Reset failed reading storage: ${String(e)}. The previous rules remain active.` }; }
+  // Remove stale provenance BEFORE activation. A failed reset must retain the previous rules.
+  const modelRemoved = restoreRaw(store, modelKey, null);
+  const provenanceRemoved = restoreRaw(store, provenanceKey, null);
+  if (!modelRemoved || !provenanceRemoved) {
+    const restoredModel = restoreRaw(store, modelKey, oldModel);
+    const restoredProvenance = restoreRaw(store, provenanceKey, oldProvenance);
+    void qc.invalidateQueries({ queryKey: ['local-model'] });
+    return { status: 'failed', message: `Reset could not clear local model/provenance. The previous rules remain active.${restoredModel && restoredProvenance ? '' : ' Storage rollback was incomplete; the model may need refitting.'}` };
+  }
   const w = writeOverrideState(store, source.kind, expectedRaw, null);
   if (!w.ok) {
+    const restoredOverride = restoreRaw(store, overrideKey(source.kind), expectedRaw);
+    const restoredModel = restoreRaw(store, modelKey, oldModel);
+    const restoredProvenance = restoreRaw(store, provenanceKey, oldProvenance);
+    void qc.invalidateQueries({ queryKey: ['local-model'] });
     notifyRulesChanged(store);
-    return { status: 'failed', message: `Reset failed: ${w.reason}. The override may still be active; the stored state is shown as it is.` };
+    return { status: 'failed', message: `Reset failed: ${w.reason}.${restoredOverride && restoredModel && restoredProvenance ? ' The previous rules and model remain active.' : ' Storage rollback was incomplete; the actual stored rules are shown above and refitting may be required.'}` };
   }
-  const modelRemoved = restoreRaw(store, localModelKey(source.kind), null);
   qc.removeQueries({ queryKey: FIT_SUMMARY_KEY });
   void qc.invalidateQueries({ queryKey: ['local-model'] });
   void qc.invalidateQueries({ queryKey: ['model-snapshot'] });
   notifyRulesChanged(store);
-  return { status: 'reset', note: modelRemoved ? null : 'The old browser-local model could not be removed; it is bound to the reset override and will never be used.' };
+  return { status: 'reset', note: modelRemoved && provenanceRemoved ? null : 'Old local model/provenance could not be removed completely. Review storage before reuse; no server snapshot was deleted.' };
 }

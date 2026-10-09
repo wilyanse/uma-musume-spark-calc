@@ -21,6 +21,9 @@ import type { ContextInfo, EngineErrorInfo, FitOutput, SnapshotProvenance } from
 import type { MasterData } from '../master/load.ts';
 import { decideModel, loadFitRecord, saveFitRecord, type FitReason } from '../lib/model.ts';
 import { errorText } from '../api/errors.ts';
+import { withRulesLock } from './rulesLock.ts';
+import { digestOf } from '../lib/digest.ts';
+import { useMemo } from 'react';
 import {
   checkOverrideFor,
   localModelMismatch,
@@ -58,8 +61,9 @@ export function useEngineContext() {
   const master = useMaster();
   const kind = contextKindFor(services);
   const raw = useStoredOverrideRaw(services);
+  const masterIdentity = useMemo(() => master.data ? digestOf(master.data.bundle) : null, [master.data]);
   return useQuery<EngineContextState>({
-    queryKey: ['engine-context', master.data?.version, kind, raw],
+    queryKey: ['engine-context', master.data?.version, masterIdentity, kind, raw],
     enabled: !!master.data,
     staleTime: Infinity,
     // The worker holds ONE context: an inactive key must never be served from cache later (e.g. a
@@ -180,7 +184,16 @@ export async function ensureModel(
     const fitted: SessionFit = { output: out, reason, at: now().toISOString() };
     qc.setQueryData(FIT_SUMMARY_KEY, fitted);
     const env: LocalModelEnvelope = { schema: 'uma-browser-local-model', v: 1, mode, ...want, snapshot: out.snapshot, savedAt: now().toISOString() };
-    const saved = saveLocalModel(store, mode, env);
+    let saved: { ok: true } | { ok: false; reason: string };
+    try {
+      saved = await withRulesLock(store, mode, () => {
+        if (!live() || !fresh()) return { ok: false as const, reason: STALE_RULES_MESSAGE };
+        return saveLocalModel(store, mode, env);
+      });
+    } catch (e) {
+      saved = { ok: false, reason: errorText(e) };
+    }
+    if (!live() || !fresh()) return { status: 'cancelled' };
     void qc.invalidateQueries({ queryKey: ['local-model'] });
     return {
       status: 'ready',
