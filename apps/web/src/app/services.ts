@@ -29,6 +29,11 @@ export interface AppServices {
   store: KeyValueStore;
   now: () => Date;
   /**
+   * Uniform [0,1) source for client-generated ULIDs (calibration report and browser-local override
+   * ids). Production: `Math.random`; tests and fixture e2e inject a seeded generator.
+   */
+  random: () => number;
+  /**
    * T15c: creates an ISOLATED engine client for a candidate (apply) fit, so the active worker and
    * its context are untouched until the candidate commits. Disposed after every apply attempt.
    */

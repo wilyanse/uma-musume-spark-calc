@@ -12,7 +12,8 @@ import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { RosterVeteran } from '@uma/schema';
 import { createEngineApi, type CalibrationOutput, type ContextInfo, type EngineResult, type FitOutput, type WorkerOverride } from '../src/workers/engine.api.ts';
-import { fakeEngine, mockSource, NOW, renderRoute } from './harness.tsx';
+import { fakeContext, fakeEngine, mockSource, NOW, renderRoute } from './harness.tsx';
+import { seededRandom, ulid } from '../src/lib/ulid.ts';
 import { calibrationRoster, goldenRoster, goldenTargets, goldenTruth, masterBundle, masterData } from './fixtures.ts';
 import { memoryStore, type KeyValueStore } from '../src/lib/storage.ts';
 import { localModelKey, overrideKey, readLocalModel, readOverride, writeOverrideState, type ActiveOverride } from '../src/lib/rulesOverride.ts';
@@ -390,5 +391,216 @@ describe('carried T15b findings', () => {
     a.unmount();
     expect(engine.busy).toBe(other.generation);
     other.cancel();
+  });
+});
+
+/*
+ * T15c review round 1 (docs/reviews/T15c-review-1.md): B1 footer truth, B2 reset guard, S1
+ * injected ids, N1 recoverable revision, N3 source text after reapply. Written before the fixes.
+ */
+describe('review r1 B1: the footer reports the WORKER-CONFIRMED context, never an unvalidated stored record', () => {
+  const footer = () => document.querySelector('.rail .foot')!.textContent ?? '';
+  const prodActive = (over: { masterVersion?: string; mode?: string; contextKind?: string } = {}) => JSON.stringify({ schema: 'uma-browser-rules-override', v: 1, mode: over.mode ?? 'api', revision: 4, active: {
+    id: '01KGQZ0000G01DENCM00T15CR1', appliedAt: NOW.toISOString(), rule: 'blueStatGain', proposed: [13, 26, 39], verified: false, source: 'TEST record',
+    sourceReport: { id: '01KGQZ0000G01DENCM00T15CR2', generatedAt: NOW.toISOString(), multiplier: 1.3, contextFingerprint: `sha256:${'f'.repeat(64)}`, current: [10, 20, 30], rosterEtag: null, rosterIdentity: 'x' },
+    base: { contextKind: over.contextKind ?? 'production', masterVersion: over.masterVersion ?? masterData().version, rulesVersion: 'rules-1', fingerprint: `sha256:${'f'.repeat(64)}` } } });
+  function prodEngine(info: (o: WorkerOverride | null) => ContextInfo = () => fakeContext() as ContextInfo) {
+    const configures: (WorkerOverride | null)[] = [];
+    const engine = fakeEngine({ configure: async (i) => { const o = (i as { override?: WorkerOverride | null }).override ?? null; configures.push(o); return { ok: true, value: info(o) }; } });
+    return { engine, configures };
+  }
+  it('an override refused for a wrong master (API mode) is labelled baseline and the server snapshot is queried and shown', async () => {
+    const store = memoryStore();
+    store.setItem(overrideKey('api'), prodActive({ masterVersion: 'OLD-MASTER' }));
+    const e = prodEngine();
+    const m = mockSource({ roster: goldenRoster(), snapshot: null });
+    renderRoute('/health', m.src, { store, engine: e.engine });
+    expect((await screen.findByTestId('override-problem')).textContent).toMatch(/applied with master OLD-MASTER/);
+    expect(e.configures).toEqual([null]);
+    await waitFor(() => expect(footer()).toMatch(/Model: none yet/));
+    expect(footer()).not.toMatch(/browser-local/);
+    expect(m.calls.some((c) => c.method === 'latestSnapshot')).toBe(true);
+  });
+  it('an override the WORKER rejected (base context differs) is labelled baseline, not browser-local', async () => {
+    const store = memoryStore();
+    const s = report.report.suggestions[0]!;
+    expect(writeOverrideState(store, 'fixture', null, {
+      id: '01KGQZ0000G01DENCM00T15CR3', appliedAt: NOW.toISOString(), rule: 'blueStatGain', proposed: [...s.proposed], verified: false, source: 'TEST',
+      sourceReport: { id: report.report.id, generatedAt: report.report.generatedAt, multiplier: s.multiplier, contextFingerprint: base.fingerprint, current: [...s.current], rosterEtag: '"e1"', rosterIdentity: 'x' },
+      base: { contextKind: 'golden-fixture', masterVersion: masterData().version, rulesVersion: base.rulesVersion, fingerprint: `sha256:${'a'.repeat(64)}` },
+    }).ok).toBe(true);
+    const a = activeEngine();
+    const src = fixtureSource();
+    renderRoute('/health', src.src, { loadGolden, store, engine: a.engine });
+    expect((await screen.findByTestId('override-problem')).textContent).toMatch(/different base context/);
+    await waitFor(() => expect(footer()).toMatch(/Model: none yet/));
+    expect(footer()).not.toMatch(/browser-local/);
+    expect(src.calls.some((c) => c.method === 'latestSnapshot')).toBe(true);
+  });
+  it.each([
+    ['corrupt JSON', '{not json'],
+    ['another data mode', prodActive({ mode: 'fixture' })],
+    ['another context kind', prodActive({ contextKind: 'golden-fixture' })],
+  ])('a stored record for %s is labelled baseline with the snapshot shown', async (_n, raw) => {
+    const store = memoryStore();
+    store.setItem(overrideKey('api'), raw);
+    const e = prodEngine();
+    const m = mockSource({ roster: goldenRoster(), snapshot: null });
+    renderRoute('/health', m.src, { store, engine: e.engine });
+    await screen.findByTestId('override-problem');
+    await waitFor(() => expect(footer()).toMatch(/Model: none yet/));
+    expect(m.calls.some((c) => c.method === 'latestSnapshot')).toBe(true);
+  });
+  it('on a route without an engine screen: no stored override → no worker configure; a valid one → ONE shared configure, confirmed browser-local', async () => {
+    const none = prodEngine();
+    const m1 = mockSource({ roster: goldenRoster(), snapshot: null });
+    const r1 = renderRoute('/roster', m1.src, { engine: none.engine });
+    await waitFor(() => expect(footer()).toMatch(/Model: none yet/));
+    expect(none.configures).toEqual([]);
+    r1.unmount();
+    const store = memoryStore();
+    store.setItem(overrideKey('api'), prodActive());
+    const e = prodEngine((o) => fakeContext(o ? { override: { id: o.id, rule: 'blueStatGain', proposed: o.proposed, sourceReportId: o.sourceReportId, multiplier: o.multiplier }, fingerprint: `sha256:${'b'.repeat(64)}` } : {}) as ContextInfo);
+    const m2 = mockSource({ roster: goldenRoster(), snapshot: null });
+    const r2 = renderRoute('/roster', m2.src, { store, engine: e.engine });
+    await waitFor(() => expect(footer()).toMatch(/Model: browser-local \(override\)/));
+    expect(e.configures.map((o) => o?.id)).toEqual(['01KGQZ0000G01DENCM00T15CR1']);
+    // Navigating to Health shares the SAME context query: no second configure.
+    await act(async () => { await r2.router.navigate('/health'); });
+    await screen.findByTestId('override-active');
+    expect(e.configures.length).toBe(1);
+    expect(m2.calls.some((c) => c.method === 'latestSnapshot')).toBe(false);
+  });
+});
+
+describe('review r1 B2: reset confirmation is guarded synchronously and released in finally', () => {
+  async function appliedFixtureStore() {
+    const store = memoryStore();
+    const s = report.report.suggestions[0]!;
+    expect(writeOverrideState(store, 'fixture', null, {
+      id: '01KGQZ0000G01DENCM00T15CR4', appliedAt: NOW.toISOString(), rule: 'blueStatGain', proposed: [...s.proposed], verified: false, source: 'TEST',
+      sourceReport: { id: report.report.id, generatedAt: report.report.generatedAt, multiplier: s.multiplier, contextFingerprint: base.fingerprint, current: [...s.current], rosterEtag: '"e1"', rosterIdentity: rosterIdentity(roster) },
+      base: { contextKind: 'golden-fixture', masterVersion: masterData().version, rulesVersion: base.rulesVersion, fingerprint: base.baseFingerprint },
+    }).ok).toBe(true);
+    return store;
+  }
+  const resetBtn = () => within(screen.getByRole('dialog')).getByRole('button', { name: 'Reset' });
+  it('a same-tick double click on Reset resets ONCE and reports success (no "nothing was reset" overwrite)', async () => {
+    const store = await appliedFixtureStore();
+    renderRoute('/health', fixtureSource().src, { loadGolden, store, engine: activeEngine().engine });
+    await screen.findByTestId('override-active');
+    await userEvent.click(screen.getByRole('button', { name: 'Reset to fixture base rules' }));
+    const btn = resetBtn();
+    await act(async () => { btn.click(); btn.click(); });
+    await new Promise((r) => setTimeout(r, 20));
+    expect((await screen.findByTestId('rules-note')).textContent).toMatch(/^Reset done\./);
+    expect(screen.getByTestId('rules-note').textContent).not.toMatch(/Nothing was reset/);
+    expect(readOverride(store, 'fixture')).toMatchObject({ status: 'none', revision: 2 });
+  });
+  it('the guard holds across the awaited cross-tab lock (deferred), then releases: failure, then a retry succeeds', async () => {
+    const store = await appliedFixtureStore();
+    let failOnce = true;
+    const faulty: KeyValueStore = { ...store, getItem: (k) => store.getItem(k), setItem: (k, v) => store.setItem(k, v), removeItem: (k) => { if (failOnce && k === localModelKey('fixture')) { failOnce = false; throw new Error('INJECTED one-shot cleanup fault'); } store.removeItem(k); } };
+    store.setItem(localModelKey('fixture'), '{"placeholder":1}');
+    const pending: (() => void)[] = [];
+    let requests = 0;
+    const locks = { request: (_n: string, _o: unknown, action: () => unknown) => { requests++; return new Promise((res) => pending.push(() => res(action()))); } };
+    const had = Object.getOwnPropertyDescriptor(navigator, 'locks');
+    Object.defineProperty(navigator, 'locks', { configurable: true, value: locks });
+    try {
+      renderRoute('/health', fixtureSource().src, { loadGolden, store: faulty, engine: activeEngine().engine });
+      await screen.findByTestId('override-active');
+      await userEvent.click(screen.getByRole('button', { name: 'Reset to fixture base rules' }));
+      const btn = resetBtn();
+      await act(async () => { btn.click(); });
+      await act(async () => { btn.click(); }); // a later click while the first waits for the lock
+      expect(requests).toBe(1);
+      await act(async () => { pending.shift()!(); });
+      expect((await screen.findByTestId('rules-note')).textContent).toMatch(/Reset could not clear/);
+      // Retry: the guard was released in finally.
+      await userEvent.click(screen.getByRole('button', { name: 'Reset to fixture base rules' }));
+      await act(async () => { resetBtn().click(); });
+      expect(requests).toBe(2);
+      await act(async () => { pending.shift()!(); });
+      await waitFor(() => expect(screen.getByTestId('rules-note').textContent).toMatch(/^Reset done\./));
+      expect(readOverride(store, 'fixture')).toMatchObject({ status: 'none', revision: 2 });
+    } finally {
+      if (had) Object.defineProperty(navigator, 'locks', had);
+      else delete (navigator as { locks?: unknown }).locks;
+    }
+  });
+});
+
+describe('review r1 S1: override and report ids come from the INJECTED AppServices.random', () => {
+  async function applyOnce(seed: number) {
+    const a = activeEngine();
+    const calIds: string[] = [];
+    const calibrate = a.engine.calibrate.bind(a.engine);
+    a.engine.calibrate = (r, o) => { calIds.push(o.id!); return calibrate(r, o); };
+    const c = candidates({ auto: true });
+    const r = await openReport({ engine: a.engine, candidateEngine: c.factory, random: seededRandom(seed) } as Partial<AppServices>);
+    await userEvent.click(applyBtn());
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Fit and apply' }));
+    await screen.findByText(/Applied in this browser only/);
+    const st = readOverride(r.store, 'fixture');
+    if (st.status !== 'ok') throw new Error('not applied');
+    const fp = c.made[0]!.override ? infoFor(c.made[0]!.override).fingerprint : '';
+    r.unmount();
+    return { overrideId: st.active.id, reportId: calIds[0]!, fp };
+  }
+  it('the same seed gives the same report id, override id and (identity-bookkeeping) fingerprint; ids follow the seeded sequence', async () => {
+    const one = await applyOnce(0x15c);
+    const two = await applyOnce(0x15c);
+    expect(two).toEqual(one);
+    const rnd = seededRandom(0x15c);
+    expect(one.reportId).toBe(ulid(NOW.getTime(), rnd));
+    expect(one.overrideId).toBe(ulid(NOW.getTime(), rnd));
+    const other = await applyOnce(7);
+    expect(other.overrideId).not.toBe(one.overrideId);
+  });
+  it('REAL worker: the same override id gives the same effective fingerprint across fresh engines; a different id differs', () => {
+    const o = (id: string): WorkerOverride => ({ id, rule: 'blueStatGain', proposed: [13.2, 26.4, 39.6], baseFingerprint: base.baseFingerprint, sourceReportId: report.report.id, multiplier: 1.32 });
+    const cfg = (id: string) => ok(createEngineApi().configure({ bundle: masterBundle(), kind: 'golden-fixture', golden: { syntheticInheritance: truth.syntheticInheritance } as never, override: o(id) })).fingerprint;
+    const id = ulid(NOW.getTime(), seededRandom(0x15c));
+    expect(cfg(id)).toBe(cfg(id));
+    expect(cfg(id)).not.toBe(cfg(ulid(NOW.getTime(), seededRandom(7))));
+    console.info(`[T15c r1 S1] seeded override id ${id} → REAL effective fingerprint ${cfg(id)}`);
+  });
+});
+
+describe('review r1 N1/N3', () => {
+  it('N1: overwriting an invalid record keeps its recoverable revision monotonic; an unreadable one restarts at 1', () => {
+    const store = memoryStore();
+    store.setItem(overrideKey('fixture'), '{"schema":"uma-browser-rules-override","v":1,"mode":"fixture","revision":50,"active":{"rule":"blueStatGain","proposed":[1,-5,2]}}');
+    const w = writeOverrideState(store, 'fixture', store.getItem(overrideKey('fixture')), null);
+    expect(w).toMatchObject({ ok: true, revision: 51 });
+    store.setItem(overrideKey('fixture'), '{garbage');
+    expect(writeOverrideState(store, 'fixture', '{garbage', null)).toMatchObject({ ok: true, revision: 1 });
+  });
+  it('N3: after a reapply on top of an override, the text names the PREVIOUS override values, not the base values', async () => {
+    const store = memoryStore();
+    const s = report.report.suggestions[0]!;
+    const prevFp = OVR_FP('01KGQZ0000G01DENCM00T15CP0');
+    expect(writeOverrideState(store, 'fixture', null, {
+      id: '01KGQZ0000G01DENCM00T15CR5', appliedAt: NOW.toISOString(), rule: 'blueStatGain', proposed: [14, 28, 42], verified: false, source: 'TEST',
+      sourceReport: { id: report.report.id, generatedAt: report.report.generatedAt, multiplier: 1.06, contextFingerprint: prevFp, current: [...s.proposed], rosterEtag: '"e1"', rosterIdentity: rosterIdentity(roster) },
+      base: { contextKind: 'golden-fixture', masterVersion: masterData().version, rulesVersion: base.rulesVersion, fingerprint: base.baseFingerprint },
+    }).ok).toBe(true);
+    renderRoute('/health', fixtureSource().src, { loadGolden, store, engine: activeEngine().engine });
+    const t = (await screen.findByTestId('override-active')).textContent!;
+    expect(t).toMatch(/replaces the previous browser-local override/);
+    expect(t).toMatch(/base context remains the SYNTHETIC golden fixture base context/);
+    expect(t).not.toMatch(/replaces [\d. /]+ of the SYNTHETIC/);
+  });
+  it('N3: a first apply (report ran on the base) still says it replaces the base values', async () => {
+    const store = memoryStore();
+    const s = report.report.suggestions[0]!;
+    expect(writeOverrideState(store, 'fixture', null, {
+      id: '01KGQZ0000G01DENCM00T15CR6', appliedAt: NOW.toISOString(), rule: 'blueStatGain', proposed: [...s.proposed], verified: false, source: 'TEST',
+      sourceReport: { id: report.report.id, generatedAt: report.report.generatedAt, multiplier: s.multiplier, contextFingerprint: base.baseFingerprint, current: [...s.current], rosterEtag: '"e1"', rosterIdentity: rosterIdentity(roster) },
+      base: { contextKind: 'golden-fixture', masterVersion: masterData().version, rulesVersion: base.rulesVersion, fingerprint: base.baseFingerprint },
+    }).ok).toBe(true);
+    renderRoute('/health', fixtureSource().src, { loadGolden, store, engine: activeEngine().engine });
+    expect((await screen.findByTestId('override-active')).textContent).toMatch(/replaces [\d. /]+ of the SYNTHETIC golden fixture base context/);
   });
 });

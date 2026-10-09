@@ -14,6 +14,7 @@ import { memoryStore } from '../src/lib/storage.ts';
 import { HttpError } from '../src/api/errors.ts';
 import { EngineClient, type EngineHandle } from '../src/workers/client.ts';
 import { masterData } from './fixtures.ts';
+import { seededRandom } from '../src/lib/ulid.ts';
 
 export const NOW = new Date('2026-10-04T00:00:00.000Z');
 
@@ -100,6 +101,8 @@ export function renderRoute(path: string, source: DataSource, extra: Partial<App
     engine: fakeEngine(),
     store: memoryStore(),
     now: () => NOW,
+    // Deterministic ids (01 §1 ULIDs): the injected id randomness is seeded in every screen test.
+    random: seededRandom(0x15c),
     ...extra,
   };
   const router = createMemoryRouter(routes, { initialEntries: [path] });

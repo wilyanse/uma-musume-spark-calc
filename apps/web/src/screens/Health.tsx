@@ -91,6 +91,8 @@ export function HealthScreen() {
   const [refit, setRefit] = useState<{ state: 'idle' | 'running' | 'error' | 'cancelled'; message?: string; cancel?: () => void }>({ state: 'idle' });
   const runRef = useRef(0);
   const jobRef = useRef<OwnedJob | null>(null);
+  /** Held synchronously from the first Reset click until that reset settles (same-tick double clicks). */
+  const resetRef = useRef(false);
   const [cal, setCal] = useState<CalState>({ state: 'idle' });
   const session = useSessionCalibration(services.engine);
   // Route unmount cancels only the job this screen owns (never another screen's worker job).
@@ -197,7 +199,7 @@ export function HealthScreen() {
     const owned: OwnedJob = { kind: 'calibrate', id, cancel: null, provenance: prov };
     jobRef.current = owned;
     const now = services.now();
-    const job = services.engine.calibrate(all, { nowIso: now.toISOString(), id: ulid(now.getTime(), Math.random) });
+    const job = services.engine.calibrate(all, { nowIso: now.toISOString(), id: ulid(now.getTime(), services.random) });
     const cancel = () => {
       if (jobRef.current !== owned) return;
       jobRef.current = null;
@@ -241,7 +243,7 @@ export function HealthScreen() {
     const e = applyEligibility(sess, c, prov);
     if (!e.ok) return;
     setRulesNote(null);
-    setApply({ state: 'confirm', proposal: { reportId: sess.output.report.id, provenanceKey: provenanceKey(prov), storedRaw: c.storedRaw, storedRevision: c.storedRevision, contextFingerprint: c.fingerprint, suggestion: e.suggestion } });
+    setApply({ state: 'confirm', proposal: { reportId: sess.output.report.id, provenanceKey: provenanceKey(prov), storedRaw: c.storedRaw, contextFingerprint: c.fingerprint, suggestion: e.suggestion } });
   };
 
   const confirmApply = async () => {
@@ -301,7 +303,15 @@ export function HealthScreen() {
     setReset({ state: 'confirm', storedRaw: c.storedRaw, clearOnly });
   };
   const confirmReset = async () => {
-    if (reset.state !== 'confirm') return;
+    if (reset.state !== 'confirm' || resetRef.current) return;
+    resetRef.current = true;
+    try {
+      await resetBody(reset.storedRaw, reset.clearOnly);
+    } finally {
+      resetRef.current = false;
+    }
+  };
+  const resetBody = async (storedRaw: string | null, clearOnly: boolean) => {
     const c = ctxRef.current;
     // Reset cancels only the work this screen owns.
     const j = jobRef.current;
@@ -313,13 +323,13 @@ export function HealthScreen() {
       if (j.kind === 'calibrate') setCal({ state: 'cancelled' });
       if (j.kind === 'apply') setApply({ state: 'idle' });
     }
-    const r = await resetOverride(services, qc, reset.storedRaw);
+    const r = await resetOverride(services, qc, storedRaw);
     setReset({ state: 'idle' });
     if (r.status !== 'reset') return setRulesNote({ kind: r.status === 'refused' ? 'warn' : 'err', message: r.message });
     setApply({ state: 'idle' });
     setRulesNote({
       kind: 'ok',
-      message: `${reset.clearOnly ? 'The stored override record was cleared.' : 'Reset done.'} ${c ? `${titleCaseFirst(baseLabel(c))} is in force again.` : ''} Old ranking results and reports are stale; the next model must pass provenance checks or is refitted.${r.note ? ` ${r.note}` : ''}`,
+      message: `${clearOnly ? 'The stored override record was cleared.' : 'Reset done.'} ${c ? `${titleCaseFirst(baseLabel(c))} is in force again.` : ''} Old ranking results and reports are stale; the next model must pass provenance checks or is refitted.${r.note ? ` ${r.note}` : ''}`,
     });
   };
 
@@ -401,7 +411,11 @@ export function HealthScreen() {
           {ov && stored ? (
             <>
               <p data-testid="override-active">
-                <Tag kind="warn">browser-local override</Tag> blueStatGain <b className="num">{triple(ov.proposed)}</b> (1★/2★/3★) replaces {triple(stored.sourceReport.current)} of {baseLabel(ctx)}. Proposal ×{ov.multiplier} from calibration report <span className="mono">{ov.sourceReportId}</span>, applied {dateTime(stored.appliedAt)}. Unverified statistical value, not a game fact.
+                <Tag kind="warn">browser-local override</Tag> blueStatGain <b className="num">{triple(ov.proposed)}</b> (1★/2★/3★){' '}
+                {stored.sourceReport.contextFingerprint === ctx.baseFingerprint
+                  ? <>replaces {triple(stored.sourceReport.current)} of {baseLabel(ctx)}.</>
+                  : <>replaces the previous browser-local override ({triple(stored.sourceReport.current)}, in force when its source report ran); the base context remains {baseLabel(ctx)}.</>}{' '}
+                Proposal ×{ov.multiplier} from calibration report <span className="mono">{ov.sourceReportId}</span>, applied {dateTime(stored.appliedAt)}. Unverified statistical value, not a game fact.
               </p>
               <p className="hint">
                 Stored in THIS browser only (revision {ctx.storedRevision}; not synced to other devices, never uploaded). Models fitted under it are kept in this browser and never stored on the server. Context <span className="mono">{ctx.fingerprint.slice(0, 19)}…</span>

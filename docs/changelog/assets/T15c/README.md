@@ -22,3 +22,15 @@ rules carry `version: <base>+local-<override ULID>` and a `source` naming the re
 hashed rules, so every application has its own identity even for equal values (stricter, never
 looser); tests compare identities within a run. The base fixture fingerprint `sha256:979cfd2e…7add`
 and the ×1.32 → 13.2/26.4/39.6 proposal are the same in every run.
+
+## Review round 1 (added after `T15c-review-1.md`; nothing above was changed)
+
+| Folder / file | Who | Tree | Result |
+|---|---|---|---|
+| `tdd/r1-red.log` | Opus 5.5, fix round 1 | ec92f27 source + new tests only | 8 failed / 20 passed (the B1, B2, S1, N1, N3 tests) |
+| `tdd/r1-green.log` | same | fixes applied, uncommitted | 28/28 passed |
+| `review-r1/` | same | fixes applied, uncommitted, then committed as the round-1 fix commit | lint/typecheck/test/build/check-dist exit 0; e2e 18/18 passed; `e2e-apply-repeat-{1,2}.log` show the same report/override ids and fingerprint twice |
+
+From round 1 on, the report and override ULIDs in fixture e2e runs come from a seeded, injected
+`AppServices.random` and repeat run to run (the note above about varying ids describes the earlier
+runs). Model snapshot ids are still made inside the engine worker and still vary.

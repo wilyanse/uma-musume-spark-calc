@@ -56,7 +56,11 @@ export interface EngineContextState extends ContextInfo {
   overrideProblem: string | null;
 }
 
-export function useEngineContext() {
+/**
+ * `enabled: false` lets an observer (the shell footer) share the SAME query without starting it:
+ * every observer of a key shares one query, so this never configures the worker a second time.
+ */
+export function useEngineContext(enabled = true) {
   const services = useServices();
   const master = useMaster();
   const kind = contextKindFor(services);
@@ -64,7 +68,7 @@ export function useEngineContext() {
   const masterIdentity = useMemo(() => master.data ? digestOf(master.data.bundle) : null, [master.data]);
   return useQuery<EngineContextState>({
     queryKey: ['engine-context', master.data?.version, masterIdentity, kind, raw],
-    enabled: !!master.data,
+    enabled: enabled && !!master.data,
     staleTime: Infinity,
     // The worker holds ONE context: an inactive key must never be served from cache later (e.g. a
     // stored string seen again after a rollback) without reconfiguring the worker.
@@ -133,7 +137,8 @@ export const STALE_RULES_MESSAGE =
  * `force` refits regardless (S07 "Refit model", or a corrupt snapshot).
  */
 export async function ensureModel(
-  services: AppServices,
+  // Only what fit-or-reuse uses (it generates no client ids, so no injected randomness).
+  services: Omit<AppServices, 'random'>,
   qc: ReturnType<typeof useQueryClient>,
   args: {
     roster: RosterVeteran[];

@@ -1,0 +1,154 @@
+Golden fixture context (SYNTHETIC overrides: inheritanceTurns(scenario:brighter-together-our-grand-concert), inheritanceTurns(scenario:trackblazer), inheritanceTurns(scenario:unity-cup), inheritanceTurns(scenario:ura-finale), blueStatGain). Not game facts.
+Rules in force
+
+browser-local override blueStatGain 13.2 / 26.4 / 39.6 (1★/2★/3★) replaces 10 / 20 / 30 of the SYNTHETIC golden fixture base context (fixture mode; not the published rules). Proposal ×1.32 from calibration report 01M4CCYJ00XBCD055FYZDBSBT6, applied 2026-10-08 00:00. Unverified statistical value, not a game fact.
+
+Stored in THIS browser only (revision 1; not synced to other devices, never uploaded). Models fitted under it are kept in this browser and never stored on the server. Context sha256:9db75f3afe72…
+
+Reset to fixture base rules
+Training rows
+192
+min confidence ≥ 0.9
+80% interval coverage
+0.73
+F08 acceptance band 0.72–0.88 in range
+Model
+training-v2
+fitted 2026-10-08 00:00 · master global-20260930 · browser-local model (override context; never uploaded)
+Sample counts
+Veterans per scenario and mode
+SCENARIO	MODE	VETERANS	
+NOTE
+
+Brighter Together Our Grand Concert	Independent	37	
+Brighter Together Our Grand Concert	Manual	23	
+Trackblazer	Independent	37	
+Trackblazer	Manual	23	
+Unity Cup	Independent	44	
+Unity Cup	Manual	22	
+URA Finale	Independent	38	
+URA Finale	Manual	36	
+Holdout error (MAE, stat points)
+Holdout mean absolute error and sigma per stat
+STAT	MAE	Σ	80% COVERAGE
+Speed	9.0	5.2	0.60
+Stamina	5.5	5.0	0.79
+Power	7.4	6.6	0.77
+Guts	9.6	4.5	0.65
+Wit	9.2	7.3	0.83
+Predicted vs actual (held-out veterans)
+
+Per-veteran held-out points aren't available: the snapshot stores only aggregate MAE and coverage, and the engine's fit report exposes holdout aggregates only (Q-74). No points are drawn.
+
+Skill likelihood cells: 11662 total · 9790 guaranteed · 1872 lineage-only (mean q 0.264).
+
+Excluded acquisition contradictions: 0.
+
+Q-130: deck hint/event and innate skills count as certainly available (q = 1); unverified game mechanic.
+Q-131: acquired skills with no observable source (q = 0) are excluded from the likelihood and counted, never treated as observed hints.
+Lineage sparks are potential hints only: q = closed-form skillHintProb on the recorded lineage; activation is never observed.
+
+From the fit run in this tab (48 held out, 192 train, 240 eligible; excluded: low-confidence 20): pooled coverage 0.729 over 240 cells; without inheritance 0.563. Mean holdout residual (bias): -1.4 / 0.7 / -0.9 / -1.5 / -4.3.
+
+Inheritance rules in force (rules-1+local-01M4CCYJ00YZSW5680A1AKJ75D)
+Inheritance rules with verification status
+RULE	VALUE	STATUS	SOURCE
+activation.blue	1★ 0.7 · 2★ 0.8 · 3★ 0.9	⚠ unverified	https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 20…
+activation.pink	1★ 0.01 · 2★ 0.03 · 3★ 0.05	⚠ unverified	https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 20…
+activation.green	1★ 0.05 · 2★ 0.1 · 3★ 0.15	⚠ unverified	https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 20…
+activation.white	1★ 0.03 · 2★ 0.06 · 3★ 0.09	⚠ unverified	https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 20…
+affinityMultiplier	1 + affinity/100	⚠ unverified	https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 20…
+grandparentWeight	1	⚠ unverified	https://gametora.com/umamusume/compatibility (calculator page script, chunk 2464-2e90db37675bc47e.js at fetch time 20…
+blueStatGain	1★ 13.200000000000001 · 2★ 26.400000000000002 · 3★ 39.6	⚠ unverified	BROWSER-LOCAL override from calibration report 01M4CCYJ00XBCD055FYZDBSBT6 (×1.32 proposal; unverified statistical val…
+blueInitialBonus	1★ 5 · 2★ 12 · 3★ 21	⚠ unverified	https://gametora.com/umamusume/legacies (Blue spark section: "1☆ +5, 2☆ +12, 3☆ +21", additive over every legacy and …
+pinkGradeGain	1★ 1 · 2★ 1 · 3★ 1	⚠ unverified	docs/specs/01-data-contracts.md §12 (contract value, not independently confirmed)
+whiteHintLevels	1★ 0 · 2★ 0 · 3★ 0	⚠ unverified	UNKNOWN: no cited source; 0 is a placeholder to be calibrated by T15 (Q-3). https://gametora.com/umamusume/legacies o…
+raceSparkStatGain	table: perStar, activation, activationSource, races	⚠ unverified	https://gametora.com/data/umamusume/factors.<hash>.json race[].effects: stat-type effects carry [3,6,9] per star, typ…
+scenarioSparkEffects	table: scenarios	⚠ unverified	https://gametora.com/data/umamusume/factors.<hash>.json scenario[].effects (stat effect per star) joined to static/sc…
+
+Effective values the engine uses now (fixture mode: inheritanceTurns(scenario:brighter-together-our-grand-concert), inheritanceTurns(scenario:trackblazer), inheritanceTurns(scenario:unity-cup), inheritanceTurns(scenario:ura-finale) are SYNTHETIC test values); blueStatGain is the browser-local override. Published master rules: rules-1.
+
+Calibration result
+Applied in this browser only: blueStatGain 13.2 / 26.4 / 39.6 (unverified, from report 01M4CCYJ00XBCD055FYZDBSBT6). A candidate model was fitted and committed locally; it is never uploaded. The source report is now historical: run calibration again to check the new context.
+Stale report: rules changed since this calibration ran. These diagnostics describe the older inputs, not the current ones. Run calibration again for current results.
+
+Report status complete · run 2026-10-08 00:00 · calibration-v1 · report 01M4CCYJ00XBCD055FYZDBSBT6
+
+“complete” means every check could run (checks available); it is not verified mechanics, not real-roster acceptance and not a milestone sign-off.
+
+SYNTHETIC golden fixture context: blueStatGain, inheritanceTurns(scenario:brighter-together-our-grand-concert), inheritanceTurns(scenario:trackblazer), inheritanceTurns(scenario:unity-cup), inheritanceTurns(scenario:ura-finale) are synthetic test values (not game facts). Any multiplier here recovers a planted test effect only.
+Population and split
+
+260 roster rows · 196 used · excluded: low-confidence 20, parent-not-matched-or-guest 44 · train 156 · holdout 40
+
+Split seeded (seed t15-holdout), CV seed t06-cv; dropped 0, unused 0. Lineage coupling (ADR-0002): 28 train→holdout parent reference(s) from 26 train row(s).
+
+Stats: blueStatGain multiplier
+
+Selected multiplier ×1.32 (holdout-MAE argmin; stats status suggested).
+
+Holdout MAE, current rules (×1)
+87.73
+Holdout MAE, no inheritance term
+319.34
+Holdout MAE at the selection (post-selection, optimistic)
+45.69
+Train-CV selection (holdout unused to choose it)
+×1.32
+Holdout MAE of the train-CV selection
+45.69
+
+MAE is summed over the five stats (stat points). The train-CV evaluation is still lineage-coupled to the holdout (ADR-0002), so it is not fully independent.
+
+Confidence: available. Interval: 1.29–1.36 (median 1.32, 200 resamples, contains ×1: no).
+
+Conditional holdout bootstrap: holdout rows resampled with the split and train fit held fixed. It is not full uncertainty (train-fit, split, λ and model uncertainty are excluded).
+
+Selection agreement: holdout ×1.32 vs train-CV ×1.32; train-CV selection inside the interval, interval agreement: yes.
+
+Identification diagnostic (numeric): identified, basis full-design, design rank 38 / 156 train rows.
+
+“Identified” means numerically non-collinear, not well-determined or precise. Selection authority is the stats status, not this diagnostic.
+
+Aptitude check
+
+Status ok · 196 rows, 1960 cells
+
+Full log-likelihood: −235.24 over 1960 cells (finite, mean −0.120)
+
+Conditional log-likelihood (possible cells only; not the full fit): −235.24 over 1960 possible cells (mean −0.120)
+
+Impossible observations: 0 (below base 0 · above max 0 · unreachable 0); degenerate cells 1302, uncertain cells 658
+
+0 invalid observed grade(s) excluded (not scored, not counted as impossible)
+
+Skill check (holdout)
+
+Status ok
+
+×1.00: ok, 2504 scored cells over 40 rows; log-likelihood −1367.34, Brier 0.185, z −0.25; expected 843.5 vs observed 838; contradictions 0
+×1.32: ok, 2504 scored cells over 40 rows; log-likelihood −1367.34, Brier 0.185, z −0.25; expected 843.5 vs observed 838; contradictions 0
+Suggested values (unverified proposals)
+
+Suggested blueStatGain ×1.32: 10.00 / 20.00 / 30.00 → 13.20 / 26.40 / 39.60 (1★/2★/3★); not applied by this report; consistent with current: no. Engine note: “Unverified statistical suggestion (verified:false). Apply explicitly, then refit the training model (ADR-0002 §2.11, Q-141).”
+
+Calibration itself never changes the rules, the engine context, the model or anything stored. Apply (only for a suggested proposal of a current report) asks for confirmation, fits a candidate model first, and keeps the result in THIS browser only. Apply is unavailable: the report is stale (rules changed); run calibration again.
+
+Apply suggested multipliers
+Dismiss
+Rules not calibrated
+activation.blue unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+activation.pink unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the aptitude check reports fit only
+activation.green unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the skill check reports fit only
+activation.white unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the skill check reports fit only
+affinityMultiplier unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+grandparentWeight unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+blueInitialBonus unverified confounded with the training intercepts and the event gain; parents-only vs every legacy is an open source conflict (Q-3)
+pinkGradeGain unverified integer grade steps; the aptitude check reports fit only
+whiteHintLevels unverified placeholder hint levels are not observed on veterans
+raceSparkStatGain unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+scenarioSparkEffects unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+Engine warnings
+unverified rules in force: activation.blue, activation.pink, activation.green, activation.white, affinityMultiplier, grandparentWeight, blueStatGain, blueInitialBonus, pinkGradeGain, whiteHintLevels, raceSparkStatGain, scenarioSparkEffects
+placeholder (UNKNOWN) rules in force: whiteHintLevels
+holdout is lineage-coupled: 28 train→holdout matched-parent reference(s) from 26 train row(s) to 17 holdout veteran(s) (ADR-0002)

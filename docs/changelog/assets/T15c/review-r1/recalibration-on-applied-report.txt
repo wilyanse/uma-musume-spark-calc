@@ -1,0 +1,79 @@
+Report status complete · run 2026-10-08 00:00 · calibration-v1 · report 01M4CCYJ00XBCD055FYZDBSBT6
+
+“complete” means every check could run (checks available); it is not verified mechanics, not real-roster acceptance and not a milestone sign-off.
+
+SYNTHETIC golden fixture context: inheritanceTurns(scenario:brighter-together-our-grand-concert), inheritanceTurns(scenario:trackblazer), inheritanceTurns(scenario:unity-cup), inheritanceTurns(scenario:ura-finale), blueStatGain are synthetic test values (not game facts). Any multiplier here recovers a planted test effect only.
+Population and split
+
+260 roster rows · 196 used · excluded: low-confidence 20, parent-not-matched-or-guest 44 · train 156 · holdout 40
+
+Split seeded (seed t15-holdout), CV seed t06-cv; dropped 0, unused 0. Lineage coupling (ADR-0002): 28 train→holdout parent reference(s) from 26 train row(s).
+
+Stats: blueStatGain multiplier
+
+Selected multiplier ×1.00 (holdout-MAE argmin; stats status suggested).
+
+Holdout MAE, current rules (×1)
+45.69
+Holdout MAE, no inheritance term
+319.34
+Holdout MAE at the selection (post-selection, optimistic)
+45.69
+Train-CV selection (holdout unused to choose it)
+×1.00
+Holdout MAE of the train-CV selection
+45.69
+
+MAE is summed over the five stats (stat points). The train-CV evaluation is still lineage-coupled to the holdout (ADR-0002), so it is not fully independent.
+
+Confidence: available. Interval: 0.98–1.03 (median 1.00, 200 resamples, contains ×1: yes).
+
+Conditional holdout bootstrap: holdout rows resampled with the split and train fit held fixed. It is not full uncertainty (train-fit, split, λ and model uncertainty are excluded).
+
+Selection agreement: holdout ×1.00 vs train-CV ×1.00; train-CV selection inside the interval, interval agreement: yes.
+
+Identification diagnostic (numeric): identified, basis full-design, design rank 38 / 156 train rows.
+
+“Identified” means numerically non-collinear, not well-determined or precise. Selection authority is the stats status, not this diagnostic.
+
+Aptitude check
+
+Status ok · 196 rows, 1960 cells
+
+Full log-likelihood: −235.24 over 1960 cells (finite, mean −0.120)
+
+Conditional log-likelihood (possible cells only; not the full fit): −235.24 over 1960 possible cells (mean −0.120)
+
+Impossible observations: 0 (below base 0 · above max 0 · unreachable 0); degenerate cells 1302, uncertain cells 658
+
+0 invalid observed grade(s) excluded (not scored, not counted as impossible)
+
+Skill check (holdout)
+
+Status ok
+
+×1.00: ok, 2504 scored cells over 40 rows; log-likelihood −1367.34, Brier 0.185, z −0.25; expected 843.5 vs observed 838; contradictions 0
+Suggested values (unverified proposals)
+
+Suggested blueStatGain ×1.00: 13.20 / 26.40 / 39.60 → 13.20 / 26.40 / 39.60 (1★/2★/3★); not applied by this report; consistent with current: yes. Engine note: “Unverified statistical suggestion (verified:false). Apply explicitly, then refit the training model (ADR-0002 §2.11, Q-141).”
+
+Calibration itself never changes the rules, the engine context, the model or anything stored. Apply (only for a suggested proposal of a current report) asks for confirmation, fits a candidate model first, and keeps the result in THIS browser only. Apply is unavailable: the proposal equals the rules in force (×1), so there is nothing to apply.
+
+Apply suggested multipliers
+Dismiss
+Rules not calibrated
+activation.blue unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+activation.pink unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the aptitude check reports fit only
+activation.green unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the skill check reports fit only
+activation.white unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method); the skill check reports fit only
+affinityMultiplier unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+grandparentWeight unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+blueInitialBonus unverified confounded with the training intercepts and the event gain; parents-only vs every legacy is an open source conflict (Q-3)
+pinkGradeGain unverified integer grade steps; the aptitude check reports fit only
+whiteHintLevels unverified placeholder hint levels are not observed on veterans
+raceSparkStatGain unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+scenarioSparkEffects unverified activations are not observed; T15 implements no estimator for this rule (needs a cited source or a reviewed method)
+Engine warnings
+unverified rules in force: activation.blue, activation.pink, activation.green, activation.white, affinityMultiplier, grandparentWeight, blueStatGain, blueInitialBonus, pinkGradeGain, whiteHintLevels, raceSparkStatGain, scenarioSparkEffects
+placeholder (UNKNOWN) rules in force: whiteHintLevels
+holdout is lineage-coupled: 28 train→holdout matched-parent reference(s) from 26 train row(s) to 17 holdout veteran(s) (ADR-0002)

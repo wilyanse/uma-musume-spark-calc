@@ -52,7 +52,10 @@ export interface OverrideEnvelope {
   schema: typeof OVERRIDE_SCHEMA;
   v: 1;
   mode: DataMode;
-  /** Monotonic per mode key; bumped by every successful write (apply or reset). */
+  /**
+   * Monotonic per mode key; bumped by every successful write (apply or reset), including over an
+   * invalid record whose revision is still readable. Restarts at 1 only after an unparseable one.
+   */
   revision: number;
   active: ActiveOverride | null;
 }
@@ -138,7 +141,7 @@ export function writeOverrideState(store: KeyValueStore, mode: DataMode, expecte
   }
   if (current !== expectedRaw) return { ok: false, reason: 'the rules override changed in another tab (or storage changed) since this was confirmed; nothing was written' };
   const prev = parseOverride(current, mode);
-  const revision = prev.status === 'invalid' ? 1 : prev.revision + 1;
+  const revision = (prev.status === 'invalid' ? recoverableRevision(current) : prev.revision) + 1;
   const env: OverrideEnvelope = { schema: OVERRIDE_SCHEMA, v: 1, mode, revision, active };
   const raw = JSON.stringify(env);
   try {
@@ -154,6 +157,23 @@ export function writeOverrideState(store: KeyValueStore, mode: DataMode, expecte
   }
   if (back !== raw) return { ok: false, reason: 'the write did not persist (storage read-back differs)' };
   return { ok: true, revision, raw };
+}
+
+/**
+ * The revision of an INVALID stored record when it is still recoverable (a JSON object with a
+ * non-negative integer `revision`), so overwriting it stays monotonic. 0 only when no revision can
+ * be read at all (unparseable / unreadable storage), in which case the sequence restarts at 1:
+ * compare-and-swap is on the exact stored string, so this affects the counter, not safety.
+ */
+export function recoverableRevision(raw: string | null): number {
+  if (raw === null) return 0;
+  try {
+    const v: unknown = JSON.parse(raw);
+    const r = isObj(v) ? v.revision : undefined;
+    return typeof r === 'number' && Number.isSafeInteger(r) && r >= 0 ? r : 0;
+  } catch {
+    return 0;
+  }
 }
 
 /** Raw restore used only to roll back a just-written value (best effort; reported by the caller). */

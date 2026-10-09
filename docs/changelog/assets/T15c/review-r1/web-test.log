@@ -1,0 +1,15 @@
+$ node scripts/tokens.mjs --check && vitest run
+tokens.css is up to date
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+
+
+ Test Files  19 passed (19)
+      Tests  229 passed (229)
+   Start at  02:41:43
+   Duration  14.11s (tests 69%, environment 19%, transform 6%, setup 3%, import 3%)
+
+    Isolate  19 workers spawned · ~1.16s startup each (spawn + environment, per file)
+             at least ~1.29s faster with isolate: false — reuses workers across files instead of one per file
+
+EXIT=0

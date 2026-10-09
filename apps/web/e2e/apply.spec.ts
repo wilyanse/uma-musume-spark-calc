@@ -22,6 +22,8 @@ import AxeBuilder from '@axe-core/playwright';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { goldenRoster, goldenTargets, goldenTruth, masterBundle } from '../test/fixtures.ts';
+import { seededRandom, ulid } from '../src/lib/ulid.ts';
+import { createEngineApi } from '../src/workers/engine.api.ts';
 
 const assets = resolve(process.env.T15C_E2E_ASSETS_DIR ?? resolve(import.meta.dirname, '../test-results/t15c-assets'));
 console.log(`T15c E2E assets → ${assets}`);
@@ -41,15 +43,11 @@ async function deterministic(page: Page, theme = 'light') {
       static override now() { return RealDate.parse(clock); }
     }
     window.Date = FixedDate as DateConstructor;
-    // Test-only seeded entropy for the PAGE realm only (not workers). Observed snapshot/override ULIDs
-    // still differ between runs, so assertions compare identities within one run, never fixed ids.
-    // It does not modify a proposal, golden input, or production application code.
-    let entropy = 0x15c;
-    Object.defineProperty(crypto, 'getRandomValues', { configurable: true, value: (array: ArrayBufferView) => {
-      const bytes = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
-      for (let i = 0; i < bytes.length; i++) { entropy = (Math.imul(entropy, 1664525) + 1013904223) >>> 0; bytes[i] = entropy >>> 24; }
-      return array;
-    } });
+    // Review r1 S1: seeds the app's INJECTED id randomness (`AppServices.random`, read by the
+    // fixture-only wiring at boot), which the calibration report and override ULIDs consume. The
+    // former `crypto.getRandomValues` patch was removed: no app id path used it. Model snapshot ids
+    // are still generated inside the engine worker (its own crypto), so they are compared within a run.
+    (window as { __umaTestRandomSeed?: number }).__umaTestRandomSeed = 0x15c;
     if (!localStorage.getItem('uma:theme')) localStorage.setItem('uma:theme', JSON.stringify(theme));
   }, { clock, theme });
 }
@@ -217,6 +215,13 @@ test('fixture: real calibrate → confirm → candidate fit → apply → Planne
   let env = JSON.parse((await ls(page, LMODEL))!);
   expect(stored).toMatchObject({ schema: 'uma-browser-rules-override', v: 1, mode: 'fixture', revision: 1 });
   expect(stored.active.verified).toBe(false);
+  // S1: ids come from the seeded injected randomness at the fixed clock. Sequence consumed in this
+  // tab: report #1 (calibration), override ids of the cancelled (#2) and fault-injected (#3)
+  // attempts, then this apply (#4).
+  const seq = seededRandom(0x15c);
+  const ids = Array.from({ length: 4 }, () => ulid(Date.parse(clock), seq));
+  expect(stored.active.sourceReport.id).toBe(ids[0]);
+  expect(stored.active.id).toBe(ids[3]);
   expect(stored.active.proposed.map((x: number) => Math.round(x * 1e4) / 1e4)).toEqual(newRow);
   await expect(page.getByTestId('override-active')).toBeVisible();
   const ovFp = await attr(page, 'rules-override', 'data-context');
@@ -224,6 +229,13 @@ test('fixture: real calibrate → confirm → candidate fit → apply → Planne
   expect(await attr(page, 'rules-override', 'data-base-context')).toBe(baseFp);
   expect(env.contextFingerprint).toBe(ovFp);
   expect(env.baseFingerprint).toBe(baseFp);
+  // S1: the same override (fixed id) rebuilt in a fresh NODE engine gives the browser's identity.
+  const nodeApi = createEngineApi();
+  const nodeCfg = nodeApi.configure({ bundle: masterBundle(), kind: 'golden-fixture', golden: goldenTruth() as never, override: {
+    id: stored.active.id, rule: 'blueStatGain', proposed: stored.active.proposed, baseFingerprint: stored.active.base.fingerprint, sourceReportId: stored.active.sourceReport.id, multiplier: stored.active.sourceReport.multiplier } });
+  expect(nodeCfg.ok && nodeCfg.value.fingerprint).toBe(ovFp);
+  log.deterministicIds = { seed: '0x15c', reportId: ids[0], overrideId: stored.active.id, effectiveFingerprint: ovFp, baseFingerprint: baseFp, nodeRebuiltFingerprint: nodeCfg.ok ? nodeCfg.value.fingerprint : null };
+  console.log(`DETERMINISTIC IDS (seed 0x15c): report ${ids[0]} override ${stored.active.id} context ${ovFp}`);
   await expect(page.getByTestId('model-origin')).toContainText('browser-local model');
   expect(await attr(page, 'model-origin', 'data-snapshot')).toBe(env.snapshot.id);
   // The effective rules table shows the applied values and source, not the published ones.
@@ -357,6 +369,11 @@ test('production (API mode, MOCK HTTP): no Apply for placeholder; a fixture-boun
   await page.goto('http://127.0.0.1:5201/health');
   await expect(page.getByTestId('override-problem')).toContainText(/golden-fixture context, but this app runs the production context/);
   await expect(page.getByTestId('override-none')).toContainText('the published rules');
+  // Review r1 B1: the refused record must not make the footer claim a browser-local model; the
+  // baseline snapshot is queried (MOCK 404 → none) and labelled as such.
+  await expect(page.locator('.rail .foot')).toContainText('Model: none yet');
+  await expect(page.locator('.rail .foot')).not.toContainText('browser-local');
+  console.log(`B1 footer under refused fixture-bound override (API mode): ${(await page.locator('.rail .foot').innerText()).split('\n').slice(0, 2).join(' | ')}`);
   const row = page.locator('tr', { has: page.locator('th', { hasText: /^blueStatGain$/ }) });
   await expect(row).toContainText('1★ 0 · 2★ 0 · 3★ 0');
   await runCalibration(page);

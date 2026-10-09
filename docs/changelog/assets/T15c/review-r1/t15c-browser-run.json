@@ -1,0 +1,127 @@
+{
+  "note": "REAL browser Worker/Comlink, SYNTHETIC golden fixture context, unchanged roster.calibration-x1.3.json; MOCK in-tab snapshot store; not real-game evidence",
+  "baseRank": {
+    "snapshot": "01M4CCYJ0053XF0EMPGR46V2TG",
+    "context": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+    "local": "false",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "calibration": {
+    "ms": 1341,
+    "selection": "Selected multiplier ×1.32 (holdout-MAE argmin; stats status suggested).",
+    "multiplier": 1.32
+  },
+  "dialog": {
+    "old": [
+      10,
+      20,
+      30
+    ],
+    "proposed": [
+      13.2,
+      26.4,
+      39.6
+    ]
+  },
+  "crossTabExclusiveLock": "REAL Web Locks: isolated candidate fit queued; neither model nor override persisted until other tab released exclusive lock",
+  "deterministicIds": {
+    "seed": "0x15c",
+    "reportId": "01M4CCYJ00XBCD055FYZDBSBT6",
+    "overrideId": "01M4CCYJ00YZSW5680A1AKJ75D",
+    "effectiveFingerprint": "sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09",
+    "baseFingerprint": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+    "nodeRebuiltFingerprint": "sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09"
+  },
+  "apply": {
+    "ms": 543,
+    "baseFp": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+    "ovFp": "sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09",
+    "override": {
+      "id": "01M4CCYJ00YZSW5680A1AKJ75D",
+      "appliedAt": "2026-10-08T00:00:00.000Z",
+      "rule": "blueStatGain",
+      "proposed": [
+        13.200000000000001,
+        26.400000000000002,
+        39.6
+      ],
+      "verified": false,
+      "source": "BROWSER-LOCAL override from calibration report 01M4CCYJ00XBCD055FYZDBSBT6 (×1.32 proposal; unverified statistical value, not a game fact; this browser only)",
+      "sourceReport": {
+        "id": "01M4CCYJ00XBCD055FYZDBSBT6",
+        "generatedAt": "2026-10-08T00:00:00.000Z",
+        "multiplier": 1.32,
+        "contextFingerprint": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+        "current": [
+          10,
+          20,
+          30
+        ],
+        "rosterEtag": "\"fixture-0\"",
+        "rosterIdentity": "260:sha256:8c607715f76be29339007c5bd939a91977b5da0946873c3a9019c433735479c4"
+      },
+      "base": {
+        "contextKind": "golden-fixture",
+        "masterVersion": "global-20260930",
+        "rulesVersion": "rules-1",
+        "fingerprint": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add"
+      }
+    },
+    "localSnapshot": "01M4CCYJ0078VB90M5WRK3074K",
+    "storedSnapshots": [
+      "01M4CCYJ0053XF0EMPGR46V2TG"
+    ]
+  },
+  "healthRefit": {
+    "candidateSnapshot": "01M4CCYJ0078VB90M5WRK3074K",
+    "refittedSnapshot": "01M4CCYJ00VXTVJK9R9JZHNNKJ",
+    "context": "sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09",
+    "storedSnapshots": [
+      "01M4CCYJ0053XF0EMPGR46V2TG"
+    ]
+  },
+  "overrideRank": {
+    "snapshot": "01M4CCYJ00VXTVJK9R9JZHNNKJ",
+    "context": "sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09",
+    "local": "true",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "recalibration": {
+    "selection": "Selected multiplier ×1.00 (holdout-MAE argmin; stats status suggested).",
+    "multiplier": 1,
+    "suggestions": "Suggested values (unverified proposals)\n\nSuggested blueStatGain ×1.00: 13.20 / 26.40 / 39.60 → 13.20 / 26.40 / 39.60 (1★/2★/3★); not applied by this report; consistent with current: yes. Engine note: “Unverified statistical suggestion (verified:false). Apply explicitly, then refit the training model (ADR-0002 §2.11, Q-141).”\n\nCalibration itself never changes the rules, the engine context, the model or anything stored. Apply (only for a suggested proposal of a current report) asks for confirmation, fits a candidate model first, and keeps the result in THIS browser only. Apply is unavailable: the proposal equals the rules in force (×1), so there is nothing to apply.\n\nApply suggested multipliers\nDismiss"
+  },
+  "reloadRank": {
+    "snapshot": "01M4CCYJ00VXTVJK9R9JZHNNKJ",
+    "context": "sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09",
+    "local": "true",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "plannerAutoFit": {
+    "snapshot": "01M4CCYJ00EKM2D4G0DC87Q7J5",
+    "context": "sha256:9db75f3afe7284b24a411816b6a5c5dda93374276ec286839287b9b28be1ff09",
+    "local": "true",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "resetRank": {
+    "snapshot": "01M4CCYJ00CBWS6T8DFGH903HR",
+    "context": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+    "local": "false",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  }
+}

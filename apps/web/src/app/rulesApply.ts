@@ -37,6 +37,7 @@ import {
 } from '../lib/rulesOverride.ts';
 import { ulid } from '../lib/ulid.ts';
 import { withRulesLock } from './rulesLock.ts';
+import { fitRecordKey } from '../lib/model.ts';
 import type { FitOutput } from '../workers/engine.api.ts';
 import type { MasterData } from '../master/load.ts';
 import type { FixtureGolden } from './services.ts';
@@ -71,7 +72,6 @@ export interface ApplyProposal {
   reportId: string;
   provenanceKey: string;
   storedRaw: string | null;
-  storedRevision: number;
   contextFingerprint: string;
   suggestion: CalibrationSuggestion;
 }
@@ -107,7 +107,7 @@ export async function applyProposal(services: AppServices, qc: QueryClient, a: A
   const r = a.session.output.report;
   const at = now();
   const override: ActiveOverride = {
-    id: ulid(at.getTime(), Math.random),
+    id: ulid(at.getTime(), services.random),
     appliedAt: at.toISOString(),
     rule: 'blueStatGain',
     proposed: [s.proposed[0], s.proposed[1], s.proposed[2]],
@@ -220,7 +220,7 @@ function resetLocked(services: AppServices, qc: QueryClient, expectedRaw: string
   const { store, source } = services;
   if (storedOverrideRaw(services) !== expectedRaw) return { status: 'refused', message: 'The rules override changed in another tab since you confirmed. Nothing was reset; review the current state and try again.' };
   const modelKey = localModelKey(source.kind);
-  const provenanceKey = `uma:${source.kind}:model-fit`;
+  const provenanceKey = fitRecordKey(source.kind);
   let oldModel: string | null;
   let oldProvenance: string | null;
   try { oldModel = store.getItem(modelKey); oldProvenance = store.getItem(provenanceKey); }
