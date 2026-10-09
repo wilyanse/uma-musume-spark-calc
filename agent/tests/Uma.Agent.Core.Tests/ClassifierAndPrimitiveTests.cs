@@ -1,4 +1,3 @@
-using SixLabors.ImageSharp.Processing;
 using Xunit;
 
 namespace Uma.Agent.Core.Tests;
@@ -53,9 +52,7 @@ public class ClassifierAndPrimitiveTests
     public async Task Other_16x9_sizes_are_scaled_and_other_aspects_rejected()
     {
         var full = Env.Frame("15-veteran-details-skills-manual");
-        using var image = Frames.ToImage(full);
-        image.Mutate(c => c.Resize(2560, 1440));
-        var big = Frames.FromImage(image);
+        var big = Resampler.Resize(full, 2560, 1440);
         var parsed = await new FrameParser(Env.Layout, Env.Master, Env.Templates, Env.Ocr("15-veteran-details-skills-manual")).ParseAsync(big);
         Assert.Equal(ScreenId.DetailsSkills, parsed.Screen.Id);
         Assert.Equal(1557, parsed.Header!.Stats["spd"].Value);

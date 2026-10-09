@@ -1,4 +1,3 @@
-using SixLabors.ImageSharp.Processing;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -288,11 +287,7 @@ public class CompletenessTests(ITestOutputHelper output)
     // ---------- B2 ----------
 
     private static Frame Resized(string fixture, int w, int h)
-    {
-        using var image = Frames.ToImage(Env.Frame(fixture));
-        image.Mutate(x => x.Resize(w, h, KnownResamplers.Bicubic));
-        return Frames.FromImage(image);
-    }
+        => Resampler.Resize(Env.Frame(fixture), w, h);
 
     [Theory]
     [InlineData(1280, 720)]

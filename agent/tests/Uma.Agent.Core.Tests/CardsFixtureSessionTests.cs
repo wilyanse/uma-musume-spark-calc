@@ -1,6 +1,3 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Uma.Agent.Core.Cards;
 using Xunit;
 using static Uma.Agent.Core.Tests.CardsKit;
@@ -171,19 +168,16 @@ public class CardsFixtureSessionTests
     [Fact]
     public async Task Raw_supported_sizes_go_through_ParseAsync_and_unsupported_ones_are_refused()
     {
-        using var image = Frames.ToImage(Env.Frame(List13));
-        image.Mutate(c => c.Resize(2560, 1440, KnownResamplers.Bicubic));
-        var big = Frames.FromImage(image);
+        var big = Resampler.Resize(Env.Frame(List13), 2560, 1440);
         var s = NewSession();
         // The recorded OCR is in reference coordinates; ParseAsync normalizes the frame before any read.
         var r = await s.FeedAsync(Env.Parser(List13), big);
         Assert.Equal(CardFeedOutcome.Collected, r.Outcome);
         Assert.Equal(Lb13, s.State.Cards.Select(c => c.Lb));
 
-        using var small = Frames.ToImage(Env.Frame(List13));
-        small.Mutate(c => c.Resize(1280, 720, KnownResamplers.Bicubic));
+        var small = Resampler.Resize(Env.Frame(List13), 1280, 720);
         var fresh = NewSession();
-        await Assert.ThrowsAsync<UnsupportedResolutionException>(() => fresh.FeedAsync(Env.Parser(List13), Frames.FromImage(small)));
+        await Assert.ThrowsAsync<UnsupportedResolutionException>(() => fresh.FeedAsync(Env.Parser(List13), small));
         Assert.Equal(0, fresh.State.Revision);
     }
 

@@ -171,6 +171,71 @@ public class ImageBehaviourTests
         Assert.Throws<FileNotFoundException>(() => Frames.Load(path));
     }
 
+    private static uint Crc32(byte[] data)
+    {
+        var c = 0xFFFFFFFFu;
+        foreach (var b in data) { c ^= b; for (var k = 0; k < 8; k++) c = (c & 1) != 0 ? 0xEDB88320u ^ (c >> 1) : c >> 1; }
+        return ~c;
+    }
+
+    /// <summary>A valid PNG whose IHDR claims <paramref name="w"/> x <paramref name="h"/> with a tiny zlib payload.</summary>
+    private static byte[] HeaderOnlyPng(uint w, uint h)
+    {
+        static void Chunk(List<byte> o, string type, byte[] data)
+        {
+            var len = new byte[4]; System.Buffers.Binary.BinaryPrimitives.WriteUInt32BigEndian(len, (uint)data.Length); o.AddRange(len);
+            var body = System.Text.Encoding.ASCII.GetBytes(type).Concat(data).ToArray(); o.AddRange(body);
+            var crc = new byte[4]; System.Buffers.Binary.BinaryPrimitives.WriteUInt32BigEndian(crc, Crc32(body)); o.AddRange(crc);
+        }
+        var png = new List<byte> { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+        var ihdr = new byte[13];
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32BigEndian(ihdr, w);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32BigEndian(ihdr.AsSpan(4), h);
+        ihdr[8] = 8; ihdr[9] = 6;
+        Chunk(png, "IHDR", ihdr);
+        Chunk(png, "IDAT", [0x78, 0x9C, 0x03, 0x00, 0x00, 0x00, 0x00, 0x01]);
+        Chunk(png, "IEND", []);
+        return png.ToArray();
+    }
+
+    [Theory]
+    [InlineData(100_000u, 100_000u)]
+    [InlineData(16_385u, 1u)]
+    [InlineData(7681u, 4321u)]
+    public void Oversized_png_headers_are_refused_before_pixel_allocation(uint w, uint h)
+    {
+        var path = TempPng(HeaderOnlyPng(w, h));
+        try
+        {
+            var before = GC.GetAllocatedBytesForCurrentThread();
+            var e = Assert.Throws<InvalidDataException>(() => Frames.Load(path));
+            Assert.Contains("exceeds", e.Message);
+            Assert.True(GC.GetAllocatedBytesForCurrentThread() - before < 1_000_000, "decoder allocated pixel storage for a refused image");
+        }
+        finally { File.Delete(path); }
+    }
+
+    [Fact]
+    public void Corrupted_pngs_only_ever_fail_with_InvalidDataException()
+    {
+        // Deterministic mutation sweep over a real fixture crop: every outcome is a well-formed frame or a typed error.
+        var list = Env.Frame("13-support-card-list");
+        byte[][] seeds = [PngCodec.Encode(Frames.Crop(list, new Rect(273, 93, 101, 134))), PngCodec.Encode(Frames.Crop(list, new Rect(0, 0, 64, 8)))];
+        var rnd = new Random(1234);
+        for (var i = 0; i < 6000; i++)
+        {
+            var s = seeds[i % 2].ToArray();
+            for (var j = 1 + rnd.Next(8); j > 0; j--) s[rnd.Next(8, s.Length)] = (byte)rnd.Next(256);
+            if (rnd.Next(4) == 0) s = s[..rnd.Next(8, s.Length)];
+            try
+            {
+                var d = PngCodec.Decode(s);
+                Assert.Equal(d.Width * d.Height * 4, d.Bgra.Length);
+            }
+            catch (InvalidDataException) { }
+        }
+    }
+
     [Fact]
     public void Core_has_no_SixLabors_dependency()
         => Assert.DoesNotContain(typeof(Frames).Assembly.GetReferencedAssemblies(), a => a.Name!.StartsWith("SixLabors", StringComparison.Ordinal));

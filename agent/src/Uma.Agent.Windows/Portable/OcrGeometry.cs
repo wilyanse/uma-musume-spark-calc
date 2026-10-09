@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SixLabors.ImageSharp.Processing;
 using Uma.Agent.Core;
 
 namespace Uma.Agent.Windows.Shell;
@@ -46,9 +45,7 @@ public static class OcrGeometry
             throw new NonReferenceFrameException(frame.Width, frame.Height);
         var crop = Frames.Crop(frame, roi);
         if (scale == 1.0) return crop;
-        using var image = Frames.ToImage(crop);
-        image.Mutate(c => c.Resize(Math.Max(1, (int)Math.Round(roi.Width * scale)), Math.Max(1, (int)Math.Round(roi.Height * scale)), KnownResamplers.Bicubic));
-        return Frames.FromImage(image);
+        return Resampler.Resize(crop, Math.Max(1, (int)Math.Round(roi.Width * scale)), Math.Max(1, (int)Math.Round(roi.Height * scale)));
     }
 
     public static IReadOnlyList<OcrLine> Finish(IEnumerable<(string Text, Rect Box)> lines, OcrMode mode)

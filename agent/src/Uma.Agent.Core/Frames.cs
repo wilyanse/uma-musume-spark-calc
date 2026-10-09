@@ -1,7 +1,3 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-
 namespace Uma.Agent.Core;
 
 public abstract class UnsupportedFrameException(int width, int height, string message) : Exception(message)
@@ -26,47 +22,9 @@ public sealed class NonReferenceFrameException(int width, int height)
 /// <summary>BGRA frame helpers. Every parser works in the 1920x1080 reference space (30 §2).</summary>
 public static class Frames
 {
-    public static Frame Load(string pngPath)
-    {
-        using var image = Image.Load<Rgba32>(pngPath);
-        return FromImage(image);
-    }
-
-    public static Frame FromImage(Image<Rgba32> image)
-    {
-        var bytes = new byte[image.Width * image.Height * 4];
-        image.ProcessPixelRows(rows =>
-        {
-            for (var y = 0; y < rows.Height; y++)
-            {
-                var row = rows.GetRowSpan(y);
-                for (var x = 0; x < row.Length; x++)
-                {
-                    var p = (y * image.Width + x) * 4;
-                    bytes[p] = row[x].B; bytes[p + 1] = row[x].G; bytes[p + 2] = row[x].R; bytes[p + 3] = row[x].A;
-                }
-            }
-        });
-        return new Frame(bytes, image.Width, image.Height);
-    }
-
-    public static Image<Rgba32> ToImage(Frame frame)
-    {
-        var image = new Image<Rgba32>(frame.Width, frame.Height);
-        image.ProcessPixelRows(rows =>
-        {
-            for (var y = 0; y < rows.Height; y++)
-            {
-                var row = rows.GetRowSpan(y);
-                for (var x = 0; x < row.Length; x++)
-                {
-                    var p = (y * frame.Width + x) * 4;
-                    row[x] = new Rgba32(frame.Bgra[p + 2], frame.Bgra[p + 1], frame.Bgra[p], frame.Bgra[p + 3]);
-                }
-            }
-        });
-        return image;
-    }
+    /// <summary>Reads a PNG file into a straight BGRA frame (<see cref="PngCodec.Decode(byte[])"/>). The file handle is
+    /// released before decoding; non-PNG or corrupt files throw <see cref="InvalidDataException"/>.</summary>
+    public static Frame Load(string pngPath) => PngCodec.Decode(File.ReadAllBytes(pngPath));
 
     /// <summary>Rejects non-16:9 client areas and 16:9 areas below 1920x1080 (typed errors, before any reading), and
     /// resamples larger 16:9 sizes down into reference space.</summary>
@@ -76,9 +34,7 @@ public static class Frames
             throw new UnsupportedAspectRatioException(frame.Width, frame.Height);
         if (frame.Width < LayoutProfiles.ReferenceWidth) throw new UnsupportedResolutionException(frame.Width, frame.Height);
         if (frame.Width == LayoutProfiles.ReferenceWidth) return frame;
-        using var image = ToImage(frame);
-        image.Mutate(c => c.Resize(LayoutProfiles.ReferenceWidth, LayoutProfiles.ReferenceHeight, KnownResamplers.Bicubic));
-        return FromImage(image);
+        return Resampler.Resize(frame, LayoutProfiles.ReferenceWidth, LayoutProfiles.ReferenceHeight);
     }
 
     /// <summary>Refuses raw client-sized frames at calibrated parser entry, before any OCR or pixel reading.

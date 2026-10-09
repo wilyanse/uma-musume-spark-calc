@@ -1,5 +1,3 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 using Uma.Agent.Core;
 using Uma.Agent.Windows.Shell;
 using Xunit;
@@ -94,12 +92,7 @@ public class CapturePipelineTests
         Assert.Equal(new RetainedEvidence(0, 0, 0), rig.Pipeline.Retained);
     }
 
-    private static Frame Resized(Frame f, int w, int h)
-    {
-        using var img = Frames.ToImage(f);
-        img.Mutate(c => c.Resize(w, h));
-        return Frames.FromImage(img);
-    }
+    private static Frame Resized(Frame f, int w, int h) => Resampler.Resize(f, w, h);
 
     [Fact]
     public async Task Sub_reference_and_non_16x9_frames_produce_an_actionable_error_before_any_reading()

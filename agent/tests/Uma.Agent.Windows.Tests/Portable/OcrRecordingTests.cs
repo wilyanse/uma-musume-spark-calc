@@ -90,7 +90,7 @@ public class OcrRecordingTests
         try
         {
             var png = Path.Combine(dir, "small.png");
-            using (var img = new SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(1280, 720)) await SixLabors.ImageSharp.ImageExtensions.SaveAsPngAsync(img, png);
+            await File.WriteAllBytesAsync(png, PngCodec.Encode(new Frame(new byte[1280 * 720 * 4], 1280, 720)));
             var recorder = new OcrRecorder(R.Ocr(Deck), "replay", R.Data.Layout);
             await Assert.ThrowsAsync<NonReferenceFrameException>(() => recorder.RecordAsync(png, Path.Combine(dir, "out"), overwrite: false));
             Assert.False(Directory.Exists(Path.Combine(dir, "out")));
