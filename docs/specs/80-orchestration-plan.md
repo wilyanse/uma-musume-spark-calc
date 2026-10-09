@@ -220,7 +220,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T15 | Merged locally e699c35; merged workspace/engine329 tests, scoped web build and fixture exclusion pass; synthetic ×1.3→1.33 | task/T15-rules-calibration | T15-rules-calibration.md | PASS r4 after coordinator takeover; Partial acceptance: H4/real rules/browser consumer remain; nonblocking findings retained |
 | T15b | Merged locally d1105eb; merged workspace/web164/browser16, scoped build and fixture exclusion passed; real-browser synthetic ×1.32 | task/T15b-calibration-consumer | T15b-calibration-consumer.md | PASS r1; labels/atomic configure follow-ups recorded for T15c; H4 remains |
 | T15c | Merged locally 5e7d3e6; merged workspace/web229/browser18 and production build/check-dist passed; explicit apply/refit/reload/reset verified synthetically | task/T15c-calibration-apply | T15c-calibration-apply.md | PASS r2; B1/B2/S1/N1-N4 resolved; native/real-roster/cloud remain |
-| T16 | Direct Opus implementation dispatched for audited ImageSharp upgrade/build fix | task/T16-agent-dependency | T16-agent-dependency.md | Independent review required; Opus medium first |
+| T16 | Blocked candidate 129228e (documentation only): patched ImageSharp4 requires Release license; original dependency preserved | task/T16-agent-dependency | T16-agent-dependency.md | Q-161 in task branch; user license-vs-migration decision pending; no upgrade/approval/merge |
 | T17 | Direct Opus implementation dispatched for user-approved status-aware capture training eligibility | task/T17-capture-eligibility | T17-capture-eligibility.md | Independent review required; Opus medium first |
 
 ## 6. Integration readiness after T15c
