@@ -1,0 +1,37 @@
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+
+ ❯ test/t15c-provenance.logic.test.ts (24 tests | 1 failed) 92ms
+   ❯ local overridden-model envelope (4)
+     × validates the FULL authoritative ModelSnapshot schema before local reuse 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/t15c-provenance.logic.test.ts > local overridden-model envelope > validates the FULL authoritative ModelSnapshot schema before local reuse
+AssertionError: expected { status: 'ok', env: { …(11) } } to match object { status: 'invalid' }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "status": "invalid",
++   "status": "ok",
+  }
+
+ ❯ test/t15c-provenance.logic.test.ts:176:86
+    174|   it('validates the FULL authoritative ModelSnapshot schema before loc…
+    175|     const malformed = { ...snapshot, params: { ...snapshot.params, res…
+    176|     expect(parseLocalModel(JSON.stringify(env({ snapshot: malformed })…
+       |                                                                                      ^
+    177|     expect(saveLocalModel(memoryStore(), 'fixture', env({ snapshot: ma…
+    178|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 23 passed (24)
+   Start at  23:38:25
+   Duration  1.31s (environment 47%, transform 18%, import 17%, setup 10%, tests 8%)
+

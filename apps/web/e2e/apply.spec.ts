@@ -41,8 +41,9 @@ async function deterministic(page: Page, theme = 'light') {
       static override now() { return RealDate.parse(clock); }
     }
     window.Date = FixedDate as DateConstructor;
-    // Test-only deterministic browser ULID entropy. Worker fit/rank still use real seeded engine
-    // algorithms; this does not modify a proposal, golden input, or production application code.
+    // Test-only seeded entropy for the PAGE realm only (not workers). Observed snapshot/override ULIDs
+    // still differ between runs, so assertions compare identities within one run, never fixed ids.
+    // It does not modify a proposal, golden input, or production application code.
     let entropy = 0x15c;
     Object.defineProperty(crypto, 'getRandomValues', { configurable: true, value: (array: ArrayBufferView) => {
       const bytes = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);

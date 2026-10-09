@@ -1,0 +1,203 @@
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+
+ ❯ test/t15c-provenance.logic.test.ts (0 test)
+ ❯ test/t15c-worker.test.ts (10 tests | 9 failed) 2583ms
+   ❯ effective context identity (3)
+     × is a SHA-256 digest over the exact effective inputs, deterministic, and distinct per context kind 4ms
+     × same rules.version but different synthetic values or turns gives a different identity 15ms
+     × withBlueStatGainTable equals the engine withBlueStatGainMultiplier helper on the same values (no compounding helper of its own) 2ms
+   ❯ browser-local override in the worker (6)
+     × REAL calibration of the unchanged ×1.3 roster proposes ~×1.32; applying it gives absolute proposed values, a new identity and verified:false 7ms
+     × recalibrating on the applied context does not compound: the next suggestion is relative to the applied table and near ×1 1199ms
+     × an override bound to another base fingerprint is refused visibly and the base context stays in force 6ms
+     × a synthetic-base override cannot configure production (its base fingerprint is the fixture context) 4ms
+     × invalid override values are refused (negative / non-finite / unsupported rule) 5ms
+   ❯ fit and rank carry the effective identity (1)
+     × fit reports the identity it ran under; rank refuses a snapshot provenance for another identity (worker-side, not UI) 121ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/t15c-provenance.logic.test.ts [ test/t15c-provenance.logic.test.ts ]
+Error: Failed to resolve import "../src/lib/digest.ts" from "test/t15c-provenance.logic.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web/test/t15c-provenance.logic.test.ts:9:51
+  6  |  import { createHash } from "node:crypto";
+  7  |  import { describe, expect, it } from "vitest";
+  8  |  import { canonicalJson, digestOf, sha256Hex } from "../src/lib/digest.ts";
+     |                                                      ^
+  9  |  import { LOCAL_MODEL_SCHEMA, OVERRIDE_SCHEMA, checkOverrideFor, localModelKey, localModelMismatch, overrideKey, parse...
+  10 |  import { decideModel, loadFitRecord, saveFitRecord } from "../src/lib/model.ts";
+ ❯ TransformPluginContext._formatLog ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:8736:39
+ ❯ TransformPluginContext.error ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:8733:14
+ ❯ normalizeUrl ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:26423:18
+ ❯ ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:26493:30
+ ❯ TransformPluginContext.transform ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:26459:4
+ ❯ EnvironmentPluginContainer.transform ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:8515:14
+ ❯ loadAndTransform ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:19998:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/t15c-worker.test.ts > effective context identity > is a SHA-256 digest over the exact effective inputs, deterministic, and distinct per context kind
+TypeError: .toMatch() expects to receive a string, but got undefined
+ ❯ test/t15c-worker.test.ts:37:30
+     35| describe('effective context identity', () => {
+     36|   it('is a SHA-256 digest over the exact effective inputs, determinist…
+     37|     expect(base.fingerprint).toMatch(/^sha256:[0-9a-f]{64}$/);
+       |                              ^
+     38|     expect(base.baseFingerprint).toBe(base.fingerprint);
+     39|     expect(base.override).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > effective context identity > same rules.version but different synthetic values or turns gives a different identity
+AssertionError: expected 1 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 1
+
+ ❯ test/t15c-worker.test.ts:52:76
+     50|     const b = ok(createEngineApi().configure({ bundle: masterBundle(),…
+     51|     expect(a.rulesVersion).toBe(base.rulesVersion);
+     52|     expect(new Set([a.fingerprint, b.fingerprint, base.fingerprint]).s…
+       |                                                                            ^
+     53|     const m2 = structuredClone(masterBundle()); m2.skills[0]!.name += …
+     54|     expect(ok(createEngineApi().configure({ bundle: m2, kind: 'golden-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > effective context identity > withBlueStatGainTable equals the engine withBlueStatGainMultiplier helper on the same values (no compounding helper of its own)
+TypeError: withBlueStatGainTable is not a function
+ ❯ test/t15c-worker.test.ts:61:22
+     59|     const c10 = loadContext(masterBundle(), scaledRules);
+     60|     const viaHelper = withBlueStatGainMultiplier(c10, 1.32);
+     61|     const viaTable = withBlueStatGainTable(c10, [10 * 1.32, 20 * 1.32,…
+       |                      ^
+     62|     expect(viaTable.tables).toEqual(viaHelper.tables);
+     63|     expect(viaTable.unverifiedRules).toEqual(viaHelper.unverifiedRules…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > browser-local override in the worker > REAL calibration of the unchanged ×1.3 roster proposes ~×1.32; applying it gives absolute proposed values, a new identity and verified:false
+AssertionError: expected undefined to match object { …(2) }
+
+- Expected:
+{
+  "id": "01KGQZ0000G01DENCM00T15C21",
+  "proposed": [
+    13.200000000000001,
+    26.400000000000002,
+    39.6,
+  ],
+}
+
++ Received:
+undefined
+
+ ❯ test/t15c-worker.test.ts:79:27
+     77|     const api = createEngineApi();
+     78|     const info = ok(api.configure({ ...golden(), override: overrideFro…
+     79|     expect(info.override).toMatchObject({ id: '01KGQZ0000G01DENCM00T15…
+       |                           ^
+     80|     expect(info.baseFingerprint).toBe(base.fingerprint);
+     81|     expect(info.fingerprint).not.toBe(base.fingerprint);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > browser-local override in the worker > recalibrating on the applied context does not compound: the next suggestion is relative to the applied table and near ×1
+AssertionError: expected 0.32000000000000006 to be less than or equal to 0.05
+ ❯ test/t15c-worker.test.ts:97:30
+     95|     expect(again.report.stats.selected).not.toBeNull();
+     96|     const m2 = again.report.stats.selected!.multiplier;
+     97|     expect(Math.abs(m2 - 1)).toBeLessThanOrEqual(0.05);
+       |                              ^
+     98|     const cur = again.report.stats.selected && again.report.suggestion…
+     99|     if (cur) expect(cur).toEqual(cal.report.suggestions[0]!.proposed);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > browser-local override in the worker > an override bound to another base fingerprint is refused visibly and the base context stays in force
+AssertionError: expected undefined to be null
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ test/t15c-worker.test.ts:109:27
+    107|     const api = createEngineApi();
+    108|     const info = ok(api.configure({ ...golden(), override: { ...overri…
+    109|     expect(info.override).toBeNull();
+       |                           ^
+    110|     expect(info.overrideRejected).toMatch(/base context/);
+    111|     expect(info.fingerprint).toBe(base.fingerprint);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > browser-local override in the worker > a synthetic-base override cannot configure production (its base fingerprint is the fixture context)
+AssertionError: expected undefined to be null
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ test/t15c-worker.test.ts:115:27
+    113|   it('a synthetic-base override cannot configure production (its base …
+    114|     const info = ok(createEngineApi().configure({ bundle: masterBundle…
+    115|     expect(info.override).toBeNull();
+       |                           ^
+    116|     expect(info.overrideRejected).toMatch(/base context/);
+    117|     expect(info.effectiveRules.blueStatGain['1']).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > browser-local override in the worker > invalid override values are refused (negative / non-finite / unsupported rule)
+AssertionError: expected undefined to be null
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ test/t15c-worker.test.ts:122:29
+    120|     for (const bad of [{ proposed: [1, -1, 1] }, { proposed: [1, Numbe…
+    121|       const info = ok(createEngineApi().configure({ ...golden(), overr…
+    122|       expect(info.override).toBeNull();
+       |                             ^
+    123|       expect(info.overrideRejected).toBeTruthy();
+    124|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  test/t15c-worker.test.ts > fit and rank carry the effective identity > fit reports the identity it ran under; rank refuses a snapshot provenance for another identity (worker-side, not UI)
+AssertionError: expected 'Error' to be 'ProvenanceMismatchError' // Object.is equality
+
+Expected: "ProvenanceMismatchError"
+Received: "Error"
+
+ ❯ test/t15c-worker.test.ts:152:45
+    150|     const wrong = api.rank(fit.snapshot, input, roster, target, { topK…
+    151|     expect(wrong.ok).toBe(false);
+    152|     if (!wrong.ok) expect(wrong.error.name).toBe('ProvenanceMismatchEr…
+       |                                             ^
+    153|     const missing = api.rank(fit.snapshot, input, roster, target, { to…
+    154|     expect(missing.ok).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  9 failed | 1 passed (10)
+   Start at  22:47:06
+   Duration  3.79s (tests 59%, environment 29%, transform 5%, setup 5%, import 2%)
+

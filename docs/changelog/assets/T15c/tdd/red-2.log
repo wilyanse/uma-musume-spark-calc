@@ -1,0 +1,33 @@
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+
+ ❯ test/t15c-apply.test.tsx (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/t15c-apply.test.tsx [ test/t15c-apply.test.tsx ]
+Error: Failed to resolve import "../src/lib/rulesOverride.ts" from "test/t15c-apply.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web/test/t15c-apply.test.tsx:18:114
+  15 |  import { calibrationRoster, goldenRoster, goldenTargets, goldenTruth, masterBundle, masterData } from "./fixtures.ts";
+  16 |  import { memoryStore } from "../src/lib/storage.ts";
+  17 |  ...y, readLocalModel, readOverride, writeOverrideState } from "../src/lib/rulesOverride.ts";
+     |                                                                 ^
+  18 |  import { ensureModel } from "../src/app/engine.ts";
+  19 |  import { rosterIdentity } from "../src/lib/calibration.ts";
+ ❯ TransformPluginContext._formatLog ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:8736:39
+ ❯ TransformPluginContext.error ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:8733:14
+ ❯ normalizeUrl ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:26423:18
+ ❯ ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:26493:30
+ ❯ TransformPluginContext.transform ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:26459:4
+ ❯ EnvironmentPluginContainer.transform ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:8515:14
+ ❯ loadAndTransform ../../node_modules/.pnpm/vite@8.3.1_@types+node@22.20.4_esbuild@0.28.1/node_modules/vite/dist/node/chunks/node.js:19998:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  23:02:13
+   Duration  1.21s (environment 78%, setup 19%, transform 2%)
+

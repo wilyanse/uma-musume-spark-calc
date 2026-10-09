@@ -1,0 +1,12 @@
+Scope: 5 of 6 workspace projects
+packages/schema typecheck$ tsc -p tsconfig.json
+packages/schema typecheck: Done
+apps/api typecheck$ tsc -p tsconfig.json
+packages/master-data typecheck$ tsc -p tsconfig.json
+packages/master-data typecheck: Done
+apps/api typecheck: Done
+packages/engine typecheck$ tsc -p tsconfig.json
+packages/engine typecheck: Done
+apps/web typecheck$ tsc -p tsconfig.json
+apps/web typecheck: Done
+EXIT=0

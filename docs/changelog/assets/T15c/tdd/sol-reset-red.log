@@ -1,0 +1,34 @@
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+
+ ❯ test/t15c-apply.test.tsx (15 tests | 1 failed) 2800ms
+   ❯ S07 reset and stored-state problems (5)
+     × failed reset storage cleanup retains the previous rules and local model 50ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/t15c-apply.test.tsx > S07 reset and stored-state problems > failed reset storage cleanup retains the previous rules and local model
+AssertionError: expected 'Reset done. The SYNTHETIC golden fixt…' to match /Reset could not clear/
+
+- Expected:
+/Reset could not clear/
+
++ Received:
+"Reset done. The SYNTHETIC golden fixture base context (fixture mode; not the published rules) is in force again. Old ranking results and reports are stale; the next model must pass provenance checks or is refitted. Old local model/provenance could not be removed completely. Review storage before reuse; no server snapshot was deleted."
+
+ ❯ test/t15c-apply.test.tsx:279:67
+    277|     await userEvent.click(screen.getByRole('button', { name: 'Reset to…
+    278|     await userEvent.click(within(screen.getByRole('dialog')).getByRole…
+    279|     expect((await screen.findByTestId('rules-note')).textContent).toMa…
+       |                                                                   ^
+    280|     expect(underlying.getItem(overrideKey('fixture'))).toBe(previous);
+    281|     expect(underlying.getItem(localModelKey('fixture'))).toBe(model);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  23:48:44
+   Duration  4.33s (tests 67%, environment 14%, transform 10%, import 6%, setup 3%)
+

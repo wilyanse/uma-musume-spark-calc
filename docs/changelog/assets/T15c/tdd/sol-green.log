@@ -1,0 +1,9 @@
+
+ RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+
+
+ Test Files  3 passed (3)
+      Tests  41 passed (41)
+   Start at  23:39:16
+   Duration  4.10s (tests 43%, environment 32%, transform 12%, import 7%, setup 6%)
+

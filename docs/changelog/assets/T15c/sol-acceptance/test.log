@@ -1,0 +1,39 @@
+Scope: 5 of 6 workspace projects
+packages/schema test$ vitest run
+packages/schema test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/packages/schema
+packages/schema test:  Test Files  4 passed (4)
+packages/schema test:       Tests  149 passed (149)
+packages/schema test:    Start at  23:54:40
+packages/schema test:    Duration  356ms (import 45%, transform 41%, tests 13%, worker 2%)
+packages/schema test: Done
+apps/api test$ vitest run
+packages/master-data test$ vitest run
+packages/master-data test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/packages/master-data
+packages/master-data test:  Test Files  3 passed (3)
+packages/master-data test:       Tests  82 passed (82)
+packages/master-data test:    Start at  23:54:41
+packages/master-data test:    Duration  454ms (transform 36%, tests 33%, import 29%, worker 1%)
+packages/master-data test: Done
+apps/api test:  RUN  v4.1.11 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/api
+apps/api test:  Test Files  13 passed (13)
+apps/api test:       Tests  111 passed (111)
+apps/api test:    Start at  23:54:41
+apps/api test:    Duration  6.17s (transform 6.18s, setup 19.16s, import 859ms, tests 6.17s, environment 4ms)
+apps/api test: Done
+packages/engine test$ vitest run
+packages/engine test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/packages/engine
+packages/engine test:  Test Files  21 passed (21)
+packages/engine test:       Tests  329 passed (329)
+packages/engine test:    Start at  23:54:48
+packages/engine test:    Duration  18.57s (tests 70%, import 25%, transform 4%)
+packages/engine test: Done
+apps/web test$ node scripts/tokens.mjs --check && vitest run
+apps/web test: tokens.css is up to date
+apps/web test:  RUN  v5.0.2 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T15c-calibration-apply/apps/web
+apps/web test:  Test Files  19 passed (19)
+apps/web test:       Tests  216 passed (216)
+apps/web test:    Start at  23:55:07
+apps/web test:    Duration  10.22s (tests 65%, environment 21%, transform 6%, setup 4%, import 4%)
+apps/web test:     Isolate  19 workers spawned · ~856ms startup each (spawn + environment, per file)
+apps/web test:              at least ~951ms faster with isolate: false — reuses workers across files instead of one per file
+apps/web test: Done

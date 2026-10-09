@@ -1,0 +1,119 @@
+{
+  "note": "REAL browser Worker/Comlink, SYNTHETIC golden fixture context, unchanged roster.calibration-x1.3.json; MOCK in-tab snapshot store; not real-game evidence",
+  "baseRank": {
+    "snapshot": "01M4CCYJ00PTYQA903M2PF3F7M",
+    "context": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+    "local": "false",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "calibration": {
+    "ms": 1345,
+    "selection": "Selected multiplier ×1.32 (holdout-MAE argmin; stats status suggested).",
+    "multiplier": 1.32
+  },
+  "dialog": {
+    "old": [
+      10,
+      20,
+      30
+    ],
+    "proposed": [
+      13.2,
+      26.4,
+      39.6
+    ]
+  },
+  "crossTabExclusiveLock": "REAL Web Locks: isolated candidate fit queued; neither model nor override persisted until other tab released exclusive lock",
+  "apply": {
+    "ms": 528,
+    "baseFp": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+    "ovFp": "sha256:2f3f91bc518f95c886aef0a0a244a4a9813c0da7153eb3b7a2470e547d3f7758",
+    "override": {
+      "id": "01M4CCYJ006G21E41SVJ61R5R9",
+      "appliedAt": "2026-10-08T00:00:00.000Z",
+      "rule": "blueStatGain",
+      "proposed": [
+        13.200000000000001,
+        26.400000000000002,
+        39.6
+      ],
+      "verified": false,
+      "source": "BROWSER-LOCAL override from calibration report 01M4CCYJ00ZXJJ277N2FSNQNGK (×1.32 proposal; unverified statistical value, not a game fact; this browser only)",
+      "sourceReport": {
+        "id": "01M4CCYJ00ZXJJ277N2FSNQNGK",
+        "generatedAt": "2026-10-08T00:00:00.000Z",
+        "multiplier": 1.32,
+        "contextFingerprint": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+        "current": [
+          10,
+          20,
+          30
+        ],
+        "rosterEtag": "\"fixture-0\"",
+        "rosterIdentity": "260:sha256:8c607715f76be29339007c5bd939a91977b5da0946873c3a9019c433735479c4"
+      },
+      "base": {
+        "contextKind": "golden-fixture",
+        "masterVersion": "global-20260930",
+        "rulesVersion": "rules-1",
+        "fingerprint": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add"
+      }
+    },
+    "localSnapshot": "01M4CCYJ00VDJE9PJV1089D525",
+    "storedSnapshots": [
+      "01M4CCYJ00PTYQA903M2PF3F7M"
+    ]
+  },
+  "healthRefit": {
+    "candidateSnapshot": "01M4CCYJ00VDJE9PJV1089D525",
+    "refittedSnapshot": "01M4CCYJ00CM38EYRN5QGNN6FK",
+    "context": "sha256:2f3f91bc518f95c886aef0a0a244a4a9813c0da7153eb3b7a2470e547d3f7758",
+    "storedSnapshots": [
+      "01M4CCYJ00PTYQA903M2PF3F7M"
+    ]
+  },
+  "overrideRank": {
+    "snapshot": "01M4CCYJ00CM38EYRN5QGNN6FK",
+    "context": "sha256:2f3f91bc518f95c886aef0a0a244a4a9813c0da7153eb3b7a2470e547d3f7758",
+    "local": "true",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "recalibration": {
+    "selection": "Selected multiplier ×1.00 (holdout-MAE argmin; stats status suggested).",
+    "multiplier": 1,
+    "suggestions": "Suggested values (unverified proposals)\n\nSuggested blueStatGain ×1.00: 13.20 / 26.40 / 39.60 → 13.20 / 26.40 / 39.60 (1★/2★/3★); not applied by this report; consistent with current: yes. Engine note: “Unverified statistical suggestion (verified:false). Apply explicitly, then refit the training model (ADR-0002 §2.11, Q-141).”\n\nCalibration itself never changes the rules, the engine context, the model or anything stored. Apply (only for a suggested proposal of a current report) asks for confirmation, fits a candidate model first, and keeps the result in THIS browser only. Apply is unavailable: the proposal equals the rules in force (×1), so there is nothing to apply.\n\nApply suggested multipliers\nDismiss"
+  },
+  "reloadRank": {
+    "snapshot": "01M4CCYJ00CM38EYRN5QGNN6FK",
+    "context": "sha256:2f3f91bc518f95c886aef0a0a244a4a9813c0da7153eb3b7a2470e547d3f7758",
+    "local": "true",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "plannerAutoFit": {
+    "snapshot": "01M4CCYJ00FFVJQRY2RDWW5P40",
+    "context": "sha256:2f3f91bc518f95c886aef0a0a244a4a9813c0da7153eb3b7a2470e547d3f7758",
+    "local": "true",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  },
+  "resetRank": {
+    "snapshot": "01M4CCYJ00E4NW6QXNV4GG772G",
+    "context": "sha256:979cfd2ef13bf424e202faa6fe540c1a4d74a1238a8ef1f62c6dd26d0b227add",
+    "local": "false",
+    "top": [
+      "01M1RX152GP86FAQ1WPY0MX60J",
+      "01M379DKQ86T9BGV6696R6DWN2"
+    ]
+  }
+}
