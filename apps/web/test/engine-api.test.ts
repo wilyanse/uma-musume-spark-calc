@@ -73,7 +73,7 @@ describe('engine worker api (real @uma/engine)', () => {
     const g = truth.golden;
     const target = goldenTargets()[0]!;
     const info = ok(api.configure({ bundle: masterBundle(), kind: 'golden-fixture', golden: truth }));
-    const r = api.rank(legacy, { traineeOutfitId: g.traineeOutfitId, deck: g.planDeck, trainMode: g.trainMode, scenarioId: g.scenarioId }, roster, target, { topK: 5, topN: 5 }, { contextFingerprint: info.fingerprint });
+    const r = api.rank(legacy, { traineeOutfitId: g.traineeOutfitId, deck: g.planDeck, trainMode: g.trainMode, scenarioId: g.scenarioId }, roster, target, { topK: 5, topN: 5 }, { contextFingerprint: info.fingerprint, eligibilityPolicy: info.eligibilityPolicy });
     expect(r.ok).toBe(false);
     if (!r.ok && r.error.name === 'RefitRequiredError') {
       expect(r.error.reason).toBe('legacy-kind');
@@ -104,7 +104,7 @@ describe('engine worker api (real @uma/engine)', () => {
         roster,
         target,
         {},
-        { contextFingerprint: fit.contextFingerprint },
+        { contextFingerprint: fit.contextFingerprint, eligibilityPolicy: fit.eligibilityPolicy },
         (p) => progress.push(p),
       ),
     );

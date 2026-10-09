@@ -27,7 +27,7 @@ beforeAll(() => {
   // to that identity so the base-context provenance checks pass (identity checks: t15c-*.test.ts).
   fit = { ...f.value, contextFingerprint: HARNESS_FP };
   const g = truth.golden;
-  const r = api.rank(fit.snapshot, { traineeOutfitId: g.traineeOutfitId, deck: g.planDeck, trainMode: g.trainMode, scenarioId: g.scenarioId }, roster, targets[0]!, { topK: 1, topN: 1, seed: 160 }, { contextFingerprint: f.value.contextFingerprint });
+  const r = api.rank(fit.snapshot, { traineeOutfitId: g.traineeOutfitId, deck: g.planDeck, trainMode: g.trainMode, scenarioId: g.scenarioId }, roster, targets[0]!, { topK: 1, topN: 1, seed: 160 }, { contextFingerprint: f.value.contextFingerprint, eligibilityPolicy: f.value.eligibilityPolicy });
   if (!r.ok) throw Error(r.error.message);
   ranked = r.value;
 }, 120_000);
@@ -86,7 +86,7 @@ describe('S06 Planner', () => {
   });
   it('reuses proven v2; cancel/restart drops a late result', async () => {
     const store = planStore();
-    saveFitRecord(store, 'api', { v: 2, snapshotId: fit.snapshot.id, masterVersion: masterData().version, rosterEtag: '"e1"', rosterIdentity: rosterIdentity(roster), context: 'production', contextFingerprint: HARNESS_FP });
+    saveFitRecord(store, 'api', { v: 3, eligibilityPolicy: fit.eligibilityPolicy, snapshotId: fit.snapshot.id, masterVersion: masterData().version, rosterEtag: '"e1"', rosterIdentity: rosterIdentity(roster), context: 'production', contextFingerprint: HARNESS_FP });
     const pending: ((r: unknown) => void)[] = [];
     const engine = fakeEngine({ rank: () => new Promise((r) => pending.push(r)) });
     renderRoute('/planner', mockSource({ roster, targets, snapshot: fit.snapshot }).src, { engine, store });
@@ -151,7 +151,9 @@ describe('S07 Model health', () => {
   it('shows the training-row threshold the engine context reports (MIN_CONFIDENCE)', async () => {
     const engine = fakeEngine({ configure: async () => ({ ok: true, value: fakeContext({ unverifiedRules: [], minConfidence: 0.42 }) }) });
     renderRoute('/health', mockSource({ roster, snapshot: fit.snapshot }).src, { engine });
-    expect(await screen.findByText('min confidence ≥ 0.42')).toBeTruthy();
+    // T17 (ADR-0003): status-aware rows need no remaining low-confidence field; the numeric
+    // threshold applies only to legacy rows without the status flag.
+    expect(await screen.findByText('no low-confidence field left (legacy rows: min confidence ≥ 0.42)')).toBeTruthy();
   });
   it('legacy remains readable and never relabelled', async () => {
     const legacy = { ...fit.snapshot, kind: 'training-v1' as const };

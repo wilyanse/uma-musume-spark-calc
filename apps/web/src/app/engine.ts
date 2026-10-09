@@ -167,14 +167,16 @@ export async function ensureModel(
       masterVersion: args.masterVersion,
       rosterEtag: args.rosterEtag,
       rosterIdentity: args.rosterIdentity,
+      eligibilityPolicy: ctx.eligibilityPolicy,
     };
     let reason: FitReason = args.force ?? 'no-snapshot';
     if (!args.force) {
       const env = readLocalModel(store, mode);
       if (env.status === 'ok') {
         const why = localModelMismatch(env.env, want);
-        if (!why) return { status: 'ready', snapshot: env.env.snapshot, provenance: { contextFingerprint: env.env.contextFingerprint }, local: true, fitted: null, legacy: null, storeError: null };
-        reason = why === 'the roster changed' ? 'roster-changed' : why === 'master data changed' ? 'master-changed' : 'context-changed';
+        if (!why) return { status: 'ready', snapshot: env.env.snapshot, provenance: { contextFingerprint: env.env.contextFingerprint, eligibilityPolicy: ctx.eligibilityPolicy }, local: true, fitted: null, legacy: null, storeError: null };
+        reason = why === 'the roster changed' ? 'roster-changed' : why === 'master data changed' ? 'master-changed'
+          : why === 'it was fitted under another training eligibility policy' ? 'eligibility-changed' : 'context-changed';
       } else if (env.status === 'invalid') reason = 'corrupt';
     }
     const job = engine.fit(args.roster, { nowIso: now().toISOString() });
@@ -185,10 +187,10 @@ export async function ensureModel(
     if (!outcome.result.ok) return { status: 'error', message: outcome.result.error.message, engine: outcome.result.error };
     if (!live()) return { status: 'cancelled' };
     const out = outcome.result.value;
-    if (!fresh() || out.contextFingerprint !== ctx.fingerprint || !out.overridden) return { status: 'error', message: STALE_RULES_MESSAGE };
+    if (!fresh() || out.contextFingerprint !== ctx.fingerprint || !out.overridden || out.eligibilityPolicy !== ctx.eligibilityPolicy) return { status: 'error', message: STALE_RULES_MESSAGE };
     const fitted: SessionFit = { output: out, reason, at: now().toISOString() };
     qc.setQueryData(FIT_SUMMARY_KEY, fitted);
-    const env: LocalModelEnvelope = { schema: 'uma-browser-local-model', v: 1, mode, ...want, snapshot: out.snapshot, savedAt: now().toISOString() };
+    const env: LocalModelEnvelope = { schema: 'uma-browser-local-model', v: 2, mode, ...want, snapshot: out.snapshot, savedAt: now().toISOString() };
     let saved: { ok: true } | { ok: false; reason: string };
     try {
       saved = await withRulesLock(store, mode, () => {
@@ -203,7 +205,7 @@ export async function ensureModel(
     return {
       status: 'ready',
       snapshot: out.snapshot,
-      provenance: { contextFingerprint: out.contextFingerprint },
+      provenance: { contextFingerprint: out.contextFingerprint, eligibilityPolicy: out.eligibilityPolicy },
       local: true,
       fitted,
       legacy: null,
@@ -230,10 +232,11 @@ export async function ensureModel(
         masterVersion: args.masterVersion,
         context: ctx.kind,
         contextFingerprint: ctx.fingerprint,
+        eligibilityPolicy: ctx.eligibilityPolicy,
         record: loadFitRecord(store, mode),
       });
   if (decision.action === 'use') {
-    return { status: 'ready', snapshot: decision.snapshot, provenance: { contextFingerprint: ctx.fingerprint }, local: false, fitted: null, legacy: null, storeError: null };
+    return { status: 'ready', snapshot: decision.snapshot, provenance: { contextFingerprint: ctx.fingerprint, eligibilityPolicy: ctx.eligibilityPolicy }, local: false, fitted: null, legacy: null, storeError: null };
   }
   const job = engine.fit(args.roster, { nowIso: now().toISOString() });
   args.onFitStart?.(decision.reason, job.cancel);
@@ -245,26 +248,28 @@ export async function ensureModel(
   const out = outcome.result.value;
   // Never POST a model whose context is not exactly this base context (e.g. the worker was
   // reconfigured with an override meanwhile): the snapshot API has no rules fingerprint (Q-141).
-  if (!fresh() || out.overridden || out.contextFingerprint !== ctx.fingerprint) return { status: 'error', message: STALE_RULES_MESSAGE };
+  // T17: nor one whose population was selected under another eligibility policy.
+  if (!fresh() || out.overridden || out.contextFingerprint !== ctx.fingerprint || out.eligibilityPolicy !== ctx.eligibilityPolicy) return { status: 'error', message: STALE_RULES_MESSAGE };
   const fitted: SessionFit = { output: out, reason: decision.reason, at: now().toISOString() };
   qc.setQueryData(FIT_SUMMARY_KEY, fitted);
   let storeError: string | null = null;
   try {
     await source.storeSnapshot(out.snapshot);
     saveFitRecord(store, mode, {
-      v: 2,
+      v: 3,
       snapshotId: out.snapshot.id,
       rosterEtag: args.rosterEtag,
       rosterIdentity: args.rosterIdentity,
       masterVersion: args.masterVersion,
       context: ctx.kind,
       contextFingerprint: out.contextFingerprint,
+      eligibilityPolicy: out.eligibilityPolicy,
     });
   } catch (e) {
     storeError = `The model was fitted but couldn't be stored: ${errorText(e)}`;
   }
   void qc.invalidateQueries({ queryKey: ['model-snapshot'] });
-  return { status: 'ready', snapshot: out.snapshot, provenance: { contextFingerprint: out.contextFingerprint }, local: false, fitted, legacy: decision.legacy, storeError };
+  return { status: 'ready', snapshot: out.snapshot, provenance: { contextFingerprint: out.contextFingerprint, eligibilityPolicy: out.eligibilityPolicy }, local: false, fitted, legacy: decision.legacy, storeError };
 }
 
 export function useSessionFit(): SessionFit | undefined {

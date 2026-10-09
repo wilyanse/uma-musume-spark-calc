@@ -147,12 +147,12 @@ describe('fit and rank carry the effective identity', () => {
     const fit = ok(api.fit(roster, { nowIso: NOW, id: '01KGQZ0000G01DENCM00T15CF1' }));
     expect(fit.contextFingerprint).toBe(info.fingerprint);
     // Same snapshot, provenance from the base context: refused.
-    const wrong = api.rank(fit.snapshot, input, roster, target, { topK: 3, topN: 3 }, { contextFingerprint: base.fingerprint });
+    const wrong = api.rank(fit.snapshot, input, roster, target, { topK: 3, topN: 3 }, { contextFingerprint: base.fingerprint, eligibilityPolicy: info.eligibilityPolicy });
     expect(wrong.ok).toBe(false);
     if (!wrong.ok) expect(wrong.error.name).toBe('ProvenanceMismatchError');
     const missing = api.rank(fit.snapshot, input, roster, target, { topK: 3, topN: 3 }, undefined as never);
     expect(missing.ok).toBe(false);
-    const right = ok(api.rank(fit.snapshot, input, roster, target, { topK: 3, topN: 3 }, { contextFingerprint: info.fingerprint }));
+    const right = ok(api.rank(fit.snapshot, input, roster, target, { topK: 3, topN: 3 }, { contextFingerprint: info.fingerprint, eligibilityPolicy: info.eligibilityPolicy }));
     expect(right.results.length).toBeGreaterThan(0);
   }, T);
 });

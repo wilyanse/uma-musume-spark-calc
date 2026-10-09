@@ -379,14 +379,14 @@ export function HealthScreen() {
     if (l?.status === 'ok') {
       localWhy = localModelMismatch(l.env, {
         overrideId: ctx.override.id, contextFingerprint: ctx.fingerprint, baseFingerprint: ctx.baseFingerprint, masterVersion: m.version,
-        rosterEtag: currentProv?.rosterEtag ?? null, rosterIdentity: currentProv?.rosterIdentity ?? '',
+        rosterEtag: currentProv?.rosterEtag ?? null, rosterIdentity: currentProv?.rosterIdentity ?? '', eligibilityPolicy: ctx.eligibilityPolicy,
       });
       if (!localWhy && isReadableSnapshot(l.env.snapshot)) s = l.env.snapshot;
       else localWhy ??= 'the stored local model is malformed';
     } else localWhy = l?.status === 'invalid' ? l.reason : 'none has been fitted for this override in this browser yet';
   } else s = snap.data ?? null;
   const unproven = !overrideActive && !!s && s.kind === 'training-v2' && !!currentProv &&
-    decideModel({ v2: s, anyLatest: s, rosterEtag: currentProv.rosterEtag, rosterIdentity: currentProv.rosterIdentity, masterVersion: m.version, context: ctx.kind, contextFingerprint: ctx.fingerprint, record: loadFitRecord(services.store, services.source.kind) }).action !== 'use';
+    decideModel({ v2: s, anyLatest: s, rosterEtag: currentProv.rosterEtag, rosterIdentity: currentProv.rosterIdentity, masterVersion: m.version, context: ctx.kind, contextFingerprint: ctx.fingerprint, eligibilityPolicy: ctx.eligibilityPolicy, record: loadFitRecord(services.store, services.source.kind) }).action !== 'use';
   const effectiveRows = rulesRows(ctx.effectiveRules);
   const ov = ctx.override;
   const stored = ctx.storedOverride;
@@ -464,7 +464,7 @@ export function HealthScreen() {
             <div className="kpi">
               <small>Training rows</small>
               <b>{s.nSamples}</b>
-              <small>{ctxQ.data?.minConfidence !== undefined ? `min confidence ≥ ${ctxQ.data.minConfidence}` : 'high-confidence rows only'}</small>
+              <small>{ctxQ.data?.minConfidence !== undefined ? `no low-confidence field left (legacy rows: min confidence ≥ ${ctxQ.data.minConfidence})` : 'high-confidence rows only'}</small>
             </div>
             <div className="kpi">
               <small>80% interval coverage</small>

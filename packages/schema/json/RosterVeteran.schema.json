@@ -465,6 +465,9 @@
       "minimum": 0,
       "maximum": 1
     },
+    "hasLowConfidence": {
+      "type": "boolean"
+    },
     "capturedAt": {
       "type": "string",
       "format": "date-time",

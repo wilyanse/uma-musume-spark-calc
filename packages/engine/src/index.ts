@@ -78,6 +78,8 @@ export {
   MIN_CONFIDENCE,
   MODEL_KIND,
   RECENCY_HALF_LIFE_DAYS,
+  TRAINING_ELIGIBILITY_POLICY,
+  confidenceExclusion,
 } from './model/fit.ts';
 export type {
   ExclusionReason,

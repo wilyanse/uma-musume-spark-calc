@@ -46,6 +46,7 @@ import {
   IllegalPairError,
   MODEL_KIND,
   MIN_CONFIDENCE,
+  TRAINING_ELIGIBILITY_POLICY,
 } from '@uma/engine';
 import type {
   CalibrationReport,
@@ -93,8 +94,14 @@ export interface ContextInfo {
   warnings: string[];
   /** Rule overrides applied on top of the published rules (golden fixture synthetic values, and a T15c browser-local override). */
   overrides: { rule: string; source: string }[];
-  /** The engine's training-row confidence threshold (`MIN_CONFIDENCE`, 50 §4), for display. */
+  /** The engine's LEGACY training-row confidence threshold (`MIN_CONFIDENCE`, 50 §4): only rows without `hasLowConfidence` use it (ADR-0003). Display only. */
   minConfidence?: number;
+  /**
+   * T17 (ADR-0003): the engine's training-eligibility policy identity. Kept separate from the
+   * rules-context `fingerprint` (eligibility is not a rule, and changing it must not orphan stored
+   * browser-local overrides); every fit record / local model envelope / rank call binds to it.
+   */
+  eligibilityPolicy: string;
   /** T15c: SHA-256 identity of the exact EFFECTIVE context (master bytes, rules, synthetic turns, override). */
   fingerprint: string;
   /** T15c: the same identity for the base context without any browser-local override. */
@@ -289,11 +296,15 @@ export interface FitOutput {
   /** T15c: identity of the context this fit ran under, and whether a browser-local override was in force. */
   contextFingerprint: string;
   overridden: boolean;
+  /** T17: the training-eligibility policy this fit's population was selected under. */
+  eligibilityPolicy: string;
 }
 
 /** T15c: what the caller claims about the snapshot it asks the worker to rank with. */
 export interface SnapshotProvenance {
   contextFingerprint: string;
+  /** T17: eligibility policy the snapshot was fitted under; must equal the worker's (ADR-0003). */
+  eligibilityPolicy: string;
 }
 
 /**
@@ -416,6 +427,7 @@ export function createEngineApi(): EngineApi {
           warnings: [...next.warnings],
           overrides,
           minConfidence: MIN_CONFIDENCE,
+          eligibilityPolicy: TRAINING_ELIGIBILITY_POLICY,
           fingerprint,
           baseFingerprint,
           baseRulesVersion: base.rules.version,
@@ -461,6 +473,7 @@ export function createEngineApi(): EngineApi {
           },
           contextFingerprint: i.fingerprint,
           overridden: i.override !== null,
+          eligibilityPolicy: i.eligibilityPolicy,
         };
       }),
     calibrate: (roster, opts) =>
@@ -499,6 +512,11 @@ export function createEngineApi(): EngineApi {
         if (typeof claimed !== 'string') throw new ProvenanceMismatchError('rank needs the snapshot context identity; refit the model');
         if (claimed !== i.fingerprint) {
           throw new ProvenanceMismatchError(`the model was fitted under another rules context (${claimed.slice(0, 19)}…) than the active one (${i.fingerprint.slice(0, 19)}…); refit the model`);
+        }
+        // T17: a snapshot fitted under another training-eligibility policy has another population.
+        const policy = provenance?.eligibilityPolicy;
+        if (policy !== i.eligibilityPolicy) {
+          throw new ProvenanceMismatchError(`the model was fitted under ${typeof policy === 'string' ? `training eligibility policy ${policy}` : 'an unknown training eligibility policy'}, not the active ${i.eligibilityPolicy}; refit the model`);
         }
         const known = snapshot && typeof snapshot === 'object' ? fitted.get(snapshot.id) : undefined;
         if (known !== undefined && known !== i.fingerprint) {

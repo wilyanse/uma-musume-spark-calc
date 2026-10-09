@@ -15,6 +15,7 @@ import { HttpError } from '../src/api/errors.ts';
 import { EngineClient, type EngineHandle } from '../src/workers/client.ts';
 import { masterData } from './fixtures.ts';
 import { seededRandom } from '../src/lib/ulid.ts';
+import { TRAINING_ELIGIBILITY_POLICY } from '@uma/engine';
 
 export const NOW = new Date('2026-10-04T00:00:00.000Z');
 
@@ -74,7 +75,7 @@ export const HARNESS_FP = `sha256:${'f'.repeat(64)}`;
 export function fakeContext(over: Record<string, unknown> = {}) {
   return {
     kind: 'production', masterVersion: masterData().version, rulesVersion: 'rules-1', unverifiedRules: ['blueStatGain'], placeholderRules: [], warnings: [], overrides: [],
-    fingerprint: HARNESS_FP, baseFingerprint: HARNESS_FP, baseRulesVersion: 'rules-1', override: null, overrideRejected: null, effectiveRules: masterData().bundle.rules,
+    eligibilityPolicy: TRAINING_ELIGIBILITY_POLICY, fingerprint: HARNESS_FP, baseFingerprint: HARNESS_FP, baseRulesVersion: 'rules-1', override: null, overrideRejected: null, effectiveRules: masterData().bundle.rules,
     ...over,
   };
 }

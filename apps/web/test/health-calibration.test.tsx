@@ -38,7 +38,8 @@ beforeAll(() => {
 const ctxValue = (o: CalibrationOutput) => ({
   ok: true,
   value: { kind: o.context.kind, masterVersion: o.report.masterVersion, rulesVersion: o.report.rulesVersion, unverifiedRules: o.context.unverifiedRules, placeholderRules: o.context.placeholderRules, warnings: [], overrides: o.context.overrides,
-    fingerprint: o.context.fingerprint, baseFingerprint: o.context.baseFingerprint, baseRulesVersion: o.report.rulesVersion, override: null, overrideRejected: null, effectiveRules: masterBundle().rules },
+    fingerprint: o.context.fingerprint, baseFingerprint: o.context.baseFingerprint, baseRulesVersion: o.report.rulesVersion, override: null, overrideRejected: null, effectiveRules: masterBundle().rules,
+    eligibilityPolicy: fit.eligibilityPolicy },
 });
 interface D<T> { promise: Promise<T>; resolve: (v: T) => void; reject: (e: unknown) => void }
 const deferred = <T,>(): D<T> => {
