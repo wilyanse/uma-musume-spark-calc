@@ -3,6 +3,7 @@
 The orchestrator adds one line per merged task. Details are in `docs/changelog/Txx-*.md`.
 
 ## Unreleased
+- T15c: explicit fit-before-commit browser-local rule application, fingerprint-bound model reuse/ranking, reset and cross-tab guards; independent PASS r2, merged web229/browser18 and production checks pass. Real-roster/native/cloud validation remains.
 - T15b: read-only S07 calibration through real Worker/Comlink with cancellation, stale-input guards and truthful diagnostics; independent PASS r1, merged web164/browser16 and production build checks pass. Explicit apply/refit and real-roster validation remain.
 - T15: engine calibration reports with train-design/fold identification guards, truthful likelihoods and deterministic synthetic evidence; independent PASS r4, merged engine329/workspace/build checks pass. Real-roster calibration and browser consumer remain pending.
 - T10b: reviewed support-card capture/sync integration with destructive confirmation, settings/token-bound attempts and stale/drop/exit guards; PASS r2, merged Core302/portable225 and workspace checks green. Native Windows/H4 and live PUT remain.
