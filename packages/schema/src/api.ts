@@ -51,7 +51,16 @@ export type IngestResponse = z.infer<typeof IngestResponse>;
 
 const rosterParent = z.strictObject({ ...ParentShape, matchedVeteranId: Ulid.nullable() });
 
-/** 01 §9: the `veteran` object + `{id, fingerprint, modeSource, minConfidence, capturedAt}` + `parents[].matchedVeteranId`. */
+/**
+ * 01 §9: the `veteran` object + `{id, fingerprint, modeSource, minConfidence, capturedAt}` +
+ * `parents[].matchedVeteranId`.
+ *
+ * T17 / ADR-0003: optional `hasLowConfidence` = any CURRENT capture field still has status
+ * `low_confidence` (a dismissed review does not clear it). The API always emits it; it is optional
+ * only so legacy rows / older producers stay valid, and an absent flag means the engine keeps the
+ * legacy `minConfidence >= 0.9` gate. `minConfidence` stays the raw minimum field score.
+ * A strict boolean: strings/numbers are rejected, never coerced.
+ */
 export const RosterVeteran = z
   .strictObject({
     ...veteranShape,
@@ -60,6 +69,7 @@ export const RosterVeteran = z
     fingerprint: Sha256Hex,
     modeSource: ModeSource,
     minConfidence: Confidence,
+    hasLowConfidence: z.boolean().optional(),
     capturedAt: IsoUtc,
   })
   .superRefine(checkVeteran);

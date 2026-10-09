@@ -66,6 +66,23 @@ describe('RosterVeteran (01 §9)', () => {
     r.parents[1]!.characterId = r.parents[0]!.characterId;
     bad(RosterVeteran, r);
   });
+  // T17 / ADR-0003: optional capture-status flag; absent = legacy row (strict numeric gate).
+  it('accepts hasLowConfidence true/false and keeps it; absent stays absent (legacy)', () => {
+    for (const flag of [true, false]) {
+      const p = RosterVeteran.safeParse({ ...roster(), hasLowConfidence: flag });
+      expect(p.success).toBe(true);
+      expect(p.data!.hasLowConfidence).toBe(flag);
+    }
+    const legacy = RosterVeteran.parse(roster());
+    expect('hasLowConfidence' in legacy).toBe(false);
+  });
+  it('rejects a malformed hasLowConfidence, never coercing it', () => {
+    for (const flag of ['false', 'true', 0, 1, null, {}]) bad(RosterVeteran, { ...roster(), hasLowConfidence: flag });
+  });
+  it('keeps minConfidence independent of the flag (raw score, ADR-0003)', () => {
+    const p = RosterVeteran.parse({ ...roster(), minConfidence: 0.3, hasLowConfidence: false });
+    expect(p.minConfidence).toBe(0.3);
+  });
 });
 
 describe('ReviewItem', () => {

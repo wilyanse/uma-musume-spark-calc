@@ -8,6 +8,7 @@ import {
   contractJsonSchema,
   MODEL_SNAPSHOT_KINDS,
   ModelSnapshot,
+  RosterVeteran,
   type ContractName,
 } from '../src/index.ts';
 import vectorFile from './fingerprint.vectors.json' with { type: 'json' };
@@ -75,6 +76,35 @@ describe('JSON Schema export', () => {
     expect(validate({ ...base, kind: 'training-v1' })).toBe(true);
     expect(validate({ ...base, kind: 'training-v2' })).toBe(true);
     expect(validate({ ...base, kind: 'training-v3' })).toBe(false);
+  });
+
+  it('RosterVeteran: hasLowConfidence is an optional boolean in the export; Ajv agrees with zod (T17)', () => {
+    const s = contractJsonSchema('RosterVeteran') as {
+      required: string[];
+      properties: Record<string, unknown>;
+    };
+    expect(s.properties.hasLowConfidence).toEqual({ type: 'boolean' });
+    expect(s.required).not.toContain('hasLowConfidence');
+    expect(s.required).toContain('minConfidence');
+    const validate = new Ajv2020({ strict: true, validateFormats: false }).compile(s);
+    const parent = (slot: 1 | 2, characterId: string) => ({
+      slot, characterId, outfitId: null, isGuest: true, guestTrainer: 'T', matchedVeteranId: null,
+    });
+    const v = {
+      ...baseCapture().veteran,
+      parents: [parent(1, 'character:special-week'), parent(2, 'character:silence-suzuka')],
+      id: '01J8Z3K4M5N6P7Q8R9S0T1V2W3',
+      fingerprint: 'a'.repeat(64),
+      modeSource: 'epithet',
+      minConfidence: 0.875,
+      capturedAt: '2026-09-29T08:00:00Z',
+    };
+    for (const flag of [undefined, true, false, 'false', 0, null]) {
+      const row = flag === undefined ? v : { ...v, hasLowConfidence: flag };
+      expect(validate(row), `${String(flag)} ${JSON.stringify(validate.errors)}`).toBe(RosterVeteran.safeParse(row).success);
+    }
+    expect(validate({ ...v, hasLowConfidence: false })).toBe(true);
+    expect(validate({ ...v, hasLowConfidence: 'false' })).toBe(false);
   });
 
   it('VeteranCapture schema snapshot (structure only)', () => {
