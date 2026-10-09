@@ -184,6 +184,12 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Needs: merged T15/T15b/T13; synthetic implementation does not wait H4.
 - Done when: revision-bound explicit apply fits before commit, browser-only overrides/models never enter baseline snapshot API, context fingerprint gates reuse/ranking, reset/reload/failure/cancel paths and actual browser workflow pass with independent review. Real-data/H4 and cross-device storage remain separate.
 
+### T16 — Agent dependency security/build unblock (integration B2)
+- Spec: 30, 65, 70, 85; `docs/reviews/integration-readiness-review-1.md` B2.
+- Owns: Core csproj exact dependency pin; minimal ImageSharp API/test compatibility edits only if required; dependency/license rationale and task changelog. No target-framework, security-gate, confidence, schema/API/engine/master/golden changes.
+- Needs: integrated agent; independent integration audit found current advisories block audited builds.
+- Done when: retained normal build failure is fixed by a compatible patched exact ImageSharp version, license assessed against existing package; audit remains enabled, same-candidate Core/Portable tests and Windows/Native cross-build plus win-x64 publish pass. No stale-binary test evidence. Independent review before merge. Native/live remain human gates.
+
 ## 5. Status
 | Task | Status | Branch | Changelog | Review |
 |---|---|---|---|---|
@@ -208,6 +214,8 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T15 | Merged locally e699c35; merged workspace/engine329 tests, scoped web build and fixture exclusion pass; synthetic ×1.3→1.33 | task/T15-rules-calibration | T15-rules-calibration.md | PASS r4 after coordinator takeover; Partial acceptance: H4/real rules/browser consumer remain; nonblocking findings retained |
 | T15b | Merged locally d1105eb; merged workspace/web164/browser16, scoped build and fixture exclusion passed; real-browser synthetic ×1.32 | task/T15b-calibration-consumer | T15b-calibration-consumer.md | PASS r1; labels/atomic configure follow-ups recorded for T15c; H4 remains |
 | T15c | Merged locally 5e7d3e6; merged workspace/web229/browser18 and production build/check-dist passed; explicit apply/refit/reload/reset verified synthetically | task/T15c-calibration-apply | T15c-calibration-apply.md | PASS r2; B1/B2/S1/N1-N4 resolved; native/real-roster/cloud remain |
+| T16 | Prepared dependency upgrade/build fix for integration B2 | task/T16-agent-dependency | T16-agent-dependency.md | Independent review required; Opus medium first |
 
 ## 6. Integration readiness after T15c
 Independent read-only Opus medium review dispatched against merged implementation `5e7d3e633908d0b620816ab620887ea8203c98de` per 85 §5. This is a local integration-readiness audit, not milestone exit: H2/H3/H4 remain pending. Scope: capture/schema/API/master parity, web/model/override integration, portable native checks where runnable, and exact outstanding human acceptance. No deployment/push or T14 implementation authorized by this audit.
+Review returned CHANGES_REQUESTED: B1 accepted/corrected captures remain excluded by the numeric confidence gate, B2 new ImageSharp advisories break audited builds. Full report saved; T16 addresses B2. B1 requires an explicit training-quality policy decision before contract/engine changes; no lowering or relabelling of confidence is authorized implicitly. Raw-confidence provenance must remain truthful.
