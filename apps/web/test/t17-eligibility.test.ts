@@ -84,6 +84,12 @@ describe('worker reports the eligibility policy with every context and fit', () 
 });
 
 describe('fit record provenance (base context, server snapshots)', () => {
+  it('the roster content identity includes hasLowConfidence (same ETag, different flag ⇒ different identity)', () => {
+    const a = roster.map((v) => ({ ...v, hasLowConfidence: false }));
+    const b = a.map((v, i) => (i === 0 ? { ...v, hasLowConfidence: true } : v));
+    expect(rosterIdentity(a)).not.toBe(rosterIdentity(b));
+    expect(rosterIdentity(a)).not.toBe(rosterIdentity(roster));
+  });
   const snap = (over: Partial<ModelSnapshot> = {}): ModelSnapshot =>
     ({ id: 'S1', kind: 'training-v2', masterVersion: 'm1', trainedAt: 'x', nSamples: 10, params: {} as never, ...over }) as ModelSnapshot;
   const base = { rosterEtag: '"e1"', rosterIdentity: 'r1', masterVersion: 'm1', context: 'production', contextFingerprint: FP('a'), eligibilityPolicy: TRAINING_ELIGIBILITY_POLICY };
