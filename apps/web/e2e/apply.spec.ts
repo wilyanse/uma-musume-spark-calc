@@ -41,6 +41,14 @@ async function deterministic(page: Page, theme = 'light') {
       static override now() { return RealDate.parse(clock); }
     }
     window.Date = FixedDate as DateConstructor;
+    // Test-only deterministic browser ULID entropy. Worker fit/rank still use real seeded engine
+    // algorithms; this does not modify a proposal, golden input, or production application code.
+    let entropy = 0x15c;
+    Object.defineProperty(crypto, 'getRandomValues', { configurable: true, value: (array: ArrayBufferView) => {
+      const bytes = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
+      for (let i = 0; i < bytes.length; i++) { entropy = (Math.imul(entropy, 1664525) + 1013904223) >>> 0; bytes[i] = entropy >>> 24; }
+      return array;
+    } });
     if (!localStorage.getItem('uma:theme')) localStorage.setItem('uma:theme', JSON.stringify(theme));
   }, { clock, theme });
 }
@@ -184,14 +192,28 @@ test('fixture: real calibrate → confirm → candidate fit → apply → Planne
   await tab2.goto('/health');
   await expect(tab2.getByTestId('override-none')).toBeVisible();
 
+  // Tab 2 holds the REAL browser exclusive lock. Candidate fitting proceeds, but the commit
+  // queues until that tab releases it (localStorage alone cannot implement an atomic CAS).
+  await tab2.evaluate(() => {
+    void navigator.locks.request('uma:fixture:rules-transaction', { mode: 'exclusive' }, async () => {
+      (window as { __lockHeld?: boolean }).__lockHeld = true;
+      await new Promise<void>((resolve) => { (window as { __releaseRulesLock?: () => void }).__releaseRulesLock = resolve; });
+    });
+  });
+  await expect.poll(() => tab2.evaluate(() => (window as { __lockHeld?: boolean }).__lockHeld)).toBe(true);
   // 7) Apply for real.
   dlg = await openApply(page);
   const t0 = Date.now();
   await dlg.getByRole('button', { name: 'Fit and apply' }).click();
+  await expect.poll(() => tab2.evaluate(async () => (await navigator.locks.query()).pending?.filter((l) => l.name === 'uma:fixture:rules-transaction').length ?? 0), { timeout: LONG }).toBe(1);
+  expect(await ls(page, OVR)).toBeNull();
+  expect(await ls(page, LMODEL)).toBeNull();
+  await tab2.evaluate(() => (window as { __releaseRulesLock?: () => void }).__releaseRulesLock!());
+  log.crossTabExclusiveLock = 'REAL Web Locks: isolated candidate fit queued; neither model nor override persisted until other tab released exclusive lock';
   await expect(page.getByTestId('apply-result')).toContainText('Applied in this browser only', { timeout: LONG });
   const applyMs = Date.now() - t0;
   const stored = JSON.parse((await ls(page, OVR))!);
-  const env = JSON.parse((await ls(page, LMODEL))!);
+  let env = JSON.parse((await ls(page, LMODEL))!);
   expect(stored).toMatchObject({ schema: 'uma-browser-rules-override', v: 1, mode: 'fixture', revision: 1 });
   expect(stored.active.verified).toBe(false);
   expect(stored.active.proposed.map((x: number) => Math.round(x * 1e4) / 1e4)).toEqual(newRow);
@@ -215,6 +237,15 @@ test('fixture: real calibrate → confirm → candidate fit → apply → Planne
   expect(await attr(tab2, 'rules-override', 'data-context')).toBe(ovFp);
   console.log(`REAL BROWSER apply (candidate fit + commit): ${applyMs} ms; context ${baseFp!.slice(0, 19)}… → ${ovFp!.slice(0, 19)}…; local snapshot ${env.snapshot.id}`);
   log.apply = { ms: applyMs, baseFp, ovFp, override: stored.active, localSnapshot: env.snapshot.id, storedSnapshots: await storedIds(page) };
+  // REAL Health refit under the override must also stay browser-only.
+  const candidateSnapshot = env.snapshot.id;
+  await page.getByRole('button', { name: 'Refit model', exact: true }).click();
+  await expect.poll(() => attr(page, 'model-origin', 'data-snapshot'), { timeout: LONG }).not.toBe(candidateSnapshot);
+  env = JSON.parse((await ls(page, LMODEL))!);
+  expect(env.contextFingerprint).toBe(ovFp);
+  expect(await attr(page, 'model-origin', 'data-snapshot')).toBe(env.snapshot.id);
+  expect(await storedIds(page)).toEqual(baseStored);
+  log.healthRefit = { candidateSnapshot, refittedSnapshot: env.snapshot.id, context: env.contextFingerprint, storedSnapshots: await storedIds(page) };
   await themesAndViewports(page, 'S07-applied', '[data-testid="rules-override"]');
   writeFileSync(out('applied-health.txt'), await page.locator('main').innerText());
 
@@ -250,6 +281,22 @@ test('fixture: real calibrate → confirm → candidate fit → apply → Planne
   await expect(page.getByText(/Model fitted because/)).toHaveCount(0);
   expect(await storedIds(page)).toEqual([]); // fresh tab MOCK store: still nothing stored
   log.reloadRank = reloaded;
+
+  // REAL Planner auto-fit after loss of its browser-local snapshot: never fall back to a server model.
+  await page.evaluate((key) => localStorage.removeItem(key), LMODEL);
+  await page.reload();
+  const auto = await rank(page);
+  expect(auto).toMatchObject({ local: 'true', context: ovFp });
+  expect(auto.snapshot).not.toBe(env.snapshot.id);
+  expect(await storedIds(page)).toEqual([]);
+  env = JSON.parse((await ls(page, LMODEL))!);
+  expect(env.snapshot.id).toBe(auto.snapshot);
+  log.plannerAutoFit = auto;
+  // Reload intentionally cleared session-only reports. Produce a fresh effective-context report
+  // before reset so the stale-report assertion tests an existing report, not an absent cache entry.
+  await page.getByRole('link', { name: 'Health', exact: true }).first().click();
+  await runCalibration(page);
+  await rank(page);
 
   // 11) Reset from tab 2 while tab 1 shows override rankings: tab 1's results turn stale; the
   //     labelled FIXTURE base (never the published rules) is in force again.
