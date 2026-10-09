@@ -307,6 +307,8 @@ interface VeteranRow {
   captured_at: string;
   capture_id: string;
   min_confidence: number;
+  /** Derived, not stored (T17): 1 when any current capture field is `low_confidence`. */
+  has_low: number;
   updated_at: string;
   spd: number;
   sta: number;
@@ -388,6 +390,7 @@ function assemble(r: VeteranRow, ch: Children): RosterVeteran {
     fingerprint: r.fingerprint,
     modeSource: r.mode_source,
     minConfidence: r.min_confidence,
+    hasLowConfidence: r.has_low === 1,
     capturedAt: r.captured_at,
     characterId: r.character_id,
     outfitId: r.outfit_id,
@@ -439,10 +442,21 @@ export async function rosterStamp(
   return { revision: row?.revision ?? 0, maxUpdated: row?.max_updated ?? null, count: row?.n ?? 0 };
 }
 
+/**
+ * T17 / ADR-0003: `hasLowConfidence` is derived from the CURRENT capture fields inside the same
+ * SELECT as the veteran row (no stored column, no migration, no extra query): true iff any field
+ * still has status `low_confidence`. Review item status is deliberately ignored, so a dismissed
+ * item whose field was never corrected keeps the flag; `corrected`/`ok` fields never set it,
+ * whatever their raw score. Uses the capture_fields (veteran_id, path) primary-key prefix.
+ */
+const SELECT_VETERAN = `SELECT v.*, EXISTS (SELECT 1 FROM capture_fields f
+    WHERE f.veteran_id = v.id AND f.status = 'low_confidence') AS has_low
+  FROM veterans v`;
+
 /** Whole roster in 5 queries (40 §4: ≤ 6 with the stamp), assembled in JS. */
 export async function loadRoster(db: D1Database): Promise<RosterVeteran[]> {
   const [vets, skills, sparks, deck, parents] = await db.batch([
-    db.prepare('SELECT * FROM veterans ORDER BY captured_at DESC, id'),
+    db.prepare(`${SELECT_VETERAN} ORDER BY v.captured_at DESC, v.id`),
     db.prepare('SELECT * FROM veteran_skills ORDER BY rowid'),
     db.prepare('SELECT * FROM veteran_sparks ORDER BY rowid'),
     db.prepare('SELECT * FROM veteran_deck ORDER BY veteran_id, slot'),
@@ -471,7 +485,7 @@ export async function loadVeteranDetail(
   id: string,
 ): Promise<(RosterVeteranDetail & { internal: VeteranRowMeta }) | null> {
   const [vets, skills, sparks, deck, parents, fields] = await db.batch([
-    db.prepare('SELECT * FROM veterans WHERE id = ?').bind(id),
+    db.prepare(`${SELECT_VETERAN} WHERE v.id = ?`).bind(id),
     db.prepare('SELECT * FROM veteran_skills WHERE veteran_id = ? ORDER BY rowid').bind(id),
     db.prepare('SELECT * FROM veteran_sparks WHERE veteran_id = ? ORDER BY rowid').bind(id),
     db.prepare('SELECT * FROM veteran_deck WHERE veteran_id = ? ORDER BY slot').bind(id),

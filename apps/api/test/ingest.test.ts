@@ -33,12 +33,13 @@ describe('POST /veterans — golden ingest (fixture from the McQueen screenshots
     expect(body.reviewItemIds).toBeUndefined();
 
     const [v] = await roster(h);
-    const { id, fingerprint, modeSource, minConfidence, capturedAt, ...veteran } = v!;
+    const { id, fingerprint, modeSource, minConfidence, hasLowConfidence, capturedAt, ...veteran } = v!;
     expect(id).toBe(body.veteranId);
     expect(fingerprint).toBe(capture.fingerprint);
     expect(modeSource).toBe('epithet');
     expect(capturedAt).toBe(capture.capturedAt);
     expect(minConfidence).toBe(0.99);
+    expect(hasLowConfidence).toBe(false); // T17: emitted on every row, derived from field status
     // Everything else round-trips, including array order (sparks/skills), booleans and nulls.
     expect(veteran).toEqual({
       ...capture.veteran,
@@ -333,7 +334,7 @@ describe('review items created at ingest', () => {
     expect(again.reviewItemIds).toEqual(first.reviewItemIds);
     const n = await env.DB.prepare('SELECT COUNT(*) n FROM review_items').first<{ n: number }>();
     expect(n!.n).toBe(1);
-    expect((await roster(h))[0]!.minConfidence).toBe(0.4);
+    expect((await roster(h))[0]!).toMatchObject({ minConfidence: 0.4, hasLowConfidence: true });
   });
 });
 
