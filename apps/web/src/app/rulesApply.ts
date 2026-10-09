@@ -144,7 +144,7 @@ export async function applyProposal(services: AppServices, qc: QueryClient, a: A
     if (out.status === 'crashed') return { status: 'failed', message: `The candidate fit failed: the engine worker stopped: ${out.message}. Nothing was applied.` };
     if (!out.result.ok) return { status: 'failed', message: `The candidate fit failed: ${out.result.error.message}. Nothing was applied.` };
     const fit: FitOutput = out.result.value;
-    if (fit.contextFingerprint !== cfg.value.fingerprint || !fit.overridden) return { status: 'failed', message: 'The candidate fit did not run under the candidate context. Nothing was applied.' };
+    if (fit.contextFingerprint !== cfg.value.fingerprint || !fit.overridden || fit.eligibilityPolicy !== cfg.value.eligibilityPolicy || fit.eligibilityPolicy !== a.ctx.eligibilityPolicy) return { status: 'failed', message: 'The candidate fit did not run under the candidate context. Nothing was applied.' };
     return await withRulesLock(services.store, services.source.kind, () => commit(services, qc, a, override, fit, cfg.value.fingerprint));
   } catch (e) {
     return { status: 'failed', message: `Apply failed: ${e instanceof Error ? e.message : String(e)}. No successful application is claimed; review the active rules shown above.` };
@@ -166,7 +166,7 @@ function commit(services: AppServices, qc: QueryClient, a: ApplyArgs, override: 
   }
   const env: LocalModelEnvelope = {
     schema: LOCAL_MODEL_SCHEMA,
-    v: 1,
+    v: 2,
     mode,
     overrideId: override.id,
     contextFingerprint: fingerprint,
@@ -174,6 +174,7 @@ function commit(services: AppServices, qc: QueryClient, a: ApplyArgs, override: 
     masterVersion: a.ctx.masterVersion,
     rosterEtag: a.rosterEtag,
     rosterIdentity: a.rosterIdentity,
+    eligibilityPolicy: fit.eligibilityPolicy,
     snapshot: fit.snapshot,
     savedAt: now().toISOString(),
   };

@@ -187,10 +187,15 @@ export function restoreRaw(store: KeyValueStore, key: string, raw: string | null
   }
 }
 
-/** A model fitted under a browser-local override, stored ONLY in this browser (never POSTed). */
+/**
+ * A model fitted under a browser-local override, stored ONLY in this browser (never POSTed).
+ * T17: v2 adds the training-eligibility policy. A v1 envelope (pre-T17) still parses, with
+ * `eligibilityPolicy: null`, so it is reported and refitted rather than treated as corrupt; it can
+ * never match a current expectation.
+ */
 export interface LocalModelEnvelope {
   schema: typeof LOCAL_MODEL_SCHEMA;
-  v: 1;
+  v: 1 | 2;
   mode: DataMode;
   overrideId: string;
   contextFingerprint: string;
@@ -198,6 +203,8 @@ export interface LocalModelEnvelope {
   masterVersion: string;
   rosterEtag: string | null;
   rosterIdentity: string;
+  /** T17: training-eligibility policy of the fit; null only on a v1 (pre-T17) envelope. */
+  eligibilityPolicy: string | null;
   snapshot: ModelSnapshot;
   savedAt: string;
 }
@@ -218,7 +225,8 @@ export function parseLocalModel(raw: string | null, mode: DataMode): LocalModelR
     return { status: 'invalid', reason: 'stored local model is unreadable (not JSON)' };
   }
   if (!isObj(v) || v.schema !== LOCAL_MODEL_SCHEMA) return { status: 'invalid', reason: 'unknown local model record' };
-  if (v.v !== 1) return { status: 'invalid', reason: `unsupported local model record version ${String(v.v)}` };
+  if (v.v !== 1 && v.v !== 2) return { status: 'invalid', reason: `unsupported local model record version ${String(v.v)}` };
+  if (v.v === 2 && !str(v.eligibilityPolicy)) return { status: 'invalid', reason: 'local model eligibility policy is missing' };
   if (v.mode !== mode) return { status: 'invalid', reason: `local model belongs to data mode ${String(v.mode)}, not ${mode}` };
   if (!str(v.overrideId) || !str(v.masterVersion) || !str(v.rosterIdentity) || !str(v.savedAt) || !(v.rosterEtag === null || typeof v.rosterEtag === 'string')) {
     return { status: 'invalid', reason: 'local model provenance is missing' };
@@ -232,7 +240,8 @@ export function parseLocalModel(raw: string | null, mode: DataMode): LocalModelR
   }
   const parsed = SnapshotSchema.safeParse(s);
   if (!parsed.success) return { status: 'invalid', reason: `local model violates ModelSnapshot schema: ${parsed.error.message}` };
-  return { status: 'ok', env: { ...v, snapshot: parsed.data } as unknown as LocalModelEnvelope };
+  const eligibilityPolicy = v.v === 2 ? v.eligibilityPolicy : null;
+  return { status: 'ok', env: { ...v, eligibilityPolicy, snapshot: parsed.data } as unknown as LocalModelEnvelope };
 }
 
 export function readLocalModel(store: KeyValueStore, mode: DataMode): LocalModelRead {
@@ -250,6 +259,7 @@ export interface LocalModelExpectation {
   masterVersion: string;
   rosterEtag: string | null;
   rosterIdentity: string;
+  eligibilityPolicy: string;
 }
 
 /** Why a stored local model cannot be reused for `want` (null = exact match). */
@@ -257,6 +267,7 @@ export function localModelMismatch(env: LocalModelEnvelope, want: LocalModelExpe
   if (env.overrideId !== want.overrideId) return 'it belongs to another override';
   if (env.baseFingerprint !== want.baseFingerprint) return 'its base context differs';
   if (env.contextFingerprint !== want.contextFingerprint) return 'it was fitted under another rules context';
+  if (env.eligibilityPolicy !== want.eligibilityPolicy) return 'it was fitted under another training eligibility policy';
   if (env.masterVersion !== want.masterVersion) return 'master data changed';
   if (env.rosterEtag !== want.rosterEtag || env.rosterIdentity !== want.rosterIdentity) return 'the roster changed';
   return null;

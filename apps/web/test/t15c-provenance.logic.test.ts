@@ -28,6 +28,7 @@ import { rosterIdentity } from '../src/lib/calibration.ts';
 import { memoryStore, type KeyValueStore } from '../src/lib/storage.ts';
 import { goldenRoster } from './fixtures.ts';
 import { createEngineApi } from '../src/workers/engine.api.ts';
+import { TRAINING_ELIGIBILITY_POLICY as POLICY } from '@uma/engine';
 import { masterBundle } from './fixtures.ts';
 
 const FP = (c: string) => `sha256:${c.repeat(64)}`;
@@ -144,10 +145,10 @@ describe('local overridden-model envelope', () => {
   if (!fitted.ok) throw Error(fitted.error.message);
   const snapshot: ModelSnapshot = { ...fitted.value.snapshot, masterVersion: 'm1' };
   const env = (over: Partial<LocalModelEnvelope> = {}): LocalModelEnvelope => ({
-    schema: LOCAL_MODEL_SCHEMA, v: 1, mode: 'fixture', overrideId: active().id, contextFingerprint: FP('b'), baseFingerprint: FP('a'),
-    masterVersion: 'm1', rosterEtag: '"e1"', rosterIdentity: 'r', snapshot, savedAt: '2026-10-08T00:00:00.000Z', ...over,
+    schema: LOCAL_MODEL_SCHEMA, v: 2, mode: 'fixture', overrideId: active().id, contextFingerprint: FP('b'), baseFingerprint: FP('a'),
+    masterVersion: 'm1', rosterEtag: '"e1"', rosterIdentity: 'r', eligibilityPolicy: POLICY, snapshot, savedAt: '2026-10-08T00:00:00.000Z', ...over,
   });
-  const expectFor = { overrideId: active().id, contextFingerprint: FP('b'), baseFingerprint: FP('a'), masterVersion: 'm1', rosterEtag: '"e1"', rosterIdentity: 'r' };
+  const expectFor = { overrideId: active().id, contextFingerprint: FP('b'), baseFingerprint: FP('a'), masterVersion: 'm1', rosterEtag: '"e1"', rosterIdentity: 'r', eligibilityPolicy: POLICY };
   it('round-trips and matches only its exact provenance', () => {
     const s = memoryStore();
     expect(saveLocalModel(s, 'fixture', env())).toEqual({ ok: true });
@@ -167,7 +168,7 @@ describe('local overridden-model envelope', () => {
   it('rejects corrupt / wrong-mode / wrong-version / v1 snapshot envelopes', () => {
     expect(parseLocalModel('nope', 'fixture')).toMatchObject({ status: 'invalid' });
     expect(parseLocalModel(JSON.stringify(env({ mode: 'api' })), 'fixture')).toMatchObject({ status: 'invalid', reason: expect.stringMatching(/mode/) });
-    expect(parseLocalModel(JSON.stringify({ ...env(), v: 2 }), 'fixture')).toMatchObject({ status: 'invalid' });
+    expect(parseLocalModel(JSON.stringify({ ...env(), v: 3 }), 'fixture')).toMatchObject({ status: 'invalid' });
     expect(parseLocalModel(JSON.stringify(env({ snapshot: { ...snapshot, kind: 'training-v1' } })), 'fixture')).toMatchObject({ status: 'invalid', reason: expect.stringMatching(/training-v2/) });
     expect(parseLocalModel(JSON.stringify(env({ contextFingerprint: 'deadbeef' })), 'fixture')).toMatchObject({ status: 'invalid' });
   });
@@ -185,8 +186,8 @@ describe('local overridden-model envelope', () => {
 describe('decideModel with the effective context identity (T15c)', () => {
   const snap = (over: Partial<ModelSnapshot> = {}): ModelSnapshot =>
     ({ id: 'S1', kind: 'training-v2', masterVersion: 'm1', trainedAt: 'x', nSamples: 10, params: {} as never, ...over }) as ModelSnapshot;
-  const rec = (over: Partial<FitRecord> = {}): FitRecord => ({ v: 2, snapshotId: 'S1', rosterEtag: '"e1"', rosterIdentity: 'r1', masterVersion: 'm1', context: 'production', contextFingerprint: FP('a'), ...over });
-  const base = { rosterEtag: '"e1"', rosterIdentity: 'r1', masterVersion: 'm1', context: 'production', contextFingerprint: FP('a') };
+  const rec = (over: Partial<FitRecord> = {}): FitRecord => ({ v: 3, eligibilityPolicy: POLICY, snapshotId: 'S1', rosterEtag: '"e1"', rosterIdentity: 'r1', masterVersion: 'm1', context: 'production', contextFingerprint: FP('a'), ...over });
+  const base = { rosterEtag: '"e1"', rosterIdentity: 'r1', masterVersion: 'm1', context: 'production', contextFingerprint: FP('a'), eligibilityPolicy: POLICY };
   it('reuses only when fingerprint, master, roster ETag and content all match', () => {
     expect(decideModel({ ...base, v2: snap(), anyLatest: snap(), record: rec() })).toMatchObject({ action: 'use' });
     expect(decideModel({ ...base, contextFingerprint: FP('b'), v2: snap(), anyLatest: snap(), record: rec() })).toMatchObject({ action: 'fit', reason: 'context-changed' });

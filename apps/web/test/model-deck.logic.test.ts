@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { ModelSnapshot } from '@uma/schema';
 import { decideModel, loadFitRecord, saveFitRecord, type FitRecord } from '../src/lib/model.ts';
+import { TRAINING_ELIGIBILITY_POLICY } from '@uma/engine';
 import { memoryStore } from '../src/lib/storage.ts';
 import {
   addOwned,
@@ -17,7 +18,8 @@ const snap = (over: Partial<ModelSnapshot> = {}): ModelSnapshot =>
   ({ id: 'S1', kind: 'training-v2', masterVersion: 'm1', trainedAt: 'x', nSamples: 10, params: {} as never, ...over }) as ModelSnapshot;
 const FP = `sha256:${'a'.repeat(64)}`;
 const rec = (over: Partial<FitRecord> = {}): FitRecord => ({
-  v: 2,
+  v: 3,
+  eligibilityPolicy: TRAINING_ELIGIBILITY_POLICY,
   rosterIdentity: 'r1',
   contextFingerprint: FP,
   snapshotId: 'S1',
@@ -26,7 +28,7 @@ const rec = (over: Partial<FitRecord> = {}): FitRecord => ({
   context: 'production',
   ...over,
 });
-const base = { rosterEtag: '"e1"', rosterIdentity: 'r1', masterVersion: 'm1', context: 'production', contextFingerprint: FP };
+const base = { rosterEtag: '"e1"', rosterIdentity: 'r1', masterVersion: 'm1', context: 'production', contextFingerprint: FP, eligibilityPolicy: TRAINING_ELIGIBILITY_POLICY };
 
 describe('decideModel (60 §3, ADR-0002)', () => {
   it('reuses a v2 snapshot fitted on the same roster ETag, master and context', () => {
