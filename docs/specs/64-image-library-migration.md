@@ -1,0 +1,23 @@
+# 64 — License-key-free image-library migration (T16b)
+
+## Approved decision
+User explicitly authorized: "Replace ImageSharp with a library that requires no license key; authorize a scoped, independently reviewed migration." T16's upgrade attempt stays preserved on its branch; do not merge its unchanged vulnerable pin as a fix. No license acquisition, licensing bypass, audit suppression, or paid dependency is authorized.
+
+## Scope
+Replace SixLabors.ImageSharp usages in agent Core, Windows portable OCR/crop helpers and associated tests. Own relevant .NET project references and narrowly scoped 30 spec/runbook errata, dependency rationale and task changelog. Preserve net8.0/net8.0-windows targets, public capture/API contracts, BGRA frame semantics, parser acceptance thresholds, current master hashes and fixture labels. No schema/API/engine/web/golden/master edits or refreshed screenshots/OCR fixtures. No unrelated SQLite dependency upgrade (record its transitive advisory separately).
+
+## Library selection gate
+Before implementation assess maintained alternatives with actual NuGet/source license, target-framework, Release build targets, transitive dependencies and vulnerability metadata. No library is preselected. A managed solution is preferable if it supports required PNG decode/encode and deterministic resampling without excessive bespoke codec work; SkiaSharp is an acceptable candidate only if its managed/native licenses, runtime packages and macOS/Windows publish behavior are verified. Do not introduce System.Drawing.Common Windows-only Core paths or OpenCvSharp/native-Windows-only replacements. Exact pins only. Record chosen version, source links, license and rationale; require no account/key/paid tier. Do not invent algorithms or claim package absence from search failure.
+
+## Behavioral invariants
+- Frame remains tightly packed straight BGRA bytes with identical width/height; preserve channel ordering, alpha and pixel orientation on load/roundtrip. Handle native row strides and premultiplied representations deliberately, not by assuming raw buffers match.
+- Reference frames remain unchanged; below-1080p/non-16:9 refusal and typed primitive guards stay. Larger frames normalize to 1920x1080 with appropriate high-quality resampling; no confident-wrong readings caused by changed filtering.
+- Crop bounds/rounding, luma/median/dHash pipeline and master-art identities remain calibrated. All current real screenshot fixture outputs and exact-match/ambiguity regressions must still hold. Do not loosen thresholds/change expected identities/relabel fixtures to obtain green tests. Resampling byte differences require measured and documented impact, not superficial visual claims.
+- OCR ROI upscaling, outward coordinate mapping and max-image-dimension behavior stay; preserve ≤60KiB review-crop PNGs and actual dimensions. PNG encoder differences are acceptable only if decoded pixels/metadata and size contract are correct.
+- Dispose all managed/native handles and encoded buffers deterministically, including failure paths; verify stationary-capture boundedness regressions and cancellation semantics remain.
+- Remove ImageSharp runtime/test references entirely; verify normal audited Release build/publish needs no license variable/file. Native libraries, if selected, must resolve on current macOS portable tests and be included for Windows win-x64 self-contained output; do not claim cross-target output runs on Windows.
+
+## Verification and acceptance
+Retain pre-migration normal audited failure evidence; add deterministic targeted regressions before implementation where behavior is newly specified. Fresh same-candidate Core and Portable builds/tests (never count stale binaries), Windows/Native cross-compilation, win-x64 self-contained publish, existing agent-gates and .github regression tests with audit enabled and warnings-as-errors intact. Include PNG decode/encode roundtrips, pixel/alpha channels, crop ≤60KiB, resize/OCR geometry and all existing screenshot/parser/art-ID tests. Inspect dependency graph/advisories and published native assets rather than assuming NuGet success proves packaging.
+
+No recursive pnpm build, fixture/master/golden refresh, credential/config changes, push or deploy. Changelog `T16b-image-library-migration.md` from template, exact real outputs, library/license/API decisions, cross-task edits and limitations. Independent read-only review and parent rerun before local merge, at most two worker fix rounds. H4 native Windows/OCR/live imports remain human acceptance; this task removes a Release-build dependency blocker without verifying game mechanics.
