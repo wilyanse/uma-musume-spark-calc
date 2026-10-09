@@ -143,6 +143,8 @@ Indexes: `veterans(character_id)`, `veterans(train_mode, scenario_id)`, `veteran
 
 `RosterVeteran` = the `veteran` object from §3 + `{id, fingerprint, modeSource, minConfidence, capturedAt}` + `parents[].matchedVeteranId`.
 
+**Erratum (ADR-0003, T17).** `RosterVeteran` also has an optional `hasLowConfidence: boolean` (strict boolean; never coerced). The API always emits it on roster/detail/PATCH responses, derived from current `capture_fields`: true iff any field has status `low_confidence` (a dismissed review whose field is uncorrected still counts; `ok`/`corrected` never count). It is not stored (no migration). `minConfidence` keeps its meaning: the raw minimum field score, preserved after correction. A row without the flag is a legacy row (50 §4 legacy gate).
+
 ## 10. CM target
 ```ts
 CmTarget = {

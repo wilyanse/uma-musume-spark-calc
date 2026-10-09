@@ -50,7 +50,10 @@ The inputs are the trainee outfit T, the parents P1 and P2, and grandparents (th
 
 ## 4. Training model (T06, `fitTrainingModel`)
 **Training rows:** veterans with `min_confidence ≥ 0.9`, a scenario, and both parents known (a guest counts as known because its sparks are on the child). For each row:
+
 `residual[k] = finalStat[k] − E[inheritance stat gain k | its real parents, grandparents, trainee]` for k in the 5 stats (§3 applied to the veteran's own lineage).
+
+**Erratum (ADR-0003, T17; supersedes the `min_confidence ≥ 0.9` clause for rows carrying the status flag).** The confidence-only gate reads `RosterVeteran.hasLowConfidence` when present: `true` excludes (even with a raw score ≥ 0.9), `false` passes (even below 0.9). A row without the flag keeps the legacy `minConfidence ≥ 0.9` gate; a non-boolean flag excludes. All other eligibility checks are unchanged. The engine exports `TRAINING_ELIGIBILITY_POLICY` (`capture-status-v1`); consumers bind cached fits to it and refit when it differs. `training-v2` numerics are unchanged and no snapshot is relabelled.
 
 **Features x** (a design matrix, with names stored in the snapshot):
 - intercept, one-hot `scenarioId × trainMode`;
