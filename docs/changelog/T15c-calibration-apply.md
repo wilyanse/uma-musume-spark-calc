@@ -237,4 +237,11 @@ Under the override, nothing reads or writes the server: the unit tests assert no
 - Model snapshot ids, made in the worker, are not injected (see S1).
 - The `QuotaExceededError` path is fault-injected, not a real quota event. A real browser without Web Locks was not exercised; the B2 deferred-lock test uses a fake `navigator.locks`.
 - No H4 real-roster, native-agent, live-API or cross-device checks. All browser evidence uses the SYNTHETIC fixture or MOCK HTTP.
-- Round 2 review by the same reviewer is still pending; this round is not approval.
+- At fix-round completion, round 2 review by the same reviewer was pending; that fix round was not approval.
+
+## Review round 2 — independent approval
+Independent reviewer session `20261010_020817_5789c8` returned **PASS** on exact candidate `515de7822a414256f689cc05709bb94b868e7fc0`. Full report: `docs/reviews/T15c-review-2.md` (saved by coordinator). B1/B2/S1 and N1–N4 are resolved; no blockers or remaining should-fix findings.
+
+Accepted nonblocking notes: a stored override causes one shared worker configure on non-engine routes to establish truthful footer authority; engine-generated snapshot IDs remain variable, compared within a run, not claimed deterministic. No executable changes follow approval.
+
+Coordinator independently reran `pnpm -r lint && pnpm -r typecheck && pnpm -r test && pnpm --filter web build && pnpm --filter web check:dist && pnpm --filter web e2e && git diff --check ec92f27..HEAD -- . ':(exclude)docs/changelog/assets/T15c'` on `515de78`: exit 0; schema149/master82/API111/engine329/web229, browser18 passed; main184.80 kB gzip; production fixture exclusion OK. Browser consumed seeded report/override IDs and fingerprint matched preceding evidence; apply/refit/rank/reload/reset and both-theme axe remained green. Raw preserved evidence logs are excluded from whitespace checks only, not behavioral verification. Human gaps above remain.
