@@ -190,6 +190,12 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Needs: integrated agent; independent integration audit found current advisories block audited builds.
 - Done when: retained normal build failure is fixed by a compatible patched exact ImageSharp version, license assessed against existing package; audit remains enabled, same-candidate Core/Portable tests and Windows/Native cross-build plus win-x64 publish pass. No stale-binary test evidence. Independent review before merge. Native/live remain human gates.
 
+### T17 — Capture-status training eligibility (integration B1)
+- Spec: 63 (all), narrow 01/50 errata and ADR for confirmed user policy; integration review B1/S2.
+- Owns: roster schema optional flag, API derived field status, engine confidence gate, minimal web fit-policy provenance invalidation, tests, ADR and task changelog. T16 .NET edits, master/golden/fixtures and dependencies read-only.
+- Needs: user policy approved: accepted/corrected fields pass the confidence-only gate; any remaining low-confidence field excludes; other eligibility checks remain.
+- Done when: raw scores preserved; API emits truthful status flag through resolve/re-ingest/remapping; status-aware/legacy gates and cross-module regressions pass; stale old-policy models refit; API budgets/concurrency and browser-local override no-upload preserved; independent review and full TS/browser gates pass.
+
 ## 5. Status
 | Task | Status | Branch | Changelog | Review |
 |---|---|---|---|---|
@@ -214,8 +220,9 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T15 | Merged locally e699c35; merged workspace/engine329 tests, scoped web build and fixture exclusion pass; synthetic ×1.3→1.33 | task/T15-rules-calibration | T15-rules-calibration.md | PASS r4 after coordinator takeover; Partial acceptance: H4/real rules/browser consumer remain; nonblocking findings retained |
 | T15b | Merged locally d1105eb; merged workspace/web164/browser16, scoped build and fixture exclusion passed; real-browser synthetic ×1.32 | task/T15b-calibration-consumer | T15b-calibration-consumer.md | PASS r1; labels/atomic configure follow-ups recorded for T15c; H4 remains |
 | T15c | Merged locally 5e7d3e6; merged workspace/web229/browser18 and production build/check-dist passed; explicit apply/refit/reload/reset verified synthetically | task/T15c-calibration-apply | T15c-calibration-apply.md | PASS r2; B1/B2/S1/N1-N4 resolved; native/real-roster/cloud remain |
-| T16 | Prepared dependency upgrade/build fix for integration B2 | task/T16-agent-dependency | T16-agent-dependency.md | Independent review required; Opus medium first |
+| T16 | Direct Opus implementation dispatched for audited ImageSharp upgrade/build fix | task/T16-agent-dependency | T16-agent-dependency.md | Independent review required; Opus medium first |
+| T17 | Prepared user-approved status-aware capture training eligibility | task/T17-capture-eligibility | T17-capture-eligibility.md | Independent review required; Opus medium first |
 
 ## 6. Integration readiness after T15c
 Independent read-only Opus medium review dispatched against merged implementation `5e7d3e633908d0b620816ab620887ea8203c98de` per 85 §5. This is a local integration-readiness audit, not milestone exit: H2/H3/H4 remain pending. Scope: capture/schema/API/master parity, web/model/override integration, portable native checks where runnable, and exact outstanding human acceptance. No deployment/push or T14 implementation authorized by this audit.
-Review returned CHANGES_REQUESTED: B1 accepted/corrected captures remain excluded by the numeric confidence gate, B2 new ImageSharp advisories break audited builds. Full report saved; T16 addresses B2. B1 requires an explicit training-quality policy decision before contract/engine changes; no lowering or relabelling of confidence is authorized implicitly. Raw-confidence provenance must remain truthful.
+Review returned CHANGES_REQUESTED: B1 accepted/corrected captures remain excluded by the numeric confidence gate, B2 new ImageSharp advisories break audited builds. Full report saved; T16 addresses B2. User explicitly selected parser-accepted/corrected fields for training, excluding any remaining low-confidence fields while preserving other checks. T17/63 owns that contract/engine/cache correction; raw-confidence provenance remains truthful. H2/H3/H4 still block real acceptance, not these local fixes.
