@@ -221,7 +221,7 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T15b | Merged locally d1105eb; merged workspace/web164/browser16, scoped build and fixture exclusion passed; real-browser synthetic ×1.32 | task/T15b-calibration-consumer | T15b-calibration-consumer.md | PASS r1; labels/atomic configure follow-ups recorded for T15c; H4 remains |
 | T15c | Merged locally 5e7d3e6; merged workspace/web229/browser18 and production build/check-dist passed; explicit apply/refit/reload/reset verified synthetically | task/T15c-calibration-apply | T15c-calibration-apply.md | PASS r2; B1/B2/S1/N1-N4 resolved; native/real-roster/cloud remain |
 | T16 | Direct Opus implementation dispatched for audited ImageSharp upgrade/build fix | task/T16-agent-dependency | T16-agent-dependency.md | Independent review required; Opus medium first |
-| T17 | Prepared user-approved status-aware capture training eligibility | task/T17-capture-eligibility | T17-capture-eligibility.md | Independent review required; Opus medium first |
+| T17 | Direct Opus implementation dispatched for user-approved status-aware capture training eligibility | task/T17-capture-eligibility | T17-capture-eligibility.md | Independent review required; Opus medium first |
 
 ## 6. Integration readiness after T15c
 Independent read-only Opus medium review dispatched against merged implementation `5e7d3e633908d0b620816ab620887ea8203c98de` per 85 §5. This is a local integration-readiness audit, not milestone exit: H2/H3/H4 remain pending. Scope: capture/schema/API/master parity, web/model/override integration, portable native checks where runnable, and exact outstanding human acceptance. No deployment/push or T14 implementation authorized by this audit.
