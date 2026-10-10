@@ -196,6 +196,24 @@ public class PngDecodeSafetyTests
         Assert.True(refused >= 2990, $"refused {refused}, identical {identical}, checksum-consistent {consistent}");
     }
 
+    [Fact]
+    public void Every_real_fixture_reencodes_and_decodes_to_identical_bgra()
+    {
+        foreach (var name in Env.Names)
+        {
+            var frame = Env.Frame(name);
+            var png = PngCodec.Encode(frame);
+            var chunks = Chunks(png);
+            Assert.Equal(["IHDR", "IDAT", "IEND"], chunks.Select(c => c.Type));
+            Assert.All(chunks, c => Assert.Equal(TestPngs.Crc(png.AsSpan(c.Start + 4, 4 + c.Length)),
+                BinaryPrimitives.ReadUInt32BigEndian(png.AsSpan(c.Start + 8 + c.Length))));
+            var (_, start, len) = chunks[1];
+            // Independent inflate with the BCL (not PngCodec) yields the exact filtered size with a valid Adler-32.
+            Assert.True(ChecksumConsistent(png.AsSpan(start + 8, len).ToArray(), (1920 * 4 + 1) * 1080), name);
+            Assert.Equal(frame.Bgra, PngCodec.Decode(png).Bgra);
+        }
+    }
+
     // ---------- structure ----------
 
     private static byte[] Png(Action<List<byte>> body, bool signature = true)
