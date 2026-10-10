@@ -22,7 +22,7 @@ dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -
 
 `IncludeAllContentForSelfExtract` is set in the project: read-only layout, templates, published master bundle and appsettings.json are bundled with the assemblies/native libraries. Single-file startup/data extraction must be checked on Windows.
 
-Image libraries (T16b): the agent's PNG/resampling dependencies are managed and need no license key, account or environment variable. The build fails only on real compile or audit errors. The bundled native library is SQLite's `e_sqlite3.dll`; there is no native image library. No `SixLaborsLicenseKey` or `sixlabors.lic` is used or needed. The standard Release commands above (audit enabled, warnings as errors) are the supported path.
+Image libraries (T16b): PNG and resampling are Core's own managed code on the .NET base library. No image package, license key, account or environment variable is involved; no `SixLaborsLicenseKey` or `sixlabors.lic` is used or needed. The only bundled native library is SQLite's `e_sqlite3.dll`. Release blocker: the published EXE does not yet carry the third-party licence texts of its bundled components (.NET runtime, SQLite, Serilog and others). Do not publish an `agent-v*` release until the queued licence/notice packaging task (T19) ships them. The standard Release commands above (audit enabled, warnings as errors) are the supported path.
 
 Only the EXE is needed; the two PDBs are optional symbols, not credentials. The existing T12 tag release workflow builds this project and uploads the EXE; do NOT tag/push/deploy during task implementation.
 

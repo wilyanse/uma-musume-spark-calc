@@ -17,12 +17,11 @@ interface IOcrEngine   { Task<IReadOnlyList<OcrLine>> ReadAsync(Frame f, Rect ro
 interface IClock, IInput (T14)
 ```
 Image processing is managed and cross-platform, with no native image library. Don't use OpenCvSharp, which needs native Windows binaries.
-> **Erratum (T16b, 64):** this section originally named SixLabors.ImageSharp. Its patched releases (4.x) need a Six Labors license key for every non-Debug build. The user chose a key-free replacement, so Core now uses:
-> - **StbImageSharp** (MIT OR Unlicense) for PNG decode;
-> - **Hjg.Pngcs** (Apache-2.0) for PNG encode;
-> - Core's own `Resampler`, the Keys a = −0.5 bicubic matching the calibrated ImageSharp 3.1.12 output.
+> **Erratum (T16b, 64):** this section originally named SixLabors.ImageSharp. Its patched releases (4.x) need a Six Labors license key for every non-Debug build, and the user chose a key-free replacement. Core now has no third-party image library at all:
+> - `PngCodec` is a validating PNG decoder/encoder on the BCL `ZLibStream` (CRC, Adler-32, structure and inflate-size checks);
+> - `Resampler` is the Keys a = −0.5 bicubic matching the calibrated ImageSharp 3.1.12 output.
 >
-> All packages are exact-pinned. Frame semantics, thresholds and fixtures are unchanged. The rationale is in `docs/changelog/T16b-image-library-migration.md`.
+> Frame semantics, thresholds and fixtures are unchanged. The rationale is in `docs/changelog/T16b-image-library-migration.md`.
 
 **OCR on macOS tests:** don't use a real OCR engine in Core tests. `FixtureOcrEngine` replays OCR output recorded per fixture: `agent/tests/fixtures/ocr/<fixture>.json`, produced once by the spike tool (`spike/ocr/ocr.swift`) and later re-recorded on Windows with `Uma.Agent.Windows --record-ocr`. The OCR text parsing is tested on this recorded output. Pixel-based parsers (stars, LB, grades, colours) run on the real PNGs.
 

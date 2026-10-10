@@ -4,8 +4,9 @@ namespace Uma.Agent.Core;
 
 /// <summary>Separable bicubic resampling of straight BGRA frames (T16b, 64). This is the Keys cubic-convolution kernel with
 /// a = −0.5 (Catmull-Rom; R. Keys, "Cubic convolution interpolation for digital image processing", IEEE TASSP 29(6),
-/// 1981). It follows the conventions the parsers were calibrated with under SixLabors.ImageSharp 3.1.12's
-/// <c>KnownResamplers.Bicubic</c>:
+/// 1981). Its conventions are mirrored from SixLabors.ImageSharp 3.1.12's <c>KnownResamplers.Bicubic</c> path
+/// (<c>BicubicResampler.GetValue</c>, <c>ResizeKernelMap.BuildKernel</c>, the premultiply/un-premultiply and byte
+/// conversion), which the parsers were calibrated with. It is not an independent derivation:
 /// <list type="bullet">
 /// <item>pixel-centre mapping: center = (i + 0.5)·src/dst − 0.5;</item>
 /// <item>support radius 2, widened by the downscale ratio (area-correct when shrinking), clipped to the image, and
@@ -13,10 +14,15 @@ namespace Uma.Agent.Core;
 /// <item>premultiplied-alpha float accumulation, horizontal pass then vertical pass, un-premultiply, then round with
 /// +0.5 and saturate to bytes.</item>
 /// </list>
-/// The measured result on all 15 real 1920x1080 fixtures matches that 3.1.12 output byte-for-byte for 2560x1440,
-/// 3840x2160, 1600x900 and 1280x720, including normalising back (see the T16b changelog). The working set is bounded: one
-/// premultiplied source row plus a ring of horizontally filtered rows as tall as the vertical kernel, never a whole
-/// float copy of the frame.</summary>
+/// Measured against 3.1.12 on macOS arm64 (T16b changelog):
+/// <list type="bullet">
+/// <item>byte-identical on all 15 real fixtures at 2560x1440, 3840x2160, 1600x900 and 1280x720, and normalising back;</item>
+/// <item>byte-identical on the OCR upscale and all 645 layout-ROI review crops;</item>
+/// <item>±1 on 9 bytes across 2 of 1,200 random review-crop downscales with non-16:9 ratios (e.g. 85x543 to 59x380).</item>
+/// </list>
+/// ImageSharp shares kernel rows across a repeating period; this resampler computes every row. The working set is
+/// bounded: one premultiplied source row plus a ring of horizontally filtered rows as tall as the vertical kernel, never
+/// a whole float copy of the frame.</summary>
 public static class Resampler
 {
     private const double Epsilon = 1e-8;

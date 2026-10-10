@@ -210,6 +210,8 @@ public class ImageBehaviourTests
             var before = GC.GetAllocatedBytesForCurrentThread();
             var e = Assert.Throws<InvalidDataException>(() => Frames.Load(path));
             Assert.Contains("exceeds", e.Message);
+            // The decoder is fully managed (review round 1 replaced the unsafe StbImageSharp, whose native allocations this
+            // counter could not see), so this measures all of its pixel storage.
             Assert.True(GC.GetAllocatedBytesForCurrentThread() - before < 1_000_000, "decoder allocated pixel storage for a refused image");
         }
         finally { File.Delete(path); }
@@ -227,11 +229,9 @@ public class ImageBehaviourTests
             var s = seeds[i % 2].ToArray();
             for (var j = 1 + rnd.Next(8); j > 0; j--) s[rnd.Next(8, s.Length)] = (byte)rnd.Next(256);
             if (rnd.Next(4) == 0) s = s[..rnd.Next(8, s.Length)];
-            try
-            {
-                var d = PngCodec.Decode(s);
-                Assert.Equal(d.Width * d.Height * 4, d.Bgra.Length);
-            }
+            // Review round 1 (B1): the earlier version only checked the byte length, so wrong-pixel decodes counted as
+            // success. Mutations here keep chunk CRCs stale, so any accepted input must be the unmodified image.
+            try { Assert.Equal(PngCodec.Decode(seeds[i % 2]).Bgra, PngCodec.Decode(s).Bgra); }
             catch (InvalidDataException) { }
         }
     }
