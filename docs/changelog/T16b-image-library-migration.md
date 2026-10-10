@@ -1,12 +1,12 @@
 # T16b — License-key-free image-library migration (integration B2)
 
-- **Status:** Done after review round 1 fixes (implementation, macOS gates and cross-target packaging). Native Windows execution remains H4.
+- **Status:** Final worker fix round 2 complete; awaiting independent focused round-3 review and parent rerun. Native Windows execution remains H4.
 
 > **Review round 1 supersedes parts of this file.** The original sections below are kept as the historical record of candidate 3a157d5.
 > - Wherever they name StbImageSharp/Hjg.Pngcs as dependencies, or claim no unmanaged handles, bounded decode memory, an ok-only fuzz, or that the licence travels with the build, see `## Review round 1` at the end.
-> - Current state: there are **no** third-party image packages. PNG decode/encode is Core's own validating managed `PngCodec` on the BCL `ZLibStream`.
+> - Current state (review round 2): no third-party image packages; first-party PNG framing/conversions, SharpZipLib 1.4.2 for managed decode compression, BCL `ZLibStream` for encoding. Round-1 BCL completion and file-ingress claims are superseded below.
 - **Branch:** task/T16b-image-library-migration (base 55d1aac)
-- **Agent / model:** claude-opus-5-5, medium (direct implementation, no sub-agents)
+- **Agent / model:** inherited claude-opus-5-5 medium implementation; final worker fix round 2 explicitly user-directed openai-codex/gpt-6.1-sol medium, same implementation session. Work/history preserved; no provider failure, subagents or model CLIs.
 - **Date:** 2026-10-10
 
 ## Summary
@@ -93,7 +93,7 @@ Rejected-candidate nupkg sha256 (scratch):
 ## Decisions
 *(round-0 decisions; StbImageSharp/Hjg.Pngcs and their decode policy are superseded by Review round 1)*
 - **Decode: StbImageSharp, encode: Hjg.Pngcs, resample: our own code.**
-  - No maintained key-free managed package offers all three with ImageSharp-compatible bicubic.
+  - None of the round-0 evaluated alternatives above met all three requirements with the measured ImageSharp-compatible bicubic. This is not an exhaustive package-absence claim.
   - The resampler is not a codec: about 70 lines of kernel/convolution with the conventions taken from the ImageSharp 3.1.12 sources (`ResizeKernelMap.BuildKernel`, `BicubicResampler.GetValue`, premultiply / un-premultiply, `(v*255+0.5)` clamp). I read those to pin the semantics; no Six Labors code was copied.
   - This is the only way I found to keep the calibrated parser inputs byte-identical without a native dependency.
   - No PNG codec was hand-written.
@@ -250,6 +250,8 @@ Not run:
 - H4 is unchanged: native Windows build/run, WGC/OCR, `--record-ocr`, live imports and the memory measurement remain human acceptance. This task only removes the Release-build dependency blocker. It verifies no game mechanics.
 
 ## Review round 1
+Historical evidence at 4d701d4: BCL zlib completion/oracle and pre-read ingress claims were incomplete (B3/B4); see Review round 2. No-third-party-component wording applies to this historical candidate, not the new SharpZipLib dependency.
+
 Review: `docs/reviews/T16b-review-1.md` on the main checkout (reviewer session 20261010_080715_e1d1fc), verdict CHANGES_REQUESTED on 3a157d5. This is worker fix round 1 of 2.
 
 Commits since 3a157d5:
@@ -270,7 +272,7 @@ The reviewer suggested the Hjg.Pngcs reader. I read its sources at the pinned co
 Once those checks and conversions are written, a separate PNG library adds nothing. 64 prefers a stable dependency over a large bespoke codec. The decisive facts here:
 - The deflate engine is the BCL's (`System.IO.Compression`, already part of the runtime).
 - The PNG layer itself is small: chunk walk, unfilter, sample conversion.
-- No maintained managed package was found that verifies CRC and Adler-32 and bounds inflate without a key.
+- None of the evaluated PNG alternatives met the complete requirements at the inspected pins: ImageSharp, StbImageSharp, Hjg.Pngcs, StbImageWriteSharp, SkiaSharp, PhotoSauce.MagicScaler and BigGustave (table above). This is a scoped evaluation, not a universal package-absence claim (S7). Review round 2 adds SharpZipLib for compression completion, not a replacement PNG/image library.
 
 Decoder design (`agent/src/Uma.Agent.Core/PngCodec.cs`):
 1. Signature, and encoded size ≤ 256 MiB.
@@ -445,4 +447,131 @@ Counts:
 - H4: native execution.
 - T18: SQLite advisory.
 - T19: third-party licence packaging; a release blocker for `agent-v*`.
-- Independent focused round-2 review and the parent's gate rerun.
+- Independent focused round-2 review and the parent's gate rerun (historical; round 2 requested the fixes below).
+
+## Review round 2
+
+Final worker fix round **2 of 2**, responding to the complete independent CHANGES_REQUESTED report at `/Users/willjose/Projects/personal/uma-musume-spark-calc/docs/reviews/T16b-review-2.md`, reviewer session `20261010_080715_e1d1fc` (inherited Opus, continued Sol). Implementation resumed directly in the same session `20261010_071731_eb8acb` on user-requested GPT-6.1 Sol medium via openai-codex; inherited Opus work and candidate `4d701d4e677280a9932c3e74bfe16691442487f5` are preserved. No delegation or model CLI was used.
+
+Commits:
+- `4b349f7`: retained RED tests and unrestricted stream-reader extraction seam;
+- **`107ac9ca52013b21b3f5060bb5905a1eee6f738e`**: final code/test/package/licence-inventory candidate, freshly built and gated below;
+- subsequent commit: changelog and runbook wording only, no codec/build-input change.
+
+### B3 — file ingress bounds: fixed
+`Frames.Load` opens exactly one FileStream, with read-ahead disabled (`bufferSize=1`), and obtains **that handle's** Length before encoded-buffer allocation. No FileInfo pre-check or second open. Initial over-limit length gives InvalidDataException, including a 3 GiB file. Actual reading is independently bounded to 256 MiB plus one single-byte EOF/growth probe; over-cap growth gives InvalidDataException. All paths dispose the file via using before decode, including failures.
+
+Internal `Frames.ReadEncoded` is the small-limit deterministic test seam. It explicitly requires a seekable stream (the production FileStream is seekable), does not own it, loops on short reads, trims a shrinking input and accepts growth within the cap without truncation. Its initial unrestricted implementation was extracted for RED; the cap enforcement was added only afterwards. Tests exercise initial oversize without any reads, growing 2→33 and 32→33 at a cap of 32, short reads/shrink, nonseekable refusal without reads, zero-length input, growth to/exactly the cap and the final one-byte excess probe. Large sparse files run only in supervised scratch subprocesses.
+
+The earlier PngCodec comment claiming file-size protection before reading was false at 4d701d4. It is accurate only after this actual open-handle/actual-read fix.
+
+### B4 — actual zlib completion and trailer boundary: fixed
+BCL ZLibStream remains the encoder at SmallestSize, **not the decode-completion validator**. Decode now uses SharpZipLib's public `Inflater(noHeader:false)` RFC1950 mode:
+- existing CM/CINFO/FCHECK and no-dictionary policy remain;
+- the caller supplies all concatenated IDAT bytes as one input;
+- writes only the exact IHDR/Adam7 filtered length plus a one-byte excess probe;
+- requires **IsFinished**, **RemainingInput==0**, and **TotalIn==IDAT payload length**;
+- the public finished state is reached only after BFINAL and the Adler-32 at the actual consumed trailer have been verified. Read-ahead is accounted for by RemainingInput, not MemoryStream.Position;
+- PNG policy: IDAT concatenation contains exactly one zlib stream. Junk, a second stream, incomplete final blocks, and missing/partial trailers are rejected with InvalidDataException.
+
+Source inspection at the package's exact commit confirms `Decode` gates checksum processing on isLastBlock, `DecodeChksum` verifies all four trailer bytes before FINISHED, IsFinished also requires the output window drained, and RemainingInput includes unread bit-buffer bytes (`StreamManipulator.AvailableBytes`). The decoder is managed and owns no stream/native handle or IDisposable resource. Its fixed 32 KiB managed output window may decode ahead internally; the caller-visible output bound is expected+1, not a claim of zero internal buffering. Malformed Huffman tables exposed IndexOutOfRangeException in the first GREEN attempt; the retained mutation gates caught it, and known decoder format/index/state exceptions are now normalized to InvalidDataException at this boundary. No OOM/cancellation catch, private runtime API, reflection, PInvoke or handwritten Deflate engine was introduced.
+
+`ChecksumConsistent` now uses a separate bounded test-side completion check through the public inflater API plus reference Adler calculation. It shares the compression dependency, so it is **not** claimed to be an independently implemented Deflate oracle. Its end validation is checked against explicit RFC1951 stored-block vectors with known raw pixels and BFINAL, and against the independent Python zlib probe below. The old BCL EOF assumption is removed. The retained failure vectors cover BFINAL=0, valid stream+junk+duplicate Adler, valid stream+second stream+duplicate Adler, and each 1–4-byte trailer truncation; the matching finished stored block must produce exact known BGRA. The legitimate Adler-collision explanation remains: checksums are not authenticity checks.
+
+### Compression package assessment, pin and legal inventory
+Selected **SharpZipLib 1.4.2**, not an image/PNG library. Exact package/source inspection preceded selection:
+- NuGet version index: https://api.nuget.org/v3-flatcontainer/sharpziplib/index.json ; latest stable listed is 1.4.2.
+- Downloaded package: https://api.nuget.org/v3-flatcontainer/sharpziplib/1.4.2/sharpziplib.1.4.2.nupkg
+- SHA-256: `fe0895aa2930a2b1b65caa9f37db8bca35125ebdf9cc1b99d855f6afc5ff5946`.
+- Nuspec licence **MIT**, repository commit `33f64eb0f28cdd2b084cb822fcc224c7c5aba553`.
+- Framework assets net6.0/netstandard2.0/netstandard2.1; actual net8 restore chooses **lib/net6.0/ICSharpCode.SharpZipLib.dll**, with no added transitive dependencies. No build/buildTransitive targets, native/RID assets, install scripts or licence-key checks in the nupkg. Normal audited Release builds/publish below use no key.
+- Public API/source: https://github.com/icsharpcode/SharpZipLib/blob/33f64eb0f28cdd2b084cb822fcc224c7c5aba553/src/ICSharpCode.SharpZipLib/Zip/Compression/Inflater.cs ; also inspected StreamManipulator, OutputWindow, InflaterDynHeader and InflaterHuffmanTree at v1.4.2. Tag/commit Inflater and LICENSE bytes were verified identical. Managed output window is fixed at 32768 bytes; dynamic header limits are 286 literal/length, 30 distance and 19 meta codes.
+- Maintenance assessment: upstream is not archived; API reports latest release v1.4.2 on 2023-01-29 and last code push 2024-09-03. This is a mature, slow-release dependency, **not a claim of recent release activity**. It was chosen for stable public completion APIs and managed/net8 compatibility; future servicing remains necessary.
+- Actual GHSA query https://api.github.com/advisories?ecosystem=nuget&affects=SharpZipLib%401.4.2 returned `[]`. Fresh NuGet all-transitive audit for Core and Windows reports only the existing SQLite advisory, not SharpZipLib. No claim that absence of advisories proves bug absence.
+- Alternatives assessed for this boundary: BCL ZLibStream has no reliable public completion/remaining-input API and accepts the reproduced invalid ends; pinned Hjg.Pngcs reader ignores Adler and does not expose the needed strict boundary. SharpZipLib meets this narrow compression requirement; no claim that all compression packages were searched.
+
+Minimal declared cross-task legal-inventory addition: `agent/legal/SharpZipLib-1.4.2-LICENSE.txt` is a verbatim copy from https://github.com/icsharpcode/SharpZipLib/blob/33f64eb0f28cdd2b084cb822fcc224c7c5aba553/LICENSE.txt (SHA-256 `d7fbbc16f871bf24fa5624c7eaf945054b778985f32676dcacba41fddca61133`); `agent/legal/README.md` records the package, pin/source and **T19 recipient-delivery obligation**. No workflow/publishing change. This copy in the source repository does not automatically ship with the EXE. No agent-v release until T19 includes SharpZipLib's copyright/permission text and the other bundled components' notices. The historical round-1 “no new third-party component” statement no longer applies to this candidate.
+
+### S5 — allocation amplification: fixed
+Chunk type checks now read the four-byte span as a uint, without allocating ASCII strings. Constant metadata records only the contiguous IDAT start/end and total payload bytes; a second pass copies validated IDAT bodies. No per-chunk List, including for empty IDATs; no arbitrary chunk-count cap. Ordinary valid unknown ancillary chunks remain accepted.
+
+Retained deterministic regressions decode 100,000 empty IDAT or private ancillary chunks and require decoder allocation below 200,000 bytes (input constructed before measurement). Supervised repro of the reviewer's actual 240,000,070-byte/20-million-empty-chunk files gives **46,096 bytes decoder allocation in both cases**, not 610/1122 MiB cumulative allocation. Peak process RSS remains about 280 MB because the harness already holds the 240 MB encoded input. These are distinct measurements: cumulative GC allocation is not live RSS.
+
+Residual memory bounds are not zero: Decode retains the encoded input E (≤256 MiB), makes one concatenated payload copy Z≤E, one exact filtered buffer F computed from dimensions/depth/Adam7, and BGRA P=4×pixels, plus fixed inflater window/Huffman state and bounded palette/transparency. F is conservatively ≤8×MaxPixels+7×MaxDimension; P≤4×MaxPixels. The ingress reader ordinarily allocates the observed file length once; growth/shrink can temporarily retain bounded old/new arrays during resizing, each ≤the encoded cap. Managed GC reclamation is not immediate disposal. BCL encoding still owns its native compression state and temporary row/MemoryStream arrays and releases stream handles through using. Adversarial compression block counts may add cumulative temporary Huffman-table allocations; no zero-allocation claim is made for arbitrary Deflate data.
+
+### S6 / S7 / N5
+- **S6 fixed:** indexed PLTE entries must be ≤1<<bit depth in addition to the existing ≤256/nonempty/multiple-of-three checks. The existing index-range check is unchanged. Retained 1-bit/three-entry palette regression is RED before the fix and GREEN after it; all valid palette cases in the 28-format matrix remain green.
+- **S7 fixed:** both historical broad package-absence statements are now scoped to the explicitly enumerated evaluated alternatives; the compression selection above is independently enumerated. No exhaustive universal claim.
+- **N5 fixed:** renamed to `Large_declared_image_with_tiny_payload_is_refused_before_pixel_storage_allocation`. Comment now describes the pre-allocation ratio guard accurately and a retained GC allocation assertion requires <100,000 bytes. It does not claim an up-front filtered allocation in this refusal case.
+
+### Verification — exact code candidate 107ac9ca52013b21b3f5060bb5905a1eee6f738e
+All execution is local, SDK **10.0.103**, native **Microsoft.NETCore.App 8.0.31** inspected before tests; process-scoped DOTNET_ROOT/DOTNET_BIN point to `/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo`. Audit/warnings-as-errors unchanged. No --no-build/stale test use. Only gitignored agent bin/obj directories were removed before the full gate run. Evidence and command manifest: `/Users/willjose/.hermes/cache/scratch/T16b/r2/evidence/`; RED in `../red.txt`.
+
+Strict TDD against inherited 4d701d4 codec, prior to production fixes, with only unrestricted stream-reader extraction for the small-limit seam:
+```
+$ D test agent/tests/Uma.Agent.Core.Tests -c Release --filter FullyQualifiedName~PngIngressEndTests
+Failed! - Failed: 10, Passed: 6, Skipped: 0, Total: 16
+  initial oversize; two growth cases; nonseekable helper; BFINAL=0;
+  junk+duplicate Adler; second stream+duplicate Adler; two empty-chunk allocation cases; indexed palette depth
+```
+Committed RED at 4b349f7. The first combined targeted GREEN attempt found two untyped malformed-Huffman failures in existing retained mutation tests; after boundary exception normalization, it passed 74/74. Four additional positive ingress cases were subsequently retained; the final full suite below covers all 20 new cases plus the existing 394.
+
+Fresh full command outputs (D=the inspected scoped dotnet):
+```
+$ bash .github/scripts/agent-gates.sh runtime -> exit 0 (SDK 10.0.103; Microsoft.NETCore.App 8.0.31 present)
+$ bash .github/scripts/agent-gates.sh core-tests -> exit 0
+Passed! - Failed: 0, Passed: 414, Skipped: 0, Total: 414, Duration: 45 s
+$ bash .github/scripts/agent-gates.sh windows-build -> exit 0; 0 Warning(s), 0 Error(s)
+$ D test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release -> exit 0
+Passed! - Failed: 0, Passed: 230, Skipped: 0, Total: 230, Duration: 7 s
+$ D build agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release -p:EnableWindowsTargeting=true -> exit 0; 0 Warning(s), 0 Error(s)
+$ D build agent/Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true -> exit 0; 0 Warning(s), 0 Error(s)
+$ D publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableWindowsTargeting=true -o /Users/willjose/.hermes/cache/scratch/T16b/r2/publish -> exit 0
+Uma.Agent.Windows.exe 191391501 bytes
+$ python3 agent/tests/Uma.Agent.Windows.Tests/Tools/bundle_probe.py <that EXE> . -> exit 0
+bundle 6 0 entries 474; matches 15 of 15
+Exact parsed entries: ICSharpCode.SharpZipLib.dll 258048 bytes (managed), e_sqlite3.dll 1795072 bytes (native).
+ImageSharp/StbImageSharp/Hjg.Pngcs entries: absent.
+Native manifest entries: D3DCompiler_47_cor3.dll, PenImc_cor3.dll, PresentationNative_cor3.dll, vcruntime140_cor3.dll, wpfgfx_cor3.dll (WPF runtime), e_sqlite3.dll. No added image/compression native binary.
+$ TOOLS_DIR=/Users/willjose/.hermes/cache/scratch/IR1/tools bash .github/tests/run.sh -> exit 0
+regression checks: 62 passed, 0 failed
+$ node .github/scripts/check-config.mjs . -> exit 0
+config check ok (structure): MASTER_VERSION=global-20260930
+$ D build agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe -c Release -> exit 0, 0 Warning(s), 0 Error(s)
+$ D build agent/tests/Uma.Agent.Windows.Tests/Tools/EdgeProbe -c Release -> exit 0, 0 Warning(s), 0 Error(s)
+$ D <fresh MemoryProbe.dll> <worktree> -> exit 0
+idle 240 polls: processed 1 skipped 239, +MB 9.2; changing still view +MB 8.3;
+after Stop zero retained sessions/frames, +MB 9.4; worst 80 frames +MB 672.0 (664 MB frame bound)
+$ D <fresh EdgeProbe.dll> <worktree> -> exit 0
+DRAIN bounded=8; oldDisposed=True; newestAlive=True; OCR tile cancellation propagated; calls=2; ASSERTIONS passed
+$ D list agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj package --include-transitive -> exit 0
+$ D list agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj package --include-transitive -> exit 0
+Core direct: Microsoft.Data.Sqlite 10.0.3, SharpZipLib 1.4.2; Windows transitive SharpZipLib 1.4.2.
+No added compression transitive dependency. Actual net8 compile/runtime asset: lib/net6.0/ICSharpCode.SharpZipLib.dll.
+$ D list <each same project> package --vulnerable --include-transitive -> each exit 0
+SQLitePCLRaw.lib.e_sqlite3 2.1.11 High https://github.com/advisories/GHSA-2m69-gcr7-jv3q (unchanged; T18)
+```
+
+Supervised subprocesses, rebuilt exact current Core via project reference; 750 MiB sampled RSS kill ceiling, 120 s deadline, process-group kill on exceedance. RSS includes harness/runtime/input storage; every listed child exited 0 without a kill. Command: `python3 /Users/willjose/.hermes/cache/scratch/T16b/r2/probes.py` (full output `evidence/probes.txt`).
+```
+sparse300M.png -> InvalidDataException before input allocation; allocated 20544 bytes; 7 ms; max RSS 37208064 bytes
+sparse3G.png   -> InvalidDataException before input allocation; allocated 20536 bytes; 5 ms; max RSS 37273600 bytes
+zeroidat_20M.png -> OK 1x1; decoderAllocated 46096 bytes; 305 ms; max RSS 279625728 bytes
+zeroanc_20M.png  -> OK 1x1; decoderAllocated 46096 bytes; 242 ms; max RSS 279724032 bytes
+nofinal.png -> InvalidDataException: unfinished zlib stream; max RSS 38010880 bytes
+junk_duplicate_adler.png -> InvalidDataException: data after the single zlib stream; max RSS 38158336 bytes
+second_stream_duplicate_adler.png -> same typed refusal; max RSS 38174720 bytes
+Independent Python zlib.decompressobj on the original reviewer files:
+nofinal: output 18, eof False, unused 0
+junk_duplicate_adler: output 18, eof True, unused 8
+second_stream_duplicate_adler: output 18, eof True, unused 15
+```
+
+All 28 format cases, 15 saved fixture hashes/roundtrips, parser/classification/dHash/art identities, crop-size/geometry and OCR expectations remain unmodified and gate GREEN. Encoder/conversions/calibrated resampler and thresholds were not changed. TS workspace not run because no TS/integration/schema/master/golden/database paths were touched. Original Opus measurements remain labelled inherited; no new universal resampler-parity claim is made.
+
+### Remaining gates and ownership
+- Parent fresh independent rerun and **same-reviewer focused review 3 before merge**. No self-approval/merge/push/deployment.
+- This exhausts the two authorized worker fix rounds. Subsequent blocking findings require coordinator takeover/escalation, not a third worker loop.
+- H4 native Windows execution/WGC/OCR/x64 parity and live imports remain human acceptance. Native cross-build and self-contained publish are compilation/packaging evidence only.
+- T18 owns unchanged SQLite transitive advisory. No audit suppression or scope creep.
+- T19 owns recipient licence/notice delivery, now including the SharpZipLib inventory. It still blocks every agent-v release.
