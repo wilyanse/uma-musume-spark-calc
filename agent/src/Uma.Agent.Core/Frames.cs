@@ -24,7 +24,20 @@ public static class Frames
 {
     /// <summary>Reads a PNG file into a straight BGRA frame (<see cref="PngCodec.Decode(byte[])"/>). The file handle is
     /// released before decoding; non-PNG or corrupt files throw <see cref="InvalidDataException"/>.</summary>
-    public static Frame Load(string pngPath) => PngCodec.Decode(File.ReadAllBytes(pngPath));
+    public static Frame Load(string pngPath)
+    {
+        byte[] encoded;
+        using (var input = File.OpenRead(pngPath)) encoded = ReadEncoded(input, (int)PngCodec.MaxEncodedBytes);
+        return PngCodec.Decode(encoded);
+    }
+
+    // Round-2 TDD seam: initially retains the old unrestricted read so the new ingress tests demonstrate RED.
+    internal static byte[] ReadEncoded(Stream input, int limit)
+    {
+        using var output = new MemoryStream();
+        input.CopyTo(output);
+        return output.ToArray();
+    }
 
     /// <summary>Rejects non-16:9 client areas and 16:9 areas below 1920x1080 (typed errors, before any reading), and
     /// resamples larger 16:9 sizes down into reference space.</summary>
