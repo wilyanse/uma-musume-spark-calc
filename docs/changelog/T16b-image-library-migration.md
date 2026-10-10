@@ -23,7 +23,7 @@ Created:
   - Signature and IHDR size guard: at most 16384 px per side and 7680×4320 pixels, checked before the decoder allocates.
   - Any decoder failure becomes `InvalidDataException`.
 - `agent/src/Uma.Agent.Core/Resampler.cs`: separable Keys a=−0.5 bicubic with premultiplied-alpha accumulation, pixel-centre mapping and area-widened downscale support. Its working set is a bounded ring of rows.
-- `agent/tests/Uma.Agent.Core.Tests/ImageBehaviourTests.cs`: 35 regressions (described under Verification).
+- `agent/tests/Uma.Agent.Core.Tests/ImageBehaviourTests.cs`: 34 regression cases (described under Verification).
 - `agent/tests/Uma.Agent.Windows.Tests/Portable/OcrUpscaleBehaviourTests.cs`: 5 regressions covering OCR upscale geometry, rounding and pixels.
 - `docs/changelog/T16b-image-library-migration.md`: this file.
 
@@ -115,7 +115,7 @@ Rejected-candidate nupkg sha256 (scratch):
   - For crops already near the 60 KiB limit, the ×0.7 loop can take one extra step, giving smaller final dimensions:
     - real layout ROIs: 645 crops from 43 layout rectangles × 15 fixtures, measured against a verbatim ImageSharp 3.1.12 replica of the old `CropPng` in scratch;
     - **643 have identical final dimensions**;
-    - 2 differ: a 524×679 `deck.diamondRows` tuple on 07 and 10, which my rectangle extractor picked up but which is not used as a crop rectangle;
+    - 2 differ, both from `deck.diamondRows` `[215, 369, 524, 679]` on 07 and 10. That is a list of four row Y values that the scratch extractor misread as a rectangle; it is never a crop, so no real ROI changed;
     - random rectangles: 588/600 identical, 12 one step smaller (e.g. 823×36 instead of 1178×51 for a 1683×74 strip);
     - max output 61,345 B, always ≤ 61,440.
   - Review crops remain valid PNGs within the contract (≤60 KiB, real dimensions, pixels exactly the cropped or resampled pixels). Only compression size differs.
@@ -189,7 +189,7 @@ $ dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release
     -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableWindowsTargeting=true -o $SCRATCH/publish → exit 0
   Uma.Agent.Windows.exe 191,285,045 B (+ Uma.Agent.Core.pdb, Uma.Agent.Windows.pdb)
 ```
-Counts: Core has 336 tests, the previous 302 plus 34 new (the T16b test file has 35 cases; one of them replaced a T11 helper path). Portable has 230, the previous 225 plus 5.
+Counts: Core has 336 tests, the previous 302 plus 34 new `ImageBehaviourTests` cases. Portable has 230, the previous 225 plus 5 new `OcrUpscaleBehaviourTests` cases.
 
 No licence anywhere:
 - `env | grep -i sixlabors` is empty, and no `*.lic` file exists in the repo.
