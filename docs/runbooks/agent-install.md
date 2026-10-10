@@ -20,7 +20,11 @@ dotnet test agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.c
 dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o agent-publish
 ```
 
-`IncludeAllContentForSelfExtract` is set in the project: read-only layout, templates, published master bundle and appsettings.json are bundled with the assemblies/native libraries. Single-file startup/data extraction must be checked on Windows. Only the EXE is needed; the two PDBs are optional symbols, not credentials. The existing T12 tag release workflow builds this project and uploads the EXE; do NOT tag/push/deploy during task implementation.
+`IncludeAllContentForSelfExtract` is set in the project: read-only layout, templates, published master bundle and appsettings.json are bundled with the assemblies/native libraries. Single-file startup/data extraction must be checked on Windows.
+
+Image libraries (T16b): the agent's PNG/resampling dependencies are managed and need no license key, account or environment variable. The build fails only on real compile or audit errors. The bundled native library is SQLite's `e_sqlite3.dll`; there is no native image library. No `SixLaborsLicenseKey` or `sixlabors.lic` is used or needed. The standard Release commands above (audit enabled, warnings as errors) are the supported path.
+
+Only the EXE is needed; the two PDBs are optional symbols, not credentials. The existing T12 tag release workflow builds this project and uploads the EXE; do NOT tag/push/deploy during task implementation.
 
 Verify before use:
 
