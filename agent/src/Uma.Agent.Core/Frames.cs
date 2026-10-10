@@ -27,16 +27,40 @@ public static class Frames
     public static Frame Load(string pngPath)
     {
         byte[] encoded;
-        using (var input = File.OpenRead(pngPath)) encoded = ReadEncoded(input, (int)PngCodec.MaxEncodedBytes);
+        // Disable FileStream read-ahead: even the final EOF probe reads at most one byte from the handle.
+        using (var input = new FileStream(pngPath, FileMode.Open, FileAccess.Read, FileShare.Read, 1, FileOptions.SequentialScan))
+            encoded = ReadEncoded(input, (int)PngCodec.MaxEncodedBytes);
         return PngCodec.Decode(encoded);
     }
 
-    // Round-2 TDD seam: initially retains the old unrestricted read so the new ingress tests demonstrate RED.
+    /// <summary>Reads from one seekable open handle. Checks its length before allocation, then independently limits
+    /// actual bytes to limit plus a single-byte EOF/growth probe. The caller owns and disposes the stream.</summary>
     internal static byte[] ReadEncoded(Stream input, int limit)
     {
-        using var output = new MemoryStream();
-        input.CopyTo(output);
-        return output.ToArray();
+        if (!input.CanSeek) throw new NotSupportedException("encoded PNG input must be seekable");
+        ArgumentOutOfRangeException.ThrowIfNegative(limit);
+        var initial = input.Length;
+        if (initial < 0 || initial > limit) throw new InvalidDataException($"PNG file exceeds the {limit} byte decode limit");
+        var bytes = new byte[(int)initial];
+        var used = 0;
+        while (true)
+        {
+            if (used == bytes.Length)
+            {
+                var next = input.ReadByte(); // exactly one probe, never an unbounded read to discover growth
+                if (next < 0) break;
+                if (used == limit) throw new InvalidDataException($"PNG file grew beyond the {limit} byte decode limit");
+                var capacity = (int)Math.Min(limit, Math.Max((long)used + 1, Math.Max(4096L, (long)used * 2)));
+                Array.Resize(ref bytes, capacity);
+                bytes[used++] = (byte)next;
+                if (used == bytes.Length) continue;
+            }
+            var n = input.Read(bytes, used, bytes.Length - used);
+            if (n == 0) break;
+            used += n;
+        }
+        if (used != bytes.Length) Array.Resize(ref bytes, used);
+        return bytes;
     }
 
     /// <summary>Rejects non-16:9 client areas and 16:9 areas below 1920x1080 (typed errors, before any reading), and

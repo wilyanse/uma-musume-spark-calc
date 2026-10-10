@@ -1,5 +1,7 @@
 using System.Buffers.Binary;
 using System.IO.Compression;
+using ICSharpCode.SharpZipLib;
+using ICSharpCode.SharpZipLib.Zip.Compression;
 
 namespace Uma.Agent.Core;
 
@@ -11,15 +13,15 @@ namespace Uma.Agent.Core;
 /// chunks.</item>
 /// <item>IHDR is checked against the decode limits, and the exact size of the filtered image (rows plus filter bytes, per
 /// Adam7 pass when interlaced) is computed from it.</item>
-/// <item>The zlib stream is inflated with the BCL <see cref="ZLibStream"/> into a buffer of exactly that size. One byte
-/// more than expected, or one byte less, is refused, so an inflate bomb never grows past the declared image. The
-/// zlib header and the Adler-32 checksum (recomputed here over the inflated bytes) must both match.</item>
+/// <item>SharpZipLib's managed RFC1950 inflater writes into exactly that size plus a one-byte excess probe. It must
+/// finish at BFINAL with a verified Adler-32 and consume the entire IDAT payload (one zlib stream, no trailing data).
+/// Its fixed 32 KiB internal window is additional to caller-visible output.</item>
 /// <item>Scanlines are unfiltered and converted to BGRA with the conventions of the previous decoder (SixLabors.ImageSharp
 /// 3.1.12: 16-bit to 8-bit as round(v/257), sub-byte greys scaled to 0–255). The output is byte-identical to it on all
 /// 15 fixtures and every synthetic colour type, depth and interlace case, except where 3.1.12 deviated from the PNG
 /// specification (16-bit tRNS keys, Adam7 images under 8 px; see PngDecodeSafetyTests).</item>
 /// </list>
-/// Encode is the same managed code path in reverse (see <see cref="Encode"/>). No third-party image library is used.</summary>
+/// Encode uses the BCL ZLibStream SmallestSize path. No third-party image library is used; decode compression is SharpZipLib.</summary>
 public static class PngCodec
 {
     private static readonly byte[] Signature = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
@@ -56,7 +58,7 @@ public static class PngCodec
 
         Header? header = null;
         byte[]? palette = null, transparency = null;
-        var idat = new List<(int Offset, int Length)>();
+        int idatStart = -1, idatEnd = -1; // constant metadata; copy validated contiguous IDATs in a second pass
         long idatBytes = 0;
         bool idatDone = false, ended = false;
         var pos = Signature.Length;
@@ -71,25 +73,26 @@ public static class PngCodec
             var data = pos + 8;
             var crc = BinaryPrimitives.ReadUInt32BigEndian(png.AsSpan(data + (int)length));
             if (Crc32(png.AsSpan(pos + 4, 4 + (int)length)) != crc) throw Bad("chunk CRC mismatch");
-            var name = System.Text.Encoding.ASCII.GetString(type);
+            var name = BinaryPrimitives.ReadUInt32BigEndian(type);
             var body = png.AsSpan(data, (int)length);
-            if (index == 0 && name != "IHDR") throw Bad("IHDR is not the first chunk");
-            if (name != "IDAT" && idat.Count > 0) idatDone = true;
+            if (index == 0 && name != 0x49484452) throw Bad("IHDR is not the first chunk");
+            if (name != 0x49444154 && idatStart >= 0) idatDone = true;
             switch (name)
             {
-                case "IHDR":
+                case 0x49484452: // IHDR
                     if (index != 0) throw Bad("duplicate IHDR");
                     if (length != 13) throw Bad("IHDR length is not 13");
                     header = ParseHeader(body);
                     break;
-                case "PLTE":
-                    if (palette is not null || idat.Count > 0 || transparency is not null) throw Bad("misplaced or duplicate PLTE");
+                case 0x504C5445: // PLTE
+                    if (palette is not null || idatStart >= 0 || transparency is not null) throw Bad("misplaced or duplicate PLTE");
                     if (length == 0 || length % 3 != 0 || length > 768) throw Bad("invalid PLTE length");
                     if (header!.ColorType is 0 or 4) throw Bad("PLTE not allowed for greyscale");
+                    if (header.ColorType == 3 && length / 3 > 1 << header.Depth) throw Bad("PLTE exceeds indexed bit depth");
                     palette = body.ToArray();
                     break;
-                case "tRNS":
-                    if (transparency is not null || idat.Count > 0) throw Bad("misplaced or duplicate tRNS");
+                case 0x74524E53: // tRNS
+                    if (transparency is not null || idatStart >= 0) throw Bad("misplaced or duplicate tRNS");
                     switch (header!.ColorType)
                     {
                         case 0 when length == 2: break;
@@ -99,12 +102,13 @@ public static class PngCodec
                     }
                     transparency = body.ToArray();
                     break;
-                case "IDAT":
+                case 0x49444154: // IDAT
                     if (idatDone) throw Bad("IDAT chunks are not contiguous");
-                    idat.Add((data, (int)length));
+                    if (idatStart < 0) idatStart = pos;
+                    idatEnd = data + (int)length + 4;
                     idatBytes += length;
                     break;
-                case "IEND":
+                case 0x49454E44: // IEND
                     if (length != 0) throw Bad("IEND length is not 0");
                     if (data + 4 != png.Length) throw Bad("data after IEND");
                     ended = true;
@@ -117,10 +121,10 @@ public static class PngCodec
             index++;
         }
         if (header is null) throw Bad("missing IHDR");
-        if (idat.Count == 0) throw Bad("missing IDAT");
+        if (idatStart < 0) throw Bad("missing IDAT");
         if (header.ColorType == 3 && palette is null) throw Bad("missing PLTE for indexed colour");
 
-        var raw = Inflate(png, idat, idatBytes, FilteredSize(header));
+        var raw = Inflate(png, idatStart, idatEnd, idatBytes, FilteredSize(header));
         return ToBgra(header, raw, palette, transparency);
     }
 
@@ -164,7 +168,7 @@ public static class PngCodec
 
     /// <summary>Inflates the concatenated IDAT data into exactly <paramref name="expected"/> bytes, refusing any shortfall or
     /// excess (bounded: at most one byte beyond the image is ever produced) and verifying the zlib header and Adler-32.</summary>
-    private static byte[] Inflate(byte[] png, List<(int Offset, int Length)> idat, long idatBytes, int expected)
+    private static byte[] Inflate(byte[] png, int idatStart, int idatEnd, long idatBytes, int expected)
     {
         if (idatBytes < 6) throw Bad("zlib stream too short");
         // Deflate cannot expand by more than 1032:1, so a payload this small cannot fill the declared image: refuse it
@@ -172,31 +176,36 @@ public static class PngCodec
         if ((idatBytes - 6) * 1032 + 1024 < expected) throw Bad("image data is shorter than the header declares");
         var z = new byte[idatBytes];
         var at = 0;
-        foreach (var (offset, length) in idat) { Buffer.BlockCopy(png, offset, z, at, length); at += length; }
+        for (var pos = idatStart; pos < idatEnd;)
+        {
+            var length = (int)BinaryPrimitives.ReadUInt32BigEndian(png.AsSpan(pos));
+            Buffer.BlockCopy(png, pos + 8, z, at, length); at += length; pos += length + 12;
+        }
         int cmf = z[0], flg = z[1];
         if ((cmf & 0x0F) != 8 || (cmf >> 4) > 7 || ((cmf << 8) | flg) % 31 != 0 || (flg & 0x20) != 0) throw Bad("invalid zlib header");
         var raw = new byte[expected];
         try
         {
-            using var input = new MemoryStream(z, writable: false);
-            using var zlib = new ZLibStream(input, CompressionMode.Decompress);
+            // Public RFC1950 mode: FINISHED is only reached after BFINAL and verified Adler-32.
+            // RemainingInput includes read-ahead bytes, unlike a backing stream's Position.
+            var inflater = new Inflater(noHeader: false);
+            inflater.SetInput(z);
             var filled = 0;
             while (filled < expected)
             {
-                var n = zlib.Read(raw, filled, expected - filled);
-                if (n == 0) throw Bad("image data is shorter than the header declares");
+                var n = inflater.Inflate(raw, filled, expected - filled);
+                if (n == 0) throw Bad("image data is shorter than the header declares or zlib is unfinished");
                 filled += n;
             }
-            Span<byte> probe = stackalloc byte[1];
-            if (zlib.Read(probe) != 0) throw Bad("image data is longer than the header declares");
+            var probe = new byte[1];
+            if (inflater.Inflate(probe) != 0) throw Bad("image data is longer than the header declares");
+            if (!inflater.IsFinished) throw Bad("unfinished zlib stream");
+            if (inflater.RemainingInput != 0 || inflater.TotalIn != z.Length) throw Bad("data after the single zlib stream");
         }
-        catch (InvalidDataException) { throw; }
-        catch (Exception e) when (e is IOException or NotSupportedException or ArgumentException)
+        catch (Exception e) when (e is SharpZipBaseException or IndexOutOfRangeException or ArgumentException or FormatException or InvalidOperationException)
         {
             throw new InvalidDataException("corrupt or unsupported PNG image: invalid zlib data", e);
         }
-        // ZLibStream checks Adler-32 when it is present but accepts a stream that ends without it; require it here.
-        if (BinaryPrimitives.ReadUInt32BigEndian(z.AsSpan(z.Length - 4)) != Adler32(raw)) throw Bad("zlib Adler-32 mismatch or missing");
         return raw;
     }
 

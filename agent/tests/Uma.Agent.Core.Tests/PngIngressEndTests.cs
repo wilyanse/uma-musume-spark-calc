@@ -25,6 +25,19 @@ public class PngIngressEndTests
         Assert.InRange(s.ReadBytes, 0, 33);
     }
 
+    [Theory]
+    [InlineData(0, 0)]
+    [InlineData(0, 32)]
+    [InlineData(1, 32)]
+    [InlineData(32, 32)]
+    public void Growth_within_limit_and_exact_cap_are_read_without_truncation(int initial, int actual)
+    {
+        var data = Enumerable.Range(0, actual).Select(x => (byte)x).ToArray();
+        using var s = new ChangingStream(initial, data);
+        Assert.Equal(data, Frames.ReadEncoded(s, 32));
+        Assert.Equal(actual, s.ReadBytes);
+    }
+
     [Fact]
     public void Shrink_and_short_reads_return_only_actual_bytes()
     {
@@ -90,11 +103,13 @@ public class PngIngressEndTests
     {
         var e = Assert.Throws<InvalidDataException>(() => PngCodec.Decode(TestPngs.WithIdat(2, 2, 8, 6, z)));
         Assert.NotEmpty(e.Message); Assert.NotEmpty(why);
+        Assert.False(PngDecodeSafetyTests.ChecksumConsistent(z, 18));
     }
 
     [Fact]
     public void Final_stored_block_and_its_actual_trailer_are_accepted()
     {
+        Assert.True(PngDecodeSafetyTests.ChecksumConsistent(StoredZlib(true), 18));
         Assert.Equal(new byte[] { 21, 14, 7, 28, 49, 42, 35, 56, 84, 77, 70, 91, 112, 105, 98, 119 },
             PngCodec.Decode(TestPngs.WithIdat(2, 2, 8, 6, StoredZlib(true))).Bgra);
     }
@@ -111,7 +126,8 @@ public class PngIngressEndTests
         var tail = new List<byte>(); TestPngs.Chunk(tail, "IDAT", StoredZlib(true)); TestPngs.Chunk(tail, "IEND", []);
         var png = new byte[start.Count + count * chunk.Count + tail.Count];
         start.ToArray().CopyTo(png, 0);
-        for (var n = 0; n < count; n++) chunk.ToArray().CopyTo(png, start.Count + n * chunk.Count);
+        var chunkBytes = chunk.ToArray();
+        for (var n = 0; n < count; n++) chunkBytes.CopyTo(png, start.Count + n * chunk.Count);
         tail.ToArray().CopyTo(png, start.Count + count * chunk.Count);
         PngCodec.Decode(TestPngs.WithIdat(2, 2, 8, 6, StoredZlib(true))); // warm static state
         var before = GC.GetAllocatedBytesForCurrentThread();

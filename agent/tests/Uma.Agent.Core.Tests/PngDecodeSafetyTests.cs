@@ -124,23 +124,28 @@ public class PngDecodeSafetyTests
         Assert.True(refused > 1000, $"{refused}");
     }
 
-    /// <summary>Independent check (BCL inflate + reference Adler-32, not PngCodec): the zlib payload inflates to exactly
-    /// <paramref name="expectedLength"/> bytes and its stored Adler-32 matches. A mutation for which this holds AND whose
-    /// chunk CRC was recomputed is a different, fully checksum-consistent PNG: no decoder can tell it from an original
-    /// (ImageSharp 3.1.12 also decodes such a file). Anything less consistent must be refused.</summary>
-    private static bool ChecksumConsistent(byte[] zlib, int expectedLength)
+    /// <summary>Separate test-side RFC1950 validator using the public completion/remaining-input API, not PngCodec.
+    /// Checksums are not authenticity checks: a fully checksum-consistent mutation can be a different valid PNG.</summary>
+    internal static bool ChecksumConsistent(byte[] zlib, int expectedLength)
     {
         try
         {
-            using var z = new ZLibStream(new MemoryStream(zlib), CompressionMode.Decompress);
-            using var o = new MemoryStream();
-            z.CopyTo(o);
-            if (o.Length != expectedLength) return false;
+            var decoder = new ICSharpCode.SharpZipLib.Zip.Compression.Inflater();
+            decoder.SetInput(zlib);
+            var bytes = new byte[expectedLength + 1];
+            var count = 0;
+            while (!decoder.IsFinished && count < bytes.Length)
+            {
+                var n = decoder.Inflate(bytes, count, bytes.Length - count);
+                count += n;
+                if (n == 0 && !decoder.IsFinished) return false;
+            }
+            if (!decoder.IsFinished || decoder.RemainingInput != 0 || count != expectedLength) return false;
             uint a = 1, b = 0;
-            foreach (var x in o.ToArray()) { a = (a + x) % 65521; b = (b + a) % 65521; }
+            foreach (var x in bytes.AsSpan(0, count)) { a = (a + x) % 65521; b = (b + a) % 65521; }
             return ((b << 16) | a) == BinaryPrimitives.ReadUInt32BigEndian(zlib.AsSpan(zlib.Length - 4));
         }
-        catch (InvalidDataException) { return false; }
+        catch (Exception e) when (e is ICSharpCode.SharpZipLib.SharpZipBaseException or IndexOutOfRangeException or ArgumentException or FormatException or InvalidOperationException) { return false; }
     }
 
     [Fact]
@@ -208,7 +213,7 @@ public class PngDecodeSafetyTests
             Assert.All(chunks, c => Assert.Equal(TestPngs.Crc(png.AsSpan(c.Start + 4, 4 + c.Length)),
                 BinaryPrimitives.ReadUInt32BigEndian(png.AsSpan(c.Start + 8 + c.Length))));
             var (_, start, len) = chunks[1];
-            // Independent inflate with the BCL (not PngCodec) yields the exact filtered size with a valid Adler-32.
+            // Separate test-side completion validator yields the exact filtered size with a verified trailer.
             Assert.True(ChecksumConsistent(png.AsSpan(start + 8, len).ToArray(), (1920 * 4 + 1) * 1080), name);
             Assert.Equal(frame.Bgra, PngCodec.Decode(png).Bgra);
         }
@@ -300,19 +305,19 @@ public class PngDecodeSafetyTests
         var e = Assert.Throws<InvalidDataException>(() => PngCodec.Decode(png));
         watch.Stop();
         Assert.Contains("longer than the header declares", e.Message);
-        // The decoder is fully managed (no native pixel buffers), so this counts its working memory; the BCL inflater's
-        // own native state is a fixed-size zlib window, independent of the payload.
+        // The managed inflater has a fixed 32 KiB output window; the counter includes its allocations.
         Assert.True(GC.GetAllocatedBytesForCurrentThread() - before < 2 * png.Length + 1_000_000, "decoder allocated beyond the compressed input");
         Assert.True(watch.ElapsedMilliseconds < 2_000, $"{watch.ElapsedMilliseconds} ms");
     }
 
     [Fact]
-    public void Large_declared_image_with_tiny_payload_allocates_only_what_it_reads()
+    public void Large_declared_image_with_tiny_payload_is_refused_before_pixel_storage_allocation()
     {
-        // 7680x4320 at the pixel limit with 10 bytes of image data: refused as short; nothing near 127 MiB of BGRA is ever
-        // filled. (The filtered buffer is allocated up front at its exact declared size, bounded by MaxPixels.)
+        // The pre-allocation expansion-ratio guard rejects this tiny payload before filtered or BGRA storage.
         var png = TestPngs.WithIdat(7680, 4320, 8, 6, TestPngs.Zlib(new byte[10]));
+        var before = GC.GetAllocatedBytesForCurrentThread();
         var e = Assert.Throws<InvalidDataException>(() => PngCodec.Decode(png));
         Assert.Contains("shorter than the header declares", e.Message);
+        Assert.True(GC.GetAllocatedBytesForCurrentThread() - before < 100_000);
     }
 }
