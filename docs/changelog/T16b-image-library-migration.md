@@ -298,7 +298,7 @@ Encoder: 8-bit RGBA, non-interlaced, IHDR/IDAT/IEND only.
 ### B1: confident-wrong decodes. Resolved
 - Every chunk CRC and the zlib Adler-32 are verified; structural rules as above.
 - Regressions (`PngDecodeSafetyTests`):
-  - `Every_bit_flip_in_IHDR_IDAT_and_their_CRCs_is_refused`: one flip in every type, data and CRC byte of IHDR and IDAT of a real fixture-13 PNG; every flip throws `InvalidDataException`. That is 37,331 flips.
+  - `Every_bit_flip_in_IHDR_IDAT_and_their_CRCs_is_refused`: one flip in every type, data and CRC byte of IHDR and IDAT of a real fixture-13 PNG; every flip throws `InvalidDataException`. That is 37,316 flips: IHDR 4+13+4 bytes plus IDAT 4+37,287+4 bytes, from the measured IDAT length 37,287.
   - `Every_zlib_bit_flip_with_a_recomputed_chunk_CRC_is_refused_unless_checksum_consistent`:
     - every byte of the zlib stream of a 48×40 real crop, with the chunk CRC re-fixed so the zlib layer itself is tested;
     - every zlib-header and Adler-32 flip is refused;
