@@ -124,41 +124,76 @@ public class PngDecodeSafetyTests
         Assert.True(refused > 1000, $"{refused}");
     }
 
-    [Fact]
-    public void Corrupt_deflate_or_Adler32_is_refused_even_when_the_chunk_CRC_is_recomputed()
+    /// <summary>Independent check (BCL inflate + reference Adler-32, not PngCodec): the zlib payload inflates to exactly
+    /// <paramref name="expectedLength"/> bytes and its stored Adler-32 matches. A mutation for which this holds AND whose
+    /// chunk CRC was recomputed is a different, fully checksum-consistent PNG: no decoder can tell it from an original
+    /// (ImageSharp 3.1.12 also decodes such a file). Anything less consistent must be refused.</summary>
+    private static bool ChecksumConsistent(byte[] zlib, int expectedLength)
     {
-        var png = FixturePng();
+        try
+        {
+            using var z = new ZLibStream(new MemoryStream(zlib), CompressionMode.Decompress);
+            using var o = new MemoryStream();
+            z.CopyTo(o);
+            if (o.Length != expectedLength) return false;
+            uint a = 1, b = 0;
+            foreach (var x in o.ToArray()) { a = (a + x) % 65521; b = (b + a) % 65521; }
+            return ((b << 16) | a) == BinaryPrimitives.ReadUInt32BigEndian(zlib.AsSpan(zlib.Length - 4));
+        }
+        catch (InvalidDataException) { return false; }
+    }
+
+    [Fact]
+    public void Every_zlib_bit_flip_with_a_recomputed_chunk_CRC_is_refused_unless_checksum_consistent()
+    {
+        // A smaller real fixture crop keeps every-byte coverage fast.
+        var source = Frames.Crop(Env.Frame("13-support-card-list"), new Rect(273, 93, 48, 40));
+        var png = PngCodec.Encode(source);
         var (_, start, len) = Chunks(png).Single(c => c.Type == "IDAT");
-        var count = 0;
+        const int filteredLength = (48 * 4 + 1) * 40;
+        int refused = 0, identical = 0, consistent = 0;
         // Every byte of the zlib stream (header, deflate data, Adler-32), one bit each, with a valid chunk CRC.
         for (var i = 0; i < len; i++)
         {
             var s = (byte[])png.Clone();
             s[start + 8 + i] ^= (byte)(1 << (i % 8));
             FixCrc(s, start, len);
-            Assert.Throws<InvalidDataException>(() => PngCodec.Decode(s));
-            count++;
+            Frame d;
+            try { d = PngCodec.Decode(s); }
+            catch (InvalidDataException) { refused++; continue; }
+            Assert.False(i < 2 || i >= len - 4, $"zlib header/Adler-32 flip accepted at {i}");
+            if (d.Bgra.AsSpan().SequenceEqual(source.Bgra)) { identical++; continue; }
+            // Wrong pixels are only tolerable when the mutated stream is itself checksum-consistent (an Adler-32
+            // collision): such a file is indistinguishable from a genuine one, and ImageSharp 3.1.12 decodes it too.
+            Assert.True(ChecksumConsistent(s.AsSpan(start + 8, len).ToArray(), filteredLength), $"wrong pixels from an inconsistent stream (zlib byte {i})");
+            consistent++;
         }
-        Assert.Equal(len, count);
+        Assert.True(refused >= len - 16, $"refused {refused} of {len}; identical {identical}; checksum-consistent {consistent}");
     }
 
     [Fact]
-    public void Random_mutations_never_produce_wrong_pixels()
+    public void Random_mutations_never_produce_wrong_pixels_from_inconsistent_data()
     {
-        // Deterministic mutation sweep with CRCs recomputed (so the zlib/filter layers are exercised, not just the CRC):
-        // a decode that succeeds must reproduce the source pixels exactly.
+        // Deterministic multi-bit sweep, chunk CRC recomputed (so the zlib/filter layers are exercised, not just the CRC):
+        // a decode that succeeds must reproduce the source exactly unless the mutated stream is checksum-consistent.
         var source = Frames.Crop(Env.Frame("13-support-card-list"), new Rect(273, 93, 101, 134));
         var png = PngCodec.Encode(source);
         var (_, start, len) = Chunks(png).Single(c => c.Type == "IDAT");
         var rnd = new Random(1234);
+        int refused = 0, identical = 0, consistent = 0;
         for (var i = 0; i < 3000; i++)
         {
             var s = (byte[])png.Clone();
             for (var j = 1 + rnd.Next(4); j > 0; j--) s[start + 8 + rnd.Next(len)] ^= (byte)(1 << rnd.Next(8));
             FixCrc(s, start, len);
-            try { Assert.Equal(source.Bgra, PngCodec.Decode(s).Bgra); }
-            catch (InvalidDataException) { }
+            Frame d;
+            try { d = PngCodec.Decode(s); }
+            catch (InvalidDataException) { refused++; continue; }
+            if (d.Bgra.AsSpan().SequenceEqual(source.Bgra)) { identical++; continue; }
+            Assert.True(ChecksumConsistent(s.AsSpan(start + 8, len).ToArray(), (101 * 4 + 1) * 134), $"wrong pixels from an inconsistent stream (iteration {i})");
+            consistent++;
         }
+        Assert.True(refused >= 2990, $"refused {refused}, identical {identical}, checksum-consistent {consistent}");
     }
 
     // ---------- structure ----------

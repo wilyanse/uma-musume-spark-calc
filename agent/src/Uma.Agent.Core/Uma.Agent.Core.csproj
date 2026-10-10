@@ -6,9 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="../../../packages/schema/json/VeteranCapture.schema.json" LogicalName="Uma.Agent.Core.VeteranCapture.schema.json" />
-    <!-- T16b (64): license-key-free managed PNG codecs replacing SixLabors.ImageSharp; resampling is in Resampler.cs. -->
-    <PackageReference Include="StbImageSharp" Version="2.30.16" />
-    <PackageReference Include="Hjg.Pngcs" Version="1.1.5" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.3" />
   </ItemGroup>
 </Project>
