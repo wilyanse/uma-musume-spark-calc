@@ -53,6 +53,9 @@
     <Content Include="../../legal/inventory.json" Link="legal/inventory.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="../../legal/notices/*" Link="legal/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
+  <Target Name="RequireRecipientPublishSdk" BeforeTargets="PrepareForPublish" Condition="'$(PublishSingleFile)' == 'true'">
+    <Error Condition="'$(NETCoreSdkVersion)' != '10.0.401'" Text="T19 recipient packaging requires SDK 10.0.401. Run dotnet publish from agent/ with its exact global.json; root SDK bypass is unsupported." />
+  </Target>
   <Target Name="RequireRecipientNotices" BeforeTargets="BeforeBuild">
     <Error Condition="!Exists('../../legal/inventory.json') Or !Exists('../../legal/notices/INDEX.txt')" Text="agent/legal/inventory.json and agent/legal/notices/INDEX.txt are required: the agent must ship its third-party notices (T19)." />
   </Target>

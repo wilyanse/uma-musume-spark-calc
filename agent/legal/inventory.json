@@ -1,10 +1,17 @@
 {
-  "schema": 1,
+  "schema": 2,
   "comment": "T19 recipient licence/NOTICE inventory for the Release win-x64 self-contained single-file publish of Uma.Agent.Windows. Verified against the final EXE/ZIP bytes by tools/recipient_notices.py. Technical licence evidence only, not a legal opinion.",
   "runtimeTarget": ".NETCoreApp,Version=v8.0/win-x64",
-  "firstParty": ["Uma.Agent.Windows/0.1.0", "Uma.Agent.Core/1.0.0"],
+  "firstParty": [
+    "Uma.Agent.Windows/0.1.0",
+    "Uma.Agent.Core/1.0.0"
+  ],
   "appEntries": {
-    "exact": ["appsettings.json", "Uma.Agent.Windows.deps.json", "Uma.Agent.Windows.runtimeconfig.json"],
+    "exact": [
+      "appsettings.json",
+      "Uma.Agent.Windows.deps.json",
+      "Uma.Agent.Windows.runtimeconfig.json"
+    ],
     "dataPattern": "^data/(layouts|master)/[A-Za-z0-9._/-]+\\.json$"
   },
   "graphOnly": {
@@ -14,41 +21,58 @@
   },
   "singleFileHost": {
     "package": "Microsoft.NETCore.App.Host.win-x64",
-    "version": "8.0.24",
-    "packageDir": "microsoft.netcore.app.host.win-x64/8.0.24",
-    "nupkgSha256": "f8dffe9a59cd1df4e00e4c204e16ebf0cfa7c56d0fff9c9554033269c4c556ab",
-    "productVersion": "8,0,2426,7010 @Commit: b3b35ce80e9eb94f72c4aa36a171a5e1cde72ace",
+    "version": "8.0.31",
+    "packageDir": "microsoft.netcore.app.host.win-x64/8.0.31",
+    "nupkgSha256": "d8acca41e27c80fdefa6ccd6dcbd2b76a7cda5900432755351415a39c5571a1c",
+    "productVersion": "8,0,3126,42015 @Commit: 1219a42122cf5190c7f512850557e38c422430dc",
     "packTexts": {
-      "LICENSE.TXT": "dotnet-runtime-8.0.24-LICENSE.TXT",
-      "THIRD-PARTY-NOTICES.TXT": "dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT"
-    }
+      "LICENSE.TXT": "dotnet-runtime-8.0.31-LICENSE.TXT",
+      "THIRD-PARTY-NOTICES.TXT": "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT"
+    },
+    "source": "Microsoft.NETCore.App.Host.win-x64/8.0.31 exact nupkg: nuspec repository commit de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4; embedded runtime PE ProductVersion commit 1219a42122cf5190c7f512850557e38c422430dc (recorded distinctly, not equated). Original host resources byte-matched to final EXE."
   },
   "components": [
     {
-      "deps": "runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24",
+      "deps": "runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31",
       "kind": "runtimepack",
-      "packageDir": "microsoft.netcore.app.runtime.win-x64/8.0.24",
-      "nupkgSha256": "66650628d9ebe5f3893097870bee3c8b4087212c078eadb8aecc5ba62ca815c3",
-      "licence": "MIT",
+      "packageDir": "microsoft.netcore.app.runtime.win-x64/8.0.31",
+      "nupkgSha256": "1504ead20c9a25e4c47ece56b6cd407697ea0cde0148e07e71bebc1e2d841c2f",
+      "licence": "MIT (managed components); Microsoft .NET Library License (Windows runtime/single-file host and named WPF natives)",
       "copyright": "Copyright (c) .NET Foundation and Contributors (LICENSE.TXT); nuspec: (c) Microsoft Corporation. All rights reserved.",
-      "source": "https://github.com/dotnet/runtime/tree/b3b35ce80e9eb94f72c4aa36a171a5e1cde72ace",
-      "notices": ["dotnet-runtime-8.0.24-LICENSE.TXT", "dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT"],
+      "source": "https://github.com/dotnet/runtime/tree/de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4",
+      "notices": [
+        "dotnet-runtime-8.0.31-LICENSE.TXT",
+        "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT",
+        "dotnet-Library-LICENSE.html",
+        "dotnet-license-information-windows.md",
+        "dotnet-license-information.md"
+      ],
       "packTexts": {
-        "LICENSE.TXT": "dotnet-runtime-8.0.24-LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT": "dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT"
+        "LICENSE.TXT": "dotnet-runtime-8.0.31-LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT": "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT"
       }
     },
     {
-      "deps": "runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24",
+      "deps": "runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31",
       "kind": "runtimepack",
-      "packageDir": "microsoft.windowsdesktop.app.runtime.win-x64/8.0.24",
-      "nupkgSha256": "0918147f69afe38c74f51874c8eb0f11d72e05671cd736ee4598d30a5555ecb5",
-      "licence": "MIT",
+      "packageDir": "microsoft.windowsdesktop.app.runtime.win-x64/8.0.31",
+      "nupkgSha256": "f2d14397e990f3c39efb325abd6d6430312a16a3c4596a55fb10b36c8fdcbd33",
+      "licence": "MIT (managed components); Microsoft .NET Library License (Windows runtime/single-file host and named WPF natives); Windows SDK License (D3DCompiler_47_cor3.dll)",
       "copyright": "Copyright (c) .NET Foundation and Contributors (LICENSE); nuspec: (c) Microsoft Corporation. All rights reserved.",
-      "source": "https://github.com/dotnet/windowsdesktop/tree/d0e3683d144a692b579a1bf4a33e4626eb3d0ce3 (WPF dotnet/wpf@738c1f8ff725ea0fee44f11947a40fe0b6b7df07, WinForms dotnet/winforms@464883c66de7fc35195fbc06193ef8ee351491f9 per eng/Version.Details.xml)",
-      "notices": ["dotnet-windowsdesktop-8.0.24-LICENSE.TXT", "dotnet-wpf-8.0.24-THIRD-PARTY-NOTICES.TXT", "dotnet-winforms-8.0.24-THIRD-PARTY-NOTICES.TXT", "dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT"],
+      "source": "https://github.com/dotnet/windowsdesktop/tree/337963009d48a3016b50172b451b4e80f78791a7 (WPF dotnet/wpf@27c84022a86fcaa600315f4686cde97874615a24, WinForms dotnet/winforms@f4ddf3475a1269429508fe203cdfc4e21c3599d1 per eng/Version.Details.xml)",
+      "notices": [
+        "dotnet-windowsdesktop-8.0.31-LICENSE.TXT",
+        "dotnet-wpf-8.0.31-THIRD-PARTY-NOTICES.TXT",
+        "dotnet-winforms-8.0.31-THIRD-PARTY-NOTICES.TXT",
+        "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT",
+        "dotnet-Library-LICENSE.html",
+        "dotnet-license-information-windows.md",
+        "dotnet-license-information.md",
+        "Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf",
+        "Windows-SDK-LICENSE-derived.txt"
+      ],
       "packTexts": {
-        "LICENSE": "dotnet-windowsdesktop-8.0.24-LICENSE.TXT"
+        "LICENSE": "dotnet-windowsdesktop-8.0.31-LICENSE.TXT"
       }
     },
     {
@@ -59,7 +83,11 @@
       "licence": "Microsoft Software License Terms, Windows SDK for Windows 10 (nuspec licenseUrl https://aka.ms/WinSDKLicenseURL; REDIST list https://learn.microsoft.com/en-us/legal/windows-sdk/redist names this package's lib/net8.0 files). WinRT.Runtime.dll is C#/WinRT 2.2.0.241111.1, upstream MIT.",
       "copyright": "nuspec and both DLL version resources: (c) Microsoft Corporation. All rights reserved.; CsWinRT LICENSE: Copyright (c) Microsoft Corporation.",
       "source": "https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref/10.0.19041.57; https://github.com/microsoft/CsWinRT/tree/8649ee3eeb2445ca2a36d80d878ef60b96a6c65d",
-      "notices": ["Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf", "CsWinRT-2.2.0.241111.1-LICENSE.txt"]
+      "notices": [
+        "Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf",
+        "CsWinRT-2.2.0.241111.1-LICENSE.txt",
+        "Windows-SDK-LICENSE-derived.txt"
+      ]
     },
     {
       "deps": "Microsoft.Data.Sqlite/10.0.3",
@@ -68,7 +96,9 @@
       "licence": "MIT",
       "copyright": "Copyright (c) .NET Foundation and Contributors (LICENSE.txt); nuspec: (c) Microsoft Corporation. All rights reserved.",
       "source": "https://github.com/dotnet/dotnet/tree/c2435c3e0f46de784341ac3ed62863ce77e117b4/src/efcore",
-      "notices": ["Microsoft.Data.Sqlite-10.0.3-LICENSE.txt"]
+      "notices": [
+        "Microsoft.Data.Sqlite-10.0.3-LICENSE.txt"
+      ]
     },
     {
       "deps": "Microsoft.Data.Sqlite.Core/10.0.3",
@@ -77,7 +107,9 @@
       "licence": "MIT",
       "copyright": "Copyright (c) .NET Foundation and Contributors (LICENSE.txt); nuspec: (c) Microsoft Corporation. All rights reserved.",
       "source": "https://github.com/dotnet/dotnet/tree/c2435c3e0f46de784341ac3ed62863ce77e117b4/src/efcore",
-      "notices": ["Microsoft.Data.Sqlite-10.0.3-LICENSE.txt"]
+      "notices": [
+        "Microsoft.Data.Sqlite-10.0.3-LICENSE.txt"
+      ]
     },
     {
       "deps": "Serilog/4.3.0",
@@ -86,7 +118,9 @@
       "licence": "Apache-2.0",
       "copyright": "nuspec: Copyright (c) Serilog Contributors",
       "source": "https://github.com/serilog/serilog/tree/726e29c5b172aa8813285be1ad8cc728fd531eab (no NOTICE file at that commit)",
-      "notices": ["Serilog-4.3.0-LICENSE.txt"]
+      "notices": [
+        "Serilog-4.3.0-LICENSE.txt"
+      ]
     },
     {
       "deps": "Serilog.Sinks.File/6.0.0",
@@ -95,7 +129,9 @@
       "licence": "Apache-2.0",
       "copyright": "No copyright statement in the nuspec, assembly or LICENSE; nuspec authors: Serilog Contributors",
       "source": "https://github.com/serilog/serilog-sinks-file/tree/c7b9bc3d87f9bb98572a52286135efda1e608ad6 (no NOTICE file at that commit)",
-      "notices": ["Serilog.Sinks.File-6.0.0-LICENSE.txt"]
+      "notices": [
+        "Serilog.Sinks.File-6.0.0-LICENSE.txt"
+      ]
     },
     {
       "deps": "SharpZipLib/1.4.2",
@@ -104,7 +140,9 @@
       "licence": "MIT",
       "copyright": "LICENSE.txt: Copyright (c) 2000-2018 SharpZipLib Contributors; nuspec: Copyright (c) 2000-2022 SharpZipLib Contributors",
       "source": "https://github.com/icsharpcode/SharpZipLib/tree/33f64eb0f28cdd2b084cb822fcc224c7c5aba553",
-      "notices": ["SharpZipLib-1.4.2-LICENSE.txt"]
+      "notices": [
+        "SharpZipLib-1.4.2-LICENSE.txt"
+      ]
     },
     {
       "deps": "SQLitePCLRaw.bundle_e_sqlite3/2.1.12",
@@ -113,7 +151,10 @@
       "licence": "Apache-2.0",
       "copyright": "nuspec: Copyright 2014-2024 SourceGear, LLC",
       "source": "https://github.com/ericsink/SQLitePCL.raw/tree/ca835d21508bff43121c65081035840ac5006c4c",
-      "notices": ["SQLitePCLRaw-2.1.12-LICENSE.txt", "SQLitePCLRaw-2.1.12-NOTICE.txt"]
+      "notices": [
+        "SQLitePCLRaw-2.1.12-LICENSE.txt",
+        "SQLitePCLRaw-2.1.12-NOTICE.txt"
+      ]
     },
     {
       "deps": "SQLitePCLRaw.core/2.1.12",
@@ -122,7 +163,10 @@
       "licence": "Apache-2.0",
       "copyright": "nuspec: Copyright 2014-2024 SourceGear, LLC",
       "source": "https://github.com/ericsink/SQLitePCL.raw/tree/ca835d21508bff43121c65081035840ac5006c4c",
-      "notices": ["SQLitePCLRaw-2.1.12-LICENSE.txt", "SQLitePCLRaw-2.1.12-NOTICE.txt"]
+      "notices": [
+        "SQLitePCLRaw-2.1.12-LICENSE.txt",
+        "SQLitePCLRaw-2.1.12-NOTICE.txt"
+      ]
     },
     {
       "deps": "SQLitePCLRaw.provider.e_sqlite3/2.1.12",
@@ -131,7 +175,10 @@
       "licence": "Apache-2.0",
       "copyright": "nuspec: Copyright 2014-2024 SourceGear, LLC",
       "source": "https://github.com/ericsink/SQLitePCL.raw/tree/ca835d21508bff43121c65081035840ac5006c4c",
-      "notices": ["SQLitePCLRaw-2.1.12-LICENSE.txt", "SQLitePCLRaw-2.1.12-NOTICE.txt"]
+      "notices": [
+        "SQLitePCLRaw-2.1.12-LICENSE.txt",
+        "SQLitePCLRaw-2.1.12-NOTICE.txt"
+      ]
     },
     {
       "deps": "SQLitePCLRaw.lib.e_sqlite3/2.1.12",
@@ -140,24 +187,109 @@
       "licence": "Apache-2.0 (package); bundled native SQLite 3.53.3 engine is public domain",
       "copyright": "nuspec: Copyright 2014-2024 SourceGear, LLC; SQLite: public domain (LICENSE.md)",
       "source": "https://github.com/ericsink/SQLitePCL.raw/tree/ca835d21508bff43121c65081035840ac5006c4c; https://github.com/sqlite/sqlite/blob/version-3.53.3/LICENSE.md",
-      "notices": ["SQLitePCLRaw-2.1.12-LICENSE.txt", "SQLitePCLRaw-2.1.12-NOTICE.txt", "SQLite-3.53.3-LICENSE.md"]
+      "notices": [
+        "SQLitePCLRaw-2.1.12-LICENSE.txt",
+        "SQLitePCLRaw-2.1.12-NOTICE.txt",
+        "SQLite-3.53.3-LICENSE.md"
+      ]
     }
   ],
   "notices": {
-    "INDEX.txt": {"source": "T19 recipient index (this repository)", "sha256": "23ce1c68512c06c6b903a500432bf63fabbc5fb64e999344e6a250f7332433db"},
-    "dotnet-runtime-8.0.24-LICENSE.TXT": {"source": "LICENSE.TXT in Microsoft.NETCore.App.Runtime.win-x64 8.0.24 and Microsoft.NETCore.App.Host.win-x64 8.0.24 (byte-identical); same text as dotnet/runtime@b3b35ce LICENSE.TXT with CRLF line ends", "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"},
-    "dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT": {"source": "THIRD-PARTY-NOTICES.TXT in Microsoft.NETCore.App.Runtime.win-x64 8.0.24 and Microsoft.NETCore.App.Host.win-x64 8.0.24 (byte-identical); same text as dotnet/runtime@b3b35ce with CRLF line ends", "sha256": "b60b2912da28eaa6518593c9e2efb5334ee062d3c42e80d8fdfa806b3dc52977"},
-    "dotnet-windowsdesktop-8.0.24-LICENSE.TXT": {"source": "LICENSE in Microsoft.WindowsDesktop.App.Runtime.win-x64 8.0.24", "sha256": "a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab"},
-    "dotnet-wpf-8.0.24-THIRD-PARTY-NOTICES.TXT": {"source": "https://raw.githubusercontent.com/dotnet/wpf/738c1f8ff725ea0fee44f11947a40fe0b6b7df07/THIRD-PARTY-NOTICES.TXT", "sha256": "d23dba2fee20c6b59d8f7088ee9ed372459c952a319b7ca90f3eec370cc76eb9"},
-    "dotnet-winforms-8.0.24-THIRD-PARTY-NOTICES.TXT": {"source": "https://raw.githubusercontent.com/dotnet/winforms/464883c66de7fc35195fbc06193ef8ee351491f9/THIRD-PARTY-NOTICES.TXT", "sha256": "d68d386849444fab1012e84beb398aeca4aaa3d50e753e9f218242b3753aa28f"},
-    "Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf": {"source": "https://aka.ms/WinSDKLicenseURL -> https://download.microsoft.com/download/0/F/F/0FF2B061-47DD-4F55-89B6-FD1D8C44F14D/sdk_license.rtf (fetched 2026-10-11; EULAID:WIN10SDK.RTM.AUG_2018_en-US)", "sha256": "dd07eb178e00c6bba4148457fc00ff77cd4887eb521d504186fe59c9ec8bbe62"},
-    "CsWinRT-2.2.0.241111.1-LICENSE.txt": {"source": "https://raw.githubusercontent.com/microsoft/CsWinRT/8649ee3eeb2445ca2a36d80d878ef60b96a6c65d/LICENSE (tag 2.2.0.241111.1; commit equals WinRT.Runtime.dll ProductVersion)", "sha256": "9906940f61b1f0b533fa7d99baf55178b2808fbe113ea51dfbfad8572ccd5f2b"},
-    "Microsoft.Data.Sqlite-10.0.3-LICENSE.txt": {"source": "https://raw.githubusercontent.com/dotnet/dotnet/c2435c3e0f46de784341ac3ed62863ce77e117b4/src/efcore/LICENSE.txt", "sha256": "ae48df11a335dc1a615f4f938b69cba73bcf4485c4f97af49b38efb0f216353b"},
-    "Serilog-4.3.0-LICENSE.txt": {"source": "https://raw.githubusercontent.com/serilog/serilog/726e29c5b172aa8813285be1ad8cc728fd531eab/LICENSE", "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68"},
-    "Serilog.Sinks.File-6.0.0-LICENSE.txt": {"source": "https://raw.githubusercontent.com/serilog/serilog-sinks-file/c7b9bc3d87f9bb98572a52286135efda1e608ad6/LICENSE", "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"},
-    "SharpZipLib-1.4.2-LICENSE.txt": {"source": "https://raw.githubusercontent.com/icsharpcode/SharpZipLib/33f64eb0f28cdd2b084cb822fcc224c7c5aba553/LICENSE.txt", "sha256": "d7fbbc16f871bf24fa5624c7eaf945054b778985f32676dcacba41fddca61133"},
-    "SQLitePCLRaw-2.1.12-LICENSE.txt": {"source": "https://raw.githubusercontent.com/ericsink/SQLitePCL.raw/ca835d21508bff43121c65081035840ac5006c4c/LICENSE.TXT", "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},
-    "SQLitePCLRaw-2.1.12-NOTICE.txt": {"source": "https://raw.githubusercontent.com/ericsink/SQLitePCL.raw/ca835d21508bff43121c65081035840ac5006c4c/NOTICE.TXT (repository-wide; SQLCipher/OpenSSL sections do not apply to the shipped e_sqlite3 build)", "sha256": "485b276b3d2bfaa26df348e1e5c84df3648981e09b88531a6a53006f0705c24b"},
-    "SQLite-3.53.3-LICENSE.md": {"source": "https://github.com/sqlite/sqlite/blob/version-3.53.3/LICENSE.md", "sha256": "ee6af51062b30d532991face5164136ae6f84e265ecf8abe89dc69dac45ca1e7"}
+    "INDEX.txt": {
+      "source": "T19 recipient index (this repository)",
+      "sha256": "3ff4b9cc4f78bae65c6d35544c09963388f170e45f8502c81e2cea38ff6566d2"
+    },
+    "dotnet-runtime-8.0.31-LICENSE.TXT": {
+      "source": "Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4. Package bytes retained verbatim.",
+      "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+    },
+    "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT": {
+      "source": "Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4. Package bytes retained verbatim.",
+      "sha256": "b60b2912da28eaa6518593c9e2efb5334ee062d3c42e80d8fdfa806b3dc52977"
+    },
+    "dotnet-windowsdesktop-8.0.31-LICENSE.TXT": {
+      "source": "LICENSE in Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31; dotnet/windowsdesktop@337963009d48a3016b50172b451b4e80f78791a7",
+      "sha256": "a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab"
+    },
+    "dotnet-wpf-8.0.31-THIRD-PARTY-NOTICES.TXT": {
+      "source": "https://raw.githubusercontent.com/dotnet/wpf/27c84022a86fcaa600315f4686cde97874615a24/THIRD-PARTY-NOTICES.TXT",
+      "sha256": "d23dba2fee20c6b59d8f7088ee9ed372459c952a319b7ca90f3eec370cc76eb9"
+    },
+    "dotnet-winforms-8.0.31-THIRD-PARTY-NOTICES.TXT": {
+      "source": "https://raw.githubusercontent.com/dotnet/winforms/f4ddf3475a1269429508fe203cdfc4e21c3599d1/THIRD-PARTY-NOTICES.TXT",
+      "sha256": "d68d386849444fab1012e84beb398aeca4aaa3d50e753e9f218242b3753aa28f"
+    },
+    "Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf": {
+      "source": "https://aka.ms/WinSDKLicenseURL -> https://download.microsoft.com/download/0/F/F/0FF2B061-47DD-4F55-89B6-FD1D8C44F14D/sdk_license.rtf (fetched 2026-10-11; EULAID:WIN10SDK.RTM.AUG_2018_en-US)",
+      "sha256": "dd07eb178e00c6bba4148457fc00ff77cd4887eb521d504186fe59c9ec8bbe62"
+    },
+    "CsWinRT-2.2.0.241111.1-LICENSE.txt": {
+      "source": "https://raw.githubusercontent.com/microsoft/CsWinRT/8649ee3eeb2445ca2a36d80d878ef60b96a6c65d/LICENSE (tag 2.2.0.241111.1; commit equals WinRT.Runtime.dll ProductVersion)",
+      "sha256": "9906940f61b1f0b533fa7d99baf55178b2808fbe113ea51dfbfad8572ccd5f2b"
+    },
+    "Microsoft.Data.Sqlite-10.0.3-LICENSE.txt": {
+      "source": "https://raw.githubusercontent.com/dotnet/dotnet/c2435c3e0f46de784341ac3ed62863ce77e117b4/src/efcore/LICENSE.txt",
+      "sha256": "ae48df11a335dc1a615f4f938b69cba73bcf4485c4f97af49b38efb0f216353b"
+    },
+    "Serilog-4.3.0-LICENSE.txt": {
+      "source": "https://raw.githubusercontent.com/serilog/serilog/726e29c5b172aa8813285be1ad8cc728fd531eab/LICENSE",
+      "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68"
+    },
+    "Serilog.Sinks.File-6.0.0-LICENSE.txt": {
+      "source": "https://raw.githubusercontent.com/serilog/serilog-sinks-file/c7b9bc3d87f9bb98572a52286135efda1e608ad6/LICENSE",
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+    },
+    "SharpZipLib-1.4.2-LICENSE.txt": {
+      "source": "https://raw.githubusercontent.com/icsharpcode/SharpZipLib/33f64eb0f28cdd2b084cb822fcc224c7c5aba553/LICENSE.txt",
+      "sha256": "d7fbbc16f871bf24fa5624c7eaf945054b778985f32676dcacba41fddca61133"
+    },
+    "SQLitePCLRaw-2.1.12-LICENSE.txt": {
+      "source": "https://raw.githubusercontent.com/ericsink/SQLitePCL.raw/ca835d21508bff43121c65081035840ac5006c4c/LICENSE.TXT",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "SQLitePCLRaw-2.1.12-NOTICE.txt": {
+      "source": "https://raw.githubusercontent.com/ericsink/SQLitePCL.raw/ca835d21508bff43121c65081035840ac5006c4c/NOTICE.TXT (repository-wide; SQLCipher/OpenSSL sections do not apply to the shipped e_sqlite3 build)",
+      "sha256": "485b276b3d2bfaa26df348e1e5c84df3648981e09b88531a6a53006f0705c24b"
+    },
+    "SQLite-3.53.3-LICENSE.md": {
+      "source": "https://github.com/sqlite/sqlite/blob/version-3.53.3/LICENSE.md",
+      "sha256": "ee6af51062b30d532991face5164136ae6f84e265ecf8abe89dc69dac45ca1e7"
+    },
+    "dotnet-Library-LICENSE.html": {
+      "source": "https://dotnet.microsoft.com/dotnet_library_license.htm (live unversioned page, fetched 2026-10-11; verbatim Windows-1252 HTML, opens locally in browser; not a versioned upstream source)",
+      "sha256": "0f69be2c8ac44c3980047664c3347ff22cba5842dc9d8b0a88a4f0914645a780"
+    },
+    "dotnet-license-information-windows.md": {
+      "source": "https://raw.githubusercontent.com/dotnet/core/6c25b9da384e8d8a16fd12c79da8a8aa6bdfc6a1/license-information-windows.md",
+      "sha256": "3bdf7142d570f11780d1a5fcb6cbe47f5cf4a15bc634acf8db93fe3be8837119"
+    },
+    "dotnet-license-information.md": {
+      "source": "https://raw.githubusercontent.com/dotnet/core/8c8e5836c343f854b65437dfedb13598d3aa3707/license-information.md",
+      "sha256": "87f9974735fa705f5ed13367de111b94d09573205c4b90e07cf6d8301081dc10"
+    },
+    "Windows-SDK-LICENSE-derived.txt": {
+      "source": "DERIVED from Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf, sha256 dd07eb178e00c6bba4148457fc00ff77cd4887eb521d504186fe59c9ec8bbe62; Python stdlib render_sdk_license.py, metadata/formatting/list labels omitted, wording retained; original RTF authoritative; reproduced against macOS textutil -convert txt -stdout (equal wording ignoring whitespace)",
+      "sha256": "c88cfe43770918fe36b21e9d8d8500677a2ec77916a7e3920eccdd23f690c807"
+    }
+  },
+  "buildSdk": "10.0.401",
+  "windowsLicensing": {
+    "singleFileRuntime": "dotnet-Library-LICENSE.html",
+    "native": {
+      "coreclr.dll": "dotnet-Library-LICENSE.html",
+      "PresentationNative_cor3.dll": "dotnet-Library-LICENSE.html",
+      "vcruntime140_cor3.dll": "dotnet-Library-LICENSE.html",
+      "wpfgfx_cor3.dll": "dotnet-Library-LICENSE.html",
+      "D3DCompiler_47_cor3.dll": "Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf"
+    },
+    "authority": "dotnet-license-information-windows.md",
+    "publicationGate": "UNRESOLVED HUMAN PUBLICATION GATE: distributor and external end-user terms, indemnity, non-standalone distribution and retained notices under Microsoft .NET Library and Windows SDK terms. File delivery does not satisfy these obligations.",
+    "sdkLicenceLivePage": {
+      "url": "https://learn.microsoft.com/en-us/legal/windows-sdk/license",
+      "fetched": "2026-10-11",
+      "sha256": "2dc27de28d82f4d0d2f471899c818a5e9787de21061774390204170d4207d77d",
+      "eulaId": "WIN10SDK.RTM.AUG_2018_en-US",
+      "applicability": "dotnet-license-information-windows.md maps D3DCompiler_47_cor3.dll to this Windows SDK licence; same EULAID as retained verbatim sdk_license.rtf. Redistribution obligations remain human gate, not inferred satisfied from REDIST projection list."
+    }
   }
 }

@@ -4,31 +4,48 @@ Uma Spark Calc capture agent (Uma.Agent.Windows.exe, win-x64) - third-party lice
 The agent is a self-contained .NET 8 single-file program. Besides its own code it
 contains the third-party components listed below. Their licence, copyright and
 NOTICE texts are the files in this folder, copied verbatim from the exact package
-or upstream source revision named for each component.
+or upstream source revision named for each component, except the clearly marked
+derived plain-text SDK rendering (the original RTF remains authoritative).
 
 Where to find these files
 -------------------------
 - Release download: the ZIP file contains Uma.Agent.Windows.exe and this LICENSES
   folder. Keep the folder with the EXE when you copy or pass the program on.
 - Inside the EXE: the same files are bundled, uncompressed, under legal/. When the
-  agent starts, .NET extracts bundled content to
+  agent starts, .NET is expected to extract bundled content to
   %TEMP%\.net\Uma.Agent.Windows\<bundle id>\legal\
-  (or under DOTNET_BUNDLE_EXTRACT_BASE_DIR if that variable is set).
+  (or under DOTNET_BUNDLE_EXTRACT_BASE_DIR if that variable is set). This expected
+  extraction path and native execution are NOT yet verified on Windows (H4).
 No network, NuGet or developer tool is needed to read them.
 
 Components and texts
 --------------------
-.NET runtime 8.0.24 (Microsoft.NETCore.App, including the single-file host) - MIT
-    dotnet-runtime-8.0.24-LICENSE.TXT
-    dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT
-.NET Windows Desktop runtime 8.0.24 (WPF, Windows Forms; Microsoft.WindowsDesktop.App) - MIT
-    dotnet-windowsdesktop-8.0.24-LICENSE.TXT
-    dotnet-wpf-8.0.24-THIRD-PARTY-NOTICES.TXT
-    dotnet-winforms-8.0.24-THIRD-PARTY-NOTICES.TXT
-    (its runtime-derived parts are also covered by dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT)
+.NET runtime 8.0.31 (Microsoft.NETCore.App) - MIT managed components;
+  Windows single-file runtime including coreclr - Microsoft .NET Library License
+    dotnet-runtime-8.0.31-LICENSE.TXT
+    dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT
+.NET Windows Desktop runtime 8.0.31 (WPF, Windows Forms; Microsoft.WindowsDesktop.App)
+  MIT managed components; named Windows natives have the additional terms below.
+    dotnet-windowsdesktop-8.0.31-LICENSE.TXT
+    dotnet-wpf-8.0.31-THIRD-PARTY-NOTICES.TXT
+    dotnet-winforms-8.0.31-THIRD-PARTY-NOTICES.TXT
+    (its runtime-derived parts are also covered by dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT)
+Windows runtime/native licence mapping (Microsoft's authoritative Windows information):
+    dotnet-license-information-windows.md
+    dotnet-license-information.md
+  coreclr.dll and .NET runtime incorporated into the single-file EXE,
+  PresentationNative_cor3.dll, vcruntime140_cor3.dll, wpfgfx_cor3.dll:
+    dotnet-Library-LICENSE.html (verbatim live .NET Library License; open locally in browser)
+  D3DCompiler_47_cor3.dll: Windows SDK License, original RTF below.
+  PenImc_cor3.dll is among the remaining MIT files, not one of these exceptions.
+  UNRESOLVED HUMAN PUBLICATION GATE: Microsoft .NET Library and Windows SDK
+  terms require distributor/end-user agreements and other obligations including
+  indemnity, non-standalone distribution and notice retention. Delivery of these
+  files alone does NOT satisfy those terms or authorize publication.
 Windows SDK for .NET projection 10.0.19041.57 (Microsoft.Windows.SDK.NET.dll) -
   Microsoft Software License Terms for the Windows 10 SDK (distributable code)
     Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf
+    Windows-SDK-LICENSE-derived.txt (accessible derived wording; original RTF authoritative)
   C#/WinRT runtime 2.2.0.241111.1 (WinRT.Runtime.dll, shipped in the same package) - MIT
     CsWinRT-2.2.0.241111.1-LICENSE.txt
 Microsoft.Data.Sqlite 10.0.3 (Microsoft.Data.Sqlite, Microsoft.Data.Sqlite.Core) - MIT
