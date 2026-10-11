@@ -427,6 +427,11 @@ git -c core.whitespace=cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024
 git -c core.whitespace=cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024ebbe9a..HEAD -- agent/legal/notices/INDEX.txt agent/legal/notices/Windows-SDK-LICENSE-derived.txt
 ```
 
+Actual post-commit results at `8bea35f6c54476ddda2ddcfd980cf6e73e14f17e`: all three
+full-range commands above exited **0**, with no diagnostics; worktree status was
+clean on the assigned branch. Exact readback is retained in
+`assets/T19/r1/sol-final-diff-status.log` (before this evidence-only follow-up).
+
 First command checks the full range with upstream byte-preserving policy; the
 other two require strict authored whitespace, including INDEX/derived text, while
 excluding only upstream verbatim texts. No blanket authored-whitespace waiver.
