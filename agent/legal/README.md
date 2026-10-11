@@ -1,16 +1,96 @@
-# Agent dependency inventory for T19
+# Agent third-party licence/NOTICE delivery (T19)
+
+This folder is what the published win-x64 agent delivers to recipients, plus the
+tooling that proves it. It is technical licence evidence, not a legal opinion.
+
+- `notices/` — the recipient texts, verbatim from the exact package or upstream
+  revision recorded in `inventory.json`, plus `notices/INDEX.txt` (the readable
+  component → version → text index for an ordinary recipient).
+- `inventory.json` — machine-readable inventory: every shipped deps.json library
+  (runtime packs included) with licence, copyright, source revision, exact
+  `.nupkg` SHA-256 and notice files; notice SHA-256/provenance; graph-only
+  packages that ship no file (with reasons); and the single-file host build.
+- `tools/recipient_notices.py` — stdlib-only verifier/packager. It checks the
+  final EXE/ZIP bytes, not project items. `tools/test_recipient_notices.py` —
+  deterministic synthetic regressions (valid, missing, corrupted, stale/drift).
+
+## How notices reach a recipient
+
+1. Embedded: `Uma.Agent.Windows.csproj` bundles `notices/*` and `inventory.json`
+   as uncompressed content under `legal/` inside the single-file EXE; .NET
+   extracts it with the other content (`IncludeAllContentForSelfExtract`) to
+   `%TEMP%\.net\Uma.Agent.Windows\<bundle id>\legal\`.
+2. Release ZIP: because that extraction folder is a hidden runtime cache, the
+   release asset is one ZIP `uma-agent-<tag>-win-x64.zip` holding the EXE and a
+   top-level `LICENSES/` folder with the same files. `agent-release.yml` uploads
+   only this verified ZIP; no EXE-only asset is produced.
+
+## Verification (local and CI use the same commands)
+
+```sh
+dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true \
+  -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o agent-publish
+python3 agent/legal/tools/test_recipient_notices.py
+python3 agent/legal/tools/recipient_notices.py package agent-publish/Uma.Agent.Windows.exe uma-agent-win-x64.zip \
+  --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+python3 agent/legal/tools/recipient_notices.py verify-zip uma-agent-win-x64.zip \
+  --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+```
+
+`--assets` makes the check use the package folder of that very restore, so the
+runtime packs the SDK actually resolved are compared, not a frozen host copy.
+It fails closed when: a notice is missing, truncated, changed, compressed or
+extra; the EXE's deps.json has a library/version not in the inventory, or the
+inventory lists one the publish no longer ships (stale); runtimeconfig
+frameworks differ from the inventoried runtime packs; any bundle entry is not
+byte-identical to a file in the restored package/pack; a restored `.nupkg` hash
+differs; a restored pack's LICENSE/THIRD-PARTY-NOTICES differs from the
+delivered copy; or the single-file host is a different build.
+
+On a dependency or runtime change (for example a newer SDK resolving runtime
+8.0.25), the check fails. Run `recipient_notices.py report <exe>` to list the
+new graph, fetch the exact new texts from the new packages/upstream revisions,
+update `notices/`, `INDEX.txt` and `inventory.json` together, and re-run. Never
+edit hashes to match without re-sourcing the texts.
+
+## Inventory notes
+
+- Runtime: the supported publish resolves self-contained runtime packs
+  Microsoft.NETCore.App / Microsoft.WindowsDesktop.App **8.0.24** (SDK 10.0.103
+  via `agent/global.json` 9.0.100 latestMajor). That is the shipped runtime; it
+  is not the 8.0.31 shared runtime used to execute the net8.0 tests.
+- WPF/WinForms third-party notices come from the dotnet/wpf and dotnet/winforms
+  commits named in dotnet/windowsdesktop@d0e3683 `eng/Version.Details.xml`,
+  because the WindowsDesktop runtime pack ships only its LICENSE.
+- Windows SDK projection (Microsoft.Windows.SDK.NET.dll, WinRT.Runtime.dll):
+  the package has no licence file; its nuspec `licenseUrl` resolves to the
+  Windows 10 SDK licence terms (copied verbatim, RTF). The Windows SDK REDIST
+  list (https://learn.microsoft.com/en-us/legal/windows-sdk/redist, updated
+  2024-10-21) lists this package's lib/net8.0 files as distributable "as part
+  of your program". WinRT.Runtime.dll is C#/WinRT 2.2.0.241111.1 (MIT); its
+  ProductVersion commit 8649ee3 is that upstream tag.
+- SQLitePCLRaw NOTICE is the upstream repository-wide file. Its SQLCipher and
+  OpenSSL sections are not shipped: the published e_sqlite3.dll contains no
+  SQLCipher/OpenSSL/libcrypto strings, and its `sqlite3_key`/`rekey` exports
+  correspond to ericsink/cb `stubs/stubs.c`, which return SQLITE_ERROR.
+- SharpZipLib (T16b N7): the verbatim upstream LICENSE.txt says 2000-2018; the
+  1.4.2 nuspec says 2000-2022. The text is unchanged and INDEX.txt cites both.
+- Serilog.Sinks.File 6.0.0 states no copyright line anywhere (nuspec, assembly,
+  LICENSE); only its authors "Serilog Contributors" are recorded. Neither Serilog
+  repository has a NOTICE file at the packaged commits.
+- Graph-only packages (no shipped file): Microsoft.NET.ILLink.Tasks,
+  System.Memory 4.5.3, System.Security.Cryptography.ProtectedData 8.0.0 (the
+  shipped ProtectedData.dll is the WindowsDesktop runtime pack copy).
+
+## T16b SharpZipLib inventory (retained)
 
 SharpZipLib 1.4.2 (assembly ICSharpCode.SharpZipLib), MIT, copyright SharpZipLib Contributors.
 Exact package SHA-256: fe0895aa2930a2b1b65caa9f37db8bca35125ebdf9cc1b99d855f6afc5ff5946.
 Source: https://github.com/icsharpcode/SharpZipLib/tree/33f64eb0f28cdd2b084cb822fcc224c7c5aba553
-Licence copy: SharpZipLib-1.4.2-LICENSE.txt, verbatim from upstream v1.4.2 LICENSE.txt.
+Licence copy: notices/SharpZipLib-1.4.2-LICENSE.txt, verbatim from upstream v1.4.2 LICENSE.txt.
 Package: https://api.nuget.org/v3-flatcontainer/sharpziplib/1.4.2/sharpziplib.1.4.2.nupkg
 
-T19 must deliver the copyright/permission text to recipients alongside all other bundled component notices.
-This inventory does NOT modify publishing or make the current EXE legally ready for distribution.
-No agent-v release until T19. No licence key, account, build target or native asset is required by this package.
-
-## T18 SQLite pins and native engine
+## T18 SQLite pins and native engine (retained)
 
 Microsoft.Data.Sqlite / Microsoft.Data.Sqlite.Core remain 10.0.3 (MIT).
 The added exact reference SQLitePCLRaw.bundle_e_sqlite3 2.1.12 resolves the
@@ -28,13 +108,9 @@ Actual NuGet package SHA-256 (https://api.nuget.org/v3-flatcontainer/):
 
 Source reference: https://github.com/ericsink/SQLitePCL.raw/tree/ca835d21508bff43121c65081035840ac5006c4c
 (v2.1.12 tag resolved through GitHub API; nuspecs specify repository but no commit).
-Retained verbatim upstream LICENSE.TXT and NOTICE.TXT:
+Retained verbatim upstream LICENSE.TXT and NOTICE.TXT (now under notices/):
 - SQLitePCLRaw-2.1.12-LICENSE.txt: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30
 - SQLitePCLRaw-2.1.12-NOTICE.txt: 485b276b3d2bfaa26df348e1e5c84df3648981e09b88531a6a53006f0705c24b
-
-The repository-wide NOTICE includes SQLCipher/OpenSSL sections; these are
-preserved verbatim, not evidence those optional components ship with e_sqlite3.
-T19 must determine applicable recipient notices from the actual package graph.
 
 Loaded engine and both inspected native assets: SQLite 3.53.3, source ID
 `2026-06-26 20:14:12 d4c0e51e4aeb96955b99185ab9cde75c339e2c29c3f3f12428d364a10d782c62`.
@@ -45,7 +121,8 @@ https://github.com/sqlite/sqlite/blob/version-3.53.3/LICENSE.md
 - runtimes/osx-arm64/native/libe_sqlite3.dylib: 09fe20a6c050912a7944b2f2f2981debe31679f7919f523c87251ae8cf0f2daa
 - runtimes/win-x64/native/e_sqlite3.dll: b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e
 
-The T18 native publish probe checks exact package bytes, PE32+ AMD64, and
-embedded source identity. That is not Windows execution (H4). These files and
-metadata are an inventory only; required recipient delivery remains T19 and
-still blocks every agent-v release. This is not a complete runtime inventory.
+`sqlite_native_probe.py` and `SqliteSecurityTests.cs` pin the same identity; a
+future SQLite update must change them and `inventory.json` together.
+
+Byte inspection is not Windows execution: single-file extraction, startup and
+native use remain H4. Implementing T19 does not approve any release.

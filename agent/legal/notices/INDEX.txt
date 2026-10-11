@@ -1,0 +1,57 @@
+Uma Spark Calc capture agent (Uma.Agent.Windows.exe, win-x64) - third-party licences and notices
+=================================================================================================
+
+The agent is a self-contained .NET 8 single-file program. Besides its own code it
+contains the third-party components listed below. Their licence, copyright and
+NOTICE texts are the files in this folder, copied verbatim from the exact package
+or upstream source revision named for each component.
+
+Where to find these files
+-------------------------
+- Release download: the ZIP file contains Uma.Agent.Windows.exe and this LICENSES
+  folder. Keep the folder with the EXE when you copy or pass the program on.
+- Inside the EXE: the same files are bundled, uncompressed, under legal/. When the
+  agent starts, .NET extracts bundled content to
+  %TEMP%\.net\Uma.Agent.Windows\<bundle id>\legal\
+  (or under DOTNET_BUNDLE_EXTRACT_BASE_DIR if that variable is set).
+No network, NuGet or developer tool is needed to read them.
+
+Components and texts
+--------------------
+.NET runtime 8.0.24 (Microsoft.NETCore.App, including the single-file host) - MIT
+    dotnet-runtime-8.0.24-LICENSE.TXT
+    dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT
+.NET Windows Desktop runtime 8.0.24 (WPF, Windows Forms; Microsoft.WindowsDesktop.App) - MIT
+    dotnet-windowsdesktop-8.0.24-LICENSE.TXT
+    dotnet-wpf-8.0.24-THIRD-PARTY-NOTICES.TXT
+    dotnet-winforms-8.0.24-THIRD-PARTY-NOTICES.TXT
+    (its runtime-derived parts are also covered by dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT)
+Windows SDK for .NET projection 10.0.19041.57 (Microsoft.Windows.SDK.NET.dll) -
+  Microsoft Software License Terms for the Windows 10 SDK (distributable code)
+    Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf
+  C#/WinRT runtime 2.2.0.241111.1 (WinRT.Runtime.dll, shipped in the same package) - MIT
+    CsWinRT-2.2.0.241111.1-LICENSE.txt
+Microsoft.Data.Sqlite 10.0.3 (Microsoft.Data.Sqlite, Microsoft.Data.Sqlite.Core) - MIT
+    Microsoft.Data.Sqlite-10.0.3-LICENSE.txt
+SQLitePCLRaw 2.1.12 (bundle_e_sqlite3, core, provider.e_sqlite3, lib.e_sqlite3) - Apache-2.0,
+  Copyright 2014-2024 SourceGear, LLC
+    SQLitePCLRaw-2.1.12-LICENSE.txt
+    SQLitePCLRaw-2.1.12-NOTICE.txt
+    The NOTICE file is the upstream repository-wide NOTICE, kept unchanged. Its
+    SQLCipher and OpenSSL sections describe other builds; this agent ships the
+    plain e_sqlite3 build, which does not include SQLCipher or OpenSSL.
+SQLite 3.53.3 native engine (e_sqlite3.dll) - public domain
+    SQLite-3.53.3-LICENSE.md
+SharpZipLib 1.4.2 (ICSharpCode.SharpZipLib.dll) - MIT
+    SharpZipLib-1.4.2-LICENSE.txt
+    The upstream licence file reads "Copyright (c) 2000-2018 SharpZipLib Contributors";
+    the 1.4.2 package metadata reads "Copyright (c) 2000-2022 SharpZipLib Contributors".
+Serilog 4.3.0 - Apache-2.0, Copyright (c) Serilog Contributors
+    Serilog-4.3.0-LICENSE.txt
+Serilog.Sinks.File 6.0.0 - Apache-2.0 (authors: Serilog Contributors)
+    Serilog.Sinks.File-6.0.0-LICENSE.txt
+
+inventory.json (next to this file inside the EXE, and in the source repository under
+agent/legal/) records the package versions, SHA-256 hashes and source URLs used to check
+this list against the actual program. This list is technical licence information, not
+legal advice.

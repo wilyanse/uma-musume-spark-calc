@@ -1,0 +1,24 @@
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <base 904385e publish>/Uma.Agent.Windows.exe --packages ~/.nuget/packages
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE lacks recipient notice legal/CsWinRT-2.2.0.241111.1-LICENSE.txt
+  - EXE lacks recipient notice legal/INDEX.txt
+  - EXE lacks recipient notice legal/Microsoft.Data.Sqlite-10.0.3-LICENSE.txt
+  - EXE lacks recipient notice legal/Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf
+  - EXE lacks recipient notice legal/SQLite-3.53.3-LICENSE.md
+  - EXE lacks recipient notice legal/SQLitePCLRaw-2.1.12-LICENSE.txt
+  - EXE lacks recipient notice legal/SQLitePCLRaw-2.1.12-NOTICE.txt
+  - EXE lacks recipient notice legal/Serilog-4.3.0-LICENSE.txt
+  - EXE lacks recipient notice legal/Serilog.Sinks.File-6.0.0-LICENSE.txt
+  - EXE lacks recipient notice legal/SharpZipLib-1.4.2-LICENSE.txt
+  - EXE lacks recipient notice legal/dotnet-runtime-8.0.24-LICENSE.TXT
+  - EXE lacks recipient notice legal/dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT
+  - EXE lacks recipient notice legal/dotnet-windowsdesktop-8.0.24-LICENSE.TXT
+  - EXE lacks recipient notice legal/dotnet-winforms-8.0.24-THIRD-PARTY-NOTICES.TXT
+  - EXE lacks recipient notice legal/dotnet-wpf-8.0.24-THIRD-PARTY-NOTICES.TXT
+  - EXE lacks recipient notice legal/inventory.json
+exit=1
+$ python3 agent/legal/tools/recipient_notices.py package <base publish exe> red-base.zip --packages ~/.nuget/packages  (tail -2)
+  - EXE lacks recipient notice legal/dotnet-wpf-8.0.24-THIRD-PARTY-NOTICES.TXT
+  - EXE lacks recipient notice legal/inventory.json
+exit=1  zip_exists=no
+base EXE sha256 (this publish only) a760b61ccf24e80d1f5dc6a325393a8cca5353a1bbe05d634bd61d741fcaebf6, size 191575874, HEAD 904385e
