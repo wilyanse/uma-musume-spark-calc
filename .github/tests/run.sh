@@ -46,6 +46,20 @@ echo "== workflow structure (parsed YAML)"
 expect "deploy/ci/backup/release structural assertions" 0 ruby .github/tests/workflow_structure.rb
 
 # ---------------------------------------------------------------------------------------------
+echo "== agent recipient notices (T19): verifier regressions, legal inventory, EXE-only release refused"
+expect "recipient notice verifier regressions (synthetic bundles, no network)" 0 env TMPDIR="$scratch" python3 agent/legal/tools/test_recipient_notices.py
+expect "agent/legal inventory self-consistent" 0 python3 agent/legal/tools/recipient_notices.py check-legal
+wfd="$scratch/wf"
+mkdir -p "$wfd"
+cp .github/workflows/*.yml "$wfd/"
+sed -e 's/gh release create $env:TAG $env:ZIP/gh release create $env:TAG $env:EXE/' .github/workflows/agent-release.yml >"$wfd/agent-release.yml"
+expect "release workflow uploading the bare EXE -> structure check fails" 1 env WORKFLOW_DIR="$wfd" ruby .github/tests/workflow_structure.rb
+grep -v 'recipient_notices.py verify-zip' .github/workflows/agent-release.yml >"$wfd/agent-release.yml"
+expect "release workflow without final ZIP verification -> structure check fails" 1 env WORKFLOW_DIR="$wfd" ruby .github/tests/workflow_structure.rb
+grep -v 'recipient_notices.py package' .github/workflows/agent-release.yml >"$wfd/agent-release.yml"
+expect "release workflow without notice packaging -> structure check fails" 1 env WORKFLOW_DIR="$wfd" ruby .github/tests/workflow_structure.rb
+
+# ---------------------------------------------------------------------------------------------
 echo "== deploy gate: trusted vs fork/PR events, stale SHA"
 bin="$scratch/bin"
 mkdir -p "$bin"

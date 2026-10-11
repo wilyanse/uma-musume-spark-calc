@@ -42,11 +42,19 @@ jobs:
           Pop-Location
           $exe = @(Get-ChildItem -LiteralPath publish -Filter *.exe -File)
           if ($exe.Count -ne 1) { throw "Expected exactly one .exe in publish/, found $($exe.Count)" }
-          "exe=$($exe[0].FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          # T19: verify the final EXE bytes against agent/legal and the restored runtime graph, then pair the EXE
+          # with its licence/NOTICE texts in one ZIP. The ZIP is the only release asset; no EXE-only upload.
+          New-Item -ItemType Directory -Force -Path release | Out-Null
+          $zip = Join-Path (Resolve-Path release).Path "uma-agent-$env:TAG-win-x64.zip"
+          python agent/legal/tools/test_recipient_notices.py
+          if ($LASTEXITCODE -ne 0) { throw "recipient notice regressions failed ($LASTEXITCODE)" }
+          python agent/legal/tools/recipient_notices.py package $exe[0].FullName $zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+          if ($LASTEXITCODE -ne 0) { throw "recipient notice packaging failed ($LASTEXITCODE)" }
+          "zip=$zip" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: uma-agent-${{ github.ref_name }}
-          path: ${{ steps.build.outputs.exe }}
+          path: ${{ steps.build.outputs.zip }}
           if-no-files-found: error
           retention-days: 90
       - name: Create GitHub release
@@ -54,8 +62,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
-          EXE: ${{ steps.build.outputs.exe }}
+          ZIP: ${{ steps.build.outputs.zip }}
         run: |
           $ErrorActionPreference = 'Stop'
-          gh release create $env:TAG $env:EXE --verify-tag --generate-notes
+          python agent/legal/tools/recipient_notices.py verify-zip $env:ZIP --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+          if ($LASTEXITCODE -ne 0) { throw "release ZIP verification failed ($LASTEXITCODE)" }
+          gh release create $env:TAG $env:ZIP --verify-tag --generate-notes
           if ($LASTEXITCODE -ne 0) { throw "gh release create failed ($LASTEXITCODE)" }

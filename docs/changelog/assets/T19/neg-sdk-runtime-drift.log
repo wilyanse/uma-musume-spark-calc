@@ -1,0 +1,16 @@
+# Scratch copy of agent/ (inventory before graphOnly existed) published with agent/global.json = SDK 9.0.312 rollForward disable, NUGET_PACKAGES=scratch/T19/drift-nuget. SDK 9.0.312 bundles net8 runtime 8.0.25.
+$ python3 agent/legal/tools/recipient_notices.py verify-exe publish/Uma.Agent.Windows.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+RECIPIENT NOTICE CHECK FAILED:
+  - shipped dependency Microsoft.NET.ILLink.Tasks/8.0.25 has no inventory entry or notices
+  - shipped dependency System.Memory/4.5.3 has no inventory entry or notices
+  - shipped dependency System.Security.Cryptography.ProtectedData/8.0.0 has no inventory entry or notices
+  - shipped runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.25 but inventory covers runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - shipped runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.25 but inventory covers runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - stale inventory: runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - stale inventory: runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - runtimeconfig includes Microsoft.NETCore.App 8.0.25; inventory runtime pack version 8.0.24
+  - runtimeconfig includes Microsoft.WindowsDesktop.App 8.0.25; inventory runtime pack version 8.0.24
+  - EXE entry Microsoft.CSharp.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.VisualBasic.Core.dll is not attributable to the inventory graph
+  ... (445 'not attributable' runtime-pack entries elided)
+exit=1
