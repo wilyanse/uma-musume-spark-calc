@@ -19,12 +19,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      # Same SDK/runtime set as CI (agent/global.json: SDK 9.0.100 latestMajor; projects net8.0).
+      # T19 r1: exact release SDK matches agent/global.json; net8 self-contained packs resolve 8.0.31.
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
+          global-json-file: agent/global.json
       # The tag reaches PowerShell only through $env:TAG, never through ${{ }} interpolation.
       - name: Build single-file agent
         id: build
@@ -37,6 +35,8 @@ jobs:
           $project = 'agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj'
           if (-not (Test-Path -LiteralPath $project -PathType Leaf)) { throw "$project is not present; T10 must land before an agent tag is published." }
           Push-Location agent
+          $sdk = dotnet --version
+          if ($LASTEXITCODE -ne 0 -or $sdk.Trim() -cne '10.0.401') { throw "Recipient publish requires SDK 10.0.401, got $sdk" }
           dotnet publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ../publish
           if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed ($LASTEXITCODE)" }
           Pop-Location
@@ -48,6 +48,8 @@ jobs:
           $zip = Join-Path (Resolve-Path release).Path "uma-agent-$env:TAG-win-x64.zip"
           python agent/legal/tools/test_recipient_notices.py
           if ($LASTEXITCODE -ne 0) { throw "recipient notice regressions failed ($LASTEXITCODE)" }
+          python agent/legal/tools/test_review_r1.py
+          if ($LASTEXITCODE -ne 0) { throw "recipient notice review regressions failed ($LASTEXITCODE)" }
           python agent/legal/tools/recipient_notices.py package $exe[0].FullName $zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
           if ($LASTEXITCODE -ne 0) { throw "recipient notice packaging failed ($LASTEXITCODE)" }
           "zip=$zip" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8

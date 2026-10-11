@@ -114,7 +114,11 @@ rcheckout = rsteps.find { |s| s['uses'].to_s.start_with?('actions/checkout@') } 
 check.(rcheckout.dig('with', 'persist-credentials') == false, 'release: checkout without persisted credentials')
 check.(rel['permissions'] == { 'contents' => 'write' }, 'release: permissions contents: write only')
 rsetup = all_steps.(rj).find { |s| s['uses'].to_s.start_with?('actions/setup-dotnet@') }
-check.(rsetup && rsetup.dig('with', 'dotnet-version').to_s.split == %w[8.0.x 9.0.x], 'release: pin 8.0.x + 9.0.x')
+check.(rsetup && rsetup.dig('with', 'global-json-file') == 'agent/global.json', 'release: setup exact SDK from agent/global.json')
+require 'json'
+sdk = JSON.parse(File.read(File.join(__dir__, '../../agent/global.json')))
+check.(sdk['sdk'] == { 'version' => '10.0.401', 'rollForward' => 'disable', 'allowPrerelease' => false }, 'release: SDK must be exactly 10.0.401 without roll-forward')
+check.(brun.include?("$sdk = dotnet --version") && brun.include?("$sdk.Trim() -cne '10.0.401'"), 'release: verify resolved SDK before publish')
 check.(rel['concurrency'] && rj['timeout-minutes'], 'release: concurrency + timeout (N3)')
 
 # ---- all workflows: pinned actions, no pnpm version duplication, timeouts
