@@ -3,6 +3,7 @@
 The orchestrator adds one line per merged task. Details are in `docs/changelog/Txx-*.md`.
 
 ## Unreleased
+- T18: native SQLite advisory remediation via exact SQLitePCLRaw bundle2.1.12; actual engine3.53.3 and published x64 DLL verified; independent PASS r1, merged Core420/Portable230/bundle15/15/regression62 passed with all-transitive audit. Native H4 and recipient-notice T19 remain gates.
 - T16b: key-free image processing with calibrated resampling, checksum/stream-end validation and bounded PNG input; independent PASS r3, merged Core414/Portable230, audited Release cross-build/publish and regression62 pass. SQLite remediation, recipient notices and native/live acceptance remain separate.
 - T17: user-approved capture-status training eligibility, preserved raw scores, conservative legacy fallback and policy-bound model refits; independent PASS r2, merged engine360/web239/browser18 and full workspace/build checks pass. Native licensing and live/real-roster acceptance remain.
 - T15c: explicit fit-before-commit browser-local rule application, fingerprint-bound model reuse/ranking, reset and cross-tab guards; independent PASS r2, merged web229/browser18 and production checks pass. Real-roster/native/cloud validation remains.

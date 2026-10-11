@@ -209,9 +209,10 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 - Done when: GHSA-2m69-gcr7-jv3q resolved in actual loaded and published native engine, all-transitive audit and normal audited fresh Release tests/publish pass, DB files/transaction/outbox compatibility retained without suppression or unrelated upgrades. Independent review required; H4 remains.
 
 ### T19 — Agent release third-party license delivery (queued; release blocker)
-- Needs: a dedicated scoped packaging spec before implementation; nothing is currently distributed.
-- Owns: complete bundled dependency/runtime license inventory and required license/NOTICE delivery in agent release packaging, tests and runbook. No new About screen required solely for attribution.
-- Target: recipients of every agent-v* binary receive all required license copies/notices, including Apache-2.0 libraries and self-contained runtime. A license inside a NuGet package is not recipient delivery. No agent-v* release before this gate passes independently reviewed packaging verification.
+- Spec: 67 (all), 30/65/70/85.
+- Needs: T16b/T18 merged and their exact dependency/native inventories; nothing currently distributed.
+- Owns: complete bundled dependency/runtime licence inventory and recipient notice packaging/tools, narrow Windows csproj content entries, agent-release.yml packaging gates/assets and .github workflow regression checks, bundle verification, runbook and task evidence. No new About screen or dependency upgrade.
+- Done when: final supported publish/release artifact delivers every applicable exact-version licence/NOTICE for shipped managed/native/runtime components, graph/runtime drift and missing/corrupt notice negative checks fail closed; normal audited agent/package/regression gates and independent review pass. No real tag/release/push; H4/publication remain.
 
 ## 5. Status
 | Task | Status | Branch | Changelog | Review |
@@ -240,8 +241,8 @@ Each card lists: **Spec** sections · **Owns** (paths the task may create/modify
 | T16 | Blocked candidate 129228e (documentation only): patched ImageSharp4 requires Release license; original dependency preserved | task/T16-agent-dependency | T16-agent-dependency.md | Q-161 in task branch; user license-vs-migration decision pending; no upgrade/approval/merge |
 | T17 | Merged locally29c5645; merged schema153/master82/API123/engine360/web239/browser18 and lint/typecheck/build/check-dist passed | task/T17-capture-eligibility | T17-capture-eligibility.md | PASS r2; S1/N1 resolved; approved capture policy, raw scores and other checks preserved |
 | T16b | Merged locally0fc71b0; merged audited Core414/Portable230, Windows/Native cross-build/publish/bundle15/15/regression62 pass | task/T16b-image-library-migration | T16b-image-library-migration.md | PASS r3; B1–B4 fixed, S8 low dependency conformance/N6 internal-null deferred; N7 to T19; no release/native approval |
-| T18 | Sol implementation candidate a3e1fd3; parent Core420/Portable230/cross-build/publish/bundle15/15/native identity/regression62 gates passed; independent Opus medium r1 dispatched proc_f4e54b83fa74/PID73389 | task/T18-agent-sqlite-security | T18-agent-sqlite-security.md | Loaded SQLite3.53.3; parent Windows all-transitive audit no reported vulnerabilities; review pending, not merged; H4/T19 remain |
-| T19 | Queued release-blocking complete third-party license delivery; scoped spec needed before dispatch | — | — | No agent-v* release until verified recipient license/NOTICE delivery |
+| T18 | Merged locally23285de; merged Core420/Portable230/cross-build/publish/bundle15/15/native identity/regression62 gates passed | task/T18-agent-sqlite-security | T18-agent-sqlite-security.md | Independent PASS r1; no blockers/should-fix, N1–N3 clarified and N4 retained; all-transitive audit no reported vulnerabilities; H4/T19 remain |
+| T19 | Scoped67 and direct implementation prepared | task/T19-agent-recipient-notices | T19-agent-recipient-notices.md | No agent-v* release until independently verified recipient licence/NOTICE delivery; native/publication gates remain |
 
 ## 6. Integration readiness after T15c
 Independent read-only Opus medium review dispatched against merged implementation `5e7d3e633908d0b620816ab620887ea8203c98de` per 85 §5. This is a local integration-readiness audit, not milestone exit: H2/H3/H4 remain pending. Scope: capture/schema/API/master parity, web/model/override integration, portable native checks where runnable, and exact outstanding human acceptance. No deployment/push or T14 implementation authorized by this audit.
