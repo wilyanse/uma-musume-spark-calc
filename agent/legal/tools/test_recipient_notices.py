@@ -309,7 +309,7 @@ class RecipientNoticeTests(unittest.TestCase):
         t['runtimepack.Fake.NETCore.App.Runtime.win-x64/8.0.25'] = t.pop(RT)
         self.f.runtimeconfig['runtimeOptions']['includedFrameworks'][0]['version'] = '8.0.25'
         msg = self.fails(self.f.exe(), 'inventory covers runtimepack.Fake.NETCore.App.Runtime.win-x64/8.0.24')
-        self.assertIn('runtimeconfig includes Fake.NETCore.App 8.0.25', msg)
+        self.assertIn('runtimeconfig includedFrameworks differs from actual framework runtime packs', msg)
 
     def test_restored_runtime_pack_notice_drift_fails(self):
         self.f.write(self.f.rt_dir, 'THIRD-PARTY-NOTICES.TXT', b'newer notices\r\n')

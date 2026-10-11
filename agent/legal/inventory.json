@@ -29,7 +29,11 @@
       "LICENSE.TXT": "dotnet-runtime-8.0.31-LICENSE.TXT",
       "THIRD-PARTY-NOTICES.TXT": "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT"
     },
-    "source": "Microsoft.NETCore.App.Host.win-x64/8.0.31 exact nupkg: nuspec repository commit de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4; embedded runtime PE ProductVersion commit 1219a42122cf5190c7f512850557e38c422430dc (recorded distinctly, not equated). Original host resources byte-matched to final EXE."
+    "source": "https://github.com/dotnet/runtime/tree/1219a42122cf5190c7f512850557e38c422430dc; exact host nupkg nuspec repository and embedded runtime PE ProductVersion identify this same commit. Original host resources byte-matched to final EXE.",
+    "repository": {
+      "url": "https://github.com/dotnet/runtime",
+      "commit": "1219a42122cf5190c7f512850557e38c422430dc"
+    }
   },
   "components": [
     {
@@ -39,7 +43,7 @@
       "nupkgSha256": "1504ead20c9a25e4c47ece56b6cd407697ea0cde0148e07e71bebc1e2d841c2f",
       "licence": "MIT (managed components); Microsoft .NET Library License (Windows runtime/single-file host and named WPF natives)",
       "copyright": "Copyright (c) .NET Foundation and Contributors (LICENSE.TXT); nuspec: (c) Microsoft Corporation. All rights reserved.",
-      "source": "https://github.com/dotnet/runtime/tree/de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4",
+      "source": "https://github.com/dotnet/runtime/tree/1219a42122cf5190c7f512850557e38c422430dc",
       "notices": [
         "dotnet-runtime-8.0.31-LICENSE.TXT",
         "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT",
@@ -50,6 +54,10 @@
       "packTexts": {
         "LICENSE.TXT": "dotnet-runtime-8.0.31-LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT": "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT"
+      },
+      "repository": {
+        "url": "https://github.com/dotnet/runtime",
+        "commit": "1219a42122cf5190c7f512850557e38c422430dc"
       }
     },
     {
@@ -73,6 +81,10 @@
       ],
       "packTexts": {
         "LICENSE": "dotnet-windowsdesktop-8.0.31-LICENSE.TXT"
+      },
+      "repository": {
+        "url": "https://github.com/dotnet/windowsdesktop",
+        "commit": "337963009d48a3016b50172b451b4e80f78791a7"
       }
     },
     {
@@ -200,11 +212,11 @@
       "sha256": "3ff4b9cc4f78bae65c6d35544c09963388f170e45f8502c81e2cea38ff6566d2"
     },
     "dotnet-runtime-8.0.31-LICENSE.TXT": {
-      "source": "Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4. Package bytes retained verbatim.",
+      "source": "Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@1219a42122cf5190c7f512850557e38c422430dc. Package bytes retained verbatim.",
       "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
     },
     "dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT": {
-      "source": "Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4. Package bytes retained verbatim.",
+      "source": "Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@1219a42122cf5190c7f512850557e38c422430dc. Package bytes retained verbatim.",
       "sha256": "b60b2912da28eaa6518593c9e2efb5334ee062d3c42e80d8fdfa806b3dc52977"
     },
     "dotnet-windowsdesktop-8.0.31-LICENSE.TXT": {

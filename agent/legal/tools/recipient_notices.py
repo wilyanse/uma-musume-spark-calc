@@ -57,6 +57,7 @@ from verification_safety import (Failure, json_object, path_ok, require, validat
                                  validate_deps, validate_rc, verify_host)
 from render_sdk_license import render as render_sdk
 from windows_licensing import check as check_windows_licensing
+from package_provenance import check_record as check_package_provenance
 
 
 def sha256(b):
@@ -327,12 +328,15 @@ def verify_exe_bytes(data, packages, legal_dir, label='EXE'):
     rc_name = [p for p in by_path if p.endswith('.runtimeconfig.json')]
     if len(rc_name) == 1:
         rc = json_object(entry_bytes(data, by_path[rc_name[0]]), 'runtimeconfig.json')
-        validate_rc(rc)
-        packs = {k.partition('/')[0][len('runtimepack.'):]: k.partition('/')[2] for k in components if k.startswith('runtimepack.')}
-        for fw in rc.get('runtimeOptions', {}).get('includedFrameworks', []):
-            want = packs.get(fw.get('name') + '.Runtime.win-x64')
-            if want != fw.get('version'):
-                problems.append('runtimeconfig includes %s %s; inventory runtime pack version %s' % (fw.get('name'), fw.get('version'), want))
+        frameworks = validate_rc(rc)
+        # Only framework runtime packs, never the Windows SDK projection runtimepack.
+        suffix = '.Runtime.win-x64'
+        packs = {k.partition('/')[0][len('runtimepack.'):-len(suffix)]: k.partition('/')[2]
+                 for k in libs if k in components and k.startswith('runtimepack.') and
+                 k.partition('/')[0].endswith(suffix)}
+        if frameworks != packs:
+            problems.append('runtimeconfig includedFrameworks differs from actual framework runtime packs: %r; expected %r' %
+                            (frameworks, packs))
     else:
         problems.append('%s must contain exactly one runtimeconfig.json' % label)
 
@@ -386,10 +390,18 @@ def verify_exe_bytes(data, packages, legal_dir, label='EXE'):
     for key, c in sorted(components.items()):
         d = nupkg_check(problems, packages, key, c['nupkgSha256'])
         pack_texts_check(problems, d, key, c.get('packTexts', {}), texts)
+        try:
+            check_package_provenance(packages, key, c)
+        except (Failure, OSError) as e:
+            problems.append(key + ': ' + str(e))
     host = inv.get('singleFileHost', {})
     hkey = '%s/%s' % (host.get('package'), host.get('version'))
     hd = nupkg_check(problems, packages, hkey, host.get('nupkgSha256'))
     pack_texts_check(problems, hd, hkey, host.get('packTexts', {}), texts)
+    try:
+        check_package_provenance(packages, hkey, host)
+    except (Failure, OSError) as e:
+        problems.append(hkey + ': ' + str(e))
     hp = os.path.join(hd, 'runtimes', 'win-x64', 'native', 'singlefilehost.exe')
     if not os.path.isfile(hp):
         problems.append('single-file host original missing: ' + hp)

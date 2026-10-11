@@ -64,6 +64,22 @@ def main():
             e = next(e for n, e in entries.items() if n.endswith(suffix))
             b = bytearray(data); b[e['offset']] = ord('?')
             run('malformed' + suffix, b, 'JSON')
+        # Semantic JSON-only mutations: retain size/offsets, all licence/DLL bytes unchanged.
+        e = entries['Uma.Agent.Windows.runtimeconfig.json']
+        rc = json.loads(rn.entry_bytes(data, e))
+        fw = rc['runtimeOptions']['includedFrameworks']
+        for name, frameworks, needle in [
+                ('runtimeconfig-missing-desktop', [f for f in fw if f['name'] != 'Microsoft.WindowsDesktop.App'], 'differs from actual framework runtime packs'),
+                ('runtimeconfig-duplicate-core', [next(f for f in fw if f['name'] == 'Microsoft.NETCore.App')] * 2, 'duplicate includedFramework name')]:
+            mutated = json.loads(json.dumps(rc))
+            mutated['runtimeOptions']['includedFrameworks'] = frameworks
+            blob = json.dumps(mutated).encode()
+            assert len(blob) <= e['size']
+            b = bytearray(data)
+            b[e['offset']:e['offset'] + e['size']] = blob + b' ' * (e['size'] - len(blob))
+            assert b[:e['offset']] == data[:e['offset']] and b[e['offset'] + e['size']:] == data[e['offset'] + e['size']:]
+            assert json.loads(rn.entry_bytes(b, e)) == mutated
+            run(name, b, needle)
         b = bytearray(data); p = b.rfind(b'Uma.Agent.Windows.deps.json'); assert p > 0
         b[p + len(b'Uma.Agent.Windows.deps.')] = ord('X')
         run('missing-deps', b, 'exactly one deps.json')

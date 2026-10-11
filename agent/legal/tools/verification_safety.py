@@ -113,6 +113,9 @@ def validate_rc(rc):
     require(isinstance(fw, list) and 0 < len(fw) < 20, 'runtimeconfig.json lacks includedFrameworks')
     require(all(isinstance(f, dict) and isinstance(f.get('name'), str) and isinstance(f.get('version'), str) for f in fw),
             'runtimeconfig.json invalid includedFrameworks')
+    names = [f['name'] for f in fw]
+    require(len(names) == len(set(names)), 'runtimeconfig.json duplicate includedFramework name')
+    return {f['name']: f['version'] for f in fw}
 
 
 def pe_sections(data):
