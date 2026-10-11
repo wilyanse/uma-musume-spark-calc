@@ -53,8 +53,10 @@ ASSET_SECTIONS = ('runtime', 'native', 'resources')
 PACK_PREFIXES = ('runtimes/win-x64/lib/net8.0/', 'runtimes/win-x64/native/', 'lib/net8.0/')
 
 
-class Failure(Exception):
-    pass
+from verification_safety import (Failure, json_object, path_ok, require, validate_inventory,
+                                 validate_deps, validate_rc, verify_host)
+from render_sdk_license import render as render_sdk
+from windows_licensing import check as check_windows_licensing
 
 
 def sha256(b):
@@ -62,8 +64,12 @@ def sha256(b):
 
 
 def read(path):
+    n = os.path.getsize(path)
+    require(n <= 1024 * 1024 * 1024, 'file exceeds 1 GiB bound: ' + str(path))
     with open(path, 'rb') as f:
-        return f.read()
+        b = f.read(n + 1)
+    require(len(b) == n, 'file changed while reading: ' + str(path))
+    return b
 
 
 # ---------------------------------------------------------------------------------------------
@@ -76,7 +82,8 @@ def load_legal(legal_dir):
     inv_path = os.path.join(legal_dir, 'inventory.json')
     try:
         inv_bytes = read(inv_path)
-        inv = json.loads(inv_bytes)
+        inv = json_object(inv_bytes, 'inventory.json')
+        validate_inventory(inv)
     except (OSError, ValueError) as e:
         raise Failure('cannot read inventory %s: %s' % (inv_path, e))
     notices_dir = os.path.join(legal_dir, 'notices')
@@ -130,6 +137,15 @@ def load_legal(legal_dir):
         name, _, version = c['deps'].partition('/')
         if version not in index:
             problems.append('INDEX.txt does not mention version %s of %s' % (version, name))
+    try:
+        check_windows_licensing(inv, texts)
+        derived = 'Windows-SDK-LICENSE-derived.txt'
+        rtf = 'Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf'
+        if derived in texts:
+            require(rtf in texts, 'SDK derived rendering lacks original RTF')
+            require(render_sdk(texts[rtf]) == texts[derived], 'SDK derived rendering differs from reproducible original RTF render')
+    except Failure as e:
+        problems.append(str(e))
     return inv, inv_bytes, texts, problems
 
 
@@ -138,44 +154,52 @@ def load_legal(legal_dir):
 
 
 def parse_bundle(data):
+    require(len(data) <= 1024 * 1024 * 1024, 'EXE exceeds 1 GiB bound')
     i = data.find(SIGNATURE)
-    if i < 8:
-        raise Failure('not a .NET single-file bundle (signature missing)')
+    require(i >= 8, 'not a .NET single-file bundle (signature missing)')
     p = struct.unpack_from('<q', data, i - 8)[0]
-    if not 0 < p < len(data):
-        raise Failure('bundle header offset out of range')
-    major, minor, count = struct.unpack_from('<IIi', data, p)
-    if major != 6:
-        raise Failure('unsupported bundle version %d.%d' % (major, minor))
-    p += 12
+    require(0 < p <= len(data) - 12, 'bundle header offset out of range')
+    header = p
+
+    def take(fmt):
+        nonlocal p
+        size = struct.calcsize(fmt)
+        require(0 <= p <= len(data) - size, 'truncated bundle header/entry at offset %d' % p)
+        result = struct.unpack_from(fmt, data, p)
+        p += size
+        return result
+
+    major, minor, count = take('<IIi')
+    require(major == 6 and minor == 0, 'unsupported bundle version %d.%d' % (major, minor))
+    require(0 < count <= 10000, 'bundle entry count out of bounds: %d' % count)
 
     def text():
         nonlocal p
-        n = shift = 0
-        while True:
-            b = data[p]
-            p += 1
+        n = 0
+        for shift in range(0, 35, 7):
+            b = take('<B')[0]
             n |= (b & 0x7f) << shift
-            shift += 7
             if b < 0x80:
                 break
-            if shift >= 35:
-                raise Failure('invalid bundle string length')
-        s = data[p:p + n].decode('utf-8')
+        else:
+            raise Failure('invalid bundle string length')
+        require(n <= 4096 and p <= len(data) - n, 'bundle string length out of bounds')
+        try:
+            s = data[p:p + n].decode('utf-8')
+        except UnicodeError as e:
+            raise Failure('invalid UTF-8 bundle string at %d' % p) from e
         p += n
         return s
 
     text()  # bundle id
-    p += 40  # deps/runtimeconfig offsets and sizes, flags
+    take('<qqqqQ')  # deps/runtimeconfig offsets and sizes, flags
     entries = []
     for _ in range(count):
-        offset, size, csize = struct.unpack_from('<qqq', data, p)
-        p += 24
-        kind = data[p]
-        p += 1
+        offset, size, csize, kind = take('<qqqB')
         path = text().replace('\\', '/')
-        if offset < 0 or size < 0 or offset + (csize or size) > len(data):
-            raise Failure('bundle entry out of range: %s' % path)
+        require(path_ok(path), 'invalid bundle entry path: ' + path)
+        require(0 <= offset <= header and 0 <= size <= header and 0 <= csize <= header and
+                offset + (csize or size) <= header, 'bundle entry out of range: ' + path)
         entries.append({'path': path, 'offset': offset, 'size': size, 'csize': csize, 'kind': kind})
     return entries
 
@@ -245,6 +269,8 @@ def verify_exe_bytes(data, packages, legal_dir, label='EXE'):
             problems.append('duplicate bundle entry %s' % e['path'])
         by_path[e['path']] = e
 
+    check_windows_licensing(inv, texts, by_path)
+
     # 1. embedded legal texts
     expected_legal = {'legal/' + n: b for n, b in texts.items()}
     expected_legal['legal/inventory.json'] = inv_bytes
@@ -267,7 +293,8 @@ def verify_exe_bytes(data, packages, legal_dir, label='EXE'):
     deps_name = [p for p in by_path if p.endswith('.deps.json')]
     if len(deps_name) != 1:
         raise Failure('%s must contain exactly one deps.json, found %d' % (label, len(deps_name)))
-    deps = json.loads(entry_bytes(data, by_path[deps_name[0]]))
+    deps = json_object(entry_bytes(data, by_path[deps_name[0]]), 'deps.json')
+    validate_deps(deps)
     target = deps.get('runtimeTarget', {}).get('name')
     if target != inv.get('runtimeTarget'):
         problems.append('runtime target %s differs from inventory %s' % (target, inv.get('runtimeTarget')))
@@ -299,7 +326,8 @@ def verify_exe_bytes(data, packages, legal_dir, label='EXE'):
     # 3. runtimeconfig includedFrameworks vs runtime packs
     rc_name = [p for p in by_path if p.endswith('.runtimeconfig.json')]
     if len(rc_name) == 1:
-        rc = json.loads(entry_bytes(data, by_path[rc_name[0]]))
+        rc = json_object(entry_bytes(data, by_path[rc_name[0]]), 'runtimeconfig.json')
+        validate_rc(rc)
         packs = {k.partition('/')[0][len('runtimepack.'):]: k.partition('/')[2] for k in components if k.startswith('runtimepack.')}
         for fw in rc.get('runtimeOptions', {}).get('includedFrameworks', []):
             want = packs.get(fw.get('name') + '.Runtime.win-x64')
@@ -362,10 +390,16 @@ def verify_exe_bytes(data, packages, legal_dir, label='EXE'):
     hkey = '%s/%s' % (host.get('package'), host.get('version'))
     hd = nupkg_check(problems, packages, hkey, host.get('nupkgSha256'))
     pack_texts_check(problems, hd, hkey, host.get('packTexts', {}), texts)
-    first = min((e['offset'] for e in entries), default=len(data))
-    pv = host.get('productVersion', '\0').encode('utf-16-le')
-    if pv not in data[:first]:
-        problems.append('%s single-file host is not build %r of %s' % (label, host.get('productVersion'), hkey))
+    hp = os.path.join(hd, 'runtimes', 'win-x64', 'native', 'singlefilehost.exe')
+    if not os.path.isfile(hp):
+        problems.append('single-file host original missing: ' + hp)
+    else:
+        try:
+            original_host = read(hp)
+            require(host['productVersion'].encode('utf-16-le') in original_host, 'inventory host ProductVersion differs from restored original host')
+            verify_host(data, original_host)
+        except Failure as e:
+            problems.append('single-file host: ' + str(e))
     if problems:
         raise Failure('\n'.join(problems))
     return {'entries': len(entries), 'attributed': attributed, 'legal': len(expected_legal), 'components': len(components)}
@@ -412,6 +446,12 @@ def verify_zip(path, packages, legal_dir):
         raise Failure('not a readable ZIP: %s' % e)
     problems = []
     with z:
+        infos = z.infolist()
+        require(len(infos) <= 1000, 'ZIP member count exceeds bound')
+        for info in infos:
+            limit = 1024 * 1024 * 1024 if info.filename == EXE_NAME else 16 * 1024 * 1024
+            require(info.file_size <= limit, 'ZIP uncompressed member exceeds bound: ' + info.filename)
+        require(sum(i.file_size for i in infos) <= 2 * 1024 * 1024 * 1024, 'ZIP uncompressed total exceeds bound')
         bad = z.testzip()
         if bad:
             raise Failure('ZIP CRC failure in %s' % bad)
@@ -473,7 +513,10 @@ def main(argv=None):
         elif a.cmd == 'report':
             data = read(a.exe)
             by = {e['path']: e for e in parse_bundle(data)}
-            deps = json.loads(entry_bytes(data, by[[p for p in by if p.endswith('.deps.json')][0]]))
+            names = [p for p in by if p.endswith('.deps.json')]
+            require(len(names) == 1, 'report needs exactly one deps.json')
+            deps = json_object(entry_bytes(data, by[names[0]]), 'deps.json')
+            validate_deps(deps)
             for key, lib in sorted(deps['targets'][deps['runtimeTarget']['name']].items()):
                 n = sum(len(lib.get(sec, {})) for sec in ASSET_SECTIONS)
                 print('%-70s %4d shipped asset(s)' % (key, n))
@@ -491,7 +534,7 @@ def main(argv=None):
         else:
             r = verify_zip(a.zip, a.packages, a.legal)
             print('release ZIP ok: EXE + %(legal)d LICENSES files; %(entries)d bundle entries, %(attributed)d byte-matched' % r)
-    except Failure as f:
+    except (Failure, OSError, ValueError, TypeError, KeyError, IndexError, struct.error, UnicodeError, RecursionError) as f:
         print('RECIPIENT NOTICE CHECK FAILED:', file=sys.stderr)
         for line in str(f).split('\n'):
             print('  - ' + line, file=sys.stderr)

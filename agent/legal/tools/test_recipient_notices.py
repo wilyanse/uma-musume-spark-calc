@@ -49,9 +49,31 @@ def varstr(s):
     return bytes(out) + b
 
 
+def synthetic_host(pv=HOST_PV):
+    """Tiny deterministic AMD64 PE with stable .text and a version resource leaf."""
+    data = bytearray(1536)
+    data[:2] = b'MZ'
+    struct.pack_into('<I', data, 60, 128)
+    data[128:132] = b'PE\0\0'
+    struct.pack_into('<HH', data, 132, 0x8664, 2)
+    struct.pack_into('<H', data, 148, 240)
+    struct.pack_into('<H', data, 152, 0x20b)
+    for i, (n, va, ptr) in enumerate([(b'.text', 4096, 512), (b'.rsrc', 8192, 1024)]):
+        struct.pack_into('<8sIIII', data, 392 + i * 40, n, 512, va, 512, ptr)
+    data[512:528] = b'host machinecode'
+    # Root RT_VERSION -> id 1 -> language 0 -> data leaf at .rsrc+72.
+    for rel, name, target in [(0, 16, 24), (24, 1, 48), (48, 0, 72)]:
+        struct.pack_into('<HH', data, 1024 + rel + 12, 0, 1)
+        struct.pack_into('<II', data, 1024 + rel + 16, name, target | (0x80000000 if rel != 48 else 0))
+    blob = pv.encode('utf-16-le')
+    struct.pack_into('<IIII', data, 1096, 8192 + 88, len(blob), 0, 0)
+    data[1112:1112 + len(blob)] = blob
+    return bytes(data)
+
+
 def build_bundle(files, host=None):
     """files: list of (path, bytes, kind, compressed_flag). Returns EXE bytes."""
-    host = host if host is not None else b'MZ' + HOST_PV.encode('utf-16-le') + b'\0' * 64
+    host = host if host is not None else synthetic_host()
     placeholder_at = len(host)
     data = bytearray(host + b'\0' * 8 + rn.SIGNATURE)
     entries = []
@@ -83,6 +105,7 @@ class Fixture:
         self.libdll = b'MZ fake lib'
         self.native = b'MZ fake native'
         self.host_dir = os.path.join(self.packages, 'fake.netcore.app.host.win-x64', '8.0.24')
+        self.write(self.host_dir, 'runtimes/win-x64/native/singlefilehost.exe', synthetic_host())
         self.rt_dir = os.path.join(self.packages, 'fake.netcore.app.runtime.win-x64', '8.0.24')
         self.lib_dir = os.path.join(self.packages, 'fake.lib', '1.2.3')
         self.write(self.rt_dir, 'runtimes/win-x64/lib/net8.0/System.Private.CoreLib.dll', self.corelib)
@@ -105,6 +128,7 @@ class Fixture:
             self.write(self.legal, 'notices/' + name, b)
         self.inventory = {
             'schema': 1,
+            'graphOnly': {},
             'runtimeTarget': '.NETCoreApp,Version=v8.0/win-x64',
             'firstParty': ['App/0.1.0'],
             'appEntries': {'exact': ['appsettings.json', 'App.deps.json', 'App.runtimeconfig.json'],
@@ -333,8 +357,8 @@ class RecipientNoticeTests(unittest.TestCase):
         self.fails(self.f.exe(files), 'sqlcipher.dll is not attributable')
 
     def test_different_single_file_host_build_fails(self):
-        host = b'MZ' + '8,0,9999,2 @Commit: x'.encode('utf-16-le') + b'\0' * 64
-        self.fails(self.f.exe(host=host), 'single-file host is not build')
+        host = synthetic_host('8,0,9999,2 @Commit: x')
+        self.fails(self.f.exe(host=host), 'single-file host: host PE resource')
 
     def test_not_a_bundle_fails(self):
         with self.assertRaises(rn.Failure):
@@ -383,8 +407,8 @@ class RealInventoryTests(unittest.TestCase):
         inv, _, texts, problems = rn.load_legal(rn.DEFAULT_LEGAL)
         self.assertEqual(problems, [])
         deps = {c['deps'] for c in inv['components']}
-        for want in ('runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24',
-                     'runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24',
+        for want in ('runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31',
+                     'runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31',
                      'runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.57',
                      'SharpZipLib/1.4.2', 'Serilog/4.3.0', 'Serilog.Sinks.File/6.0.0',
                      'SQLitePCLRaw.lib.e_sqlite3/2.1.12', 'Microsoft.Data.Sqlite.Core/10.0.3'):
