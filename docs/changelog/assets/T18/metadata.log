@@ -1,0 +1,283 @@
+
+ https://api.nuget.org/v3-flatcontainer/microsoft.data.sqlite/10.0.3/microsoft.data.sqlite.10.0.3.nupkg SHA256 366a997806c9ed10ae32edf19c6e83b00689c07f46782a14b9f50b5ac3afe1c7 ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata minClientVersion="3.6">
+    <id>Microsoft.Data.Sqlite</id>
+    <version>10.0.3</version>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Icon.png</icon>
+    <readme>PACKAGE.md</readme>
+    <projectUrl>https://docs.microsoft.com/dotnet/standard/data/sqlite/</projectUrl>
+    <description>Microsoft.Data.Sqlite is a lightweight ADO.NET provider for SQLite.
+
+Commonly Used Types:
+Microsoft.Data.Sqlite.SqliteCommand
+Microsoft.Data.Sqlite.SqliteConnection
+Microsoft.Data.Sqlite.SqliteConnectionStringBuilder
+Microsoft.Data.Sqlite.SqliteDataReader
+Microsoft.Data.Sqlite.SqliteException
+Microsoft.Data.Sqlite.SqliteFactory
+Microsoft.Data.Sqlite.SqliteParameter
+Microsoft.Data.Sqlite.SqliteTransaction</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>SQLite Data ADO.NET</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/dotnet/dotnet" commit="c2435c3e0f46de784341ac3ed62863ce77e117b4" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.Data.Sqlite.Core" version="10.0.3" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.bundle_e_sqlite3" version="2.1.11" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.core" version="2.1.11" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
+assets ['lib/netstandard2.0/_._']
+
+ https://api.nuget.org/v3-flatcontainer/microsoft.data.sqlite.core/10.0.3/microsoft.data.sqlite.core.10.0.3.nupkg SHA256 11cc6db3b05d524d20261a097402ac09cdfe4fefaa0443b0114861d69318b2af ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata minClientVersion="3.6">
+    <id>Microsoft.Data.Sqlite.Core</id>
+    <version>10.0.3</version>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Icon.png</icon>
+    <readme>PACKAGE.md</readme>
+    <projectUrl>https://docs.microsoft.com/dotnet/standard/data/sqlite/</projectUrl>
+    <description>Microsoft.Data.Sqlite is a lightweight ADO.NET provider for SQLite. This package does not include a copy of the native SQLite library.
+
+Commonly Used Types:
+Microsoft.Data.Sqlite.SqliteCommand
+Microsoft.Data.Sqlite.SqliteConnection
+Microsoft.Data.Sqlite.SqliteConnectionStringBuilder
+Microsoft.Data.Sqlite.SqliteDataReader
+Microsoft.Data.Sqlite.SqliteException
+Microsoft.Data.Sqlite.SqliteFactory
+Microsoft.Data.Sqlite.SqliteParameter
+Microsoft.Data.Sqlite.SqliteTransaction</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>SQLite Data ADO.NET</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/dotnet/dotnet" commit="c2435c3e0f46de784341ac3ed62863ce77e117b4" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="SQLitePCLRaw.core" version="2.1.11" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="SQLitePCLRaw.core" version="2.1.11" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
+assets ['lib/net8.0/Microsoft.Data.Sqlite.dll', 'lib/net8.0/Microsoft.Data.Sqlite.xml', 'lib/netstandard2.0/Microsoft.Data.Sqlite.dll', 'lib/netstandard2.0/Microsoft.Data.Sqlite.xml']
+
+ https://api.nuget.org/v3-flatcontainer/sqlitepclraw.bundle_e_sqlite3/2.1.12/sqlitepclraw.bundle_e_sqlite3.2.1.12.nupkg SHA256 a9a06e6b5a313f6ef3675f91997d012adeffe8aa9e1ffd69ed46a4e685b054e1 ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SQLitePCLRaw.bundle_e_sqlite3</id>
+    <version>2.1.12</version>
+    <authors>Eric Sink</authors>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <description>This 'batteries-included' bundle brings in SQLitePCLRaw.core and the necessary stuff for certain common use cases.  Call SQLitePCL.Batteries.Init().  Policy of this bundle: e_sqlite3 included</description>
+    <copyright>Copyright 2014-2024 SourceGear, LLC</copyright>
+    <tags>sqlite</tags>
+    <repository type="git" url="https://github.com/ericsink/SQLitePCL.raw" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.1">
+        <dependency id="SQLitePCLRaw.provider.dynamic_cdecl" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3" version="2.1.12" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-android31.0">
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3.android" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.provider.e_sqlite3" version="2.1.12" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-ios14.0">
+        <dependency id="SQLitePCLRaw.provider.e_sqlite3" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-ios14.2">
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3.ios" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.provider.internal" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-tvos10.0">
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3.tvos" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.provider.internal" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="SQLitePCLRaw.provider.e_sqlite3" version="2.1.12" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3" version="2.1.12" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
+assets ['lib/net461/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-android31.0/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-android31.0/SQLitePCLRaw.batteries_v2.xml', 'lib/net6.0-ios14.0/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-ios14.2/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-tvos10.0/SQLitePCLRaw.batteries_v2.dll', 'lib/netstandard2.0/SQLitePCLRaw.batteries_v2.dll']
+
+ https://api.nuget.org/v3-flatcontainer/sqlitepclraw.bundle_e_sqlite3/2.1.13/sqlitepclraw.bundle_e_sqlite3.2.1.13.nupkg SHA256 89a216f8059d09cabcb45ab75ac2f180b733323c27d41cf9a981dc5f5b5c6c0f ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SQLitePCLRaw.bundle_e_sqlite3</id>
+    <version>2.1.13</version>
+    <authors>Eric Sink</authors>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <description>This 'batteries-included' bundle brings in SQLitePCLRaw.core and the necessary stuff for certain common use cases.  Call SQLitePCL.Batteries.Init().  Policy of this bundle: e_sqlite3 included</description>
+    <copyright>Copyright 2014-2024 SourceGear, LLC</copyright>
+    <tags>sqlite</tags>
+    <repository type="git" url="https://github.com/ericsink/SQLitePCL.raw" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.1">
+        <dependency id="SQLitePCLRaw.provider.dynamic_cdecl" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3" version="2.1.13" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-android31.0">
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3.android" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.provider.e_sqlite3" version="2.1.13" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-ios14.0">
+        <dependency id="SQLitePCLRaw.provider.e_sqlite3" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-ios14.2">
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3.ios" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.provider.internal" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-tvos10.0">
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3.tvos" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.provider.internal" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="SQLitePCLRaw.provider.e_sqlite3" version="2.1.13" exclude="Build,Analyzers" />
+        <dependency id="SQLitePCLRaw.lib.e_sqlite3" version="2.1.13" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
+assets ['lib/net461/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-android31.0/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-android31.0/SQLitePCLRaw.batteries_v2.xml', 'lib/net6.0-ios14.0/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-ios14.2/SQLitePCLRaw.batteries_v2.dll', 'lib/net6.0-tvos10.0/SQLitePCLRaw.batteries_v2.dll', 'lib/netstandard2.0/SQLitePCLRaw.batteries_v2.dll']
+
+ https://api.nuget.org/v3-flatcontainer/sqlitepclraw.bundle_e_sqlite3/3.0.5/sqlitepclraw.bundle_e_sqlite3.3.0.5.nupkg SHA256 e325ce61a86bca381fbd35487264481e1c6a39663546fec82035fa661198c2a1 ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SQLitePCLRaw.bundle_e_sqlite3</id>
+    <version>3.0.5</version>
+    <authors>Eric Sink</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <readme>README.md</readme>
+    <description>This 'batteries-included' bundle brings in SQLitePCLRaw.core and the necessary stuff for certain common use cases.  Call SQLitePCL.Batteries.Init().</description>
+    <copyright>Copyright 2014-2026 SourceGear, LLC</copyright>
+    <tags>sqlite</tags>
+    <repository type="git" url="https://github.com/ericsink/SQLitePCL.raw" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="SQLitePCLRaw.config.e_sqlite3" version="3.0.5" exclude="Build,Analyzers" />
+        <dependency id="SQLite" version="3.53.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
+assets []
+
+ https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/2.1.12/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg SHA256 4a22c02ffcf489792903cf263def9fce27739716883f965f0b5eeff1637430ac ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata minClientVersion="2.12">
+    <id>SQLitePCLRaw.lib.e_sqlite3</id>
+    <version>2.1.12</version>
+    <title>SQLitePCLRaw.lib.e_sqlite3</title>
+    <authors>Eric Sink</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <description>This package contains platform-specific native code builds of SQLite for use with SQLitePCLRaw.  To use this, you need SQLitePCLRaw.core as well as one of the SQLitePCLRaw.provider.* packages.  Convenience packages are named SQLitePCLRaw.bundle_*.</description>
+    <summary>SQLitePCLRaw is a Portable Class Library (PCL) for low-level (raw) access to SQLite</summary>
+    <copyright>Copyright 2014-2024 SourceGear, LLC</copyright>
+    <tags>sqlite;xamarin</tags>
+    <repository type="git" url="https://github.com/ericsink/SQLitePCL.raw" />
+  </metadata>
+</package>
+assets ['runtimes/win-x86/native/e_sqlite3.dll', 'runtimes/win-x64/native/e_sqlite3.dll', 'runtimes/win-arm64/native/e_sqlite3.dll', 'runtimes/osx-x64/native/libe_sqlite3.dylib', 'runtimes/osx-arm64/native/libe_sqlite3.dylib', 'runtimes/maccatalyst-x64/native/libe_sqlite3.dylib', 'runtimes/maccatalyst-arm64/native/libe_sqlite3.dylib', 'runtimes/linux-x64/native/libe_sqlite3.so', 'runtimes/linux-x86/native/libe_sqlite3.so', 'runtimes/linux-arm/native/libe_sqlite3.so', 'runtimes/linux-armel/native/libe_sqlite3.so', 'runtimes/linux-arm64/native/libe_sqlite3.so', 'runtimes/linux-s390x/native/libe_sqlite3.so', 'runtimes/linux-riscv64/native/libe_sqlite3.so', 'runtimes/linux-mips64/native/libe_sqlite3.so', 'runtimes/linux-ppc64le/native/libe_sqlite3.so', 'runtimes/linux-musl-x64/native/libe_sqlite3.so', 'runtimes/linux-musl-arm/native/libe_sqlite3.so', 'runtimes/linux-musl-arm64/native/libe_sqlite3.so', 'runtimes/linux-musl-s390x/native/libe_sqlite3.so', 'runtimes/linux-musl-riscv64/native/libe_sqlite3.so', 'runtimes/browser-wasm/nativeassets/net6.0/e_sqlite3.a', 'runtimes/browser-wasm/nativeassets/net7.0/e_sqlite3.a', 'runtimes/browser-wasm/nativeassets/net8.0/e_sqlite3.a', 'runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a', 'buildTransitive/net461/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net6.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net7.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net8.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net9.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'lib/net461/_._', 'lib/netstandard2.0/_._']
+runtimes/osx-arm64/native/libe_sqlite3.dylib SHA256 09fe20a6c050912a7944b2f2f2981debe31679f7919f523c87251ae8cf0f2daa
+native b'3.53.3' b'2026-06-26 20:14:12 d4c0e51e4aeb96955b99185ab9cde75c339e2c29c3f3f12428d364a10d782c62'
+runtimes/win-x64/native/e_sqlite3.dll SHA256 b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e
+
+ https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/2.1.13/sqlitepclraw.lib.e_sqlite3.2.1.13.nupkg SHA256 d07d13b4779123cfa56b3348b504d57a2ab6fc10c764fb6e2c9d787987e39201 ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata minClientVersion="2.12">
+    <id>SQLitePCLRaw.lib.e_sqlite3</id>
+    <version>2.1.13</version>
+    <title>SQLitePCLRaw.lib.e_sqlite3</title>
+    <authors>Eric Sink</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <description>This package contains platform-specific native code builds of SQLite for use with SQLitePCLRaw.  To use this, you need SQLitePCLRaw.core as well as one of the SQLitePCLRaw.provider.* packages.  Convenience packages are named SQLitePCLRaw.bundle_*.</description>
+    <summary>SQLitePCLRaw is a Portable Class Library (PCL) for low-level (raw) access to SQLite</summary>
+    <copyright>Copyright 2014-2024 SourceGear, LLC</copyright>
+    <tags>sqlite;xamarin</tags>
+    <repository type="git" url="https://github.com/ericsink/SQLitePCL.raw" />
+  </metadata>
+</package>
+assets ['runtimes/win-x86/native/e_sqlite3.dll', 'runtimes/win-x64/native/e_sqlite3.dll', 'runtimes/win-arm64/native/e_sqlite3.dll', 'runtimes/osx-x64/native/libe_sqlite3.dylib', 'runtimes/osx-arm64/native/libe_sqlite3.dylib', 'runtimes/maccatalyst-x64/native/libe_sqlite3.dylib', 'runtimes/maccatalyst-arm64/native/libe_sqlite3.dylib', 'runtimes/linux-x64/native/libe_sqlite3.so', 'runtimes/linux-x86/native/libe_sqlite3.so', 'runtimes/linux-arm/native/libe_sqlite3.so', 'runtimes/linux-armel/native/libe_sqlite3.so', 'runtimes/linux-arm64/native/libe_sqlite3.so', 'runtimes/linux-s390x/native/libe_sqlite3.so', 'runtimes/linux-riscv64/native/libe_sqlite3.so', 'runtimes/linux-mips64/native/libe_sqlite3.so', 'runtimes/linux-ppc64le/native/libe_sqlite3.so', 'runtimes/linux-musl-x64/native/libe_sqlite3.so', 'runtimes/linux-musl-arm/native/libe_sqlite3.so', 'runtimes/linux-musl-arm64/native/libe_sqlite3.so', 'runtimes/linux-musl-s390x/native/libe_sqlite3.so', 'runtimes/linux-musl-riscv64/native/libe_sqlite3.so', 'runtimes/browser-wasm/nativeassets/net6.0/e_sqlite3.a', 'runtimes/browser-wasm/nativeassets/net7.0/e_sqlite3.a', 'runtimes/browser-wasm/nativeassets/net8.0/e_sqlite3.a', 'runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a', 'buildTransitive/net461/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net6.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net7.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net8.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'buildTransitive/net9.0/SQLitePCLRaw.lib.e_sqlite3.targets', 'lib/net461/_._', 'lib/netstandard2.0/_._']
+runtimes/osx-arm64/native/libe_sqlite3.dylib SHA256 09fe20a6c050912a7944b2f2f2981debe31679f7919f523c87251ae8cf0f2daa
+native b'3.53.3' b'2026-06-26 20:14:12 d4c0e51e4aeb96955b99185ab9cde75c339e2c29c3f3f12428d364a10d782c62'
+runtimes/win-x64/native/e_sqlite3.dll SHA256 b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e
+
+ https://api.nuget.org/v3-flatcontainer/sqlitepclraw.provider.e_sqlite3/2.1.12/sqlitepclraw.provider.e_sqlite3.2.1.12.nupkg SHA256 df2b3271992e5d719186c4671e3cf4f8658097c154cbcd41494ab594c5997595 ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SQLitePCLRaw.provider.e_sqlite3</id>
+    <version>2.1.12</version>
+    <authors>Eric Sink</authors>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <description>SQLitePCLRaw is a Portable Class Library (PCL) for low-level (raw) access to SQLite.  Packages named 'SQLitePCLRaw.provider.*' (like this one) are 'plugins' that allow SQLitePCLRaw.core to access the native SQLite library.  This provider does DllImport of 'e_sqlite3', the SQLite builds provided with SQLitePCLRaw.</description>
+    <copyright>Copyright 2014-2024 SourceGear, LLC</copyright>
+    <tags>sqlite</tags>
+    <repository type="git" url="https://github.com/ericsink/SQLitePCL.raw" />
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="SQLitePCLRaw.core" version="2.1.12" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-windows7.0">
+        <dependency id="SQLitePCLRaw.core" version="2.1.12" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="SQLitePCLRaw.core" version="2.1.12" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
+assets ['lib/net6.0/SQLitePCLRaw.provider.e_sqlite3.dll', 'lib/net6.0-windows7.0/SQLitePCLRaw.provider.e_sqlite3.dll', 'lib/netstandard2.0/SQLitePCLRaw.provider.e_sqlite3.dll']
+
+ https://api.nuget.org/v3-flatcontainer/sqlitepclraw.core/2.1.12/sqlitepclraw.core.2.1.12.nupkg SHA256 af06904138ffa6dc95a599133d64d254716d6facc7543a6b3b910793dae9dca5 ﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SQLitePCLRaw.core</id>
+    <version>2.1.12</version>
+    <authors>Eric Sink</authors>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <description>SQLitePCL.raw is a Portable Class Library (PCL) for low-level (raw) access to SQLite.  This package does not provide an API which is friendly to app developers.  Rather, it provides an API which handles platform and configuration issues, upon which a friendlier API can be built.  In order to use this package, you will need to also add one of the SQLitePCLRaw.provider.* packages and call raw.SetProvider().  Convenience packages are named SQLitePCLRaw.bundle_*.</description>
+    <copyright>Copyright 2014-2024 SourceGear, LLC</copyright>
+    <tags>sqlite</tags>
+    <repository type="git" url="https://github.com/ericsink/SQLitePCL.raw" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.Memory" version="4.5.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
+assets ['lib/netstandard2.0/SQLitePCLRaw.core.dll']
