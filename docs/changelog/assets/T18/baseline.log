@@ -1,0 +1,16 @@
+You must install or update .NET to run this application.
+
+App: /Users/willjose/.hermes/cache/scratch/T18/Baseline/bin/Release/net8.0/Baseline
+Architecture: arm64
+Framework: 'Microsoft.NETCore.App', version '8.0.0' (arm64)
+.NET location: /usr/local/share/dotnet
+
+The following frameworks were found:
+  9.0.14 at [/usr/local/share/dotnet/shared/Microsoft.NETCore.App]
+  10.0.3 at [/usr/local/share/dotnet/shared/Microsoft.NETCore.App]
+
+Learn more:
+https://aka.ms/dotnet/app-launch-failed
+
+To install missing framework, download:
+https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&framework_version=8.0.0&arch=arm64&rid=osx-arm64&os=osx.26

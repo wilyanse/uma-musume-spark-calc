@@ -1,0 +1,73 @@
+== actionlint (workflow syntax, expressions, embedded shell via shellcheck if present)
+  ok   actionlint .github/workflows/*.yml (exit 0)
+== workflow structure (parsed YAML)
+  ok   deploy/ci/backup/release structural assertions (exit 0)
+== deploy gate: trusted vs fork/PR events, stale SHA
+  ok   trusted push to main at the tip -> deploy (exit 0, proceed=true)
+  ok   fork PR whose head branch is named main -> refused (exit 1, proceed=none)
+  ok   fork push event from another repository -> refused (exit 1, proceed=none)
+  ok   same-repo pull_request run on main -> refused (exit 1, proceed=none)
+  ok   pull_request_target run -> refused (exit 1, proceed=none)
+  ok   push to a non-main branch -> refused (exit 1, proceed=none)
+  ok   failed CI conclusion -> refused (exit 1, proceed=none)
+  ok   gate invoked by a non-workflow_run event -> refused (exit 1, proceed=none)
+  ok   malformed head_sha -> refused (exit 1, proceed=none)
+  ok   deploy not enabled by H2 yet -> clear skip (exit 0, proceed=false)
+  ok   stale SHA (main moved on) -> clear skip (exit 0, proceed=false)
+  ok   stale SHA at freshness re-check -> clear skip (exit 0, proceed=false)
+  ok   fresh SHA at freshness re-check -> deploy (exit 0, proceed=true)
+  ok   main tip lookup fails -> refuse (fail closed) (exit 1, proceed=none)
+  ok   GITHUB_TOKEN absent from curl argv
+  ok   main-tip request authenticates through curl stdin config
+  ok   stale skip prints an explicit SKIPPED notice
+== workspace coverage (all packages, incl. a future @uma/engine)
+  ok   real workspace: every package has lint/typecheck/test (exit 0)
+  ok   synthetic workspace with new @uma/engine: coverage ok (exit 0)
+  ok   pnpm -r test (the CI command) runs the new @uma/engine package
+  ok   package without a test script -> CI fails (no silent skip) (exit 1)
+== wrangler config / MASTER_VERSION alignment
+  ok   committed config: structure + MASTER_VERSION aligned (exit 0)
+  ok   committed placeholders are rejected by the deploy preflight (exit 1)
+  ok   provisioned (synthetic) ids pass the deploy preflight (exit 0)
+  ok   MASTER_VERSION drift from latest.json -> CI fails (exit 1)
+  ok   AUTH_DISABLED in a Wrangler env -> CI fails (exit 1)
+== backup: fail-closed recipient, encrypt before upload, plaintext cleanup, decrypt + verify
+  ok   missing BACKUP_AGE_RECIPIENT -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   non-age recipient -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   age1 recipient with bad checksum -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   private key pasted as recipient -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   wrangler export failure -> fail, plaintext removed, no ciphertext (exit 1, export called=1, temp leftovers=0)
+  ok   failed export left nothing in the upload dir
+  ok   valid recipient -> encrypted, plaintext removed (exit 0, export called=1, temp leftovers=0)
+  ok   exactly one upload candidate: d1-backup-20261011T020921Z.sql.age
+  ok   artifact is age ciphertext with no plaintext SQL
+  ok   no secret key material in log or artifact
+  ok   decrypt with the (ephemeral) private identity round-trips byte-for-byte
+  ok   a different identity cannot decrypt
+== restore verification (B7): import into temp SQLite, then integrity_check, then tables
+  ok   verify-sql-backup.sh on the decrypted synthetic export (exit 0)
+  ok   old runbook command (sqlite3 dump.sql PRAGMA) indeed fails: 'file is not a database'
+  ok   truncated export -> verify fails (exit 1)
+  ok   export without the app tables -> verify fails (exit 1)
+== .NET gates: exact spec paths, honest NOT RUN only while absent
+  ok   runtime gate without Microsoft.NETCore.App 8.x -> fail (exit 1)
+  ok   runtime gate with 8.x installed -> ok (exit 0)
+  ok   core tests while absent -> NOT RUN (exit 0, no pass claim) (exit 0)
+  ok   absent project reported as NOT RUN
+  ok   Core test dir present without its csproj -> fail (no arbitrary project) (exit 1)
+  ok   Core tests present -> dotnet test on the exact spec project (exit 0)
+  ok   invoked: dotnet test tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj (cwd agent/, global.json applies)
+  ok   Windows build while absent -> NOT RUN (exit 0)
+  ok   Windows dir present without csproj -> fail (exit 1)
+  ok   Windows project present -> dotnet build with EnableWindowsTargeting (exit 0)
+  ok   invoked: dotnet build src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -p:EnableWindowsTargeting=true
+== production verification: exact status + body, redirects never count as success
+  ok   healthy Access + Worker -> all checks pass (exit 0)
+  ok   service token rejected (every request 302 to login) -> fail (exit 1)
+  ok   302 login redirect reported as FAIL, not success
+  ok   hostname not behind Access (anonymous 200) -> fail (exit 1)
+  ok   ACCESS_AUD mismatch (Worker 401 on /api/v1/roster) -> fail (exit 1)
+  ok   wrong MASTER_VERSION deployed -> fail (exit 1)
+  ok   missing token env -> refuses to run (exit 1)
+
+regression checks: 62 passed, 0 failed

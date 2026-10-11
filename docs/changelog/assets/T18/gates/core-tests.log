@@ -1,0 +1,11 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Uma.Agent.Core -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Core.Tests -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+Test run for /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 18.0.1 (arm64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   420, Skipped:     0, Total:   420, Duration: 47 s - Uma.Agent.Core.Tests.dll (net8.0)

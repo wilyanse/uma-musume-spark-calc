@@ -1,0 +1,18 @@
+using System.Reflection;
+using Microsoft.Data.Sqlite;
+using Uma.Agent.Core;
+AppContext.SetData("APP_CONTEXT_BASE_DIRECTORY", "/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/");
+var type=typeof(Uma.Agent.Core.Tests.OutboxTests).Assembly.GetType("Uma.Agent.Core.Tests.Collect")!;
+var result=(CaptureResult)type.GetMethod("LowConfidence",BindingFlags.Public|BindingFlags.Static)!.Invoke(null,null)!;
+var clock=new Clock();
+var path=args[0];Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+if(File.Exists(path))throw new IOException("Refusing to overwrite baseline");
+var outbox=new UploadOutbox(path,clock);
+outbox.EnqueueCapture(result);
+var crop=outbox.Next()!;outbox.CompleteCrop(crop,$"crops/{crop.CaptureId}/{Uri.EscapeDataString(crop.Path!)}.png");
+var remaining=outbox.Next()!;outbox.Fail(remaining,"HTTP 503");
+using(var c=new SqliteConnection($"Data Source={path};Pooling=False")){c.Open();using var q=c.CreateCommand();q.CommandText="select sqlite_version(),sqlite_source_id()";using var reader=q.ExecuteReader();reader.Read();Console.WriteLine("baseline engine "+reader.GetString(0)+" "+reader.GetString(1));}
+SqliteConnection.ClearAllPools();
+Console.WriteLine("capture "+result.Capture!.CaptureId+" fingerprint "+result.Capture.Fingerprint);
+Console.WriteLine("saved "+crop.Path+" retry "+remaining.Path+" pending "+outbox.Snapshot().Count);
+sealed class Clock:IClock{public DateTimeOffset UtcNow=>new(2026,10,3,0,0,0,TimeSpan.Zero);}

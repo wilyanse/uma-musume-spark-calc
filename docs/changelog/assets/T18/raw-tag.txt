@@ -1,0 +1,1 @@
+{"ref":"refs/tags/v2.1.12","node_id":"MDM6UmVmMTg2NDYwMjc6cmVmcy90YWdzL3YyLjEuMTI=","url":"https://api.github.com/repos/ericsink/SQLitePCL.raw/git/refs/tags/v2.1.12","object":{"sha":"ca835d21508bff43121c65081035840ac5006c4c","type":"commit","url":"https://api.github.com/repos/ericsink/SQLitePCL.raw/git/commits/ca835d21508bff43121c65081035840ac5006c4c"}}

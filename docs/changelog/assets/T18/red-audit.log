@@ -1,0 +1,3 @@
+  Determining projects to restore...
+/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj : error NU1903: Warning As Error: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  Failed to restore /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 135 ms).

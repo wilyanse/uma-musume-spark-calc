@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "parameters": "--include-transitive",
+  "projects": [
+    {
+      "path": "/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj",
+      "frameworks": [
+        {
+          "framework": "net8.0",
+          "topLevelPackages": [
+            {
+              "id": "Microsoft.NET.Test.Sdk",
+              "requestedVersion": "17.14.1",
+              "resolvedVersion": "17.14.1"
+            },
+            {
+              "id": "xunit",
+              "requestedVersion": "2.9.3",
+              "resolvedVersion": "2.9.3"
+            },
+            {
+              "id": "xunit.runner.visualstudio",
+              "requestedVersion": "2.8.2",
+              "resolvedVersion": "2.8.2"
+            }
+          ],
+          "transitivePackages": [
+            {
+              "id": "Microsoft.CodeCoverage",
+              "resolvedVersion": "17.14.1"
+            },
+            {
+              "id": "Microsoft.Data.Sqlite",
+              "resolvedVersion": "10.0.3"
+            },
+            {
+              "id": "Microsoft.Data.Sqlite.Core",
+              "resolvedVersion": "10.0.3"
+            },
+            {
+              "id": "Microsoft.TestPlatform.ObjectModel",
+              "resolvedVersion": "17.14.1"
+            },
+            {
+              "id": "Microsoft.TestPlatform.TestHost",
+              "resolvedVersion": "17.14.1"
+            },
+            {
+              "id": "Newtonsoft.Json",
+              "resolvedVersion": "13.0.3"
+            },
+            {
+              "id": "SharpZipLib",
+              "resolvedVersion": "1.4.2"
+            },
+            {
+              "id": "SQLitePCLRaw.bundle_e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.core",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.lib.e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.provider.e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "System.Collections.Immutable",
+              "resolvedVersion": "8.0.0"
+            },
+            {
+              "id": "System.Memory",
+              "resolvedVersion": "4.5.3"
+            },
+            {
+              "id": "System.Reflection.Metadata",
+              "resolvedVersion": "8.0.0"
+            },
+            {
+              "id": "xunit.abstractions",
+              "resolvedVersion": "2.0.3"
+            },
+            {
+              "id": "xunit.analyzers",
+              "resolvedVersion": "1.18.0"
+            },
+            {
+              "id": "xunit.assert",
+              "resolvedVersion": "2.9.3"
+            },
+            {
+              "id": "xunit.core",
+              "resolvedVersion": "2.9.3"
+            },
+            {
+              "id": "xunit.extensibility.core",
+              "resolvedVersion": "2.9.3"
+            },
+            {
+              "id": "xunit.extensibility.execution",
+              "resolvedVersion": "2.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Uma.Agent.Core -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Core.Tests -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+Test run for /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 18.0.1 (arm64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.31)
+[xUnit.net 00:00:00.04]   Discovering: Uma.Agent.Core.Tests
+[xUnit.net 00:00:00.13]   Discovered:  Uma.Agent.Core.Tests
+[xUnit.net 00:00:00.13]   Starting:    Uma.Agent.Core.Tests
+  Passed Uma.Agent.Core.Tests.SqliteSecurityTests.Loaded_native_engine_is_patched_and_has_the_selected_source_identity [14 ms]
+  Standard Output Messages:
+ Actually loaded SQLite 3.53.3; source_id 2026-06-26 20:14:12 d4c0e51e4aeb96955b99185ab9cde75c339e2c29c3f3f12428d364a10d782c62
+
+
+[xUnit.net 00:00:01.99]   Finished:    Uma.Agent.Core.Tests
+  Passed Uma.Agent.Core.Tests.SqliteSecurityTests.Failed_enqueue_rolls_back_capture_and_all_rows_before_reopen_and_retry(insertion: 1) [1 s]
+  Passed Uma.Agent.Core.Tests.SqliteSecurityTests.Failed_enqueue_rolls_back_capture_and_all_rows_before_reopen_and_retry(insertion: 2) [44 ms]
+  Passed Uma.Agent.Core.Tests.SqliteSecurityTests.Failed_enqueue_rolls_back_capture_and_all_rows_before_reopen_and_retry(insertion: 3) [42 ms]
+  Passed Uma.Agent.Core.Tests.SqliteSecurityTests.Failed_crop_acknowledgement_rolls_back_saved_key_and_keeps_unique_pending_row [35 ms]
+  Passed Uma.Agent.Core.Tests.SqliteSecurityTests.Pre_upgrade_database_preserves_schema_payload_retry_and_saved_crops_through_reopen_and_backup [83 ms]
+
+Test Run Successful.
+Total tests: 6
+     Passed: 6
+ Total time: 2.2946 Seconds

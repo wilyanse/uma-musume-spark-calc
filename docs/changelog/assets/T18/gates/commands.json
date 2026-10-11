@@ -1,0 +1,244 @@
+[
+  {
+    "label": "runtime",
+    "command": "bash .github/scripts/agent-gates.sh runtime",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "restore-core",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet restore agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj --force --no-http-cache -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "audit-core",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj package --vulnerable --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "graph-core",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj package --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "policy-core",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet msbuild agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj -p:EnableWindowsTargeting=true -getProperty:NuGetAudit,NuGetAuditMode,NuGetAuditLevel,TreatWarningsAsErrors",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "restore-windows",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet restore agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj --force --no-http-cache -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "audit-windows",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj package --vulnerable --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "graph-windows",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj package --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "policy-windows",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet msbuild agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -p:EnableWindowsTargeting=true -getProperty:NuGetAudit,NuGetAuditMode,NuGetAuditLevel,TreatWarningsAsErrors",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "restore-core-tests",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet restore agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj --force --no-http-cache -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "audit-core-tests",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj package --vulnerable --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "graph-core-tests",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj package --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "policy-core-tests",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet msbuild agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -p:EnableWindowsTargeting=true -getProperty:NuGetAudit,NuGetAuditMode,NuGetAuditLevel,TreatWarningsAsErrors",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "restore-portable",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet restore agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj --force --no-http-cache -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "audit-portable",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj package --vulnerable --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "graph-portable",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj package --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "policy-portable",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet msbuild agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -p:EnableWindowsTargeting=true -getProperty:NuGetAudit,NuGetAuditMode,NuGetAuditLevel,TreatWarningsAsErrors",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "restore-native",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet restore agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj --force --no-http-cache -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "audit-native",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj package --vulnerable --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "graph-native",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet list agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj package --include-transitive --format json",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "policy-native",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet msbuild agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -p:EnableWindowsTargeting=true -getProperty:NuGetAudit,NuGetAuditMode,NuGetAuditLevel,TreatWarningsAsErrors",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "core-rebuild",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet build agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --no-incremental",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "core-tests",
+    "command": "bash .github/scripts/agent-gates.sh core-tests",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "sqlite-tests",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --filter 'FullyQualifiedName~SqliteSecurityTests' --logger 'console;verbosity=detailed'",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "windows-rebuild",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet build agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release --no-incremental -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "windows-build",
+    "command": "bash .github/scripts/agent-gates.sh windows-build",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "portable-rebuild",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet build agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --no-incremental",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "portable-tests",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "native-build",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet build agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release --no-incremental -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "solution-build",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet build agent/Uma.Agent.sln -c Release --no-incremental -p:EnableWindowsTargeting=true",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "publish",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableWindowsTargeting=true -o /Users/willjose/.hermes/cache/scratch/T18/publish",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "bundle",
+    "command": "python3 agent/tests/Uma.Agent.Windows.Tests/Tools/bundle_probe.py /Users/willjose/.hermes/cache/scratch/T18/publish/Uma.Agent.Windows.exe /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "native-asset",
+    "command": "python3 agent/tests/Uma.Agent.Windows.Tests/Tools/sqlite_native_probe.py /Users/willjose/.hermes/cache/scratch/T18/publish/Uma.Agent.Windows.exe /Users/willjose/.hermes/cache/scratch/T18/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "github-regression",
+    "command": "bash .github/tests/run.sh",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "config",
+    "command": "node .github/scripts/check-config.mjs .",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "MemoryProbe-build",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet build agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe -c Release --no-incremental",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "MemoryProbe",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe/bin/Release/net8.0/MemoryProbe.dll /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "EdgeProbe-build",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet build agent/tests/Uma.Agent.Windows.Tests/Tools/EdgeProbe -c Release --no-incremental",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "EdgeProbe",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet agent/tests/Uma.Agent.Windows.Tests/Tools/EdgeProbe/bin/Release/net8.0/EdgeProbe.dll /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security",
+    "environment": {},
+    "exit": 0
+  },
+  {
+    "label": "dyld-native",
+    "command": "/Users/willjose/.hermes/cache/scratch/T16b/dotnet-combo/dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --filter 'FullyQualifiedName~Loaded_native_engine' --logger 'console;verbosity=detailed'",
+    "environment": {
+      "DYLD_PRINT_LIBRARIES": "1"
+    },
+    "exit": 0
+  }
+]

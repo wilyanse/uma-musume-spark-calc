@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "parameters": "--include-transitive",
+  "projects": [
+    {
+      "path": "/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj",
+      "frameworks": [
+        {
+          "framework": "net8.0-windows10.0.19041",
+          "topLevelPackages": [
+            {
+              "id": "Serilog",
+              "requestedVersion": "4.3.0",
+              "resolvedVersion": "4.3.0"
+            },
+            {
+              "id": "Serilog.Sinks.File",
+              "requestedVersion": "6.0.0",
+              "resolvedVersion": "6.0.0"
+            },
+            {
+              "id": "System.Security.Cryptography.ProtectedData",
+              "requestedVersion": "8.0.0",
+              "resolvedVersion": "8.0.0"
+            }
+          ],
+          "transitivePackages": [
+            {
+              "id": "Microsoft.Data.Sqlite",
+              "resolvedVersion": "10.0.3"
+            },
+            {
+              "id": "Microsoft.Data.Sqlite.Core",
+              "resolvedVersion": "10.0.3"
+            },
+            {
+              "id": "SharpZipLib",
+              "resolvedVersion": "1.4.2"
+            },
+            {
+              "id": "SQLitePCLRaw.bundle_e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.core",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.lib.e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.provider.e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "System.Memory",
+              "resolvedVersion": "4.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
