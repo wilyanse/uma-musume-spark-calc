@@ -34,6 +34,8 @@ public class SqliteSecurityTests(ITestOutputHelper output)
     public void Pre_upgrade_database_preserves_schema_payload_retry_and_saved_crops_through_reopen_and_backup()
     {
         var fixture = Path.Combine(FixtureEnv.Fixtures, "sqlite", "outbox-3.49.1.db");
+        Assert.Equal("c9faaa288e8a6573293b7550e9df70c39b8b545196917ee97e46115f84a24c22",
+            Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(fixture))).ToLowerInvariant());
         var db = Collect.TempDb();
         var backup = db + ".backup";
         try

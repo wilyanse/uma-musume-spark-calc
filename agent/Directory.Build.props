@@ -2,6 +2,8 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 </Project>
