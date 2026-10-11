@@ -637,3 +637,11 @@ publication, target/framework/dependency change, audit suppression, application
 behavior edit, fixture/master/golden refresh, main/sibling edit or history rewrite.
 T16b S8/N6 stay separate. Byte-aware full-base-range diff policy remains as round1;
 final committed checks are recorded in `assets/T19/r2/sol-final-verification.log`.
+
+Post-commit verification at `d345db2` exited0: all three full-base-range byte-aware
+checks,65 strict Python tests,3 archive positives/9 provenance negatives,17 real
+artifact controls, final EXE/ZIP verification and committed-source manifest match.
+Exact command/script: `python3 .../T19-fix2/final_verify.py` (retained as
+`assets/T19/r2/sol-final-verify.py.txt`). The following evidence-only commit does
+not change implementation or artifact bytes; final HEAD/diff/clean readback is
+performed again before handoff.
