@@ -1,9 +1,6 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.Processing;
 
 namespace Uma.Agent.Core;
 
@@ -383,13 +380,12 @@ public sealed class CaptureSession
     {
         var x = Math.Clamp(r.X, 0, frame.Width - 1); var y = Math.Clamp(r.Y, 0, frame.Height - 1);
         var rect = new Rect(x, y, Math.Min(r.Width, frame.Width - x), Math.Min(r.Height, frame.Height - y));
-        using var image = Frames.ToImage(Frames.Crop(frame, rect));
+        var crop = Frames.Crop(frame, rect);
         for (var scale = 1.0; ; scale *= 0.7)
         {
-            using var copy = scale < 1 ? image.Clone(c => c.Resize(Math.Max(1, (int)(rect.Width * scale)), Math.Max(1, (int)(rect.Height * scale)))) : image.Clone();
-            using var ms = new MemoryStream();
-            copy.Save(ms, new PngEncoder { CompressionLevel = PngCompressionLevel.BestCompression });
-            if (ms.Length <= 60 * 1024 || scale < 0.05) return ms.ToArray();
+            var copy = scale < 1 ? Resampler.Resize(crop, Math.Max(1, (int)(rect.Width * scale)), Math.Max(1, (int)(rect.Height * scale))) : crop;
+            var png = PngCodec.Encode(copy);
+            if (png.Length <= 60 * 1024 || scale < 0.05) return png;
         }
     }
 }

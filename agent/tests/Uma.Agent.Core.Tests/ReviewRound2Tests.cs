@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Text;
 using Microsoft.Data.Sqlite;
-using SixLabors.ImageSharp.Processing;
 using Xunit;
 
 namespace Uma.Agent.Core.Tests;
@@ -118,9 +117,7 @@ public class ReviewRound2Tests
     [MemberData(nameof(RawPrimitiveCases))]
     public async Task SF3_every_public_frame_parser_primitive_refuses_raw_non_reference_input(string method, int w, int h)
     {
-        using var image = Frames.ToImage(Env.Frame("05-veteran-details-career-info-deck-legacy"));
-        image.Mutate(c => c.Resize(w, h, KnownResamplers.Bicubic));
-        var f = Frames.FromImage(image);
+        var f = Resampler.Resize(Env.Frame("05-veteran-details-career-info-deck-legacy"), w, h);
         var ocr = new CountingOcr();
         var parser = new FrameParser(Env.Layout, Env.Master, Env.Templates, ocr);
         var info = typeof(FrameParser).GetMethod(method)!;
@@ -163,9 +160,7 @@ public class ReviewRound2Tests
             }
             if (native.HeldCount is not null) Assert.Equal(native.HeldCount.Value, (await parser.HeldAsync(native.Frame)).Value);
             if (native.DetailCard is not null) Assert.Equal(native.DetailCard.Value, (await parser.DetailAsync(native.Frame)).Card.Value);
-            using var image = Frames.ToImage(native.Frame);
-            image.Mutate(c => c.Resize(2560, 1440, KnownResamplers.Bicubic));
-            var big = await parser.ParseAsync(Frames.FromImage(image));
+            var big = await parser.ParseAsync(Resampler.Resize(native.Frame, 2560, 1440));
             Assert.Equal((1920, 1080), (big.Frame.Width, big.Frame.Height));
             Assert.Equal(native.Screen.Id, big.Screen.Id);
             Assert.Equal(native.Deck.Select(t => (t.Card.Value, t.Lb.Value, t.Borrowed.Value)), big.Deck.Select(t => (t.Card.Value, t.Lb.Value, t.Borrowed.Value)));

@@ -16,7 +16,12 @@ interface IFrameSource { Task<Frame> NextAsync(CancellationToken ct); }         
 interface IOcrEngine   { Task<IReadOnlyList<OcrLine>> ReadAsync(Frame f, Rect roi, OcrMode mode); } // OcrMode: Text | Digits
 interface IClock, IInput (T14)
 ```
-Image processing uses **SixLabors.ImageSharp** (cross-platform). Don't use OpenCvSharp, which needs native Windows binaries.
+Image processing is managed and cross-platform, with no native image library. Don't use OpenCvSharp, which needs native Windows binaries.
+> **Erratum (T16b, 64):** this section originally named SixLabors.ImageSharp. Its patched releases (4.x) need a Six Labors license key for every non-Debug build, and the user chose a key-free replacement. Core now has no third-party image library at all:
+> - `PngCodec` validates PNG framing/conversions; SharpZipLib 1.4.2 (MIT, managed) decodes a strictly completed single zlib stream, and BCL `ZLibStream` encodes it (CRC, Adler-32, structure and inflate-size checks);
+> - `Resampler` is the Keys a = −0.5 bicubic matching the calibrated ImageSharp 3.1.12 output.
+>
+> Frame semantics, thresholds and fixtures are unchanged. The rationale is in `docs/changelog/T16b-image-library-migration.md`.
 
 **OCR on macOS tests:** don't use a real OCR engine in Core tests. `FixtureOcrEngine` replays OCR output recorded per fixture: `agent/tests/fixtures/ocr/<fixture>.json`, produced once by the spike tool (`spike/ocr/ocr.swift`) and later re-recorded on Windows with `Uma.Agent.Windows --record-ocr`. The OCR text parsing is tested on this recorded output. Pixel-based parsers (stars, LB, grades, colours) run on the real PNGs.
 

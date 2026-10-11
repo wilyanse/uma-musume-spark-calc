@@ -1,7 +1,3 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-
 namespace Uma.Agent.Core;
 
 public abstract class UnsupportedFrameException(int width, int height, string message) : Exception(message)
@@ -26,46 +22,45 @@ public sealed class NonReferenceFrameException(int width, int height)
 /// <summary>BGRA frame helpers. Every parser works in the 1920x1080 reference space (30 §2).</summary>
 public static class Frames
 {
+    /// <summary>Reads a PNG file into a straight BGRA frame (<see cref="PngCodec.Decode(byte[])"/>). The file handle is
+    /// released before decoding; non-PNG or corrupt files throw <see cref="InvalidDataException"/>.</summary>
     public static Frame Load(string pngPath)
     {
-        using var image = Image.Load<Rgba32>(pngPath);
-        return FromImage(image);
+        byte[] encoded;
+        // Disable FileStream read-ahead: even the final EOF probe reads at most one byte from the handle.
+        using (var input = new FileStream(pngPath, FileMode.Open, FileAccess.Read, FileShare.Read, 1, FileOptions.SequentialScan))
+            encoded = ReadEncoded(input, (int)PngCodec.MaxEncodedBytes);
+        return PngCodec.Decode(encoded);
     }
 
-    public static Frame FromImage(Image<Rgba32> image)
+    /// <summary>Reads from one seekable open handle. Checks its length before allocation, then independently limits
+    /// actual bytes to limit plus a single-byte EOF/growth probe. The caller owns and disposes the stream.</summary>
+    internal static byte[] ReadEncoded(Stream input, int limit)
     {
-        var bytes = new byte[image.Width * image.Height * 4];
-        image.ProcessPixelRows(rows =>
+        if (!input.CanSeek) throw new NotSupportedException("encoded PNG input must be seekable");
+        ArgumentOutOfRangeException.ThrowIfNegative(limit);
+        var initial = input.Length;
+        if (initial < 0 || initial > limit) throw new InvalidDataException($"PNG file exceeds the {limit} byte decode limit");
+        var bytes = new byte[(int)initial];
+        var used = 0;
+        while (true)
         {
-            for (var y = 0; y < rows.Height; y++)
+            if (used == bytes.Length)
             {
-                var row = rows.GetRowSpan(y);
-                for (var x = 0; x < row.Length; x++)
-                {
-                    var p = (y * image.Width + x) * 4;
-                    bytes[p] = row[x].B; bytes[p + 1] = row[x].G; bytes[p + 2] = row[x].R; bytes[p + 3] = row[x].A;
-                }
+                var next = input.ReadByte(); // exactly one probe, never an unbounded read to discover growth
+                if (next < 0) break;
+                if (used == limit) throw new InvalidDataException($"PNG file grew beyond the {limit} byte decode limit");
+                var capacity = (int)Math.Min(limit, Math.Max((long)used + 1, Math.Max(4096L, (long)used * 2)));
+                Array.Resize(ref bytes, capacity);
+                bytes[used++] = (byte)next;
+                if (used == bytes.Length) continue;
             }
-        });
-        return new Frame(bytes, image.Width, image.Height);
-    }
-
-    public static Image<Rgba32> ToImage(Frame frame)
-    {
-        var image = new Image<Rgba32>(frame.Width, frame.Height);
-        image.ProcessPixelRows(rows =>
-        {
-            for (var y = 0; y < rows.Height; y++)
-            {
-                var row = rows.GetRowSpan(y);
-                for (var x = 0; x < row.Length; x++)
-                {
-                    var p = (y * frame.Width + x) * 4;
-                    row[x] = new Rgba32(frame.Bgra[p + 2], frame.Bgra[p + 1], frame.Bgra[p], frame.Bgra[p + 3]);
-                }
-            }
-        });
-        return image;
+            var n = input.Read(bytes, used, bytes.Length - used);
+            if (n == 0) break;
+            used += n;
+        }
+        if (used != bytes.Length) Array.Resize(ref bytes, used);
+        return bytes;
     }
 
     /// <summary>Rejects non-16:9 client areas and 16:9 areas below 1920x1080 (typed errors, before any reading), and
@@ -76,9 +71,7 @@ public static class Frames
             throw new UnsupportedAspectRatioException(frame.Width, frame.Height);
         if (frame.Width < LayoutProfiles.ReferenceWidth) throw new UnsupportedResolutionException(frame.Width, frame.Height);
         if (frame.Width == LayoutProfiles.ReferenceWidth) return frame;
-        using var image = ToImage(frame);
-        image.Mutate(c => c.Resize(LayoutProfiles.ReferenceWidth, LayoutProfiles.ReferenceHeight, KnownResamplers.Bicubic));
-        return FromImage(image);
+        return Resampler.Resize(frame, LayoutProfiles.ReferenceWidth, LayoutProfiles.ReferenceHeight);
     }
 
     /// <summary>Refuses raw client-sized frames at calibrated parser entry, before any OCR or pixel reading.
