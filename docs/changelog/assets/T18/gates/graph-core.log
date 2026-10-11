@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "parameters": "--include-transitive",
+  "projects": [
+    {
+      "path": "/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj",
+      "frameworks": [
+        {
+          "framework": "net8.0",
+          "topLevelPackages": [
+            {
+              "id": "Microsoft.Data.Sqlite",
+              "requestedVersion": "10.0.3",
+              "resolvedVersion": "10.0.3"
+            },
+            {
+              "id": "SharpZipLib",
+              "requestedVersion": "1.4.2",
+              "resolvedVersion": "1.4.2"
+            },
+            {
+              "id": "SQLitePCLRaw.bundle_e_sqlite3",
+              "requestedVersion": "2.1.12",
+              "resolvedVersion": "2.1.12"
+            }
+          ],
+          "transitivePackages": [
+            {
+              "id": "Microsoft.Data.Sqlite.Core",
+              "resolvedVersion": "10.0.3"
+            },
+            {
+              "id": "SQLitePCLRaw.core",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.lib.e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "SQLitePCLRaw.provider.e_sqlite3",
+              "resolvedVersion": "2.1.12"
+            },
+            {
+              "id": "System.Memory",
+              "resolvedVersion": "4.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

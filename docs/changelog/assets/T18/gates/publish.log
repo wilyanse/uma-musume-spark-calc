@@ -1,0 +1,6 @@
+  Determining projects to restore...
+  Restored /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 176 ms).
+  Restored /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj (in 176 ms).
+  Uma.Agent.Core -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Windows -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Windows/bin/Release/net8.0-windows10.0.19041.0/win-x64/Uma.Agent.Windows.dll
+  Uma.Agent.Windows -> /Users/willjose/.hermes/cache/scratch/T18/publish/

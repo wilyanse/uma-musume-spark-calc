@@ -1,0 +1,22 @@
+A idle still view, fresh array every poll: baseline managed MB 11.1
+  after 40 polls (10s): processed 1 skipped 39; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 9.2
+  after 80 polls (20s): processed 1 skipped 79; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 9.2
+  after 120 polls (30s): processed 1 skipped 119; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 9.2
+  after 160 polls (40s): processed 1 skipped 159; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 9.2
+  after 200 polls (50s): processed 1 skipped 199; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 9.2
+  after 240 polls (60s): processed 1 skipped 239; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 9.2
+B one-pixel cosmetic change every poll: baseline managed MB 12.0
+  after 40 polls (10s): processed 5 skipped 35; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 8.3
+  after 80 polls (20s): processed 10 skipped 70; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 8.3
+  after 120 polls (30s): processed 15 skipped 105; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 8.3
+  after 160 polls (40s): processed 20 skipped 140; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 8.3
+  after 200 polls (50s): processed 25 skipped 175; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 8.3
+  after 240 polls (60s): processed 30 skipped 210; retained RetainedEvidence { Sessions = 1, Frames = 1, SealedPending = 0 }; managed +MB 8.3
+C 20 veterans in one watch: baseline managed MB 78.5
+  after veteran 5: queued 4; retained RetainedEvidence { Sessions = 1, Frames = 9, SealedPending = 0 }; managed +MB 75.7
+  after veteran 10: queued 9; retained RetainedEvidence { Sessions = 1, Frames = 9, SealedPending = 0 }; managed +MB 75.8
+  after veteran 15: queued 14; retained RetainedEvidence { Sessions = 1, Frames = 9, SealedPending = 0 }; managed +MB 75.8
+  after veteran 20: queued 19; retained RetainedEvidence { Sessions = 1, Frames = 9, SealedPending = 0 }; managed +MB 75.8
+  after Stop: queued 20; outbox veterans 20; retained RetainedEvidence { Sessions = 0, Frames = 0, SealedPending = 0 }; managed +MB 9.4
+D worst case, 2 unqueued veterans x 60 distinct views: baseline managed MB 79.5
+  limit events 40; retained RetainedEvidence { Sessions = 2, Frames = 80, SealedPending = 0 }; managed +MB 672.0 (bound 2 x 40 x 8.29 MB = 664 MB of frames)

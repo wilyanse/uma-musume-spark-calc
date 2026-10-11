@@ -1,0 +1,8 @@
+{
+  "Properties": {
+    "NuGetAudit": "true",
+    "NuGetAuditMode": "all",
+    "NuGetAuditLevel": "low",
+    "TreatWarningsAsErrors": "true"
+  }
+}

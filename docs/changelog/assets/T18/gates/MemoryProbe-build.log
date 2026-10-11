@@ -1,0 +1,11 @@
+  Determining projects to restore...
+  Restored /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 144 ms).
+  Restored /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe/MemoryProbe.csproj (in 144 ms).
+  Uma.Agent.Core -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  MemoryProbe -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Windows.Tests/Tools/MemoryProbe/bin/Release/net8.0/MemoryProbe.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.44

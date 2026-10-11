@@ -1,0 +1,16 @@
+LIMIT rejected new unaligned Skills: event=Limit; retained=RetainedEvidence { Sessions = 1, Frames = 40, SealedPending = 0 }; shellSkillsComplete=False; CoreSkillsComplete=False
+LIMIT Stop=NotUploadable; outboxVeterans=0
+QUEUEFAIL veterans=21; retained=RetainedEvidence { Sessions = 0, Frames = 0, SealedPending = 1 }; managed+MB=6.824; distinctFailedIDs=1; failedEvents=140; retainedPngBytes=73953
+QUEUEFAIL veterans=41; retained=RetainedEvidence { Sessions = 0, Frames = 0, SealedPending = 1 }; managed+MB=6.827; distinctFailedIDs=1; failedEvents=280; retainedPngBytes=73953
+QUEUEFAIL sealedResults=1; sealedAll=True; pngBytes=73953
+RETRY queued=1; oldCapturePayloadsExact=True; oldIDsPreserved=True; pending=0; oldCropBytesExact=True
+BACKPRESSURE failed retry blocked; ProcessAsync blocked; exact retry; new identity resumed; notices verified
+THUMB null->whole: complete=False->True; frames=2
+CANCEL accepted complete survives=True; outboxVeterans=1
+IDENTITY samecharacter differentstats sessions=2; CoreSessions=2; ambiguousShell=Ignored; CoreIgnored=True
+MODEONLY synthetic header change: CoreSessions=1; Stop=Queued; epithetStatus=low_confidence
+SETTINGS backups=2; firstPreserved=True; uploadsAllowed=False; notice=True
+DRAIN bounded=8; oldDisposed=True; newestAlive=True
+OCR tile cancellation propagated; calls=2
+MESSAGE ArgumentException reflects marker=False
+ASSERTIONS passed

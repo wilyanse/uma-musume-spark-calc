@@ -1,0 +1,26 @@
+dyld[61635]: <2197AD4A-E0F8-38FF-924C-D9A97343680F> /usr/lib/libsqlite3.dylib
+dyld[61635]: <F6CD54D6-1342-3624-9949-5690E8135D66> /System/Library/PrivateFrameworks/PoirotSQLite.framework/Versions/A/PoirotSQLite
+dyld[61635]: move loaded to delayed: libsqlite3.dylib
+dyld[61635]: move loaded to delayed: PoirotSQLite
+dyld[61635]: move delayed to loaded: libsqlite3.dylib
+dyld[61635]: move delayed to loaded: PoirotSQLite
+  Restored /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj (in 154 ms).
+  Uma.Agent.Core -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Core.Tests -> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+Test run for /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll (.NETCoreApp,Version=v8.0)
+dyld[61650]: <2197AD4A-E0F8-38FF-924C-D9A97343680F> /usr/lib/libsqlite3.dylib
+dyld[61650]: <F6CD54D6-1342-3624-9949-5690E8135D66> /System/Library/PrivateFrameworks/PoirotSQLite.framework/Versions/A/PoirotSQLite
+dyld[61650]: move loaded to delayed: libsqlite3.dylib
+dyld[61650]: move loaded to delayed: PoirotSQLite
+dyld[61650]: move delayed to loaded: libsqlite3.dylib
+dyld[61650]: move delayed to loaded: PoirotSQLite
+/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+dyld[61654]: <2197AD4A-E0F8-38FF-924C-D9A97343680F> /usr/lib/libsqlite3.dylib
+dyld[61654]: <F6CD54D6-1342-3624-9949-5690E8135D66> /System/Library/PrivateFrameworks/PoirotSQLite.framework/Versions/A/PoirotSQLite
+dyld[61654]: move loaded to delayed: libsqlite3.dylib
+dyld[61654]: move loaded to delayed: PoirotSQLite
+dyld[61654]: move delayed to loaded: libsqlite3.dylib
+dyld[61654]: move delayed to loaded: PoirotSQLite
+dyld[61654]: <D6CCD2E4-D0D4-3AD9-A4D8-E25F5158DD17> /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T18-agent-sqlite-security/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/runtimes/osx-arm64/native/libe_sqlite3.dylib
+  Passed Uma.Agent.Core.Tests.SqliteSecurityTests.Loaded_native_engine_is_patched_and_has_the_selected_source_identity [226 ms]
+ Actually loaded SQLite 3.53.3; source_id 2026-06-26 20:14:12 d4c0e51e4aeb96955b99185ab9cde75c339e2c29c3f3f12428d364a10d782c62

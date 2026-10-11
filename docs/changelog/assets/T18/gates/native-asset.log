@@ -1,0 +1,5 @@
+bundle 6 0 entries 474
+package SHA256 4a22c02ffcf489792903cf263def9fce27739716883f965f0b5eeff1637430ac
+runtimes/win-x64/native/e_sqlite3.dll size 1978880 PE32+ AMD64 (0x8664) SHA256 b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e
+Embedded SQLite 3.53.3; source_id 2026-06-26 20:14:12 d4c0e51e4aeb96955b99185ab9cde75c339e2c29c3f3f12428d364a10d782c62
+Exact native package asset matches published bundle; Windows execution remains H4
