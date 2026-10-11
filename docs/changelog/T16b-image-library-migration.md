@@ -575,3 +575,15 @@ All 28 format cases, 15 saved fixture hashes/roundtrips, parser/classification/d
 - H4 native Windows execution/WGC/OCR/x64 parity and live imports remain human acceptance. Native cross-build and self-contained publish are compilation/packaging evidence only.
 - T18 owns unchanged SQLite transitive advisory. No audit suppression or scope creep.
 - T19 owns recipient licence/notice delivery, now including the SharpZipLib inventory. It still blocks every agent-v release.
+
+## Review round 3 — independent approval and coordinator disposition
+
+Same independent reviewer `20261010_080715_e1d1fc` returned **PASS** on exact candidate `2d9471c0ac8fa413cfc2cbebd87e592fdf259669` (code `107ac9c`, subsequent changes documentation only). Reviewer provenance Opus→Sol→Opus is preserved: Sol's r3 provider refusal was not a verdict; user explicitly approved Opus continuation. Full reports are coordinator-saved `docs/reviews/T16b-review-{1,2,3}.md`. All B1–B4 blockers and S5–S7/N5 are resolved. Two worker fix rounds were used; no third worker fix round.
+
+Fresh independent r3 verification: audited Release Core414/Portable230, Windows/Native/solution cross-build 0 warnings/errors, win-x64 self-contained publish and bundle15/15, regression62, package/license/source checks, mutation/format/parity and bounded input/stream-end reproductions. Exact commands and real output are in the full r3 report. Coordinator independently reran the same broad gates on `2d9471c` plus seven supervised resource/end probes: all succeeded; sparse300MiB/3GiB inputs refused before input allocation (~37MB RSS), empty-chunk cases allocated46096 decoder bytes, invalid final-block/trailing-stream cases refused. No native Windows execution, deployment or game-mechanics acceptance implied.
+
+### Accepted nonblocking follow-ups
+- **S8 — dependency conformance limitation:** SharpZipLib1.4.2 accepts a checksummed Deflate distance referencing before output start, yielding defined zeros rather than an RFC1951 refusal. Reviewer classified it low severity, bounded and nonblocking; no ordinary-corruption regression was demonstrated and an equivalent valid stream can produce the same pixels. This is **not** a universally strict RFC1951 validator; `ChecksumConsistent` shares the limitation. Coordinator defers stricter invalid-distance rejection to a separately scoped codec-conformance follow-up, not a third worker loop or handwritten Deflate engine. Retain reviewer repro `T16b-review3/vec/dist_too_far.png` as an anchor when scoping that work.
+- **N6:** internal `ReadEncoded(null, …)` currently yields NullReferenceException; public Load's null behavior remains ArgumentNullException. Internal null-argument consistency is deferred with the codec follow-up; no post-approval executable edit.
+- **N7:** upstream SharpZipLib license text says2000–2018 while nuspec copyright says2000–2022. The verbatim verified upstream license is retained; T19 should cite both metadata lines when preparing recipient notices.
+- T18 still owns the inherited SQLite advisory; T19 remains a recipient-license release blocker; H4 native/live acceptance remains.
