@@ -16,4 +16,8 @@ a0fbe2ae6c6940891c087bfbfb106365a845b099564da1c3074bd310c1761d4a.
 No credentials or real-user database content. This is database compatibility
 input, not game completion evidence. Do not regenerate with the new engine:
 that would erase the pre-upgrade-file coverage. Generator and real RED output
-are retained in docs/changelog/assets/T18.
+are retained in docs/changelog/assets/T18. The baseline.log and baseline-native.log
+files retain failed harness attempts, not successful generator stdout. The successful
+original generator stdout was not retained there; independent review reproduced a
+byte-identical fixture (docs/reviews/T18-review-1.md). Evidence scripts contain local
+absolute paths; adjust those paths before rerunning in another worktree.

@@ -1,6 +1,6 @@
 # T18 — Agent native SQLite advisory remediation
 
-- **Status:** Partial — scoped implementation and local gates complete; parent independent review/rerun and H4 remain. No release approval.
+- **Status:** Approved for local merge — independent review r1 PASS and parent same-candidate gates complete; H4/T19 remain. No release approval.
 - **Branch:** task/T18-agent-sqlite-security (base 6cc73a668ca136c1f40c68301a1ec0586d4f03d5)
 - **Agent / model:** user-directed openai-codex/gpt-6.1-sol, medium reasoning; direct implementation, no delegation/model CLI/provider/config changes.
 - **Date:** 2026-10-11
@@ -176,3 +176,11 @@ The metadata download script and fetched official SQLite release logs are retain
 - T19 remains a release blocker: complete applicable bundled/runtime licence/NOTICE delivery to recipients, including this inventory. No release/push/deploy performed.
 - T16b S8 Deflate back-reference conformance and N6 internal null consistency remain explicitly deferred to their separate codec follow-up; N7 licence-metadata dates belong to T19. No image changes or universal strict-RFC1951/security claim.
 - TS workspace/browser/golden generation not run: none touched, no pnpm recursive build/master/golden refresh. Existing agent contract/fingerprint/card/image/field tests remain in the full executed suites.
+
+## Review round 1
+
+Independent Opus5.5 medium reviewer session20261011_102159_0235b3 returned PASS for a3e1fd3fd2f140f6e7ae5f575a345a99cdf21e2e; full report docs/reviews/T18-review-1.md. No blockers or should-fix findings; zero worker fix rounds consumed. Reviewer independently reproduced all seven project graphs/audits, actual RED, byte-identical old fixture, audit negative controls, Core420/Portable230, native engine/source identity, cross-build/publish/bundle15/15/regression62 and memory/edge probes. All eight checklist categories passed.
+
+Coordinator dispositions: N1 corrected fixture README to identify failed harness logs and explicitly acknowledge missing successful original generator stdout; independent byte-identical regeneration remains recorded in the full review. N2 added path-portability warning to evidence README. N3 added coordinated engine/source/probe/legal-update guidance to install runbook. N4 retained full official release HTML as provenance; trimming optional, no production impact. These post-review changes are documentation only; no executable/test/package/fixture bytes changed.
+
+Parent fresh audited candidate gates: runtime, forced no-cache Windows restore, Core420/420, Portable230/230, solution Windows/Native cross-build 0 warnings/errors, Windows all-transitive audit no reported vulnerable packages, self-contained win-x64 publish, bundle15/15, native DLL exact NuGet match and PE32+AMD64/source identity, regression62/62, actual loaded SQLite3.53.3 test; every command exited0. Parent publish is scratch/T18-parent-publish. Independent review is approval for local merge only; H4 native execution and T19 recipient delivery remain required.

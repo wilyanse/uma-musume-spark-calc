@@ -28,6 +28,8 @@ SQLite security (T18): Microsoft.Data.Sqlite remains 10.0.3; the exact SQLitePCL
 
 Packaging verification: `python3 agent/tests/Uma.Agent.Windows.Tests/Tools/sqlite_native_probe.py <published.exe> <sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg>` checks the bundled e_sqlite3.dll against `runtimes/win-x64/native/e_sqlite3.dll`, its PE32+ AMD64 architecture and embedded SQLite source identity. Obtain the exact package from `https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/2.1.12/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg`; hashes and verbatim upstream licence/notice inventory are in `agent/legal/README.md`. This is package inspection, not Windows-native execution; H4 still requires running the Native tests and published EXE on Windows. T19 recipient licence/NOTICE delivery still blocks release.
 
+For a future SQLite update, update the exact engine/source assertions in `SqliteSecurityTests.cs`, package/source checks in `sqlite_native_probe.py`, and package/native/source/licence hashes in `agent/legal/README.md` together; repeat the loaded-engine and fresh publish checks rather than changing only the bundle pin.
+
 Only the EXE is needed; the two PDBs are optional symbols, not credentials. The existing T12 tag release workflow builds this project and uploads the EXE; do NOT tag/push/deploy during task implementation.
 
 Verify before use:
