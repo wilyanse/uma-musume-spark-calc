@@ -1,0 +1,33 @@
+# Fresh final candidate publish (<scratch>/final-publish, 191966038 B) and ZIP; scratch-copy mutations
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/neg2/corrupt-notice.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE notice legal/SharpZipLib-1.4.2-LICENSE.txt is truncated or changed (sha256 3bc6d232a636a834fe0f0fd7ec9514c958b1832c2ab33caec806fc1562c5e708, expected d7fbbc16f871bf24fa5624c7eaf945054b778985f32676dcacba41fddca61133)
+exit=1
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/neg2/corrupt-dll.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry ICSharpCode.SharpZipLib.dll differs from the restored package file(s) ~/.nuget/packages/sharpziplib/1.4.2/lib/net6.0/ICSharpCode.SharpZipLib.dll
+exit=1
+$ python3 agent/legal/tools/recipient_notices.py verify-zip <scratch>/neg2/no-tpn.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+RECIPIENT NOTICE CHECK FAILED:
+  - ZIP lacks LICENSES/dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT
+exit=1
+$ python3 agent/legal/tools/recipient_notices.py verify-zip <scratch>/neg2/exe-only.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+RECIPIENT NOTICE CHECK FAILED:
+  - ZIP lacks LICENSES/CsWinRT-2.2.0.241111.1-LICENSE.txt
+  - ZIP lacks LICENSES/INDEX.txt
+  - ZIP lacks LICENSES/Microsoft.Data.Sqlite-10.0.3-LICENSE.txt
+  - ZIP lacks LICENSES/Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf
+  - ZIP lacks LICENSES/SQLite-3.53.3-LICENSE.md
+exit=1
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/final-publish/Uma.Agent.Windows.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json --legal <scratch>/neg2/legal-stale
+RECIPIENT NOTICE CHECK FAILED:
+  - notice not referenced by any component: Serilog.Sinks.File-6.0.0-LICENSE.txt
+  - EXE notice legal/inventory.json is truncated or changed (sha256 e8f0f50f853642e4a1dc697cf7f5ae3f7ef2ad92cf34ea50f66421787c62b59b, expected 1a0309eb9c3647301c84606a46ab88c2c1d680ec711252a7ff71bcfbea2ab57c)
+  - shipped dependency Serilog.Sinks.File/6.0.0 has no inventory entry or notices
+  - EXE entry Serilog.Sinks.File.dll is not attributable to the inventory graph
+exit=1
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/final-publish/Uma.Agent.Windows.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json --legal <scratch>/neg2/legal-trunc
+RECIPIENT NOTICE CHECK FAILED:
+  - notice text changed or truncated: Serilog-4.3.0-LICENSE.txt sha256 1acab66cd22c59afc6c19c0fb1f66f39201e09c373bba1742559252d508fa823, inventory 73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68
+  - EXE notice legal/Serilog-4.3.0-LICENSE.txt is truncated or changed (sha256 73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68, expected 1acab66cd22c59afc6c19c0fb1f66f39201e09c373bba1742559252d508fa823)
+exit=1
