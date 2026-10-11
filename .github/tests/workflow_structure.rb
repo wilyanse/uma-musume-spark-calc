@@ -71,7 +71,8 @@ check.(tsr.include?('check-config.mjs .'), 'ci: MASTER_VERSION alignment check m
 check.(tsr.include?('-le 250000'), 'ci: bundle limit must be 250000 bytes (N2)')
 dn = ci.dig('jobs', 'dotnet') || {}
 setup = all_steps.(dn).find { |s| s['uses'].to_s.start_with?('actions/setup-dotnet@') }
-check.(setup && setup.dig('with', 'dotnet-version').to_s.split == %w[8.0.x 9.0.x], 'ci: setup-dotnet must install 8.0.x and 9.0.x')
+check.(setup && setup.dig('with', 'global-json-file') == 'agent/global.json', 'ci: setup-dotnet must install exact SDK from agent/global.json')
+check.(setup && setup.dig('with', 'dotnet-version').to_s == '8.0.x', 'ci: setup-dotnet must separately provide net8 test runtime')
 %w[runtime core-tests windows-build].each { |g| check.(runs.(dn).include?("agent-gates.sh #{g}"), "ci: agent gate #{g} missing") }
 check.(runs.(ci.dig('jobs', 'workflow-checks') || {}).include?('.github/tests/run.sh'), 'ci: regression checks must run in CI')
 

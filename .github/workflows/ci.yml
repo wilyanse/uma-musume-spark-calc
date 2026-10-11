@@ -83,12 +83,11 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      # net8.0 projects need the 8.x runtime; agent/global.json asks for SDK 9.0.100 (latestMajor).
+      # Install the exact global.json SDK 10.0.401 and separately provide the net8.0 test runtime.
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
+          global-json-file: agent/global.json
+          dotnet-version: 8.0.x
       - name: Require the .NET 8 runtime and the global.json SDK
         run: bash .github/scripts/agent-gates.sh runtime
       - name: dotnet test agent/tests/Uma.Agent.Core.Tests (NOT RUN until T09 lands)
