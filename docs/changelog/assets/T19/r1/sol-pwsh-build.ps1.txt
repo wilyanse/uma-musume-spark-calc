@@ -1,0 +1,47 @@
+
+$ErrorActionPreference = 'Stop'
+function global:dotnet {
+    Add-Content -LiteralPath $env:MOCKLOG -Value ('dotnet ' + (ConvertTo-Json -Compress @($args)))
+    if ($args[0] -ceq '--version') { $global:LASTEXITCODE = 0; $env:MOCKSDK; return }
+    if ($args[0] -cne 'publish') { throw 'Unexpected dotnet invocation' }
+    if ($env:MOCKDOTNETFAIL -eq '1') { $global:LASTEXITCODE = 7; return }
+    $idx = [Array]::IndexOf($args, '-o')
+    if ($idx -lt 0) { throw 'Mock publish lacks output path' }
+    New-Item -ItemType Directory -Force -Path $args[$idx + 1] | Out-Null
+    Copy-Item -LiteralPath $env:MOCKEXE -Destination (Join-Path $args[$idx + 1] 'Uma.Agent.Windows.exe')
+    $global:LASTEXITCODE = 0
+}
+function global:gh {
+    Add-Content -LiteralPath $env:MOCKLOG -Value ('gh ' + (ConvertTo-Json -Compress @($args)))
+    $global:LASTEXITCODE = 0
+}
+function global:python {
+    Add-Content -LiteralPath $env:MOCKLOG -Value ('python ' + (ConvertTo-Json -Compress @($args)))
+    if ($env:MOCKNOPython -eq '1') { throw 'Mock python unavailable' }
+    & $env:REALPYTHON @args
+    $global:LASTEXITCODE = $LASTEXITCODE
+}
+
+$ErrorActionPreference = 'Stop'
+if ($env:TAG -cnotmatch '^agent-v\d+\.\d+\.\d+(-[0-9A-Za-z.]+)?$') { throw "Unexpected tag format: $env:TAG" }
+$project = 'agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj'
+if (-not (Test-Path -LiteralPath $project -PathType Leaf)) { throw "$project is not present; T10 must land before an agent tag is published." }
+Push-Location agent
+$sdk = dotnet --version
+if ($LASTEXITCODE -ne 0 -or $sdk.Trim() -cne '10.0.401') { throw "Recipient publish requires SDK 10.0.401, got $sdk" }
+dotnet publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ../publish
+if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed ($LASTEXITCODE)" }
+Pop-Location
+$exe = @(Get-ChildItem -LiteralPath publish -Filter *.exe -File)
+if ($exe.Count -ne 1) { throw "Expected exactly one .exe in publish/, found $($exe.Count)" }
+# T19: verify the final EXE bytes against agent/legal and the restored runtime graph, then pair the EXE
+# with its licence/NOTICE texts in one ZIP. The ZIP is the only release asset; no EXE-only upload.
+New-Item -ItemType Directory -Force -Path release | Out-Null
+$zip = Join-Path (Resolve-Path release).Path "uma-agent-$env:TAG-win-x64.zip"
+python agent/legal/tools/test_recipient_notices.py
+if ($LASTEXITCODE -ne 0) { throw "recipient notice regressions failed ($LASTEXITCODE)" }
+python agent/legal/tools/test_review_r1.py
+if ($LASTEXITCODE -ne 0) { throw "recipient notice review regressions failed ($LASTEXITCODE)" }
+python agent/legal/tools/recipient_notices.py package $exe[0].FullName $zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+if ($LASTEXITCODE -ne 0) { throw "recipient notice packaging failed ($LASTEXITCODE)" }
+"zip=$zip" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8

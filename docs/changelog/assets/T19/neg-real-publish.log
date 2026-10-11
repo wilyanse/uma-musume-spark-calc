@@ -1,17 +1,17 @@
 # Fresh final candidate publish (<scratch>/final-publish, 191966038 B) and ZIP; scratch-copy mutations
-$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/neg2/corrupt-notice.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/neg2/corrupt-notice.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
 RECIPIENT NOTICE CHECK FAILED:
   - EXE notice legal/SharpZipLib-1.4.2-LICENSE.txt is truncated or changed (sha256 3bc6d232a636a834fe0f0fd7ec9514c958b1832c2ab33caec806fc1562c5e708, expected d7fbbc16f871bf24fa5624c7eaf945054b778985f32676dcacba41fddca61133)
 exit=1
-$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/neg2/corrupt-dll.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <scratch>/neg2/corrupt-dll.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
 RECIPIENT NOTICE CHECK FAILED:
   - EXE entry ICSharpCode.SharpZipLib.dll differs from the restored package file(s) ~/.nuget/packages/sharpziplib/1.4.2/lib/net6.0/ICSharpCode.SharpZipLib.dll
 exit=1
-$ python3 agent/legal/tools/recipient_notices.py verify-zip <scratch>/neg2/no-tpn.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+$ python3 agent/legal/tools/recipient_notices.py verify-zip <scratch>/neg2/no-tpn.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
 RECIPIENT NOTICE CHECK FAILED:
   - ZIP lacks LICENSES/dotnet-runtime-8.0.24-THIRD-PARTY-NOTICES.TXT
 exit=1
-$ python3 agent/legal/tools/recipient_notices.py verify-zip <scratch>/neg2/exe-only.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json 
+$ python3 agent/legal/tools/recipient_notices.py verify-zip <scratch>/neg2/exe-only.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
 RECIPIENT NOTICE CHECK FAILED:
   - ZIP lacks LICENSES/CsWinRT-2.2.0.241111.1-LICENSE.txt
   - ZIP lacks LICENSES/INDEX.txt

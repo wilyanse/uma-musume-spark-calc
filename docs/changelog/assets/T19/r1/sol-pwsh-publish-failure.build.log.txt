@@ -1,0 +1,5 @@
+[31;1mException: [0m/Users/willjose/.hermes/cache/scratch/T19/r1/tmp/t19-pwsh-9vh_cg98/build.ps1:33[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  33 | [0m … LASTEXITCODE -ne 0) { [36;1mthrow "dotnet publish failed ($LASTEXITCODE)"[0m }[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mdotnet publish failed (7)[0m

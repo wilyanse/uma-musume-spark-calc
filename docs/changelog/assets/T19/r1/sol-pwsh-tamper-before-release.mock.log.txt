@@ -1,0 +1,6 @@
+dotnet ["--version"]
+dotnet ["publish","src/Uma.Agent.Windows/Uma.Agent.Windows.csproj","-c","Release","-r","win-x64","--self-contained","true","-p:","PublishSingleFile=true","-p:","IncludeNativeLibrariesForSelfExtract=true","-o","../publish"]
+python ["agent/legal/tools/test_recipient_notices.py"]
+python ["agent/legal/tools/test_review_r1.py"]
+python ["agent/legal/tools/recipient_notices.py","package","/Users/willjose/.hermes/cache/scratch/T19/r1/tmp/t19-pwsh-9vh_cg98/tamper-before-release workspace with spaces/publish/Uma.Agent.Windows.exe","/Users/willjose/.hermes/cache/scratch/T19/r1/tmp/t19-pwsh-9vh_cg98/tamper-before-release workspace with spaces/release/uma-agent-agent-v1.2.3-win-x64.zip","--assets","agent/src/Uma.Agent.Windows/obj/project.assets.json"]
+python ["agent/legal/tools/recipient_notices.py","verify-zip","/Users/willjose/.hermes/cache/scratch/T19/r1/tmp/t19-pwsh-9vh_cg98/tamper-before-release workspace with spaces/release/uma-agent-agent-v1.2.3-win-x64.zip","--assets","agent/src/Uma.Agent.Windows/obj/project.assets.json"]

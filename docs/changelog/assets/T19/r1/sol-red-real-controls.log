@@ -1,0 +1,90 @@
+valid: exit=0 expected=0 PASS
+recipient notices ok: 490 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 16 legal files embedded
+host-code-byte: exit=0 expected=1 FAIL
+recipient notices ok: 490 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 16 legal files embedded
+host-version-copy-0: exit=0 expected=1 FAIL
+recipient notices ok: 490 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 16 legal files embedded
+host-version-copy-1: exit=0 expected=1 FAIL
+recipient notices ok: 490 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 16 legal files embedded
+header-near-eof: exit=1 expected=1 FAIL
+Traceback (most recent call last):
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 503, in <module>
+    sys.exit(main())
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 481, in main
+    r = verify_exe_bytes(read(a.exe), a.packages, a.legal)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 241, in verify_exe_bytes
+    entries = parse_bundle(data)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 147, in parse_bundle
+    major, minor, count = struct.unpack_from('<IIi', data, p)
+struct.error: unpack_from requires a buffer of at least 191966047 bytes for unpacking 12 bytes at offset 191966035 (actual buffer size is 191966038)
+truncated-real-exe: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - bundle header offset out of range
+malformed.deps.json: exit=1 expected=1 FAIL
+Traceback (most recent call last):
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 503, in <module>
+    sys.exit(main())
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 481, in main
+    r = verify_exe_bytes(read(a.exe), a.packages, a.legal)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 270, in verify_exe_bytes
+    deps = json.loads(entry_bytes(data, by_path[deps_name[0]]))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+malformed.runtimeconfig.json: exit=1 expected=1 FAIL
+Traceback (most recent call last):
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 503, in <module>
+    sys.exit(main())
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 481, in main
+    r = verify_exe_bytes(read(a.exe), a.packages, a.legal)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 302, in verify_exe_bytes
+    rc = json.loads(entry_bytes(data, by_path[rc_name[0]]))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+missing-deps: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE must contain exactly one deps.json, found 0
+tamper-legal/INDEX.txt: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE notice legal/INDEX.txt is truncated or changed (sha256 ff469d3e1084becd52ab901c0484700e192d2e447677659fe1e9a2ac50174848, expected 23ce1c68512c06c6b903a500432bf63fabbc5fb64e999344e6a250f7332433db)
+tamper-e_sqlite3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry e_sqlite3.dll differs from the restored package file(s) /Users/willjose/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.12/runtimes/win-x64/native/e_sqlite3.dll
+tamper-D3DCompiler_47_cor3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry D3DCompiler_47_cor3.dll differs from the restored package file(s) /Users/willjose/.nuget/packages/microsoft.windowsdesktop.app.runtime.win-x64/8.0.24/runtimes/win-x64/native/D3DCompiler_47_cor3.dll
+component-missing-deps: exit=1 expected=1 FAIL
+Traceback (most recent call last):
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 503, in <module>
+    sys.exit(main())
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 481, in main
+    r = verify_exe_bytes(read(a.exe), a.packages, a.legal)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 240, in verify_exe_bytes
+    inv, inv_bytes, texts, problems = load_legal(legal_dir)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 130, in load_legal
+    name, _, version = c['deps'].partition('/')
+KeyError: 'deps'
+inventory-wrong-type: exit=1 expected=1 FAIL
+Traceback (most recent call last):
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 503, in <module>
+    sys.exit(main())
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 481, in main
+    r = verify_exe_bytes(read(a.exe), a.packages, a.legal)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 240, in verify_exe_bytes
+    inv, inv_bytes, texts, problems = load_legal(legal_dir)
+  File "/Users/willjose/.hermes/cache/scratch/T19-r1/src/agent/legal/tools/recipient_notices.py", line 103, in load_legal
+    if not c.get('notices'):
+AttributeError: 'str' object has no attribute 'get'
+inventory-malformed-json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - cannot read inventory /Users/willjose/.hermes/cache/scratch/T19/r1/t19-real-_njpw2w6/invalid-json/inventory.json: Expecting value: line 1 column 1 (char 0)
+real artifact controls: 8 unexpected result(s)

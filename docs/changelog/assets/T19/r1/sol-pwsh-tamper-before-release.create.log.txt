@@ -1,0 +1,7 @@
+RECIPIENT NOTICE CHECK FAILED:
+  - ZIP LICENSES/Serilog-4.3.0-LICENSE.txt is truncated or changed
+[31;1mException: [0m/Users/willjose/.hermes/cache/scratch/T19/r1/tmp/t19-pwsh-9vh_cg98/create.ps1:27[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  27 | [0m … DE -ne 0) { [36;1mthrow "release ZIP verification failed ($LASTEXITCODE)"[0m } …[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mrelease ZIP verification failed (1)[0m

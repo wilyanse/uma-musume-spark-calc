@@ -1,0 +1,3 @@
+MSBuild version 18.0.11+c2435c3e0 for .NET
+/Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T19-agent-recipient-notices/agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj(57,5): error : T19 recipient packaging requires SDK 10.0.401. Run dotnet publish from agent/ with its exact global.json; root SDK bypass is unsupported.
+exit=1

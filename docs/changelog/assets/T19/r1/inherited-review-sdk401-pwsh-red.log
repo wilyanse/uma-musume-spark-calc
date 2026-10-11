@@ -1,0 +1,502 @@
+test_repository_legal_inventory_is_consistent (__main__.RealInventoryTests) ... ok
+test_bundle_entry_bytes_must_match_restored_package (__main__.RecipientNoticeTests) ... ok
+test_cli_exit_codes (__main__.RecipientNoticeTests) ... ok
+test_component_without_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_compressed_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_corrupted_repository_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_deleted_repository_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_different_single_file_host_build_fails (__main__.RecipientNoticeTests) ... ok
+test_exe_without_notices_fails (__main__.RecipientNoticeTests) ... ok
+test_foreign_bundle_entry_fails (__main__.RecipientNoticeTests) ... ok
+test_graph_only_package_that_ships_files_fails (__main__.RecipientNoticeTests) ... ok
+test_graph_only_without_reason_fails (__main__.RecipientNoticeTests) ... ok
+test_index_must_name_every_notice_and_version (__main__.RecipientNoticeTests) ... ok
+test_listed_graph_only_package_passes_and_unlisted_fails (__main__.RecipientNoticeTests) ... ok
+test_missing_single_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_not_a_bundle_fails (__main__.RecipientNoticeTests) ... ok
+test_package_version_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_restored_package_hash_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_restored_runtime_pack_notice_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_runtime_patch_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_stale_inventory_component_fails (__main__.RecipientNoticeTests) ... ok
+test_truncated_notice_in_exe_fails (__main__.RecipientNoticeTests) ... ok
+test_unexpected_legal_entry_fails (__main__.RecipientNoticeTests) ... ok
+test_unresolved_new_dependency_fails (__main__.RecipientNoticeTests) ... ok
+test_valid_exe_passes_and_counts_entries (__main__.RecipientNoticeTests) ... ok
+test_valid_zip_is_deterministic_and_verifies (__main__.RecipientNoticeTests) ... ok
+test_zip_exe_alone_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_extra_member_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_missing_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_truncated_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_with_exe_lacking_notices_fails (__main__.RecipientNoticeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.252s
+
+OK
+RECIPIENT NOTICE CHECK FAILED:
+  - shipped runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 but inventory covers runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - shipped runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 but inventory covers runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - stale inventory: runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - stale inventory: runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - runtimeconfig includes Microsoft.NETCore.App 8.0.31; inventory runtime pack version 8.0.24
+  - runtimeconfig includes Microsoft.WindowsDesktop.App 8.0.31; inventory runtime pack version 8.0.24
+  - EXE entry Microsoft.CSharp.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.VisualBasic.Core.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.Win32.Primitives.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.Win32.Registry.dll is not attributable to the inventory graph
+  - EXE entry System.AppContext.dll is not attributable to the inventory graph
+  - EXE entry System.Buffers.dll is not attributable to the inventory graph
+  - EXE entry System.Collections.Concurrent.dll is not attributable to the inventory graph
+  - EXE entry System.Collections.Immutable.dll is not attributable to the inventory graph
+  - EXE entry System.Collections.NonGeneric.dll is not attributable to the inventory graph
+  - EXE entry System.Collections.Specialized.dll is not attributable to the inventory graph
+  - EXE entry System.Collections.dll is not attributable to the inventory graph
+  - EXE entry System.ComponentModel.Annotations.dll is not attributable to the inventory graph
+  - EXE entry System.ComponentModel.DataAnnotations.dll is not attributable to the inventory graph
+  - EXE entry System.ComponentModel.EventBasedAsync.dll is not attributable to the inventory graph
+  - EXE entry System.ComponentModel.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.ComponentModel.TypeConverter.dll is not attributable to the inventory graph
+  - EXE entry System.ComponentModel.dll is not attributable to the inventory graph
+  - EXE entry System.Configuration.dll is not attributable to the inventory graph
+  - EXE entry System.Console.dll is not attributable to the inventory graph
+  - EXE entry System.Core.dll is not attributable to the inventory graph
+  - EXE entry System.Data.Common.dll is not attributable to the inventory graph
+  - EXE entry System.Data.DataSetExtensions.dll is not attributable to the inventory graph
+  - EXE entry System.Data.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.Contracts.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.Debug.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.DiagnosticSource.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.FileVersionInfo.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.Process.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.StackTrace.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.TextWriterTraceListener.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.Tools.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.TraceSource.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.Tracing.dll is not attributable to the inventory graph
+  - EXE entry System.Drawing.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.Dynamic.Runtime.dll is not attributable to the inventory graph
+  - EXE entry System.Formats.Asn1.dll is not attributable to the inventory graph
+  - EXE entry System.Formats.Tar.dll is not attributable to the inventory graph
+  - EXE entry System.Globalization.Calendars.dll is not attributable to the inventory graph
+  - EXE entry System.Globalization.Extensions.dll is not attributable to the inventory graph
+  - EXE entry System.Globalization.dll is not attributable to the inventory graph
+  - EXE entry System.IO.Compression.Brotli.dll is not attributable to the inventory graph
+  - EXE entry System.IO.Compression.FileSystem.dll is not attributable to the inventory graph
+  - EXE entry System.IO.Compression.ZipFile.dll is not attributable to the inventory graph
+  - EXE entry System.IO.Compression.dll is not attributable to the inventory graph
+  - EXE entry System.IO.FileSystem.AccessControl.dll is not attributable to the inventory graph
+  - EXE entry System.IO.FileSystem.DriveInfo.dll is not attributable to the inventory graph
+  - EXE entry System.IO.FileSystem.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.IO.FileSystem.Watcher.dll is not attributable to the inventory graph
+  - EXE entry System.IO.FileSystem.dll is not attributable to the inventory graph
+  - EXE entry System.IO.IsolatedStorage.dll is not attributable to the inventory graph
+  - EXE entry System.IO.MemoryMappedFiles.dll is not attributable to the inventory graph
+  - EXE entry System.IO.Pipes.AccessControl.dll is not attributable to the inventory graph
+  - EXE entry System.IO.Pipes.dll is not attributable to the inventory graph
+  - EXE entry System.IO.UnmanagedMemoryStream.dll is not attributable to the inventory graph
+  - EXE entry System.IO.dll is not attributable to the inventory graph
+  - EXE entry System.Linq.Expressions.dll is not attributable to the inventory graph
+  - EXE entry System.Linq.Parallel.dll is not attributable to the inventory graph
+  - EXE entry System.Linq.Queryable.dll is not attributable to the inventory graph
+  - EXE entry System.Linq.dll is not attributable to the inventory graph
+  - EXE entry System.Memory.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Http.Json.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Http.dll is not attributable to the inventory graph
+  - EXE entry System.Net.HttpListener.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Mail.dll is not attributable to the inventory graph
+  - EXE entry System.Net.NameResolution.dll is not attributable to the inventory graph
+  - EXE entry System.Net.NetworkInformation.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Ping.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Quic.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Requests.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Security.dll is not attributable to the inventory graph
+  - EXE entry System.Net.ServicePoint.dll is not attributable to the inventory graph
+  - EXE entry System.Net.Sockets.dll is not attributable to the inventory graph
+  - EXE entry System.Net.WebClient.dll is not attributable to the inventory graph
+  - EXE entry System.Net.WebHeaderCollection.dll is not attributable to the inventory graph
+  - EXE entry System.Net.WebProxy.dll is not attributable to the inventory graph
+  - EXE entry System.Net.WebSockets.Client.dll is not attributable to the inventory graph
+  - EXE entry System.Net.WebSockets.dll is not attributable to the inventory graph
+  - EXE entry System.Net.dll is not attributable to the inventory graph
+  - EXE entry System.Numerics.Vectors.dll is not attributable to the inventory graph
+  - EXE entry System.Numerics.dll is not attributable to the inventory graph
+  - EXE entry System.ObjectModel.dll is not attributable to the inventory graph
+  - EXE entry System.Private.CoreLib.dll is not attributable to the inventory graph
+  - EXE entry System.Private.DataContractSerialization.dll is not attributable to the inventory graph
+  - EXE entry System.Private.Uri.dll is not attributable to the inventory graph
+  - EXE entry System.Private.Xml.Linq.dll is not attributable to the inventory graph
+  - EXE entry System.Private.Xml.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.DispatchProxy.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.Emit.ILGeneration.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.Emit.Lightweight.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.Emit.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.Extensions.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.Metadata.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.TypeExtensions.dll is not attributable to the inventory graph
+  - EXE entry System.Reflection.dll is not attributable to the inventory graph
+  - EXE entry System.Resources.Reader.dll is not attributable to the inventory graph
+  - EXE entry System.Resources.ResourceManager.dll is not attributable to the inventory graph
+  - EXE entry System.Resources.Writer.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.CompilerServices.Unsafe.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.CompilerServices.VisualC.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Extensions.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Handles.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.InteropServices.JavaScript.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.InteropServices.RuntimeInformation.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.InteropServices.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Intrinsics.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Loader.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Numerics.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Serialization.Formatters.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Serialization.Json.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Serialization.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Serialization.Xml.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.Serialization.dll is not attributable to the inventory graph
+  - EXE entry System.Runtime.dll is not attributable to the inventory graph
+  - EXE entry System.Security.AccessControl.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Claims.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.Algorithms.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.Cng.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.Csp.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.Encoding.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.OpenSsl.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.X509Certificates.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Principal.Windows.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Principal.dll is not attributable to the inventory graph
+  - EXE entry System.Security.SecureString.dll is not attributable to the inventory graph
+  - EXE entry System.Security.dll is not attributable to the inventory graph
+  - EXE entry System.ServiceModel.Web.dll is not attributable to the inventory graph
+  - EXE entry System.ServiceProcess.dll is not attributable to the inventory graph
+  - EXE entry System.Text.Encoding.CodePages.dll is not attributable to the inventory graph
+  - EXE entry System.Text.Encoding.Extensions.dll is not attributable to the inventory graph
+  - EXE entry System.Text.Encoding.dll is not attributable to the inventory graph
+  - EXE entry System.Text.Encodings.Web.dll is not attributable to the inventory graph
+  - EXE entry System.Text.Json.dll is not attributable to the inventory graph
+  - EXE entry System.Text.RegularExpressions.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Channels.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Overlapped.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Tasks.Dataflow.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Tasks.Extensions.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Tasks.Parallel.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Tasks.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Thread.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.ThreadPool.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.Timer.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.dll is not attributable to the inventory graph
+  - EXE entry System.Transactions.Local.dll is not attributable to the inventory graph
+  - EXE entry System.Transactions.dll is not attributable to the inventory graph
+  - EXE entry System.ValueTuple.dll is not attributable to the inventory graph
+  - EXE entry System.Web.HttpUtility.dll is not attributable to the inventory graph
+  - EXE entry System.Web.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.Linq.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.ReaderWriter.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.Serialization.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.XDocument.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.XPath.XDocument.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.XPath.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.XmlDocument.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.XmlSerializer.dll is not attributable to the inventory graph
+  - EXE entry System.Xml.dll is not attributable to the inventory graph
+  - EXE entry System.dll is not attributable to the inventory graph
+  - EXE entry mscorlib.dll is not attributable to the inventory graph
+  - EXE entry netstandard.dll is not attributable to the inventory graph
+  - EXE entry Accessibility.dll is not attributable to the inventory graph
+  - EXE entry DirectWriteForwarder.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.VisualBasic.Forms.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.VisualBasic.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.Win32.Registry.AccessControl.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.Win32.SystemEvents.dll is not attributable to the inventory graph
+  - EXE entry PresentationCore.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework-SystemCore.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework-SystemData.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework-SystemDrawing.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework-SystemXml.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework-SystemXmlLinq.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework.Aero.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework.Aero2.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework.AeroLite.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework.Classic.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework.Luna.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework.Royale.dll is not attributable to the inventory graph
+  - EXE entry PresentationFramework.dll is not attributable to the inventory graph
+  - EXE entry PresentationUI.dll is not attributable to the inventory graph
+  - EXE entry ReachFramework.dll is not attributable to the inventory graph
+  - EXE entry System.CodeDom.dll is not attributable to the inventory graph
+  - EXE entry System.Configuration.ConfigurationManager.dll is not attributable to the inventory graph
+  - EXE entry System.Design.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.EventLog.Messages.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.EventLog.dll is not attributable to the inventory graph
+  - EXE entry System.Diagnostics.PerformanceCounter.dll is not attributable to the inventory graph
+  - EXE entry System.DirectoryServices.dll is not attributable to the inventory graph
+  - EXE entry System.Drawing.Common.dll is not attributable to the inventory graph
+  - EXE entry System.Drawing.Design.dll is not attributable to the inventory graph
+  - EXE entry System.Drawing.dll is not attributable to the inventory graph
+  - EXE entry System.IO.Packaging.dll is not attributable to the inventory graph
+  - EXE entry System.Printing.dll is not attributable to the inventory graph
+  - EXE entry System.Resources.Extensions.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.Pkcs.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.ProtectedData.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Cryptography.Xml.dll is not attributable to the inventory graph
+  - EXE entry System.Security.Permissions.dll is not attributable to the inventory graph
+  - EXE entry System.Threading.AccessControl.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Controls.Ribbon.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Extensions.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Forms.Design.Editors.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Forms.Design.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Forms.Primitives.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Forms.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Input.Manipulations.dll is not attributable to the inventory graph
+  - EXE entry System.Windows.Presentation.dll is not attributable to the inventory graph
+  - EXE entry System.Xaml.dll is not attributable to the inventory graph
+  - EXE entry UIAutomationClient.dll is not attributable to the inventory graph
+  - EXE entry UIAutomationClientSideProviders.dll is not attributable to the inventory graph
+  - EXE entry UIAutomationProvider.dll is not attributable to the inventory graph
+  - EXE entry UIAutomationTypes.dll is not attributable to the inventory graph
+  - EXE entry WindowsBase.dll is not attributable to the inventory graph
+  - EXE entry WindowsFormsIntegration.dll is not attributable to the inventory graph
+  - EXE entry D3DCompiler_47_cor3.dll is not attributable to the inventory graph
+  - EXE entry PenImc_cor3.dll is not attributable to the inventory graph
+  - EXE entry PresentationNative_cor3.dll is not attributable to the inventory graph
+  - EXE entry vcruntime140_cor3.dll is not attributable to the inventory graph
+  - EXE entry wpfgfx_cor3.dll is not attributable to the inventory graph
+  - EXE entry cs/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry cs/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry de/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry de/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry de/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry de/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry de/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry de/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry de/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry de/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry de/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry de/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry de/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry de/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry de/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry de/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry de/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry de/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry de/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry es/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry es/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry es/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry es/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry es/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry es/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry es/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry es/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry es/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry es/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry es/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry es/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry es/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry es/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry es/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry es/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry es/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry fr/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry it/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry it/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry it/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry it/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry it/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry it/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry it/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry it/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry it/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry it/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry it/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry it/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry it/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry it/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry it/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry it/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry it/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry ja/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry ko/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry pl/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry pt-BR/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry ru/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry tr/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hans/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/Microsoft.VisualBasic.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/PresentationCore.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/PresentationFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/PresentationUI.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/ReachFramework.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/System.Windows.Controls.Ribbon.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/System.Windows.Forms.Design.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/System.Windows.Forms.Primitives.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/System.Windows.Forms.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/System.Windows.Input.Manipulations.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/System.Xaml.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/UIAutomationClient.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/UIAutomationClientSideProviders.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/UIAutomationProvider.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/UIAutomationTypes.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/WindowsBase.resources.dll is not attributable to the inventory graph
+  - EXE entry zh-Hant/WindowsFormsIntegration.resources.dll is not attributable to the inventory graph
+  - restored package not found for runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24: /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.runtime.win-x64/8.0.24/microsoft.netcore.app.runtime.win-x64.8.0.24.nupkg
+  - runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24: pack licence text LICENSE.TXT missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.runtime.win-x64/8.0.24
+  - runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24: pack licence text THIRD-PARTY-NOTICES.TXT missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.runtime.win-x64/8.0.24
+  - restored package not found for runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24: /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.windowsdesktop.app.runtime.win-x64/8.0.24/microsoft.windowsdesktop.app.runtime.win-x64.8.0.24.nupkg
+  - runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24: pack licence text LICENSE missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.windowsdesktop.app.runtime.win-x64/8.0.24
+  - restored package not found for Microsoft.NETCore.App.Host.win-x64/8.0.24: /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.host.win-x64/8.0.24/microsoft.netcore.app.host.win-x64.8.0.24.nupkg
+  - Microsoft.NETCore.App.Host.win-x64/8.0.24: pack licence text LICENSE.TXT missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.host.win-x64/8.0.24
+  - Microsoft.NETCore.App.Host.win-x64/8.0.24: pack licence text THIRD-PARTY-NOTICES.TXT missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.host.win-x64/8.0.24
+  - EXE single-file host is not build '8,0,2426,7010 @Commit: b3b35ce80e9eb94f72c4aa36a171a5e1cde72ace' of Microsoft.NETCore.App.Host.win-x64/8.0.24
+[31;1mException: [0m/Users/willjose/.hermes/cache/scratch/T19-r1/harness/build.ps1:18[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  18 | [0m … DE -ne 0) { [36;1mthrow "recipient notice packaging failed ($LASTEXITCODE)"[0m …[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mrecipient notice packaging failed (1)[0m
