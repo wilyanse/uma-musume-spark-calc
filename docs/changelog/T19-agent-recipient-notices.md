@@ -291,15 +291,17 @@ Inherited copies of reviewer probes and the broken SDK401 pwsh result are named
   cache exclusion. Existing task-owned csproj adds only a single-file SDK guard.
   Release setup/action inputs change only SDK resolution; action SHAs/tag regex,
   `$env:` trust boundaries, persist-credentials:false, permissions and audit stay.
-- Current runtime/host licences re-sourced from exact8.0.31 nupkgs, hash-pinned and
-  byte-compared to restored packages. Runtime/host nuspec commit
-  `de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4`; WindowsDesktop nuspec commit
-  `337963009d48a3016b50172b451b4e80f78791a7`. Its Version.Details selects WPF
-  `27c84022a86fcaa600315f4686cde97874615a24`, WinForms
+- Runtime/host licence bytes were taken from exact8.0.31 nupkgs and hash-pinned.
+  **SUPERSEDED ERRONEOUS SOURCE CLAIM (B4):** round1 recorded runtime/host nuspec
+  commit `de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4` and wrongly asserted it differed
+  from the embedded PE commit. The retained r1 provenance log repeats that metadata;
+  it is not valid evidence of an independently observed nuspec commit. Round2 below
+  corrects both current references and evidence: archive nuspec and PE identify the
+  SAME `1219a42122cf5190c7f512850557e38c422430dc`. No licence bytes were changed.
+  WindowsDesktop nuspec commit `337963009d48a3016b50172b451b4e80f78791a7` is unchanged.
+  Its Version.Details selects WPF `27c84022a86fcaa600315f4686cde97874615a24`, WinForms
   `f4ddf3475a1269429508fe203cdfc4e21c3599d1`; freshly fetched TPNs record those URLs.
-  The actual embedded host/runtime PE ProductVersion is
-  `8,0,3126,42015 @Commit: 1219a42122cf5190c7f512850557e38c422430dc`, distinct from
-  the nuspec repository commit. Both are recorded honestly, not equated.
+  Host ProductVersion remains `8,0,3126,42015 @Commit: 1219a42122cf5190c7f512850557e38c422430dc`.
 - New legal tools: `verification_safety.py`, `windows_licensing.py`,
   `render_sdk_license.py`, `test_review_r1.py`, `real_artifact_controls.py`;
   updated existing verifier/tests. All build/test tools are stdlib-only and not
@@ -449,3 +451,189 @@ excluding only upstream verbatim texts. No blanket authored-whitespace waiver.
 - No tag/push/deploy/release, global SDK config repair, capture/image/SQLite/data
   runtime-code change or master/golden/fixture regeneration was performed.
 - T16b S8/N6 codec limits remain separate. No coordinator OPEN_QUESTIONS/status edit.
+
+## Review round 2
+
+### Provenance / interruption reconciliation
+
+This is FINAL worker fix2 of max2, SAME session `session20261011_103329_5bce0b`,
+explicitly authorized `openai-codex/gpt-6.1-sol`, reasoning medium. Original Opus
+implementation/r1 review and Sol fix1 history remain attributed and preserved.
+Authoritative coordinator review2 at candidate `863b22dce4f5737cdcafa42fc0bc45eb47817bb2`
+was CHANGES_REQUESTED. This report is a worker disposition, not independent approval.
+
+The first gate shell was interrupted (exit130 per coordinator); no provider quota
+error was evidenced. It completed21 steps with recorded exit0, then left the
+Core.Tests audit log WITHOUT an exit status. On resumption, `ps` showed no T19
+subprocess alive and the SHA256 manifest showed no exported implementation drift.
+Completed steps were not duplicated. The incomplete audit log remains as
+`assets/T19/r2/sol-interrupted-audit.log`; bounded resumed commands recorded all9
+remaining statuses, each exit0. The original interrupted summary has NO all-pass
+claim; the completed aggregate below is independently counted from30 actual logs.
+The trailing printf in the interrupted launching shell was not used as gate status.
+
+### Findings / dispositions
+
+- **B4 — corrected; independent review pending.** Both newly downloaded NuGet
+  archives match the pre-existing exact SHA256 pins, and the nuspec INSIDE EACH
+  archive names `1219a42122cf5190c7f512850557e38c422430dc`. This is the SAME commit
+  as the embedded PE identity. The prior `de078f3...` claim and distinct-commit
+  explanation were wrong; echoed inventory metadata did not substantiate an
+  observed nuspec value. There is no justified alternative commit distinction.
+  Current runtime/host source URLs, licence provenance fields and structured
+  repository metadata now use the observed value. No package pin, archive hash,
+  PE ProductVersion, copyright or licence bytes changed. WindowsDesktop source
+  remains `337963009d48a3016b50172b451b4e80f78791a7`, also archive-verified.
+  The r1 paragraph is explicitly marked superseded; its original raw log is
+  byte-preserved with an adjacent `sol-provenance-fidelity.superseded.md` warning.
+  No invented corrected success output replaces historical evidence.
+- **B4 executable prevention:** `package_provenance.py` reads bounded nuspec XML
+  inside the exact SHA256-checked runtime, host AND WindowsDesktop nupkgs. Required
+  repositories cannot be omitted. It compares the actual git URL/commit with
+  inventory and checks recorded source consistency. These checks run in every
+  final EXE/ZIP/package verification, not just an optional provenance command.
+  `package_provenance_controls.py` verifies3 actual archives then requires9
+  wrong-commit/source/missing-repository negatives to fail for the right reasons.
+  The synthetic tests also cover changed archive hash, wrong URL, absent/duplicate
+  archive repository and missing required inventory metadata. No network is
+  required for these regressions. Fresh network observations are retained separately.
+- **S6 — fixed; independent review pending.** `validate_rc` rejects duplicate names
+  and returns the unique framework map. The EXE verifier compares it for EXACT
+  equality with the framework packs actually in deps/inventory, excluding Windows
+  SDK projection (it is not a framework Runtime.win-x64 pack). Missing, extra,
+  wrong-version and duplicate framework inputs fail. No previous assertion was
+  weakened; the existing runtime-drift test retains graph rejection and now names
+  the stronger set diagnostic. The real-artifact controls mutate ONLY valid JSON
+  runtimeconfig bytes, padded to original length, and assert all bytes before/after
+  that payload unchanged. Missing Desktop and duplicate Core were accepted by the
+  prior verifier (honest retained RED); both now fail with named diagnostics.
+- **N4 — fixed; independent review pending.** Ordinary CI setup-dotnet now reads
+  `agent/global.json` (exact SDK10.0.401, rollForward disabled) AND installs8.0.x
+  separately to provide net8 test runtime. The legacy SDK9/latestMajor comment
+  and installer assertion are removed. Structural regressions require the global
+  JSON path and runtime input; removing SDK input, pointing it at another file,
+  or omitting runtime input all fail with installer-specific diagnostics. These
+  are honest structural tests, NOT executions of hosted setup-dotnet. Release
+  workflow/global.json/action pins remain unchanged in this round.
+
+### Files / cross-task edits / boundaries
+
+- `agent/legal/inventory.json`: current provenance corrections/structured repositories.
+- New `agent/legal/tools/package_provenance.py`, `package_provenance_controls.py`,
+  `test_review_r2.py`: stdlib build/test tools, no runtime dependencies.
+- `recipient_notices.py`, `verification_safety.py`, `real_artifact_controls.py`,
+  `test_recipient_notices.py`: enforced archive provenance and exact framework sets.
+- `.github/tests/run.sh`, `workflow_structure.rb`: new13-test suite plus ordinary-CI
+  mutations and assertions; existing real pwsh harness retained unchanged.
+- **Authorized cross-task:** `.github/workflows/ci.yml` setup-dotnet inputs/comment
+  ONLY, under N4 scope extension. No other workflow changes, service or upgrade.
+- Task changelog, r1 superseded-warning sidecar and `assets/T19/r2/*` actual evidence.
+- Previous B1–B3/S1–S5/N1–N3 safeguards stay: exact SDK/runtime, native legal maps,
+  byte attributes, actual Git clones, PE host proof, bounded diagnostics, accessible
+  SDK rendering, executed pwsh controls, legal-byte-aware diff policy and honest
+  extraction limits. All19 notice files and archive/version/hash pins were compared
+  against previous HEAD and are unchanged. Original r1 raw evidence also byte-matches.
+
+### Verification — exact commands / actual output
+
+Fresh export with NO bin/obj: `/Users/willjose/.hermes/cache/scratch/T19-fix2/src`.
+Toolchain: DOTNET_ROOT=`/Users/willjose/.hermes/cache/scratch/T19-r1/sdk401`,
+DOTNET_BIN=$DOTNET_ROOT/dotnet, NUGET_PACKAGES=`.../T19-r1/nuget401`;
+DOTNET_CLI_HOME/TMPDIR under `.../T19-fix2`, telemetry disabled,
+PYTHONDONTWRITEBYTECODE=1, DOTNET_GENERATE_ASPNET_CERTIFICATE=false.
+Dotnet commands enter `agent/`. Shared test8.0.31 is separately available in the
+isolated root; SDK download originally contained10.0.12, not8.0.31.
+
+Exact runnable scripts and full per-command output/status:
+`assets/T19/r2/sol-gates.sh.txt`, `sol-resume-gates.py.txt`,
+`sol-gates-completed.log`, `sol-interrupted-summary.log`, `sol-resume-summary.log`.
+Initial `bash .../T19-fix2/gates.sh` was interrupted; resumed
+`python3 .../T19-fix2/resume_gates.py` exited0, `RESUME_DONE failures=0`.
+Programmatic aggregation verified exactly30 completed step logs, all exit0; the
+incomplete historical audit log is excluded, not relabelled as success.
+
+```
+$ python3 /Users/willjose/.hermes/cache/scratch/T19-fix2/fetch_provenance.py
+GET exact runtime/host8.0.31 NuGet archives: HTTP200
+runtime sha2561504ead20c9a25e4c47ece56b6cd407697ea0cde0148e07e71bebc1e2d841c2f
+host sha256d8acca41e27c80fdefa6ccd6dcbd2b76a7cda5900432755351415a39c5571a1c
+BOTH archive nuspec commits:1219a42122cf5190c7f512850557e38c422430dc
+runtime LICENSE/THIRD-PARTY-NOTICES at that commit: HTTP200
+archive/delivered exact match True; upstream CRLF/LF normalized match True
+exit0; full script/output: sol-fetch-provenance.py.txt / sol-fetch-provenance.log
+$ bash .github/scripts/agent-gates.sh runtime
+10.0.401; shared Microsoft.NETCore.App8.0.31 and10.0.12; exit0
+$ bash .github/scripts/agent-gates.sh core-tests
+Passed420, Failed0, Skipped0, Total420; exit0
+$ (cd agent; $DOTNET_BIN test tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release)
+Passed230, Failed0, Skipped0, Total230; exit0
+$ bash .github/scripts/agent-gates.sh windows-build
+$ (cd agent; $DOTNET_BIN build tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release -p:EnableWindowsTargeting=true)
+$ (cd agent; $DOTNET_BIN build Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true)
+Each build:0 Warning(s),0 Error(s), exit0
+$ (cd agent; $DOTNET_BIN publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableWindowsTargeting=true -o ../publish)
+Uma.Agent.Windows -> scratch/T19-fix2/src/publish/; exit0
+$ python3 -X dev -W error agent/legal/tools/test_recipient_notices.py
+Ran31 tests; OK; exit0
+$ python3 -X dev -W error agent/legal/tools/test_review_r1.py
+Ran21 tests; OK (includes real Git autocrlf positive/negative); exit0
+$ python3 -X dev -W error agent/legal/tools/test_review_r2.py
+Ran13 tests; OK; exit0
+$ python3 -X dev -W error agent/legal/tools/package_provenance.py --packages $NUGET_PACKAGES
+archive provenance:3 required archives verified; exit0
+$ python3 -X dev -W error agent/legal/tools/package_provenance_controls.py --packages $NUGET_PACKAGES
+actual archive controls:3 positives,9 negatives; all expected; exit0
+$ python3 agent/legal/tools/recipient_notices.py check-legal
+legal inventory ok:12 components,19 notice files; exit0
+$ python3 agent/legal/tools/recipient_notices.py verify-exe publish/Uma.Agent.Windows.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+recipient notices ok:494 bundle entries,455 byte-matched,12 components,20 legal files embedded; exit0
+$ python3 agent/legal/tools/recipient_notices.py package publish/Uma.Agent.Windows.exe release/uma-agent-agent-v0.0.0-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+release ZIP ok:EXE+20 LICENSES files;494 entries,455 byte-matched; exit0
+$ python3 agent/legal/tools/recipient_notices.py verify-zip release/uma-agent-agent-v0.0.0-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+release ZIP ok:EXE+20 LICENSES files;494 entries,455 byte-matched; exit0
+$ python3 agent/tests/Uma.Agent.Windows.Tests/Tools/bundle_probe.py publish/Uma.Agent.Windows.exe <fresh export>
+matches15 of15; exit0
+$ python3 agent/tests/Uma.Agent.Windows.Tests/Tools/sqlite_native_probe.py publish/Uma.Agent.Windows.exe <scratch/T18/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg>
+Exact native package asset matches published bundle; SQLite3.53.3; Windows execution remains H4; exit0
+$ (cd agent; $DOTNET_BIN list <each of5 project paths in exact gate script> package --vulnerable --include-transitive)
+All5: no vulnerable packages given current sources; each exit0
+$ (cd agent; $DOTNET_BIN msbuild src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -getProperty:NuGetAudit -getProperty:NuGetAuditMode -getProperty:NuGetAuditLevel -getProperty:TreatWarningsAsErrors -p:EnableWindowsTargeting=true)
+NuGetAudit=true; Mode=all; Level=low; TreatWarningsAsErrors=true; exit0
+$ python3 -X dev -W error agent/legal/tools/real_artifact_controls.py publish/Uma.Agent.Windows.exe --packages $NUGET_PACKAGES
+valid exit0;16 negatives each exit1 with expected diagnostic, no traceback
+missing Desktop:includedFrameworks differs from actual framework runtime packs
+duplicate Core:duplicate includedFramework name
+real artifact controls:0 unexpected result(s); driver exit0
+$ python3 .github/tests/workflow_pwsh_controls.py --pwsh <T19-r1/pwsh/pwsh> --exe <fresh EXE> --assets <fresh assets> --baseline-exe <T19/base-publish EXE> --logs <T19-fix2/pwsh-logs>
+YAML-extracted pwsh controls:7 passed; dotnet/gh mocked, Python verifier real; no publication; exit0
+$ TOOLS_DIR=<scratch/IR1/tools> PWSH=<T19-r1/pwsh/pwsh> T19_RECIPIENT_EXE=<fresh EXE> T19_RECIPIENT_ASSETS=<fresh assets> bash .github/tests/run.sh
+regression checks:76 passed,0 failed; actual pwsh enabled; exit0
+$ node .github/scripts/check-config.mjs .
+config check ok(structure):MASTER_VERSION=global-20260930; exit0
+```
+
+RED proof remains `sol-red-semantic.log`: old candidate accepted both valid-JSON
+semantic mutations (exit0), so the new control driver exited1 with2 unexpected
+results. `sol-red-provenance.log` records missing required structured metadata
+before correction; actual old-token versus observed-archive rejection is in the
+completed archive-controls log. Neither RED is claimed to be a passing gate.
+
+Final artifacts, this publish only (not reproducible-build assertions):
+- EXE `/Users/willjose/.hermes/cache/scratch/T19-fix2/src/publish/Uma.Agent.Windows.exe`,
+  191769388 bytes, SHA256 `a21a1489e015a804a6d9daece36f22f8682de65555ed502814379ecec7365a1b`.
+- ZIP `/Users/willjose/.hermes/cache/scratch/T19-fix2/src/release/uma-agent-agent-v0.0.0-win-x64.zip`,
+  73774385 bytes, SHA256 `77514ebb89194de45218b4bc1a4141f0db3e8a627dbd2b648c088a45c26b5ad0`.
+
+### Remaining gaps / no self-approval
+
+Parent final-committed-byte verification and same independent reviewer remain
+required; no third worker round is implied. H4/Windows startup, actual legal
+extraction, native WPF/D3D/SQLite loading/use, WGC/OCR/DPAPI/UI remain unverified.
+Microsoft Library/SDK distributor/end-user agreements and other publication
+obligations remain UNRESOLVED HUMAN PUBLICATION GATE: delivering files does not
+accept or fulfill them. No hosted GitHub runner/setup-dotnet/download/upload-artifact
+or real gh publication executed. No credential/global-config work, external
+publication, target/framework/dependency change, audit suppression, application
+behavior edit, fixture/master/golden refresh, main/sibling edit or history rewrite.
+T16b S8/N6 stay separate. Byte-aware full-base-range diff policy remains as round1;
+final committed checks are recorded in `assets/T19/r2/sol-final-verification.log`.

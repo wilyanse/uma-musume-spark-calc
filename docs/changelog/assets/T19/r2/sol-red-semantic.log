@@ -1,0 +1,51 @@
+$ python3 /Users/willjose/Projects/personal/uma-musume-spark-calc.worktrees/T19-agent-recipient-notices/agent/legal/tools/real_artifact_controls.py /Users/willjose/.hermes/cache/scratch/T19/r1/fresh-final/publish/Uma.Agent.Windows.exe --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401 --verifier /Users/willjose/.hermes/cache/scratch/T19-fix2/red-source/agent/legal/tools/recipient_notices.py
+valid: exit=0 expected=0 PASS
+recipient notices ok: 494 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 20 legal files embedded
+host-code-byte: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host stable PE section .text differs from restored singlefilehost.exe
+host-version-copy-0: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host PE resource (10, 'MINIDUMP_EMBEDDED_AUXILIARY_PROVIDER', 0) differs from restored singlefilehost.exe
+host-version-copy-1: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host PE resource (10, 'MINIDUMP_EMBEDDED_AUXILIARY_PROVIDER', 0) differs from restored singlefilehost.exe
+header-near-eof: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - bundle header offset out of range
+truncated-real-exe: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - bundle header offset out of range
+malformed.deps.json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - deps.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+malformed.runtimeconfig.json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - runtimeconfig.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+runtimeconfig-missing-desktop: exit=0 expected=1 FAIL
+recipient notices ok: 494 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 20 legal files embedded
+runtimeconfig-duplicate-core: exit=0 expected=1 FAIL
+recipient notices ok: 494 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 20 legal files embedded
+missing-deps: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE must contain exactly one deps.json, found 0
+tamper-legal/INDEX.txt: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE notice legal/INDEX.txt is truncated or changed (sha256 ff7fd0e93bfd66b1e4739feb3a03fad4b48d788180c368ceea908d4888d72ddf, expected 3ff4b9cc4f78bae65c6d35544c09963388f170e45f8502c81e2cea38ff6566d2)
+tamper-e_sqlite3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry e_sqlite3.dll differs from the restored package file(s) /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/sqlitepclraw.lib.e_sqlite3/2.1.12/runtimes/win-x64/native/e_sqlite3.dll
+tamper-D3DCompiler_47_cor3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry D3DCompiler_47_cor3.dll differs from the restored package file(s) /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.windowsdesktop.app.runtime.win-x64/8.0.31/runtimes/win-x64/native/D3DCompiler_47_cor3.dll
+component-missing-deps: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory component None lacks/invalid deps
+inventory-wrong-type: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory lacks/invalid components
+inventory-malformed-json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+real artifact controls: 2 unexpected result(s)
+exit=1

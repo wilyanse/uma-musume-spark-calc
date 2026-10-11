@@ -1,0 +1,52 @@
+"""Resume only incomplete T19 fix2 gates, preserving interrupted evidence and real statuses."""
+from pathlib import Path
+import os
+import subprocess
+import sys
+
+S = Path(__file__).parent
+W = S / 'src'
+D = '/Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet'
+P = '/Users/willjose/.hermes/cache/scratch/T19-r1/nuget401'
+env = dict(os.environ, DOTNET_ROOT=str(Path(D).parent), DOTNET_BIN=D, NUGET_PACKAGES=P,
+           DOTNET_CLI_HOME=str(S / 'dotnethome'), DOTNET_CLI_TELEMETRY_OPTOUT='1',
+           PYTHONDONTWRITEBYTECODE='1', DOTNET_GENERATE_ASPNET_CERTIFICATE='false', TMPDIR=str(S / 'tmp'))
+commands = []
+for project in ['tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj',
+                'tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj',
+                'tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj']:
+    commands.append(('17-audit-' + Path(project).stem, [D, 'list', project, 'package', '--vulnerable', '--include-transitive'], W / 'agent', 240))
+commands += [
+    ('18-audit-props', [D, 'msbuild', 'src/Uma.Agent.Windows/Uma.Agent.Windows.csproj', '-getProperty:NuGetAudit', '-getProperty:NuGetAuditMode', '-getProperty:NuGetAuditLevel', '-getProperty:TreatWarningsAsErrors', '-p:EnableWindowsTargeting=true'], W / 'agent', 60),
+    ('19-shipped-graph', ['python3', 'agent/legal/tools/recipient_notices.py', 'report', 'publish/Uma.Agent.Windows.exe'], W, 60),
+    ('20-real-controls', ['python3', '-X', 'dev', '-W', 'error', 'agent/legal/tools/real_artifact_controls.py', 'publish/Uma.Agent.Windows.exe', '--packages', P], W, 120),
+    ('21-pwsh-controls', ['python3', '.github/tests/workflow_pwsh_controls.py', '--pwsh', '/Users/willjose/.hermes/cache/scratch/T19-r1/pwsh/pwsh', '--exe', str(W / 'publish/Uma.Agent.Windows.exe'), '--assets', str(W / 'agent/src/Uma.Agent.Windows/obj/project.assets.json'), '--baseline-exe', '/Users/willjose/.hermes/cache/scratch/T19/base-publish/Uma.Agent.Windows.exe', '--logs', str(S / 'pwsh-logs')], W, 180),
+    ('22-github-regressions', ['env', 'TOOLS_DIR=/Users/willjose/.hermes/cache/scratch/IR1/tools', 'PWSH=/Users/willjose/.hermes/cache/scratch/T19-r1/pwsh/pwsh', 'T19_RECIPIENT_EXE=' + str(W / 'publish/Uma.Agent.Windows.exe'), 'T19_RECIPIENT_ASSETS=' + str(W / 'agent/src/Uma.Agent.Windows/obj/project.assets.json'), 'bash', '.github/tests/run.sh'], W, 180),
+    ('23-config', ['node', '.github/scripts/check-config.mjs', '.'], W, 60),
+]
+failures = 0
+for name, args, cwd, timeout in commands:
+    log = S / 'gates' / (name + '.log')
+    if log.exists():
+        previous = log.read_text()
+        if previous.rstrip().endswith('exit=0'):
+            print(name, 'already completed, not repeated', flush=True)
+            continue
+        saved = log.with_suffix('.interrupted.log')
+        assert not saved.exists(), 'do not overwrite prior interrupted evidence'
+        log.rename(saved)
+    with log.open('w') as output:
+        import shlex
+        output.write('$ (cd %s; %s)\n' % (shlex.quote(str(cwd)), shlex.join(args)))
+        output.flush()
+        try:
+            p = subprocess.run(args, cwd=cwd, env=env, stdout=output, stderr=subprocess.STDOUT, timeout=timeout)
+            rc = p.returncode
+        except subprocess.TimeoutExpired:
+            output.write('BOUNDED COMMAND TIMED OUT; not a passing result\n')
+            rc = 124
+        output.write('exit=%s\n' % rc)
+    print(name, 'exit=' + str(rc), flush=True)
+    failures += rc != 0
+print('RESUME_DONE failures=' + str(failures), flush=True)
+sys.exit(1 if failures else 0)
