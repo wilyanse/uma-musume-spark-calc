@@ -47,7 +47,7 @@ expect "deploy/ci/backup/release structural assertions" 0 ruby .github/tests/wor
 
 # ---------------------------------------------------------------------------------------------
 echo "== agent recipient notices (T19): verifier regressions, legal inventory, EXE-only release refused"
-expect "recipient notice verifier regressions (synthetic bundles, no network)" 0 env TMPDIR="$scratch" python3 agent/legal/tools/test_recipient_notices.py
+expect "recipient notice verifier regressions (synthetic bundles, no network)" 0 env TMPDIR="$scratch" python3 -X dev -W error agent/legal/tools/test_recipient_notices.py
 expect "agent/legal inventory self-consistent" 0 python3 agent/legal/tools/recipient_notices.py check-legal
 wfd="$scratch/wf"
 mkdir -p "$wfd"

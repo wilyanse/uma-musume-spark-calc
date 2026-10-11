@@ -28,6 +28,11 @@ RT = 'runtimepack.Fake.NETCore.App.Runtime.win-x64/8.0.24'
 PKG = 'Fake.Lib/1.2.3'
 
 
+def write_file(path, b):
+    with open(path, 'wb') as f:
+        f.write(b)
+
+
 def sha(b):
     return hashlib.sha256(b).hexdigest()
 
@@ -140,7 +145,7 @@ class Fixture:
         self.write(self.legal, 'inventory.json', json.dumps(self.inventory, indent=1).encode())
 
     def files(self):
-        inv = open(os.path.join(self.legal, 'inventory.json'), 'rb').read()
+        inv = rn.read(os.path.join(self.legal, 'inventory.json'))
         fs = [('App.dll', b'MZ app', 1, False),
               ('System.Private.CoreLib.dll', self.corelib, 1, False),
               ('fakeclr.dll', self.native, 2, False),
@@ -196,16 +201,17 @@ class RecipientNoticeTests(unittest.TestCase):
         a, b = os.path.join(self.tmp, 'a.zip'), os.path.join(self.tmp, 'b.zip')
         rn.write_zip(exe, a, self.f.legal)
         rn.write_zip(exe, b, self.f.legal)
-        self.assertEqual(open(a, 'rb').read(), open(b, 'rb').read())
+        self.assertEqual(rn.read(a), rn.read(b))
         rn.verify_zip(a, self.f.packages, self.f.legal)
-        names = zipfile.ZipFile(a).namelist()
+        with zipfile.ZipFile(a) as z:
+            names = z.namelist()
         self.assertEqual(names[0], rn.EXE_NAME)
         self.assertIn('LICENSES/INDEX.txt', names)
         self.assertIn('LICENSES/inventory.json', names)
 
     def test_cli_exit_codes(self):
         exe = os.path.join(self.tmp, 'x.exe')
-        open(exe, 'wb').write(self.f.exe())
+        write_file(exe, self.f.exe())
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(rn.main(['verify-exe', exe, '--packages', self.f.packages, '--legal', self.f.legal]), 0)
             assets = os.path.join(self.tmp, 'project.assets.json')
@@ -218,7 +224,7 @@ class RecipientNoticeTests(unittest.TestCase):
             out = os.path.join(self.tmp, 'cli.zip')
             self.assertEqual(rn.main(['package', exe, out, '--packages', self.f.packages, '--legal', self.f.legal]), 0)
             self.assertEqual(rn.main(['verify-zip', out, '--packages', self.f.packages, '--legal', self.f.legal]), 0)
-            open(exe, 'wb').write(self.f.exe(self.replace('legal/INDEX.txt', drop=True)))
+            write_file(exe, self.f.exe(self.replace('legal/INDEX.txt', drop=True)))
             os.remove(out)
             self.assertEqual(rn.main(['package', exe, out, '--packages', self.f.packages, '--legal', self.f.legal]), 1)
             self.assertFalse(os.path.exists(out), 'a failed check must not leave a release ZIP')
