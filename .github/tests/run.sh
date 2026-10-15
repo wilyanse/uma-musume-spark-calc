@@ -46,6 +46,36 @@ echo "== workflow structure (parsed YAML)"
 expect "deploy/ci/backup/release structural assertions" 0 ruby .github/tests/workflow_structure.rb
 
 # ---------------------------------------------------------------------------------------------
+echo "== agent recipient notices (T19): verifier regressions, legal inventory, EXE-only release refused"
+expect "recipient notice verifier regressions (synthetic bundles, no network)" 0 env TMPDIR="$scratch" python3 -X dev -W error agent/legal/tools/test_recipient_notices.py
+expect "T19 r1 parser/host/licence/render/Git autocrlf controls" 0 env TMPDIR="$scratch" python3 -X dev -W error agent/legal/tools/test_review_r1.py
+expect "T19 r2 archive provenance/framework-set regressions" 0 env TMPDIR="$scratch" python3 -X dev -W error agent/legal/tools/test_review_r2.py
+if [[ -n "${T19_RECIPIENT_EXE:-}" && -n "${T19_RECIPIENT_ASSETS:-}" && -n "${PWSH:-}" ]]; then
+  expect "actual YAML-extracted pwsh build/release (dotnet/gh mocked)" 0 env TMPDIR="$scratch" python3 .github/tests/workflow_pwsh_controls.py --pwsh "$PWSH" --exe "$T19_RECIPIENT_EXE" --assets "$T19_RECIPIENT_ASSETS"
+else
+  echo "  skip executed pwsh controls: set PWSH, T19_RECIPIENT_EXE and T19_RECIPIENT_ASSETS after real publish"
+fi
+expect "agent/legal inventory self-consistent" 0 python3 agent/legal/tools/recipient_notices.py check-legal
+wfd="$scratch/wf"
+mkdir -p "$wfd"
+cp .github/workflows/*.yml "$wfd/"
+sed -e 's/gh release create $env:TAG $env:ZIP/gh release create $env:TAG $env:EXE/' .github/workflows/agent-release.yml >"$wfd/agent-release.yml"
+expect "release workflow uploading the bare EXE -> structure check fails" 1 env WORKFLOW_DIR="$wfd" ruby .github/tests/workflow_structure.rb
+grep -v 'recipient_notices.py verify-zip' .github/workflows/agent-release.yml >"$wfd/agent-release.yml"
+expect "release workflow without final ZIP verification -> structure check fails" 1 env WORKFLOW_DIR="$wfd" ruby .github/tests/workflow_structure.rb
+grep -v 'recipient_notices.py package' .github/workflows/agent-release.yml >"$wfd/agent-release.yml"
+expect "release workflow without notice packaging -> structure check fails" 1 env WORKFLOW_DIR="$wfd" ruby .github/tests/workflow_structure.rb
+
+cp .github/workflows/agent-release.yml "$wfd/agent-release.yml"
+for mutation in missing-sdk wrong-sdk missing-runtime; do
+  ruby -ryaml -e 'd = YAML.load_file(ARGV[0]); s = d["jobs"]["dotnet"]["steps"].find { |x| x["uses"].to_s.start_with?("actions/setup-dotnet@") }; case ARGV[2]; when "missing-sdk"; s["with"].delete("global-json-file"); when "wrong-sdk"; s["with"]["global-json-file"] = "other/global.json"; when "missing-runtime"; s["with"].delete("dotnet-version"); end; File.write(ARGV[1], YAML.dump(d))' .github/workflows/ci.yml "$wfd/ci.yml" "$mutation"
+  expect "ordinary CI $mutation -> structural check fails" 1 env WORKFLOW_DIR="$wfd" ruby .github/tests/workflow_structure.rb
+  if grep -q 'ci: setup-dotnet must' "$scratch/last.log"; then ok "ordinary CI $mutation rejected by installer assertion"; else no "ordinary CI $mutation wrong rejection reason"; fi
+done
+cp .github/workflows/ci.yml "$wfd/ci.yml"
+
+
+# ---------------------------------------------------------------------------------------------
 echo "== deploy gate: trusted vs fork/PR events, stale SHA"
 bin="$scratch/bin"
 mkdir -p "$bin"

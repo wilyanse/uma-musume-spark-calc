@@ -1,0 +1,557 @@
+Evidence rendering trims command-line trailing whitespace only; raw per-step scratch logs remain unchanged.
+T19 final worker fix2 — Sol, session20261011_103329_5bce0b
+Interrupted run and resumed completion are distinct; all30 exact per-step statuses below were read from actual logs.
+
+===== 01-runtime.log =====
+$ bash .github/scripts/agent-gates.sh runtime
+10.0.401
+Microsoft.AspNetCore.App 10.0.12 [/Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/shared/Microsoft.AspNetCore.App]
+Microsoft.NETCore.App 8.0.31 [/Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/shared/Microsoft.NETCore.App]
+Microsoft.NETCore.App 10.0.12 [/Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/shared/Microsoft.NETCore.App]
+exit=0
+
+===== 02-core-tests.log =====
+$ bash .github/scripts/agent-gates.sh core-tests
+
+Welcome to .NET 10.0!
+---------------------
+SDK Version: 10.0.401
+
+----------------
+Write your first app: https://aka.ms/dotnet-hello-world
+Find out what's new: https://aka.ms/dotnet-whats-new
+Explore documentation: https://aka.ms/dotnet-docs
+Report issues and find source on GitHub: https://github.com/dotnet/core
+Use 'dotnet --help' to see available commands or visit: https://aka.ms/dotnet-cli
+--------------------------------------------------------------------------------------
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj (in 1.08 sec).
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 1.08 sec).
+  Uma.Agent.Core -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Core.Tests -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+Test run for /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   420, Skipped:     0, Total:   420, Duration: 16 m 38 s - Uma.Agent.Core.Tests.dll (net8.0)
+exit=0
+
+===== 03-windows-build.log =====
+$ bash .github/scripts/agent-gates.sh windows-build
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 155 ms).
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj (in 155 ms).
+  Uma.Agent.Core -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Windows -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/bin/Release/net8.0-windows10.0.19041.0/Uma.Agent.Windows.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.73
+exit=0
+
+===== 04-portable-tests.log =====
+$ bash -c cd\ agent\ \&\&\ /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet\ test\ tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj\ -c\ Release
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 129 ms).
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj (in 144 ms).
+  Uma.Agent.Core -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Windows.Portable.Tests -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Portable/bin/Release/net8.0/Uma.Agent.Windows.Portable.Tests.dll
+Test run for /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Portable/bin/Release/net8.0/Uma.Agent.Windows.Portable.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   230, Skipped:     0, Total:   230, Duration: 55 s - Uma.Agent.Windows.Portable.Tests.dll (net8.0)
+exit=0
+
+===== 05-native-build.log =====
+$ bash -c cd\ agent\ \&\&\ /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet\ build\ tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj\ -c\ Release\ -p:EnableWindowsTargeting=true
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 240 ms).
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj (in 247 ms).
+  1 of 3 projects are up-to-date for restore.
+  Uma.Agent.Core -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Windows -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/bin/Release/net8.0-windows10.0.19041.0/Uma.Agent.Windows.dll
+  Uma.Agent.Windows.Tests -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Native/bin/Release/net8.0-windows10.0.19041.0/Uma.Agent.Windows.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.57
+exit=0
+
+===== 06-solution-build.log =====
+$ bash -c cd\ agent\ \&\&\ /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet\ build\ Uma.Agent.sln\ -c\ Release\ -p:EnableWindowsTargeting=true
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj (in 158 ms).
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj (in 158 ms).
+  3 of 5 projects are up-to-date for restore.
+  Uma.Agent.Core -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Core.Tests -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Core.Tests/bin/Release/net8.0/Uma.Agent.Core.Tests.dll
+  Uma.Agent.Windows -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/bin/Release/net8.0-windows10.0.19041.0/Uma.Agent.Windows.dll
+  Uma.Agent.Windows.Portable.Tests -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Portable/bin/Release/net8.0/Uma.Agent.Windows.Portable.Tests.dll
+  Uma.Agent.Windows.Tests -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Native/bin/Release/net8.0-windows10.0.19041.0/Uma.Agent.Windows.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.96
+exit=0
+
+===== 07-publish.log =====
+$ bash -c cd\ agent\ \&\&\ /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet\ publish\ src/Uma.Agent.Windows/Uma.Agent.Windows.csproj\ -c\ Release\ -r\ win-x64\ --self-contained\ true\ -p:PublishSingleFile=true\ -p:IncludeNativeLibrariesForSelfExtract=true\ -p:EnableWindowsTargeting=true\ -o\ ../publish
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 229 ms).
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj (in 229 ms).
+  Uma.Agent.Core -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/bin/Release/net8.0/Uma.Agent.Core.dll
+  Uma.Agent.Windows -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/bin/Release/net8.0-windows10.0.19041.0/win-x64/Uma.Agent.Windows.dll
+  Uma.Agent.Windows -> /Users/willjose/.hermes/cache/scratch/T19-fix2/src/publish/
+exit=0
+
+===== 08-notice-regressions.log =====
+$ python3 -X dev -W error agent/legal/tools/test_recipient_notices.py
+test_repository_legal_inventory_is_consistent (__main__.RealInventoryTests) ... ok
+test_bundle_entry_bytes_must_match_restored_package (__main__.RecipientNoticeTests) ... ok
+test_cli_exit_codes (__main__.RecipientNoticeTests) ... ok
+test_component_without_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_compressed_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_corrupted_repository_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_deleted_repository_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_different_single_file_host_build_fails (__main__.RecipientNoticeTests) ... ok
+test_exe_without_notices_fails (__main__.RecipientNoticeTests) ... ok
+test_foreign_bundle_entry_fails (__main__.RecipientNoticeTests) ... ok
+test_graph_only_package_that_ships_files_fails (__main__.RecipientNoticeTests) ... ok
+test_graph_only_without_reason_fails (__main__.RecipientNoticeTests) ... ok
+test_index_must_name_every_notice_and_version (__main__.RecipientNoticeTests) ... ok
+test_listed_graph_only_package_passes_and_unlisted_fails (__main__.RecipientNoticeTests) ... ok
+test_missing_single_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_not_a_bundle_fails (__main__.RecipientNoticeTests) ... ok
+test_package_version_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_restored_package_hash_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_restored_runtime_pack_notice_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_runtime_patch_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_stale_inventory_component_fails (__main__.RecipientNoticeTests) ... ok
+test_truncated_notice_in_exe_fails (__main__.RecipientNoticeTests) ... ok
+test_unexpected_legal_entry_fails (__main__.RecipientNoticeTests) ... ok
+test_unresolved_new_dependency_fails (__main__.RecipientNoticeTests) ... ok
+test_valid_exe_passes_and_counts_entries (__main__.RecipientNoticeTests) ... ok
+test_valid_zip_is_deterministic_and_verifies (__main__.RecipientNoticeTests) ... ok
+test_zip_exe_alone_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_extra_member_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_missing_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_truncated_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_with_exe_lacking_notices_fails (__main__.RecipientNoticeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.303s
+
+OK
+exit=0
+
+===== 09-review-regressions.log =====
+$ python3 -X dev -W error agent/legal/tools/test_review_r1.py
+test_cli_parse_failure_is_diagnostic_not_traceback (__main__.BoundsTests) ... ok
+test_duplicate_json_key (__main__.BoundsTests) ... ok
+test_header_near_eof (__main__.BoundsTests) ... ok
+test_host_code_tamper (__main__.BoundsTests) ... ok
+test_host_version_tamper (__main__.BoundsTests) ... ok
+test_invalid_json_and_schema (__main__.BoundsTests) ... ok
+test_invalid_utf8 (__main__.BoundsTests) ... ok
+test_inventory_host_identity_is_not_invented (__main__.BoundsTests) ... ok
+test_inventory_unsafe_notice_path (__main__.BoundsTests) ... ok
+test_missing_deps (__main__.BoundsTests) ... ok
+test_negative_and_huge_entry_count (__main__.BoundsTests) ... ok
+test_truncated_manifest (__main__.BoundsTests) ... ok
+test_unbounded_varint (__main__.BoundsTests) ... ok
+test_wrong_json_type (__main__.BoundsTests) ... ok
+test_real_autocrlf_checkout_and_negative_without_attributes (__main__.GitCheckoutTests)
+Commit legal bytes only in a disposable repo; clone with real Git autocrlf=true. ... ok
+test_all_named_native_licences (__main__.LicenceTests) ... ok
+test_mapping_omitted_or_mislabelled (__main__.LicenceTests) ... ok
+test_native_actual_bundle_required (__main__.LicenceTests) ... ok
+test_runtime_mit_only_is_rejected (__main__.LicenceTests) ... ok
+test_sdk_render_byte_reproducible (__main__.LicenceTests) ... ok
+test_singlefile_licence_and_human_gate_required (__main__.LicenceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.873s
+
+OK
+exit=0
+
+===== 09b-review2-regressions.log =====
+$ python3 -X dev -W error agent/legal/tools/test_review_r2.py
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.046s
+
+OK
+exit=0
+
+===== 09c-archive-provenance.log =====
+$ python3 -X dev -W error agent/legal/tools/package_provenance.py --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31: exact hash-pinned archive repository {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31: exact hash-pinned archive repository {'type': 'git', 'url': 'https://github.com/dotnet/windowsdesktop', 'commit': '337963009d48a3016b50172b451b4e80f78791a7'}
+Microsoft.NETCore.App.Host.win-x64/8.0.31: exact hash-pinned archive repository {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+archive provenance: 3 required archives verified
+exit=0
+
+===== 09d-archive-controls.log =====
+$ python3 -X dev -W error agent/legal/tools/package_provenance_controls.py --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 positive: {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 wrong-commit-and-source rejected: archive provenance: nuspec repository differs: observed {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}; inventory {'url': 'https://github.com/dotnet/runtime', 'commit': 'de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4'}
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 wrong-source-only rejected: archive provenance: source does not identify inventory repository URL/commit
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 missing-repository rejected: archive provenance: required repository missing/wrong for Microsoft.NETCore.App.Runtime.win-x64
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 positive: {'type': 'git', 'url': 'https://github.com/dotnet/windowsdesktop', 'commit': '337963009d48a3016b50172b451b4e80f78791a7'}
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 wrong-commit-and-source rejected: archive provenance: nuspec repository differs: observed {'type': 'git', 'url': 'https://github.com/dotnet/windowsdesktop', 'commit': '337963009d48a3016b50172b451b4e80f78791a7'}; inventory {'url': 'https://github.com/dotnet/windowsdesktop', 'commit': 'de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4'}
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 wrong-source-only rejected: archive provenance: source does not identify inventory repository URL/commit
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 missing-repository rejected: archive provenance: required repository missing/wrong for Microsoft.WindowsDesktop.App.Runtime.win-x64
+Microsoft.NETCore.App.Host.win-x64/8.0.31 positive: {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+Microsoft.NETCore.App.Host.win-x64/8.0.31 wrong-commit-and-source rejected: archive provenance: nuspec repository differs: observed {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}; inventory {'url': 'https://github.com/dotnet/runtime', 'commit': 'de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4'}
+Microsoft.NETCore.App.Host.win-x64/8.0.31 wrong-source-only rejected: archive provenance: source does not identify inventory repository URL/commit
+Microsoft.NETCore.App.Host.win-x64/8.0.31 missing-repository rejected: archive provenance: required repository missing/wrong for Microsoft.NETCore.App.Host.win-x64
+actual archive controls: 3 positives, 9 negatives; all expected
+exit=0
+
+===== 10-check-legal.log =====
+$ python3 agent/legal/tools/recipient_notices.py check-legal
+legal inventory ok: 12 components, 19 notice files
+exit=0
+
+===== 11-verify-exe.log =====
+$ python3 agent/legal/tools/recipient_notices.py verify-exe publish/Uma.Agent.Windows.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+recipient notices ok: 494 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 20 legal files embedded
+exit=0
+
+===== 12-package-zip.log =====
+$ python3 agent/legal/tools/recipient_notices.py package publish/Uma.Agent.Windows.exe release/uma-agent-agent-v0.0.0-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+release ZIP ok: release/uma-agent-agent-v0.0.0-win-x64.zip sha256 77514ebb89194de45218b4bc1a4141f0db3e8a627dbd2b648c088a45c26b5ad0; EXE + 20 LICENSES files; 494 bundle entries, 455 byte-matched
+exit=0
+
+===== 13-verify-zip.log =====
+$ python3 agent/legal/tools/recipient_notices.py verify-zip release/uma-agent-agent-v0.0.0-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+release ZIP ok: EXE + 20 LICENSES files; 494 bundle entries, 455 byte-matched
+exit=0
+
+===== 14-zip-list.log =====
+$ unzip -l release/uma-agent-agent-v0.0.0-win-x64.zip
+Archive:  release/uma-agent-agent-v0.0.0-win-x64.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+191769388  01-01-1980 00:00   Uma.Agent.Windows.exe
+     1162  01-01-1980 00:00   LICENSES/CsWinRT-2.2.0.241111.1-LICENSE.txt
+     4606  01-01-1980 00:00   LICENSES/INDEX.txt
+     1115  01-01-1980 00:00   LICENSES/Microsoft.Data.Sqlite-10.0.3-LICENSE.txt
+   246945  01-01-1980 00:00   LICENSES/Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf
+     3850  01-01-1980 00:00   LICENSES/SQLite-3.53.3-LICENSE.md
+    11358  01-01-1980 00:00   LICENSES/SQLitePCLRaw-2.1.12-LICENSE.txt
+     9756  01-01-1980 00:00   LICENSES/SQLitePCLRaw-2.1.12-NOTICE.txt
+    10273  01-01-1980 00:00   LICENSES/Serilog-4.3.0-LICENSE.txt
+    11357  01-01-1980 00:00   LICENSES/Serilog.Sinks.File-6.0.0-LICENSE.txt
+     1072  01-01-1980 00:00   LICENSES/SharpZipLib-1.4.2-LICENSE.txt
+    27874  01-01-1980 00:00   LICENSES/Windows-SDK-LICENSE-derived.txt
+    31602  01-01-1980 00:00   LICENSES/dotnet-Library-LICENSE.html
+     1500  01-01-1980 00:00   LICENSES/dotnet-license-information-windows.md
+     2256  01-01-1980 00:00   LICENSES/dotnet-license-information.md
+     1139  01-01-1980 00:00   LICENSES/dotnet-runtime-8.0.31-LICENSE.TXT
+    68910  01-01-1980 00:00   LICENSES/dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT
+     1137  01-01-1980 00:00   LICENSES/dotnet-windowsdesktop-8.0.31-LICENSE.TXT
+     3608  01-01-1980 00:00   LICENSES/dotnet-winforms-8.0.31-THIRD-PARTY-NOTICES.TXT
+     2703  01-01-1980 00:00   LICENSES/dotnet-wpf-8.0.31-THIRD-PARTY-NOTICES.TXT
+    17686  01-01-1980 00:00   LICENSES/inventory.json
+---------                     -------
+192229297                     21 files
+exit=0
+
+===== 15-bundle-data.log =====
+$ python3 agent/tests/Uma.Agent.Windows.Tests/Tools/bundle_probe.py publish/Uma.Agent.Windows.exe /Users/willjose/.hermes/cache/scratch/T19-fix2/src
+bundle 6 0 entries 494
+MATCH appsettings.json
+MATCH data/layouts/global-2026-09.json
+MATCH data/layouts/templates/global-2026-09.json
+MATCH data/master/global-20260930/affinity.json
+MATCH data/master/global-20260930/cards.json
+MATCH data/master/global-20260930/characters.json
+MATCH data/master/global-20260930/outfits.json
+MATCH data/master/global-20260930/ranks.json
+MATCH data/master/global-20260930/rules.json
+MATCH data/master/global-20260930/scenarios.json
+MATCH data/master/global-20260930/skills.json
+MATCH data/master/global-20260930/sparks.json
+MATCH data/master/global-20260930/vocab-cards.json
+MATCH data/master/global-20260930/vocab.json
+MATCH data/master/latest.json
+matches 15 of 15
+Uma.Agent.Core.dll True
+Uma.Agent.Windows.dll True
+Microsoft.Windows.SDK.NET.dll True
+WinRT.Runtime.dll True
+e_sqlite3.dll True
+System.Security.Cryptography.ProtectedData.dll True
+Serilog.dll True
+sha256 (this publish only; not reproducible) a21a1489e015a804a6d9daece36f22f8682de65555ed502814379ecec7365a1b
+exit=0
+
+===== 16-native-sqlite.log =====
+$ python3 agent/tests/Uma.Agent.Windows.Tests/Tools/sqlite_native_probe.py publish/Uma.Agent.Windows.exe /Users/willjose/.hermes/cache/scratch/T18/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg
+bundle 6 0 entries 494
+package SHA256 4a22c02ffcf489792903cf263def9fce27739716883f965f0b5eeff1637430ac
+runtimes/win-x64/native/e_sqlite3.dll size 1978880 PE32+ AMD64 (0x8664) SHA256 b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e
+Embedded SQLite 3.53.3; source_id 2026-06-26 20:14:12 d4c0e51e4aeb96955b99185ab9cde75c339e2c29c3f3f12428d364a10d782c62
+Exact native package asset matches published bundle; Windows execution remains H4
+exit=0
+
+===== 17-audit-Uma.Agent.Core.Tests.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent; /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet list tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj package --vulnerable --include-transitive)
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `Uma.Agent.Core.Tests` has no vulnerable packages given the current sources.
+exit=0
+
+===== 17-audit-Uma.Agent.Core.log =====
+$ bash -c cd\ agent\ \&\&\ /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet\ list\ src/Uma.Agent.Core/Uma.Agent.Core.csproj\ package\ --vulnerable\ --include-transitive
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Core/Uma.Agent.Core.csproj (in 106 ms).
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `Uma.Agent.Core` has no vulnerable packages given the current sources.
+exit=0
+
+===== 17-audit-Uma.Agent.Windows.Portable.Tests.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent; /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet list tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj package --vulnerable --include-transitive)
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj (in 797 ms).
+  1 of 2 projects are up-to-date for restore.
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `Uma.Agent.Windows.Portable.Tests` has no vulnerable packages given the current sources.
+exit=0
+
+===== 17-audit-Uma.Agent.Windows.Tests.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent; /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet list tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj package --vulnerable --include-transitive)
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj (in 151 ms).
+  2 of 3 projects are up-to-date for restore.
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `Uma.Agent.Windows.Tests` has no vulnerable packages given the current sources.
+exit=0
+
+===== 17-audit-Uma.Agent.Windows.log =====
+$ bash -c cd\ agent\ \&\&\ /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet\ list\ src/Uma.Agent.Windows/Uma.Agent.Windows.csproj\ package\ --vulnerable\ --include-transitive
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj (in 120 ms).
+  1 of 2 projects are up-to-date for restore.
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `Uma.Agent.Windows` has no vulnerable packages given the current sources.
+exit=0
+
+===== 18-audit-props.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent; /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet msbuild src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -getProperty:NuGetAudit -getProperty:NuGetAuditMode -getProperty:NuGetAuditLevel -getProperty:TreatWarningsAsErrors -p:EnableWindowsTargeting=true)
+{
+  "Properties": {
+    "NuGetAudit": "true",
+    "NuGetAuditMode": "all",
+    "NuGetAuditLevel": "low",
+    "TreatWarningsAsErrors": "true"
+  }
+}
+exit=0
+
+===== 19-shipped-graph.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src; python3 agent/legal/tools/recipient_notices.py report publish/Uma.Agent.Windows.exe)
+Microsoft.Data.Sqlite.Core/10.0.3                                         1 shipped asset(s)
+Microsoft.Data.Sqlite/10.0.3                                              0 shipped asset(s)
+SQLitePCLRaw.bundle_e_sqlite3/2.1.12                                      1 shipped asset(s)
+SQLitePCLRaw.core/2.1.12                                                  1 shipped asset(s)
+SQLitePCLRaw.lib.e_sqlite3/2.1.12                                         1 shipped asset(s)
+SQLitePCLRaw.provider.e_sqlite3/2.1.12                                    1 shipped asset(s)
+Serilog.Sinks.File/6.0.0                                                  1 shipped asset(s)
+Serilog/4.3.0                                                             1 shipped asset(s)
+SharpZipLib/1.4.2                                                         1 shipped asset(s)
+Uma.Agent.Core/1.0.0                                                      1 shipped asset(s)
+Uma.Agent.Windows/0.1.0                                                   1 shipped asset(s)
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31                165 shipped asset(s)
+runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.57                   2 shipped asset(s)
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31          59 shipped asset(s)
+exit=0
+
+===== 20-real-controls.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src; python3 -X dev -W error agent/legal/tools/real_artifact_controls.py publish/Uma.Agent.Windows.exe --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401)
+valid: exit=0 expected=0 PASS
+recipient notices ok: 494 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 20 legal files embedded
+host-code-byte: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host stable PE section .text differs from restored singlefilehost.exe
+host-version-copy-0: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host PE resource (10, 'MINIDUMP_EMBEDDED_AUXILIARY_PROVIDER', 0) differs from restored singlefilehost.exe
+host-version-copy-1: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host PE resource (10, 'MINIDUMP_EMBEDDED_AUXILIARY_PROVIDER', 0) differs from restored singlefilehost.exe
+header-near-eof: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - bundle header offset out of range
+truncated-real-exe: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - bundle header offset out of range
+malformed.deps.json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - deps.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+malformed.runtimeconfig.json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - runtimeconfig.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+runtimeconfig-missing-desktop: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - runtimeconfig includedFrameworks differs from actual framework runtime packs: {'Microsoft.NETCore.App': '8.0.31'}; expected {'Microsoft.NETCore.App': '8.0.31', 'Microsoft.WindowsDesktop.App': '8.0.31'}
+runtimeconfig-duplicate-core: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - runtimeconfig.json duplicate includedFramework name
+missing-deps: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE must contain exactly one deps.json, found 0
+tamper-legal/INDEX.txt: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE notice legal/INDEX.txt is truncated or changed (sha256 ff7fd0e93bfd66b1e4739feb3a03fad4b48d788180c368ceea908d4888d72ddf, expected 3ff4b9cc4f78bae65c6d35544c09963388f170e45f8502c81e2cea38ff6566d2)
+tamper-e_sqlite3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry e_sqlite3.dll differs from the restored package file(s) /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/sqlitepclraw.lib.e_sqlite3/2.1.12/runtimes/win-x64/native/e_sqlite3.dll
+tamper-D3DCompiler_47_cor3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry D3DCompiler_47_cor3.dll differs from the restored package file(s) /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.windowsdesktop.app.runtime.win-x64/8.0.31/runtimes/win-x64/native/D3DCompiler_47_cor3.dll
+component-missing-deps: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory component None lacks/invalid deps
+inventory-wrong-type: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory lacks/invalid components
+inventory-malformed-json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+real artifact controls: 0 unexpected result(s)
+exit=0
+
+===== 21-pwsh-controls.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src; python3 .github/tests/workflow_pwsh_controls.py --pwsh /Users/willjose/.hermes/cache/scratch/T19-r1/pwsh/pwsh --exe /Users/willjose/.hermes/cache/scratch/T19-fix2/src/publish/Uma.Agent.Windows.exe --assets /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/obj/project.assets.json --baseline-exe /Users/willjose/.hermes/cache/scratch/T19/base-publish/Uma.Agent.Windows.exe --logs /Users/willjose/.hermes/cache/scratch/T19-fix2/pwsh-logs)
+valid: build=0 create=0 expected=(0, 0) PASS
+tamper-before-release: build=0 create=1 expected=(0, 1) PASS
+bad-tag: build=1 create=None expected=(1, None) PASS
+wrong-sdk: build=1 create=None expected=(1, None) PASS
+publish-failure: build=1 create=None expected=(1, None) PASS
+no-python: build=1 create=None expected=(1, None) PASS
+baseline-no-notices: build=1 create=None expected=(1, None) PASS
+YAML-extracted pwsh controls: 7 passed; dotnet/gh mocked, Python verifier real; no publication
+exit=0
+
+===== 22-github-regressions.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src; env TOOLS_DIR=/Users/willjose/.hermes/cache/scratch/IR1/tools PWSH=/Users/willjose/.hermes/cache/scratch/T19-r1/pwsh/pwsh T19_RECIPIENT_EXE=/Users/willjose/.hermes/cache/scratch/T19-fix2/src/publish/Uma.Agent.Windows.exe T19_RECIPIENT_ASSETS=/Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/src/Uma.Agent.Windows/obj/project.assets.json bash .github/tests/run.sh)
+== actionlint (workflow syntax, expressions, embedded shell via shellcheck if present)
+  ok   actionlint .github/workflows/*.yml (exit 0)
+== workflow structure (parsed YAML)
+  ok   deploy/ci/backup/release structural assertions (exit 0)
+== agent recipient notices (T19): verifier regressions, legal inventory, EXE-only release refused
+  ok   recipient notice verifier regressions (synthetic bundles, no network) (exit 0)
+  ok   T19 r1 parser/host/licence/render/Git autocrlf controls (exit 0)
+  ok   T19 r2 archive provenance/framework-set regressions (exit 0)
+  ok   actual YAML-extracted pwsh build/release (dotnet/gh mocked) (exit 0)
+  ok   agent/legal inventory self-consistent (exit 0)
+  ok   release workflow uploading the bare EXE -> structure check fails (exit 1)
+  ok   release workflow without final ZIP verification -> structure check fails (exit 1)
+  ok   release workflow without notice packaging -> structure check fails (exit 1)
+  ok   ordinary CI missing-sdk -> structural check fails (exit 1)
+  ok   ordinary CI missing-sdk rejected by installer assertion
+  ok   ordinary CI wrong-sdk -> structural check fails (exit 1)
+  ok   ordinary CI wrong-sdk rejected by installer assertion
+  ok   ordinary CI missing-runtime -> structural check fails (exit 1)
+  ok   ordinary CI missing-runtime rejected by installer assertion
+== deploy gate: trusted vs fork/PR events, stale SHA
+  ok   trusted push to main at the tip -> deploy (exit 0, proceed=true)
+  ok   fork PR whose head branch is named main -> refused (exit 1, proceed=none)
+  ok   fork push event from another repository -> refused (exit 1, proceed=none)
+  ok   same-repo pull_request run on main -> refused (exit 1, proceed=none)
+  ok   pull_request_target run -> refused (exit 1, proceed=none)
+  ok   push to a non-main branch -> refused (exit 1, proceed=none)
+  ok   failed CI conclusion -> refused (exit 1, proceed=none)
+  ok   gate invoked by a non-workflow_run event -> refused (exit 1, proceed=none)
+  ok   malformed head_sha -> refused (exit 1, proceed=none)
+  ok   deploy not enabled by H2 yet -> clear skip (exit 0, proceed=false)
+  ok   stale SHA (main moved on) -> clear skip (exit 0, proceed=false)
+  ok   stale SHA at freshness re-check -> clear skip (exit 0, proceed=false)
+  ok   fresh SHA at freshness re-check -> deploy (exit 0, proceed=true)
+  ok   main tip lookup fails -> refuse (fail closed) (exit 1, proceed=none)
+  ok   GITHUB_TOKEN absent from curl argv
+  ok   main-tip request authenticates through curl stdin config
+  ok   stale skip prints an explicit SKIPPED notice
+== workspace coverage (all packages, incl. a future @uma/engine)
+  ok   real workspace: every package has lint/typecheck/test (exit 0)
+  ok   synthetic workspace with new @uma/engine: coverage ok (exit 0)
+  ok   pnpm -r test (the CI command) runs the new @uma/engine package
+  ok   package without a test script -> CI fails (no silent skip) (exit 1)
+== wrangler config / MASTER_VERSION alignment
+  ok   committed config: structure + MASTER_VERSION aligned (exit 0)
+  ok   committed placeholders are rejected by the deploy preflight (exit 1)
+  ok   provisioned (synthetic) ids pass the deploy preflight (exit 0)
+  ok   MASTER_VERSION drift from latest.json -> CI fails (exit 1)
+  ok   AUTH_DISABLED in a Wrangler env -> CI fails (exit 1)
+== backup: fail-closed recipient, encrypt before upload, plaintext cleanup, decrypt + verify
+  ok   missing BACKUP_AGE_RECIPIENT -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   non-age recipient -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   age1 recipient with bad checksum -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   private key pasted as recipient -> fail before export (exit 1, export called=0, temp leftovers=0)
+  ok   wrangler export failure -> fail, plaintext removed, no ciphertext (exit 1, export called=1, temp leftovers=0)
+  ok   failed export left nothing in the upload dir
+  ok   valid recipient -> encrypted, plaintext removed (exit 0, export called=1, temp leftovers=0)
+  ok   exactly one upload candidate: d1-backup-20261011T134739Z.sql.age
+  ok   artifact is age ciphertext with no plaintext SQL
+  ok   no secret key material in log or artifact
+  ok   decrypt with the (ephemeral) private identity round-trips byte-for-byte
+  ok   a different identity cannot decrypt
+== restore verification (B7): import into temp SQLite, then integrity_check, then tables
+  ok   verify-sql-backup.sh on the decrypted synthetic export (exit 0)
+  ok   old runbook command (sqlite3 dump.sql PRAGMA) indeed fails: 'file is not a database'
+  ok   truncated export -> verify fails (exit 1)
+  ok   export without the app tables -> verify fails (exit 1)
+== .NET gates: exact spec paths, honest NOT RUN only while absent
+  ok   runtime gate without Microsoft.NETCore.App 8.x -> fail (exit 1)
+  ok   runtime gate with 8.x installed -> ok (exit 0)
+  ok   core tests while absent -> NOT RUN (exit 0, no pass claim) (exit 0)
+  ok   absent project reported as NOT RUN
+  ok   Core test dir present without its csproj -> fail (no arbitrary project) (exit 1)
+  ok   Core tests present -> dotnet test on the exact spec project (exit 0)
+  ok   invoked: dotnet test tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj (cwd agent/, global.json applies)
+  ok   Windows build while absent -> NOT RUN (exit 0)
+  ok   Windows dir present without csproj -> fail (exit 1)
+  ok   Windows project present -> dotnet build with EnableWindowsTargeting (exit 0)
+  ok   invoked: dotnet build src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -p:EnableWindowsTargeting=true
+== production verification: exact status + body, redirects never count as success
+  ok   healthy Access + Worker -> all checks pass (exit 0)
+  ok   service token rejected (every request 302 to login) -> fail (exit 1)
+  ok   302 login redirect reported as FAIL, not success
+  ok   hostname not behind Access (anonymous 200) -> fail (exit 1)
+  ok   ACCESS_AUD mismatch (Worker 401 on /api/v1/roster) -> fail (exit 1)
+  ok   wrong MASTER_VERSION deployed -> fail (exit 1)
+  ok   missing token env -> refuses to run (exit 1)
+
+regression checks: 76 passed, 0 failed
+exit=0
+
+===== 23-config.log =====
+$ (cd /Users/willjose/.hermes/cache/scratch/T19-fix2/src; node .github/scripts/check-config.mjs .)
+config check ok (structure): MASTER_VERSION=global-20260930
+exit=0
+
+AGGREGATED_COMPLETE steps=30 failures=0

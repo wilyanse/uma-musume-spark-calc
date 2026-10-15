@@ -1,0 +1,10 @@
+17-audit-Uma.Agent.Core.Tests exit=0
+17-audit-Uma.Agent.Windows.Portable.Tests exit=0
+17-audit-Uma.Agent.Windows.Tests exit=0
+18-audit-props exit=0
+19-shipped-graph exit=0
+20-real-controls exit=0
+21-pwsh-controls exit=0
+22-github-regressions exit=0
+23-config exit=0
+RESUME_DONE failures=0

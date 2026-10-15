@@ -1,0 +1,174 @@
+Sol fix2 committed-source/artifact verification, session20261011_103329_5bce0b
+$ git rev-parse HEAD
+d345db27b9dfbfce31b8f2d97970ba267995e14d
+exit=0
+$ git branch --show-current
+task/T19-agent-recipient-notices
+exit=0
+$ git status --porcelain
+exit=0
+$ git -c core.whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024ebbe9a..HEAD
+exit=0
+$ git -c core.whitespace=cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024ebbe9a..HEAD -- . ':!agent/legal/notices/**'
+exit=0
+$ git -c core.whitespace=cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024ebbe9a..HEAD -- agent/legal/notices/INDEX.txt agent/legal/notices/Windows-SDK-LICENSE-derived.txt
+exit=0
+Committed implementation/export SHA256 matches: 203 paths; no mismatches
+All19 notice bytes, package/version/hash pins and original raw r1 provenance evidence unchanged
+$ python3 -X dev -W error agent/legal/tools/test_recipient_notices.py
+test_repository_legal_inventory_is_consistent (__main__.RealInventoryTests) ... ok
+test_bundle_entry_bytes_must_match_restored_package (__main__.RecipientNoticeTests) ... ok
+test_cli_exit_codes (__main__.RecipientNoticeTests) ... ok
+test_component_without_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_compressed_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_corrupted_repository_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_deleted_repository_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_different_single_file_host_build_fails (__main__.RecipientNoticeTests) ... ok
+test_exe_without_notices_fails (__main__.RecipientNoticeTests) ... ok
+test_foreign_bundle_entry_fails (__main__.RecipientNoticeTests) ... ok
+test_graph_only_package_that_ships_files_fails (__main__.RecipientNoticeTests) ... ok
+test_graph_only_without_reason_fails (__main__.RecipientNoticeTests) ... ok
+test_index_must_name_every_notice_and_version (__main__.RecipientNoticeTests) ... ok
+test_listed_graph_only_package_passes_and_unlisted_fails (__main__.RecipientNoticeTests) ... ok
+test_missing_single_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_not_a_bundle_fails (__main__.RecipientNoticeTests) ... ok
+test_package_version_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_restored_package_hash_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_restored_runtime_pack_notice_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_runtime_patch_drift_fails (__main__.RecipientNoticeTests) ... ok
+test_stale_inventory_component_fails (__main__.RecipientNoticeTests) ... ok
+test_truncated_notice_in_exe_fails (__main__.RecipientNoticeTests) ... ok
+test_unexpected_legal_entry_fails (__main__.RecipientNoticeTests) ... ok
+test_unresolved_new_dependency_fails (__main__.RecipientNoticeTests) ... ok
+test_valid_exe_passes_and_counts_entries (__main__.RecipientNoticeTests) ... ok
+test_valid_zip_is_deterministic_and_verifies (__main__.RecipientNoticeTests) ... ok
+test_zip_exe_alone_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_extra_member_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_missing_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_truncated_notice_fails (__main__.RecipientNoticeTests) ... ok
+test_zip_with_exe_lacking_notices_fails (__main__.RecipientNoticeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.297s
+
+OK
+exit=0
+$ python3 -X dev -W error agent/legal/tools/test_review_r1.py
+test_cli_parse_failure_is_diagnostic_not_traceback (__main__.BoundsTests) ... ok
+test_duplicate_json_key (__main__.BoundsTests) ... ok
+test_header_near_eof (__main__.BoundsTests) ... ok
+test_host_code_tamper (__main__.BoundsTests) ... ok
+test_host_version_tamper (__main__.BoundsTests) ... ok
+test_invalid_json_and_schema (__main__.BoundsTests) ... ok
+test_invalid_utf8 (__main__.BoundsTests) ... ok
+test_inventory_host_identity_is_not_invented (__main__.BoundsTests) ... ok
+test_inventory_unsafe_notice_path (__main__.BoundsTests) ... ok
+test_missing_deps (__main__.BoundsTests) ... ok
+test_negative_and_huge_entry_count (__main__.BoundsTests) ... ok
+test_truncated_manifest (__main__.BoundsTests) ... ok
+test_unbounded_varint (__main__.BoundsTests) ... ok
+test_wrong_json_type (__main__.BoundsTests) ... ok
+test_real_autocrlf_checkout_and_negative_without_attributes (__main__.GitCheckoutTests)
+Commit legal bytes only in a disposable repo; clone with real Git autocrlf=true. ... ok
+test_all_named_native_licences (__main__.LicenceTests) ... ok
+test_mapping_omitted_or_mislabelled (__main__.LicenceTests) ... ok
+test_native_actual_bundle_required (__main__.LicenceTests) ... ok
+test_runtime_mit_only_is_rejected (__main__.LicenceTests) ... ok
+test_sdk_render_byte_reproducible (__main__.LicenceTests) ... ok
+test_singlefile_licence_and_human_gate_required (__main__.LicenceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.788s
+
+OK
+exit=0
+$ python3 -X dev -W error agent/legal/tools/test_review_r2.py
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.055s
+
+OK
+exit=0
+$ python3 -X dev -W error agent/legal/tools/package_provenance.py --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31: exact hash-pinned archive repository {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31: exact hash-pinned archive repository {'type': 'git', 'url': 'https://github.com/dotnet/windowsdesktop', 'commit': '337963009d48a3016b50172b451b4e80f78791a7'}
+Microsoft.NETCore.App.Host.win-x64/8.0.31: exact hash-pinned archive repository {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+archive provenance: 3 required archives verified
+exit=0
+$ python3 -X dev -W error agent/legal/tools/package_provenance_controls.py --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 positive: {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 wrong-commit-and-source rejected: archive provenance: nuspec repository differs: observed {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}; inventory {'url': 'https://github.com/dotnet/runtime', 'commit': 'de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4'}
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 wrong-source-only rejected: archive provenance: source does not identify inventory repository URL/commit
+runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 missing-repository rejected: archive provenance: required repository missing/wrong for Microsoft.NETCore.App.Runtime.win-x64
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 positive: {'type': 'git', 'url': 'https://github.com/dotnet/windowsdesktop', 'commit': '337963009d48a3016b50172b451b4e80f78791a7'}
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 wrong-commit-and-source rejected: archive provenance: nuspec repository differs: observed {'type': 'git', 'url': 'https://github.com/dotnet/windowsdesktop', 'commit': '337963009d48a3016b50172b451b4e80f78791a7'}; inventory {'url': 'https://github.com/dotnet/windowsdesktop', 'commit': 'de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4'}
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 wrong-source-only rejected: archive provenance: source does not identify inventory repository URL/commit
+runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 missing-repository rejected: archive provenance: required repository missing/wrong for Microsoft.WindowsDesktop.App.Runtime.win-x64
+Microsoft.NETCore.App.Host.win-x64/8.0.31 positive: {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+Microsoft.NETCore.App.Host.win-x64/8.0.31 wrong-commit-and-source rejected: archive provenance: nuspec repository differs: observed {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}; inventory {'url': 'https://github.com/dotnet/runtime', 'commit': 'de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4'}
+Microsoft.NETCore.App.Host.win-x64/8.0.31 wrong-source-only rejected: archive provenance: source does not identify inventory repository URL/commit
+Microsoft.NETCore.App.Host.win-x64/8.0.31 missing-repository rejected: archive provenance: required repository missing/wrong for Microsoft.NETCore.App.Host.win-x64
+actual archive controls: 3 positives, 9 negatives; all expected
+exit=0
+$ python3 agent/legal/tools/recipient_notices.py verify-exe /Users/willjose/.hermes/cache/scratch/T19-fix2/src/publish/Uma.Agent.Windows.exe --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+recipient notices ok: 494 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 20 legal files embedded
+exit=0
+$ python3 agent/legal/tools/recipient_notices.py verify-zip /Users/willjose/.hermes/cache/scratch/T19-fix2/src/release/uma-agent-agent-v0.0.0-win-x64.zip --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+release ZIP ok: EXE + 20 LICENSES files; 494 bundle entries, 455 byte-matched
+exit=0
+$ python3 -X dev -W error agent/legal/tools/real_artifact_controls.py /Users/willjose/.hermes/cache/scratch/T19-fix2/src/publish/Uma.Agent.Windows.exe --packages /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+valid: exit=0 expected=0 PASS
+recipient notices ok: 494 bundle entries, 455 byte-matched to restored packages, 12 inventory components, 20 legal files embedded
+host-code-byte: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host stable PE section .text differs from restored singlefilehost.exe
+host-version-copy-0: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host PE resource (10, 'MINIDUMP_EMBEDDED_AUXILIARY_PROVIDER', 0) differs from restored singlefilehost.exe
+host-version-copy-1: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - single-file host: host PE resource (10, 'MINIDUMP_EMBEDDED_AUXILIARY_PROVIDER', 0) differs from restored singlefilehost.exe
+header-near-eof: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - bundle header offset out of range
+truncated-real-exe: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - bundle header offset out of range
+malformed.deps.json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - deps.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+malformed.runtimeconfig.json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - runtimeconfig.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+runtimeconfig-missing-desktop: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - runtimeconfig includedFrameworks differs from actual framework runtime packs: {'Microsoft.NETCore.App': '8.0.31'}; expected {'Microsoft.NETCore.App': '8.0.31', 'Microsoft.WindowsDesktop.App': '8.0.31'}
+runtimeconfig-duplicate-core: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - runtimeconfig.json duplicate includedFramework name
+missing-deps: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE must contain exactly one deps.json, found 0
+tamper-legal/INDEX.txt: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE notice legal/INDEX.txt is truncated or changed (sha256 ff7fd0e93bfd66b1e4739feb3a03fad4b48d788180c368ceea908d4888d72ddf, expected 3ff4b9cc4f78bae65c6d35544c09963388f170e45f8502c81e2cea38ff6566d2)
+tamper-e_sqlite3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry e_sqlite3.dll differs from the restored package file(s) /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/sqlitepclraw.lib.e_sqlite3/2.1.12/runtimes/win-x64/native/e_sqlite3.dll
+tamper-D3DCompiler_47_cor3.dll: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE entry D3DCompiler_47_cor3.dll differs from the restored package file(s) /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.windowsdesktop.app.runtime.win-x64/8.0.31/runtimes/win-x64/native/D3DCompiler_47_cor3.dll
+component-missing-deps: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory component None lacks/invalid deps
+inventory-wrong-type: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory lacks/invalid components
+inventory-malformed-json: exit=1 expected=1 PASS
+RECIPIENT NOTICE CHECK FAILED:
+  - inventory.json: invalid JSON (Expecting value: line 1 column 1 (char 0))
+real artifact controls: 0 unexpected result(s)
+exit=0
+/Users/willjose/.hermes/cache/scratch/T19-fix2/src/publish/Uma.Agent.Windows.exe bytes=191769388 sha256=a21a1489e015a804a6d9daece36f22f8682de65555ed502814379ecec7365a1b
+/Users/willjose/.hermes/cache/scratch/T19-fix2/src/release/uma-agent-agent-v0.0.0-win-x64.zip bytes=73774385 sha256=77514ebb89194de45218b4bc1a4141f0db3e8a627dbd2b648c088a45c26b5ad0
+FINAL_COMMITTED_VERIFICATION_ALL_PASS (independent parent/reviewer approval still required)

@@ -3,7 +3,7 @@
 require 'yaml'
 
 def load(name)
-  YAML.load_file(File.join(__dir__, '..', 'workflows', name))
+  YAML.load_file(File.join(ENV['WORKFLOW_DIR'] || File.join(__dir__, '..', 'workflows'), name))
 end
 
 errors = []
@@ -71,7 +71,8 @@ check.(tsr.include?('check-config.mjs .'), 'ci: MASTER_VERSION alignment check m
 check.(tsr.include?('-le 250000'), 'ci: bundle limit must be 250000 bytes (N2)')
 dn = ci.dig('jobs', 'dotnet') || {}
 setup = all_steps.(dn).find { |s| s['uses'].to_s.start_with?('actions/setup-dotnet@') }
-check.(setup && setup.dig('with', 'dotnet-version').to_s.split == %w[8.0.x 9.0.x], 'ci: setup-dotnet must install 8.0.x and 9.0.x')
+check.(setup && setup.dig('with', 'global-json-file') == 'agent/global.json', 'ci: setup-dotnet must install exact SDK from agent/global.json')
+check.(setup && setup.dig('with', 'dotnet-version').to_s == '8.0.x', 'ci: setup-dotnet must separately provide net8 test runtime')
 %w[runtime core-tests windows-build].each { |g| check.(runs.(dn).include?("agent-gates.sh #{g}"), "ci: agent gate #{g} missing") }
 check.(runs.(ci.dig('jobs', 'workflow-checks') || {}).include?('.github/tests/run.sh'), 'ci: regression checks must run in CI')
 
@@ -94,9 +95,31 @@ rj = rel.dig('jobs', 'release')
 rel_runs = runs.(rj)
 check.(rel_runs !~ /\$\{\{/, 'release: no ${{ }} interpolation inside pwsh scripts (S7)')
 check.(rel_runs.include?('Get-ChildItem -LiteralPath publish -Filter *.exe -File'), 'release: resolve the exe explicitly')
-check.(rel_runs.include?('gh release create $env:TAG $env:EXE'), 'release: gh gets the resolved exe path')
+# T19: the only release asset is the verified ZIP pairing the EXE with its licence/NOTICE texts.
+rsteps = all_steps.(rj)
+build = rsteps.find { |s| s['id'] == 'build' } || {}
+brun = build['run'].to_s
+check.(brun.include?('recipient_notices.py package $exe[0].FullName $zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json'), 'release: build step must verify and package recipient notices (T19)')
+check.(brun.include?('test_recipient_notices.py'), 'release: notice-verifier regressions must run before packaging (T19)')
+check.(brun.index('dotnet publish').to_i < brun.index('recipient_notices.py package').to_i, 'release: package after publish (T19)')
+check.(brun.include?('"zip=$zip"') && !brun.include?('"exe='), 'release: build step outputs only the ZIP, never the bare EXE (T19)')
+rupload = rsteps.find { |s| s['uses'].to_s.start_with?('actions/upload-artifact@') } || {}
+check.(rupload.dig('with', 'path') == '${{ steps.build.outputs.zip }}', 'release: artifact must be the verified ZIP (T19)')
+rel_create = rsteps.find { |s| s['run'].to_s.include?('gh release create') } || {}
+crun = rel_create['run'].to_s
+check.(crun.include?('gh release create $env:TAG $env:ZIP --verify-tag'), 'release: gh gets only the verified ZIP (T19)')
+check.(crun.include?('recipient_notices.py verify-zip $env:ZIP') && crun.index('verify-zip') < crun.index('gh release create'), 'release: re-verify the ZIP before creating the release (T19)')
+check.(rel_create.dig('env', 'ZIP') == '${{ steps.build.outputs.zip }}' && !(rel_create['env'] || {}).key?('EXE'), 'release: create step receives the ZIP path only (T19)')
+check.(rel_runs.include?("-cnotmatch '^agent-v"), 'release: tag format validation retained')
+rcheckout = rsteps.find { |s| s['uses'].to_s.start_with?('actions/checkout@') } || {}
+check.(rcheckout.dig('with', 'persist-credentials') == false, 'release: checkout without persisted credentials')
+check.(rel['permissions'] == { 'contents' => 'write' }, 'release: permissions contents: write only')
 rsetup = all_steps.(rj).find { |s| s['uses'].to_s.start_with?('actions/setup-dotnet@') }
-check.(rsetup && rsetup.dig('with', 'dotnet-version').to_s.split == %w[8.0.x 9.0.x], 'release: pin 8.0.x + 9.0.x')
+check.(rsetup && rsetup.dig('with', 'global-json-file') == 'agent/global.json', 'release: setup exact SDK from agent/global.json')
+require 'json'
+sdk = JSON.parse(File.read(File.join(__dir__, '../../agent/global.json')))
+check.(sdk['sdk'] == { 'version' => '10.0.401', 'rollForward' => 'disable', 'allowPrerelease' => false }, 'release: SDK must be exactly 10.0.401 without roll-forward')
+check.(brun.include?("$sdk = dotnet --version") && brun.include?("$sdk.Trim() -cne '10.0.401'"), 'release: verify resolved SDK before publish')
 check.(rel['concurrency'] && rj['timeout-minutes'], 'release: concurrency + timeout (N3)')
 
 # ---- all workflows: pinned actions, no pnpm version duplication, timeouts

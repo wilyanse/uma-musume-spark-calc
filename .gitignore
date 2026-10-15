@@ -42,3 +42,7 @@ spike/ocr/ocr
 
 # T01
 .pnpm-store/
+
+# Python packaging verifier caches
+__pycache__/
+*.py[cod]

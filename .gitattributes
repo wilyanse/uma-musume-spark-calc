@@ -1,0 +1,3 @@
+# Legal files are upstream verbatim bytes or hash-pinned inventory/index data.
+agent/legal/notices/** -text
+agent/legal/inventory.json -text

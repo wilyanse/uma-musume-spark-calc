@@ -1,0 +1,38 @@
+# Scratch copy of agent/ (inventory before graphOnly existed) published with agent/global.json = SDK 9.0.312 rollForward disable, NUGET_PACKAGES=scratch/T19/drift-nuget. SDK 9.0.312 bundles net8 runtime 8.0.25.
+$ python3 agent/legal/tools/recipient_notices.py verify-exe publish/Uma.Agent.Windows.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+RECIPIENT NOTICE CHECK FAILED:
+  - shipped dependency Microsoft.NET.ILLink.Tasks/8.0.25 has no inventory entry or notices
+  - shipped dependency System.Memory/4.5.3 has no inventory entry or notices
+  - shipped dependency System.Security.Cryptography.ProtectedData/8.0.0 has no inventory entry or notices
+  - shipped runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.25 but inventory covers runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - shipped runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.25 but inventory covers runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - stale inventory: runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - stale inventory: runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - runtimeconfig includes Microsoft.NETCore.App 8.0.25; inventory runtime pack version 8.0.24
+  - runtimeconfig includes Microsoft.WindowsDesktop.App 8.0.25; inventory runtime pack version 8.0.24
+  - EXE entry Microsoft.CSharp.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.VisualBasic.Core.dll is not attributable to the inventory graph
+  ... (445 'not attributable' runtime-pack entries elided)
+exit=1
+
+# Same SDK-9.0.312 drift EXE re-checked with the FINAL tool and this candidate's agent/legal (graphOnly present), packages from that drift restore:
+$ python3 agent/legal/tools/recipient_notices.py verify-exe <drift>/publish/Uma.Agent.Windows.exe --packages scratch/T19/drift-nuget
+RECIPIENT NOTICE CHECK FAILED:
+  - EXE notice legal/inventory.json is truncated or changed (sha256 45d9ad100a6ade8cff950c93e3fa22391376fd01ae1ee727ba884ab00efb1384, expected e8f0f50f853642e4a1dc697cf7f5ae3f7ef2ad92cf34ea50f66421787c62b59b)
+  - shipped runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.25 but inventory covers runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - shipped runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.25 but inventory covers runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - stale inventory: runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - stale inventory: runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - runtimeconfig includes Microsoft.NETCore.App 8.0.25; inventory runtime pack version 8.0.24
+  - runtimeconfig includes Microsoft.WindowsDesktop.App 8.0.25; inventory runtime pack version 8.0.24
+  - restored package not found for runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24: ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.netcore.app.runtime.win-x64/8.0.24/microsoft.netcore.app.runtime.win-x64.8.0.24.nupkg
+  - runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24: pack licence text LICENSE.TXT missing in ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.netcore.app.runtime.win-x64/8.0.24
+  - runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24: pack licence text THIRD-PARTY-NOTICES.TXT missing in ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.netcore.app.runtime.win-x64/8.0.24
+  - restored package not found for runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24: ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.windowsdesktop.app.runtime.win-x64/8.0.24/microsoft.windowsdesktop.app.runtime.win-x64.8.0.24.nupkg
+  - runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24: pack licence text LICENSE missing in ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.windowsdesktop.app.runtime.win-x64/8.0.24
+  - restored package not found for Microsoft.NETCore.App.Host.win-x64/8.0.24: ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.netcore.app.host.win-x64/8.0.24/microsoft.netcore.app.host.win-x64.8.0.24.nupkg
+  - Microsoft.NETCore.App.Host.win-x64/8.0.24: pack licence text LICENSE.TXT missing in ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.netcore.app.host.win-x64/8.0.24
+  - Microsoft.NETCore.App.Host.win-x64/8.0.24: pack licence text THIRD-PARTY-NOTICES.TXT missing in ~/.hermes/cache/scratch/T19/drift-nuget/microsoft.netcore.app.host.win-x64/8.0.24
+  - EXE single-file host is not build '8,0,2426,7010 @Commit: b3b35ce80e9eb94f72c4aa36a171a5e1cde72ace' of Microsoft.NETCore.App.Host.win-x64/8.0.24
+exit=1
+  ... (445 'not attributable' 8.0.25 runtime-pack entries elided)

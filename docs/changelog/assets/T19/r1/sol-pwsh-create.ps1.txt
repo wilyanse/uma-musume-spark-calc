@@ -1,0 +1,29 @@
+
+$ErrorActionPreference = 'Stop'
+function global:dotnet {
+    Add-Content -LiteralPath $env:MOCKLOG -Value ('dotnet ' + (ConvertTo-Json -Compress @($args)))
+    if ($args[0] -ceq '--version') { $global:LASTEXITCODE = 0; $env:MOCKSDK; return }
+    if ($args[0] -cne 'publish') { throw 'Unexpected dotnet invocation' }
+    if ($env:MOCKDOTNETFAIL -eq '1') { $global:LASTEXITCODE = 7; return }
+    $idx = [Array]::IndexOf($args, '-o')
+    if ($idx -lt 0) { throw 'Mock publish lacks output path' }
+    New-Item -ItemType Directory -Force -Path $args[$idx + 1] | Out-Null
+    Copy-Item -LiteralPath $env:MOCKEXE -Destination (Join-Path $args[$idx + 1] 'Uma.Agent.Windows.exe')
+    $global:LASTEXITCODE = 0
+}
+function global:gh {
+    Add-Content -LiteralPath $env:MOCKLOG -Value ('gh ' + (ConvertTo-Json -Compress @($args)))
+    $global:LASTEXITCODE = 0
+}
+function global:python {
+    Add-Content -LiteralPath $env:MOCKLOG -Value ('python ' + (ConvertTo-Json -Compress @($args)))
+    if ($env:MOCKNOPython -eq '1') { throw 'Mock python unavailable' }
+    & $env:REALPYTHON @args
+    $global:LASTEXITCODE = $LASTEXITCODE
+}
+
+$ErrorActionPreference = 'Stop'
+python agent/legal/tools/recipient_notices.py verify-zip $env:ZIP --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+if ($LASTEXITCODE -ne 0) { throw "release ZIP verification failed ($LASTEXITCODE)" }
+gh release create $env:TAG $env:ZIP --verify-tag --generate-notes
+if ($LASTEXITCODE -ne 0) { throw "gh release create failed ($LASTEXITCODE)" }

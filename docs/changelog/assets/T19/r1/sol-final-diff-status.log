@@ -1,0 +1,20 @@
+$ git -c core.whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024ebbe9a..HEAD
+
+exit=0
+$ git -c core.whitespace=cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024ebbe9a..HEAD -- . ':!agent/legal/notices/**'
+
+exit=0
+$ git -c core.whitespace=cr-at-eol diff --check 904385e0575d3b67bc00a223e4c6a77024ebbe9a..HEAD -- agent/legal/notices/INDEX.txt agent/legal/notices/Windows-SDK-LICENSE-derived.txt
+
+exit=0
+$ git rev-parse HEAD
+8bea35f6c54476ddda2ddcfd980cf6e73e14f17e
+
+exit=0
+$ git status --porcelain
+
+exit=0
+$ git branch --show-current
+task/T19-agent-recipient-notices
+
+exit=0

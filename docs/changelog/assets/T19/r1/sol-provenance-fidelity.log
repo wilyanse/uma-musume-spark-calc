@@ -1,0 +1,34 @@
+Sol r1 provenance/fidelity; source bytes preserved, no legal sufficiency conclusion.
+Command: python3 agent/legal/tools/render_sdk_license.py <retained RTF> <derived TXT>
+Byte comparison against committed derived file: identical
+Command: textutil -convert txt -stdout agent/legal/notices/Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf
+Comparison: equal wording after removing whitespace (re.sub(r"\s+", "", ...)).
+Original RTF remains authoritative; parser omits metadata/formatting/generated list labels.
+INDEX.txt sha256=3ff4b9cc4f78bae65c6d35544c09963388f170e45f8502c81e2cea38ff6566d2 source=T19 recipient index (this repository)
+dotnet-runtime-8.0.31-LICENSE.TXT sha256=d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b source=Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4. Package bytes retained verbatim.
+dotnet-runtime-8.0.31-THIRD-PARTY-NOTICES.TXT sha256=b60b2912da28eaa6518593c9e2efb5334ee062d3c42e80d8fdfa806b3dc52977 source=Exact 8.0.31 runtime and host nupkg text; dotnet/runtime@de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4. Package bytes retained verbatim.
+dotnet-windowsdesktop-8.0.31-LICENSE.TXT sha256=a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab source=LICENSE in Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31; dotnet/windowsdesktop@337963009d48a3016b50172b451b4e80f78791a7
+dotnet-wpf-8.0.31-THIRD-PARTY-NOTICES.TXT sha256=d23dba2fee20c6b59d8f7088ee9ed372459c952a319b7ca90f3eec370cc76eb9 source=https://raw.githubusercontent.com/dotnet/wpf/27c84022a86fcaa600315f4686cde97874615a24/THIRD-PARTY-NOTICES.TXT
+dotnet-winforms-8.0.31-THIRD-PARTY-NOTICES.TXT sha256=d68d386849444fab1012e84beb398aeca4aaa3d50e753e9f218242b3753aa28f source=https://raw.githubusercontent.com/dotnet/winforms/f4ddf3475a1269429508fe203cdfc4e21c3599d1/THIRD-PARTY-NOTICES.TXT
+Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf sha256=dd07eb178e00c6bba4148457fc00ff77cd4887eb521d504186fe59c9ec8bbe62 source=https://aka.ms/WinSDKLicenseURL -> https://download.microsoft.com/download/0/F/F/0FF2B061-47DD-4F55-89B6-FD1D8C44F14D/sdk_license.rtf (fetched 2026-10-11; EULAID:WIN10SDK.RTM.AUG_2018_en-US)
+CsWinRT-2.2.0.241111.1-LICENSE.txt sha256=9906940f61b1f0b533fa7d99baf55178b2808fbe113ea51dfbfad8572ccd5f2b source=https://raw.githubusercontent.com/microsoft/CsWinRT/8649ee3eeb2445ca2a36d80d878ef60b96a6c65d/LICENSE (tag 2.2.0.241111.1; commit equals WinRT.Runtime.dll ProductVersion)
+Microsoft.Data.Sqlite-10.0.3-LICENSE.txt sha256=ae48df11a335dc1a615f4f938b69cba73bcf4485c4f97af49b38efb0f216353b source=https://raw.githubusercontent.com/dotnet/dotnet/c2435c3e0f46de784341ac3ed62863ce77e117b4/src/efcore/LICENSE.txt
+Serilog-4.3.0-LICENSE.txt sha256=73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68 source=https://raw.githubusercontent.com/serilog/serilog/726e29c5b172aa8813285be1ad8cc728fd531eab/LICENSE
+Serilog.Sinks.File-6.0.0-LICENSE.txt sha256=b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1 source=https://raw.githubusercontent.com/serilog/serilog-sinks-file/c7b9bc3d87f9bb98572a52286135efda1e608ad6/LICENSE
+SharpZipLib-1.4.2-LICENSE.txt sha256=d7fbbc16f871bf24fa5624c7eaf945054b778985f32676dcacba41fddca61133 source=https://raw.githubusercontent.com/icsharpcode/SharpZipLib/33f64eb0f28cdd2b084cb822fcc224c7c5aba553/LICENSE.txt
+SQLitePCLRaw-2.1.12-LICENSE.txt sha256=cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 source=https://raw.githubusercontent.com/ericsink/SQLitePCL.raw/ca835d21508bff43121c65081035840ac5006c4c/LICENSE.TXT
+SQLitePCLRaw-2.1.12-NOTICE.txt sha256=485b276b3d2bfaa26df348e1e5c84df3648981e09b88531a6a53006f0705c24b source=https://raw.githubusercontent.com/ericsink/SQLitePCL.raw/ca835d21508bff43121c65081035840ac5006c4c/NOTICE.TXT (repository-wide; SQLCipher/OpenSSL sections do not apply to the shipped e_sqlite3 build)
+SQLite-3.53.3-LICENSE.md sha256=ee6af51062b30d532991face5164136ae6f84e265ecf8abe89dc69dac45ca1e7 source=https://github.com/sqlite/sqlite/blob/version-3.53.3/LICENSE.md
+dotnet-Library-LICENSE.html sha256=0f69be2c8ac44c3980047664c3347ff22cba5842dc9d8b0a88a4f0914645a780 source=https://dotnet.microsoft.com/dotnet_library_license.htm (live unversioned page, fetched 2026-10-11; verbatim Windows-1252 HTML, opens locally in browser; not a versioned upstream source)
+dotnet-license-information-windows.md sha256=3bdf7142d570f11780d1a5fcb6cbe47f5cf4a15bc634acf8db93fe3be8837119 source=https://raw.githubusercontent.com/dotnet/core/6c25b9da384e8d8a16fd12c79da8a8aa6bdfc6a1/license-information-windows.md
+dotnet-license-information.md sha256=87f9974735fa705f5ed13367de111b94d09573205c4b90e07cf6d8301081dc10 source=https://raw.githubusercontent.com/dotnet/core/8c8e5836c343f854b65437dfedb13598d3aa3707/license-information.md
+Windows-SDK-LICENSE-derived.txt sha256=c88cfe43770918fe36b21e9d8d8500677a2ec77916a7e3920eccdd23f690c807 source=DERIVED from Microsoft.Windows.SDK.NET.Ref-10.0.19041.57-LICENSE.rtf, sha256 dd07eb178e00c6bba4148457fc00ff77cd4887eb521d504186fe59c9ec8bbe62; Python stdlib render_sdk_license.py, metadata/formatting/list labels omitted, wording retained; original RTF authoritative; reproduced against macOS textutil -convert txt -stdout (equal wording ignoring whitespace)
+Scratch live/source evidence windows-sdk-license.html sha256=2dc27de28d82f4d0d2f471899c818a5e9787de21061774390204170d4207d77d
+Scratch live/source evidence windows-sdk-redist.html sha256=657057477d3dff1e580f3795ebb2170346cece3f25a96fcd74e5f944021fda31
+Scratch live/source evidence windowsdesktop-Version.Details.xml sha256=ac16fdcb87ba019785a14d33f0c7b2e668a9e20c54f972246bc4013bae593dcb
+Host embedded ProductVersion: 8,0,3126,42015 @Commit: 1219a42122cf5190c7f512850557e38c422430dc
+Host nuspec repo commit: de078f3eabf87d4dce3e2a311c1d23b9bbd6b1e4 (distinct from embedded runtime PE commit).
+WindowsDesktop nuspec commit: 337963009d48a3016b50172b451b4e80f78791a7
+WPF Version.Details commit: 27c84022a86fcaa600315f4686cde97874615a24
+WinForms Version.Details commit: f4ddf3475a1269429508fe203cdfc4e21c3599d1
+exit=0

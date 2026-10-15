@@ -1,0 +1,4 @@
+$ bash -c cd\ agent\ \&\&\ /Users/willjose/.hermes/cache/scratch/T19-r1/sdk401/dotnet\ list\ tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj\ package\ --vulnerable\ --include-transitive
+  Determining projects to restore...
+  Restored /Users/willjose/.hermes/cache/scratch/T19-fix2/src/agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj (in 129 ms).
+  1 of 2 projects are up-to-date for restore.

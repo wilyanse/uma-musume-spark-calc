@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# T19 final fix2 Sol gates; fresh source export, no worktree bin/obj and no destructive cleanup.
+set -uo pipefail
+S=/Users/willjose/.hermes/cache/scratch/T19-fix2
+W=$S/src
+OUT=$S/gates
+export DOTNET_ROOT=/Users/willjose/.hermes/cache/scratch/T19-r1/sdk401
+export DOTNET_BIN=$DOTNET_ROOT/dotnet
+export NUGET_PACKAGES=/Users/willjose/.hermes/cache/scratch/T19-r1/nuget401
+export DOTNET_CLI_HOME=$S/dotnethome
+export DOTNET_CLI_TELEMETRY_OPTOUT=1 PYTHONDONTWRITEBYTECODE=1 DOTNET_GENERATE_ASPNET_CERTIFICATE=false
+export TMPDIR=$S/tmp
+D=$DOTNET_BIN
+mkdir -p "$OUT" "$TMPDIR" "$S/pwsh-logs"
+cd "$W"
+failures=0
+run() {
+  local name=$1; shift
+  printf '$ ' >"$OUT/$name.log"; printf '%q ' "$@" >>"$OUT/$name.log"; printf '\n' >>"$OUT/$name.log"
+  "$@" >>"$OUT/$name.log" 2>&1
+  local rc=$?
+  printf 'exit=%s\n' "$rc" >>"$OUT/$name.log"
+  printf '%s exit=%s\n' "$name" "$rc"
+  [[ $rc == 0 ]] || failures=$((failures+1))
+}
+run 01-runtime bash .github/scripts/agent-gates.sh runtime
+run 02-core-tests bash .github/scripts/agent-gates.sh core-tests
+run 03-windows-build bash .github/scripts/agent-gates.sh windows-build
+run 04-portable-tests bash -c "cd agent && $D test tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release"
+run 05-native-build bash -c "cd agent && $D build tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release -p:EnableWindowsTargeting=true"
+run 06-solution-build bash -c "cd agent && $D build Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true"
+run 07-publish bash -c "cd agent && $D publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableWindowsTargeting=true -o ../publish"
+run 08-notice-regressions python3 -X dev -W error agent/legal/tools/test_recipient_notices.py
+run 09-review-regressions python3 -X dev -W error agent/legal/tools/test_review_r1.py
+run 09b-review2-regressions python3 -X dev -W error agent/legal/tools/test_review_r2.py
+run 09c-archive-provenance python3 -X dev -W error agent/legal/tools/package_provenance.py --packages "$NUGET_PACKAGES"
+run 09d-archive-controls python3 -X dev -W error agent/legal/tools/package_provenance_controls.py --packages "$NUGET_PACKAGES"
+run 10-check-legal python3 agent/legal/tools/recipient_notices.py check-legal
+run 11-verify-exe python3 agent/legal/tools/recipient_notices.py verify-exe publish/Uma.Agent.Windows.exe --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+mkdir -p release
+run 12-package-zip python3 agent/legal/tools/recipient_notices.py package publish/Uma.Agent.Windows.exe release/uma-agent-agent-v0.0.0-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+run 13-verify-zip python3 agent/legal/tools/recipient_notices.py verify-zip release/uma-agent-agent-v0.0.0-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+run 14-zip-list unzip -l release/uma-agent-agent-v0.0.0-win-x64.zip
+run 15-bundle-data python3 agent/tests/Uma.Agent.Windows.Tests/Tools/bundle_probe.py publish/Uma.Agent.Windows.exe "$W"
+run 16-native-sqlite python3 agent/tests/Uma.Agent.Windows.Tests/Tools/sqlite_native_probe.py publish/Uma.Agent.Windows.exe /Users/willjose/.hermes/cache/scratch/T18/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg
+for p in src/Uma.Agent.Core/Uma.Agent.Core.csproj src/Uma.Agent.Windows/Uma.Agent.Windows.csproj tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj; do
+  n=$(basename "$p" .csproj)
+  run "17-audit-$n" bash -c "cd agent && $D list $p package --vulnerable --include-transitive"
+done
+run 18-audit-props bash -c "cd agent && $D msbuild src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -getProperty:NuGetAudit -getProperty:NuGetAuditMode -getProperty:NuGetAuditLevel -getProperty:TreatWarningsAsErrors -p:EnableWindowsTargeting=true"
+run 19-shipped-graph python3 agent/legal/tools/recipient_notices.py report publish/Uma.Agent.Windows.exe
+run 20-real-controls python3 agent/legal/tools/real_artifact_controls.py publish/Uma.Agent.Windows.exe --packages "$NUGET_PACKAGES"
+run 21-pwsh-controls python3 .github/tests/workflow_pwsh_controls.py --pwsh /Users/willjose/.hermes/cache/scratch/T19-r1/pwsh/pwsh --exe "$W/publish/Uma.Agent.Windows.exe" --assets "$W/agent/src/Uma.Agent.Windows/obj/project.assets.json" --baseline-exe /Users/willjose/.hermes/cache/scratch/T19/base-publish/Uma.Agent.Windows.exe --logs "$S/pwsh-logs"
+run 22-github-regressions env TOOLS_DIR=/Users/willjose/.hermes/cache/scratch/IR1/tools PWSH=/Users/willjose/.hermes/cache/scratch/T19-r1/pwsh/pwsh T19_RECIPIENT_EXE="$W/publish/Uma.Agent.Windows.exe" T19_RECIPIENT_ASSETS="$W/agent/src/Uma.Agent.Windows/obj/project.assets.json" bash .github/tests/run.sh
+run 23-config node .github/scripts/check-config.mjs .
+echo "ALLDONE failures=$failures"
+[[ $failures == 0 ]]

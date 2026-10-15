@@ -1,0 +1,21 @@
+GET https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.runtime.win-x64/8.0.31/microsoft.netcore.app.runtime.win-x64.8.0.31.nupkg
+HTTP 200
+sha256 1504ead20c9a25e4c47ece56b6cd407697ea0cde0148e07e71bebc1e2d841c2f inventory hash matches True
+archive nuspec member Microsoft.NETCore.App.Runtime.win-x64.nuspec repository {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+GET https://raw.githubusercontent.com/dotnet/runtime/1219a42122cf5190c7f512850557e38c422430dc/LICENSE.TXT
+HTTP 200
+archive/delivered exact match True; upstream CRLF/LF normalized match True upstream sha256 cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310
+GET https://raw.githubusercontent.com/dotnet/runtime/1219a42122cf5190c7f512850557e38c422430dc/THIRD-PARTY-NOTICES.TXT
+HTTP 200
+archive/delivered exact match True; upstream CRLF/LF normalized match True upstream sha256 97c1a7b3da6a4c6ad516448719f45114b41a4d4c5aa300a944476e2e4f5da438
+GET https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.host.win-x64/8.0.31/microsoft.netcore.app.host.win-x64.8.0.31.nupkg
+HTTP 200
+sha256 d8acca41e27c80fdefa6ccd6dcbd2b76a7cda5900432755351415a39c5571a1c inventory hash matches True
+archive nuspec member Microsoft.NETCore.App.Host.win-x64.nuspec repository {'type': 'git', 'url': 'https://github.com/dotnet/runtime', 'commit': '1219a42122cf5190c7f512850557e38c422430dc'}
+GET https://raw.githubusercontent.com/dotnet/runtime/1219a42122cf5190c7f512850557e38c422430dc/LICENSE.TXT
+HTTP 200
+archive/delivered exact match True; upstream CRLF/LF normalized match True upstream sha256 cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310
+GET https://raw.githubusercontent.com/dotnet/runtime/1219a42122cf5190c7f512850557e38c422430dc/THIRD-PARTY-NOTICES.TXT
+HTTP 200
+archive/delivered exact match True; upstream CRLF/LF normalized match True upstream sha256 97c1a7b3da6a4c6ad516448719f45114b41a4d4c5aa300a944476e2e4f5da438
+Fresh download/source observations verified; no package pins/hashes/licence bytes changed

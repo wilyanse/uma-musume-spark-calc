@@ -8,29 +8,43 @@ T10/T10b status is **Partial** until real Windows execution and H4 are recorded 
 - Install English (United States) language/OCR under Windows Settings > Time & language. An actionable error appears if `Windows.Media.Ocr` cannot create an English recognizer. This is a native H4 check, not proven on Mac.
 - The **game client area** (without borders/titlebar) must be 16:9 and at least 1920×1080 physical pixels. Larger supported 16:9 clients are normalized by Core's `ParseAsync`; smaller and other aspect ratios are refused before OCR. Windows display scaling is accounted for by the per-monitor-V2 manifest; test it at H4.
 - Use windowed/borderless mode and restore the game (not minimized). The system capture border is retained. Capture is client-area only; desktop and window chrome are not used as game pixels.
-- Building/testing requires the .NET SDK selected by `agent/global.json` (9.0.100 with latestMajor roll-forward) and a native .NET 8 runtime for net8 tests. The published win-x64 binary is self-contained; no .NET install is required merely to launch it.
+- Building/testing requires the .NET SDK selected by `agent/global.json` (exact SDK 10.0.401, rollForward disabled; same global.json used by release setup-dotnet) and a native .NET 8 runtime for net8 tests. The published win-x64 binary is self-contained; no .NET install is required merely to launch it.
 
-From the repository root (PowerShell on Windows):
+From the repository root, enter `agent` before invoking dotnet (PowerShell on Windows). Install SDK 10.0.401 and a separate native .NET 8 runtime for the net8 tests; the SDK download alone contains a 10.0 runtime, not 8.0.31. Root invocation is not a supported SDK-selection path:
 
 ```powershell
-dotnet build agent/Uma.Agent.sln -c Release
-dotnet test agent/tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release
-dotnet test agent/tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release
-dotnet test agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release
-dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o agent-publish
+Push-Location agent
+dotnet --version # must be 10.0.401; no latestMajor roll-forward
+dotnet build Uma.Agent.sln -c Release
+dotnet test tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release
+dotnet test tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release
+dotnet test tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release
+dotnet publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ../agent-publish
+Pop-Location
 ```
 
 `IncludeAllContentForSelfExtract` is set in the project: read-only layout, templates, published master bundle and appsettings.json are bundled with the assemblies/native libraries. Single-file startup/data extraction must be checked on Windows.
 
-Image libraries (T16b): PNG framing and resampling are Core's own managed code; decode compression uses SharpZipLib 1.4.2 (MIT) and encode compression uses the .NET base library. The new compression dependency's licence copy and T19 inventory are in `agent/legal/`. No image package, license key, account or environment variable is involved; no `SixLaborsLicenseKey` or `sixlabors.lic` is used or needed. Apart from the .NET/WPF runtime's native components, the only bundled native dependency is SQLite's `e_sqlite3.dll`; SharpZipLib adds none. Release blocker: the published EXE does not yet carry the third-party licence texts of its bundled components (.NET runtime, SQLite, Serilog and others). Do not publish an `agent-v*` release until the queued licence/notice packaging task (T19) ships them. The standard Release commands above (audit enabled, warnings as errors) are the supported path.
+Image libraries (T16b): PNG framing and resampling are Core's own managed code; decode compression uses SharpZipLib 1.4.2 (MIT) and encode compression uses the .NET base library. Its licence text is delivered with the other notices (T19, below). No image package, license key, account or environment variable is involved; no `SixLaborsLicenseKey` or `sixlabors.lic` is used or needed. Apart from the .NET/WPF runtime's native components, the only bundled native dependency is SQLite's `e_sqlite3.dll`; SharpZipLib adds none. The standard Release commands above (audit enabled, warnings as errors) are the supported path.
 
-SQLite security (T18): Microsoft.Data.Sqlite remains 10.0.3; the exact SQLitePCLRaw.bundle_e_sqlite3 2.1.12 override brings all four SQLitePCLRaw packages to 2.1.12. The inspected native engine is SQLite 3.53.3, above GHSA-2m69-gcr7-jv3q's 3.50.2 fix. `agent/Directory.Build.props` enables NuGet audit for **all** transitive dependencies with warnings as errors. Do not disable audit or suppress an advisory to build. `dotnet test agent/tests/Uma.Agent.Core.Tests -c Release --filter FullyQualifiedName~SqliteSecurityTests` verifies the actual loaded engine/source ID, pre-upgrade DB readability/writes, transaction rollback/reopen and SQLite backup compatibility. Existing schema, file locations and backup procedure (§4) are unchanged; no reset or recapture is needed just for this dependency update.
+SQLite security (T18): Microsoft.Data.Sqlite remains 10.0.3; the exact SQLitePCLRaw.bundle_e_sqlite3 2.1.12 override brings all four SQLitePCLRaw packages to 2.1.12. The inspected native engine is SQLite 3.53.3, above GHSA-2m69-gcr7-jv3q's 3.50.2 fix. `agent/Directory.Build.props` enables NuGet audit for **all** transitive dependencies with warnings as errors. Do not disable audit or suppress an advisory to build. `(cd agent; dotnet test tests/Uma.Agent.Core.Tests -c Release --filter FullyQualifiedName~SqliteSecurityTests)` verifies the actual loaded engine/source ID, pre-upgrade DB readability/writes, transaction rollback/reopen and SQLite backup compatibility. Existing schema, file locations and backup procedure (§4) are unchanged; no reset or recapture is needed just for this dependency update.
 
-Packaging verification: `python3 agent/tests/Uma.Agent.Windows.Tests/Tools/sqlite_native_probe.py <published.exe> <sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg>` checks the bundled e_sqlite3.dll against `runtimes/win-x64/native/e_sqlite3.dll`, its PE32+ AMD64 architecture and embedded SQLite source identity. Obtain the exact package from `https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/2.1.12/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg`; hashes and verbatim upstream licence/notice inventory are in `agent/legal/README.md`. This is package inspection, not Windows-native execution; H4 still requires running the Native tests and published EXE on Windows. T19 recipient licence/NOTICE delivery still blocks release.
+Packaging verification: `python3 agent/tests/Uma.Agent.Windows.Tests/Tools/sqlite_native_probe.py <published.exe> <sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg>` checks the bundled e_sqlite3.dll against `runtimes/win-x64/native/e_sqlite3.dll`, its PE32+ AMD64 architecture and embedded SQLite source identity. Obtain the exact package from `https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/2.1.12/sqlitepclraw.lib.e_sqlite3.2.1.12.nupkg`; hashes and verbatim upstream licence/notice inventory are in `agent/legal/README.md`. This is package inspection, not Windows-native execution; H4 still requires running the Native tests and published EXE on Windows.
 
-For a future SQLite update, update the exact engine/source assertions in `SqliteSecurityTests.cs`, package/source checks in `sqlite_native_probe.py`, and package/native/source/licence hashes in `agent/legal/README.md` together; repeat the loaded-engine and fresh publish checks rather than changing only the bundle pin.
+For a future SQLite update, update the exact engine/source assertions in `SqliteSecurityTests.cs`, package/source checks in `sqlite_native_probe.py`, and package/native/source/licence hashes in `agent/legal/README.md` and `agent/legal/inventory.json` together; repeat the loaded-engine and fresh publish checks rather than changing only the bundle pin.
 
-Only the EXE is needed; the two PDBs are optional symbols, not credentials. The existing T12 tag release workflow builds this project and uploads the EXE; do NOT tag/push/deploy during task implementation.
+Third-party licences (T19): the EXE bundles every applicable licence/copyright/NOTICE text, read-only, under `legal/` (index `legal/INDEX.txt`; .NET is expected to extract it to `%TEMP%\.net\Uma.Agent.Windows\<bundle id>\legal\`, still H4-unverified). Because that extraction folder is a hidden cache, the supported distribution is one ZIP that pairs the EXE with a top-level `LICENSES/` folder holding the same files. Build and check it with exactly the commands CI uses:
+
+```sh
+python3 agent/legal/tools/test_recipient_notices.py
+python3 agent/legal/tools/test_review_r1.py
+python3 agent/legal/tools/recipient_notices.py package agent-publish/Uma.Agent.Windows.exe uma-agent-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+python3 agent/legal/tools/recipient_notices.py verify-zip uma-agent-win-x64.zip --assets agent/src/Uma.Agent.Windows/obj/project.assets.json
+```
+
+The check compares the final EXE bytes with `agent/legal/inventory.json` and the packages/runtime packs of that same restore. It fails on a missing, truncated or changed notice, an unlisted/changed dependency or runtime version (supported SDK 10.0.401 resolves inventoried packs/host 8.0.31; future drift requires freshly sourced coverage), a stale inventory entry, or a bundle file not byte-identical to its restored package. On such a failure, re-source the exact texts and update `agent/legal` (see its README); never edit hashes alone. Pass on the ZIP, or the EXE together with its `LICENSES` folder, never the EXE alone. The two PDBs are optional symbols, not credentials. The T12 tag release workflow (`agent-release.yml`) runs the same checks, re-verifies the ZIP and uploads only that ZIP; do NOT tag/push/deploy during task implementation. These are byte checks: Windows extraction/startup remain H4, and no release is approved by them.
+
+**UNRESOLVED HUMAN PUBLICATION GATE:** the single-file Windows runtime and named WPF natives carry Microsoft .NET Library License terms; D3DCompiler carries Windows SDK terms (see LICENSES/INDEX.txt). Both impose distributor/end-user agreement and other obligations, including indemnity, non-standalone distribution and retained notices. File delivery alone does not satisfy them. Responsible human legal/distributor action is required before public release; this task neither accepts terms nor authorizes publication. Historical 8.0.24 gate results are not current supported-runtime evidence.
 
 Verify before use:
 
@@ -45,9 +59,12 @@ The first launch opens a status/checklist window and a tray icon. Closing the st
 Mac/Linux compile checks (no native execution):
 
 ```sh
-dotnet build agent/Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true
-dotnet build agent/tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release -p:EnableWindowsTargeting=true
-dotnet publish agent/src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableWindowsTargeting=true -o "$TMPDIR/t10-publish"
+cd agent
+dotnet --version # exactly 10.0.401
+dotnet build Uma.Agent.sln -c Release -p:EnableWindowsTargeting=true
+dotnet build tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release -p:EnableWindowsTargeting=true
+dotnet publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableWindowsTargeting=true -o "$TMPDIR/t10-publish"
+cd ..
 ```
 
 Retained verification tools (task-owned, not shipped, not tests): `agent/tests/Uma.Agent.Windows.Tests/Tools/` (see its README): `MemoryProbe` (managed memory held by the real pipeline) and `bundle_probe.py` (bundled data in a published EXE matches repository bytes).

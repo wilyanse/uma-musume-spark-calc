@@ -1,0 +1,23 @@
+RECIPIENT NOTICE CHECK FAILED:
+  - shipped runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.31 but inventory covers runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - shipped runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.31 but inventory covers runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 (dependency/runtime version drift; update agent/legal)
+  - stale inventory: runtimepack.Microsoft.NETCore.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - stale inventory: runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24 is not in the published graph
+  - runtimeconfig includes Microsoft.NETCore.App 8.0.31; inventory runtime pack version 8.0.24
+  - runtimeconfig includes Microsoft.WindowsDesktop.App 8.0.31; inventory runtime pack version 8.0.24
+  - EXE entry Microsoft.CSharp.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.VisualBasic.Core.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.Win32.Primitives.dll is not attributable to the inventory graph
+  - EXE entry Microsoft.Win32.Registry.dll is not attributable to the inventory graph
+  - EXE entry System.AppContext.dll is not attributable to the inventory graph
+  - EXE entry System.Buffers.dll is not attributable to the inventory graph
+  - EXE entry System.Collections.Concurrent.dll is not attributable to the inventory graph
+  - EXE entry System.Collections.Immutable.dll is not attributable to the inventory graph
+... 441 attribution lines omitted (full scratch log preserved)
+  - runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64/8.0.24: pack licence text LICENSE missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.windowsdesktop.app.runtime.win-x64/8.0.24
+  - restored package not found for Microsoft.NETCore.App.Host.win-x64/8.0.24: /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.host.win-x64/8.0.24/microsoft.netcore.app.host.win-x64.8.0.24.nupkg
+  - Microsoft.NETCore.App.Host.win-x64/8.0.24: pack licence text LICENSE.TXT missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.host.win-x64/8.0.24
+  - Microsoft.NETCore.App.Host.win-x64/8.0.24: pack licence text THIRD-PARTY-NOTICES.TXT missing in /Users/willjose/.hermes/cache/scratch/T19-r1/nuget401/microsoft.netcore.app.host.win-x64/8.0.24
+  - EXE single-file host is not build '8,0,2426,7010 @Commit: b3b35ce80e9eb94f72c4aa36a171a5e1cde72ace' of Microsoft.NETCore.App.Host.win-x64/8.0.24
+exit=1
+zip_exists=no

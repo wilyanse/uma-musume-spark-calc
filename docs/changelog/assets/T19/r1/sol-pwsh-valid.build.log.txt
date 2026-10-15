@@ -1,0 +1,64 @@
+release ZIP ok: /Users/willjose/.hermes/cache/scratch/T19/r1/tmp/t19-pwsh-9vh_cg98/valid workspace with spaces/release/uma-agent-agent-v1.2.3-win-x64.zip sha256 d7f37b284f1d5e8c7def2ac4247dbebdd071283c9202e49f9aefc7059f3f0857; EXE + 20 LICENSES files; 494 bundle entries, 455 byte-matched
+test_repository_legal_inventory_is_consistent (__main__.RealInventoryTests.test_repository_legal_inventory_is_consistent) ... ok
+test_bundle_entry_bytes_must_match_restored_package (__main__.RecipientNoticeTests.test_bundle_entry_bytes_must_match_restored_package) ... ok
+test_cli_exit_codes (__main__.RecipientNoticeTests.test_cli_exit_codes) ... ok
+test_component_without_notice_fails (__main__.RecipientNoticeTests.test_component_without_notice_fails) ... ok
+test_compressed_notice_fails (__main__.RecipientNoticeTests.test_compressed_notice_fails) ... ok
+test_corrupted_repository_notice_fails (__main__.RecipientNoticeTests.test_corrupted_repository_notice_fails) ... ok
+test_deleted_repository_notice_fails (__main__.RecipientNoticeTests.test_deleted_repository_notice_fails) ... ok
+test_different_single_file_host_build_fails (__main__.RecipientNoticeTests.test_different_single_file_host_build_fails) ... ok
+test_exe_without_notices_fails (__main__.RecipientNoticeTests.test_exe_without_notices_fails) ... ok
+test_foreign_bundle_entry_fails (__main__.RecipientNoticeTests.test_foreign_bundle_entry_fails) ... ok
+test_graph_only_package_that_ships_files_fails (__main__.RecipientNoticeTests.test_graph_only_package_that_ships_files_fails) ... ok
+test_graph_only_without_reason_fails (__main__.RecipientNoticeTests.test_graph_only_without_reason_fails) ... ok
+test_index_must_name_every_notice_and_version (__main__.RecipientNoticeTests.test_index_must_name_every_notice_and_version) ... ok
+test_listed_graph_only_package_passes_and_unlisted_fails (__main__.RecipientNoticeTests.test_listed_graph_only_package_passes_and_unlisted_fails) ... ok
+test_missing_single_notice_fails (__main__.RecipientNoticeTests.test_missing_single_notice_fails) ... ok
+test_not_a_bundle_fails (__main__.RecipientNoticeTests.test_not_a_bundle_fails) ... ok
+test_package_version_drift_fails (__main__.RecipientNoticeTests.test_package_version_drift_fails) ... ok
+test_restored_package_hash_drift_fails (__main__.RecipientNoticeTests.test_restored_package_hash_drift_fails) ... ok
+test_restored_runtime_pack_notice_drift_fails (__main__.RecipientNoticeTests.test_restored_runtime_pack_notice_drift_fails) ... ok
+test_runtime_patch_drift_fails (__main__.RecipientNoticeTests.test_runtime_patch_drift_fails) ... ok
+test_stale_inventory_component_fails (__main__.RecipientNoticeTests.test_stale_inventory_component_fails) ... ok
+test_truncated_notice_in_exe_fails (__main__.RecipientNoticeTests.test_truncated_notice_in_exe_fails) ... ok
+test_unexpected_legal_entry_fails (__main__.RecipientNoticeTests.test_unexpected_legal_entry_fails) ... ok
+test_unresolved_new_dependency_fails (__main__.RecipientNoticeTests.test_unresolved_new_dependency_fails) ... ok
+test_valid_exe_passes_and_counts_entries (__main__.RecipientNoticeTests.test_valid_exe_passes_and_counts_entries) ... ok
+test_valid_zip_is_deterministic_and_verifies (__main__.RecipientNoticeTests.test_valid_zip_is_deterministic_and_verifies) ... ok
+test_zip_exe_alone_fails (__main__.RecipientNoticeTests.test_zip_exe_alone_fails) ... ok
+test_zip_extra_member_fails (__main__.RecipientNoticeTests.test_zip_extra_member_fails) ... ok
+test_zip_missing_notice_fails (__main__.RecipientNoticeTests.test_zip_missing_notice_fails) ... ok
+test_zip_truncated_notice_fails (__main__.RecipientNoticeTests.test_zip_truncated_notice_fails) ... ok
+test_zip_with_exe_lacking_notices_fails (__main__.RecipientNoticeTests.test_zip_with_exe_lacking_notices_fails) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.546s
+
+OK
+test_cli_parse_failure_is_diagnostic_not_traceback (__main__.BoundsTests.test_cli_parse_failure_is_diagnostic_not_traceback) ... ok
+test_duplicate_json_key (__main__.BoundsTests.test_duplicate_json_key) ... ok
+test_header_near_eof (__main__.BoundsTests.test_header_near_eof) ... ok
+test_host_code_tamper (__main__.BoundsTests.test_host_code_tamper) ... ok
+test_host_version_tamper (__main__.BoundsTests.test_host_version_tamper) ... ok
+test_invalid_json_and_schema (__main__.BoundsTests.test_invalid_json_and_schema) ... ok
+test_invalid_utf8 (__main__.BoundsTests.test_invalid_utf8) ... ok
+test_inventory_host_identity_is_not_invented (__main__.BoundsTests.test_inventory_host_identity_is_not_invented) ... ok
+test_inventory_unsafe_notice_path (__main__.BoundsTests.test_inventory_unsafe_notice_path) ... ok
+test_missing_deps (__main__.BoundsTests.test_missing_deps) ... ok
+test_negative_and_huge_entry_count (__main__.BoundsTests.test_negative_and_huge_entry_count) ... ok
+test_truncated_manifest (__main__.BoundsTests.test_truncated_manifest) ... ok
+test_unbounded_varint (__main__.BoundsTests.test_unbounded_varint) ... ok
+test_wrong_json_type (__main__.BoundsTests.test_wrong_json_type) ... ok
+test_real_autocrlf_checkout_and_negative_without_attributes (__main__.GitCheckoutTests.test_real_autocrlf_checkout_and_negative_without_attributes)
+Commit legal bytes only in a disposable repo; clone with real Git autocrlf=true. ... ok
+test_all_named_native_licences (__main__.LicenceTests.test_all_named_native_licences) ... ok
+test_mapping_omitted_or_mislabelled (__main__.LicenceTests.test_mapping_omitted_or_mislabelled) ... ok
+test_native_actual_bundle_required (__main__.LicenceTests.test_native_actual_bundle_required) ... ok
+test_runtime_mit_only_is_rejected (__main__.LicenceTests.test_runtime_mit_only_is_rejected) ... ok
+test_sdk_render_byte_reproducible (__main__.LicenceTests.test_sdk_render_byte_reproducible) ... ok
+test_singlefile_licence_and_human_gate_required (__main__.LicenceTests.test_singlefile_licence_and_human_gate_required) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 2.603s
+
+OK
