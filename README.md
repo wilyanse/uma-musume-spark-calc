@@ -2,11 +2,14 @@
 
 Import your Uma Musume (Global, Steam) veteran umas and support cards with a Windows screen-capture agent. Then rank parent pairs by the chance that a child meets a Champions Meeting target.
 
-> Status: **specification phase**. Nothing is built yet. Specs are in `docs/specs/`.
+> Status: implementation through T19 is merged locally and independently reviewed; local agent/workspace/browser checks pass. Windows/game acceptance, real-roster calibration, private hosting and human redistribution approval remain pending. **Windows operator / Claude agent: start at [the Windows handoff](docs/runbooks/windows-handoff.md)**, not the task orchestration plan. A GitHub clone may lag local main until publication is authorized.
 
 ## Who reads what
 | File | Audience |
 |---|---|
+| `docs/runbooks/windows-handoff.md` | Windows operator: transfer, prerequisites, staged offline/live acceptance |
+| `docs/tasks/H4-windows-validation.prompt.md` | Claude agent on Windows: bounded validation role and evidence requirements |
+| `docs/reference/windows/H4-REPORT-TEMPLATE.md` | Windows validator: sanitized report to return to the coordinator |
 | `docs/ARCHITECTURE.md` | Background and design reasoning (specs override it) |
 | `AGENTS.md` | Every implementing agent: rules, changelog, definition of done |
 | `docs/specs/00-overview.md` | Everyone: features F01–F15, modules, layout, milestones |
@@ -31,13 +34,16 @@ Import your Uma Musume (Global, Steam) veteran umas and support cards with a Win
 Game data is derived from [GameTora](https://gametora.com/umamusume). Uma Musume materials are © Cygames, Inc. This project isn't affiliated with Cygames or GameTora.
 
 ## Development quickstart
-Requirements: Node ≥ 22.18 (the build runs `.ts` scripts via Node native type stripping, on by default from 22.18), pnpm 11 (`corepack enable`), and for the agent the .NET SDK (9 or 10 works; projects target net8.0).
+Requirements: Node ≥ 22.18 (native type stripping), exact pnpm from `package.json`, and for the agent exact .NET SDK **10.0.401** selected by `agent/global.json`, plus a separate .NET8 test runtime (Desktop Runtime for native Windows/WPF tests). Projects still target net8.0. See the Windows handoff for English OCR, client geometry and actual native acceptance.
 
 ```
-pnpm install
+pnpm install --frozen-lockfile
 pnpm lint && pnpm typecheck && pnpm test   # recursive over all workspace packages
-pnpm build                                  # writes packages/schema/json/*.schema.json
-dotnet build agent/Uma.Agent.sln
+pnpm --filter web build
+pnpm --filter web check:dist
+cd agent
+dotnet --version                           # must be 10.0.401
+dotnet build Uma.Agent.sln                 # Windows; see runbook for non-Windows cross-targeting
 ```
 
-Shared contracts live in `packages/schema` (`@uma/schema`). After editing a schema, run `pnpm build` and commit the regenerated `packages/schema/json/`; a test fails if they drift.
+Shared contracts live in `packages/schema` (`@uma/schema`). Only the owning task may change contracts and regenerate schemas with the scoped schema build. Do not run `pnpm -r build` / root `pnpm build`, regenerate fixtures/master data, or blanket-format the repository during acceptance. For complete publish/test commands, use `docs/runbooks/agent-install.md` and the Windows handoff.
