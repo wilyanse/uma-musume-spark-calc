@@ -1,0 +1,159 @@
+{
+  "engine": "windows-media-ocr-en-US",
+  "reference": [
+    1920,
+    1080
+  ],
+  "lines": [
+    {
+      "box": [
+        519,
+        43,
+        68,
+        26
+      ],
+      "confidence": 1,
+      "text": "Sparks"
+    },
+    {
+      "box": [
+        572,
+        146,
+        146,
+        21
+      ],
+      "confidence": 1,
+      "text": "[Special Dreamer]"
+    },
+    {
+      "box": [
+        583,
+        177,
+        127,
+        23
+      ],
+      "confidence": 1,
+      "text": "Special Week"
+    },
+    {
+      "box": [
+        283,
+        265,
+        85,
+        16
+      ],
+      "confidence": 1,
+      "text": "Sparks Held"
+    },
+    {
+      "box": [
+        565,
+        309,
+        84,
+        20
+      ],
+      "confidence": 1,
+      "text": "O Medium"
+    },
+    {
+      "box": [
+        286,
+        310,
+        70,
+        19
+      ],
+      "confidence": 1,
+      "text": "O Power"
+    },
+    {
+      "box": [
+        286,
+        359,
+        127,
+        19
+      ],
+      "confidence": 1,
+      "text": "O Shooting Star"
+    },
+    {
+      "box": [
+        589,
+        359,
+        94,
+        14
+      ],
+      "confidence": 1,
+      "text": "NHK Mile C."
+    },
+    {
+      "box": [
+        310,
+        408,
+        91,
+        15
+      ],
+      "confidence": 1,
+      "text": "Arima Kinen"
+    },
+    {
+      "box": [
+        589,
+        408,
+        170,
+        15
+      ],
+      "confidence": 1,
+      "text": "Hanshin Racecourse O"
+    },
+    {
+      "box": [
+        310,
+        458,
+        72,
+        14
+      ],
+      "confidence": 1,
+      "text": "Uma Stan"
+    },
+    {
+      "box": [
+        589,
+        458,
+        70,
+        14
+      ],
+      "confidence": 1,
+      "text": "Head-On"
+    },
+    {
+      "box": [
+        310,
+        507,
+        130,
+        19
+      ],
+      "confidence": 1,
+      "text": "My True Strength"
+    },
+    {
+      "box": [
+        589,
+        507,
+        145,
+        15
+      ],
+      "confidence": 1,
+      "text": "Our Grand Concert"
+    },
+    {
+      "box": [
+        524,
+        987,
+        58,
+        20
+      ],
+      "confidence": 1,
+      "text": "Close"
+    }
+  ]
+}

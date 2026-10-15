@@ -1,0 +1,619 @@
+{
+  "engine": "windows-media-ocr-en-US",
+  "reference": [
+    1920,
+    1080
+  ],
+  "lines": [
+    {
+      "box": [
+        167,
+        15,
+        124,
+        18
+      ],
+      "confidence": 1,
+      "text": "Support Card List"
+    },
+    {
+      "box": [
+        1316,
+        28,
+        80,
+        25
+      ],
+      "confidence": 1,
+      "text": "Menu"
+    },
+    {
+      "box": [
+        1070,
+        94,
+        60,
+        15
+      ],
+      "confidence": 1,
+      "text": "Trainer"
+    },
+    {
+      "box": [
+        1794,
+        105,
+        90,
+        21
+      ],
+      "confidence": 1,
+      "text": "Jukebox"
+    },
+    {
+      "box": [
+        1499,
+        135,
+        71,
+        20
+      ],
+      "confidence": 1,
+      "text": "Profile"
+    },
+    {
+      "box": [
+        1195,
+        149,
+        102,
+        26
+      ],
+      "confidence": 1,
+      "text": "Inventory"
+    },
+    {
+      "box": [
+        1467,
+        164,
+        135,
+        20
+      ],
+      "confidence": 1,
+      "text": "Trainer Card"
+    },
+    {
+      "box": [
+        1462,
+        231,
+        144,
+        27
+      ],
+      "confidence": 1,
+      "text": "Trophy Room"
+    },
+    {
+      "box": [
+        1215,
+        232,
+        60,
+        20
+      ],
+      "confidence": 1,
+      "text": "Titles"
+    },
+    {
+      "box": [
+        1804,
+        254,
+        71,
+        26
+      ],
+      "confidence": 1,
+      "text": "Sparks"
+    },
+    {
+      "box": [
+        1206,
+        314,
+        79,
+        21
+      ],
+      "confidence": 1,
+      "text": "Friends"
+    },
+    {
+      "box": [
+        1491,
+        315,
+        86,
+        26
+      ],
+      "confidence": 1,
+      "text": "Options"
+    },
+    {
+      "box": [
+        621,
+        363,
+        93,
+        16
+      ],
+      "confidence": 1,
+      "text": "ot\" L vl 30"
+    },
+    {
+      "box": [
+        327,
+        364,
+        272,
+        12
+      ],
+      "confidence": 1,
+      "text": "LVI 30 35"
+    },
+    {
+      "box": [
+        810,
+        364,
+        19,
+        12
+      ],
+      "confidence": 1,
+      "text": "50"
+    },
+    {
+      "box": [
+        1211,
+        397,
+        72,
+        21
+      ],
+      "confidence": 1,
+      "text": "Photos"
+    },
+    {
+      "box": [
+        1819,
+        411,
+        40,
+        25
+      ],
+      "confidence": 1,
+      "text": "Log"
+    },
+    {
+      "box": [
+        1070,
+        468,
+        105,
+        14
+      ],
+      "confidence": 1,
+      "text": "Umamusume"
+    },
+    {
+      "box": [
+        1090,
+        491,
+        49,
+        16
+      ],
+      "confidence": 1,
+      "text": "NEW"
+    },
+    {
+      "box": [
+        327,
+        518,
+        158,
+        13
+      ],
+      "confidence": 1,
+      "text": "LVI 30 LVI 50"
+    },
+    {
+      "box": [
+        581,
+        518,
+        18,
+        13
+      ],
+      "confidence": 1,
+      "text": "30"
+    },
+    {
+      "box": [
+        695,
+        518,
+        19,
+        13
+      ],
+      "confidence": 1,
+      "text": "50"
+    },
+    {
+      "box": [
+        740,
+        519,
+        89,
+        12
+      ],
+      "confidence": 1,
+      "text": ", x 50"
+    },
+    {
+      "box": [
+        1204,
+        521,
+        82,
+        20
+      ],
+      "confidence": 1,
+      "text": "Archive"
+    },
+    {
+      "box": [
+        1496,
+        521,
+        77,
+        20
+      ],
+      "confidence": 1,
+      "text": "Comics"
+    },
+    {
+      "box": [
+        1803,
+        549,
+        72,
+        19
+      ],
+      "confidence": 1,
+      "text": "Career"
+    },
+    {
+      "box": [
+        1804,
+        570,
+        69,
+        20
+      ],
+      "confidence": 1,
+      "text": "Profile"
+    },
+    {
+      "box": [
+        1206,
+        605,
+        78,
+        19
+      ],
+      "confidence": 1,
+      "text": "Secrets"
+    },
+    {
+      "box": [
+        1457,
+        605,
+        156,
+        27
+      ],
+      "confidence": 1,
+      "text": "Change Outfit"
+    },
+    {
+      "box": [
+        621,
+        668,
+        93,
+        20
+      ],
+      "confidence": 1,
+      "text": "VYVÖLvl 50"
+    },
+    {
+      "box": [
+        351,
+        672,
+        97,
+        13
+      ],
+      "confidence": 1,
+      "text": "30 A L"
+    },
+    {
+      "box": [
+        449,
+        672,
+        36,
+        13
+      ],
+      "confidence": 1,
+      "text": "vl 30"
+    },
+    {
+      "box": [
+        1070,
+        672,
+        49,
+        15
+      ],
+      "confidence": 1,
+      "text": "Other"
+    },
+    {
+      "box": [
+        581,
+        673,
+        18,
+        12
+      ],
+      "confidence": 1,
+      "text": "50"
+    },
+    {
+      "box": [
+        810,
+        673,
+        19,
+        12
+      ],
+      "confidence": 1,
+      "text": "30"
+    },
+    {
+      "box": [
+        1198,
+        712,
+        95,
+        20
+      ],
+      "confidence": 1,
+      "text": "Purchase"
+    },
+    {
+      "box": [
+        1796,
+        717,
+        84,
+        26
+      ],
+      "confidence": 1,
+      "text": "Agenda"
+    },
+    {
+      "box": [
+        1483,
+        726,
+        104,
+        20
+      ],
+      "confidence": 1,
+      "text": "Data Link"
+    },
+    {
+      "box": [
+        1211,
+        741,
+        68,
+        20
+      ],
+      "confidence": 1,
+      "text": "Carats"
+    },
+    {
+      "box": [
+        1497,
+        795,
+        75,
+        27
+      ],
+      "confidence": 1,
+      "text": "Help &"
+    },
+    {
+      "box": [
+        1174,
+        809,
+        142,
+        20
+      ],
+      "confidence": 1,
+      "text": "Account Link"
+    },
+    {
+      "box": [
+        378,
+        819,
+        197,
+        17
+      ],
+      "confidence": 1,
+      "text": "208/255 Filters: OFF"
+    },
+    {
+      "box": [
+        285,
+        820,
+        39,
+        15
+      ],
+      "confidence": 1,
+      "text": "Held"
+    },
+    {
+      "box": [
+        605,
+        820,
+        44,
+        18
+      ],
+      "confidence": 1,
+      "text": "Rarity"
+    },
+    {
+      "box": [
+        764,
+        822,
+        34,
+        12
+      ],
+      "confidence": 1,
+      "text": "Desc"
+    },
+    {
+      "box": [
+        1488,
+        823,
+        93,
+        27
+      ],
+      "confidence": 1,
+      "text": "Glossary"
+    },
+    {
+      "box": [
+        1816,
+        857,
+        46,
+        19
+      ],
+      "confidence": 1,
+      "text": "Item"
+    },
+    {
+      "box": [
+        1796,
+        879,
+        87,
+        25
+      ],
+      "confidence": 1,
+      "text": "Request"
+    },
+    {
+      "box": [
+        1474,
+        892,
+        121,
+        20
+      ],
+      "confidence": 1,
+      "text": "Enter Code"
+    },
+    {
+      "box": [
+        1202,
+        893,
+        86,
+        26
+      ],
+      "confidence": 1,
+      "text": "Support"
+    },
+    {
+      "box": [
+        195,
+        901,
+        43,
+        18
+      ],
+      "confidence": 1,
+      "text": "Back"
+    },
+    {
+      "box": [
+        1163,
+        975,
+        164,
+        20
+      ],
+      "confidence": 1,
+      "text": "To Title Screen"
+    },
+    {
+      "box": [
+        651,
+        981,
+        30,
+        11
+      ],
+      "confidence": 1,
+      "text": "Event"
+    },
+    {
+      "box": [
+        382,
+        987,
+        67,
+        12
+      ],
+      "confidence": 1,
+      "text": "Limited Time"
+    },
+    {
+      "box": [
+        636,
+        994,
+        68,
+        16
+      ],
+      "confidence": 1,
+      "text": "Underway!å."
+    },
+    {
+      "box": [
+        1808,
+        1031,
+        60,
+        20
+      ],
+      "confidence": 1,
+      "text": "Menu"
+    },
+    {
+      "box": [
+        390,
+        1043,
+        47,
+        21
+      ],
+      "confidence": 1,
+      "text": "Story"
+    },
+    {
+      "box": [
+        279,
+        1045,
+        68,
+        17
+      ],
+      "confidence": 1,
+      "text": "Enhance"
+    },
+    {
+      "box": [
+        528,
+        1047,
+        50,
+        15
+      ],
+      "confidence": 1,
+      "text": "Home"
+    },
+    {
+      "box": [
+        768,
+        1047,
+        48,
+        16
+      ],
+      "confidence": 1,
+      "text": "Scout"
+    },
+    {
+      "box": [
+        672,
+        1049,
+        41,
+        15
+      ],
+      "confidence": 1,
+      "text": "Race"
+    }
+  ]
+}

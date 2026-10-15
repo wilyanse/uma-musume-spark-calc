@@ -1,0 +1,389 @@
+{
+  "engine": "windows-media-ocr-en-US",
+  "reference": [
+    1920,
+    1080
+  ],
+  "lines": [
+    {
+      "box": [
+        448,
+        43,
+        211,
+        20
+      ],
+      "confidence": 1,
+      "text": "Umamusume Details"
+    },
+    {
+      "box": [
+        569,
+        101,
+        164,
+        20
+      ],
+      "confidence": 1,
+      "text": "[Frontline Elegance]"
+    },
+    {
+      "box": [
+        574,
+        129,
+        155,
+        23
+      ],
+      "confidence": 1,
+      "text": "Mejiro.McQueen"
+    },
+    {
+      "box": [
+        459,
+        150,
+        80,
+        21
+      ],
+      "confidence": 1,
+      "text": "Epithet\""
+    },
+    {
+      "box": [
+        758,
+        174,
+        58,
+        18
+      ],
+      "confidence": 1,
+      "text": "Change"
+    },
+    {
+      "box": [
+        553,
+        177,
+        145,
+        17
+      ],
+      "confidence": 1,
+      "text": "Independent Learner"
+    },
+    {
+      "box": [
+        342,
+        228,
+        54,
+        15
+      ],
+      "confidence": 1,
+      "text": "13,471"
+    },
+    {
+      "box": [
+        315,
+        262,
+        273,
+        17
+      ],
+      "confidence": 1,
+      "text": "Speed Stamina Power"
+    },
+    {
+      "box": [
+        659,
+        262,
+        36,
+        13
+      ],
+      "confidence": 1,
+      "text": "Guts"
+    },
+    {
+      "box": [
+        279,
+        286,
+        313,
+        32
+      ],
+      "confidence": 1,
+      "text": "A 894 938 Ü 740"
+    },
+    {
+      "box": [
+        618,
+        286,
+        200,
+        33
+      ],
+      "confidence": 1,
+      "text": "C 559 b 635"
+    },
+    {
+      "box": [
+        311,
+        344,
+        49,
+        17
+      ],
+      "confidence": 1,
+      "text": "Track"
+    },
+    {
+      "box": [
+        409,
+        377,
+        77,
+        22
+      ],
+      "confidence": 1,
+      "text": "sprint C"
+    },
+    {
+      "box": [
+        299,
+        378,
+        75,
+        17
+      ],
+      "confidence": 1,
+      "text": "Distance"
+    },
+    {
+      "box": [
+        314,
+        412,
+        44,
+        22
+      ],
+      "confidence": 1,
+      "text": "Style"
+    },
+    {
+      "box": [
+        699,
+        458,
+        85,
+        15
+      ],
+      "confidence": 1,
+      "text": "Career Info"
+    },
+    {
+      "box": [
+        345,
+        459,
+        39,
+        14
+      ],
+      "confidence": 1,
+      "text": "Skills"
+    },
+    {
+      "box": [
+        513,
+        459,
+        80,
+        18
+      ],
+      "confidence": 1,
+      "text": "Inspiration"
+    },
+    {
+      "box": [
+        398,
+        499,
+        67,
+        9
+      ],
+      "confidence": 1,
+      "text": "uma btan"
+    },
+    {
+      "box": [
+        631,
+        499,
+        121,
+        14
+      ],
+      "confidence": 1,
+      "text": "my 1 rue >trengtn"
+    },
+    {
+      "box": [
+        303,
+        536,
+        97,
+        17
+      ],
+      "confidence": 1,
+      "text": "Legacy Origin"
+    },
+    {
+      "box": [
+        302,
+        569,
+        57,
+        67
+      ],
+      "confidence": 1,
+      "text": "(4"
+    },
+    {
+      "box": [
+        373,
+        578,
+        67,
+        18
+      ],
+      "confidence": 1,
+      "text": "O Power"
+    },
+    {
+      "box": [
+        607,
+        578,
+        80,
+        18
+      ],
+      "confidence": 1,
+      "text": "O Medium"
+    },
+    {
+      "box": [
+        373,
+        628,
+        119,
+        18
+      ],
+      "confidence": 1,
+      "text": "O Shooting Star"
+    },
+    {
+      "box": [
+        632,
+        629,
+        87,
+        13
+      ],
+      "confidence": 1,
+      "text": "NHK Mile C."
+    },
+    {
+      "box": [
+        632,
+        678,
+        157,
+        14
+      ],
+      "confidence": 1,
+      "text": "Hanshin Racecourse O"
+    },
+    {
+      "box": [
+        398,
+        679,
+        84,
+        13
+      ],
+      "confidence": 1,
+      "text": "Arima Kinen"
+    },
+    {
+      "box": [
+        632,
+        728,
+        65,
+        13
+      ],
+      "confidence": 1,
+      "text": "Head-On"
+    },
+    {
+      "box": [
+        398,
+        729,
+        66,
+        13
+      ],
+      "confidence": 1,
+      "text": "Uma Stan"
+    },
+    {
+      "box": [
+        366,
+        745,
+        228,
+        16
+      ],
+      "confidence": 1,
+      "text": "•.....................................................O—O.-O............................—................•"
+    },
+    {
+      "box": [
+        398,
+        778,
+        120,
+        19
+      ],
+      "confidence": 1,
+      "text": "My True Strength"
+    },
+    {
+      "box": [
+        632,
+        778,
+        133,
+        13
+      ],
+      "confidence": 1,
+      "text": "Our Grand Concert"
+    },
+    {
+      "box": [
+        373,
+        861,
+        79,
+        18
+      ],
+      "confidence": 1,
+      "text": "O Stamina"
+    },
+    {
+      "box": [
+        607,
+        861,
+        59,
+        19
+      ],
+      "confidence": 1,
+      "text": "O Long"
+    },
+    {
+      "box": [
+        373,
+        911,
+        178,
+        18
+      ],
+      "confidence": 1,
+      "text": "O Barcarole of Blessings"
+    },
+    {
+      "box": [
+        632,
+        912,
+        73,
+        13
+      ],
+      "confidence": 1,
+      "text": "Osaka Hai"
+    },
+    {
+      "box": [
+        524,
+        987,
+        58,
+        20
+      ],
+      "confidence": 1,
+      "text": "Close"
+    }
+  ]
+}

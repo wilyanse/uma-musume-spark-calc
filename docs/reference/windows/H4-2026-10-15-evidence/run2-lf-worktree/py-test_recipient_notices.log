@@ -1,0 +1,51 @@
+python : test_repository_legal_inventory_is_consistent 
+(__main__.RealInventoryTests.test_repository_legal_inventory_is_consistent) ... ok
+At line:1 char:735
++ ... py-$s.log"; python -X dev -W error "agent/legal/tools/$s.py" *>&1 | O ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_repository...sistent) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_bundle_entry_bytes_must_match_restored_package 
+(__main__.RecipientNoticeTests.test_bundle_entry_bytes_must_match_restored_package) ... ok
+test_cli_exit_codes (__main__.RecipientNoticeTests.test_cli_exit_codes) ... ok
+test_component_without_notice_fails (__main__.RecipientNoticeTests.test_component_without_notice_fails) ... ok
+test_compressed_notice_fails (__main__.RecipientNoticeTests.test_compressed_notice_fails) ... ok
+test_corrupted_repository_notice_fails (__main__.RecipientNoticeTests.test_corrupted_repository_notice_fails) ... ok
+test_deleted_repository_notice_fails (__main__.RecipientNoticeTests.test_deleted_repository_notice_fails) ... ok
+test_different_single_file_host_build_fails 
+(__main__.RecipientNoticeTests.test_different_single_file_host_build_fails) ... ok
+test_exe_without_notices_fails (__main__.RecipientNoticeTests.test_exe_without_notices_fails) ... ok
+test_foreign_bundle_entry_fails (__main__.RecipientNoticeTests.test_foreign_bundle_entry_fails) ... ok
+test_graph_only_package_that_ships_files_fails 
+(__main__.RecipientNoticeTests.test_graph_only_package_that_ships_files_fails) ... ok
+test_graph_only_without_reason_fails (__main__.RecipientNoticeTests.test_graph_only_without_reason_fails) ... ok
+test_index_must_name_every_notice_and_version 
+(__main__.RecipientNoticeTests.test_index_must_name_every_notice_and_version) ... ok
+test_listed_graph_only_package_passes_and_unlisted_fails 
+(__main__.RecipientNoticeTests.test_listed_graph_only_package_passes_and_unlisted_fails) ... ok
+test_missing_single_notice_fails (__main__.RecipientNoticeTests.test_missing_single_notice_fails) ... ok
+test_not_a_bundle_fails (__main__.RecipientNoticeTests.test_not_a_bundle_fails) ... ok
+test_package_version_drift_fails (__main__.RecipientNoticeTests.test_package_version_drift_fails) ... ok
+test_restored_package_hash_drift_fails (__main__.RecipientNoticeTests.test_restored_package_hash_drift_fails) ... ok
+test_restored_runtime_pack_notice_drift_fails 
+(__main__.RecipientNoticeTests.test_restored_runtime_pack_notice_drift_fails) ... ok
+test_runtime_patch_drift_fails (__main__.RecipientNoticeTests.test_runtime_patch_drift_fails) ... ok
+test_stale_inventory_component_fails (__main__.RecipientNoticeTests.test_stale_inventory_component_fails) ... ok
+test_truncated_notice_in_exe_fails (__main__.RecipientNoticeTests.test_truncated_notice_in_exe_fails) ... ok
+test_unexpected_legal_entry_fails (__main__.RecipientNoticeTests.test_unexpected_legal_entry_fails) ... ok
+test_unresolved_new_dependency_fails (__main__.RecipientNoticeTests.test_unresolved_new_dependency_fails) ... ok
+test_valid_exe_passes_and_counts_entries (__main__.RecipientNoticeTests.test_valid_exe_passes_and_counts_entries) ... 
+ok
+test_valid_zip_is_deterministic_and_verifies 
+(__main__.RecipientNoticeTests.test_valid_zip_is_deterministic_and_verifies) ... ok
+test_zip_exe_alone_fails (__main__.RecipientNoticeTests.test_zip_exe_alone_fails) ... ok
+test_zip_extra_member_fails (__main__.RecipientNoticeTests.test_zip_extra_member_fails) ... ok
+test_zip_missing_notice_fails (__main__.RecipientNoticeTests.test_zip_missing_notice_fails) ... ok
+test_zip_truncated_notice_fails (__main__.RecipientNoticeTests.test_zip_truncated_notice_fails) ... ok
+test_zip_with_exe_lacking_notices_fails (__main__.RecipientNoticeTests.test_zip_with_exe_lacking_notices_fails) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.832s
+
+OK

@@ -1,0 +1,10 @@
+2026-10-15 14:47:45.881 +08:00 [WRN] Incomplete collection released at the live-session limit
+2026-10-15 14:47:56.096 +08:00 [WRN] Incomplete collection released at the live-session limit
+2026-10-15 14:49:25.427 +08:00 [WRN] Incomplete collection released at the live-session limit
+2026-10-15 14:50:28.330 +08:00 [WRN] Collection blocked after distinct evidence exceeded the view limit
+2026-10-15 14:51:01.717 +08:00 [INF] Support-card scan started
+2026-10-15 14:51:24.615 +08:00 [INF] Support-card scan started
+2026-10-15 14:51:25.312 +08:00 [INF] Support-card scan started
+2026-10-15 14:55:08.262 +08:00 [INF] Support-card scan reset
+2026-10-15 15:10:31.976 +08:00 [INF] Support-card scan reset
+2026-10-15 15:11:57.302 +08:00 [WRN] Capture geometry size-mismatch: texture 1293x758; dwm frame 1920x1080 at 0,0; client 1920x1080 at 0,0

@@ -1,0 +1,4 @@
+sdk=10.0.401
+build	exit=0	start=14:31:56	seconds=22	dotnet build Uma.Agent.sln -c Release
+test-core	exit=1	start=14:32:18	seconds=15	dotnet test tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --logger trx;LogFileName=core.trx --results-directory %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706
+STOPPED: test-core failed with exit 1

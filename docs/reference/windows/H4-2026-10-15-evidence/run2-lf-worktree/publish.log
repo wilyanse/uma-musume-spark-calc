@@ -1,0 +1,6 @@
+  Determining projects to restore...
+  Restored C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Core\Uma.Agent.Core.csproj (in 4.1 sec).
+  Restored C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Windows\Uma.Agent.Windows.csproj (in 4.1 sec).
+  Uma.Agent.Core -> C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Core\bin\Release\net8.0\Uma.Agent.Core.dll
+  Uma.Agent.Windows -> C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Windows\bin\Release\net8.0-windows10.0.19041.0\win-x64\Uma.Agent.Windows.dll
+  Uma.Agent.Windows -> %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706\run2-lf-worktree\publish\

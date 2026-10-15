@@ -1,0 +1,813 @@
+  Determining projects to restore...
+  Restored C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\Uma.Agent.Core.Tests.csproj (in 382 ms).
+  Restored C:\Projects\uma-h4-ocrval\agent\src\Uma.Agent.Core\Uma.Agent.Core.csproj (in 382 ms).
+  Uma.Agent.Core -> C:\Projects\uma-h4-ocrval\agent\src\Uma.Agent.Core\bin\Release\net8.0\Uma.Agent.Core.dll
+  Uma.Agent.Core.Tests -> C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\bin\Release\net8.0\Uma.Agent.Core.Tests.dll
+Test run for C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\bin\Release\net8.0\Uma.Agent.Core.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\bin\Release\net8.0\Uma.Agent.Core.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.32)
+[xUnit.net 00:00:01.69]   Discovering: Uma.Agent.Core.Tests
+[xUnit.net 00:00:02.00]   Discovered:  Uma.Agent.Core.Tests
+[xUnit.net 00:00:02.01]   Starting:    Uma.Agent.Core.Tests
+dotnet : [xUnit.net 00:00:06.50]     
+Uma.Agent.Core.Tests.FixtureTests.Full_frame_replay_accuracy_is_reported_and_never_silently_wrong [FAIL]
+At line:1 char:835
++ ... dk $sdk" }; dotnet test tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tes ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([xUnit.net 00:0...ly_wrong [FAIL]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[xUnit.net 00:00:06.50]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:06.50]                                                                                                                                                                                                                                                                                                                                                                                                                                           ↓ (pos 322)
+[xUnit.net 00:00:06.50]       Collection: [···, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = parents/0/isGuest, Category = parent, Expected = false, Actual = false, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = parents/1/characterId, Category = parent, Expected = character:tm-opera-o, Actual = character:tm-opera-o, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = parents/1/isGuest, Category = parent, Expected = true, Actual = false, Correct = False, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = career/fans/absent, Category = absence, Expected = absent, Actual = absent, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = career/scenario/absent, Category = absence, Expected = absent, Actual = absent, Correct = True, Confident = True }, ···]
+[xUnit.net 00:00:06.50]       Stack Trace:
+[xUnit.net 00:00:06.50]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(75,0): at Uma.Agent.Core.Tests.FixtureTests.Full_frame_replay_accuracy_is_reported_and_never_silently_wrong()
+[xUnit.net 00:00:06.50]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:06.50]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:06.50]       Output:
+[xUnit.net 00:00:06.50]         T09 fixture accuracy (full-frame recording only)
+[xUnit.net 00:00:06.50]         overall: 691/747 = 92.50%
+[xUnit.net 00:00:06.50]         wrong but confident (silent errors): 2; correct but flagged low_confidence: 4
+[xUnit.net 00:00:06.50]           absence          15/15  
+[xUnit.net 00:00:06.50]           aptitude         80/80  
+[xUnit.net 00:00:06.50]           borrowed          6/6   
+[xUnit.net 00:00:06.50]           cardLevel        10/21  
+[xUnit.net 00:00:06.50]           cardVisible      11/11  
+[xUnit.net 00:00:06.50]           career            7/7   
+[xUnit.net 00:00:06.50]           deckLevel         5/6   
+[xUnit.net 00:00:06.50]           epithet           8/8   
+[xUnit.net 00:00:06.50]           held              1/1   
+[xUnit.net 00:00:06.50]           identity         27/27  
+[xUnit.net 00:00:06.50]           lb               26/26  
+[xUnit.net 00:00:06.50]           owner            26/26  
+[xUnit.net 00:00:06.50]           parent            9/10  
+[xUnit.net 00:00:06.50]           rank              8/8   
+[xUnit.net 00:00:06.50]           rating            8/8   
+[xUnit.net 00:00:06.50]           screen           15/15  
+[xUnit.net 00:00:06.50]           scroll           16/16  
+[xUnit.net 00:00:06.50]           skill            28/28  
+[xUnit.net 00:00:06.50]           skillLevel       26/28  
+[xUnit.net 00:00:06.50]           spark           119/120 
+[xUnit.net 00:00:06.50]           sparkType       120/120 
+[xUnit.net 00:00:06.50]           stars           120/120 
+[xUnit.net 00:00:06.50]           stats             0/40  
+[xUnit.net 00:00:06.50]           01-veteran-details-skills-independent            45/51   low-confidence 7
+[xUnit.net 00:00:06.50]           02-veteran-details-inspiration-p1                73/79   low-confidence 6
+[xUnit.net 00:00:06.50]           03-veteran-details-inspiration-p2                66/71   low-confidence 6
+[xUnit.net 00:00:06.50]           04-veteran-details-inspiration-p3                63/68   low-confidence 5
+[xUnit.net 00:00:06.50]           05-veteran-details-career-info-deck-legacy       52/59   low-confidence 6
+[xUnit.net 00:00:06.50]           06-veteran-details-career-info-record            23/28   low-confidence 5
+[xUnit.net 00:00:06.50]           07-veteran-details-career-info-races             23/28   low-confidence 5
+[xUnit.net 00:00:06.50]           08-sparks-popup-oguri-cap                        50/50   low-confidence 1
+[xUnit.net 00:00:06.50]           09-sparks-popup-special-week-parent              35/35   low-confidence 0
+[xUnit.net 00:00:06.50]           10-sparks-popup-guest-parent                     51/51   low-confidence 0
+[xUnit.net 00:00:06.50]           11-sparks-popup-gold-city                        68/68   low-confidence 0
+[xUnit.net 00:00:06.50]           12-sparks-popup-kitasan-black                    59/59   low-confidence 0
+[xUnit.net 00:00:06.50]           13-support-card-list                             34/45   low-confidence 10
+[xUnit.net 00:00:06.50]           14-support-card-detail                            4/4    low-confidence 0
+[xUnit.net 00:00:06.50]           15-veteran-details-skills-manual                 45/51   low-confidence 7
+[xUnit.net 00:00:06.50]           WRONG 01-veteran-details-skills-independent stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 01-veteran-details-skills-independent stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:06.50]           WRONG 01-veteran-details-skills-independent stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 01-veteran-details-skills-independent stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:06.50]           WRONG 01-veteran-details-skills-independent stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 01-veteran-details-skills-independent skills/0/level: expected 5, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 02-veteran-details-inspiration-p1 stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 02-veteran-details-inspiration-p1 stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:06.50]           WRONG 02-veteran-details-inspiration-p1 stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 02-veteran-details-inspiration-p1 stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:06.50]           WRONG 02-veteran-details-inspiration-p1 stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 02-veteran-details-inspiration-p1 sparks/2/sparkId: expected spark:the-duty-of-dignity-calls, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 03-veteran-details-inspiration-p2 stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 03-veteran-details-inspiration-p2 stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:06.50]           WRONG 03-veteran-details-inspiration-p2 stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 03-veteran-details-inspiration-p2 stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:06.50]           WRONG 03-veteran-details-inspiration-p2 stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 04-veteran-details-inspiration-p3 stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 04-veteran-details-inspiration-p3 stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:06.50]           WRONG 04-veteran-details-inspiration-p3 stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 04-veteran-details-inspiration-p3 stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:06.50]           WRONG 04-veteran-details-inspiration-p3 stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 05-veteran-details-career-info-deck-legacy stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 05-veteran-details-career-info-deck-legacy stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:06.50]           WRONG 05-veteran-details-career-info-deck-legacy stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 05-veteran-details-career-info-deck-legacy stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:06.50]           WRONG 05-veteran-details-career-info-deck-legacy stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 05-veteran-details-career-info-deck-legacy deck/5/level: expected 50, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 05-veteran-details-career-info-deck-legacy parents/1/isGuest: expected true, got false, confident=True
+[xUnit.net 00:00:06.50]           WRONG 06-veteran-details-career-info-record stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 06-veteran-details-career-info-record stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:06.50]           WRONG 06-veteran-details-career-info-record stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 06-veteran-details-career-info-record stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:06.50]           WRONG 06-veteran-details-career-info-record stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 07-veteran-details-career-info-races stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 07-veteran-details-career-info-races stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:06.50]           WRONG 07-veteran-details-career-info-races stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 07-veteran-details-career-info-races stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:06.50]           WRONG 07-veteran-details-career-info-races stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/0/level: expected 40, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/1/level: expected 50, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/2/level: expected 50, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/3/level: expected 50, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/4/level: expected 50, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/5/level: expected 30, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/6/level: expected 30, got 35, confident=True
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/7/level: expected 35, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/10/level: expected 30, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/11/level: expected 50, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 13-support-card-list cards/15/level: expected 30, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 15-veteran-details-skills-manual stats/spd: expected 1557, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 15-veteran-details-skills-manual stats/sta: expected 821, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 15-veteran-details-skills-manual stats/pow: expected 929, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 15-veteran-details-skills-manual stats/gut: expected 634, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 15-veteran-details-skills-manual stats/wit: expected 830, got null, confident=False
+[xUnit.net 00:00:06.50]           WRONG 15-veteran-details-skills-manual skills/0/level: expected 5, got null, confident=False
+  Failed Uma.Agent.Core.Tests.FixtureTests.Full_frame_replay_accuracy_is_reported_and_never_silently_wrong [4 s]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                                                                    ↓ (pos 322)
+Collection: [···, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = parents/0/isGuest, Category = parent, Expected = false, Actual = false, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = parents/1/characterId, Category = parent, Expected = character:tm-opera-o, Actual = character:tm-opera-o, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = parents/1/isGuest, Category = parent, Expected = true, Actual = false, Correct = False, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = career/fans/absent, Category = absence, Expected = absent, Actual = absent, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = career/scenario/absent, Category = absence, Expected = absent, Actual = absent, Correct = True, Confident = True }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Full_frame_replay_accuracy_is_reported_and_never_silently_wrong() in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 75
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Standard Output Messages:
+ T09 fixture accuracy (full-frame recording only)
+ overall: 691/747 = 92.50%
+ wrong but confident (silent errors): 2; correct but flagged low_confidence: 4
+   absence          15/15  
+   aptitude         80/80  
+   borrowed          6/6   
+   cardLevel        10/21  
+   cardVisible      11/11  
+   career            7/7   
+   deckLevel         5/6   
+   epithet           8/8   
+   held              1/1   
+   identity         27/27  
+   lb               26/26  
+   owner            26/26  
+   parent            9/10  
+   rank              8/8   
+   rating            8/8   
+   screen           15/15  
+   scroll           16/16  
+   skill            28/28  
+   skillLevel       26/28  
+   spark           119/120 
+   sparkType       120/120 
+   stars           120/120 
+   stats             0/40  
+   01-veteran-details-skills-independent            45/51   low-confidence 7
+   02-veteran-details-inspiration-p1                73/79   low-confidence 6
+   03-veteran-details-inspiration-p2                66/71   low-confidence 6
+   04-veteran-details-inspiration-p3                63/68   low-confidence 5
+   05-veteran-details-career-info-deck-legacy       52/59   low-confidence 6
+   06-veteran-details-career-info-record            23/28   low-confidence 5
+   07-veteran-details-career-info-races             23/28   low-confidence 5
+   08-sparks-popup-oguri-cap                        50/50   low-confidence 1
+   09-sparks-popup-special-week-parent              35/35   low-confidence 0
+   10-sparks-popup-guest-parent                     51/51   low-confidence 0
+   11-sparks-popup-gold-city                        68/68   low-confidence 0
+   12-sparks-popup-kitasan-black                    59/59   low-confidence 0
+   13-support-card-list                             34/45   low-confidence 10
+   14-support-card-detail                            4/4    low-confidence 0
+   15-veteran-details-skills-manual                 45/51   low-confidence 7
+   WRONG 01-veteran-details-skills-independent stats/spd: expected 894, got null, confident=False
+   WRONG 01-veteran-details-skills-independent stats/sta: expected 938, got 894938740, confident=False
+   WRONG 01-veteran-details-skills-independent stats/pow: expected 740, got null, confident=False
+   WRONG 01-veteran-details-skills-independent stats/gut: expected 559, got 559635, confident=False
+   WRONG 01-veteran-details-skills-independent stats/wit: expected 635, got null, confident=False
+   WRONG 01-veteran-details-skills-independent skills/0/level: expected 5, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/spd: expected 894, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/sta: expected 938, got 894938740, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/pow: expected 740, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/gut: expected 559, got 559635, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/wit: expected 635, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 sparks/2/sparkId: expected spark:the-duty-of-dignity-calls, got null, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/spd: expected 894, got null, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/sta: expected 938, got 894938740, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/pow: expected 740, got null, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/gut: expected 559, got 559635, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/wit: expected 635, got null, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/spd: expected 894, got null, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/sta: expected 938, got 894938740, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/pow: expected 740, got null, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/gut: expected 559, got 559635, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/wit: expected 635, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/spd: expected 894, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/sta: expected 938, got 894938740, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/pow: expected 740, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/gut: expected 559, got 559635, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/wit: expected 635, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy deck/5/level: expected 50, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy parents/1/isGuest: expected true, got false, confident=True
+   WRONG 06-veteran-details-career-info-record stats/spd: expected 894, got null, confident=False
+   WRONG 06-veteran-details-career-info-record stats/sta: expected 938, got 894938740, confident=False
+   WRONG 06-veteran-details-career-info-record stats/pow: expected 740, got null, confident=False
+   WRONG 06-veteran-details-career-info-record stats/gut: expected 559, got 559635, confident=False
+   WRONG 06-veteran-details-career-info-record stats/wit: expected 635, got null, confident=False
+   WRONG 07-veteran-details-career-info-races stats/spd: expected 894, got null, confident=False
+   WRONG 07-veteran-details-career-info-races stats/sta: expected 938, got 894938740, confident=False
+   WRONG 07-veteran-details-career-info-races stats/pow: expected 740, got null, confident=False
+   WRONG 07-veteran-details-career-info-races stats/gut: expected 559, got 559635, confident=False
+   WRONG 07-veteran-details-career-info-races stats/wit: expected 635, got null, confident=False
+   WRONG 13-support-card-list cards/0/level: expected 40, got null, confident=False
+   WRONG 13-support-card-list cards/1/level: expected 50, got null, confident=False
+   WRONG 13-support-card-list cards/2/level: expected 50, got null, confident=False
+   WRONG 13-support-card-list cards/3/level: expected 50, got null, confident=False
+   WRONG 13-support-card-list cards/4/level: expected 50, got null, confident=False
+   WRONG 13-support-card-list cards/5/level: expected 30, got null, confident=False
+   WRONG 13-support-card-list cards/6/level: expected 30, got 35, confident=True
+   WRONG 13-support-card-list cards/7/level: expected 35, got null, confident=False
+   WRONG 13-support-card-list cards/10/level: expected 30, got null, confident=False
+   WRONG 13-support-card-list cards/11/level: expected 50, got null, confident=False
+   WRONG 13-support-card-list cards/15/level: expected 30, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/spd: expected 1557, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/sta: expected 821, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/pow: expected 929, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/gut: expected 634, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/wit: expected 830, got null, confident=False
+   WRONG 15-veteran-details-skills-manual skills/0/level: expected 5, got null, confident=False
+
+
+[xUnit.net 00:00:06.87]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"13-support-card-list") [FAIL]
+[xUnit.net 00:00:06.87]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:06.87]                                                                                                                                                                                                                                                                                                                                   ↓ (pos 12)
+[xUnit.net 00:00:06.87]       Collection: [···, FieldResult { Fixture = 13-support-card-list, Field = cards/2/level, Category = cardLevel, Expected = 50, Actual = 50, Correct = True, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/3/lb, Category = lb, Expected = 4, Actual = 4, Correct = True, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/3/level, Category = cardLevel, Expected = 50, Actual = 1, Correct = False, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/4/lb, Category = lb, Expected = 4, Actual = 4, Correct = True, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/4/level, Category = cardLevel, Expected = 50, Actual = 50, Correct = True, Confident = True }, ···]
+[xUnit.net 00:00:06.87]       Stack Trace:
+[xUnit.net 00:00:06.87]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(35,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:06.87]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:06.87]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:06.87]       Output:
+[xUnit.net 00:00:06.87]         WRONG cards/0/level: expected 40, got null (confident=False)
+[xUnit.net 00:00:06.88]         WRONG cards/3/level: expected 50, got 1 (confident=True)
+[xUnit.net 00:00:06.88]         WRONG cards/5/level: expected 30, got null (confident=False)
+[xUnit.net 00:00:06.88]         WRONG cards/7/level: expected 35, got null (confident=False)
+[xUnit.net 00:00:06.88]         WRONG cards/8/level: expected 30, got 2 (confident=True)
+[xUnit.net 00:00:06.88]         WRONG cards/9/level: expected 50, got 1 (confident=True)
+[xUnit.net 00:00:06.88]         WRONG cards/10/level: expected 30, got 2 (confident=True)
+[xUnit.net 00:00:06.88]         WRONG cards/11/level: expected 50, got 2 (confident=True)
+[xUnit.net 00:00:06.88]         WRONG cards/12/level: expected 30, got 2 (confident=True)
+[xUnit.net 00:00:06.88]         WRONG cards/13/level: expected 50, got null (confident=False)
+[xUnit.net 00:00:06.88]         WRONG cards/15/level: expected 30, got null (confident=False)
+[xUnit.net 00:00:06.91]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"03-veteran-details-inspiration-p2") [FAIL]
+[xUnit.net 00:00:06.91]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:06.91]                                                                                                                                                                                                                                                                                                                                                                                               ↓ (pos 8)
+[xUnit.net 00:00:06.91]       Collection: [···, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:06.91]       Stack Trace:
+[xUnit.net 00:00:06.91]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:06.91]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:06.91]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:06.91]       Output:
+[xUnit.net 00:00:06.91]         WRONG stats/spd: expected 894, got null (confident=False)
+[xUnit.net 00:00:06.91]         WRONG stats/sta: expected 938, got 894938740 (confident=False)
+[xUnit.net 00:00:06.91]         WRONG stats/pow: expected 740, got null (confident=False)
+[xUnit.net 00:00:06.91]         WRONG stats/gut: expected 559, got 559635 (confident=False)
+[xUnit.net 00:00:06.91]         WRONG stats/wit: expected 635, got null (confident=False)
+[xUnit.net 00:00:06.94]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"15-veteran-details-skills-manual") [FAIL]
+[xUnit.net 00:00:06.94]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:06.94]                                                                                                                                                                                                                                                                                                                                                                     ↓ (pos 8)
+[xUnit.net 00:00:06.94]       Collection: [···, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = rating, Category = rating, Expected = 21156, Actual = 21156, Correct = True, Confident = True }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = epithet, Category = epithet, Expected = Monarch, Actual = Monarch, Correct = True, Confident = True }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = stats/spd, Category = stats, Expected = 1557, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = stats/sta, Category = stats, Expected = 821, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = stats/pow, Category = stats, Expected = 929, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:06.94]       Stack Trace:
+[xUnit.net 00:00:06.94]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:06.94]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:06.94]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:06.94]       Output:
+[xUnit.net 00:00:06.94]         WRONG stats/spd: expected 1557, got null (confident=False)
+[xUnit.net 00:00:06.94]         WRONG stats/sta: expected 821, got null (confident=False)
+[xUnit.net 00:00:06.94]         WRONG stats/pow: expected 929, got null (confident=False)
+[xUnit.net 00:00:06.94]         WRONG stats/gut: expected 634, got null (confident=False)
+[xUnit.net 00:00:06.94]         WRONG stats/wit: expected 830, got null (confident=False)
+[xUnit.net 00:00:06.94]         WRONG skills/0/level: expected 5, got null (confident=False)
+[xUnit.net 00:00:06.96]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"01-veteran-details-skills-independent") [FAIL]
+[xUnit.net 00:00:06.96]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:06.96]                                                                                                                                                                                                                                                                                                                                                                                                       ↓ (pos 8)
+[xUnit.net 00:00:06.96]       Collection: [···, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:06.96]       Stack Trace:
+[xUnit.net 00:00:06.96]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:06.96]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:06.96]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:06.96]       Output:
+[xUnit.net 00:00:06.96]         WRONG stats/spd: expected 894, got null (confident=False)
+[xUnit.net 00:00:06.96]         WRONG stats/sta: expected 938, got 894938740 (confident=False)
+[xUnit.net 00:00:06.96]         WRONG stats/pow: expected 740, got null (confident=False)
+[xUnit.net 00:00:06.96]         WRONG stats/gut: expected 559, got 559635 (confident=False)
+[xUnit.net 00:00:06.96]         WRONG stats/wit: expected 635, got null (confident=False)
+[xUnit.net 00:00:06.96]         WRONG skills/0/level: expected 5, got null (confident=False)
+[xUnit.net 00:00:07.05]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"05-veteran-details-career-info-deck-legacy") [FAIL]
+[xUnit.net 00:00:07.05]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:07.05]                                                                                                                                                                                                                                                                                                                                                                                                                 ↓ (pos 8)
+[xUnit.net 00:00:07.05]       Collection: [···, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:07.05]       Stack Trace:
+[xUnit.net 00:00:07.05]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:07.05]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:07.05]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:07.05]       Output:
+[xUnit.net 00:00:07.05]         WRONG stats/spd: expected 894, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG stats/sta: expected 938, got 894938740 (confident=False)
+[xUnit.net 00:00:07.05]         WRONG stats/pow: expected 740, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG stats/gut: expected 559, got 559635 (confident=False)
+[xUnit.net 00:00:07.05]         WRONG stats/wit: expected 635, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG deck/0/level: expected 50, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG deck/1/level: expected 50, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG deck/2/level: expected 50, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG deck/3/level: expected 50, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG deck/4/level: expected 50, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG deck/5/level: expected 50, got null (confident=False)
+[xUnit.net 00:00:07.05]         WRONG parents/1/isGuest: expected true, got false (confident=True)
+[xUnit.net 00:00:07.08]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"02-veteran-details-inspiration-p1") [FAIL]
+[xUnit.net 00:00:07.08]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:07.08]                                                                                                                                                                                                                                                                                                                                                                                               ↓ (pos 8)
+[xUnit.net 00:00:07.08]       Collection: [···, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:07.08]       Stack Trace:
+[xUnit.net 00:00:07.08]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:07.08]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:07.08]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:07.08]       Output:
+[xUnit.net 00:00:07.08]         WRONG stats/spd: expected 894, got null (confident=False)
+[xUnit.net 00:00:07.08]         WRONG stats/sta: expected 938, got 894938740 (confident=False)
+[xUnit.net 00:00:07.08]         WRONG stats/pow: expected 740, got null (confident=False)
+[xUnit.net 00:00:07.08]         WRONG stats/gut: expected 559, got 559635 (confident=False)
+[xUnit.net 00:00:07.08]         WRONG stats/wit: expected 635, got null (confident=False)
+[xUnit.net 00:00:07.08]         WRONG sparks/2/sparkId: expected spark:the-duty-of-dignity-calls, got null (confident=False)
+[xUnit.net 00:00:07.09]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"07-veteran-details-career-info-races") [FAIL]
+[xUnit.net 00:00:07.09]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:07.09]                                                                                                                                                                                                                                                                                                                                                                                                     ↓ (pos 8)
+[xUnit.net 00:00:07.09]       Collection: [···, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:07.09]       Stack Trace:
+[xUnit.net 00:00:07.09]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:07.09]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:07.09]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:07.09]       Output:
+[xUnit.net 00:00:07.09]         WRONG stats/spd: expected 894, got null (confident=False)
+[xUnit.net 00:00:07.09]         WRONG stats/sta: expected 938, got 894938740 (confident=False)
+[xUnit.net 00:00:07.09]         WRONG stats/pow: expected 740, got null (confident=False)
+[xUnit.net 00:00:07.09]         WRONG stats/gut: expected 559, got 559635 (confident=False)
+[xUnit.net 00:00:07.09]         WRONG stats/wit: expected 635, got null (confident=False)
+  Passed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "09-sparks-popup-special-week-parent") [44 ms]
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "13-support-card-list") [332 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                            ↓ (pos 12)
+Collection: [···, FieldResult { Fixture = 13-support-card-list, Field = cards/2/level, Category = cardLevel, Expected = 50, Actual = 50, Correct = True, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/3/lb, Category = lb, Expected = 4, Actual = 4, Correct = True, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/3/level, Category = cardLevel, Expected = 50, Actual = 1, Correct = False, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/4/lb, Category = lb, Expected = 4, Actual = 4, Correct = True, Confident = True }, FieldResult { Fixture = 13-support-card-list, Field = cards/4/level, Category = cardLevel, Expected = 50, Actual = 50, Correct = True, Confident = True }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 35
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG cards/0/level: expected 40, got null (confident=False)
+ WRONG cards/3/level: expected 50, got 1 (confident=True)
+ WRONG cards/5/level: expected 30, got null (confident=False)
+ WRONG cards/7/level: expected 35, got null (confident=False)
+ WRONG cards/8/level: expected 30, got 2 (confident=True)
+ WRONG cards/9/level: expected 50, got 1 (confident=True)
+ WRONG cards/10/level: expected 30, got 2 (confident=True)
+ WRONG cards/11/level: expected 50, got 2 (confident=True)
+ WRONG cards/12/level: expected 30, got 2 (confident=True)
+ WRONG cards/13/level: expected 50, got null (confident=False)
+ WRONG cards/15/level: expected 30, got null (confident=False)
+
+
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "03-veteran-details-inspiration-p2") [35 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                        ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 03-veteran-details-inspiration-p2, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 894, got null (confident=False)
+ WRONG stats/sta: expected 938, got 894938740 (confident=False)
+ WRONG stats/pow: expected 740, got null (confident=False)
+ WRONG stats/gut: expected 559, got 559635 (confident=False)
+ WRONG stats/wit: expected 635, got null (confident=False)
+
+
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "15-veteran-details-skills-manual") [28 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                              ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = rating, Category = rating, Expected = 21156, Actual = 21156, Correct = True, Confident = True }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = epithet, Category = epithet, Expected = Monarch, Actual = Monarch, Correct = True, Confident = True }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = stats/spd, Category = stats, Expected = 1557, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = stats/sta, Category = stats, Expected = 821, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 15-veteran-details-skills-manual, Field = stats/pow, Category = stats, Expected = 929, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 1557, got null (confident=False)
+ WRONG stats/sta: expected 821, got null (confident=False)
+ WRONG stats/pow: expected 929, got null (confident=False)
+ WRONG stats/gut: expected 634, got null (confident=False)
+ WRONG stats/wit: expected 830, got null (confident=False)
+ WRONG skills/0/level: expected 5, got null (confident=False)
+
+
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "01-veteran-details-skills-independent") [25 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                                ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 01-veteran-details-skills-independent, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 894, got null (confident=False)
+ WRONG stats/sta: expected 938, got 894938740 (confident=False)
+ WRONG stats/pow: expected 740, got null (confident=False)
+ WRONG stats/gut: expected 559, got 559635 (confident=False)
+ WRONG stats/wit: expected 635, got null (confident=False)
+ WRONG skills/0/level: expected 5, got null (confident=False)
+
+
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "05-veteran-details-career-info-deck-legacy") [81 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                                          ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 05-veteran-details-career-info-deck-legacy, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 894, got null (confident=False)
+ WRONG stats/sta: expected 938, got 894938740 (confident=False)
+ WRONG stats/pow: expected 740, got null (confident=False)
+ WRONG stats/gut: expected 559, got 559635 (confident=False)
+ WRONG stats/wit: expected 635, got null (confident=False)
+ WRONG deck/0/level: expected 50, got null (confident=False)
+ WRONG deck/1/level: expected 50, got null (confident=False)
+ WRONG deck/2/level: expected 50, got null (confident=False)
+ WRONG deck/3/level: expected 50, got null (confident=False)
+ WRONG deck/4/level: expected 50, got null (confident=False)
+ WRONG deck/5/level: expected 50, got null (confident=False)
+ WRONG parents/1/isGuest: expected true, got false (confident=True)
+
+
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "02-veteran-details-inspiration-p1") [29 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                        ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 02-veteran-details-inspiration-p1, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 894, got null (confident=False)
+ WRONG stats/sta: expected 938, got 894938740 (confident=False)
+ WRONG stats/pow: expected 740, got null (confident=False)
+ WRONG stats/gut: expected 559, got 559635 (confident=False)
+ WRONG stats/wit: expected 635, got null (confident=False)
+ WRONG sparks/2/sparkId: expected spark:the-duty-of-dignity-calls, got null (confident=False)
+
+
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "07-veteran-details-career-info-races") [11 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                              ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 07-veteran-details-career-info-races, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 894, got null (confident=False)
+ WRONG stats/sta: expected 938, got 894938740 (confident=False)
+ WRONG stats/pow: expected 740, got null (confident=False)
+ WRONG stats/gut: expected 559, got 559635 (confident=False)
+ WRONG stats/wit: expected 635, got null (confident=False)
+
+
+  Passed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "14-support-card-detail") [6 ms]
+[xUnit.net 00:00:07.12]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"04-veteran-details-inspiration-p3") [FAIL]
+[xUnit.net 00:00:07.12]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:07.13]                                                                                                                                                                                                                                                                                                                                                                                               ↓ (pos 8)
+[xUnit.net 00:00:07.13]       Collection: [···, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:07.13]       Stack Trace:
+[xUnit.net 00:00:07.13]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:07.13]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:07.13]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:07.13]       Output:
+[xUnit.net 00:00:07.13]         WRONG stats/spd: expected 894, got null (confident=False)
+[xUnit.net 00:00:07.13]         WRONG stats/sta: expected 938, got 894938740 (confident=False)
+[xUnit.net 00:00:07.13]         WRONG stats/pow: expected 740, got null (confident=False)
+[xUnit.net 00:00:07.13]         WRONG stats/gut: expected 559, got 559635 (confident=False)
+[xUnit.net 00:00:07.13]         WRONG stats/wit: expected 635, got null (confident=False)
+[xUnit.net 00:00:07.20]     Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: 
+"06-veteran-details-career-info-record") [FAIL]
+[xUnit.net 00:00:07.20]       Assert.DoesNotContain() Failure: Filter matched in collection
+[xUnit.net 00:00:07.20]                                                                                                                                                                                                                                                                                                                                                                                                       ↓ (pos 8)
+[xUnit.net 00:00:07.20]       Collection: [···, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+[xUnit.net 00:00:07.20]       Stack Trace:
+[xUnit.net 00:00:07.20]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(34,0): at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name)
+[xUnit.net 00:00:07.20]            at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+[xUnit.net 00:00:07.20]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:07.20]       Output:
+[xUnit.net 00:00:07.20]         WRONG stats/spd: expected 894, got null (confident=False)
+[xUnit.net 00:00:07.20]         WRONG stats/sta: expected 938, got 894938740 (confident=False)
+[xUnit.net 00:00:07.20]         WRONG stats/pow: expected 740, got null (confident=False)
+[xUnit.net 00:00:07.20]         WRONG stats/gut: expected 559, got 559635 (confident=False)
+[xUnit.net 00:00:07.20]         WRONG stats/wit: expected 635, got null (confident=False)
+[xUnit.net 00:00:07.25]     
+Uma.Agent.Core.Tests.FixtureTests.Templates_are_rebuilt_byte_for_byte_from_their_genuine_fixture_crops [FAIL]
+[xUnit.net 00:00:07.25]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:07.25]                   ↓ (pos 1)
+[xUnit.net 00:00:07.25]       Expected: "{\r\n  "version": "global-2026-09",\r\n  "not"···
+[xUnit.net 00:00:07.25]       Actual:   "{\n  "version": "global-2026-09",\n  "note""···
+[xUnit.net 00:00:07.25]                   ↑ (pos 1)
+[xUnit.net 00:00:07.25]       Stack Trace:
+[xUnit.net 00:00:07.25]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(98,0): at Uma.Agent.Core.Tests.FixtureTests.Templates_are_rebuilt_byte_for_byte_from_their_genuine_fixture_crops()
+[xUnit.net 00:00:07.25]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:07.25]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "04-veteran-details-inspiration-p3") [28 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                        ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 04-veteran-details-inspiration-p3, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 894, got null (confident=False)
+ WRONG stats/sta: expected 938, got 894938740 (confident=False)
+ WRONG stats/pow: expected 740, got null (confident=False)
+ WRONG stats/gut: expected 559, got 559635 (confident=False)
+ WRONG stats/wit: expected 635, got null (confident=False)
+
+
+  Passed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "10-sparks-popup-guest-parent") [23 ms]
+  Passed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "12-sparks-popup-kitasan-black") [21 ms]
+  Passed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "08-sparks-popup-oguri-cap") [20 ms]
+  Failed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "06-veteran-details-career-info-record") [8 ms]
+  Error Message:
+   Assert.DoesNotContain() Failure: Filter matched in collection
+                                                                                                                                                                                                                                                                                                                                                                                                ↓ (pos 8)
+Collection: [···, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = rating, Category = rating, Expected = 13471, Actual = 13471, Correct = True, Confident = True }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = epithet, Category = epithet, Expected = Independent Learner, Actual = Independent Learner, Correct = True, Confident = True }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = stats/spd, Category = stats, Expected = 894, Actual = null, Correct = False, Confident = False }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = stats/sta, Category = stats, Expected = 938, Actual = 894938740, Correct = False, Confident = False }, FieldResult { Fixture = 06-veteran-details-career-info-record, Field = stats/pow, Category = stats, Expected = 740, Actual = null, Correct = False, Confident = False }, ···]
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(String name) in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 34
+   at InvokeStub_FixtureTests.Fixture_parses_to_its_label(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Standard Output Messages:
+ WRONG stats/spd: expected 894, got null (confident=False)
+ WRONG stats/sta: expected 938, got 894938740 (confident=False)
+ WRONG stats/pow: expected 740, got null (confident=False)
+ WRONG stats/gut: expected 559, got 559635 (confident=False)
+ WRONG stats/wit: expected 635, got null (confident=False)
+
+
+  Passed Uma.Agent.Core.Tests.FixtureTests.Fixture_parses_to_its_label(name: "11-sparks-popup-gold-city") [27 ms]
+  Passed Uma.Agent.Core.Tests.FixtureTests.Comparer_detects_wrong_scroll_flags_unlabelled_rows_headers_and_deck_characters [7 ms]
+  Failed Uma.Agent.Core.Tests.FixtureTests.Templates_are_rebuilt_byte_for_byte_from_their_genuine_fixture_crops [13 ms]
+  Error Message:
+   Assert.Equal() Failure: Strings differ
+            ↓ (pos 1)
+Expected: "{\r\n  "version": "global-2026-09",\r\n  "not"···
+Actual:   "{\n  "version": "global-2026-09",\n  "note""···
+            ↑ (pos 1)
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Templates_are_rebuilt_byte_for_byte_from_their_genuine_fixture_crops() in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 98
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed Uma.Agent.Core.Tests.FixtureTests.Fifteen_screenshots_fifteen_labels_fifteen_ocr_recordings [9 ms]
+[xUnit.net 00:00:07.28]     Uma.Agent.Core.Tests.FixtureTests.Accuracy_report_meets_acceptance [FAIL]
+[xUnit.net 00:00:07.28]       overall 686/747
+[xUnit.net 00:00:07.28]       Stack Trace:
+[xUnit.net 00:00:07.28]         C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs(63,0): at Uma.Agent.Core.Tests.FixtureTests.Accuracy_report_meets_acceptance()
+[xUnit.net 00:00:07.28]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:07.28]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:07.28]       Output:
+[xUnit.net 00:00:07.28]         T09 fixture accuracy (roi-ocr (per-ROI recording, full-frame fallback))
+[xUnit.net 00:00:07.28]         overall: 686/747 = 91.83%
+[xUnit.net 00:00:07.28]         wrong but confident (silent errors): 7; correct but flagged low_confidence: 4
+[xUnit.net 00:00:07.28]           absence          15/15  
+[xUnit.net 00:00:07.28]           aptitude         80/80  
+[xUnit.net 00:00:07.28]           borrowed          6/6   
+[xUnit.net 00:00:07.28]           cardLevel        10/21  
+[xUnit.net 00:00:07.28]           cardVisible      11/11  
+[xUnit.net 00:00:07.28]           career            7/7   
+[xUnit.net 00:00:07.28]           deckLevel         0/6   
+[xUnit.net 00:00:07.28]           epithet           8/8   
+[xUnit.net 00:00:07.28]           held              1/1   
+[xUnit.net 00:00:07.28]           identity         27/27  
+[xUnit.net 00:00:07.28]           lb               26/26  
+[xUnit.net 00:00:07.28]           owner            26/26  
+[xUnit.net 00:00:07.28]           parent            9/10  
+[xUnit.net 00:00:07.28]           rank              8/8   
+[xUnit.net 00:00:07.28]           rating            8/8   
+[xUnit.net 00:00:07.28]           screen           15/15  
+[xUnit.net 00:00:07.28]           scroll           16/16  
+[xUnit.net 00:00:07.28]           skill            28/28  
+[xUnit.net 00:00:07.28]           skillLevel       26/28  
+[xUnit.net 00:00:07.28]           spark           119/120 
+[xUnit.net 00:00:07.28]           sparkType       120/120 
+[xUnit.net 00:00:07.28]           stars           120/120 
+[xUnit.net 00:00:07.28]           stats             0/40  
+[xUnit.net 00:00:07.28]           01-veteran-details-skills-independent            45/51   low-confidence 7
+[xUnit.net 00:00:07.28]           02-veteran-details-inspiration-p1                73/79   low-confidence 6
+[xUnit.net 00:00:07.28]           03-veteran-details-inspiration-p2                66/71   low-confidence 6
+[xUnit.net 00:00:07.28]           04-veteran-details-inspiration-p3                63/68   low-confidence 5
+[xUnit.net 00:00:07.28]           05-veteran-details-career-info-deck-legacy       47/59   low-confidence 11
+[xUnit.net 00:00:07.28]           06-veteran-details-career-info-record            23/28   low-confidence 5
+[xUnit.net 00:00:07.28]           07-veteran-details-career-info-races             23/28   low-confidence 5
+[xUnit.net 00:00:07.28]           08-sparks-popup-oguri-cap                        50/50   low-confidence 1
+[xUnit.net 00:00:07.28]           09-sparks-popup-special-week-parent              35/35   low-confidence 0
+[xUnit.net 00:00:07.28]           10-sparks-popup-guest-parent                     51/51   low-confidence 0
+[xUnit.net 00:00:07.28]           11-sparks-popup-gold-city                        68/68   low-confidence 0
+[xUnit.net 00:00:07.28]           12-sparks-popup-kitasan-black                    59/59   low-confidence 0
+[xUnit.net 00:00:07.28]           13-support-card-list                             34/45   low-confidence 5
+[xUnit.net 00:00:07.28]           14-support-card-detail                            4/4    low-confidence 0
+[xUnit.net 00:00:07.28]           15-veteran-details-skills-manual                 45/51   low-confidence 7
+[xUnit.net 00:00:07.28]           WRONG 01-veteran-details-skills-independent stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 01-veteran-details-skills-independent stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:07.28]           WRONG 01-veteran-details-skills-independent stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 01-veteran-details-skills-independent stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:07.28]           WRONG 01-veteran-details-skills-independent stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 01-veteran-details-skills-independent skills/0/level: expected 5, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 02-veteran-details-inspiration-p1 stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 02-veteran-details-inspiration-p1 stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:07.28]           WRONG 02-veteran-details-inspiration-p1 stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 02-veteran-details-inspiration-p1 stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:07.28]           WRONG 02-veteran-details-inspiration-p1 stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 02-veteran-details-inspiration-p1 sparks/2/sparkId: expected spark:the-duty-of-dignity-calls, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 03-veteran-details-inspiration-p2 stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 03-veteran-details-inspiration-p2 stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:07.28]           WRONG 03-veteran-details-inspiration-p2 stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 03-veteran-details-inspiration-p2 stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:07.28]           WRONG 03-veteran-details-inspiration-p2 stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 04-veteran-details-inspiration-p3 stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 04-veteran-details-inspiration-p3 stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:07.28]           WRONG 04-veteran-details-inspiration-p3 stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 04-veteran-details-inspiration-p3 stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:07.28]           WRONG 04-veteran-details-inspiration-p3 stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy deck/0/level: expected 50, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy deck/1/level: expected 50, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy deck/2/level: expected 50, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy deck/3/level: expected 50, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy deck/4/level: expected 50, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy deck/5/level: expected 50, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 05-veteran-details-career-info-deck-legacy parents/1/isGuest: expected true, got false, confident=True
+[xUnit.net 00:00:07.28]           WRONG 06-veteran-details-career-info-record stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 06-veteran-details-career-info-record stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:07.28]           WRONG 06-veteran-details-career-info-record stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 06-veteran-details-career-info-record stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:07.28]           WRONG 06-veteran-details-career-info-record stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 07-veteran-details-career-info-races stats/spd: expected 894, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 07-veteran-details-career-info-races stats/sta: expected 938, got 894938740, confident=False
+[xUnit.net 00:00:07.28]           WRONG 07-veteran-details-career-info-races stats/pow: expected 740, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 07-veteran-details-career-info-races stats/gut: expected 559, got 559635, confident=False
+[xUnit.net 00:00:07.28]           WRONG 07-veteran-details-career-info-races stats/wit: expected 635, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 13-support-card-list cards/0/level: expected 40, got null, confident=False
+[xUnit.net 00:00:07.28]           WRONG 13-support-card-list cards/3/level: expected 50, got 1, confident=True
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/5/level: expected 30, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/7/level: expected 35, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/8/level: expected 30, got 2, confident=True
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/9/level: expected 50, got 1, confident=True
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/10/level: expected 30, got 2, confident=True
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/11/level: expected 50, got 2, confident=True
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/12/level: expected 30, got 2, confident=True
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/13/level: expected 50, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 13-support-card-list cards/15/level: expected 30, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 15-veteran-details-skills-manual stats/spd: expected 1557, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 15-veteran-details-skills-manual stats/sta: expected 821, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 15-veteran-details-skills-manual stats/pow: expected 929, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 15-veteran-details-skills-manual stats/gut: expected 634, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 15-veteran-details-skills-manual stats/wit: expected 830, got null, confident=False
+[xUnit.net 00:00:07.29]           WRONG 15-veteran-details-skills-manual skills/0/level: expected 5, got null, confident=False
+[xUnit.net 00:00:07.29]   Finished:    Uma.Agent.Core.Tests
+  Failed Uma.Agent.Core.Tests.FixtureTests.Accuracy_report_meets_acceptance [19 ms]
+  Error Message:
+   overall 686/747
+  Stack Trace:
+     at Uma.Agent.Core.Tests.FixtureTests.Accuracy_report_meets_acceptance() in C:\Projects\uma-h4-ocrval\agent\tests\Uma.Agent.Core.Tests\FixtureTests.cs:line 63
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Standard Output Messages:
+ T09 fixture accuracy (roi-ocr (per-ROI recording, full-frame fallback))
+ overall: 686/747 = 91.83%
+ wrong but confident (silent errors): 7; correct but flagged low_confidence: 4
+   absence          15/15  
+   aptitude         80/80  
+   borrowed          6/6   
+   cardLevel        10/21  
+   cardVisible      11/11  
+   career            7/7   
+   deckLevel         0/6   
+   epithet           8/8   
+   held              1/1   
+   identity         27/27  
+   lb               26/26  
+   owner            26/26  
+   parent            9/10  
+   rank              8/8   
+   rating            8/8   
+   screen           15/15  
+   scroll           16/16  
+   skill            28/28  
+   skillLevel       26/28  
+   spark           119/120 
+   sparkType       120/120 
+   stars           120/120 
+   stats             0/40  
+   01-veteran-details-skills-independent            45/51   low-confidence 7
+   02-veteran-details-inspiration-p1                73/79   low-confidence 6
+   03-veteran-details-inspiration-p2                66/71   low-confidence 6
+   04-veteran-details-inspiration-p3                63/68   low-confidence 5
+   05-veteran-details-career-info-deck-legacy       47/59   low-confidence 11
+   06-veteran-details-career-info-record            23/28   low-confidence 5
+   07-veteran-details-career-info-races             23/28   low-confidence 5
+   08-sparks-popup-oguri-cap                        50/50   low-confidence 1
+   09-sparks-popup-special-week-parent              35/35   low-confidence 0
+   10-sparks-popup-guest-parent                     51/51   low-confidence 0
+   11-sparks-popup-gold-city                        68/68   low-confidence 0
+   12-sparks-popup-kitasan-black                    59/59   low-confidence 0
+   13-support-card-list                             34/45   low-confidence 5
+   14-support-card-detail                            4/4    low-confidence 0
+   15-veteran-details-skills-manual                 45/51   low-confidence 7
+   WRONG 01-veteran-details-skills-independent stats/spd: expected 894, got null, confident=False
+   WRONG 01-veteran-details-skills-independent stats/sta: expected 938, got 894938740, confident=False
+   WRONG 01-veteran-details-skills-independent stats/pow: expected 740, got null, confident=False
+   WRONG 01-veteran-details-skills-independent stats/gut: expected 559, got 559635, confident=False
+   WRONG 01-veteran-details-skills-independent stats/wit: expected 635, got null, confident=False
+   WRONG 01-veteran-details-skills-independent skills/0/level: expected 5, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/spd: expected 894, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/sta: expected 938, got 894938740, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/pow: expected 740, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/gut: expected 559, got 559635, confident=False
+   WRONG 02-veteran-details-inspiration-p1 stats/wit: expected 635, got null, confident=False
+   WRONG 02-veteran-details-inspiration-p1 sparks/2/sparkId: expected spark:the-duty-of-dignity-calls, got null, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/spd: expected 894, got null, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/sta: expected 938, got 894938740, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/pow: expected 740, got null, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/gut: expected 559, got 559635, confident=False
+   WRONG 03-veteran-details-inspiration-p2 stats/wit: expected 635, got null, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/spd: expected 894, got null, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/sta: expected 938, got 894938740, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/pow: expected 740, got null, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/gut: expected 559, got 559635, confident=False
+   WRONG 04-veteran-details-inspiration-p3 stats/wit: expected 635, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/spd: expected 894, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/sta: expected 938, got 894938740, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/pow: expected 740, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/gut: expected 559, got 559635, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy stats/wit: expected 635, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy deck/0/level: expected 50, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy deck/1/level: expected 50, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy deck/2/level: expected 50, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy deck/3/level: expected 50, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy deck/4/level: expected 50, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy deck/5/level: expected 50, got null, confident=False
+   WRONG 05-veteran-details-career-info-deck-legacy parents/1/isGuest: expected true, got false, confident=True
+   WRONG 06-veteran-details-career-info-record stats/spd: expected 894, got null, confident=False
+   WRONG 06-veteran-details-career-info-record stats/sta: expected 938, got 894938740, confident=False
+   WRONG 06-veteran-details-career-info-record stats/pow: expected 740, got null, confident=False
+   WRONG 06-veteran-details-career-info-record stats/gut: expected 559, got 559635, confident=False
+   WRONG 06-veteran-details-career-info-record stats/wit: expected 635, got null, confident=False
+   WRONG 07-veteran-details-career-info-races stats/spd: expected 894, got null, confident=False
+   WRONG 07-veteran-details-career-info-races stats/sta: expected 938, got 894938740, confident=False
+   WRONG 07-veteran-details-career-info-races stats/pow: expected 740, got null, confident=False
+   WRONG 07-veteran-details-career-info-races stats/gut: expected 559, got 559635, confident=False
+   WRONG 07-veteran-details-career-info-races stats/wit: expected 635, got null, confident=False
+   WRONG 13-support-card-list cards/0/level: expected 40, got null, confident=False
+   WRONG 13-support-card-list cards/3/level: expected 50, got 1, confident=True
+   WRONG 13-support-card-list cards/5/level: expected 30, got null, confident=False
+   WRONG 13-support-card-list cards/7/level: expected 35, got null, confident=False
+   WRONG 13-support-card-list cards/8/level: expected 30, got 2, confident=True
+   WRONG 13-support-card-list cards/9/level: expected 50, got 1, confident=True
+   WRONG 13-support-card-list cards/10/level: expected 30, got 2, confident=True
+   WRONG 13-support-card-list cards/11/level: expected 50, got 2, confident=True
+   WRONG 13-support-card-list cards/12/level: expected 30, got 2, confident=True
+   WRONG 13-support-card-list cards/13/level: expected 50, got null, confident=False
+   WRONG 13-support-card-list cards/15/level: expected 30, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/spd: expected 1557, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/sta: expected 821, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/pow: expected 929, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/gut: expected 634, got null, confident=False
+   WRONG 15-veteran-details-skills-manual stats/wit: expected 830, got null, confident=False
+   WRONG 15-veteran-details-skills-manual skills/0/level: expected 5, got null, confident=False
+
+
+Results File: %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706\run3-windows-ocr-accuracy\fixture-windows-ocr.trx
+
+Test Run Failed.
+Total tests: 20
+     Passed: 8
+     Failed: 12
+ Total time: 9.8500 Seconds

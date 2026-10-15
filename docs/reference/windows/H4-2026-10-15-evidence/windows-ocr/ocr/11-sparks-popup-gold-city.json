@@ -1,0 +1,269 @@
+{
+  "engine": "windows-media-ocr-en-US",
+  "reference": [
+    1920,
+    1080
+  ],
+  "lines": [
+    {
+      "box": [
+        519,
+        43,
+        68,
+        26
+      ],
+      "confidence": 1,
+      "text": "Sparks"
+    },
+    {
+      "box": [
+        567,
+        146,
+        156,
+        17
+      ],
+      "confidence": 1,
+      "text": "[Authentic / 19281"
+    },
+    {
+      "box": [
+        601,
+        177,
+        91,
+        23
+      ],
+      "confidence": 1,
+      "text": "Gold City"
+    },
+    {
+      "box": [
+        283,
+        265,
+        85,
+        16
+      ],
+      "confidence": 1,
+      "text": "Sparks Held"
+    },
+    {
+      "box": [
+        565,
+        309,
+        56,
+        20
+      ],
+      "confidence": 1,
+      "text": "O Mile"
+    },
+    {
+      "box": [
+        286,
+        310,
+        59,
+        19
+      ],
+      "confidence": 1,
+      "text": "O Guts"
+    },
+    {
+      "box": [
+        286,
+        359,
+        133,
+        19
+      ],
+      "confidence": 1,
+      "text": "O KEEP IT REAL."
+    },
+    {
+      "box": [
+        589,
+        359,
+        94,
+        14
+      ],
+      "confidence": 1,
+      "text": "NHK Mile C."
+    },
+    {
+      "box": [
+        310,
+        408,
+        80,
+        19
+      ],
+      "confidence": 1,
+      "text": "Hopeful S."
+    },
+    {
+      "box": [
+        589,
+        408,
+        123,
+        15
+      ],
+      "confidence": 1,
+      "text": "M.C. Nambu Hai"
+    },
+    {
+      "box": [
+        310,
+        458,
+        118,
+        14
+      ],
+      "confidence": 1,
+      "text": "Kawasaki Kinen"
+    },
+    {
+      "box": [
+        589,
+        458,
+        184,
+        19
+      ],
+      "confidence": 1,
+      "text": "Outer Post Proficiency O"
+    },
+    {
+      "box": [
+        310,
+        507,
+        145,
+        19
+      ],
+      "confidence": 1,
+      "text": "Corner Recovery O"
+    },
+    {
+      "box": [
+        589,
+        507,
+        150,
+        19
+      ],
+      "confidence": 1,
+      "text": "Straightaway Adept"
+    },
+    {
+      "box": [
+        310,
+        557,
+        182,
+        18
+      ],
+      "confidence": 1,
+      "text": "Straightaway Acceleration"
+    },
+    {
+      "box": [
+        589,
+        557,
+        69,
+        19
+      ],
+      "confidence": 1,
+      "text": "Ramp Up"
+    },
+    {
+      "box": [
+        310,
+        606,
+        133,
+        19
+      ],
+      "confidence": 1,
+      "text": "Nimble Navigator"
+    },
+    {
+      "box": [
+        589,
+        607,
+        81,
+        18
+      ],
+      "confidence": 1,
+      "text": "Up-Tempo"
+    },
+    {
+      "box": [
+        310,
+        656,
+        72,
+        14
+      ],
+      "confidence": 1,
+      "text": "Uma Stan"
+    },
+    {
+      "box": [
+        588,
+        656,
+        109,
+        19
+      ],
+      "confidence": 1,
+      "text": "Tail Held High"
+    },
+    {
+      "box": [
+        310,
+        705,
+        79,
+        19
+      ],
+      "confidence": 1,
+      "text": "Slipstream"
+    },
+    {
+      "box": [
+        588,
+        705,
+        77,
+        14
+      ],
+      "confidence": 1,
+      "text": "Mad Dash"
+    },
+    {
+      "box": [
+        310,
+        755,
+        139,
+        19
+      ],
+      "confidence": 1,
+      "text": "Ignited Spirit PWR"
+    },
+    {
+      "box": [
+        589,
+        755,
+        171,
+        19
+      ],
+      "confidence": 1,
+      "text": "Ignited Spirit: Speed +"
+    },
+    {
+      "box": [
+        310,
+        804,
+        75,
+        19
+      ],
+      "confidence": 1,
+      "text": "Unity Cup"
+    },
+    {
+      "box": [
+        524,
+        987,
+        58,
+        20
+      ],
+      "confidence": 1,
+      "text": "Close"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+  Determining projects to restore...
+  Restored C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Core.Tests\Uma.Agent.Core.Tests.csproj (in 514 ms).
+  Restored C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Portable\Uma.Agent.Windows.Portable.Tests.csproj (in 514 ms).
+  Restored C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Native\Uma.Agent.Windows.Tests.csproj (in 514 ms).
+  Restored C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Core\Uma.Agent.Core.csproj (in 514 ms).
+  Restored C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Windows\Uma.Agent.Windows.csproj (in 514 ms).
+  Uma.Agent.Core -> C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Core\bin\Release\net8.0\Uma.Agent.Core.dll
+  Uma.Agent.Windows -> C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Windows\bin\Release\net8.0-windows10.0.19041.0\Uma.Agent.Windows.dll
+  Uma.Agent.Core.Tests -> C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Core.Tests\bin\Release\net8.0\Uma.Agent.Core.Tests.dll
+  Uma.Agent.Windows.Portable.Tests -> C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Portable\bin\Release\net8.0\Uma.Agent.Windows.Portable.Tests.dll
+  Uma.Agent.Windows.Tests -> C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Native\bin\Release\net8.0-windows10.0.19041.0\Uma.Agent.Windows.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:07.06

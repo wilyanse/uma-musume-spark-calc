@@ -1,0 +1,102 @@
+T09 fixture accuracy (roi-ocr (per-ROI recording, full-frame fallback))
+overall: 686/747 = 91.83%
+wrong but confident (silent errors): 7; correct but flagged low_confidence: 4
+  absence          15/15  
+  aptitude         80/80  
+  borrowed          6/6   
+  cardLevel        10/21  
+  cardVisible      11/11  
+  career            7/7   
+  deckLevel         0/6   
+  epithet           8/8   
+  held              1/1   
+  identity         27/27  
+  lb               26/26  
+  owner            26/26  
+  parent            9/10  
+  rank              8/8   
+  rating            8/8   
+  screen           15/15  
+  scroll           16/16  
+  skill            28/28  
+  skillLevel       26/28  
+  spark           119/120 
+  sparkType       120/120 
+  stars           120/120 
+  stats             0/40  
+  01-veteran-details-skills-independent            45/51   low-confidence 7
+  02-veteran-details-inspiration-p1                73/79   low-confidence 6
+  03-veteran-details-inspiration-p2                66/71   low-confidence 6
+  04-veteran-details-inspiration-p3                63/68   low-confidence 5
+  05-veteran-details-career-info-deck-legacy       47/59   low-confidence 11
+  06-veteran-details-career-info-record            23/28   low-confidence 5
+  07-veteran-details-career-info-races             23/28   low-confidence 5
+  08-sparks-popup-oguri-cap                        50/50   low-confidence 1
+  09-sparks-popup-special-week-parent              35/35   low-confidence 0
+  10-sparks-popup-guest-parent                     51/51   low-confidence 0
+  11-sparks-popup-gold-city                        68/68   low-confidence 0
+  12-sparks-popup-kitasan-black                    59/59   low-confidence 0
+  13-support-card-list                             34/45   low-confidence 5
+  14-support-card-detail                            4/4    low-confidence 0
+  15-veteran-details-skills-manual                 45/51   low-confidence 7
+  WRONG 01-veteran-details-skills-independent stats/spd: expected 894, got null, confident=False
+  WRONG 01-veteran-details-skills-independent stats/sta: expected 938, got 894938740, confident=False
+  WRONG 01-veteran-details-skills-independent stats/pow: expected 740, got null, confident=False
+  WRONG 01-veteran-details-skills-independent stats/gut: expected 559, got 559635, confident=False
+  WRONG 01-veteran-details-skills-independent stats/wit: expected 635, got null, confident=False
+  WRONG 01-veteran-details-skills-independent skills/0/level: expected 5, got null, confident=False
+  WRONG 02-veteran-details-inspiration-p1 stats/spd: expected 894, got null, confident=False
+  WRONG 02-veteran-details-inspiration-p1 stats/sta: expected 938, got 894938740, confident=False
+  WRONG 02-veteran-details-inspiration-p1 stats/pow: expected 740, got null, confident=False
+  WRONG 02-veteran-details-inspiration-p1 stats/gut: expected 559, got 559635, confident=False
+  WRONG 02-veteran-details-inspiration-p1 stats/wit: expected 635, got null, confident=False
+  WRONG 02-veteran-details-inspiration-p1 sparks/2/sparkId: expected spark:the-duty-of-dignity-calls, got null, confident=False
+  WRONG 03-veteran-details-inspiration-p2 stats/spd: expected 894, got null, confident=False
+  WRONG 03-veteran-details-inspiration-p2 stats/sta: expected 938, got 894938740, confident=False
+  WRONG 03-veteran-details-inspiration-p2 stats/pow: expected 740, got null, confident=False
+  WRONG 03-veteran-details-inspiration-p2 stats/gut: expected 559, got 559635, confident=False
+  WRONG 03-veteran-details-inspiration-p2 stats/wit: expected 635, got null, confident=False
+  WRONG 04-veteran-details-inspiration-p3 stats/spd: expected 894, got null, confident=False
+  WRONG 04-veteran-details-inspiration-p3 stats/sta: expected 938, got 894938740, confident=False
+  WRONG 04-veteran-details-inspiration-p3 stats/pow: expected 740, got null, confident=False
+  WRONG 04-veteran-details-inspiration-p3 stats/gut: expected 559, got 559635, confident=False
+  WRONG 04-veteran-details-inspiration-p3 stats/wit: expected 635, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy stats/spd: expected 894, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy stats/sta: expected 938, got 894938740, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy stats/pow: expected 740, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy stats/gut: expected 559, got 559635, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy stats/wit: expected 635, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy deck/0/level: expected 50, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy deck/1/level: expected 50, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy deck/2/level: expected 50, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy deck/3/level: expected 50, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy deck/4/level: expected 50, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy deck/5/level: expected 50, got null, confident=False
+  WRONG 05-veteran-details-career-info-deck-legacy parents/1/isGuest: expected true, got false, confident=True
+  WRONG 06-veteran-details-career-info-record stats/spd: expected 894, got null, confident=False
+  WRONG 06-veteran-details-career-info-record stats/sta: expected 938, got 894938740, confident=False
+  WRONG 06-veteran-details-career-info-record stats/pow: expected 740, got null, confident=False
+  WRONG 06-veteran-details-career-info-record stats/gut: expected 559, got 559635, confident=False
+  WRONG 06-veteran-details-career-info-record stats/wit: expected 635, got null, confident=False
+  WRONG 07-veteran-details-career-info-races stats/spd: expected 894, got null, confident=False
+  WRONG 07-veteran-details-career-info-races stats/sta: expected 938, got 894938740, confident=False
+  WRONG 07-veteran-details-career-info-races stats/pow: expected 740, got null, confident=False
+  WRONG 07-veteran-details-career-info-races stats/gut: expected 559, got 559635, confident=False
+  WRONG 07-veteran-details-career-info-races stats/wit: expected 635, got null, confident=False
+  WRONG 13-support-card-list cards/0/level: expected 40, got null, confident=False
+  WRONG 13-support-card-list cards/3/level: expected 50, got 1, confident=True
+  WRONG 13-support-card-list cards/5/level: expected 30, got null, confident=False
+  WRONG 13-support-card-list cards/7/level: expected 35, got null, confident=False
+  WRONG 13-support-card-list cards/8/level: expected 30, got 2, confident=True
+  WRONG 13-support-card-list cards/9/level: expected 50, got 1, confident=True
+  WRONG 13-support-card-list cards/10/level: expected 30, got 2, confident=True
+  WRONG 13-support-card-list cards/11/level: expected 50, got 2, confident=True
+  WRONG 13-support-card-list cards/12/level: expected 30, got 2, confident=True
+  WRONG 13-support-card-list cards/13/level: expected 50, got null, confident=False
+  WRONG 13-support-card-list cards/15/level: expected 30, got null, confident=False
+  WRONG 15-veteran-details-skills-manual stats/spd: expected 1557, got null, confident=False
+  WRONG 15-veteran-details-skills-manual stats/sta: expected 821, got null, confident=False
+  WRONG 15-veteran-details-skills-manual stats/pow: expected 929, got null, confident=False
+  WRONG 15-veteran-details-skills-manual stats/gut: expected 634, got null, confident=False
+  WRONG 15-veteran-details-skills-manual stats/wit: expected 830, got null, confident=False
+  WRONG 15-veteran-details-skills-manual skills/0/level: expected 5, got null, confident=False

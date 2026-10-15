@@ -1,0 +1,25 @@
+bundle 6 0 entries 494
+MATCH appsettings.json
+MATCH data/layouts/global-2026-09.json
+MATCH data/layouts/templates/global-2026-09.json
+MATCH data/master/global-20260930/affinity.json
+MATCH data/master/global-20260930/cards.json
+MATCH data/master/global-20260930/characters.json
+MATCH data/master/global-20260930/outfits.json
+MATCH data/master/global-20260930/ranks.json
+MATCH data/master/global-20260930/rules.json
+MATCH data/master/global-20260930/scenarios.json
+MATCH data/master/global-20260930/skills.json
+MATCH data/master/global-20260930/sparks.json
+MATCH data/master/global-20260930/vocab-cards.json
+MATCH data/master/global-20260930/vocab.json
+MATCH data/master/latest.json
+matches 15 of 15
+Uma.Agent.Core.dll True
+Uma.Agent.Windows.dll True
+Microsoft.Windows.SDK.NET.dll True
+WinRT.Runtime.dll True
+e_sqlite3.dll True
+System.Security.Cryptography.ProtectedData.dll True
+Serilog.dll True
+sha256 (this publish only; not reproducible) 90a562ceb7701218c028eb108d096b698de00ecca613580e23ea77abd23855da

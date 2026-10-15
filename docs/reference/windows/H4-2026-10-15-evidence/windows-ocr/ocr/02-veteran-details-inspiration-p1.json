@@ -1,0 +1,389 @@
+{
+  "engine": "windows-media-ocr-en-US",
+  "reference": [
+    1920,
+    1080
+  ],
+  "lines": [
+    {
+      "box": [
+        448,
+        43,
+        211,
+        20
+      ],
+      "confidence": 1,
+      "text": "Umamusume Details"
+    },
+    {
+      "box": [
+        569,
+        101,
+        164,
+        20
+      ],
+      "confidence": 1,
+      "text": "[Frontline Elegance]"
+    },
+    {
+      "box": [
+        574,
+        129,
+        155,
+        23
+      ],
+      "confidence": 1,
+      "text": "Mejiro.McQueen"
+    },
+    {
+      "box": [
+        459,
+        150,
+        80,
+        21
+      ],
+      "confidence": 1,
+      "text": "Epithet\""
+    },
+    {
+      "box": [
+        758,
+        174,
+        58,
+        18
+      ],
+      "confidence": 1,
+      "text": "Change"
+    },
+    {
+      "box": [
+        553,
+        177,
+        145,
+        17
+      ],
+      "confidence": 1,
+      "text": "Independent Learner"
+    },
+    {
+      "box": [
+        342,
+        228,
+        54,
+        15
+      ],
+      "confidence": 1,
+      "text": "13,471"
+    },
+    {
+      "box": [
+        315,
+        262,
+        273,
+        17
+      ],
+      "confidence": 1,
+      "text": "Speed Stamina Power"
+    },
+    {
+      "box": [
+        659,
+        262,
+        36,
+        13
+      ],
+      "confidence": 1,
+      "text": "Guts"
+    },
+    {
+      "box": [
+        279,
+        286,
+        313,
+        32
+      ],
+      "confidence": 1,
+      "text": "A 894 938 Ü 740"
+    },
+    {
+      "box": [
+        618,
+        286,
+        200,
+        33
+      ],
+      "confidence": 1,
+      "text": "C 559 b 635"
+    },
+    {
+      "box": [
+        311,
+        344,
+        49,
+        17
+      ],
+      "confidence": 1,
+      "text": "Track"
+    },
+    {
+      "box": [
+        409,
+        377,
+        77,
+        22
+      ],
+      "confidence": 1,
+      "text": "sprint C"
+    },
+    {
+      "box": [
+        299,
+        378,
+        75,
+        17
+      ],
+      "confidence": 1,
+      "text": "Distance"
+    },
+    {
+      "box": [
+        314,
+        412,
+        44,
+        22
+      ],
+      "confidence": 1,
+      "text": "Style"
+    },
+    {
+      "box": [
+        699,
+        458,
+        85,
+        15
+      ],
+      "confidence": 1,
+      "text": "Career Info"
+    },
+    {
+      "box": [
+        345,
+        459,
+        39,
+        14
+      ],
+      "confidence": 1,
+      "text": "Skills"
+    },
+    {
+      "box": [
+        513,
+        459,
+        80,
+        18
+      ],
+      "confidence": 1,
+      "text": "Inspiration"
+    },
+    {
+      "box": [
+        280,
+        521,
+        46,
+        13
+      ],
+      "confidence": 1,
+      "text": "S arks"
+    },
+    {
+      "box": [
+        373,
+        564,
+        58,
+        18
+      ],
+      "confidence": 1,
+      "text": "O Guts"
+    },
+    {
+      "box": [
+        607,
+        564,
+        80,
+        18
+      ],
+      "confidence": 1,
+      "text": "O Medium"
+    },
+    {
+      "box": [
+        631,
+        615,
+        81,
+        13
+      ],
+      "confidence": 1,
+      "text": "JBC Classic"
+    },
+    {
+      "box": [
+        600,
+        631,
+        227,
+        17
+      ],
+      "confidence": 1,
+      "text": "'.........................................Q..O...O...........................................V"
+    },
+    {
+      "box": [
+        398,
+        664,
+        110,
+        14
+      ],
+      "confidence": 1,
+      "text": "Kawasaki Kinen"
+    },
+    {
+      "box": [
+        632,
+        664,
+        122,
+        18
+      ],
+      "confidence": 1,
+      "text": "Nimble Navigator"
+    },
+    {
+      "box": [
+        398,
+        714,
+        131,
+        14
+      ],
+      "confidence": 1,
+      "text": "Medium Comers O"
+    },
+    {
+      "box": [
+        632,
+        714,
+        124,
+        18
+      ],
+      "confidence": 1,
+      "text": "Keeping the Lead"
+    },
+    {
+      "box": [
+        609,
+        716,
+        14,
+        14
+      ],
+      "confidence": 1,
+      "text": "O"
+    },
+    {
+      "box": [
+        398,
+        764,
+        66,
+        13
+      ],
+      "confidence": 1,
+      "text": "Uma Stan"
+    },
+    {
+      "box": [
+        631,
+        764,
+        121,
+        18
+      ],
+      "confidence": 1,
+      "text": "My True Strength"
+    },
+    {
+      "box": [
+        375,
+        766,
+        15,
+        13
+      ],
+      "confidence": 1,
+      "text": "O"
+    },
+    {
+      "box": [
+        304,
+        805,
+        96,
+        18
+      ],
+      "confidence": 1,
+      "text": "Legacy Origin"
+    },
+    {
+      "box": [
+        373,
+        848,
+        67,
+        17
+      ],
+      "confidence": 1,
+      "text": "O Power"
+    },
+    {
+      "box": [
+        607,
+        848,
+        80,
+        17
+      ],
+      "confidence": 1,
+      "text": "O Medium"
+    },
+    {
+      "box": [
+        373,
+        897,
+        119,
+        19
+      ],
+      "confidence": 1,
+      "text": "O Shooting Star"
+    },
+    {
+      "box": [
+        632,
+        898,
+        87,
+        14
+      ],
+      "confidence": 1,
+      "text": "NHK Mile C."
+    },
+    {
+      "box": [
+        609,
+        900,
+        14,
+        14
+      ],
+      "confidence": 1,
+      "text": "O"
+    },
+    {
+      "box": [
+        524,
+        987,
+        58,
+        20
+      ],
+      "confidence": 1,
+      "text": "Close"
+    }
+  ]
+}

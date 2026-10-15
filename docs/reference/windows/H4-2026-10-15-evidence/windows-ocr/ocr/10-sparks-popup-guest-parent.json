@@ -1,0 +1,269 @@
+{
+  "engine": "windows-media-ocr-en-US",
+  "reference": [
+    1920,
+    1080
+  ],
+  "lines": [
+    {
+      "box": [
+        519,
+        43,
+        68,
+        26
+      ],
+      "confidence": 1,
+      "text": "Sparks"
+    },
+    {
+      "box": [
+        530,
+        146,
+        231,
+        17
+      ],
+      "confidence": 1,
+      "text": "[New Year, Same Radiance!]"
+    },
+    {
+      "box": [
+        582,
+        178,
+        129,
+        22
+      ],
+      "confidence": 1,
+      "text": "T.M. opera O"
+    },
+    {
+      "box": [
+        364,
+        228,
+        24,
+        9
+      ],
+      "confidence": 1,
+      "text": "uest"
+    },
+    {
+      "box": [
+        285,
+        267,
+        106,
+        13
+      ],
+      "confidence": 1,
+      "text": "Guest's Trainer"
+    },
+    {
+      "box": [
+        381,
+        311,
+        51,
+        16
+      ],
+      "confidence": 1,
+      "text": "[REDACTED-TRAINER]"
+    },
+    {
+      "box": [
+        426,
+        358,
+        52,
+        26
+      ],
+      "confidence": 1,
+      "text": "hgneESx"
+    },
+    {
+      "box": [
+        620,
+        364,
+        72,
+        17
+      ],
+      "confidence": 1,
+      "text": "Last Login"
+    },
+    {
+      "box": [
+        723,
+        365,
+        49,
+        18
+      ],
+      "confidence": 1,
+      "text": "6h ago"
+    },
+    {
+      "box": [
+        283,
+        421,
+        84,
+        16
+      ],
+      "confidence": 1,
+      "text": "Sparks Held"
+    },
+    {
+      "box": [
+        286,
+        465,
+        83,
+        20
+      ],
+      "confidence": 1,
+      "text": "O Stamina"
+    },
+    {
+      "box": [
+        565,
+        466,
+        61,
+        19
+      ],
+      "confidence": 1,
+      "text": "O Long"
+    },
+    {
+      "box": [
+        286,
+        514,
+        189,
+        20
+      ],
+      "confidence": 1,
+      "text": "O Barcarole of Blessings"
+    },
+    {
+      "box": [
+        589,
+        515,
+        78,
+        14
+      ],
+      "confidence": 1,
+      "text": "Osaka Hai"
+    },
+    {
+      "box": [
+        310,
+        564,
+        91,
+        15
+      ],
+      "confidence": 1,
+      "text": "Hanshin J.F."
+    },
+    {
+      "box": [
+        589,
+        564,
+        123,
+        14
+      ],
+      "confidence": 1,
+      "text": "M.C. Nambu Hai"
+    },
+    {
+      "box": [
+        310,
+        613,
+        158,
+        15
+      ],
+      "confidence": 1,
+      "text": "Standard Distance O"
+    },
+    {
+      "box": [
+        589,
+        613,
+        138,
+        15
+      ],
+      "confidence": 1,
+      "text": "Firm Conditions O"
+    },
+    {
+      "box": [
+        310,
+        663,
+        145,
+        19
+      ],
+      "confidence": 1,
+      "text": "Corner Recovery O"
+    },
+    {
+      "box": [
+        589,
+        663,
+        133,
+        19
+      ],
+      "confidence": 1,
+      "text": "Nimble Navigator"
+    },
+    {
+      "box": [
+        310,
+        713,
+        72,
+        14
+      ],
+      "confidence": 1,
+      "text": "Uma Stan"
+    },
+    {
+      "box": [
+        589,
+        713,
+        130,
+        18
+      ],
+      "confidence": 1,
+      "text": "My True Strength"
+    },
+    {
+      "box": [
+        310,
+        762,
+        135,
+        19
+      ],
+      "confidence": 1,
+      "text": "Ignited Spirit WIT"
+    },
+    {
+      "box": [
+        589,
+        762,
+        183,
+        19
+      ],
+      "confidence": 1,
+      "text": "Ignited Spirit: Stamina +"
+    },
+    {
+      "box": [
+        310,
+        812,
+        75,
+        18
+      ],
+      "confidence": 1,
+      "text": "Unity Cup"
+    },
+    {
+      "box": [
+        524,
+        987,
+        58,
+        20
+      ],
+      "confidence": 1,
+      "text": "Close"
+    }
+  ]
+}

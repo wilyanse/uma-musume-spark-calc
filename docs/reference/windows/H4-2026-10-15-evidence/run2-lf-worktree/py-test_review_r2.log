@@ -1,0 +1,11 @@
+python : .............
+At line:1 char:735
++ ... py-$s.log"; python -X dev -W error "agent/legal/tools/$s.py" *>&1 | O ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (.............:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+----------------------------------------------------------------------
+Ran 13 tests in 0.135s
+
+OK

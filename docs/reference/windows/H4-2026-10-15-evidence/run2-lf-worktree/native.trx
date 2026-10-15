@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="ea67f632-bc85-465e-bd82-2e24cdb6c1d5" name="Laptop@DESKTOP-VTSHPFD 2026-10-15 14:36:13" runUser="DESKTOP-VTSHPFD\Laptop" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-15T14:36:13.3294516+08:00" queuing="2026-10-15T14:36:13.3294521+08:00" start="2026-10-15T14:36:08.4578806+08:00" finish="2026-10-15T14:36:13.7502681+08:00" />
+  <TestSettings name="default" id="73343212-fc3d-4d72-9489-7231b377d97f">
+    <Deployment runDeploymentRoot="Laptop_DESKTOP-VTSHPFD_2026-10-15_14_36_13" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="d5470816-ba5b-4dfb-840b-832b4e1f4878" testId="11b922eb-66e1-56a7-c469-c53354ff5f25" testName="Uma.Agent.Windows.Tests.NativeTests.Dpapi_current_user_roundtrip_and_ciphertext_is_not_plaintext" computerName="DESKTOP-VTSHPFD" duration="00:00:00.0419468" startTime="2026-10-15T14:36:13.4306949+08:00" endTime="2026-10-15T14:36:13.4306953+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5470816-ba5b-4dfb-840b-832b4e1f4878" />
+    <UnitTestResult executionId="e7cb0f1b-10aa-4b4f-92ce-d4f2ee22454e" testId="31cc0175-65e4-8036-9db9-0767a58fa7e4" testName="Uma.Agent.Windows.Tests.NativeTests.No_matching_game_window_fails_closed_with_an_actionable_capture_unavailable_message" computerName="DESKTOP-VTSHPFD" duration="00:00:01.6127422" startTime="2026-10-15T14:36:13.2968583+08:00" endTime="2026-10-15T14:36:13.2968767+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e7cb0f1b-10aa-4b4f-92ce-d4f2ee22454e" />
+    <UnitTestResult executionId="22ef970f-3ec8-4e3f-8e76-b330069cf10b" testId="5fdf80d3-dac0-efc2-4069-5042e4c95b15" testName="Uma.Agent.Windows.Tests.NativeTests.Pre_cancelled_NextAsync_throws_before_any_capture_call_and_dispose_is_idempotent" computerName="DESKTOP-VTSHPFD" duration="00:00:00.0015262" startTime="2026-10-15T14:36:13.3885753+08:00" endTime="2026-10-15T14:36:13.3885755+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="22ef970f-3ec8-4e3f-8e76-b330069cf10b" />
+    <UnitTestResult executionId="eaf6c888-9efa-4ad0-8aa4-d739e9d5ab63" testId="1c0185bf-ee42-9dd5-1a53-7a9cf5d5f65a" testName="Uma.Agent.Windows.Tests.NativeTests.Windows_English_ocr_reads_a_blank_reference_frame_without_inventing_text" computerName="DESKTOP-VTSHPFD" duration="00:00:00.0907097" startTime="2026-10-15T14:36:13.3870225+08:00" endTime="2026-10-15T14:36:13.3870231+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eaf6c888-9efa-4ad0-8aa4-d739e9d5ab63" />
+    <UnitTestResult executionId="7c0fd595-99ad-474a-8a8a-376ad82e760d" testId="c6e05f40-5ebe-243f-ede1-88c79baf7a19" testName="Uma.Agent.Windows.Tests.NativeTests.Windows_English_ocr_full_frame_tiled_read_of_a_blank_frame_invents_nothing" computerName="DESKTOP-VTSHPFD" duration="00:00:00.2304501" startTime="2026-10-15T14:36:13.6659612+08:00" endTime="2026-10-15T14:36:13.6659616+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c0fd595-99ad-474a-8a8a-376ad82e760d" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Uma.Agent.Windows.Tests.NativeTests.Dpapi_current_user_roundtrip_and_ciphertext_is_not_plaintext" storage="c:\projects\uma-h4-lf\agent\tests\uma.agent.windows.tests\native\bin\release\net8.0-windows10.0.19041.0\uma.agent.windows.tests.dll" id="11b922eb-66e1-56a7-c469-c53354ff5f25">
+      <Execution id="d5470816-ba5b-4dfb-840b-832b4e1f4878" />
+      <TestMethod codeBase="C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Native\bin\Release\net8.0-windows10.0.19041.0\Uma.Agent.Windows.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Uma.Agent.Windows.Tests.NativeTests" name="Dpapi_current_user_roundtrip_and_ciphertext_is_not_plaintext" />
+    </UnitTest>
+    <UnitTest name="Uma.Agent.Windows.Tests.NativeTests.No_matching_game_window_fails_closed_with_an_actionable_capture_unavailable_message" storage="c:\projects\uma-h4-lf\agent\tests\uma.agent.windows.tests\native\bin\release\net8.0-windows10.0.19041.0\uma.agent.windows.tests.dll" id="31cc0175-65e4-8036-9db9-0767a58fa7e4">
+      <Execution id="e7cb0f1b-10aa-4b4f-92ce-d4f2ee22454e" />
+      <TestMethod codeBase="C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Native\bin\Release\net8.0-windows10.0.19041.0\Uma.Agent.Windows.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Uma.Agent.Windows.Tests.NativeTests" name="No_matching_game_window_fails_closed_with_an_actionable_capture_unavailable_message" />
+    </UnitTest>
+    <UnitTest name="Uma.Agent.Windows.Tests.NativeTests.Windows_English_ocr_full_frame_tiled_read_of_a_blank_frame_invents_nothing" storage="c:\projects\uma-h4-lf\agent\tests\uma.agent.windows.tests\native\bin\release\net8.0-windows10.0.19041.0\uma.agent.windows.tests.dll" id="c6e05f40-5ebe-243f-ede1-88c79baf7a19">
+      <Execution id="7c0fd595-99ad-474a-8a8a-376ad82e760d" />
+      <TestMethod codeBase="C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Native\bin\Release\net8.0-windows10.0.19041.0\Uma.Agent.Windows.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Uma.Agent.Windows.Tests.NativeTests" name="Windows_English_ocr_full_frame_tiled_read_of_a_blank_frame_invents_nothing" />
+    </UnitTest>
+    <UnitTest name="Uma.Agent.Windows.Tests.NativeTests.Pre_cancelled_NextAsync_throws_before_any_capture_call_and_dispose_is_idempotent" storage="c:\projects\uma-h4-lf\agent\tests\uma.agent.windows.tests\native\bin\release\net8.0-windows10.0.19041.0\uma.agent.windows.tests.dll" id="5fdf80d3-dac0-efc2-4069-5042e4c95b15">
+      <Execution id="22ef970f-3ec8-4e3f-8e76-b330069cf10b" />
+      <TestMethod codeBase="C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Native\bin\Release\net8.0-windows10.0.19041.0\Uma.Agent.Windows.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Uma.Agent.Windows.Tests.NativeTests" name="Pre_cancelled_NextAsync_throws_before_any_capture_call_and_dispose_is_idempotent" />
+    </UnitTest>
+    <UnitTest name="Uma.Agent.Windows.Tests.NativeTests.Windows_English_ocr_reads_a_blank_reference_frame_without_inventing_text" storage="c:\projects\uma-h4-lf\agent\tests\uma.agent.windows.tests\native\bin\release\net8.0-windows10.0.19041.0\uma.agent.windows.tests.dll" id="1c0185bf-ee42-9dd5-1a53-7a9cf5d5f65a">
+      <Execution id="eaf6c888-9efa-4ad0-8aa4-d739e9d5ab63" />
+      <TestMethod codeBase="C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Native\bin\Release\net8.0-windows10.0.19041.0\Uma.Agent.Windows.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Uma.Agent.Windows.Tests.NativeTests" name="Windows_English_ocr_reads_a_blank_reference_frame_without_inventing_text" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="11b922eb-66e1-56a7-c469-c53354ff5f25" executionId="d5470816-ba5b-4dfb-840b-832b4e1f4878" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31cc0175-65e4-8036-9db9-0767a58fa7e4" executionId="e7cb0f1b-10aa-4b4f-92ce-d4f2ee22454e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fdf80d3-dac0-efc2-4069-5042e4c95b15" executionId="22ef970f-3ec8-4e3f-8e76-b330069cf10b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c0185bf-ee42-9dd5-1a53-7a9cf5d5f65a" executionId="eaf6c888-9efa-4ad0-8aa4-d739e9d5ab63" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c6e05f40-5ebe-243f-ede1-88c79baf7a19" executionId="7c0fd595-99ad-474a-8a8a-376ad82e760d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="5" executed="5" passed="5" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.32)&#xD;
+[xUnit.net 00:00:01.41]   Discovering: Uma.Agent.Windows.Tests&#xD;
+[xUnit.net 00:00:01.44]   Discovered:  Uma.Agent.Windows.Tests&#xD;
+[xUnit.net 00:00:01.44]   Starting:    Uma.Agent.Windows.Tests&#xD;
+[xUnit.net 00:00:03.47]   Finished:    Uma.Agent.Windows.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,8 @@
+sdk=10.0.401
+build	exit=0	start=14:33:38	seconds=7	dotnet build Uma.Agent.sln -c Release
+test-core	exit=1	start=14:33:45	seconds=62	dotnet test tests/Uma.Agent.Core.Tests/Uma.Agent.Core.Tests.csproj -c Release --logger trx;LogFileName=core.trx --results-directory %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706\run2-lf-worktree
+STOPPED: test-core failed with exit 1
+test-portable	exit=0	start=14:35:46	seconds=19	dotnet test tests/Uma.Agent.Windows.Tests/Portable/Uma.Agent.Windows.Portable.Tests.csproj -c Release --logger trx;LogFileName=portable.trx --results-directory %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706\run2-lf-worktree
+test-native	exit=0	start=14:36:05	seconds=8	dotnet test tests/Uma.Agent.Windows.Tests/Native/Uma.Agent.Windows.Tests.csproj -c Release --logger trx;LogFileName=native.trx --results-directory %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706\run2-lf-worktree
+publish	exit=0	start=14:36:13	seconds=9	dotnet publish src/Uma.Agent.Windows/Uma.Agent.Windows.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706\run2-lf-worktree\publish
+rest exits: 0,0,0

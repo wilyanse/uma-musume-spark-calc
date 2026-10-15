@@ -1,0 +1,81 @@
+{
+  "engine": "windows-media-ocr-en-US-roi-x2",
+  "fixture": "05-veteran-details-career-info-deck-legacy",
+  "roiLines": [
+    {
+      "lines": [],
+      "roi": [
+        287,
+        598,
+        76,
+        34
+      ]
+    },
+    {
+      "lines": [],
+      "roi": [
+        380,
+        598,
+        76,
+        34
+      ]
+    },
+    {
+      "lines": [],
+      "roi": [
+        473,
+        598,
+        76,
+        34
+      ]
+    },
+    {
+      "lines": [],
+      "roi": [
+        566,
+        598,
+        76,
+        34
+      ]
+    },
+    {
+      "lines": [],
+      "roi": [
+        659,
+        598,
+        76,
+        34
+      ]
+    },
+    {
+      "lines": [
+        {
+          "box": [
+            782,
+            607,
+            40,
+            10
+          ],
+          "confidence": 1,
+          "text": ", 50"
+        },
+        {
+          "box": [
+            767,
+            622,
+            38,
+            10
+          ],
+          "confidence": 1,
+          "text": "Friends"
+        }
+      ],
+      "roi": [
+        752,
+        598,
+        76,
+        34
+      ]
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "engine": "windows-media-ocr-en-US",
+  "reference": [
+    1920,
+    1080
+  ],
+  "lines": [
+    {
+      "box": [
+        473,
+        43,
+        161,
+        20
+      ],
+      "confidence": 1,
+      "text": "Featured Cards"
+    },
+    {
+      "box": [
+        482,
+        100,
+        255,
+        24
+      ],
+      "confidence": 1,
+      "text": "[The Brightest Star in Japan!]"
+    },
+    {
+      "box": [
+        481,
+        130,
+        127,
+        23
+      ],
+      "confidence": 1,
+      "text": "Special Week"
+    },
+    {
+      "box": [
+        489,
+        165,
+        100,
+        16
+      ],
+      "confidence": 1,
+      "text": "Lvi 40 / 40"
+    },
+    {
+      "box": [
+        687,
+        167,
+        123,
+        13
+      ],
+      "confidence": 1,
+      "text": "O SP to next level"
+    },
+    {
+      "box": [
+        478,
+        214,
+        113,
+        24
+      ],
+      "confidence": 1,
+      "text": "Unique Perk"
+    },
+    {
+      "box": [
+        487,
+        251,
+        227,
+        20
+      ],
+      "confidence": 1,
+      "text": "The Brightest Star in Japan!"
+    },
+    {
+      "box": [
+        756,
+        251,
+        48,
+        13
+      ],
+      "confidence": 1,
+      "text": "Lvi 30"
+    },
+    {
+      "box": [
+        487,
+        280,
+        227,
+        16
+      ],
+      "confidence": 1,
+      "text": "Guts Bonus and Initial Guts"
+    },
+    {
+      "box": [
+        280,
+        380,
+        117,
+        18
+      ],
+      "confidence": 1,
+      "text": "Support Effects"
+    },
+    {
+      "box": [
+        461,
+        380,
+        39,
+        14
+      ],
+      "confidence": 1,
+      "text": "Skills"
+    },
+    {
+      "box": [
+        573,
+        380,
+        105,
+        14
+      ],
+      "confidence": 1,
+      "text": "Career Events"
+    },
+    {
+      "box": [
+        725,
+        380,
+        86,
+        14
+      ],
+      "confidence": 1,
+      "text": "Flavor Text"
+    },
+    {
+      "box": [
+        338,
+        449,
+        195,
+        22
+      ],
+      "confidence": 1,
+      "text": "Friendship Bonus 18%"
+    },
+    {
+      "box": [
+        312,
+        501,
+        410,
+        20
+      ],
+      "confidence": 1,
+      "text": "Increases the effectiveness of Friendship Training"
+    },
+    {
+      "box": [
+        338,
+        568,
+        108,
+        16
+      ],
+      "confidence": 1,
+      "text": "Mood Effect"
+    },
+    {
+      "box": [
+        311,
+        620,
+        432,
+        20
+      ],
+      "confidence": 1,
+      "text": "Amplifies the effect of mood when training together"
+    },
+    {
+      "box": [
+        338,
+        688,
+        125,
+        15
+      ],
+      "confidence": 1,
+      "text": "Power Bonus 1"
+    },
+    {
+      "box": [
+        312,
+        739,
+        365,
+        21
+      ],
+      "confidence": 1,
+      "text": "Increases Power gain when training together"
+    },
+    {
+      "box": [
+        338,
+        806,
+        239,
+        22
+      ],
+      "confidence": 1,
+      "text": "Initial Friendship Gauge 23"
+    },
+    {
+      "box": [
+        312,
+        848,
+        490,
+        20
+      ],
+      "confidence": 1,
+      "text": "Increases initial Friendship Gauge when beginning a Career"
+    },
+    {
+      "box": [
+        312,
+        870,
+        99,
+        20
+      ],
+      "confidence": 1,
+      "text": "playthrough"
+    },
+    {
+      "box": [
+        390,
+        987,
+        59,
+        20
+      ],
+      "confidence": 1,
+      "text": "Close"
+    },
+    {
+      "box": [
+        640,
+        987,
+        93,
+        26
+      ],
+      "confidence": 1,
+      "text": "Level Up"
+    }
+  ]
+}

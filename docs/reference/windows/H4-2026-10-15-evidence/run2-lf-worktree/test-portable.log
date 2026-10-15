@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Uma.Agent.Core -> C:\Projects\uma-h4-lf\agent\src\Uma.Agent.Core\bin\Release\net8.0\Uma.Agent.Core.dll
+  Uma.Agent.Windows.Portable.Tests -> C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Portable\bin\Release\net8.0\Uma.Agent.Windows.Portable.Tests.dll
+Test run for C:\Projects\uma-h4-lf\agent\tests\Uma.Agent.Windows.Tests\Portable\bin\Release\net8.0\Uma.Agent.Windows.Portable.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+Results File: %USERPROFILE%\AppData\Local\UmaSparkCalc\validation\H4-20261015-142706\run2-lf-worktree\portable.trx
+
+Passed!  - Failed:     0, Passed:   230, Skipped:     0, Total:   230, Duration: 13 s - Uma.Agent.Windows.Portable.Tests.dll (net8.0)

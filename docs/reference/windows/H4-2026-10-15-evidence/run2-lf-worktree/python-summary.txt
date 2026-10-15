@@ -1,0 +1,5 @@
+test_recipient_notices exit=0
+test_review_r1 exit=0
+test_review_r2 exit=0
+package exit=0
+verify-zip exit=0
